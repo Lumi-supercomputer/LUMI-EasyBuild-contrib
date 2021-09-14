@@ -16,8 +16,8 @@
 #
 easyblock = 'CmdCp'
 
-# These dependency version numbers are correct for the LUMI/21.06 software stack.
-local_Rust_version  =      '1.54.0'   # https://www.rust-lang.org/
+# These dependency version numbers are correct for the LUMI/21.08 software stack.
+local_Rust_version  =      '1.55.0'   # https://www.rust-lang.org/
 local_HyperQueue_version = '0.4.0'    # https://github.com/It4innovations/hyperqueue/releases
 
 name =    'HyperQueue'

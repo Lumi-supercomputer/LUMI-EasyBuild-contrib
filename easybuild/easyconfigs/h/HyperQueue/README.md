@@ -48,7 +48,7 @@ We build our own EasyConfig. Two big warnings are needed though:
     for ``EASYBUILD_BUILDPATH`` as that is often on a local tmp directory or RAM disk
     that supports file locking. Building on GPFS fails.
 
-### 0.4.0 for 21.06
+### 0.4.0 for 21.08
 
   * We created our own EasyConfig file using the generic ``CmdCp`` EasyBlock.
 
