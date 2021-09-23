@@ -1,0 +1,106 @@
+# Written by Kurt Lust (kurt.lust@uantwerpen.be) for the LUMI project.
+#
+# This EasyConfig file is offered as a courtasy to users of the LUMI system
+# without any warranty as QuEST isn't really meant to be installed as a
+# module.
+#
+# Please follow the instructions in this EasyConfig file to configure
+# QuEST as you need it. There is currently no EasyBlock to guide you
+# through the configuration process.
+#
+
+easyblock = 'CMakeMake'
+
+name =          'QuEST'
+version =       '3.3.0'
+versionsuffix = 'hybrid-prec2'
+
+homepage = 'https://quest.qtechtheory.org/'
+
+whatis = [
+    'Description: Quantum Exact Simulation Toolkit, a high performance simulator of universal quantum circuits, state vectors and density matrices'
+]
+
+description = """
+The Quantum Exact Simulation Toolkit is a high performance simulator of
+universal quantum circuits, state vectors and density matrices. QuEST
+can be used by both C and C++, is open source, multithreaded, distributed
+and GPU-accelerated. Needing only compilation, QuEST is easy to run both
+on laptops and supercomputers, where it can take advantage of multicore
+and networked machines to quickly simulate circuits on many qubits.
+
+Note that when using this installation you should carefully check the
+configuration that was used to build the library, e.g., from the
+EasyBuild recipe stored in $EBROOTQUEST/easybuild.
+"""
+
+usage = """
+After loading the module, you can test the compilation of an example
+program included with QuEST as follows:
+  * Copy the sources from $EBROOTQUEST/examples to your working directory:
+    cp $EBROOTQUEST/examples/tutorial_example.c .
+  * Compile using the Cray compiler wrapper:
+    cc tutorial_example.c -o demo -lQuEST
+  * Run the demo executable that was generated in the previous step:
+    ./demo
+"""
+
+docurls = [
+    'Web-based documentation at https://quest.qtechtheory.org/docs/',
+    'Web-based API information at https://quest-kit.github.io/QuEST/modules.html',
+]
+
+toolchain = { 'name': 'cpeGNU', 'version': '21.08'}
+# We specify mpi and OpenMP in the toolchainopts though it is not
+# really needed as CMake will figure things out correctly from the
+# configuration switches given to it.
+toolchainopts = { 'usempi': True, 'openmp': True, 'pic': True}
+
+sources = [
+    {   # QuEST itself: https://github.com/QuEST-Kit/QuEST/archive/refs/tags/v3.3.0.tar.gz
+        'filename':          'QuEST-%(version)s.tar.gz',
+        'download_filename': 'v%(version)s.tar.gz',
+        'source_urls':       ['https://github.com/QuEST-Kit/QuEST/archive/refs/tags'],
+    },
+    {   # The CMakeLists.txt file
+        'filename':    'QuEST_CMakeLists-%(version)s.txt',
+        'extract_cmd': 'cp %s QuEST-%(version)s/QuEST/CMakeLists.txt',
+    }
+]
+
+builddependencies = [ # Create a reproducible build environment.
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+# The first one of the next options is very important to ensure proper compilation
+# for the intended LUMI partition. The second one just produces a bit more information
+# in the log files for debugging.
+configopts  = '-DOVERWRITE_DEFAULT_COMPILER_OPTS=OFF -DCMAKE_VERBOSE_MAKEFILE=ON '
+# Turn multithreading via OpenMP ON or OFF.
+configopts += '-DMULTITHREADED=ON '
+# Turn MPI support ON or OFF.
+configopts += '-DDISTRIBUTED=ON '
+# QuEST GPU compuring is not supported on LUMI since it is CUDA-based.
+configopts += '-DGPUACCELERATED=OFF '
+# PRecision: 1, 2 or 4 (the latter not supported in all configurations)
+configopts += '-DPRECISION=2 '
+
+# Only build the library through CMake
+srcdir = 'QuEST'
+
+# We need an askward construction here to copy from the source directories and not
+# from the CMake build directories. As the location of the CMake build directory
+# has already changed at least once in EasyBuild history, this may brake in
+# future releases of EasyBuild.
+postinstallcmds = [
+    'cd ../QuEST-%(version)s; cp AUTHORS.txt LICENCE.txt README.md %(installdir)s',
+    'cd ../QuEST-%(version)s; cp -r examples %(installdir)s',
+]
+
+sanity_check_paths = {
+    'files': ['lib/libQuEST.%s' % SHLIB_EXT] +
+             ['include/%s.h' %x for x in ['QuEST', 'QuEST_complex', 'QuEST_precision']],
+    'dirs':  ['examples'],
+}
+
+moduleclass = 'lib'
