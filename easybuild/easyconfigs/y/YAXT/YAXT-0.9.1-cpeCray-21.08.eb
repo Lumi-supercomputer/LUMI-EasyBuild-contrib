@@ -1,0 +1,60 @@
+# contributed by Luca Marsella (CSCS)
+# Adapted by Kurt Lust (kurt.lust@uantwerpen.be) for the LUMI consortium
+#
+# NOTE: The download link is not generic and needs to be manually adapted
+# for each new version of YAXT!
+#
+easyblock = 'ConfigureMake'
+
+name =    'YAXT'
+version = '0.9.1'
+
+homepage = 'https://www.dkrz.de/redmine/projects/yaxt'
+
+whatis = [
+   'Description: YAXT - Yet Another eXchange Tool'
+]
+description = """
+YAXT - Yet Another eXchange Tool
+
+  * Library on top of MPI
+
+  * Inspired by Fortran Prototype Unitrans by Mathias Pütz
+    in ScalES-project
+
+  * Implemented in C ⇒ type invariant
+
+  * Fully-featured Fortran interface (requires C-interop)
+
+  * Supported by DKRZ
+
+  * BSD license
+
+NOTE: Due to problems in the build process, the Fortran interface
+is not provided in this module. Use the cpeGNU version if you need
+the Fortran interfaces.
+"""
+
+toolchain = {'name': 'cpeCray', 'version': '21.08'}
+toolchainopts = {'usempi': True}
+
+# https://www.dkrz.de/redmine/attachments/507
+sources = [{
+    'filename':          SOURCELOWER_TAR_XZ,
+    'download_filename': '507',
+    'source_urls':       ['https://www.dkrz.de/redmine/attachments/download/'],
+}]
+checksums =   ['7b9d47fa637ef3f8eeab35aa77739551d940da545c04399c42e6048e046f0be3']
+
+# --without-regard-for-quality is needed to turn off checks for the MPI quality as
+# athere is no mpirun or mpiexec nor an easy way to start MPI programs through
+# another starter outside a compute job (MPI_LAUNCH can be used to change the
+# starter).
+configopts = '--without-regard-for-quality '
+
+sanity_check_paths = {
+    'files': ['include/%(namelower)s.h', 'lib/libyaxt.a', 'lib/libyaxt.so'],
+    'dirs':  ['include/xt'],
+}
+
+moduleclass = 'tools'
