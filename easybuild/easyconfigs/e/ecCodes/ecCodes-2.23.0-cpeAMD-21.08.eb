@@ -45,8 +45,7 @@ dependencies = [
     ('libpng',        local_libpng_version), # Also pulls in zlib
 ]
 
-configopts = ''
-#configopts += '-DCMAKE_Fortran_COMPILER=gfortran '
+configopts  = '-DCMAKE_INSTALL_LIBDIR=lib '
 configopts += '-DENABLE_ECCODES_OMP_THREADS=ON '
 configopts += '-DENABLE_AEC=ON '
 configopts += '-DENABLE_JPG=ON -DENABLE_JPG_JASPER=ON '

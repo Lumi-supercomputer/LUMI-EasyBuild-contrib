@@ -28,6 +28,8 @@ builddependencies = [
     ('buildtools',   '%(toolchain_version)s',   '', True),
 ]
 
+configopts = '-DCMAKE_INSTALL_LIBDIR=lib '
+
 # disable using Valgrind during the tests to avoid failures caused by using an OS Valgrind
 pretestopts = 'USE_VALGRIND=0 '
 runtest = 'test'

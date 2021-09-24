@@ -23,3 +23,6 @@
     but the CMake process doesn't seem to look for those. We can't find a trace
     of those packages in the documentation, in``CMakeLists.txt`` or in the CMake
     cache after the configure step.
+
+  * Switched to installing libraries in lib rather than lib64 for consistency with
+    most other installs in the LUMI software stack.

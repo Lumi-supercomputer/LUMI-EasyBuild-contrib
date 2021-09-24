@@ -18,3 +18,5 @@
     the download location to avoid having to use the suffix used in the
     GitHub downloads.
 
+  * Install libraries in lib instead of lib64 for consistency with the
+    majority of packages installed on the system.
