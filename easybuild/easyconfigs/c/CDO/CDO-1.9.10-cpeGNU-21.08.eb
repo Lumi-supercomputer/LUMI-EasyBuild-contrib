@@ -1,0 +1,69 @@
+# contributed by Luca Marsella (CSCS)
+# Adapted by Kurt Lust (kurt.lust@uantwerpen.be) for the LUMI consortium
+easyblock = 'ConfigureMake'
+
+local_cURL_version =         '7.78.0'        # https://curl.haxx.se/download/
+local_libaec_version =       '1.0.6'         # https://gitlab.dkrz.de/k202009/libaec/-/tags
+local_libxml2_version =      '2.9.12'        # http://xmlsoft.org/sources/
+local_PROJ_version =         '8.1.1'         # https://proj.org/download.html
+local_UDUNITS_version =      '2.2.28'        # ftp://ftp.unidata.ucar.edu/pub/udunits
+local_util_version =         '2.37.1'        # https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/
+
+name =    'CDO'
+version = '1.9.10'
+
+homepage = 'https://code.mpimet.mpg.de/projects/cdo'
+
+whatis = [
+    'Description: CDO - Climate Data Operators, a collection of command line operators to maniupate and analyse climate and NWP model data'
+]
+
+description = """
+CDO is a collection of command line Operators to manipulate and analyse Climate
+and NWP model Data. Supported data formats are GRIB 1/2, netCDF 3/4, SERVICE,
+EXTRA and IEG. There are more than 600 operators available.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '21.08'}
+toolchainopts = {'openmp': True, 'opt': True, 'pic': True, 'verbose': False}
+
+# download from https://code.mpimet.mpg.de/projects/cdo/files often fails
+sources = ['/apps/common/UES/easybuild/sources/%(nameletterlower)s/%(name)s/%(namelower)s-%(version)s.tar.gz']
+
+# No MPI support, OpenMP support for compute intensive operators (https://code.mpimet.mpg.de/projects/cdo/wiki/OpenMP_support)
+builddependencies = [
+    ('buildtools',   '%(toolchain_version)s',   '', True),
+]
+
+dependencies = [
+    # Cray PE
+    ('cray-hdf5',   EXTERNAL_MODULE),
+    ('cray-netcdf', EXTERNAL_MODULE),
+    ('cray-fftw',   EXTERNAL_MODULE),
+    # LUMI software stack
+    ('cURL',        local_cURL_version),
+    ('libaec',      local_libaec_version),
+    ('libxml2',     local_libxml2_version),
+    ('PROJ',        local_PROJ_version),
+    ('UDUNITS',     local_UDUNITS_version),
+    ('util-linux',  local_util_version),
+    # Contrib dependencies
+    ('ecCodes',     '2.23.0'),
+    ('CMOR',        '3.6.1'),
+]
+
+preconfigopts = 'ln -fs $(which libtool) libcdi/libtool && LDFLAGS="$LDFLAGS -L$EBROOTJSONMINC/lib -ljson-c" '
+configopts  = '--disable-static --enable-cdi-lib --with-fftw3 '
+configopts += '--with-hdf5=$HDF5_DIR  --with-netcdf=$EBROOTNETCDFMINFORTRAN '
+configopts += '--with-curl=$EBROOTCURL --with-eccodes=$EBROOTECCODES --with-proj=$EBROOTPROJ '
+configopts += '--with-szlib=$EBROOTLIBAEC  --with-udunits2=$EBROOTUDUNITS --with-util-linux-uuid=$EBROOTUTILMINLINUX '
+configopts += '--with-libxml2=$EBROOTLIBXML2 '
+configopts += '--with-cmor=$EBROOTCMOR '
+configopts += '--with-magics=no '
+
+sanity_check_paths = {
+    'files': ['bin/%(namelower)s'],
+    'dirs':  [],
+}
+
+moduleclass = 'data'
