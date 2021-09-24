@@ -1,0 +1,40 @@
+# Adapted from the recipe in the EasyBuilders repository by Kurt Lust
+# (kurt.lust@uantwerpen.be) for the LUMI consortium.
+easyblock = 'CMakeMake'
+
+name =    'json-c'
+version = '0.15'
+
+homepage = 'https://github.com/json-c/json-c'
+
+whatis = [
+    'Description: JSON-C implements a reference counting object model'
+]
+
+description = """
+JSON-C implements a reference counting object model that allows you to easily
+construct JSON objects  in C, output them as JSON formatted strings and parse
+JSON formatted strings back into the C representation of JSON objects.
+"""
+
+toolchain = {'name': 'cpeAMD', 'version': '21.08'}
+
+# https://s3.amazonaws.com/json-c_releases/releases/json-c-0.15.tar.gz
+source_urls = ['https://s3.amazonaws.com/json-c_releases/releases']
+sources =     [SOURCELOWER_TAR_GZ]
+checksums =   ['b8d80a1ddb718b3ba7492916237bbf86609e9709fb007e7f7d4322f02341a4c6']
+
+builddependencies = [
+    ('buildtools',   '%(toolchain_version)s',   '', True),
+]
+
+# disable using Valgrind during the tests to avoid failures caused by using an OS Valgrind
+pretestopts = 'USE_VALGRIND=0 '
+runtest = 'test'
+
+sanity_check_paths = {
+    'files': ['lib/libjson-c.a', 'lib/libjson-c.%s' % SHLIB_EXT, 'lib/pkgconfig/json-c.pc'],
+    'dirs':  ['include/json-c'],
+}
+
+moduleclass = 'lib'
