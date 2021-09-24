@@ -1,0 +1,51 @@
+# contributed by Luca Marsella (CSCS), updated by Samuel Omlin (CSCS)
+# Adapted by Kurt Lust (kurt.lust@uantwerpen.be) for the LUMI consortium
+easyblock = 'ConfigureMake'
+
+name =    'ANTLR'
+version = '2.7.7'
+versionsuffix = '-python%(pymajver)s'
+
+homepage = 'http://www.antlr.org/'
+
+whatis = [
+    'Description: ANTLR - ANother Tool for Language Recognition'
+]
+
+description = """
+ANTLR, ANother Tool for Language Recognition, (formerly PCCTS) is a
+language tool that provides a framework for constructing recognizers,
+compilers, and translators from grammatical descriptions containing
+Java, C#, C++, or Python actions.
+
+This is an antique version for ANTLR that is needed to compile one
+particular package. Users are advised to use newer versions whenever
+possible.
+"""
+
+toolchain = {'name': 'cpeCray', 'version': '21.08'}
+
+source_urls = ['https://www.antlr2.org/download/']
+sources =     [SOURCELOWER_TAR_GZ]
+patches =     ['%(name)s-%(version)s_includes.patch']
+checksums =   [
+    '853aeb021aef7586bda29e74a6b03006bcb565a755c86b66032d8ec31b67dbb9',  # antlr-2.7.7.tar.gz
+    'd167d3248a03301bc93efcb37d5df959aae6794968e42231af0b0dd26d6a2e66',  # ANTLR-2.7.7_includes.patch
+]
+
+builddependencies = [ # Create a reproducible build environment.
+    ('buildtools',   '%(toolchain_version)s',   '', True),
+]
+
+dependencies = [
+    ('cray-python', EXTERNAL_MODULE),
+]
+
+configopts = "--disable-examples --disable-csharp "
+
+sanity_check_paths = {
+    'files': ['bin/antlr', 'bin/antlr-config'],
+    'dirs': ['include'],
+}
+
+moduleclass = 'tools'
