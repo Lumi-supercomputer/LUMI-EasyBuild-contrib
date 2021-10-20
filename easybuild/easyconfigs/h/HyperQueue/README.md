@@ -48,6 +48,7 @@ We build our own EasyConfig. Two big warnings are needed though:
     for ``EASYBUILD_BUILDPATH`` as that is often on a local tmp directory or RAM disk
     that supports file locking. Building on GPFS fails.
 
+
 ### 0.4.0 for 21.08
 
   * We created our own EasyConfig file using the generic ``CmdCp`` EasyBlock.
@@ -66,3 +67,11 @@ We build our own EasyConfig. Two big warnings are needed though:
     nodes of LUMI we currently set '`RUSTFLAGS="-C target-cpu=znver2"`'. You will have to change
     ``cmds_map`` for other platforms or to simply compile to the CPU target that the compile is
     run on.
+
+
+### 0.5.0 for 21.08
+
+  * This is a trivial edit of the 0.4.0 one.
+
+
+

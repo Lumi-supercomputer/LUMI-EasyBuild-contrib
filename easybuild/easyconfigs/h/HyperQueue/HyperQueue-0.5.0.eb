@@ -1,0 +1,75 @@
+# We suggest to install this build recipe in partition/common so that
+# the same binaries are available for all LUMI partitions. This will make
+# it a lot easier to start HyperQueue.
+#
+# HyperQueue is written in Rust and build using the Rust cargo system.
+# As there is no support in EasyBuild for building with cargo and as we
+# want to avoid building a special-purpose EasyBlock for HyperQueue in this
+# stage of development of the tool, we take another route: We use the CmdCp
+# generic EasyBlock to execute the cargo build command in the build phase and
+# then copy the executable manually in the install phase.
+#
+# Note that this build may not be reproducible: Cargo pulls in a lot of dependencies
+# so those sources are not saved by EasyBuild, and if the sources disappear from the
+# location where they are found or are modified, rebuilding will fail or produce a
+# different result.
+#
+easyblock = 'CmdCp'
+
+# These dependency version numbers are correct for the LUMI/21.08 software stack.
+local_Rust_version  =      '1.55.0'   # https://www.rust-lang.org/
+local_HyperQueue_version = '0.5.0'    # https://github.com/It4innovations/hyperqueue/releases
+
+name =    'HyperQueue'
+version = local_HyperQueue_version
+
+homepage = 'https://it4innovations.github.io/hyperqueue/'
+
+whatis = [
+    'Description: HyperQueue (HQ) lets you build a computation plan consisting of a large amount of tasks and then execute it transparently over a system like SLURM/PBS'
+]
+
+description = """
+HyperQueue lets you build a computation plan consisting of a large amount of
+tasks and then execute it transparently over a system like SLURM/PBS. It
+dynamically groups jobs into SLURM/PBS jobs and distributes them to fully
+utilize allocated notes. You thus do not have to manually aggregate your
+tasks into SLURM/PBS jobs.
+"""
+
+docurls = [
+    'Web-based manual at https://it4innovations.github.io/hyperqueue/'
+]
+
+toolchain = SYSTEM
+
+# https://github.com/It4innovations/hyperqueue/archive/refs/tags/v0.4.0.tar.gz
+sources = {
+    'download_filename': 'v%(version)s.tar.gz',
+    'filename':          SOURCELOWER_TAR_GZ,
+    'source_urls':       ['https://github.com/It4innovations/hyperqueue/archive/refs/tags']
+}
+checksums =   ['b215dcfc81369e744ea0f73e1be7654e6fc133456f1cb99917fd15080ab6eb79']
+
+builddependencies = [
+    ('Rust',       local_Rust_version),
+]
+
+cmds_map = [
+    ('.*', 'mkdir -p %(builddir)s/cargo ; CARGO_HOME="%(builddir)s/cargo" RUSTFLAGS="-C target-cpu=znver2" cargo build --release')
+]
+
+files_to_copy = [
+    (['target/release/hq'], 'bin')
+]
+
+sanity_check_paths = {
+    'files': ['bin/hq'],
+    'dirs':  [],
+}
+
+sanity_check_commands = [
+    "hq -V",
+]
+
+moduleclass = 'tools'
