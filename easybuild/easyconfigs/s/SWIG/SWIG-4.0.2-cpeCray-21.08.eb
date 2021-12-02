@@ -1,0 +1,58 @@
+# based on the Easybuilders Easyconfig
+# adapted for LUMI by Orian Louant
+
+local_zlib_version = '1.2.11'
+local_PCRE_version = '8.45'
+
+name = 'SWIG'
+version = '4.0.2'
+
+homepage = 'http://www.swig.org/'
+
+whatis = [
+    "SWIG is a software development tool that connects programs written in C "
+    "and C++ with a variety of high-level programming languages"
+]
+
+description = """
+SWIG is a software development tool that connects programs written in C and C++
+with a variety of high-level programming languages. SWIG is used with different
+types of target languages including common scripting languages such as 
+Javascript, Perl, PHP, Python, Tcl and Ruby. The list of supported languages
+also includes non-scripting languages such as C#, D, Go language, Java including
+Android, Lua, OCaml, Octave, Scilab and R. 
+
+Several interpreted and compiled Scheme implementations (Guile, MzScheme/Racket)
+are supported. SWIG is most commonly used to create high-level interpreted or
+compiled programming environments, user interfaces, and as a tool for testing
+and prototyping C/C++ software. SWIG is typically used to parse C/C++ interfaces
+and generate the 'glue code' required for the above target languages to call
+into the C/C++ code. SWIG can also export its parse tree in the form of XML.
+
+SWIG is free software and the code that SWIG generates is compatible with both
+commercial and non-commercial projects.
+"""
+
+docurls = [
+    'Documentation: http://www.swig.org/doc.html',
+]
+
+toolchain = {'name': 'cpeCray', 'version': '21.08'}
+toolchainopts = {'pic': True}
+
+source_urls = [SOURCEFORGE_SOURCE]
+sources = [SOURCELOWER_TAR_GZ]
+checksums = ['d53be9730d8d58a16bf0cbd1f8ac0c0c3e1090573168bfa151b01eb47fa906fc']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+    ('zlib', local_zlib_version),
+    ('PCRE', local_PCRE_version),
+]
+
+configopts = '--without-alllang --with-boost=no'
+
+moduleclass = 'devel'
