@@ -10,7 +10,7 @@ versionsuffix = '-MPI'
 homepage = 'http://charm.cs.illinois.edu/research/charm/'
 
 whatis = [
-    'Description: Charm++ is a machine independent parallel programming system.'
+    'Charm++ is a machine independent parallel programming system.'
 ]
 
 description = """
