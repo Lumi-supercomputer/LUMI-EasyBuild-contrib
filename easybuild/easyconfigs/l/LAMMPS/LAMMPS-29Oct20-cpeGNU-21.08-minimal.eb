@@ -1,0 +1,81 @@
+# Contributed by TWR and Luca Marsella (CSCS)
+# Adapted by Kurt Lust (kurt.lust@uantwerpen.be) for use on LUMI
+#
+easyblock = 'CMakeMake'
+
+local_FFmpeg_version =       '4.3.3'         # https://ffmpeg.org/download.html#releases
+local_libjpegturbo_version = '2.1.0'         # https://github.com/libjpeg-turbo/libjpeg-turbo/releases
+local_libpng_version =       '1.6.37'        # http://www.libpng.org/pub/png/libpng.html
+local_zstd_version =         '1.5.0'         # https://github.com/facebook/zstd/releases
+
+name =          'LAMMPS'
+version =       '29Oct20'
+versionsuffix = '-minimal'
+
+homepage = 'https://www.lammps.org/'
+
+whatis = [
+    'Description: LAMMPS (Large-scale Atomic/Molecular Massively Parallel Simulator) is a classical molecular dynamics simulation code designed for HPC systems'
+]
+
+description = """
+LAMMPS is a classical molecular dynamics code with a focus on materials
+modeling. It's an acronym for Large-scale Atomic/Molecular Massively
+Parallel Simulator.
+
+LAMMPS has potentials for solid-state materials (metals, semiconductors)
+and soft matter (biomolecules, polymers) and coarse-grained or mesoscopic
+systems. It can be used to model atoms or, more generically, as a parallel
+particle simulator at the atomic, meso, or continuum scale.
+
+LAMMPS runs on single processors or in parallel using message-passing
+techniques and a spatial-decomposition of the simulation domain. Many of
+its models have versions that provide accelerated performance on CPUs, GPUs,
+and Intel Xeon Phis. The code is designed to be easy to modify or extend
+ with new functionality.
+
+LAMMPS is distributed as an open source code under the terms of the GPLv2.
+
+This module provides a rather minimal setup of LAMMPS, based on the setup
+used at CSCS. The only currently enabled packages are COMPRESS, MPIIO and
+PYTHON. It is based on MPI.
+"""
+
+toolchain =     {'name': 'cpeGNU', 'version': '21.08'}
+toolchainopts = {'usempi': True, 'verbose': False, 'openmp': True}
+
+source_urls = ['https://github.com/%(namelower)s/%(namelower)s/archive']
+sources =     ['stable_29Oct2020.tar.gz']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+    ('cray-python',   EXTERNAL_MODULE),
+    ('FFmpeg',        local_FFmpeg_version), # 4.4.1 is out but let's stay on the safe side for now.
+    ('libjpeg-turbo', local_libjpegturbo_version),
+    ('libpng',        local_libpng_version),
+    ('zstd',          local_zstd_version),
+]
+
+# see https://lammps.sandia.gov/doc/Build_package.html#cmake-presets
+configopts  = '-C ../%(namelower)s-stable_29Oct2020/cmake/presets/nolib.cmake '
+configopts += '-DBUILD_MPI=Yes -DCMAKE_CXX_COMPILER:STRING=CC -DLAMMPS_MACHINE=mpi -DMPICXX=CC '
+configopts += '-DWITH_JPEG=ON -DWITH_PNG=ON -DWITH_FFMPEG=ON '
+# Enabled packages
+configopts += '-DPKG_COMPRESS=ON -DPKG_MPIIO=ON -DPKG_PYTHON=ON '
+# Packages explicitly turned off
+configopts += '-DPKG_USER-INTEL=OFF '
+
+# fix missing cray-python lib in LD_LIBRARY_PATH
+modluafooter = 'prepend_path("LD_LIBRARY_PATH",pathJoin(os.getenv("CRAY_PYTHON_PREFIX"), "lib"))'
+# folder with CMakeLists.txt relative to the unpacked tarball
+srcdir = 'cmake'
+
+sanity_check_paths = {
+    'files': ['bin/lmp_mpi'],
+    'dirs':  [],
+}
+
+moduleclass = 'chem'
