@@ -1,0 +1,20 @@
+diff -ruN openmm-7.5.1.orig/wrappers/generateWrappers.py openmm-7.5.1/wrappers/generateWrappers.py
+--- openmm-7.5.1.orig/wrappers/generateWrappers.py	2021-11-19 19:30:42.000000000 +0200
++++ openmm-7.5.1/wrappers/generateWrappers.py	2021-11-19 19:35:01.000000000 +0200
+@@ -82,6 +82,7 @@
+                             'const std::vector<std::tuple<int, int, double> >& OpenMM::NoseHooverIntegrator::getAllThermostatedPairs',
+                             'virtual void OpenMM::NoseHooverIntegrator::stateChanged'
+                            ]
++        self.skipMethods = [s.replace(' ', '') for s in self.skipMethods]
+         self.hideClasses = ['Kernel', 'KernelImpl', 'KernelFactory', 'ContextImpl', 'SerializationNode', 'SerializationProxy']
+         self.nodeByID={}
+
+@@ -132,7 +133,7 @@
+         for section in findNodes(classNode, "sectiondef", kind="public-static-func")+findNodes(classNode, "sectiondef", kind="public-func"):
+             for memberNode in findNodes(section, "memberdef", kind="function", prot="public"):
+                 methodDefinition = getText("definition", memberNode)
+-                if methodDefinition in self.skipMethods:
++                if methodDefinition.replace(' ', '') in self.skipMethods:
+                     continue
+                 methodList.append(memberNode)
+         return methodList
