@@ -1,0 +1,28 @@
+#
+easyblock = 'CMakeMake'
+
+name = 'CGAL'
+version = "4.12.2"
+
+homepage = 'http://www.cgal.org/'
+description = """
+    The goal of the CGAL Open Source Project is to provide easy access to
+    efficient and reliable geometric algorithms in the form of a C++ library.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '21.08'}
+toolchainopts = {'strict': True}
+
+#https://github.com/CGAL/cgal/releases/download/releases/CGAL-4.12.2/CGAL-4.12.2.tar.xz
+source_urls = ['https://github.com/%(name)s/%(namelower)s/releases/download/releases/CGAL-%(version)s']
+sources = [SOURCE_TAR_XZ]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+    ('Boost', '1.77.0', ''),
+]
+
+configopts = "-DCMAKE_BUILD_TYPE=Release -DBoost_DIR=${EBROOTBOOST} -DWITH_ZLIB=ON -DCGAL_DISABLE_MPFR=TRUE -DCGAL_DISABLE_GMP=TRUE -DWITH_BLAS=ON -DWITH_CGAL_Qt5=OFF "
+
+
+moduleclass = 'numlib'
