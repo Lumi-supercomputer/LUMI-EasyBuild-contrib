@@ -6,4 +6,4 @@
 
  * Following suggestion from https://develop.openfoam.com/Development/openfoam/-/wikis/building CGAL will normally need to be compiled without mpfr/gmp.
  
- ** For this reason `-DCGAL_DISABLE_MPFR=TRUE -DCGAL_DISABLE_GMP=TRUE` cmake options are in place.
+ * For this reason `-DCGAL_DISABLE_MPFR=TRUE -DCGAL_DISABLE_GMP=TRUE` cmake options are in place.
