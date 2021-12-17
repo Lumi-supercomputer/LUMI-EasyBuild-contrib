@@ -36,7 +36,7 @@ local_config_and_build += ' --incdir=${CRAY_MPICH_DIR}/include'
 local_config_and_build += ' --libdir=${CRAY_MPICH_DIR}/lib'
 local_config_and_build += ' --enable-lbuserdata'
 local_config_and_build += ' --with-production'
-local_config_and_build += ' -j 12'
+local_config_and_build += ' -j12'
 
 cmds_map = [
     ('charm-%(version)s.tar.gz', local_config_and_build),
