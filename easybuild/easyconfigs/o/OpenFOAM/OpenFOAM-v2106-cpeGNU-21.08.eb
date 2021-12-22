@@ -40,7 +40,6 @@ toolchainopts = {'cstd': 'c++11'}
 
 source_urls = ['https://dl.%(namelower)s.com/source/%(version)s']
 sources = [SOURCE_TGZ]
-patches = ['patch.%(name)s-%(version)s']
 
 builddependencies = [
     ('buildtools', '%(toolchain_version)s', '', True),
