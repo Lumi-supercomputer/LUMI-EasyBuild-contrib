@@ -1,0 +1,22 @@
+easyblock = 'ConfigureMake'
+
+name = 'GlobalArrays'
+version = '5.8'
+
+homepage = 'https://hpc.pnl.gov/globalarrays'
+description = "Global Arrays (GA) is a Partitioned Global Address Space (PGAS) programming model"
+
+toolchain = {'name': 'cpeGNU', 'version': '21.08'}
+
+configopts = '--with-mpi-pr MPICC=cc CC=cc CXX=CC MPICXX=CC MPIEXEC=srun'
+
+source_urls = ['https://github.com/GlobalArrays/ga/releases/download/']
+sources = ['v%(version)s/ga-%(version)s.tar.gz']
+checksums = ['64df7d1ea4053d24d84ca361e67a6f51c7b17ed7d626cb18a9fbc759f4a078ac']
+
+sanity_check_paths = {
+    'files': ['bin/ga-config', 'lib/libarmci.a', 'lib/libcomex.a', 'lib/libga.a'],
+    'dirs': ['include'],
+}
+
+moduleclass = 'lib'
