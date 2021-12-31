@@ -8,7 +8,7 @@ description = "Global Arrays (GA) is a Partitioned Global Address Space (PGAS) p
 
 toolchain = {'name': 'cpeGNU', 'version': '21.08'}
 
-configopts = '--with-mpi-pr MPICC=cc CC=cc CXX=CC MPICXX=CC MPIEXEC=srun'
+configopts = '--with-mpi-pr --enable-i8 MPICC=cc CC=cc CXX=CC MPICXX=CC MPIEXEC=srun FFLAG_INT=-fdefault-integer-8'
 
 source_urls = ['https://github.com/GlobalArrays/ga/releases/download/']
 sources = ['v%(version)s/ga-%(version)s.tar.gz']
