@@ -70,7 +70,8 @@ dependencies = [
     ('cray-openshmemx', EXTERNAL_MODULE),
 ]
 
-configopts  = ' --enable-shared '
+configopts  = ' --with-machine-name=LUMI '
+configopts += ' --enable-shared '
 configopts += ' --with-libunwind=$EBROOTLIBUNWIND '
 configopts += ' --with-cubelib=$EBROOTCUBELIB/bin '
 configopts += ' --with-cubew=$EBROOTCUBEWRITER/bin '
