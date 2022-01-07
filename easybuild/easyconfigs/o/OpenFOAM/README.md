@@ -1,0 +1,35 @@
+# OpenFOAM notes
+
+This easyconfig is based on the public CSCS version using `Binary` easyblock.
+
+Rewritten to use recent configuration layers built-in the OpenFOAM.
+
+## Configuring
+
+https://develop.openfoam.com/Development/openfoam/-/wikis/configuring
+
+## Build Issues 
+
+Subequent compilation with Allwmake will now run largely without any
+problems, except that the components linking against CGAL
+(foamyMesh and surfaceBooleanFeatures) will also try to link against
+a nonexistent mpfr library. As a workaround, the link-dependency can
+be removed in wmake/rules/General/CGAL :
+```
+CGAL_LIBS = \
+    -L$(BOOST_ARCH_PATH)/lib \
+    -L$(BOOST_ARCH_PATH)/lib$(WM_COMPILER_LIB_ARCH) \
+    -L$(CGAL_ARCH_PATH)/lib \
+    -L$(CGAL_ARCH_PATH)/lib$(WM_COMPILER_LIB_ARCH) \
+    -lCGAL
+```
+
+Fixed overwriting `wmake/rules/General/cgal` with `wmake/rules/General/cgal-no-mpfr` 
+
+## Building with EasyBuild
+
+https://develop.openfoam.com/Development/openfoam/-/wikis/building#easybuild
+
+### Notes on CPE
+
+ * This easyconfig produces `linux64Cray` platform binaries using `Cray` compiler option which is in fact CPE GNU. 
