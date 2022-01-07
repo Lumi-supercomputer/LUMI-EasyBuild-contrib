@@ -14,11 +14,11 @@ description = """
 
     OpenCFD Ltd, owner of the OpenFOAM Trademark, is a wholly owned subsidiary of ESI Group.
 
-    ESI-OpenCFD produces the OpenFOAM® open source CFD toolbox and distributes freely 
-    via https://www.openfoam.com/. OpenCFD Ltd was established in 2004 to coincide with 
-    the release of its OpenFOAM software under general public licence. 
+    ESI-OpenCFD produces the OpenFOAM® open source CFD toolbox and distributes freely
+    via https://www.openfoam.com/. OpenCFD Ltd was established in 2004 to coincide with
+    the release of its OpenFOAM software under general public licence.
 
-    OpenFOAM is distributed under the GPL v3 licence. 
+    OpenFOAM is distributed under the GPL v3 licence.
 """
 
 usage = """
@@ -27,7 +27,7 @@ usage = """
      source etc/bashrc
 
     To run OpenFOAM solvers on compute nodes use srun command:
-     
+
      srun foamSolverName -parallel
 
     in either job script for sbatch or directly within salloc session.
@@ -43,31 +43,31 @@ sources = [SOURCE_TGZ]
 
 builddependencies = [
     ('buildtools', '%(toolchain_version)s', '', True),
-    ('Boost', '1.77.0', ''),
+    ('Boost',      '1.77.0', ''),
 ]
 
 dependencies = [
     ('cray-fftw', EXTERNAL_MODULE),
-    ('SCOTCH', '6.1.1'),
-    ('CGAL', '4.12.2'),
+    ('SCOTCH',    '6.1.1'),
+    ('CGAL',      '4.12.2',       '-OpenFOAM'),
 ]
 
 unpack_options = '--strip-components=1'
 extract_sources = 'True'
 buildininstalldir = 'True'
 
-install_cmd = "source etc/bashrc WM_COMPILER=Cray WM_MPLIB=CRAY-MPICH MPICH_DIR=${CRAY_MPICH_PREFIX} "
+install_cmd  = "source etc/bashrc WM_COMPILER=Cray WM_MPLIB=CRAY-MPICH MPICH_DIR=${CRAY_MPICH_PREFIX} "
 install_cmd += "&& cp ./wmake/rules/General/cgal-no-mpfr ./wmake/rules/General/cgal "
 install_cmd += "&& ./bin/tools/foamConfigurePaths -boost boost-system -boost-path ${EBROOTBOOST} -fftw fftw-system -fftw-path ${FFTW_ROOT} -scotch scotch-system -scotch-path ${EBROOTSCOTCH} -cgal cgal-system -cgal-path ${EBROOTCGAL} "
 install_cmd += "&& ./Allwmake -j 32"
 
 sanity_check_paths = {
     'files': [],
-    'dirs': ['platforms/linux64CrayDPInt32Opt/bin', 'platforms/linux64CrayDPInt32Opt/lib'],
+    'dirs':  ['platforms/linux64CrayDPInt32Opt/bin', 'platforms/linux64CrayDPInt32Opt/lib'],
 }
 
-modtclfooter = """
-    setenv FOAM_BASH "%(installdir)s/etc/bashrc"
-"""
+modextravars = {
+    'FOAM_BASH': '%(installdir)s/bashrc',
+}
 
 moduleclass = 'cae'
