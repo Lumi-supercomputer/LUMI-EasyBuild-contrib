@@ -7,12 +7,18 @@ local_revision = 'b9985dfa'
 
 homepage = 'https://www.nwchem-sw.org'
 
-description = """NWChem aims to provide its users with computational chemistry tools that are scalable both in
- their ability to treat large scientific computational chemistry problems efficiently, and in their use of available
- parallel computing resources from high-performance parallel supercomputers to conventional workstation clusters.
- NWChem software can handle: biomolecules, nanostructures, and solid-state; from quantum to classical, and all
- combinations; Gaussian basis functions or plane-waves; scaling from one to thousands of processors; properties
- and relativity."""
+whatis = [
+    'Description: NWChem is an OpenSource High Performance Computational Chemistry code'
+]
+
+description = """
+NWChem aims to provide its users with computational chemistry tools that are scalable both in
+their ability to treat large scientific computational chemistry problems efficiently, and in their use of available
+parallel computing resources from high-performance parallel supercomputers to conventional workstation clusters.
+NWChem software can handle: biomolecules, nanostructures, and solid-state; from quantum to classical, and all
+combinations; Gaussian basis functions or plane-waves; scaling from one to thousands of processors; properties
+and relativity.
+"""
 
 toolchain = {'name': 'cpeGNU', 'version': '21.08'}
 
@@ -30,9 +36,9 @@ sources = ['nwchem-%%(version)s-release.revision-%s-src.%s.tar.bz2' % (local_rev
 #]
 
 builddependencies = [
-    ('buildtools', '%(toolchain_version)s', '', True),
-    ('GlobalArrays', '5.8', ''),
-    ('cray-python', EXTERNAL_MODULE),
+    ('buildtools',   '%(toolchain_version)s', '', True),
+    ('GlobalArrays', '5.8', ''),  # Static library
+    ('cray-python',  EXTERNAL_MODULE),
 ]
 
 start_dir = 'src'
