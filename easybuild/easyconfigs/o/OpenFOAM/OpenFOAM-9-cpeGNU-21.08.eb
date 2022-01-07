@@ -6,30 +6,31 @@ name = 'OpenFOAM'
 version = '9'
 versionprefix = 'OpenFOAM-'
 
-whatis = [
-    'OpenFOAM is a free, open source CFD software package. OpenFOAM has an extensive range of features to solve anything from complex fluid flows involving chemical reactions, turbulence and heat transfer, to solid dynamics and electromagnetics.'
-]
-
 homepage = 'http://www.openfoam.org/'
 
+whatis = [
+    'Description: The OpenFOAM (CFD software) distribution from the OpenFOAM Foundation'
+]
+
 description = """
-     OpenFOAM is the leading free, open source software for computational fluid dynamics (CFD), 
-     owned by the OpenFOAM Foundation and distributed exclusively under the General Public Licence (GPL). 
-     The GPL gives users the freedom to modify and redistribute the software and a guarantee of continued free use, within the terms of the licence.
+OpenFOAM is the leading free, open source software for computational fluid dynamics (CFD),
+owned by the OpenFOAM Foundation and distributed exclusively under the General Public Licence (GPL).
+The GPL gives users the freedom to modify and redistribute the software and a guarantee of continued
+free use, within the terms of the licence.
 """
 
 usage = """
-    Initialize the OpenFOAM environment with following command:
+Initialize the OpenFOAM environment with following command:
 
-     source $EBROOTOPENFOAM/etc/bashrc WM_COMPILER=Cray WM_MPLIB=CRAY-MPICH
+ source $EBROOTOPENFOAM/etc/bashrc WM_COMPILER=Cray WM_MPLIB=CRAY-MPICH
 
-    To run OpenFOAM solvers on compute nodes use srun command:
-     
-     srun foamSolverName -parallel
+To run OpenFOAM solvers on compute nodes use srun command:
 
-    in either job script for sbatch or directly within salloc session.
+ srun foamSolverName -parallel
 
-    Allrun scripts require some additional tweaking.
+in either job script for sbatch or directly within salloc session.
+
+Allrun scripts require some additional tweaking.
 """
 
 toolchain = {'name': 'cpeGNU', 'version': '21.08'}
@@ -42,20 +43,20 @@ patches = [('wmake-rules-linux64Cray.patch',1),]
 
 builddependencies = [
     ('buildtools', '%(toolchain_version)s', '', True),
-    ('Boost', '1.77.0', ''),
+    ('Boost',      '1.77.0', ''),
 ]
 
 dependencies = [
     ('cray-fftw', EXTERNAL_MODULE),
-    ('SCOTCH', '6.1.1'),
-    ('CGAL', '4.12.2'),
+    ('SCOTCH',    '6.1.1'),
+    ('CGAL',      '4.12.2',        '-OpenFOAM'),
 ]
 
 unpack_options = '--strip-components=1'
 extract_sources = 'True'
 buildininstalldir = 'True'
 
-install_cmd = "./bin/tools/foamConfigurePaths --scotchArchPath ${EBROOTSCOTCH} --projectName %(name)s-%(version_major)s-%(toolchain_name)s-%(toolchain_version)s "
+install_cmd  = "./bin/tools/foamConfigurePaths --scotchArchPath ${EBROOTSCOTCH} --projectName %(name)s-%(version_major)s-%(toolchain_name)s-%(toolchain_version)s "
 install_cmd += "&& source etc/bashrc WM_COMPILER=Cray WM_MPLIB=CRAY-MPICH MPICH_DIR=${CRAY_MPICH_PREFIX} "
 install_cmd += "&& ./Allwmake -j 32"
 
@@ -64,8 +65,8 @@ sanity_check_paths = {
     'dirs': ['platforms/linux64CrayDPInt32Opt/bin', 'platforms/linux64CrayDPInt32Opt/lib'],
 }
 
-modtclfooter = """
-    setenv FOAM_BASH "%(installdir)s/etc/bashrc"
-"""
+modextravars = {
+    'FOAM_BASH': '%(installdir)s/bashrc',
+}
 
 moduleclass = 'cae'

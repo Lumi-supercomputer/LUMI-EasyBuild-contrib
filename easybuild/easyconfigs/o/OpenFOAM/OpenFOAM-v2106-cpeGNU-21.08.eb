@@ -9,30 +9,34 @@ whatis = [
 
 homepage = 'http://www.openfoam.com/'
 
+whatis = [
+    'Description: The OpenFOAM (CFD software) distribution from OpenCFD Ltd'
+]
+
 description = """
-    OpenFOAM is the free, open source CFD software developed primarily by OpenCFD Ltd since 2004.
+OpenFOAM is the free, open source CFD software developed primarily by OpenCFD Ltd since 2004.
 
-    OpenCFD Ltd, owner of the OpenFOAM Trademark, is a wholly owned subsidiary of ESI Group.
+OpenCFD Ltd, owner of the OpenFOAM Trademark, is a wholly owned subsidiary of ESI Group.
 
-    ESI-OpenCFD produces the OpenFOAM® open source CFD toolbox and distributes freely
-    via https://www.openfoam.com/. OpenCFD Ltd was established in 2004 to coincide with
-    the release of its OpenFOAM software under general public licence.
+ESI-OpenCFD produces the OpenFOAM® open source CFD toolbox and distributes freely
+via https://www.openfoam.com/. OpenCFD Ltd was established in 2004 to coincide with
+the release of its OpenFOAM software under general public licence.
 
-    OpenFOAM is distributed under the GPL v3 licence.
+OpenFOAM is distributed under the GPL v3 licence.
 """
 
 usage = """
-    Initialize the OpenFOAM environment with following command:
+Initialize the OpenFOAM environment with following command:
 
-     source $EBROOTOPENFOAM/etc/bashrc
+ source $EBROOTOPENFOAM/etc/bashrc
 
-    To run OpenFOAM solvers on compute nodes use srun command:
+To run OpenFOAM solvers on compute nodes use srun command:
 
-     srun foamSolverName -parallel
+ srun foamSolverName -parallel
 
-    in either job script for sbatch or directly within salloc session.
+in either job script for sbatch or directly within salloc session.
 
-    Allrun scripts require some additional tweaking.
+Allrun scripts require some additional tweaking.
 """
 
 toolchain = {'name': 'cpeGNU', 'version': '21.08'}
