@@ -24,7 +24,7 @@ description = """
 usage = """
     Initialize the OpenFOAM environment with following command:
 
-     source etc/bashrc
+     source $EBROOTOPENFOAM/etc/bashrc
 
     To run OpenFOAM solvers on compute nodes use srun command:
      
