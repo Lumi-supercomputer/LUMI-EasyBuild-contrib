@@ -1,6 +1,6 @@
 ##
 # Author:    Robert Mijakovic <robert.mijakovic@lxp.lu>
-# Adapted for the LUMI consortium byMaciej Szpindler and Kurt Lust
+# Adapted for the LUMI consortium by Maciej Szpindler and Kurt Lust
 ##
 easyblock = 'ConfigureMake'
 
@@ -32,8 +32,7 @@ that relies on BLIS may not link correctly to any of the other modules
 in the LUMI software stacks.
 """
 
-docurls = [
-    'https://github.com/amd/blis/blob/master/docs/BuildSystem.md',
+docurls = [ 'https://github.com/amd/blis/blob/master/docs/BuildSystem.md',
 ]
 
 toolchain = {'name': 'cpeGNU', 'version': '21.08'}
@@ -42,23 +41,34 @@ source_urls = ['https://github.com/amd/blis/archive/']
 sources =     ['%(version)s.tar.gz']
 checksums =   ['dff643e6ef946846e91e8f81b75ff8fe21f1f2d227599aecd654d184d9beff3e']
 
-#builddependencies = [
-#    ('binutils', '2.36.1'),
-#    ('Python', '3.9.5'),
-#    ('Perl', '5.32.1'),
-#]
+
 builddependencies = [ # Create a reproducible build environment.
     ('buildtools', '%(toolchain_version)s', '', True),
 ]
 
-# Build Serial and multithreaded library
 preconfigopts = 'module unload cray-libsci && '
+
+import os
+local_partition = os.getenv('LUMI_STACK_PARTITION')
+
+# Requires python >= 3.10
+#match local_partition:
+#    case 'C':
+#        local_config_registry = 'zen3'
+#    case _:
+#        local_config_registry = 'generic'
+
+local_config_registry = 'zen3' if local_partition == 'C' else 'auto'
+
+# Build Serial and multithreaded library
 configopts = [
-    '--enable-cblas --enable-shared CC="$CC" auto',
-    '--enable-cblas --enable-threading=openmp --enable-shared CC="$CC" auto'
+    "--enable-cblas --enable-shared CC=cc " + local_config_registry,
+    "--enable-cblas --enable-threading=openmp --enable-shared CC=cc " + local_config_registry
 ]
 
 prebuildopts = 'module unload cray-libsci && '
+
+#buildopts = 'showconfig'
 
 pretestopts = 'module unload cray-libsci && '
 runtest = 'check'
@@ -71,5 +81,9 @@ sanity_check_paths = {
 }
 
 modextrapaths = {'CPATH': 'include/blis'}
+
+#modluafooter = """
+#conflict("cray-libsci")
+#"""
 
 moduleclass = 'numlib'
