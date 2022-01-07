@@ -6,8 +6,14 @@ versionsuffix = '-amd'
 
 homepage = 'https://developer.amd.com/amd-cpu-libraries/blas-library/#libflame'
 
-description = """AMD\'s fork of libFLAME. libFLAME is a portable library for dense matrix computations,
-providing much of the functionality present in LAPACK."""
+whatis = [
+    'Description: AMD\'s fork of libFLAME. libFLAME is a portable library for dense matrix computations, providing much of the functionality present in LAPACK.'
+]
+
+description = """
+This module provides AMD\'s fork of libFLAME. libFLAME is a portable library
+for dense matrix computations, providing much of the functionality present in
+LAPACK.
 
 Note that libFLAME will conflict with the Cray LibSci library, so when using
 this module you have to unload the cray-libsci module as otherwise the
@@ -18,8 +24,8 @@ Cray LibSci already contains BLAS, LAPACK and ScaLAPACK functionality and
 should be your first choice. But this module may be useful if you run into
 problems with the Cray LibSci library. Note however that software in the
 LUMI stack is by default build with the Cray LibSci library, so your code
-that relies on libFLAME and BLIS may not link correctly to any of the other modules
-in the LUMI software stacks.
+that relies on libFLAME and BLIS may not link correctly to any of the other
+modules in the LUMI software stacks.
 """
 
 toolchain = {'name': 'cpeGNU', 'version': '21.08'}
@@ -27,24 +33,25 @@ toolchain = {'name': 'cpeGNU', 'version': '21.08'}
 source_urls = ['https://github.com/amd/libflame/archive/']
 sources = ['%(version)s.tar.gz']
 
-# '--enable-max-arg-list-hack --enable-dynamic-build' requires 'file' function from GNU Make 4.x
 
 builddependencies = [
     ('buildtools', '%(toolchain_version)s', '', True),
 ]
 
-dependencies = [('BLIS', '3.1', versionsuffix)]
+dependencies = [
+    ('BLIS', '3.1', versionsuffix)
+]
 
 # Use unset FLIBS to let configure pick up LDFLAGS
-preconfigopts = 'module unload cray-libsci && '
-# Configure script uses weird way of compiler vendor detection 
+preconfigopts  = 'module unload cray-libsci && '
+# Configure script uses weird way of compiler vendor detection
 preconfigopts += 'sed -i "3515 a CC_VENDOR=gcc" configure && '
 preconfigopts += 'unset FLIBS && '
 preconfigopts += 'LIBS="-lblis-mt $LIBS" '
 preconfigopts += 'LDFLAGS="$LDFLAGS -L$EBROOTBLIS/lib -fopenmp -lm -lpthread" '
 preconfigopts += 'CFLAGS="$CFLAGS -fopenmp -I${EBROOTBLIS}/include/blis" '
 
-configopts = '--enable-max-arg-list-hack '
+configopts  = '--enable-max-arg-list-hack '
 configopts += '--enable-lapack2flame '
 configopts += '--enable-external-lapack-interfaces '
 configopts += '--enable-cblas-interfaces '
@@ -59,7 +66,7 @@ prebuildopts = 'module unload cray-libsci && '
 
 sanity_check_paths = {
     'files': ['include/FLAME.h', 'lib/libflame.a', 'lib/libflame.%s' % SHLIB_EXT],
-    'dirs': ['lib'],
+    'dirs':  ['lib'],
 }
 
 moduleclass = 'numlib'

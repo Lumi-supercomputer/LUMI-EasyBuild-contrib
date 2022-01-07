@@ -1,6 +1,6 @@
 easyblock = 'Bundle'
 
-name = 'AMD-AOCL'
+name =    'AMD-AOCL'
 version = '3.1'
 
 homepage = 'https://developer.amd.com/amd-aocl/'
@@ -9,9 +9,10 @@ whatis = [
     'AMD Optimizing CPU Libraries'
 ]
 
-description = """AOCL is a set of numerical libraries optimized for AMD processors 
-based on the AMD Zen core architecture and generations. The tuned implementations of 
-industry-standard math libraries enable rapid development of scientific and high 
+description = """
+AOCL is a set of numerical libraries optimized for AMD processors
+based on the AMD Zen core architecture and generations. The tuned implementations of
+industry-standard math libraries enable rapid development of scientific and high
 performance computing applications.
 
 Note that AOCL will conflict with the Cray LibSci library, so when using
@@ -30,8 +31,8 @@ in the LUMI software stacks.
 toolchain = {'name': 'cpeGNU', 'version': '21.08'}
 
 dependencies = [
-    ('BLIS', version, '-amd'), 
-    ('libFLAME', version, '-amd'),
+    ('BLIS',      version, '-amd'),
+    ('libFLAME',  version, '-amd'),
     ('ScaLAPACK', version, '-amd'),
 ]
 
