@@ -35,7 +35,7 @@ in the LUMI software stacks.
 docurls = [ 'https://github.com/amd/blis/blob/master/docs/BuildSystem.md',
 ]
 
-toolchain = {'name': 'cpeGNU', 'version': '21.08'}
+toolchain = {'name': 'cpeCray', 'version': '21.08'}
 
 source_urls = ['https://github.com/amd/blis/archive/']
 sources =     ['%(version)s.tar.gz']
@@ -51,14 +51,7 @@ preconfigopts = 'module unload cray-libsci && '
 import os
 local_partition = os.getenv('LUMI_STACK_PARTITION')
 
-# Requires python >= 3.10
-#match local_partition:
-#    case 'C':
-#        local_config_registry = 'zen3'
-#    case _:
-#        local_config_registry = 'generic'
-
-local_config_registry = 'zen3' if local_partition == 'C' else 'generic'
+local_config_registry = 'zen3' if local_partition in ['C', 'G']  else 'zen2'
 
 # Build Serial and multithreaded library
 configopts = [

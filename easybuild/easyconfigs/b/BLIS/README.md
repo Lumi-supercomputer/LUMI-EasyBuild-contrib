@@ -14,10 +14,10 @@
   * There is no support for BLIS in the CSCS repository.
 
 
-### Version 3.0.1 for CPE 21.08
+### Version 3.1 for CPE 21.08
 
   * The EasyConfig file is a direct port from the EasyBuilders one
 
   * Some logic was added to select zen3 depending on the partition loaded to
-    support cross-compiling, but will need to be adapted for the GPU nodes of
-    LUMI.
+    support cross-compiling.
+
