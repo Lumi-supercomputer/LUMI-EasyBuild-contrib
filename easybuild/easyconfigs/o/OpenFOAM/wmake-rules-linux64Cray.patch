@@ -1,0 +1,98 @@
+diff -Naur OpenFOAM-9-cpeGNU-21.08/wmake/rules/linux64Cray/c OpenFOAM-9/wmake/rules/linux64Cray/c
+--- OpenFOAM-9-cpeGNU-21.08/wmake/rules/linux64Cray/c	1970-01-01 02:00:00.000000000 +0200
++++ OpenFOAM-9/wmake/rules/linux64Cray/c	2022-01-05 16:05:36.000000000 +0200
+@@ -0,0 +1,16 @@
++SUFFIXES += .c
++
++cWARN        = -Wall
++
++cc          = cc -m64
++
++include $(DEFAULT_RULES)/c$(WM_COMPILE_OPTION)
++
++cFLAGS      = $(GFLAGS) $(cWARN) $(cOPT) $(cDBUG) $(LIB_HEADER_DIRS) -fPIC
++
++ctoo        = $(WM_SCHEDULER) $(cc) $(cFLAGS) -c $< -o $@
++
++LINK_LIBS   = $(cDBUG)
++
++LINKLIBSO   = $(cc) -fuse-ld=bfd -shared
++LINKEXE     = $(cc) -fuse-ld=bfd -Xlinker --add-needed -Xlinker -z -Xlinker nodefs
+diff -Naur OpenFOAM-9-cpeGNU-21.08/wmake/rules/linux64Cray/c++ OpenFOAM-9/wmake/rules/linux64Cray/c++
+--- OpenFOAM-9-cpeGNU-21.08/wmake/rules/linux64Cray/c++	1970-01-01 02:00:00.000000000 +0200
++++ OpenFOAM-9/wmake/rules/linux64Cray/c++	2022-01-05 16:05:36.000000000 +0200
+@@ -0,0 +1,26 @@
++SUFFIXES += .C
++
++c++WARN     = -Wall -Wextra -Wold-style-cast -Wnon-virtual-dtor -Wno-unused-parameter \
++              -Wno-invalid-offsetof -Wno-attributes
++
++# Suppress some warnings for flex++ and CGAL
++c++LESSWARN = -Wno-old-style-cast -Wno-unused-local-typedefs -Wno-array-bounds
++
++CC          = CC -std=c++14 -m64
++#CC          = g++ -std=c++14 -m64
++
++include $(DEFAULT_RULES)/c++$(WM_COMPILE_OPTION)
++
++ptFLAGS     = -DNoRepository -ftemplate-depth-100
++
++c++FLAGS    = $(GFLAGS) $(c++WARN) $(c++OPT) $(c++DBUG) $(ptFLAGS) $(LIB_HEADER_DIRS) -fPIC
++
++Ctoo        = $(WM_SCHEDULER) $(CC) $(c++FLAGS) -c $< -o $@
++cxxtoo      = $(Ctoo)
++cctoo       = $(Ctoo)
++cpptoo      = $(Ctoo)
++
++LINK_LIBS   = $(c++DBUG)
++
++LINKLIBSO   = $(CC) $(c++FLAGS) -fuse-ld=bfd -shared -Xlinker --add-needed -Xlinker --no-as-needed
++LINKEXE     = $(CC) $(c++FLAGS) -fuse-ld=bfd -Xlinker --add-needed -Xlinker --no-as-needed
+diff -Naur OpenFOAM-9-cpeGNU-21.08/wmake/rules/linux64Cray/c++Debug OpenFOAM-9/wmake/rules/linux64Cray/c++Debug
+--- OpenFOAM-9-cpeGNU-21.08/wmake/rules/linux64Cray/c++Debug	1970-01-01 02:00:00.000000000 +0200
++++ OpenFOAM-9/wmake/rules/linux64Cray/c++Debug	2022-01-05 16:05:36.000000000 +0200
+@@ -0,0 +1,2 @@
++c++DBUG    = -ggdb3 -DFULLDEBUG
++c++OPT      = -O0 -fdefault-inline
+diff -Naur OpenFOAM-9-cpeGNU-21.08/wmake/rules/linux64Cray/c++Opt OpenFOAM-9/wmake/rules/linux64Cray/c++Opt
+--- OpenFOAM-9-cpeGNU-21.08/wmake/rules/linux64Cray/c++Opt	1970-01-01 02:00:00.000000000 +0200
++++ OpenFOAM-9/wmake/rules/linux64Cray/c++Opt	2022-01-05 16:05:36.000000000 +0200
+@@ -0,0 +1,4 @@
++c++DBUG     =
++c++OPT      = -O3 -ftree-vectorize -funroll-loops
++
++ROUNDING_MATH = -frounding-math
+diff -Naur OpenFOAM-9-cpeGNU-21.08/wmake/rules/linux64Cray/c++Prof OpenFOAM-9/wmake/rules/linux64Cray/c++Prof
+--- OpenFOAM-9-cpeGNU-21.08/wmake/rules/linux64Cray/c++Prof	1970-01-01 02:00:00.000000000 +0200
++++ OpenFOAM-9/wmake/rules/linux64Cray/c++Prof	2022-01-05 16:05:36.000000000 +0200
+@@ -0,0 +1,2 @@
++c++DBUG    = -pg
++c++OPT     = -O2
+diff -Naur OpenFOAM-9-cpeGNU-21.08/wmake/rules/linux64Cray/cDebug OpenFOAM-9/wmake/rules/linux64Cray/cDebug
+--- OpenFOAM-9-cpeGNU-21.08/wmake/rules/linux64Cray/cDebug	1970-01-01 02:00:00.000000000 +0200
++++ OpenFOAM-9/wmake/rules/linux64Cray/cDebug	2022-01-05 16:05:36.000000000 +0200
+@@ -0,0 +1,2 @@
++cDBUG       = -ggdb -DFULLDEBUG
++cOPT        = -O1 -fdefault-inline -finline-functions
+diff -Naur OpenFOAM-9-cpeGNU-21.08/wmake/rules/linux64Cray/cOpt OpenFOAM-9/wmake/rules/linux64Cray/cOpt
+--- OpenFOAM-9-cpeGNU-21.08/wmake/rules/linux64Cray/cOpt	1970-01-01 02:00:00.000000000 +0200
++++ OpenFOAM-9/wmake/rules/linux64Cray/cOpt	2022-01-05 16:05:36.000000000 +0200
+@@ -0,0 +1,2 @@
++cDBUG       =
++cOPT        = -O3 -ftree-vectorize -funroll-loops
+diff -Naur OpenFOAM-9-cpeGNU-21.08/wmake/rules/linux64Cray/cProf OpenFOAM-9/wmake/rules/linux64Cray/cProf
+--- OpenFOAM-9-cpeGNU-21.08/wmake/rules/linux64Cray/cProf	1970-01-01 02:00:00.000000000 +0200
++++ OpenFOAM-9/wmake/rules/linux64Cray/cProf	2022-01-05 16:05:36.000000000 +0200
+@@ -0,0 +1,2 @@
++cDBUG       = -pg
++cOPT        = -O2
+diff -Naur OpenFOAM-9-cpeGNU-21.08/wmake/rules/linux64Cray/general OpenFOAM-9/wmake/rules/linux64Cray/general
+--- OpenFOAM-9-cpeGNU-21.08/wmake/rules/linux64Cray/general	1970-01-01 02:00:00.000000000 +0200
++++ OpenFOAM-9/wmake/rules/linux64Cray/general	2022-01-05 16:05:36.000000000 +0200
+@@ -0,0 +1,6 @@
++PROJECT_LIBS = -l$(WM_PROJECT) -ldl
++
++include $(GENERAL_RULES)/standard
++
++include $(DEFAULT_RULES)/c
++include $(DEFAULT_RULES)/c++
