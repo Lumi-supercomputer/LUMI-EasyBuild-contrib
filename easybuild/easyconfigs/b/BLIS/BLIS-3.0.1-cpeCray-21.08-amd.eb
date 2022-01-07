@@ -35,12 +35,11 @@ in the LUMI software stacks.
 docurls = [ 'https://github.com/amd/blis/blob/master/docs/BuildSystem.md',
 ]
 
-toolchain = {'name': 'cpeGNU', 'version': '21.08'}
+toolchain = {'name': 'cpeCray', 'version': '21.08'}
 
 source_urls = ['https://github.com/amd/blis/archive/']
 sources =     ['%(version)s.tar.gz']
 checksums =   ['dff643e6ef946846e91e8f81b75ff8fe21f1f2d227599aecd654d184d9beff3e']
-
 
 builddependencies = [ # Create a reproducible build environment.
     ('buildtools', '%(toolchain_version)s', '', True),
