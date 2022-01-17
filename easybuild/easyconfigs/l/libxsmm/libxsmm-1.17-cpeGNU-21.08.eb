@@ -2,12 +2,18 @@
 # Modified by Peter Larsson for LUMI
 easyblock = 'MakeCp'
 
-name = 'libxsmm'
+name =    'libxsmm'
 version = '1.17'
 
 homepage = 'https://readthedocs.org/projects/libxsmm'
+
+whatis = [
+    'Description: Library targeting Intel Architecture for specialized dense and sparse matrix operations, and deep learning primitives'
+]
+
 description = """
-Library targeting Intel Architecture for specialized dense and sparse matrix operations, and deep learning primitives.
+Library targeting Intel Architecture for specialized dense and sparse matrix
+operations, and deep learning primitives.
 """
 
 toolchain = {'name': 'cpeGNU', 'version': '21.08'}

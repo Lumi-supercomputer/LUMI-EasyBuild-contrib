@@ -3,11 +3,22 @@
 
 easyblock = 'CMakeMake'
 
-name = 'spglib'
+name =    'spglib'
 version = '1.16.3'
 
 homepage = 'https://atztogo.github.io/spglib/'
-description = "Spglib is a library for finding and handling crystal symmetries written in C."
+
+whatis = [
+    'Description: Spglib is a library for finding and handling crystal symmetries written in C'
+]
+
+description = """
+Spglib is a library for finding and handling crystal symmetries written in C.
+"""
+
+docurls = [
+    'C-API: https://spglib.github.io/spglib/api.html',
+]
 
 toolchain = {'name': 'cpeGNU', 'version': '21.08'}
 toolchainopts = {'openmp': True, 'usempi': False}
@@ -15,7 +26,9 @@ toolchainopts = {'openmp': True, 'usempi': False}
 source_urls = ['https://github.com/atztogo/%(name)s/archive/']
 sources = ['v%(version)s.tar.gz']
 
-builddependencies = [('buildtools', '%(toolchain_version)s', '', True)]
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
 
 postinstallcmds = [
     "mkdir %(installdir)s/include/%(name)s",
