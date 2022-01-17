@@ -1,0 +1,156 @@
+# Contributed by Luca Marsella and Victor Holanda Rusu (CSCS)
+#
+# This file is an EasyBuild reciPY as per https://github.com/hpcugent/easybuild
+#
+# Copyright:: Copyright 2012-2013 University of Luxembourg / LCSB, Cyprus Institute / CaSToRC, Ghent University
+# Authors::   Wiktor Jurkowski <wiktor.jurkowski@uni.lu>, Fotis Georgatos <fotis.georgatos@uni.lu>, \
+# George Tsouloupas <g.tsouloupas@cyi.ac.cy>, Kenneth Hoste
+# License::   MIT/GPL
+# $Id$
+#
+# This work implements a part of the HPCBIOS project and is a component of the policy:
+# http://hpcbios.readthedocs.org/en/latest/HPCBIOS_2012-93.html
+#
+# Adapted by Kurt Lust (kurt.lust@uantwerpen.be) for the LUMI consortium
+#
+easyblock = 'CMakeMake'
+
+local_PLUMED2_7_version =    '2.7.2'         # https://github.com/plumed/plumed2/releases
+
+name =          'GROMACS'
+version =       '2020.6'
+versionsuffix = '-PLUMED-%s-CPU' % local_PLUMED2_7_version
+
+homepage = 'http://www.gromacs.org'
+
+whatis = [
+    'Description: GROMACS is a versatile package to perform molecular dynamics, i.e. simulate the Newtonian equations of motion for systems with hundreds to millions of particles.',
+    'Extenstions: Includes PLUMED %s' % local_PLUMED2_7_version,
+]
+
+description = """
+GROMACS is a versatile package to perform molecular dynamics, i.e. simulate the
+Newtonian equations of motion for systems with hundreds to millions of
+particles.
+
+Binaries included:
+* gmx: Compiled with support for OpenMP
+* gmx_mpi: Compiled with support for MPI and OpenMP.
+* gmx_d: Compiled with support for OpenMP and using double precision arithmetic.
+* gmx_mpi_d: Compiled with support for MPI and OpenMP and using double precision
+  arithmetic.
+
+The module sets the environment variables that would otherwise be set by running
+the script $EBROOTGROMACS/bin/GMXRC. So running this script snould not be
+necessary in most cases.
+
+It is compiled with support for PLUMED.
+
+The module also defines the shell function gromacs-completion that can be used to
+turn bash command completion on for GROMACS. Note that unloading the module will
+not turn this off, so it may have consequences for things you do later on or
+conflict with the command completion of a different version of GROMACS.
+
+This module is compiled with support for huge pages via the cray-hugepages modules.
+Using those can significantly lower the cost of memory access. However, to benefit
+from this you will have to load a suitable cray-hugepages module, e.g.,
+$ module load cray-hugepages8M
+However, if the size is too large, you may get out-of-memory messages due to memory
+fragmentation. Hence it may require some experimenting to find the optimal page
+size.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '21.08'}
+toolchainopts = {'opt': True, 'usempi': True, 'verbose': False, 'pic': True, 'dynamic': False, 'openmp': True}
+
+source_urls = ['https://ftp.gromacs.org/pub/gromacs/']
+sources =     [SOURCELOWER_TAR_GZ]
+checksums =   ['d8bbe57ed3c9925a8cb99ecfe39e217f930bed47d5268a9e42b33da544bdb2ee']
+
+builddependencies = [
+    ('buildtools',         '%(toolchain_version)s', '', True), # For CMake
+    ('craype-hugepages8M', EXTERNAL_MODULE),
+]
+
+dependencies = [
+    ('PLUMED', local_PLUMED2_7_version),
+]
+
+local_common_opts  = '-DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_LIBDIR=lib '  # General CMake options
+local_common_opts += '-DGMX_OPENMP=ON -DGMX_GPU=OFF ' # Build type: No GPU, OpenMP for CPU, MPI specified elsewhere
+local_common_opts += '-DGMX_PREFER_STATIC_LIBS=ON '
+local_common_opts += '-DGMX_SIMD=AVX2_256 '
+local_common_opts += '-DGMX_CYCLE_SUBCOUNTERS=ON '
+local_common_opts += '-DGMX_BUILD_OWN_FFTW=ON '
+local_common_opts += '-DGMX_DEFAULT_SUFFIX=ON '
+
+preconfigopts = ' cd ../gromacs-%(version)s && plumed-patch -p -e gromacs-%(version)s -m static && cd - && '
+#preconfigopts = ' cd ../gromacs-%(version)s && plumed-patch -p --runtime --shared <<< 2 && cd - && '
+
+configopts = [
+    # single precision
+    local_common_opts + '-DGMX_MPI=OFF',
+    local_common_opts + '-DGMX_MPI=ON',
+    # double precision
+    local_common_opts + '-DGMX_MPI=OFF -DGMX_DOUBLE=ON',
+    local_common_opts + '-DGMX_MPI=ON  -DGMX_DOUBLE=ON',
+]
+
+#onlytcmod = True
+skipsteps = ['test']
+
+# Ensure that plumed is indeed present using sanity_check_commands
+sanity_check_commands = [
+    'gmx       mdrun -h |& grep plumed',
+    'gmx_mpi   mdrun -h |& grep plumed',
+    'gmx_d     mdrun -h |& grep plumed',
+    'gmx_mpi_d mdrun -h |& grep plumed',
+]
+
+# This does what GMXRC.bash does except that it does not enable the command completion.
+modextravars = {
+    'GROMACS_DIR':     '%(installdir)s',
+    'GMXBIN':          '%(installdir)s/bin',
+    'GMXLDLIB':        '%(installdir)s/lib64',
+    'GMXMAN':          '%(installdir)s/share/man',
+    'GMXDATA':         '%(installdir)s/share/data',
+    'GMXTOOLCHAINDIR': '%(installdir)s/share/cmake', # Defined in the standard script but not exported.
+}
+
+local_bash_completion = """
+[==[
+  if test -n "${BASH_VERSION+set}" && (complete) > /dev/null 2>&1; then
+    if (shopt -s extglob) > /dev/null 2>&1; then
+      shopt -s extglob ;
+      if [ -f $GMXBIN/gmx-completion.bash ]; then
+        source $GMXBIN/gmx-completion.bash ;
+        for cfile in $GMXBIN/gmx-completion-*.bash ; do
+          source $cfile ;
+        done ;
+      fi ;
+    fi ;
+  elif test -n "${ZSH_VERSION+set}" > /dev/null 2>&1 ; then
+    autoload bashcompinit ;
+    if (bashcompinit) > /dev/null 2>&1; then
+      bashcompinit ;
+      if [ -f $GMXBIN/gmx-completion.bash ]; then
+        source $GMXBIN/gmx-completion.bash ;
+        for cfile in $GMXBIN/gmx-completion-*.bash ; do
+          source $cfile ;
+        done ;
+      fi ;
+    fi ;
+  fi
+]==]
+"""
+
+local_csh_completion = '"echo \'Not implemented\'"'
+
+modluafooter = """
+set_shell_function( 'gromacs-completion', %(bash_completion)s, %(csh_completion)s )
+""" % {
+    'bash_completion': local_bash_completion,
+    'csh_completion':  local_csh_completion,
+}
+
+moduleclass = 'bio'
