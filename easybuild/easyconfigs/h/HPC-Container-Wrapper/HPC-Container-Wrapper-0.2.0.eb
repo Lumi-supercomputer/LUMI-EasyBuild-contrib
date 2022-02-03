@@ -1,0 +1,47 @@
+easyblock = 'Binary'
+
+name = 'HPC-Container-Wrapper'
+version = '0.2.0'
+
+homepage = 'https://github.com/CSCfi/hpc-container-wrapper'
+
+whatis = [
+    'Description: Tool for wrapping software environment in the container.'
+]
+
+description = """
+This is a tool to create installations using existing containers. The basic idea is to install software through a container, convert this into a filesystem image and mount this filesystem image when running the container.
+The main goal is to reduce the number of files on disk, and reduce the IO load when installations are started. If you are not running on a parallel filesystem with a lot of users and load, the points might not be that relevant. Only tested and developed on Lustre so benefits might be different on other parallel filesystems
+The tool originally started as a way to package conda installations using container, as they cause a significant load on the filesystem. The idea being that using the tool should be very simple and as similar as possible to an un-containerized installation (drop in replacement for the majority of cases). This means that we try to hide the container as much as possible from the end-user.
+"""
+
+toolchain = SYSTEM
+
+sources = {
+    'download_filename': 'v%(version)s.tar.gz',
+    'filename':          SOURCELOWER_TAR_GZ,
+    'source_urls':       ['https://github.com/CSCfi/hpc-container-wrapper/archive/refs/tags']
+}
+
+builddependencies = [
+    ('cray-python', EXTERNAL_MODULE),
+]
+
+dependencies = [
+    ('cray-python', EXTERNAL_MODULE),
+]
+
+extract_sources = 'True'
+
+buildininstalldir = 'True'
+
+install_cmd = 'bash install.sh lumi'
+
+prepend_to_path = ['%(namelower)s-%(version)s/bin']
+
+sanity_check_paths = {
+    'files': ['%(namelower)s-%(version)s/bin/conda-containerize', '%(namelower)s-%(version)s/bin/pip-containerize'],
+    'dirs':  ['%(namelower)s-%(version)s/bin', '%(namelower)s-%(version)s/frontends'],
+}
+
+moduleclass = 'tools'
