@@ -17,11 +17,16 @@ The tool originally started as a way to package conda installations using contai
 
 toolchain = SYSTEM
 
-sources = {
-    'download_filename': 'v%(version)s.tar.gz',
-    'filename':          SOURCELOWER_TAR_GZ,
-    'source_urls':       ['https://github.com/CSCfi/hpc-container-wrapper/archive/refs/tags']
-}
+sources = [{
+#    'download_filename': 'v%(version)s.tar.gz',
+#    'source_urls':       ['https://github.com/CSCfi/hpc-container-wrapper/archive/refs/tags']
+    'filename':          '%(namelower)s.tar.gz',
+    'git_config': {
+    	'url':       'https://github.com/CSCfi',
+        'repo_name': '%(namelower)s',
+        'tag':    'v0.2.0'
+    }
+}]
 
 builddependencies = [
     ('cray-python', EXTERNAL_MODULE),
@@ -40,8 +45,8 @@ install_cmd = 'bash install.sh lumi'
 prepend_to_path = ['%(namelower)s-%(version)s/bin']
 
 sanity_check_paths = {
-    'files': ['%(namelower)s-%(version)s/bin/conda-containerize', '%(namelower)s-%(version)s/bin/pip-containerize'],
-    'dirs':  ['%(namelower)s-%(version)s/bin', '%(namelower)s-%(version)s/frontends'],
+    'files': ['%(namelower)s/bin/conda-containerize', '%(namelower)s/bin/pip-containerize'],
+    'dirs':  ['%(namelower)s/bin', '%(namelower)s/frontends'],
 }
 
 moduleclass = 'tools'
