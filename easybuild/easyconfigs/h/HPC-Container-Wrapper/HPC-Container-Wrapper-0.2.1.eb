@@ -1,7 +1,7 @@
 easyblock = 'Binary'
 
 name = 'HPC-Container-Wrapper'
-version = '0.2.0'
+version = '0.2.1'
 
 homepage = 'https://github.com/CSCfi/hpc-container-wrapper'
 
@@ -15,6 +15,22 @@ The main goal is to reduce the number of files on disk, and reduce the IO load w
 The tool originally started as a way to package conda installations using container, as they cause a significant load on the filesystem. The idea being that using the tool should be very simple and as similar as possible to an un-containerized installation (drop in replacement for the majority of cases). This means that we try to hide the container as much as possible from the end-user.
 """
 
+usage = """
+Initialize new conda environment:
+
+  conda-containerize new --prefix /path/to_install conda_env.yaml
+
+Update already existing environment:
+
+  conda-containerize update --post-install post.sh /path/to_install
+  
+Initialize new python environment with pip requirements to install:  
+  
+  pip-containerize new --prefix /path/to_install req.txt
+
+To start your environment simply run program from bin/ subdirectory of the installation directory.
+"""
+
 toolchain = SYSTEM
 
 sources = [{
@@ -24,7 +40,7 @@ sources = [{
     'git_config': {
     	'url':       'https://github.com/CSCfi',
         'repo_name': '%(namelower)s',
-        'tag':    'v0.2.0'
+        'tag':    'v0.2.1'
     }
 }]
 
