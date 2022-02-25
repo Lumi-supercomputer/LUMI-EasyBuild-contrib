@@ -24,24 +24,4 @@ potentials.
 
 ### Abinit 9.6.2 from CPE 21.08 on LUMI
 
-Adapted from CSCS Easyconfig:
-  
-  * Add configuration options to make sure that Cray LibSci is used
-  * Enable MPI I/O
-
-#### About enabling OpenMP
-
-Enabling OpenMP has been tested but results in a Segmentation Fault at the end
-of the runs:
-
-```
-Thread 1 "abinit" received signal SIGSEGV, Segmentation fault.
-0x00007fffef21258d in __freeBlasMemPool () from /opt/cray/pe/lib64/libsci_gnu_82_mp.so.5
-```
-
-Setting the stack size to `unlimited` command or setting the environment 
-variable `CRAYBLAS_ALLOC_TYPE=2` or `CRAYBLAS_FORCE_HEAP_ALLOC=1` as recommended
-by Cray solve this problem. 
-
-While the program runs fine this error at the end may confuse users. OpenMP is
-thus disabled at the moment.
+Adapted from CSCS Easyconfig

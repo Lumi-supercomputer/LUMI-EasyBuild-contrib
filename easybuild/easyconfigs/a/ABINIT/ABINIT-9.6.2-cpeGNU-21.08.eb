@@ -17,17 +17,17 @@ whatis = [
 ]
 
 description = """
-ABINIT is a software suite to calculate the optical, mechanical, vibrational, 
-and other observable properties of materials. Starting from the quantum 
-equations of density functional theory, you can build up to advanced 
+ABINIT is a software suite to calculate the optical, mechanical, vibrational,
+and other observable properties of materials. Starting from the quantum
+equations of density functional theory, you can build up to advanced
 applications with perturbation theories based on DFT, and many-body Green's
 functions (GW and DMFT).
 
-ABINIT can calculate molecules, nanostructures and solids with any chemical 
-composition, and comes with several complete and robust tables of atomic 
+ABINIT can calculate molecules, nanostructures and solids with any chemical
+composition, and comes with several complete and robust tables of atomic
 potentials.
 
-This module provides an pure MPI executable. It includes support for netCDF, 
+This module provides an pure MPI executable. It includes support for netCDF,
 HDF5, LibXC functionals and Wannier90.
 """
 
@@ -37,7 +37,7 @@ docurls = [
 ]
 
 toolchain = {'name': 'cpeGNU', 'version': '21.08'}
-toolchainopts = {'usempi': True, 'pic': True, 'gfortran9-compat': True}
+toolchainopts = {'usempi': True, 'openmp': True, 'pic': True, 'gfortran9-compat': True}
 
 source_urls = ['https://www.abinit.org/sites/default/files/packages/']
 sources = [SOURCELOWER_TAR_GZ]
@@ -61,19 +61,16 @@ dependencies = [
 configopts  = 'FCFLAGS="-ffree-line-length-none $FCFLAGS" '
 configopts += 'FFLAGS=" $FFLAGS" '
 
+configopts += ' --enable-openmp="yes" '
+
 # Ensure MPI
 configopts += ' --with-mpi="yes" '
 configopts += ' --enable-mpi-io="yes" '
+configopts += ' --enable-mpi-inplace="yes" '
 configopts += ' FC="ftn" CC="cc" CXX="CC" F90="ftn" '
 
 # FFTW
-configopts += ' --with-fft-flavor=fftw3 FFTW3_LIBS="-L${FFTW_ROOT} -lfftw3f -lfftw3" '
-
-# Linear Algebra
-configopts += ' --with-linalg-flavor=netlib '
-configopts += ' LINALG_LIBS="-L${CRAY_LIBSCI_PREFIX_DIR}/lib/ -lsci_gnu_mpi" '
-configopts += ' LINALG_LDFLAGS="-L${CRAY_LIBSCI_PREFIX_DIR}/lib/ -lsci_gnu_mpi" '
-configopts += ' LINALG_FCFLAGS="-I${CRAY_LIBSCI_PREFIX_DIR}/include" '
+configopts += ' --with-fft-flavor=fftw3 --with-fftw3=$FFTW_DIR '
 
 # libxc support
 configopts += ' --with-libxc=${EBROOTLIBXC} '
