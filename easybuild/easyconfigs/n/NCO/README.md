@@ -24,4 +24,9 @@
 
 ### 5.0.6 for CPE 21.12
 
-  * Does not yet work. There are crashes in Cray BLAS.
+  * Needed to compile with cray-libsci unloaded as that causes crashes.
+
+  * The cpeAOCC version had problems initially due to the faulty aocc/3.1.0 module,
+    requiring a further fix to cpeAOCC/21.12 to make the cray-hdf5 module available.
+
+
