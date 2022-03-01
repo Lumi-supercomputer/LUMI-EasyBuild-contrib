@@ -1,4 +1,4 @@
-# NCO instructions
+# NCO - NetCDF Operators instructions
 
   * [NCO on GitHub](https://github.com/nco/nco)
 
@@ -21,3 +21,7 @@
 
   * The EasyBuilders recipe claims ESMF is needed but it is nowhere linked into the
     code so that dependency is omitted.
+
+### 5.0.6 for CPE 21.12
+
+  * Does not yet work. There are crashes in Cray BLAS.
