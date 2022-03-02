@@ -66,8 +66,11 @@ dependencies = [
 ]
 
 preconfigopts = 'module unload cray-libsci ; '
-# Our udunits2 installation seems to be missing XML data files according to configure.
-configopts = "--enable-udunits --disable-udunits2 "
+# Configure will complain that it cannot find the udunits2.xml file. However, it only checks in
+# some fixed locations and not in the the path pointed to by UDUNITS2_XML_PATH.
+configopts = "--disable-udunits --enable-udunits2 "
+# If that doesn't work, uncomment the next line instead
+# configopts = "--enable-udunits --disable-udunits2 "
 
 prebuildopts = 'module unload cray-libsci ; '
 
