@@ -1,0 +1,117 @@
+# Contributed by Guilherme Peretti Pezzi, Luca Marsella and Christopher Bignamini (CSCS)
+# Adapted by Kurt Lust (kurt.lust@uantwerpen.be) for the LUMI consortium
+
+easyblock = 'MakeCp'
+
+local_Tcl_version           = '8.6.11'
+local_CharmPlusPlus_version = '6.10.2'
+
+name =          'NAMD'
+version =       '2.14'
+versionsuffix = '-MPI'
+
+homepage = 'http://www.ks.uiuc.edu/Research/namd/'
+
+whatis = [
+    "Description: NAMD is a parallel molecular dynamics code designed for "
+    "high-performance simulation of large biomolecular systems."
+]
+
+description = """
+NAMD, recipient of a 2002 Gordon Bell Award and a 2012 Sidney Fernbach Award,
+is a parallel molecular dynamics code designed for high-performance simulation
+of large biomolecular systems. Based on Charm++ parallel objects, NAMD scales
+to hundreds of cores for typical simulations and beyond 500,000 cores for the
+largest simulations. NAMD uses the popular molecular graphics program VMD for
+simulation setup and trajectory analysis, but is also file-compatible with
+AMBER, CHARMM, and X-PLOR.
+
+This version of NAMD is compiled with MPI as the transport.
+
+Please check the NAMD license at https://www.ks.uiuc.edu/Research/namd/license.html
+before installing or using this software. In particular, this software is only free
+for non-commercial research and teaching. All commercial use requires a commercial
+license. Also, when installing this as part of a project, all users should explictly
+register on the NAMD web site (e.g., by trying to download the sources from
+https://www.ks.uiuc.edu/Development/Download/download.cgi?PackageName=NAMD).
+
+Please also note article 6 of the LICENSE:
+
+    The user agrees that any reports or published results obtained with
+    the Software will acknowledge its use by the appropriate citation as
+    follows:
+
+    "NAMD was developed by the Theoretical and Computational Biophysics Group in
+     the Beckman Institute for Advanced Science and Technology at the University
+     of Illinois at Urbana-Champaign."
+
+    Any published work which utilizes NAMD shall include the following reference:
+
+    "James C. Phillips, David J. Hardy, Julio D. C. Maia, John E. Stone,
+     Joao V. Ribeiro, Rafael C. Bernardi, Ronak Buch, Giacomo Fiorin,
+     Jerome Henin, Wei Jiang, Ryan McGreevy, Marcelo C. R. Melo,
+     Brian K. Radak, Robert D. Skeel, Abhishek Singharoy, Yi Wang, Benoit Roux,
+     Aleksei Aksimentiev, Zaida Luthey-Schulten, Laxmikant V. Kale,
+     Klaus Schulten, Christophe Chipot, and Emad Tajkhorshid.
+     Scalable molecular dynamics on CPU and GPU architectures with NAMD.
+     Journal of Chemical Physics, 153:044130, 2020. doi:10.1063/5.0014475"
+
+    Electronic documents will include a direct link to the official NAMD page
+    at http://www.ks.uiuc.edu/Research/namd/
+"""
+
+docurls = [
+    'NAMD %(version)s User Guide: http://www.ks.uiuc.edu/Research/namd/%(version)s/ug/',
+    'NAMD Wiki: http://www.ks.uiuc.edu/Research/namd/wiki/',
+    'NAMD license: $EBROOTNAMD/license.txt'
+]
+
+upstream_contacts = [
+    'NAMD Mailing List/forum: http://www.ks.uiuc.edu/Research/namd/mailing_list/',
+    'NAMD bug report instructions: http://www.ks.uiuc.edu/Research/namd/bugreport.html',
+]
+
+docpaths = [ 'notes.txt' ]
+
+toolchain = {'name': 'cpeGNU', 'version': '21.08'}
+toolchainopts = {'dynamic': False}
+
+sources = ['NAMD_%(version)s_Source.tar.gz']
+
+builddependencies = [
+    ('buildtools',   '%(toolchain_version)s', '',     True),
+    ('cray-fftw',    EXTERNAL_MODULE),
+    ('cray-pmi',     EXTERNAL_MODULE),
+    ('cray-pmi-lib', EXTERNAL_MODULE),
+    ('Tcl',          local_Tcl_version),
+]
+
+dependencies = [
+    ('Charm++', local_CharmPlusPlus_version, '-MPI'),
+]
+
+prebuildopts = """
+    touch arch/CRAY-EX.base &&
+    sed 's/8\\.5/8\\.6/' arch/CRAY-XE.tcl > arch/CRAY-EX.tcl &&
+    sed 's#/lib##' arch/CRAY-XE.fftw3 > arch/CRAY-EX.fftw3 &&
+    echo -e 'NAMD_ARCH = CRAY-EX
+CHARMARCH = $EBTYPECHARMPLUSPLUS
+CXX = CC -std=c++11
+CXXOPTS = -O3 -ffast-math -fexpensive-optimizations
+CC = cc
+COPTS = -O3 -ffast-math -fexpensive-optimizations ' > arch/CRAY-EX-gnu.arch &&
+    ./config CRAY-EX-gnu --tcl-prefix $EBROOTTCL --with-fftw3 --fftw-prefix $FFTW_ROOT --charm-base $EBROOTCHARMPLUSPLUS --charm-arch $EBTYPECHARMPLUSPLUS &&
+    cd CRAY-EX-gnu &&
+    sed -i '/CHARM =/a NAMD_ARCH = CRAY-EX' Make.config &&
+"""
+
+files_to_copy = [
+    (['./CRAY-EX-gnu/namd2'], 'bin')
+]
+
+sanity_check_paths = {
+    'files': ['bin/namd2'],
+    'dirs':  [],
+}
+
+moduleclass = 'chem'
