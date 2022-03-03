@@ -1,0 +1,62 @@
+# adapted for LUMI by Orian Louant
+
+easyblock = 'MakeCp'
+
+name = 'Wannier90'
+version = '3.1.0'
+
+homepage = 'http://www.wannier.org'
+
+whatis = [
+    'Wannier90 is a code for generating maximally-localized Wannier functions'
+]
+
+description = """
+Wannier90 is an open-source code (released under GPLv2) for generating 
+maximally-localized Wannier functions and using them to compute advanced 
+electronic properties of materials with high efficiency and accuracy.
+
+Many electronic structure codes have an interface to Wannier90, including 
+Quantum ESPRESSO, Abinit, VASP, Siesta, Wien2k, Fleur, OpenMX and GPAW; and 
+there are several post-processing codes that are able to use the output of 
+Wannier90 for further analysis and calculation.
+
+In all publications resulting from your use of Wannier90, please cite:
+
+[ref] "Wannier90 as a community code: new features and applications", 
+      G. Pizzi et al., J. Phys. Cond. Matt. 32, 165902 (2020)
+
+This module was build with with MPI support.
+"""
+
+docurls = [
+    'User guide and tutorial:  http://www.wannier.org/support/'
+]
+
+toolchain = {'name': 'cpeGNU', 'version': '21.12'}
+toolchainopts = {'usempi': True, 'gfortran9-compat': True}
+
+github_account = 'wannier-developers'
+source_urls = [GITHUB_LOWER_SOURCE]
+sources = [{'download_filename': 'v%(version)s.tar.gz', 'filename': SOURCELOWER_TAR_GZ}]
+patches = ['Wannier90_3x_ignore_makeinc.patch']
+checksums = [
+    '40651a9832eb93dec20a8360dd535262c261c34e13c41b6755fa6915c936b254',  # wannier90-3.1.0.tar.gz
+    '561c0d296e0e30b8bb303702cd6e41ded54c153d9b9e6cd9cab73858e5e2945e',  # Wannier90_3x_ignore_makeinc.patch
+]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True)
+]
+
+buildopts  = 'all F90=$F90 MPIF90=$MPIF90 FCOPTS="$FFLAGS" LDOPTS="$FFLAGS" '
+buildopts += 'COMMS=mpi'
+
+files_to_copy = [(['wannier90.x', 'postw90.x'], 'bin'), (['libwannier.a'], 'lib')]
+
+sanity_check_paths = {
+    'files': ['bin/wannier90.x', 'bin/postw90.x', 'lib/libwannier.a'],
+    'dirs': []
+}
+
+moduleclass = 'chem'
