@@ -73,7 +73,7 @@ upstream_contacts = [
 
 docpaths = [ 'notes.txt' ]
 
-toolchain = {'name': 'cpeGNU', 'version': '21.08'}
+toolchain = {'name': 'cpeGNU', 'version': '21.12'}
 toolchainopts = {'dynamic': False}
 
 sources = ['NAMD_%(version)s_Source.tar.gz']
