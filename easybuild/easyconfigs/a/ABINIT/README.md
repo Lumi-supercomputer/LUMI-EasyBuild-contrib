@@ -22,6 +22,6 @@ potentials.
   * [Abinit in the EasyBuilders repository](https://github.com/easybuilders/easybuild-easyconfigs/tree/develop/easybuild/easyconfigs/a/ABINIT)
   * [Abinit in the CSCS repository](https://github.com/easybuilders/CSCS/tree/master/easybuild/easyconfigs/a/ABINIT)
 
-### Abinit 9.6.2 from CPE 21.08 on LUMI
+### Abinit 9.6.2 from CPE GNU 21.08 and 21.12 on LUMI
 
 Adapted from CSCS Easyconfig
