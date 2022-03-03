@@ -1,0 +1,64 @@
+easyblock = 'ConfigureMake'
+
+local_XZ_version = '5.2.5'
+
+name = 'libunwind'
+version = '1.5.0'
+
+homepage = 'https://www.nongnu.org/libunwind/'
+
+whatis = [
+    'Efficient C programming interface to determine the call-chain of a program'
+]
+
+description = """
+Libunwind is define a portable and efficient C programming interface (API) to
+determine the call-chain of a program. The API additionally provides the means
+to manipulate the preserved (callee-saved) state of each call-frame and to
+resume execution at any point in the call-chain (non-local goto). The API
+supports both local (same-process) and remote (across-process) operation. As
+such, the API is useful in a number of applications
+
+- exception handling: the libunwind API makes it trivial to implement the 
+  stack-manipulation aspects of exception handling. 
+
+- debuggers: the libunwind API makes it trivial for debuggers to generate the
+  call-chain (backtrace) of the threads in a running program. 
+
+- introspection: it is often useful for a running thread to determine its 
+  call-chain. For example, this is useful to display error messages (to show how
+  the error came about) and for performance monitoring/analysis. 
+
+- efficient setjmp(): With libunwind, it is possible to implement an extremely
+  efficient version of setjmp(). Effectively, the only context that needs to be
+  saved consists of the stack-pointer(s).
+"""
+
+docurls = [
+    'Documentation: https://www.nongnu.org/libunwind/docs.html'
+]
+
+toolchain = {'name': 'cpeGNU', 'version': '21.12'}
+
+source_urls = [GNU_SAVANNAH_SOURCE]
+sources = [SOURCE_TAR_GZ]
+checksums = [
+    '90337653d92d4a13de590781371c604f9031cdb50520366aa1e3a91e1efb1017',  # libunwind-1.5.0.tar.gz
+]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+    ('XZ', local_XZ_version),
+]
+
+preconfigopts = 'export LIBS="$LIBS -llzma" && export CFLAGS="$CFLAGS -fuse-ld=bfd -fno-common" && '
+
+sanity_check_paths = {
+    'files': ['include/libunwind.h', 'lib/libunwind.%s' % SHLIB_EXT],       
+    'dirs': []
+}
+
+moduleclass = 'lib'
