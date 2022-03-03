@@ -1,0 +1,58 @@
+easyblock = 'ConfigureMake'
+
+local_ScoreP_version     = '7.1'
+local_OTF2_version       = '2.3'
+local_CubeWriter_version = '4.6'
+local_zlib_version       = '1.2.11'
+
+name = 'Scalasca'
+version = '2.6'
+
+homepage = 'http://www.scalasca.org/'
+
+whatis = [
+    'Scalasca is a software tool that supports the performance optimization of parallel programs'
+]
+
+description = """
+Scalasca is a software tool that supports the performance
+optimization of parallel programs by measuring and analyzing their runtime
+behavior. The analysis identifies potential performance bottlenecks -- in
+particular those concerning communication and synchronization -- and offers
+guidance in exploring their causes.
+"""
+
+docurls = [
+    'User guide: https://apps.fz-juelich.de/scalasca/releases/scalasca/2.6/docs/UserGuide.pdf'
+]
+
+toolchain = {'name': 'cpeCray', 'version': '21.12'}
+
+source_urls = ['http://apps.fz-juelich.de/%(namelower)s/releases/%(namelower)s/%(version)s/dist/']
+sources = [SOURCELOWER_TAR_GZ]
+
+dependencies = [
+    ('Score-P', local_ScoreP_version),
+    ('OTF2', local_OTF2_version),
+    ('CubeWriter', local_CubeWriter_version),
+    ('zlib', local_zlib_version)
+]
+
+configopts  = ' --with-machine-name=LUMI '
+configopts += ' --with-otf2=$EBROOTOTF2/bin '
+configopts += ' --with-opari2=$EBROOTOPARI2/bin '
+configopts += ' --with-cubew=$EBROOTCUBEWRITER/bin '
+configopts += ' --with-libz=$EBROOTZLIB '
+configopts += ' --disable-gui '
+
+
+sanity_check_paths = {
+    'files': ['bin/%(namelower)s', 'lib/backend/libpearl.replay.a'],
+    'dirs': [],
+}
+
+modextrapaths = {
+    'PATH': 'bin/backend',
+}
+
+moduleclass = 'perf'
