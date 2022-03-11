@@ -1,0 +1,25 @@
+easyblock = 'MesonNinja'
+
+name = 'DFTD4'
+version = '3.3.0'
+
+homepage= 'https://github.com/dftd4/dftd4'
+description = 'Generally Applicable Atomic-Charge Dependent London Dispersion Correction.'
+
+toolchain = { 'name': 'cpeGNU', 'version': '21.12' }
+
+source_urls = ['https://github.com/dftd4/dftd4/releases/download/v3.3.0/']
+sources = ['dftd4-3.3.0-source.tar.xz']
+checksums = ['408720b8545532d5240dd743c05d57b140af983192dad6d965b0d79393d0a9ef']
+
+builddependencies = [('buildtools', '%(toolchain_version)s', '', True)]
+
+preconfigopts = 'export FC=ftn && export CC=cc &&' 
+# Add API v2 for VASP compatibility
+configopts = '-Dlapack=custom -Dapi_v2=true' 
+
+sanity_check_paths = {
+	'files' : ['bin/dftd4','lib/libdftd4.a','include/dftd4.h'],
+	'dirs' : ['bin','lib64','include']
+}
+
