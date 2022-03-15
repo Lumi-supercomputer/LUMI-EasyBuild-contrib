@@ -10,7 +10,8 @@ versionsuffix = '-MPI'
 homepage = 'http://www.ks.uiuc.edu/Research/namd/'
 
 whatis = [
-    "Description: NAMD is a parallel molecular dynamics code designed for high-performance simulation of large biomolecular systems."
+    "Description: NAMD is a parallel molecular dynamics code designed for "
+    "high-performance simulation of large biomolecular systems."
 ]
 
 description = """
