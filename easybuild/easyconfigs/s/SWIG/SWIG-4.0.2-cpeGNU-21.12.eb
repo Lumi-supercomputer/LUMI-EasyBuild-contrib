@@ -10,17 +10,16 @@ version = '4.0.2'
 homepage = 'http://www.swig.org/'
 
 whatis = [
-    "SWIG is a software development tool that connects programs written in C "
-    "and C++ with a variety of high-level programming languages"
+    "Description: SWIG is a software development tool that connects programs written in C and C++ with a variety of high-level programming languages"
 ]
 
 description = """
 SWIG is a software development tool that connects programs written in C and C++
 with a variety of high-level programming languages. SWIG is used with different
-types of target languages including common scripting languages such as 
+types of target languages including common scripting languages such as
 Javascript, Perl, PHP, Python, Tcl and Ruby. The list of supported languages
 also includes non-scripting languages such as C#, D, Go language, Java including
-Android, Lua, OCaml, Octave, Scilab and R. 
+Android, Lua, OCaml, Octave, Scilab and R.
 
 Several interpreted and compiled Scheme implementations (Guile, MzScheme/Racket)
 are supported. SWIG is most commonly used to create high-level interpreted or
