@@ -12,12 +12,12 @@ version = '7.7.0'
 homepage = 'https://openmm.org'
 
 whatis = [
-    'OpenMM is a high-performance toolkit for molecular simulation'
+    'Description: OpenMM is a high-performance toolkit for molecular simulation'
 ]
 
 description = """
 OpenMM is a high-performance toolkit for molecular simulation. You can use it as
-an application, a library, or a flexible programming environment. It include 
+an application, a library, or a flexible programming environment. It include
 extensive language bindings for Python, C, C++, and Fortran.
 """
 
