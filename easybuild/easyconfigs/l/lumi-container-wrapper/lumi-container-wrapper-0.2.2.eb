@@ -1,18 +1,19 @@
 easyblock = 'Binary'
 
-name =    'tykky'
+name =    'lumi-container-wrapper'
 version = '0.2.2'
 
 homepage = 'https://github.com/CSCfi/hpc-container-wrapper'
 
 whatis = [
-    'Description: Tool for wrapping a software environment in an Apptainer/Singularity container.'
+    'Description: Tool for wrapping a software environment in an Apptainer/Singularity containerm, also know as tykky.'
 ]
 
 description = """
-Tykky is a tool to create installations using existing containers. The basic idea
-is to install software through a container, convert this into a filesystem image
-and mount this filesystem image when running the container.
+The lumni-container-wrapper module provides a tool to create Conda and
+Python package installations using an existing container. The basic idea is to
+nstall software through a container, convert this into a filesystem image and
+mount this filesystem image when running the container.
 
 The main goal is to reduce the number of files on disk, and reduce the IO load
 when installations are started. If you are not running on a parallel filesystem
@@ -25,6 +26,9 @@ as they cause a significant load on the filesystem. The idea being that using th
 tool should be very simple and as similar as possible to an un-containerized
 installation (drop in replacement for the majority of cases). This means that we
 try to hide the container as much as possible from the end-user.
+
+The tool is developed by Henrik Nortamo at CSC and known on the Finnish national
+systems as tykky.
 """
 
 usage = """
@@ -48,7 +52,7 @@ toolchain = SYSTEM
 sources = [{
 #    'download_filename': 'v%(version)s.tar.gz',
 #    'source_urls':       ['https://github.com/CSCfi/hpc-container-wrapper/archive/refs/tags']
-    'filename':          '%(namelower)s.tar.gz',
+    'filename':          '%(namelower)s-%(version)s.tar.gz',
     'git_config': {
     	'url':       'https://github.com/CSCfi',
         'repo_name': 'hpc-container-wrapper',
