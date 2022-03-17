@@ -40,6 +40,10 @@ source_urls = ['https://github.com/samtools/%(namelower)s/releases/download/%(ve
 sources =     [SOURCELOWER_TAR_BZ2]
 checksums =   ['ed221b8f52f4812f810eebe0cc56cd8355a5c9d21c62d142ac05ad0da147935f']
 
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
 # cURL added for S3 support
 dependencies = [
     ('zlib',  '1.2.11'),
