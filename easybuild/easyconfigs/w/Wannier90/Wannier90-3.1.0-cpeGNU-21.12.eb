@@ -8,7 +8,7 @@ version = '3.1.0'
 homepage = 'http://www.wannier.org'
 
 whatis = [
-    'Desription: Wannier90 is a code for generating maximally-localized Wannier functions'
+    'Description: Wannier90 is a code for generating maximally-localized Wannier functions'
 ]
 
 description = """
@@ -33,7 +33,7 @@ docurls = [
     'User guide and tutorial:  http://www.wannier.org/support/'
 ]
 
-toolchain = {'name': 'cpeGNU', 'version': '21.08'}
+toolchain = {'name': 'cpeGNU', 'version': '21.12'}
 toolchainopts = {'usempi': True, 'gfortran9-compat': True}
 
 github_account = 'wannier-developers'

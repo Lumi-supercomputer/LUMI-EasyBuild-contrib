@@ -34,7 +34,7 @@ docurls = [
     'Available functionals: https://www.tddft.org/programs/libxc/functionals/'
 ]
 
-toolchain = {'name': 'cpeGNU', 'version': '21.08'}
+toolchain = {'name': 'cpeGNU', 'version': '21.12'}
 toolchainopts = {'opt': True}
 
 source_urls = ['https://gitlab.com/%(name)s/%(name)s/-/archive/%(version)s']

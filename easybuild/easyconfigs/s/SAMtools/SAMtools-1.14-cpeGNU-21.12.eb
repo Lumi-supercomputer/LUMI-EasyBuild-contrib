@@ -1,0 +1,62 @@
+##
+# This is a contribution from DeepThought HPC Service, Flinders University, Adelaide, Australia
+# Homepage:     https://staff.flinders.edu.au/research/deep-thought
+#
+# Authors::     Robert Qiao <rob.qiao@flinders.edu.au>
+# License::     MIT
+#
+# Notes::
+#
+# Updated to 1.14 and gcc-11.2.0
+# J. Sassmannshausen / GSTT
+easyblock = 'EB_SAMtools'
+
+name = 'SAMtools'
+version = '1.14'
+
+homepage = 'https://www.htslib.org/'
+
+whatis = [
+    "Description: SAMtools is a collection of utilities for the Sequence Alignment/Map (SAM) format",
+    "The module provides a static library (libbam.a) and a number of executables and scripts",
+]
+
+description = """
+SAMtools provide various utilities for manipulating alignments in the SAM
+format, including sorting, merging, indexing and generating alignments in a
+per-position format.
+SAMtools is implemented as a couple of executables and a number of scripts.
+Some scripts (in particular the LUA scripts) may require additional modules.
+"""
+
+docurls = [
+    "Manual page for the samtools and wgsim commands (section 1)",
+]
+
+toolchain = {'name': 'cpeGNU', 'version': '21.12'}
+toolchainopts = {'pic': True}
+
+source_urls = ['https://github.com/samtools/%(namelower)s/releases/download/%(version)s']
+sources =     [SOURCELOWER_TAR_BZ2]
+checksums =   ['9341dabaa98b0ea7d60fd47e42af25df43a7d3d64d8e654cdf852974546b7d74']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+# The htslib component of SAMtools >= 1.4 uses zlib, bzip2 and lzma compression.
+# The latter is currently provided by XZ.
+dependencies = [
+    ('ncurses', '6.2'),
+    ('zlib',    '1.2.11'),
+    ('bzip2',   '1.0.8'),
+    ('XZ',      '5.2.5'),
+    ('cURL',    '7.78.0'),
+    ('HTSlib',  '1.14'),
+]
+
+sanity_check_commands = [
+    'samtools version'
+]
+
+moduleclass = 'bio'

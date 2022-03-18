@@ -37,7 +37,7 @@ docurls = [
     'Documentation: http://www.swig.org/doc.html',
 ]
 
-toolchain = {'name': 'cpeGNU', 'version': '21.08'}
+toolchain = {'name': 'cpeCray', 'version': '21.12'}
 toolchainopts = {'pic': True}
 
 source_urls = [SOURCEFORGE_SOURCE]

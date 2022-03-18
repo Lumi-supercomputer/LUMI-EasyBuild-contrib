@@ -19,7 +19,7 @@ written using this system will run unchanged on MIMD machines with or
 without a shared memory.
 """
 
-toolchain = {'name': 'cpeGNU', 'version': '21.08'}
+toolchain = {'name': 'cpeGNU', 'version': '21.12'}
 toolchainopts = {'dynamic': False}
 
 source_urls = ['http://charm.cs.illinois.edu/distrib/']

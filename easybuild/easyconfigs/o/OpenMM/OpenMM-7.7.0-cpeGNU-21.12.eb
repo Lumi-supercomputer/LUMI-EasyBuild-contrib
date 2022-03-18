@@ -1,0 +1,72 @@
+# based on the Easybuilders Easyconfig
+# adapted for LUMI by Orian Louant
+
+local_SWIG_version = '4.0.2'
+
+easyblock = 'CMakeMake'
+
+name = 'OpenMM'
+version = '7.7.0'
+
+homepage = 'https://openmm.org'
+
+whatis = [
+    'Description: OpenMM is a high-performance toolkit for molecular simulation'
+]
+
+description = """
+OpenMM is a high-performance toolkit for molecular simulation. You can use it as
+an application, a library, or a flexible programming environment. It include
+extensive language bindings for Python, C, C++, and Fortran.
+"""
+
+docurls = [
+    'User guide: http://docs.openmm.org/latest/userguide/',
+    'Python API: http://docs.openmm.org/latest/api-python/',
+    'C++ API: http://docs.openmm.org/latest/api-c++/',
+]
+
+toolchain = {'name': 'cpeGNU', 'version': '21.12'}
+toolchainopts = {'opt': True}
+
+source_urls = ['https://github.com/openmm/openmm/archive/']
+sources = ['%(version)s.tar.gz']
+
+checksums = [
+    '51970779b8dc639ea192e9c61c67f70189aa294575acb915e14be1670a586c25',
+]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+separate_build_dir = True
+
+dependencies = [
+    ('cray-fftw', EXTERNAL_MODULE),
+    ('cray-python', EXTERNAL_MODULE),
+    ('SWIG', local_SWIG_version),
+]
+
+runtest = """test -e ARGS="-E \'(Integrator)|(Thermostat)|(Barostat)|(Rpmd)|(Amoeba)|(HippoNonbondedForce)\'" """
+
+preinstallopts = ' export OPENMM_INCLUDE_PATH=%(installdir)s/include && '
+preinstallopts += ' export OPENMM_LIB_PATH=%(installdir)s/lib && '
+
+# required to install the python API
+installopts = ' && cd python && python setup.py build && python setup.py install --prefix=%(installdir)s'
+
+sanity_check_paths = {
+    'files': ['lib/libOpenMM.%s' % SHLIB_EXT, 'lib/python%(pyshortver)s/site-packages/openmm/openmm.py'],
+    'dirs': []
+}
+
+sanity_check_commands = ["python -m openmm.testInstallation"]
+
+modextrapaths = {
+    'PYTHONPATH': 'lib/python%(pyshortver)s/site-packages',
+    'OPENMM_INCLUDE_PATH': 'include',
+    'OPENMM_LIB_PATH': 'lib',
+}
+
+moduleclass = 'bio'

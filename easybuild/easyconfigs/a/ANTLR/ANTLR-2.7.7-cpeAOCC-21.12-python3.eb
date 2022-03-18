@@ -23,7 +23,7 @@ particular package. Users are advised to use newer versions whenever
 possible.
 """
 
-toolchain = {'name': 'cpeAMD', 'version': '21.08'}
+toolchain = {'name': 'cpeAOCC', 'version': '21.12'}
 
 source_urls = ['https://www.antlr2.org/download/']
 sources =     [SOURCELOWER_TAR_GZ]
@@ -45,7 +45,12 @@ configopts = "--disable-examples --disable-csharp "
 
 sanity_check_paths = {
     'files': ['bin/antlr', 'bin/antlr-config'],
-    'dirs': ['include'],
+    'dirs':  ['include'],
 }
+
+sanity_check_commands = [
+    'antlr --help',
+    'antlr-config --libs',
+]
 
 moduleclass = 'tools'
