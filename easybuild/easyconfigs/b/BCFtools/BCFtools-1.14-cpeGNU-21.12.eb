@@ -45,4 +45,7 @@ sanity_check_paths = {
     'dirs': ['libexec/bcftools']
 }
 
+# Needed to use BCFtools plugins
+modextravars = {'BCFTOOLS_PLUGINS': '%(installdir)s/libexec/bcftools'}
+
 moduleclass = 'bio'
