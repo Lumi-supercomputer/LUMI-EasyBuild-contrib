@@ -10,39 +10,46 @@ version = '1.14'
 
 homepage = 'https://www.htslib.org/'
 whatis = [
-	"Description: SAMtools is a suite of programs for interacting with high-throughput sequencing data.",
- 	"BCFtools - Reading/writing BCF2/VCF/gVCF files and calling/filtering/summarising SNP and short indel sequence variants",
+ 	"Description: BCFtools - Reading/writing BCF2/VCF/gVCF files and calling/filtering/summarising SNP and short indel sequence variants",
 ]
 
 description = """i
-BCFtools is a set of utilities that manipulate variant calls in the Variant Call Format (VCF) and its binary counterpart BCF.
-All commands work transparently with both VCFs and BCFs, both uncompressed and BGZF-compressed.
+BCFtools is a set of utilities that manipulate variant calls in the Variant Call Format (
+VCF) and its binary counterpart BCF. All commands work transparently with both VCFs and BCFs, 
+both uncompressed and BGZF-compressed.
+
+It used to be part of SAMtools, a suite of programs for interacting with high-throughput 
+sequencing data.
 """
 
 toolchain = {'name': 'cpeGNU', 'version': '21.12'}
 toolchainopts = {'pic': True}
 
 source_urls = ['https://github.com/samtools/%(namelower)s/releases/download/%(version)s']
-sources = [SOURCELOWER_TAR_BZ2]
-checksums = ['b7ef88ae89fcb55658c5bea2e8cb8e756b055e13860036d6be13756782aa19cb']
+sources =     [SOURCELOWER_TAR_BZ2]
+checksums =   ['b7ef88ae89fcb55658c5bea2e8cb8e756b055e13860036d6be13756782aa19cb']
 
 builddependencies = [
     ('buildtools', '%(toolchain_version)s', '', True),
 ]
 
 dependencies = [
-    ('zlib', '1.2.11'),
-    ('bzip2', '1.0.8'),
-    ('XZ', '5.2.5'),
-    ('GSL', '2.7'),
+    ('zlib',   '1.2.11'),
+    ('bzip2',  '1.0.8'),
+    ('XZ',     '5.2.5'),
+    ('GSL',    '2.7'),
     ('HTSlib', '1.14'),
 ]
 
-configopts = "--with-htslib=$EBROOTHTSLIB --enable-libgsl"
+# As linking with BLAS is automatic on Cray systems, the configure script goes wrong and
+# then tries to generate some invalid arguments to link/. As a workaround, we tell to
+# use libm as the cblas library. It will add -lm twice to the link line but that does no
+# harm.
+configopts = "--with-htslib=$EBROOTHTSLIB --enable-libgsl --with-cblas=m"
 
 sanity_check_paths = {
     'files': ['bin/%s' % x for x in ['bcftools', 'plot-vcfstats', 'vcfutils.pl']],
-    'dirs': ['libexec/bcftools']
+    'dirs':  ['libexec/bcftools']
 }
 
 # Needed to use BCFtools plugins
