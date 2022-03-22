@@ -53,6 +53,6 @@ sanity_check_paths = { 'files': ['bin/nwchem'], 'dirs': ['data'] }
 
 modextrapaths = {'PATH': 'bin'}
 
-modextravars = {'NWCHEM_BASIS_LIBRARY': 'data/basis/libraries'}
+modextravars = {'NWCHEM_BASIS_LIBRARY': '%(installdir)s/data/basis/libraries/'}
 
 moduleclass = 'chem'
