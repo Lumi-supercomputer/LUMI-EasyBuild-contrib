@@ -41,6 +41,11 @@ builddependencies = [
     ('cray-python',  EXTERNAL_MODULE),
 ]
 
+dependencies = [
+    ('GlobalArrays', '5.8', ''),  # Static library
+    ('cray-python',  EXTERNAL_MODULE),
+]
+
 start_dir = 'src'
 
 build_cmd_targets = "nwchem_config all"
