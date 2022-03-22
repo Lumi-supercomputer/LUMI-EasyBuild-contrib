@@ -1,0 +1,66 @@
+# This file is an EasyBuild reciPY as per https://github.com/easybuilders/easybuild
+# Author: Pablo Escobar Lopez
+# Swiss Institute of Bioinformatics
+# Biozentrum - University of Basel
+# 1.4 modified by:
+# Adam Huffman, Jonas Demeulemeester
+# The Francis Crick Institute
+# Updated to 1.14
+# J. Sassmannshausen /GSTT
+
+easyblock = 'ConfigureMake'
+
+name = 'HTSlib'
+version = '1.14'
+
+homepage = "https://www.htslib.org/"
+
+whatis = [
+    "Description: HTSlib is a C library for reading/writing high-throughput sequencing data."
+]
+
+description = """
+HTSlib is an implementation of a unified C library for accessing common file
+formats, such as SAM, CRAM and VCF, used for high-throughput sequencing data,
+and is the core library used by samtools and bcftools.
+HTSlib implements a generalized BAM index, with file extension .csi
+(coordinate-sorted index). The HTSlib file reader first looks for the new
+index and then for the old if the new index is absent.
+This project also includes the popular tabix indexer, which indexes both
+.tbi and .csi formats, and the bgzip compression utility.
+"""
+
+docurls = [
+    'man pages in sections 1, 5 and 7',
+]
+
+toolchain = {'name': 'cpeGNU', 'version': '21.12'}
+
+source_urls = ['https://github.com/samtools/%(namelower)s/releases/download/%(version)s/']
+sources =     [SOURCELOWER_TAR_BZ2]
+checksums =   ['ed221b8f52f4812f810eebe0cc56cd8355a5c9d21c62d142ac05ad0da147935f']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+# cURL added for S3 support
+dependencies = [
+    ('zlib',  '1.2.11'),
+    ('bzip2', '1.0.8'),
+    ('XZ',    '5.2.5'),
+    ('cURL',  '7.78.0'),
+]
+
+sanity_check_paths = {
+    'files': ['bin/bgzip', 'bin/tabix', 'lib/libhts.%s' % SHLIB_EXT],
+    'dirs':  ['include'],
+}
+
+sanity_check_commands = [
+    'bgzip --version',
+    'htsfile --version',
+    'tabix --version',
+]
+
+moduleclass = 'bio'

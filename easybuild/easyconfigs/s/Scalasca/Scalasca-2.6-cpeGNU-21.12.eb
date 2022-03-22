@@ -24,7 +24,7 @@ docurls = [
     'User guide: https://apps.fz-juelich.de/scalasca/releases/scalasca/2.6/docs/UserGuide.pdf'
 ]
 
-toolchain = {'name': 'cpeGNU', 'version': '21.08'}
+toolchain = {'name': 'cpeGNU', 'version': '21.12'}
 
 source_urls = ['http://apps.fz-juelich.de/%(namelower)s/releases/%(namelower)s/%(version)s/dist/']
 sources = [SOURCELOWER_TAR_GZ]

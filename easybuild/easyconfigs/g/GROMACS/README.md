@@ -5,7 +5,7 @@
       * [Check versions via the manual](https://manual.gromacs.org/)
 
 
-## GOMRACS and PLUMED
+## GROMACS and PLUMED
 
 [PLUMED](https://www.plumed.org/) is software that can be combined with GROMACS.
 It works via a patch for the GROMACS installation that should be applied before
@@ -18,17 +18,19 @@ Another way to find out which versions of GROMACS are supported is to load the
 PLUMED module and then run ``plumed-patch -l`` to get a list of the included
 engines.
 
-| PLUMED  | 2019   | 2020   | 2021   |
-|:--------|:-------|:-------|:-------|
-| 2.7.3   | 2019.6 | 2020.6 | 2021   |
-| 2.7.2   | 2019.6 | 2020.6 | 2021   |
-| 2.7.1   | 2019.6 | 2020.5 | 2021   |
-| 2.7.0   | 2019.6 | 2020.4 |        |
-| 2.6.4   | 2019.6 | 2020.4 |        |
-| 2.6.3   | 2019.6 | 2020.4 |        |
-| 2.6.2   | 2019.6 | 2020.4 |        |
-| 2.6.1   | 2019.6 | 2020.2 |        |
-| 2.6.0   | 2019.4 |        |        |
+| PLUMED  | 2019   | 2020   | 2021   | 2022   |
+|:--------|:-------|:-------|:-------|:-------|
+| 2.8.0   | 2019.6 | 2020.6 | 2021.4 |        |
+| 2.7.4   | 2019.6 | 2020.6 | 2021.4 |        |
+| 2.7.3   | 2019.6 | 2020.6 | 2021.4 |        |
+| 2.7.2   | 2019.6 | 2020.6 | 2021   |        |
+| 2.7.1   | 2019.6 | 2020.5 | 2021   |        |
+| 2.7.0   | 2019.6 | 2020.4 |        |        |
+| 2.6.4   | 2019.6 | 2020.4 |        |        |
+| 2.6.3   | 2019.6 | 2020.4 |        |        |
+| 2.6.2   | 2019.6 | 2020.4 |        |        |
+| 2.6.1   | 2019.6 | 2020.2 |        |        |
+| 2.6.0   | 2019.4 |        |        |        |
 
 
 ## EasyBuild

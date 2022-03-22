@@ -19,7 +19,7 @@ However, NCO needs the latter antique ANTLR2 versions.
   * [ANTLR support in the CSCS repository](https://github.com/eth-cscs/production/tree/master/easybuild/easyconfigs/a/ANTLR)
 
 
-### Version 2.7.7 for CPE 21.08
+### Version 2.7.7 for CPE 21.08, 21.12
 
   * Note that 2.7.7 is a very old version. NCO however does seem to require
     this very old version rather than the current version 4.

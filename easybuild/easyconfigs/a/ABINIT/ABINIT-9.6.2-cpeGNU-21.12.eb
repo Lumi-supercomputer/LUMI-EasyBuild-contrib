@@ -36,7 +36,7 @@ docurls = [
     'Tutorials:  https://docs.abinit.org/tutorial/'
 ]
 
-toolchain = {'name': 'cpeGNU', 'version': '21.08'}
+toolchain = {'name': 'cpeGNU', 'version': '21.12'}
 toolchainopts = {'usempi': True, 'openmp': True, 'pic': True, 'gfortran9-compat': True}
 
 source_urls = ['https://www.abinit.org/sites/default/files/packages/']
