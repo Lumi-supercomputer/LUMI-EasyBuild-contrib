@@ -12,8 +12,8 @@ version = '9.6.2'
 homepage = 'https://www.abinit.org/'
 
 whatis = [
-    "Description: ABINIT is a software suite to calculate the optical, "
-    "mechanical, vibrational, and other observable properties of materials"
+    "ABINIT is a software suite to calculate the optical, mechanical, "
+    "vibrational, and other observable properties of materials"
 ]
 
 description = """

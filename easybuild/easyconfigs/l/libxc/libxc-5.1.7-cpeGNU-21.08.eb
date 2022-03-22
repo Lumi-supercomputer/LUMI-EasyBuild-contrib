@@ -11,21 +11,22 @@ version = '5.1.7'
 homepage = 'https://www.tddft.org/programs/libxc/'
 
 whatis = [
-    "Description: Libxc is a library of exchange-correlation and kinetic energy functionals for density-functional theory."
+    "Libxc is a library of exchange-correlation and kinetic energy functionals " 
+    "for density-functional theory."
 ]
 
 description = """
-Libxc is a library of exchange-correlation and kinetic energy functionals for
-density-functional theory. The original aim was to provide a portable, well
+Libxc is a library of exchange-correlation and kinetic energy functionals for 
+density-functional theory. The original aim was to provide a portable, well 
 tested and reliable set of LDA, GGA, and meta-GGA functionals.
 
-Libxc is written in C, but it also comes with Fortran binding.
+Libxc is written in C, but it also comes with Fortran binding. 
 
-It is released under the MPL license (v. 2.0). In all publications resulting
+It is released under the MPL license (v. 2.0). In all publications resulting 
 from your use of Libxc, please cite:
 
-[ref] Susi Lehtola, Conrad Steigemann, Micael J. T. Oliveira, and Miguel A. L. Marques,
-      "Recent developments in Libxc - A comprehensive  library of functionals for
+[ref] Susi Lehtola, Conrad Steigemann, Micael J. T. Oliveira, and Miguel A. L. Marques, 
+      "Recent developments in Libxc - A comprehensive  library of functionals for 
       density functional theory", Software X 7, 1 (2018)
 """
 

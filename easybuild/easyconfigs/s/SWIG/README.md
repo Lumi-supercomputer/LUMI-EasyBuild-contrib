@@ -17,6 +17,6 @@ tailor the wrapping process to suit your application.
   * [SWIG in the CSCS repository](https://github.com/easybuilders/CSCS/tree/master/easybuild/easyconfigs/s/SWIG)
 
 
-### Version 4.0.2 for CPE GNU 21.08 and 21.12
+### Version 4.0.2 for CPE 21.08
 
   * The EasyConfig is derived from the EasyBuilders one

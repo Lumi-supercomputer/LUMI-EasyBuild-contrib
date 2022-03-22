@@ -10,7 +10,7 @@ versionsuffix = '-MPI'
 homepage = 'http://charm.cs.illinois.edu/research/charm/'
 
 whatis = [
-    'Description: Charm++ is a machine independent parallel programming system.'
+    'Charm++ is a machine independent parallel programming system.'
 ]
 
 description = """
@@ -47,8 +47,8 @@ files_to_copy = ['mpi-linux-amd64-pthreads-gcc']
 sanity_check_paths = {
     'files': ['mpi-linux-amd64-pthreads-gcc/bin/charmc'],
     'dirs':  [
-      'mpi-linux-amd64-pthreads-gcc/bin',
-      'mpi-linux-amd64-pthreads-gcc/lib',
+      'mpi-linux-amd64-pthreads-gcc/bin', 
+      'mpi-linux-amd64-pthreads-gcc/lib', 
       'mpi-linux-amd64-pthreads-gcc/include'
     ],
 }

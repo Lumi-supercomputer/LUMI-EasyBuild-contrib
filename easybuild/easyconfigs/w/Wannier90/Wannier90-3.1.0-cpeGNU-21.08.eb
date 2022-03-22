@@ -8,22 +8,22 @@ version = '3.1.0'
 homepage = 'http://www.wannier.org'
 
 whatis = [
-    'Desription: Wannier90 is a code for generating maximally-localized Wannier functions'
+    'Wannier90 is a code for generating maximally-localized Wannier functions'
 ]
 
 description = """
-Wannier90 is an open-source code (released under GPLv2) for generating
-maximally-localized Wannier functions and using them to compute advanced
+Wannier90 is an open-source code (released under GPLv2) for generating 
+maximally-localized Wannier functions and using them to compute advanced 
 electronic properties of materials with high efficiency and accuracy.
 
-Many electronic structure codes have an interface to Wannier90, including
-Quantum ESPRESSO, Abinit, VASP, Siesta, Wien2k, Fleur, OpenMX and GPAW; and
-there are several post-processing codes that are able to use the output of
+Many electronic structure codes have an interface to Wannier90, including 
+Quantum ESPRESSO, Abinit, VASP, Siesta, Wien2k, Fleur, OpenMX and GPAW; and 
+there are several post-processing codes that are able to use the output of 
 Wannier90 for further analysis and calculation.
 
 In all publications resulting from your use of Wannier90, please cite:
 
-[ref] "Wannier90 as a community code: new features and applications",
+[ref] "Wannier90 as a community code: new features and applications", 
       G. Pizzi et al., J. Phys. Cond. Matt. 32, 165902 (2020)
 
 This module was build with with MPI support.

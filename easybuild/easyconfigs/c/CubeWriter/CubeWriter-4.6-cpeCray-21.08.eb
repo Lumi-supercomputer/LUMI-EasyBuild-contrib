@@ -1,0 +1,57 @@
+easyblock = 'ConfigureMake'
+
+local_zlib_version = '1.2.11'
+
+name = 'CubeWriter'
+version = '4.6'
+
+homepage = 'https://www.scalasca.org/software/cube-4.x/download.html'
+
+whatis = [
+    'Cube high performance C Writer library'
+]
+
+description = """
+This module provides the Cube high performance C Writer library.
+
+Cube is used as performance report explorer for Scalasca and Score-P. It is a
+generic tool for displaying a multi-dimensional performance space consisting of
+the dimensions
+
+- performance metric
+- call path
+- system resource
+
+Each dimension can be represented as a tree, where non-leaf nodes of the tree
+can be collapsed or expanded to achieve the desired level of granularity. 
+"""
+
+docurls = [
+    'Guide: https://apps.fz-juelich.de/scalasca/releases/cube/4.6/docs/tools-guide/html/'
+]
+
+toolchain = {'name': 'cpeCray', 'version': '21.08'}
+
+source_urls = ['https://apps.fz-juelich.de/scalasca/releases/cube/%(version_major_minor)s/dist']
+sources = ['cubew-%(version)s.tar.gz']
+checksums = [
+    '99fe58ce7ab13061ebfbc360aedaecc28099a30636c5269a42c0cbaf57149aa8',  # cubew-4.6.tar.gz
+]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+    ('zlib', local_zlib_version),
+]
+
+configopts = '--enable-shared'
+
+sanity_check_paths = {
+    'files': ['bin/cubew-config',
+              'lib/libcube4w.a', 'lib/libcube4w.%s' % SHLIB_EXT],
+    'dirs': ['include/cubew'],
+}
+
+moduleclass = 'perf'

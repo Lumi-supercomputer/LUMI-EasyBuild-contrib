@@ -1,4 +1,4 @@
-# NCO - NetCDF Operators instructions
+# NCO instructions
 
   * [NCO on GitHub](https://github.com/nco/nco)
 
@@ -21,16 +21,3 @@
 
   * The EasyBuilders recipe claims ESMF is needed but it is nowhere linked into the
     code so that dependency is omitted.
-
-### 5.0.6 for CPE 21.12
-
-  * Needed to compile with cray-libsci unloaded as that causes crashes.
-
-  * The cpeAOCC version had problems initially due to the faulty aocc/3.1.0 module,
-    requiring a further fix to cpeAOCC/21.12 to make the cray-hdf5 module available.
-
-  * Note that at inspection of the log file you will see that the configure command
-    complains that the XML data file is not found. This is because the test is wrong,
-    not because the installation is wrong, as the test only looks in some fixed locations
-    on the system that assume that UDUNITS-2 is installed in the system directories.
-
