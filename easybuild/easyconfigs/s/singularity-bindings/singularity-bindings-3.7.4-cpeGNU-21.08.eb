@@ -1,8 +1,7 @@
 easyblock = 'Bundle'
 
-name = 'singularity'
+name = 'singularity-bindings'
 version = '3.7.4'
-versionsuffix = '-mpi'
 
 homepage = 'https://www.sylabs.io/'
 description = """
@@ -41,7 +40,7 @@ _glibc_stack = ('/lib64/libSegFault.so:/lib64/libSegFault.so,'
 
 modextravars = {
     'SINGULARITYENV_LD_LIBRARY_PATH': ('/lib64:'
-                                       '/opt/cray/pe/mpich/8.1.5/ofi/gnu/9.1/lib-abi-mpich:'
+                                       '/opt/cray/pe/mpich/8.1.8/ofi/gnu/9.1/lib-abi-mpich:'
                                        '/opt/cray/pe/lib64:'
                                        '/opt/cray/pe:'
                                        '/opt/cray/libfabric/1.11.0.4.106/lib64:'
