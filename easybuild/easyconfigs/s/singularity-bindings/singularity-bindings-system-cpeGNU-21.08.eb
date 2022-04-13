@@ -1,0 +1,36 @@
+easyblock = 'Bundle'
+
+name = 'singularity-bindings'
+version = 'system'
+
+homepage = 'https://www.sylabs.io/'
+description = """
+Singularity is a portable application stack packaging and runtime utility.
+This module provides the MPI support for singularity containers based
+on MPICH versions which are ABI-compatible with cray-mpich.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '21.08'}
+
+dependencies = [
+    ('cray-mpich-abi', EXTERNAL_MODULE),
+]
+
+modextravars = {
+    'SINGULARITYENV_LD_LIBRARY_PATH': ('/lib64:'
+                                       '/opt/cray/pe/mpich/8.1.8/ofi/gnu/9.1/lib-abi-mpich:'
+                                       '/opt/cray/pe/lib64:'
+                                       '/opt/cray/pe:'
+                                       '/opt/cray/libfabric/1.11.0.4.106/lib64:'
+                                       '/usr/lib64:'
+                                       '/opt/cray/pe/gcc-libs'),
+    'SINGULARITY_BIND': ('/opt/cray,'
+                         '/usr/lib64/libibverbs.so.1,'
+                         '/usr/lib64/librdmacm.so.1,'
+                         '/usr/lib64/libnl-3.so.200,'
+                         '/usr/lib64/libnl-route-3.so.200,'
+                         '/usr/lib64/libpals.so.0,'
+                         '/var/spool/slurmd/mpi_cray_shasta,'
+                         '/usr/lib64/libibverbs/libmlx5-rdmav25.so,'
+                         '/etc/libibverbs.d')
+}
