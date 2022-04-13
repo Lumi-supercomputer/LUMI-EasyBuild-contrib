@@ -42,7 +42,7 @@ dependencies = [
     ('cray-netcdf', EXTERNAL_MODULE),
     ('UDUNITS',     local_UDUNITS_version), # This will also add zlib as a dependency
     ('libpng',      local_libpng_version),
-    ( 'X11',        '%(toolchain_version)s'),
+    ('X11',         '%(toolchain_version)s'),
 ]
 
 # The configopts below are not really needed as the compilers and configure can find the libraries
