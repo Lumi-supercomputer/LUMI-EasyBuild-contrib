@@ -82,3 +82,21 @@ engines.
     always runs in double precision, also when used with a single precision GROMACS,
     to avoid numerical problems that can occur in single precision in some of the
     PLUMED routines.
+    
+  * Note that it was not possible to get GROMACS 2020.X to work with the cpeGNU 21.12 
+    environment which is based on GCC 11.2.0.
+
+
+### Version 2021.5 for CPE 21.12
+
+  * Compiled with cpeGNU, cpeCray and cpeAOCC but not yet benchmarked.
+  
+  * 2020 versions did not work with the GNU compiler in LUMI/21.12
+  
+
+### Version 2021.4 with PLUMED 2.7.4 and 2.8.0 for CPE 21.12
+
+  * As PLUMED 2.8.0 is a .0 version, we decided to also offer recipes for the latest
+    2.7 version at the time of developement.
+
+  
