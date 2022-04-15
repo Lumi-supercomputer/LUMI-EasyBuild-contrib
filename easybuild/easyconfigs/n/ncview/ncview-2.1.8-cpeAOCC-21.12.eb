@@ -27,10 +27,12 @@ the LUMI consortium cannot make any promises about compatibiliy with future vers
 the LUMI software stack.
 """
 
-toolchain = {'name': 'cpeAMD', 'version': '21.08'}
+toolchain = {'name': 'cpeAOCC', 'version': '21.12'}
 
-source_urls = ['ftp://cirrus.ucsd.edu/pub/%(name)s/']
-sources =     [SOURCE_TAR_GZ]
+# Download from fossies.org:
+# https://fossies.org/linux/misc/ncview-2.1.8.tar.gz
+source_urls = ['https://fossies.org/linux/misc']
+sources =     [SOURCELOWER_TAR_GZ]
 checksums =   ['e8badc507b9b774801288d1c2d59eb79ab31b004df4858d0674ed0d87dfc91be']
 
 builddependencies = [ # Create a reproducible build environment.
@@ -42,7 +44,7 @@ dependencies = [
     ('cray-netcdf', EXTERNAL_MODULE),
     ('UDUNITS',     local_UDUNITS_version), # This will also add zlib as a dependency
     ('libpng',      local_libpng_version),
-    ( 'X11',        '%(toolchain_version)s'),
+    ('X11',         '%(toolchain_version)s'),
 ]
 
 # The configopts below are not really needed as the compilers and configure can find the libraries
@@ -60,5 +62,8 @@ sanity_check_paths = {
     'files': ['bin/ncview'],
     'dirs':  [],
 }
+
+# No sanity_check_commands as ncview requires an X server and otherwise produces an error,
+# even with just the -h option.
 
 moduleclass = 'vis'

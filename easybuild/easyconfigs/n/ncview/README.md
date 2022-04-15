@@ -29,3 +29,8 @@ libraries that it uses.
     had a more complete list of dependencies), and with some additional documentation
     added.
 
+
+### Version 2.1.8 for CPE 21.12
+
+   * Switched the download location to [fossies.org](https://fossies.org/linux/misc/ncview-2.1.8.tar.gz/)
+     to avoid having to use FTP.
