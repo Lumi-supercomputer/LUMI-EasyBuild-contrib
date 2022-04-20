@@ -1,0 +1,46 @@
+# Adapted from the recipe in the EasyBuilders repository by Kurt Lust
+# (kurt.lust@uantwerpen.be) for the LUMI consortium.
+easyblock = 'CMakeMake'
+
+name =    'json-c'
+version = '0.16'
+
+homepage = 'https://github.com/json-c/json-c'
+
+whatis = [
+    'Description: JSON-C implements a reference counting object model'
+]
+
+description = """
+JSON-C implements a reference counting object model that allows you to easily
+construct JSON objects  in C, output them as JSON formatted strings and parse
+JSON formatted strings back into the C representation of JSON objects.
+"""
+
+toolchain = {'name': 'cpeCray', 'version': '21.12'}
+
+# https://s3.amazonaws.com/json-c_releases/releases/json-c-0.15.tar.gz
+source_urls = ['https://s3.amazonaws.com/json-c_releases/releases']
+sources =     [SOURCELOWER_TAR_GZ]
+checksums =   ['8e45ac8f96ec7791eaf3bb7ee50e9c2100bbbc87b8d0f1d030c5ba8a0288d96b']
+
+builddependencies = [
+    ('buildtools',   '%(toolchain_version)s',   '', True),
+]
+
+configopts = '-DCMAKE_INSTALL_LIBDIR=lib '
+
+# disable using Valgrind during the tests to avoid failures caused by using an OS Valgrind
+pretestopts = 'USE_VALGRIND=0 '
+runtest = 'test'
+
+sanity_check_paths = {
+    'files': ['lib/libjson-c.a', 'lib/libjson-c.%s' % SHLIB_EXT, 'lib/pkgconfig/json-c.pc'],
+    'dirs':  ['include/json-c'],
+}
+
+sanity_check_commands = [
+    'pkg-config --libs json-c',
+]
+
+moduleclass = 'lib'

@@ -26,3 +26,9 @@
 
   * Switched to installing libraries in lib rather than lib64 for consistency with
     most other installs in the LUMI software stack.
+
+    
+### Version 2.25.0 for CPE 21.12
+
+  * Trivial port from 2.23.0.
+

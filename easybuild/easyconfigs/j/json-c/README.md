@@ -20,3 +20,12 @@
 
   * Install libraries in lib instead of lib64 for consistency with the
     majority of packages installed on the system.
+
+    
+### Version 0.16 for CPE 21.12
+    
+  * Trivial version bump.
+
+  * Added a simple sanity check testing if pkg-config can find the package.
+
+ 

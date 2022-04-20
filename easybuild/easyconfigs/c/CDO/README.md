@@ -52,4 +52,15 @@
 
   * As some dependencies do no compile with cpeAMD 21.08, there is only a
     cpeGNU and cpeCray version.
+    
+
+### Version 2.0.5 for CPE 21.12
+
+  * So far a straigthforward port. Some features are not supported but we did not yet
+    look into them to see if it makes sense trying to get them working. In particular
+    the output of configure says that the HIRLAM extensions are not supported and that
+    no static CDI binary will be build.
+    
+  * Compilation in cpeAOCC fails with link errors about a Fortran routine that is not
+    found.
 
