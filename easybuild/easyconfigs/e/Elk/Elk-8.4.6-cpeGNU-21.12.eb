@@ -1,0 +1,46 @@
+# contributed by Peter Larsson (LUMI) and Johan Hellsvik (PDC)
+easyblock = 'MakeCp'
+
+name = 'Elk'
+version = '8.4.6'
+
+homepage = 'https://elk.sourceforge.io/'
+
+whatis = [
+    'The Elk all-electron full-potential linearised augmented-plane wave (LAPW) code with many advanced features.'
+]
+
+description = """
+The Elk all-electron full-potential linearised augmented-plane wave (LAPW) code with many advanced features.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '21.12'}
+toolchainopts = {'openmp': True, 'usempi': True}
+
+source_urls = ['https://sourceforge.net/projects/%(namelower)s/files/']
+sources = [SOURCELOWER_TGZ]
+
+patches = [
+    ('%(name)s-%(version)s-make.inc','%(builddir)s/%(namelower)s-%(version)s/make.inc')
+]
+
+dependencies = [
+     ('cray-libsci/21.08.1.2', EXTERNAL_MODULE),
+     ('cray-fftw/3.3.8.12', EXTERNAL_MODULE),
+]
+
+files_to_copy = [
+    (['./src/elk'], './bin/'),
+    (['./src/eos/eos'], './bin/'),
+    (['./src/spacegroup/spacegroup'], './bin/'),
+    (['./species'], '.'),
+]
+
+sanity_check_paths = {
+    'files': ['bin/elk','bin/eos','bin/spacegroup'],
+    'dirs': ['bin','species'],
+}
+
+maxparallel = 1
+
+moduleclass = 'phys'
