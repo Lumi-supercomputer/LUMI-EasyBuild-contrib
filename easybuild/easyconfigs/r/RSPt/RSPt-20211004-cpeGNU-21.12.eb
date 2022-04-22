@@ -1,0 +1,45 @@
+# contributed by Peter Larsson (LUMI) and Johan Hellsvik (PDC)
+easyblock = 'MakeCp'
+
+name = 'RSPt'
+version = '20211004'
+
+homepage = 'https://www.physics.uu.se/research/materials-theory/ongoing-research/code-development/rspt-main/'
+
+whatis = [
+    'RSPt is a code for electronic structure calculations'
+]
+
+description = """
+RSPt is a code for electronic structure calculations and its acronym
+stands for Relativistic Spin Polarized toolkit. RSPt offers a robust
+and flexible set of tools to calculate total energies, magnetic moments,
+band structures, Fermi surfaces and densities of states for all elements,
+and combinations thereof, over a wide range of volumes and structures.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '21.12'}
+toolchainopts = {'usempi': True}
+
+# The repo is not public, so you need to provide a source tarball. Adjust the name as necessary.
+sources =['rspt-20211004.zip']
+patches = [
+    ('./RSPTmake.inc','%(builddir)s/%(namelower)s-%(version)s/RSPTmake.inc')
+]
+
+dependencies = [
+     ('cray-libsci/21.08.1.2', EXTERNAL_MODULE),
+     ('cray-fftw/3.3.8.12', EXTERNAL_MODULE),
+]
+
+files_to_copy = [
+    (['./bin'], '.'),
+]
+
+sanity_check_paths = {
+    'files': ['bin/rspt','bin/runs'],
+    'dirs': ['bin',],
+}
+
+maxparallel = 1
+moduleclass = 'phys'
