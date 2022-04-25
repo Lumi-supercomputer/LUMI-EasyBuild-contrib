@@ -6,6 +6,7 @@ Rewritten to use recent configuration layers built-in the OpenFOAM.
 
 OpenFOAM in two flavours (branches) from: `openfoam.com` (YYMM release numbering) and `openfoam.org` (`N` release numbering). 
 
+
 ## Configuring
 
 ### openfoam.com
@@ -16,11 +17,12 @@ https://develop.openfoam.com/Development/openfoam/-/wikis/configuring
 
 Follows approach for ".com" version.
 
+
 ## Build Issues 
 
 ### openfoam.com
 
-Subequent compilation with Allwmake will now run largely without any
+Subsequent compilation with Allwmake will now run largely without any
 problems, except that the components linking against CGAL
 (foamyMesh and surfaceBooleanFeatures) will also try to link against
 a nonexistent mpfr library. As a workaround, the link-dependency can

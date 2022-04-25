@@ -9,7 +9,7 @@ local_libjpegturbo_version = '2.1.0'         # https://github.com/libjpeg-turbo/
 local_libpng_version =       '1.6.37'        # http://www.libpng.org/pub/png/libpng.html
 
 name =    'ecCodes'
-version = '2.23.0'
+version = '2.25.0'
 
 homepage = 'https://confluence.ecmwf.int/display/ECC/ecCodes+Home'
 
@@ -24,13 +24,13 @@ in the following formats: WMO FM-92 GRIB edition 1 and edition 2, WMO FM-94 BUFR
 edition 3 and edition 4, WMO GTS abbreviated header (only decoding).
 """
 
-toolchain = {'name': 'cpeAMD', 'version': '21.08'}
+toolchain = {'name': 'cpeAOCC', 'version': '21.12'}
 toolchainopts = {'openmp': True, 'verbose': False}
 
 # https://confluence.ecmwf.int/download/attachments/45757960/eccodes-2.23.0-Source.tar.gz?api=v2
 source_urls = ['https://confluence.ecmwf.int/download/attachments/45757960/']
 sources =     ['%(namelower)s-%(version)s-Source.tar.gz']
-checksums =   ['cbdc8532537e9682f1a93ddb03440416b66906a4cc25dec3cbd73940d194bf0c']
+checksums =   ['8975131aac54d406e5457706fd4e6ba46a8cc9c7dd817a41f2aa64ce1193c04e']
 
 builddependencies = [ # Create a reproducible build environment.
     ('buildtools',   '%(toolchain_version)s',   '', True), # For CMake among others.
@@ -59,5 +59,9 @@ sanity_check_paths = {
                                      'grib_copy', 'grib_dump', 'grib_filter', 'grib_ls']],
     'dirs':  [],
 }
+
+sanity_check_commands = [
+    'codes_info',    
+]
 
 moduleclass = 'data'

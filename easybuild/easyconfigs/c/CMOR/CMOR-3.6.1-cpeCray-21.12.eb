@@ -27,11 +27,14 @@ for exchanging climate data will facilitate participation in MIPs because
 after learning how to satisfy the output requirements of one MIP, it will
 be easy to prepare output for other MIPs.
 
-NOTE: This module does not support the Python interface. It also does not
-include CDAT.
+NOTES:
+  * This module does not support the Python interface. It also does not
+    include CDAT.
+  * The Fortran interface is not included due to build problems. Use the
+    cpeGNU or cpeAOCC toolchains if you need Fortran support.
 """
 
-toolchain = {'name': 'cpeAMD', 'version': '21.08'}
+toolchain = {'name': 'cpeCray', 'version': '21.12'}
 toolchainopts = {'openmp': True, 'opt': True, 'pic': True, 'verbose': False}
 
 # https://github.com/PCMDI/cmor/archive/3.6.1.tar.gz
@@ -52,12 +55,12 @@ dependencies = [
     ('cray-netcdf', EXTERNAL_MODULE),
     ('UDUNITS',     local_UDUNITS_version), # For UUID
     ('util-linux',  local_util_version),
-    ('json-c',      '0.15')
+    ('json-c',      '0.16')
 ]
 
 preconfigopts = 'sed -i -e \'s/git log.*/echo "%(version)s"/\' get_git_version.sh && '
 
-configopts  = '--enable-fortran '
+configopts  = '--disable-fortran '
 configopts += '--without-python --without-cdat '
 configopts += '--with-json-c --with-uuid --with-udunits --with-netcdf '
 
