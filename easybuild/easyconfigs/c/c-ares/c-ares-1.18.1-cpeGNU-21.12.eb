@@ -4,6 +4,11 @@ name = 'c-ares'
 version = '1.18.1'
 
 homepage = 'https://c-ares.org/'
+
+whatis = [
+    'Description: c-ares is a C library for asynchronous DNS requests (including name resolves)'
+]
+
 description = "c-ares is a C library for asynchronous DNS requests (including name resolves)"
 
 toolchain = {'name': 'cpeGNU', 'version': '21.12'}
