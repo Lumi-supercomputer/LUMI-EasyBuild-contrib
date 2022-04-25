@@ -7,7 +7,7 @@ version = '20211004'
 homepage = 'https://www.physics.uu.se/research/materials-theory/ongoing-research/code-development/rspt-main/'
 
 whatis = [
-    'RSPt is a code for electronic structure calculations'
+    'Description: RSPt is a code for electronic structure calculations'
 ]
 
 description = """
