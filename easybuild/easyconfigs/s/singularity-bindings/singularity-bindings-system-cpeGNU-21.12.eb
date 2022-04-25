@@ -1,6 +1,6 @@
 easyblock = 'Bundle'
 
-local_craympich_version = '8.1.8'
+local_craympich_version = '8.1.12'
 local_libfabric_version = '1.11.0.4.106'
 
 name = 'singularity-bindings'
@@ -25,7 +25,7 @@ libraries provided on LUMI for optimal performance on the interconnect
 of LUMI.
 """
 
-toolchain = {'name': 'cpeGNU', 'version': '21.08'}
+toolchain = {'name': 'cpeGNU', 'version': '21.12'}
 
 dependencies = [
     ('cray-mpich-abi/%s' % local_craympich_version, EXTERNAL_MODULE),
