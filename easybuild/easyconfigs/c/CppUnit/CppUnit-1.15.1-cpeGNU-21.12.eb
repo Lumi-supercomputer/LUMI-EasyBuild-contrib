@@ -5,8 +5,12 @@ version = '1.15.1'
 
 homepage = 'https://freedesktop.org/wiki/Software/cppunit/'
 
+whatis = [
+    'Description: CppUnit is the C++ port of the famous JUnit framework for unit testing.'
+]
+
 description = """
- CppUnit is the C++ port of the famous JUnit framework for unit testing.
+CppUnit is the C++ port of the famous JUnit framework for unit testing.
 """
 
 toolchain = {'name': 'cpeGNU', 'version': '21.12'}

@@ -4,6 +4,11 @@ name = 'aria2'
 version = '1.35.0'
 
 homepage = 'https://aria2.github.io'
+
+whatis = [
+    'Description: aria2 is a lightweight multi-protocol & multi-source command-line download utility.'
+]
+
 description = "aria2 is a lightweight multi-protocol & multi-source command-line download utility."
 
 toolchain = {'name': 'cpeGNU', 'version': '21.12'}
