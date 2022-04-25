@@ -67,3 +67,12 @@ used with. E.g., every GROMACS version requires a very specific version of PLUME
     comes with GROMACS but is not available separate from GROMACS.
 
   * As for GROMACS, hugepages support does not work with the AMD compilers.
+  
+  
+### 2.7.4 and 2.8.0 for CPE 21.12
+
+  * Trivial adaptations of the EasyConfigs for 21.08.
+  
+  * Did not go exclusively for 2.8.0 as this version is very new and hence may still 
+    have problems.
+

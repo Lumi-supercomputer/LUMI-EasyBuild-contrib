@@ -1,0 +1,121 @@
+# by Ward Poelmans <wpoely86@gmail.com>
+# Modified by Luca Marsella (CSCS)
+# Adapted by Kurt Lust (kurt.lust@uantwerpen.be) for the LUMI consortium
+easyblock = 'ConfigureMake'
+
+local_Boost_version =        '1.77.0'        # https://www.boost.org/
+local_GSL_version =          '2.7'           # https://ftp.gnu.org/gnu/gsl/
+local_zlib_version =         '1.2.11'        # https://zlib.net/
+
+local_PLUMED2_7_version =    '2.7.4'         # https://github.com/plumed/plumed2/releases
+
+name =   'PLUMED'
+version = local_PLUMED2_7_version
+
+homepage = 'https://www.plumed.org'
+
+whatis = [
+    'Description: PLUMED - LUgin for MolEcular Dynamics'
+]
+description = """
+PLUMED is an open source library for free energy calculations in molecular
+systems which works together with some of the most popular molecular dynamics
+engines.
+
+Free energy calculations can be performed as a function of many order parameters
+with a particular focus on biological problems, using state of the art methods
+such as metadynamics, umbrella sampling and Jarzynski-equation based steered MD.
+
+The software, written in C++, can be easily interfaced with both fortran and
+C/C++ codes.
+
+NOTES:
+  * This module does not include the optional VMD plugins.
+  * This module does not include support for XDR
+  * This module does not use optimized BLAS and LAPACK libraries due to
+    crashes when linking with  the Cray PE BLAS libraries. This may have a
+    significant negative performance impact for some computations.
+  * The module provides the bash function plumed-completion to enable command
+    line completion. Note that unloading the module will not disable command
+    completion again.
+
+This module is compiled with support for huge pages via the cray-hugepages modules.
+Using those can significantly lower the cost of memory access. However, to benefit
+from this you will have to load a suitable cray-hugepages module, e.g.,
+$ module load cray-hugepages8M
+However, if the size is too large, you may get out-of-memory messages due to memory
+fragmentation. Hence it may require some experimenting to find the optimal page
+size.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '21.12'}
+toolchainopts = {'usempi': 'True'}
+
+source_urls = ['https://github.com/%(namelower)s/plumed2/archive/']
+sources =     ['v%(version)s.tar.gz']
+checksums =   ['6f5dc16a753c71ed719f17f9cbb61642ab8e716fb7f77e22960dfa145c3b8211']
+
+builddependencies = [
+    ('buildtools',         '%(toolchain_version)s', '', True), # For CMake
+    ('craype-hugepages8M', EXTERNAL_MODULE),
+    ('cray-python',        EXTERNAL_MODULE),
+]
+
+dependencies = [
+    ('cray-fftw', EXTERNAL_MODULE),
+    ('Boost',     local_Boost_version),
+    ('zlib',      local_zlib_version),
+    ('GSL',       local_GSL_version),
+]
+
+configopts  = '--enable-modules=all --exec-prefix=%(installdir)s '
+configopts += '--enable-boost_graph --enable-boost_serialization '
+# The following two lines are enabled by default but just to stress:
+# We need to disable Cray BLAS and LAPACK as it crashed PLUMED...
+configopts += '--disable-external-blas --disable-external-lapack '
+configopts += '--enable-mpi --enable-fftw '
+configopts += '--enable-gsl --enable-python '
+configopts += '--enable-asmjit '
+# Disable features that we do not have, avoids warnings
+configopts += '--disable-xdrfile '
+
+sanity_check_paths = {
+    'files': ['bin/%(namelower)s', 'lib/libplumedKernel.so', 'lib/libplumed.so'],
+    'dirs':  ['lib/%(namelower)s'],
+}
+
+# Check if the requested features are indeed enabled. It turns out the the return code
+# of plumed config has can actually be used for that easily. And it would also catch
+# the crashes that we had when compiling with Cray BLAS.
+sanity_check_commands = [
+    'plumed --no-mpi config has mpi',
+    'plumed --no-mpi config has fftw',
+    'plumed --no-mpi config has zlib',
+    'plumed --no-mpi config has gsl',
+    'plumed --no-mpi config has boost_graph',
+    'plumed --no-mpi config has boost_serialization',
+    'plumed --no-mpi config has asmjit',
+]
+
+modextrapaths = {
+    'PLUMED_KERNEL': 'lib/libplumedKernel.so',
+    'PLUMED_ROOT':   'lib/%(namelower)s',
+}
+
+local_bash_completion = """
+[==[
+  _plumed() { eval "$(plumed --no-mpi completion 2>/dev/null)";} ;
+  complete -F _plumed -o default plumed
+]==]
+"""
+
+local_csh_completion = '"echo \'Not implemented\'"'
+
+modluafooter = """
+set_shell_function( 'plumed-completion', %(bash_completion)s, %(csh_completion)s )
+""" % {
+    'bash_completion': local_bash_completion,
+    'csh_completion':  local_csh_completion,
+}
+
+moduleclass = 'chem'
