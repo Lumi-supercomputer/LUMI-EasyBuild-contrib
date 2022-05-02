@@ -1,0 +1,48 @@
+easyblock = 'ConfigureMake'
+
+local_GSL_version = '2.7' # https://ftp.gnu.org/gnu/gsl/
+
+name =          'GSL'
+version =       local_GSL_version
+versionsuffix = '-seq'
+
+homepage = 'http://www.gnu.org/software/gsl/'
+
+whatis = [
+    "Description: GSL is the GNU Scientific Library, a numerical library for C and C++ programmers."
+]
+
+description = """
+The GNU Scientific Library (GSL) is a numerical library for C and C++
+programmers. The library provides a wide range of mathematical routines
+such as random number generators, special functions and least-squares
+fitting.
+
+GSL is compiled with OpenMP support.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '21.12'}
+toolchainopts = {'opt': True, 'optarch': True, 'unroll': True, 'pic': True, 'verbose': True}
+
+source_urls = [GNU_SOURCE]
+sources =     [SOURCELOWER_TAR_GZ]
+
+builddependencies = [ # Create a reproducible build environment.
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+configopts = "--with-pic"
+
+sanity_check_paths = {
+    'files': ['lib/libgsl.so', 'lib/libgsl.a', 'lib/libgslcblas.so', 'lib/libgslcblas.a'],
+    'dirs':  ['include', 'lib'],
+}
+
+sanity_check_commands = [
+    'gsl-config --version',
+    'gsl-histogram --version',
+    'gsl-randist 0 10000 cauchy 30 | gsl-histogram -100 100 200 >/dev/null',
+    'pkg-config --libs gsl',
+]
+
+moduleclass = 'numlib'
