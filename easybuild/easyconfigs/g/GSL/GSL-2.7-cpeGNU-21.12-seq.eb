@@ -18,7 +18,7 @@ programmers. The library provides a wide range of mathematical routines
 such as random number generators, special functions and least-squares
 fitting.
 
-GSL is compiled with OpenMP support.
+This is a sequential version of GSL.
 """
 
 toolchain = {'name': 'cpeGNU', 'version': '21.12'}
