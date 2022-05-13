@@ -5,6 +5,9 @@
   * [LAMMPS GitHub](https://github.com/lammps/lammps)
   
   * [Notes developed at JSC on LAMMPS optimisation](https://fzj-jsc.github.io/tuning_lammps/)
+  
+    Basically the advice from JSC is to use Kokkos as it covers multicore and GPU, 
+    but ti does need to be enabled also by users running LAMMPS. 
 
 
 ## EasyBuild support
