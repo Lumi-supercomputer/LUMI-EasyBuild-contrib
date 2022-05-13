@@ -3,6 +3,8 @@
   * [LAMMPS web site](https://www.lammps.org/)
 
   * [LAMMPS GitHub](https://github.com/lammps/lammps)
+  
+  * [Notes developed at JSC on LAMMPS optimisation](https://fzj-jsc.github.io/tuning_lammps/)
 
 
 ## EasyBuild support
