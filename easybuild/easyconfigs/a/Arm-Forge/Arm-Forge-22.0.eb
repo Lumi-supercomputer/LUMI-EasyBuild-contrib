@@ -1,0 +1,32 @@
+easyblock = 'EB_Allinea'
+
+name = 'Arm-Forge'
+version = '22.0'
+
+homepage = 'https://developer.arm.com/'
+
+whatis = ['Arm Forge']
+
+description = """Arm Forge is the leading server and HPC development tool suite in research, industry, and academia for C, C++, Fortran, and Python high performance code on Linux."""
+
+usage = """To run Arm Forge from command line use `--offline` option.
+
+To run with graphical user interface use VNC container with the following additional modules: `X11` `lumi-vnc`
+"""  
+
+toolchain = SYSTEM
+
+sources = ['%(namelower)s-%(version)s-linux-x86_64.tar']
+extract_sources = 'True'
+
+license_file = '/projappl/project_462000002/FORGE/Licence'
+
+builddependencies = []
+
+#install_cmd = 'bash %(installdir)s/%(namelower)s-%(version)s-linux-x86_64/textinstall.sh --accept-license %(installdir)s'
+
+prepend_to_path = ['bin']
+
+modextravars = {'SINGULARITY_BINDPATH':'/appl:/appl,/opt/cray:/opt/cray,/usr/share/fonts:/usr/share/fonts', 'SINGULARITYENV_LD_LIBRARY_PATH':'/opt/cray/xpmem/2.2.40-2.1_3.9__g3cf3325.shasta/lib64:$EBROOTX11/lib', 'SINGULARITYENV_PREPEND_PATH': '%(installdir)s/bin'}
+
+moduleclass = 'tools'
