@@ -26,3 +26,9 @@
 
 -   We started from the EasyBuilders EasyConfig for the 2021b common
     toolchains but added documentation from UAntwerpen.
+
+### Version 1.15.1 for cpeGNU 21.12
+
+-   Trivial version bump, but we now also unload a few modules that are
+    not needed for compilation, just in case that would solve some problems
+    detected on LUMI.

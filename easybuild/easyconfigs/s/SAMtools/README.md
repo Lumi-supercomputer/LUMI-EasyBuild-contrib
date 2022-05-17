@@ -31,3 +31,10 @@
     EasyBuilders repository. HTSlib was added as a dependency though,
     something that is done in the UAntwerpen version and it does show
     up in ``samtools version``.
+
+### Version 1.15.1 for cpeGNU 21.12
+
+-   Trivial version bump, but we now also unload a few modules that are
+    not needed for compilation, just in case that would solve some problems
+    detected on LUMI.
+    
