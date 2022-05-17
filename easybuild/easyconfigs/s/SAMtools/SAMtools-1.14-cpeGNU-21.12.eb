@@ -55,6 +55,8 @@ dependencies = [
     ('HTSlib',  '1.14'),
 ]
 
+configopts = '--with-htslib=$EBROOTHTSLIB'
+
 sanity_check_commands = [
     'samtools version'
 ]
