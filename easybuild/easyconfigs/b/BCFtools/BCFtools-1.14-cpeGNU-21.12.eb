@@ -20,6 +20,8 @@ both uncompressed and BGZF-compressed.
 
 It used to be part of SAMtools, a suite of programs for interacting with high-throughput 
 sequencing data.
+
+This version is compiled using GSL without OpenMP support, so no parallel BLAS etc.
 """
 
 toolchain = {'name': 'cpeGNU', 'version': '21.12'}
