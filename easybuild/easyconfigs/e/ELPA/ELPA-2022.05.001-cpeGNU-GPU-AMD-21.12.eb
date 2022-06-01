@@ -1,0 +1,83 @@
+# Contributed by Luca Marsella (CSCS)
+# Some adaptations by Kurt Lust (University of Antwerpen and LUMI consortium)
+easyblock = 'ConfigureMake'
+
+local_ELPA_version =           '2022.11.005'     # Synchronized with CSCS but also the version in EB 2021b
+
+name =    'ELPA'
+version = local_ELPA_version
+versionsuffix = 'GPU-AMD'
+
+homepage = 'http://elpa.mpcdf.mpg.de'
+
+whatis = [
+    "Description: ELPA - Eigenvalue SoLvers for Petaflop-Applications",
+]
+
+description = """
+The publicly available ELPA library provides highly efficient and highly
+scalable direct eigensolvers for symmetric matrices. Though especially designed
+for use for PetaFlop/s applications solving large problem sizes on massively
+parallel supercomputers, ELPA eigensolvers have proven to be also very efficient
+for smaller matrices. All major architectures are supported.
+
+ELPA provides static and shared libraries with and without OpenMP support
+and with and without MPI. GPU kernels are included in this module.
+"""
+
+docurls = [
+    'Manual pages in section 1 and 3'
+]
+
+toolchain = {'name': 'cpeGNU', 'version': '21.12'}
+toolchainopts = {'usempi': True, 'openmp': False}
+
+sources = [{
+    'filename': 'elpa-gpu-streams.tar.gz',
+    'git_config': {
+        'url': 'https://gitlab.mpcdf.mpg.de/elpa',
+        'repo_name': 'elpa',
+        #'recursive': True,
+        # does not work with branches
+        #'tag': 'gpu_streams'
+        'commit': '2b157a15'
+    },
+}]
+
+builddependencies = [ # We use the system Python and Perl.
+    ('buildtools', '%(toolchain_version)s', '', True), # For Autotools and others.
+    ('rocm/4.5.2', EXTERNAL_MODULE),
+    ('rocmlibs/4.5.2', EXTERNAL_MODULE),
+    ('craype-accel-amd-gfx908', EXTERNAL_MODULE),
+    ('cray-libsci/21.08.1.2', EXTERNAL_MODULE)
+]
+
+preconfigopts  = './autogen.sh && '
+preconfigopts += " CC=cc CXX=hipcc FC=ftn && "
+preconfigopts += " export LD_LIBRARY_PATH=$ROCM_PATH/hip/lib:$LD_LIBRARY_PATH && "
+
+local_commonopts = 'CC=cc CXX=hipcc FC=ftn FCFLAGS="$FCFLAGS" CXXFLAGS="--amdgpu-target=gfx908 -fuse-ld=/usr/bin/ld" --disable-avx512 --enable-option-checking=fatal --enable-single-precision --disable-sse --disable-sse-assembly --disable-avx --disable-avx2 --with-gnu-ld '
+local_gpuopts = '--with-AMD-gpu-support-only --enable-amd-gpu --enable-gpu-streams=amd CPP="cc -E" CPPFLAGS=-I$ROCM_PATH/hip/include/ ' 
+local_ldflags = 'LDFLAGS="-L$EBROOTROCBLAS/lib -L$CRAY_MPICH_PREFIX/lib -L$CRAY_LIBSCI_PREFIX_DIR/lib -Wl,--copy-dt-needed-entries" '
+local_libs = 'LIBS="-lmpifort -lsci_gnu" '
+configopts = [
+    local_commonopts + local_gpuopts + local_ldflags + local_libs
+]
+
+prebuildopts = " make clean && export LD_LIBRARY_PATH=$ROCM_PATH/hip/lib:$LD_LIBRARY_PATH &&"
+
+sanity_check_paths = {
+    'files': ['lib/libelpa.a', 'lib/libelpa.so'],
+    'dirs':  ['bin', 'lib/pkgconfig',
+              'include/%(namelower)s-%(version)s.rc1/%(namelower)s', 'include/%(namelower)s-%(version)s.rc1/modules']
+}
+
+modextrapaths = {
+    'CPATH': ['include/elpa-%(version)s.rc1']
+}
+
+modextravars = {
+    'ELPA_INCLUDE_DIR': '%(installdir)s/include/elpa-%(version)s.rc1'
+}
+
+moduleclass = 'math'
