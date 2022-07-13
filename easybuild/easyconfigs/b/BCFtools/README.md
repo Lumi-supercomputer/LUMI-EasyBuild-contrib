@@ -19,3 +19,9 @@
   * We took care of linking with a version of GSL compiled without OpenMP support
     as compiling GSL with and BCFtools without OpenMP support causes a problem
     with BLAS (that crashes when the program ends).
+
+    
+### Version 1.15.1 for CPE 21.12
+
+  * A straightforward port of the easyconfig for 1.14, triggered by problems with
+    HTSlib on LUMI.
