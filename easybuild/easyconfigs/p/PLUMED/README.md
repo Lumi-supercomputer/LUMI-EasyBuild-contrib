@@ -75,4 +75,32 @@ used with. E.g., every GROMACS version requires a very specific version of PLUME
   
   * Did not go exclusively for 2.8.0 as this version is very new and hence may still 
     have problems.
+    
+### 2.7.4 and 2.8.0 for CPE 22.06
+
+  * Had a look at the BLAS problem. It turns out that whatever version of GSL one uses,
+    when one does an `ldd` of the `plumed` executable, it is linked against two versions
+    of libsci, the sequential and the OpenMP one. 
+    
+    TODO: Further investigation of the log files to check what is going on.
+    
+    It looks like:
+    
+      * GSL uses the sequential or OpenMP libsci as suggested by the module versionsuffix.
+      
+      * libplumedKernel.so itself seems to link directly to the OpenMP version, so 
+        likely OpenMP is activated during the compile.
+        
+      * However, it looks like the `plumed` executable then adds the link against the
+        sequential version of the libsci library.
+        
+    Though not all observations are in line with this, the problem might be in the 
+    PLUMED kernel library itself.
+
+In 22.06, Cray libsci produces a warning if the application is linked against multiple 
+versions of the libsci library. This turns out to be the case irrespective of the 
+version of GSL that is linked into PLUMED. It looks like a problem in the PLUMED build
+process itself causes it to link to multiple libsci libraries if `--enable-external-blas`
+and `--enable-external-lapack` are used.
+
 
