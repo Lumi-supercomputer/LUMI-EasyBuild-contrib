@@ -24,7 +24,7 @@ sequencing data.
 This version is compiled using GSL without OpenMP support, so no parallel BLAS etc.
 """
 
-toolchain = {'name': 'cpeGNU', 'version': '21.12'}
+toolchain = {'name': 'cpeGNU', 'version': '22.06'}
 toolchainopts = {'pic': True}
 
 source_urls = ['https://github.com/samtools/%(namelower)s/releases/download/%(version)s']
@@ -36,18 +36,19 @@ builddependencies = [
 ]
 
 dependencies = [
-    ('zlib',   '1.2.11'),
-    ('bzip2',  '1.0.8'),
-    ('XZ',     '5.2.5'),
-    ('GSL',    '2.7',    '-seq'),
-    ('HTSlib', '1.15.1'),
+#    ('zlib',       '1.2.12'),
+#    ('libdeflate', '1.12'),
+#    ('bzip2',      '1.0.8'),
+#    ('XZ',         '5.2.5'),
+    ('GSL',        '2.7.1',  '-sequential'),
+    ('HTSlib',     '1.15.1'),
 ]
 
 # As linking with BLAS is automatic on Cray systems, the configure script goes wrong and
 # then tries to generate some invalid arguments to link/. As a workaround, we tell to
 # use libm as the cblas library. It will add -lm twice to the link line but that does no
 # harm.
-configopts = "--with-htslib=$EBROOTHTSLIB --enable-libgsl --with-cblas=m"
+configopts = "--with-htslib=$EBROOTHTSLIB --enable-libgsl --with-cblas=m "
 
 sanity_check_paths = {
     'files': ['bin/%s' % x for x in ['bcftools', 'plot-vcfstats', 'vcfutils.pl']],

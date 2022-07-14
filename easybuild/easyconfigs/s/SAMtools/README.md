@@ -32,9 +32,17 @@
     something that is done in the UAntwerpen version and it does show
     up in ``samtools version``.
 
+
 ### Version 1.15.1 for cpeGNU 21.12
 
 -   Trivial version bump, but we now also unload a few modules that are
     not needed for compilation, just in case that would solve some problems
     detected on LUMI.
+   
+   
+### Version 1.15.1 for CPE 22.06
+
+-   Cleaned up dependencies and removed those that are pulled in through
+    HTSlib.
     
+-   Did another check of the configure options.

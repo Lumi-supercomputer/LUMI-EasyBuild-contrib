@@ -25,3 +25,14 @@
 
   * A straightforward port of the easyconfig for 1.14, triggered by problems with
     HTSlib on LUMI.
+    
+
+### Version 1.15.1 forr CPE 22.06
+
+  * Checked the configure script for additional useful options. Considered adding
+    '--enable-perl-filters` but that used libperl from the system. As it turns out
+    that the current Perl module does not provide libperl.so, the option was not
+    added. 
+    
+  * Cleaned up dependencies as most are pulled in anyway through HTSlib.
+
