@@ -32,3 +32,16 @@
 
   * Trivial port from 2.23.0.
 
+
+### Version 2.26.0 for CPE 22.06
+
+  * Trivial port from 2.25.0
+  
+  * Checked for additional sanity check commands but it looks like showing help also
+    returns an error code in almost all commands.
+    
+  * Build without Python support as that is for Python2. Python3 support supposedly
+    comes via the eccodes PyPi package but was not tested.
+    
+TODO: ecCodes comes with samples. Can we figure out how to use them and build some quick
+sanity checks with them?

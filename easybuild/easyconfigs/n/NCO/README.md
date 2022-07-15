@@ -22,6 +22,7 @@
   * The EasyBuilders recipe claims ESMF is needed but it is nowhere linked into the
     code so that dependency is omitted.
 
+
 ### 5.0.6 for CPE 21.12
 
   * Needed to compile with cray-libsci unloaded as that causes crashes.
@@ -34,3 +35,8 @@
     not because the installation is wrong, as the test only looks in some fixed locations
     on the system that assume that UDUNITS-2 is installed in the system directories.
 
+
+### Version 5.1.0 for CPE 22.06
+
+  * This is a grivial port of the 5.0.6 one.
+  

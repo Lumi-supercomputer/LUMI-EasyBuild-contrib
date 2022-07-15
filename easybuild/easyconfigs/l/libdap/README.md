@@ -21,6 +21,11 @@ package.
   * The EasyConfig is adapted from the EasyBuilders one for version 3.20.7.
 
 
-### VErsion 3.20.9 for CPE 21.12
+### Version 3.20.9 for CPE 21.12
 
   * Trivial port of the 3.20.8 EasyConfig file.
+
+
+### Version 3.20.10 for CPE 22.06
+
+  * Trivial port of the 3.20.9 EasyConfig file.
