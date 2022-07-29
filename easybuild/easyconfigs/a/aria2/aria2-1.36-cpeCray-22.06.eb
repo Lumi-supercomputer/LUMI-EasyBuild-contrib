@@ -1,0 +1,56 @@
+easyblock = 'ConfigureMake'
+
+name =    'aria2'
+version = '1.36.0'
+
+homepage = 'https://aria2.github.io'
+
+whatis = [
+    'Description: aria2 is a lightweight multi-protocol & multi-source command-line download utility.'
+]
+
+description = """
+aria2 is a lightweight multi-protocol & multi-source command-line download 
+utility. It supports HTTP/HTTPS, FTP, SFTP, BitTorrent and Metalink. aria2 
+can be manipulated via built-in JSON-RPC and XML-RPC interfaces.
+"""
+
+docurls = [
+    'Man page for the ares2 command in section 1',    
+]
+
+toolchain = {'name': 'cpeCray', 'version': '22.06'}
+
+source_urls = ['https://github.com/aria2/aria2/releases/download/release-%(version)s']
+sources =     [SOURCE_TAR_GZ]
+checksums =   ['b593b2fd382489909c96c62c6e180054c3332b950be3d73e0cb0d21ea8afb3c5']
+
+builddependencies = [
+    ('buildtools',   '%(toolchain_version)s',   '', True),
+    ('CppUnit',      '1.15.1'),
+]
+
+dependencies = [
+    ('zlib',    '1.2.12'),
+    ('libxml2', '2.9.12'),
+    ('SQLite',  '3.38.3'),
+    ('c-ares',  '1.18.1'),
+#    ('OpenSSL', '1.1', '', True),  # Prefer systen OpenSSL which we did not install via EasyBuild.
+]
+
+configopts = "--without-gnutls --with-openssl --enable-libaria2 --enable-static"
+
+runtest = 'check'
+
+sanity_check_paths = {
+    'files': ['bin/aria2c', 'lib/libaria2.a', 'lib/libaria2.%s' % SHLIB_EXT, 
+              'share/man/man1/aria2c.1'],
+    'dirs':  ['share'],
+}
+
+sanity_check_commands = [
+    'aria2c --help',
+    'pkg-config --libs libaria2',
+]
+
+moduleclass = 'tools'
