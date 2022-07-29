@@ -86,11 +86,18 @@ preconfigopts = 'export WANNIER90_LIBS="-L$EBROOTWANNIER90/lib -lwannier" && '
 
 # 'make check' is just executing some basic unit tests.
 # Also running 'make tests_v1' to have some basic validation
-runtest = "check && make test_v1"
+# add export of HDF5_DISABLE_VERSION_CHECK to avoid HDF5 library mismatch error
+pretestopts = 'export HDF5_DISABLE_VERSION_CHECK=2 && '
+runtest = 'check && make test_v1'
 
 sanity_check_paths = {
     'files': ['bin/%s' % x for x in ['abinit', 'aim', 'cut3d', 'conducti', 'mrgddb', 'mrgscr', 'optic']],
     'dirs': ['lib/pkgconfig'],
+}
+
+# add export of HDF5_DISABLE_VERSION_CHECK to avoid HDF5 library mismatch error
+modextravars = {
+    'HDF5_DISABLE_VERSION_CHECK': '2',
 }
 
 moduleclass = 'chem'
