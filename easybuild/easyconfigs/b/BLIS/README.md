@@ -21,3 +21,7 @@
   * Some logic was added to select zen3 depending on the partition loaded to
     support cross-compiling.
 
+### Version 3.2 for CPE 22.06
+
+  * Trivial port of the EasyConfig file for 3.1.
+
