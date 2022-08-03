@@ -19,3 +19,8 @@ in space domain and pencil decomposition in frequency domain
 ### Version 1.0.5 for CPE 21.08
 
   * The EasyConfig is derived from the CSCS one
+  
+### Version 1.0.6 for CPE 22.06
+
+  * the EasyConfig is a straightforward port of the 1.0.5 one.
+
