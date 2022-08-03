@@ -1,0 +1,43 @@
+easyblock = 'Bundle'
+
+name =    'AMD-AOCL'
+version = '3.2'
+
+homepage = 'https://developer.amd.com/amd-aocl/'
+
+whatis = [
+    'AMD Optimizing CPU Libraries'
+]
+
+description = """
+AOCL is a set of numerical libraries optimized for AMD processors
+based on the AMD Zen core architecture and generations. The tuned implementations of
+industry-standard math libraries enable rapid development of scientific and high
+performance computing applications.
+
+Note that AOCL will conflict with the Cray LibSci library, so when using
+this module you have to unload the cray-libsci module as otherwise the
+Cray compiler wrappers will add LibSci to the libraries used by the
+compiler.
+
+Cray LibSci already contains BLAS, LAPACK and ScaLAPACK functionality and
+should be your first choice. But this module may be useful if you run into
+problems with the Cray LibSci library. Note however that software in the
+LUMI stack is by default build with the Cray LibSci library, so your code
+that relies on AOCL may not link correctly to any of the other modules
+in the LUMI software stacks.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '22.06'}
+
+dependencies = [
+    ('BLIS',      version, '-amd'),
+    ('libFLAME',  version, '-amd'),
+    ('ScaLAPACK', version, '-amd'),
+]
+
+#modluafooter = """
+#conflict("cray-libsci")
+#"""
+
+moduleclass = 'numlib'
