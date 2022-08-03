@@ -29,3 +29,8 @@ linked and may run.
 
     Please contact LUMI support if you need the necessary EasyBuild recipes to
     do so.
+
+### Version 1.59.0
+    
+  * Again a simple download of the binaries.
+
