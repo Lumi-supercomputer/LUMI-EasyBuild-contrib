@@ -1,0 +1,58 @@
+# contributed by Peter Larsson (LUMI) and Johan Hellsvik (PDC)
+easyblock = 'MakeCp'
+
+name = 'Elk'
+version = '8.4.30'
+
+homepage = 'https://elk.sourceforge.io/'
+
+whatis = [
+    'Description: The Elk all-electron full-potential linearised augmented-plane wave (LAPW) code with many advanced features.'
+]
+
+description = """
+The Elk all-electron full-potential linearised augmented-plane wave (LAPW) code with many advanced features.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '22.06'}
+toolchainopts = {'openmp': True, 'usempi': True}
+
+source_urls = ['https://sourceforge.net/projects/%(namelower)s/files/']
+sources =     [SOURCELOWER_TGZ]
+checksums =   ['ed7df93cd2e5c4345f86eef0612ef4fb47d2989d78015410351612fee9130f1f']
+
+patches = [
+    ('%(name)s-%(version)s-make.inc','%(builddir)s/%(namelower)s-%(version)s/make.inc')
+]
+
+builddependencies = [ # Create a reproducible build environment.
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+     ('cray-libsci/22.06.1.3', EXTERNAL_MODULE),
+     ('cray-fftw/3.3.10.1',    EXTERNAL_MODULE),
+]
+
+files_to_copy = [
+    (['./src/elk'], './bin/'),
+    (['./src/eos/eos'], './bin/'),
+    (['./src/spacegroup/spacegroup'], './bin/'),
+    (['utilities/blocks2columns/blocks2columns.py', 'utilities/elk-bands/elk-bands', 'utilities/elk-optics/elk-optics.py',
+      'utilities/wien2k-elk/se.pl'], 'bin'),
+    (['./species'], '.'),
+]
+
+# Correct permissions
+postinstallcmds = [
+    'cd %(installdir)s/bin ; chmod a+x blocks2columns.py elk-optics.py'    
+]
+
+sanity_check_paths = {
+    'files': ['bin/elk','bin/eos','bin/spacegroup'],
+    'dirs':  ['bin','species'],
+}
+
+maxparallel = 1
+
+moduleclass = 'phys'
