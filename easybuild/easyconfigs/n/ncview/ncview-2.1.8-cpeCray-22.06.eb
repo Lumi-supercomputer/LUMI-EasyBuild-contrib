@@ -1,0 +1,69 @@
+# EasyConfig developed by Kurt Lust (kurt.lust@uantwerpen.be) for the
+# LUMI consortium.
+# Based on EasyConfigs from the easybuilders repository and CSCS.
+#
+easyblock = 'ConfigureMake'
+
+local_libpng_version =       '1.6.37'        # http://www.libpng.org/pub/png/libpng.html
+local_UDUNITS_version =      '2.2.28'        # ftp://ftp.unidata.ucar.edu/pub/udunits
+
+name =    'ncview'
+version = '2.1.8'
+
+homepage = 'http://meteora.ucsd.edu/~pierce/ncview_home_page.html'
+
+whatis = [
+    'Description: ncview is an X11-based visualisual browser for netCDF format files'
+]
+
+description = """
+Ncview is a visual browser for netCDF format files. Typically you would use ncview to get
+a quick and easy, push-button look at your netCDF files. You can view simple movies of
+the data, view along various dimensions, take a look at the actual data values, change
+color maps, invert the data, etc. It runs on UNIX platforms under X11, R4 or higher.
+
+Development of ncview is slow if not nonexistent, and version 2.1.8 is from 2017. Hence
+the LUMI consortium cannot make any promises about compatibiliy with future versions of
+the LUMI software stack.
+"""
+
+toolchain = {'name': 'cpeCray', 'version': '22.06'}
+
+# Download from fossies.org:
+# https://fossies.org/linux/misc/ncview-2.1.8.tar.gz
+source_urls = ['https://fossies.org/linux/misc']
+sources =     [SOURCELOWER_TAR_GZ]
+checksums =   ['e8badc507b9b774801288d1c2d59eb79ab31b004df4858d0674ed0d87dfc91be']
+
+builddependencies = [ # Create a reproducible build environment.
+    ('buildtools',   '%(toolchain_version)s',   '', True),
+]
+
+dependencies = [
+    ('cray-hdf5',   EXTERNAL_MODULE),
+    ('cray-netcdf', EXTERNAL_MODULE),
+    ('UDUNITS',     local_UDUNITS_version), # This will also add zlib as a dependency
+    ('libpng',      local_libpng_version),
+    ('X11',         '%(toolchain_version)s'),
+]
+
+# The configopts below are not really needed as the compilers and configure can find the libraries
+# from the library path, but it makes it even more sure that the intended versions are used.
+configopts  = '--with-udunits2_incdir=$EBROOTUDUNITS/include --with-udunits2_libdir=$EBROOTUDUNITS/lib '
+configopts += '--with-png_incdir=$EBROOTLIBPNG/include       --with-png_libdir=$EBROOTLIBPNG/lib '
+configopts += '--with-nc-config=$EBROOTNETCDF/bin/nc-config '
+configopts += '--with-x --x-includes=$EBROOTX11/include --x-libraries=$EBROOTX11/lib '
+
+postinstallcmds = [
+    'cp AUTHORS COPYING NEWS README RELEASE_NOTES %(installdir)s'
+]
+
+sanity_check_paths = {
+    'files': ['bin/ncview'],
+    'dirs':  [],
+}
+
+# No sanity_check_commands as ncview requires an X server and otherwise produces an error,
+# even with just the -h option.
+
+moduleclass = 'vis'
