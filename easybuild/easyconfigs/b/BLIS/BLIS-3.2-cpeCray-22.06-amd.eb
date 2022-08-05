@@ -32,6 +32,12 @@ that relies on BLIS may not link correctly to any of the other modules
 in the LUMI software stacks.
 """
 
+usage = """
+Note that using the C BLAS interface (by including <blis/cblas.h>) may
+lead to error messages in combination with certain -stc= options as 
+depending on the options certain symbols in pthread.h may not be defined.
+"""
+
 docurls = [ 'https://github.com/amd/blis/blob/master/docs/BuildSystem.md',
 ]
 
