@@ -1,0 +1,17 @@
+# Patch by Kurt Lust, University of Antwerp, for the LUMI consortium
+# Fixes a regex used to check for the .gz file extension
+# (pull request 151 in the GitHub repository or commit
+# 581c231991cb4db017b92eabc573e17128541ab5). 
+# Patch created as there hasn't been a new release for years
+# at the moment of the creation of this patch.
+--- src/perl/Vcf.pm.orig	2022-08-05 12:26:59.000000000 +0200
++++ src/perl/Vcf.pm	2022-08-05 12:27:38.000000000 +0200
+@@ -201,7 +201,7 @@
+         $tabix_args .= qq['$$self{file}'];
+         if ( exists($args{region}) && defined($args{region}) ) { $tabix_args .= qq[ '$args{region}']; }
+ 
+-        if ( -e $$self{file} && $$self{file}=~/\.gz/i )
++        if ( -e $$self{file} && $$self{file}=~/\.gz$/i )
+         {
+             if ( exists($args{region}) && defined($args{region}) )
+             {
