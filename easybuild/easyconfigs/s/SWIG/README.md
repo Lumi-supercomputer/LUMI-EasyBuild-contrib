@@ -2,6 +2,11 @@
 
   * [SWIG Website](http://www.swig.org/)
 
+  * [SWIG development on GitHug](https://github.com/swig/swig)  
+  
+      * [SWIG GitHub releases via tags](https://github.com/swig/swig/tags)
+  
+
 ## General information
 
 SWIG is an interface compiler that connects programs written in C and C++ with 
@@ -11,12 +16,14 @@ code that scripting languages need to access the underlying C/C++ code.
 In addition, SWIG provides a variety of customization features that let you 
 tailor the wrapping process to suit your application.
 
+
 ## EasyBuild
 
   * [SWIG in the EasyBuilders repository](https://github.com/easybuilders/easybuild-easyconfigs/tree/develop/easybuild/easyconfigs/s/SWIG)
+
   * [SWIG in the CSCS repository](https://github.com/easybuilders/CSCS/tree/master/easybuild/easyconfigs/s/SWIG)
 
 
-### Version 4.0.2 for CPE GNU 21.08 and 21.12
+### Version 4.0.2 for CPE GNU 21.08 and cpeGNU/cpeCray 21.12/22.06
 
   * The EasyConfig is derived from the EasyBuilders one
