@@ -4,6 +4,9 @@ YAXT is a dependency for CDO but doesn't seem to be used by any other
 EasyBuild-supported package as of September 2021.
 
   * [YAXT web page](https://www.dkrz.de/redmine/projects/yaxt)
+  
+As it is not required by CDO anymore either, this EasyConfig is no longer
+maintained.
 
 
 ## EasyBuild
