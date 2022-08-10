@@ -1,0 +1,68 @@
+# Developed by Kurt Lust (kurt.lust@uantwerpen.be) for LUMI
+# Based on deprecated EasyConfigs developed by Fotis Georgatos <fotis@cern.ch>
+
+easyblock = 'ConfigureMake'
+
+local_PCRE2_version =        '10.40'         # https://ftp.pcre.org/pub/pcre/
+local_xterm_version =        '372j'          # https://github.com/ThomasDickey/xterm-snapshots/tags
+
+name =    'xterm'
+version = local_xterm_version
+
+homepage = 'https://invisible-island.net/xterm/'
+
+whatis = [
+    'Description: xterm terminal emulator',
+    'May be available in some versions of the X11 module.'
+]
+
+description = """
+The xterm program is a terminal emulator for the X Window System. It was
+originally developed in the mid-1980s to provide DEC VT102 and Tektronix
+4014 compatible terminals for programs that cannot use the window system
+directly.
+
+Each xterm window runs as a separate process. Some may run on remote
+machines, using the X protocol to display on a local machine, while others
+may run and display on the same local machine. X allows applications to update
+their windows independently, but the local machine's keyboard and mouse are
+shared, i.e., only delivering input events to the window which currently has
+focus.
+
+This version implements ISO/ANSI colors using the "new" color model (i.e.,
+background color erase). It also implements most of the control sequences for
+VT220, as well as selected features from other DEC terminals such as VT320,
+VT420 and VT520.
+"""
+
+docurls = [
+    'Man pages for the xterm, uxterm, resize and koi8rxterm in section 1',
+]
+
+toolchain = {'name': 'cpeCray', 'version': '22.06'}
+
+# https://github.com/ThomasDickey/xterm-snapshots/archive/refs/tags/xterm-370a.tar.gz
+sources =     [SOURCELOWER_TAR_GZ]
+source_urls = ['https://github.com/ThomasDickey/xterm-snapshots/archive/refs/tags']
+checksums =   ['7fb83d0bd5eeb6b6d9d113f00a49147abffb899dfd2f003891da7e3cbce84efa']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+    ('X11',   '%(toolchain_version)s'),
+    ('PCRE2', local_PCRE2_version),
+]
+
+configopts  = '--with-pcre2'
+
+sanity_check_paths = {
+#    'files': ['bin/xterm', 'bin/uxterm', 'bin/resize', 'bin/koi8rxterm'],
+    'files': ['bin/%s' % x for x in ['xterm', 'uxterm', 'resize', 'koi8rxterm']] +
+             ['share/man/man1/%s.1' % x for x in ['xterm', 'uxterm', 'resize', 'koi8rxterm']] + 
+             ['lib/X11/app-defaults/%s' % x for x in ['KOI8RXTerm', 'KOI8RXTerm-color', 'UXTerm', 'UXTerm-color', 'XTerm', 'XTerm-color']],
+    'dirs':  [],
+}
+
+moduleclass = 'tools'
