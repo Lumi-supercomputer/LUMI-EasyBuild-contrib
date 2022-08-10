@@ -1,0 +1,100 @@
+easyblock = 'Bundle'
+
+local_Zip_version =   '3.0'
+local_UnZip_version = '6.0'
+
+name =    'Info-ZIP'
+version = local_Zip_version + '-' + local_UnZip_version
+
+homepage = 'http://www.info-zip.org/Zip.html'
+
+whatis = [
+    'Description: Info-ZIP provides the zip compression and uncompression tools'
+]
+
+description = """
+Info-ZIP contains the zip compression and file packaging/archive utilities 
+and unzip file extraction utilities.
+
+Although highly compatible both with PKWARE's PKZIP and PKUNZIP
+utilities for MS-DOS, our primary objectives have been portability and 
+other-than-MSDOS functionality.
+
+This module may not really be needed as the same utilities are installed
+in the system image of LUMI.
+"""
+
+docurls = [
+    'man pages in section 1 for zip, zipcloak, zipnote, zipsplit, unzip, funzip, unzipsfx, zipgrep and zipinfo',    
+]
+
+toolchain = {'name': 'cpeGNU', 'version': '22.06'}
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', SYSTEM),
+]
+
+dependencies = [
+    ('bzip2', '1.0.8'),
+]
+
+local_zip_buildopts  = '-f unix/Makefile CC="$CC" IZ_OUR_BZIP2_DIR=$EBROOTBZIP2 '
+local_zip_buildopts += 'CFLAGS="$CFLAGS -I. -DUNIX -DBZIP2_SUPPORT -DUNICODE_SUPPORT -DLARGE_FILE_SUPPORT" '
+local_zip_buildopts += 'generic_gcc'
+
+local_unzip_buildopts  = '-f unix/Makefile CC="$CC" D_USE_BZ2=-DUSE_BZIP2 L_BZ2=-lbz2 '
+local_unzip_buildopts += 'LF2="$LDFLAGS" '
+# Note: CF is multiple lines
+local_unzip_buildopts += 'CF="$CFLAGS $CPPFLAGS -I. -DACORN_FTYPE_NFS -DWILD_STOP_AT_DIR -DLARGE_FILE_SUPPORT '
+local_unzip_buildopts += '-DUNICODE_SUPPORT -DUNICODE_WCHAR -DUTF8_MAYBE_NATIVE -DNO_LCHMOD '
+local_unzip_buildopts += '-DDATE_FORMAT=DF_YMD -DUSE_BZIP2 -DIZ_HAVE_UXUIDGID -DNOMEMCPY -DNO_WORKING_ISPRINT" unzips '
+
+local_common_installopts = '-f unix/Makefile prefix=%(installdir)s '
+
+default_easyblock = 'ConfigureMake'
+
+components = [
+    ('Zip', local_Zip_version, {
+        'sources':     [ {
+                          'filename':    '%(namelower)s%(version_major)s%(version_minor)s.tar.gz',
+                          'source_urls': ['https://download.sourceforge.net/infozip']
+                       } ],
+        'start_dir':   '%(namelower)s%(version_major)s%(version_minor)s',
+        'skipsteps':   ['configure'],
+        'buildopts':   local_zip_buildopts,
+        'installopts': local_common_installopts,
+    }),
+    ('UnZip', local_UnZip_version, {
+        'sources':     [ {
+                          'filename':    '%(namelower)s%(version_major)s%(version_minor)s.tar.gz',
+                          'source_urls': ['https://download.sourceforge.net/infozip']
+                       } ],
+        'patches':     ['UnZip-%(version)s_various-security-and-other-fixes-from-Ubuntu.patch',], 
+        'start_dir':   '%(namelower)s%(version_major)s%(version_minor)s',
+        'skipsteps':   ['configure'],
+        'buildopts':   local_unzip_buildopts,
+        'installopts': local_common_installopts,
+    }),
+]
+checksums =   [
+    'f0e8bb1f9b7eb0b01285495a2699df3a4b766784c1765a8f1aeedf63c0806369',
+    '036d96991646d0449ed0aa952e4fbe21b476ce994abc276e49d30e686708bd37',  # unzip60.tar.gz
+    '06b9307fd5aa018896bd4126818c00c1fd284a06cc3681cf0492f951ebb57ffe',  # UnZip-6.0_various-security-and-other-fixes-from-Ubuntu.patch
+]
+
+sanity_check_paths = {
+    'files': ['bin/zip', 'bin/zipcloak', 'bin/zipnote', 'bin/zipsplit',
+              'bin/unzip', 'bin/funzip', 'bin/unzipsfx', 'bin/zipinfo', 'bin/zipgrep'],
+    'dirs':  ['man/man1']
+}
+
+sanity_check_commands = [
+    'zip --version',
+    'zipcloak --version',
+    'zipnote -h',
+    'zipsplit -h', 
+    'unzip -v',
+    'unzipsfx -h',
+]
+
+moduleclass = 'tools'
