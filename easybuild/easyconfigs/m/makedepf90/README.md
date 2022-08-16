@@ -36,15 +36,7 @@ all partitions in a given LUMI stack.
   * We did make a modification to put the man page in `share/man/man` rather
     than into `man/man1`.
     
-
-### Version 2.8.9 for the SYSTEM toolchain
-
-  * This is a build based on the new GitHub repository.
-  
-  * Even though it claims improvements in the build process, it actually contains
-    new bugs. E.g., it adds a dot in front of the paths in `make install` which we
-    had to work around by setting `DESTDIR`.
-    
-  * An improvement though is that it installs the man page where it should.
-
-
+  * Tried a build of the unoffical version 2.8.9 from the new GitHub repository,
+    but that build process was worse instead of better. Generating the not included
+    configure script creates warnings, and `make install` also tried to install in 
+    the wrong directory due to a bug in the generated Makefile.
