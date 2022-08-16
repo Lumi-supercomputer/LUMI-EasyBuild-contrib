@@ -49,3 +49,21 @@ https://develop.openfoam.com/Development/openfoam/-/wikis/building#easybuild
 ### Notes on CPE
 
  * This easyconfig produces `linux64Cray` platform binaries using `Cray` compiler option which is in fact CPE GNU. 
+
+ 
+### Issues with OpenFOAM v2106 and GCC 11
+ 
+ * Linking fails for OpenFOAM v2106 and GCC 11. We run into 
+   [issue 2147](https://develop.openfoam.com/Development/openfoam/-/issues/2147)
+   
+   The fix proposed there is to compile with `-D_GLIBCXX_USE_CXX11_ABI=0`. However, 
+   as OpenFOAM does not honour the pretty standard `CXXFLAGS` environment variable, 
+   the only solution is to inject this option using `FOAM_EXTRA_CXXFLAGS` and this
+   has to be done after calling the `etc/bashrc` script as that script unsets the
+   variable to avoid accidentally using settings from a previous compile in the 
+   same shell. 
+
+ 
+ 
+ 
+    
