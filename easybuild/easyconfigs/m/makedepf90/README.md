@@ -33,6 +33,9 @@ all partitions in a given LUMI stack.
     Programming Environment for such a little tool that is only used during
     the build process.
     
+  * We did make a modification to put the man page in `share/man/man` rather
+    than into `man/man1`.
+    
 
 ### Version 2.8.9 for the SYSTEM toolchain
 
