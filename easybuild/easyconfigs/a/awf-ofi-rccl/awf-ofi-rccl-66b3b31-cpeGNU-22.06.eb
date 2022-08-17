@@ -1,0 +1,38 @@
+easyblock = 'ConfigureMake'
+
+name = 'aws-ofi-rccl'
+version = '66b3b31'
+
+homepage = 'https://github.com/ROCmSoftwarePlatform/aws-ofi-rccl'
+description = """AWS OFI RCCL is a plug-in which enables EC2 developers
+to use libfabric as a network provider while running AMD's RCCL based
+applications"""
+
+toolchain = {'name': 'cpeGNU', 'version': '22.06'}
+
+sources = [{
+    'filename': '%(name)s-%(version)s.tar.gz',
+    'git_config': {
+        'url': 'https://github.com/ROCmSoftwarePlatform',
+        'repo_name': '%(name)s',
+        'commit': '%(version)s',
+    }
+}]
+
+dependencies = [
+    ('rccl', '2.12.7')
+]
+
+preconfigopts = ' ./autogen.sh && '
+configopts = (
+    ' --with-libfabric=/opt/cray/libfabric/1.15.0.0 '
+    ' --with-hip=$EBROOTROCM/hip '
+    ' --with-rccl=$EBROOTRCCL '
+)
+
+sanity_check_paths = {
+    'files': ['lib/librccl-net.so.0.0.0'],
+    'dirs': ['bin', 'lib']
+}
+
+moduleclass = 'devel'
