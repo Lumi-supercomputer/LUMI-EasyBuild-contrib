@@ -23,7 +23,7 @@ and response on issues raised seems to be slow also.
 -   There is no support for VCFtools in the CSCS repository
 
 
-### Version 0.1.16 for cpeGNU 21.12 and 22.06
+### Version 0.1.16 for cpeGNU 21.12, 22.06 and 22.08
 
 -   We started from the EasyBuilders EasyConfig file for the 2021b
     common toolchains and added some documentation and tests.

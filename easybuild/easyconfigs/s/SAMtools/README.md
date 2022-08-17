@@ -40,7 +40,7 @@
     detected on LUMI.
    
    
-### Version 1.15.1 for CPE 22.06
+### Version 1.15.1 for CPE 22.06 and 22.08
 
 -   Cleaned up dependencies and removed those that are pulled in through
     HTSlib.

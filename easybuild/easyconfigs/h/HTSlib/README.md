@@ -35,7 +35,7 @@
     detected on LUMI.
 
     
-### Version 1.15.1 for cpeGNU 22.06
+### Version 1.15.1 for cpeGNU 22.06 and 22.08
 
 -   Switched from zlib to libdeflate for zlib compression based on a recommendation on the SAMtools
     documentation page ["A comparison of zlib implementations"](http://www.htslib.org/benchmarks/zlib.html).
