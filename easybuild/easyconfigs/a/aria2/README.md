@@ -15,7 +15,7 @@
 -   Adapted from the EasyBuilders EasyConfig.
 
 
-### Version 1.36.0 for CPE 22.06
+### Version 1.36.0 for CPE 22.06 and 22.08
 
 -   Switched back to using dependencies build with EasyBuild just to
     be sure but otherwise a trivial upgrade.
