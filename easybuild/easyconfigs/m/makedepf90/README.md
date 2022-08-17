@@ -22,6 +22,8 @@ Team, unless someone would pick up development again.
   
   * There is no support in the CSCS repository
   
+  * There is no support in Spack
+  
 It is best to compile this program in `partition/common` so that it is available to
 all partitions in a given LUMI stack.
   
