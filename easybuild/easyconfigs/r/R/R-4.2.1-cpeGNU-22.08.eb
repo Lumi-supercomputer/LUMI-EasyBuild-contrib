@@ -1,0 +1,180 @@
+name =          'R'
+version =       '4.2.1'
+
+homepage = 'https://www.r-project.org/'
+
+whatis = [
+    "Description: R is a free software environment for statistical computing and graphics."
+]
+
+description = """
+This module provides a base R package, without many bells and whistles. 
+A fully-featured R has many dependencies that do not all make sense on
+the compute nodes of LUMI, in particular when it comes to graphics.
+
+Similarly, the build process as-is will not find a web browser nor
+PDF viewer as these are not currently available on regular compute
+nodes of LUMI.
+
+This version of R links with the multithreaded version of 
+Cray LibSci, so its linear algebra routines support multithreading
+by settingh OMP_NUM_THREADS.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '22.08'}
+toolchainopts = {'openmp': True}
+
+source_urls = ['https://cloud.r-project.org/src/base/R-%(version_major)s']
+sources =     [SOURCE_TAR_GZ]
+checksums = [
+    '4d52db486d27848e54613d4ee977ad952ec08ce17807e1b525b10cd4436c643f',  # R-4.1.2.tar.gz
+]
+# Note: R will not be able to tell which BLAS library was used as it is linked
+# in automatically and does not appear in BLAS_LIBS so that the code in the
+# configure script cannot figure out which BLAS is being used and set
+# r_blas properly.
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+#    ('pkg-config', '0.29.2'),
+#    ('Xvfb', '1.20.13'),
+]
+
+dependencies = [
+    # Base R
+    ('ncurses',       '6.2'),
+    ('libreadline',   '8.1.2'),
+    ('zlib',          '1.2.12'),
+    ('bzip2',         '1.0.8'),
+    ('gzip',          '1.12'),
+    ('XZ',            '5.2.5'),
+    ('Info-ZIP',      '3.0-6.0'),  # Not really needed as anything in this module is also in the system-installed versions.
+    # TODO: Add a zip/unzip command, though the system one might be OK as it only uses the commands.
+    ('PCRE2',         '10.40'),    
+    ('cURL',          '7.83.1'),  # for RCurl but also used by the base R package
+    ('X11',           '%(toolchain_version)s'),
+    ('Tk',            '8.6.12'),  # for tcltk (base package)
+    ('libpng',        '1.6.37'),  # for plotting in R
+    ('libjpeg-turbo', '2.1.3'),  # for plottting in R
+    ('LibTIFF',       '4.4.0'),
+    ('cairo',         '1.17.4'),
+    ('Pango',         '1.50.7'),
+    # Extensions
+#    ('Mesa', '21.1.7'),
+#    ('libGLU', '9.0.2'),
+#    ('SQLite', '3.36'),
+#    ('Java', '11', '', True),
+#    ('libxml2', '2.9.10'),  # for XML
+#    ('GMP', '6.2.1'),  # for igraph
+#    ('NLopt', '2.7.0'),  # for nloptr
+#    ('FFTW', '3.3.10'),  # for fftw
+#    ('libsndfile', '1.0.31'),  # for seewave
+#    ('ICU', '69.1'),  # for rJava & gdsfmt
+#    ('HDF5', '1.12.1'),  # for hdf5r
+#    ('UDUNITS', '2.2.28'),  # for units
+#    ('GSL', '2.7'),  # for RcppGSL
+#    ('ImageMagick', '7.1.0-4'),  # for animation
+#    ('GLPK', '5.0'),  # for Rglpk
+#    ('nodejs', '14.17.6'),  # for V8 (required by rstan)
+#    ('GDAL', '3.3.2'),  # for sf
+#    ('MPFR', '4.1.0'),  # for Rmpfr
+#    ('libgit2', '1.1.1'),
+#    ('OpenSSL', '1.1', '', True),
+]
+
+# Some R extensions (mclust, quantreg, waveslim for example) require the math library (-lm) to avoid undefined symbols.
+# Adding it to FLIBS makes sure it is present when needed.
+preconfigopts  = 'export FLIBS="$FLIBS -lm" && '
+# We also need to ensure a single Cray LibSci library is used. It looks like R compiles
+# some files with OpenMP if it figures out that the compiler supports OpenMP, but does
+# not add the flag to the link options, resulting in problems with Cray LibSci. Hence
+# we enforce OpenMP and manually add it to the linker flags as that is not done by
+# the build process.
+preconfigopts += 'export LDFLAGS="-fopenmp $LDFLAGS" && '
+
+configopts = "--with-pic --enable-threads --enable-R-shlib"
+# some recommended packages may fail in a parallel build (e.g. Matrix), and
+# we're installing them anyway below
+configopts += " --with-recommended-packages=no"
+
+# specify that at least EasyBuild v3.5.0 is required,
+# since we rely on the updated easyblock for R to configure correctly w.r.t. BLAS/LAPACK
+easybuild_version = '3.5.0'
+
+exts_default_options = {
+    'source_urls': [
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s',  # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz',
+}
+
+# !! order of packages is important !!
+# packages updated on 1st November 2021
+exts_list = [
+    # include packages that are part of the base installation of R,
+    # both to make sure they are available (via sanity check),
+    # and to be able to pass the check for required dependencies when installing extensions in parallel
+    'base',
+    'compiler',
+    'datasets',
+    'graphics',
+    'grDevices',
+    'grid',
+    'methods',
+    'parallel',
+    'splines',
+    'stats',
+    'stats4',
+    'tcltk',
+    'tools',
+    'utils',
+    ('Rmpi', '0.6-9.2', {
+        'easyblock':   'RPackage',
+        'patches':     ['Rmpi-%(version)s_Cray.patch'],
+        'installopts': '--configure-args="--with-Rmpi-type=CRAY --with-Rmpi-include=$CRAY_MPICH_DIR/include --with-Rmpi-libpath=$CRAY_MPICH_DIR/lib" ',
+        'checksums':   ['358ac1af97402e676f209261a231f36a35e60f0301edf8ca53dac11af3c3bd1a'],
+    }),
+    ('abind', '1.4-5', {
+        'checksums': ['3a3ace5afbcb86e56889efcebf3bf5c3bb042a282ba7cc4412d450bb246a3f2c'],
+    }),
+    ('magic', '1.6-0', {
+        'checksums': ['4516d48c9618e3f395db873e886f5deb3b66b32ebe10d4c26c1420ac848acbbf'],
+    }),
+    ('Rcpp', '1.0.8.3', {
+        'checksums': ['9da5b84cdaf56e972b41e669d496b1ece2e91bcd435505c68b9f2bd98375f8bf'],
+    }),
+    ('RcppProgress', '0.4.2', {
+        'checksums': ['b1624b21b7aeb1dafb30f092b2a4bef4c3504efd2d6b00b2cdf55dc9df194b48'],
+    }),
+    ('lpSolve', '5.6.15', {
+        'checksums': ['4627be4178abad34fc85a7d264c2eb5e27506f007e46687b0b8a4f8fbdf4f3ba'],
+    }),
+    ('linprog', '0.9-4', {
+        'checksums': ['81a6aa2fdc075f12dc912794d0554f87705a8b872b99c89a90a69ee9ada864b4'],
+    }),
+    ('geometry', '0.4.6', {
+        'checksums': ['910465a8c8043faca73bcc7c81c9249b9938677ee6649468003b438a6503f5d8'],
+    }),
+    ('bit', '4.0.4', {
+        'checksums': ['e404841fbe4ebefe4ecd4392effe673a8c9fa05f97952c4ce6e2f6159bd2f168'],
+    }),
+    ('filehash', '2.4-3', {
+        'checksums': ['f394e2c93233e8ad1c104562ea9349855dc8e303131f559cd59834f9aa3e41bd'],
+    }),
+    ('ff', '4.0.7', {
+        'checksums': ['0a47333d31c7afc3f95387166e21a3e4c763cbef47d9b5927753aef4ff8d83fa'],
+    }),
+    ('bnlearn', '4.7.1', {
+        'checksums': ['243930daa7f71c63fe1aa6717e5d55a116a597b83e08745cbcbe9a418d7c1509'],
+    }),
+    ('bootstrap', '2019.6', {
+        'checksums': ['5252fdfeb944cf1fae35016d35f9333b1bd1fc8c6d4a14e33901160e21968694'],
+    }),
+    ('combinat', '0.0-8', {
+        'checksums': ['1513cf6b6ed74865bfdd9f8ca58feae12b62f38965d1a32c6130bef810ca30c1'],
+    }),
+]
+
+moduleclass = 'lang'
