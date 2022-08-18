@@ -21,7 +21,7 @@ the container of lumi-vnc.
     (quite a few versions behind when this easyconfig was first developed).
   
 
-### Version 372j for 22.06
+### Version 372j for 22.06, 22.08
 
   * EasyConfig based on a long deprecated EasyBuilders one.
 
