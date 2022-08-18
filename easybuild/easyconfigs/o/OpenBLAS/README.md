@@ -34,7 +34,7 @@ in the LUMI software stacks.
     which is really for the EasyBuild common toolchains and not for the Cray PE.
 
 
-### Version 0.3.20 for cpeGNU/22.06
+### Version 0.3.20 for cpeGNU/22.06, cpeGNU/22.08
 
   * The EasyConfig is an adaptation of the standard EasyBuilders one.
   
