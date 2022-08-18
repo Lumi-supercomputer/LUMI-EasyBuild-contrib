@@ -57,7 +57,7 @@ LUMI GPU partition.
     manual explains, we provide some information in the module file.
 
 
-### Version 3.3.0 for cpeGNU 22.06
+### Version 3.3.0 for cpeGNU 22.06, 22.08
 
   * Not updated yet as it is not clear if this is being used and as the previous
     fixes need to be modified as the CMake build process has changed.
