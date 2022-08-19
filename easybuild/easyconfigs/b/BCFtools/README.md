@@ -27,7 +27,7 @@
     HTSlib on LUMI.
     
 
-### Version 1.15.1 forr CPE 22.06
+### Version 1.15.1 forr CPE 22.06 and 22.08
 
   * Checked the configure script for additional useful options. Considered adding
     '--enable-perl-filters` but that used libperl from the system. As it turns out

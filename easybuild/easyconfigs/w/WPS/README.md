@@ -25,7 +25,7 @@ there is no proper install procedure.
      as NCAR is replacing its graphics tools with Python-based tools.
    
 
-### Version 4.3.1 for 22.06
+### Version 4.3.1 for 22.06 and 22.08
 
   * 22.06 uses a newer version of JasPer, but unfortunately WPS is incompatible with
     it causing the build of ungrib.exe to fail.

@@ -1,0 +1,77 @@
+# This file is an EasyBuild reciPY as per https://github.com/easybuilders/easybuild
+# Author: Pablo Escobar Lopez
+# Swiss Institute of Bioinformatics
+# Biozentrum - University of Basel
+# 1.4 modified by:
+# Adam Huffman, Jonas Demeulemeester
+# The Francis Crick Institute
+# Updated to 1.14
+# J. Sassmannshausen /GSTT
+# K. Lust: Updated to 1.15.1 for LUMI.
+
+easyblock = 'ConfigureMake'
+
+name =    'HTSlib'
+version = '1.15.1'
+
+homepage = "https://www.htslib.org/"
+
+whatis = [
+    "Description: HTSlib is a C library for reading/writing high-throughput sequencing data."
+]
+
+description = """
+HTSlib is an implementation of a unified C library for accessing common file
+formats, such as SAM, CRAM and VCF, used for high-throughput sequencing data,
+and is the core library used by samtools and bcftools.
+HTSlib implements a generalized BAM index, with file extension .csi
+(coordinate-sorted index). The HTSlib file reader first looks for the new
+index and then for the old if the new index is absent.
+This project also includes the popular tabix indexer, which indexes both
+.tbi and .csi formats, and the bgzip compression utility.
+"""
+
+docurls = [
+    'man pages in sections 1, 5 and 7',
+]
+
+toolchain = {'name': 'cpeGNU', 'version': '22.08'}
+
+source_urls = ['https://github.com/samtools/%(namelower)s/releases/download/%(version)s/']
+sources =     [SOURCELOWER_TAR_BZ2]
+checksums =   ['8d7f8bf9658226942eeab70af2a22aca618577eaa8fe2ed9416ee306d5351aa1']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+# cURL added for S3 support
+dependencies = [
+    ('libdeflate', '1.12'),
+    ('bzip2',     '1.0.8'),
+    ('XZ',        '5.2.5'),
+    ('cURL',      '7.83.1'),
+]
+
+#
+# Unload modules that are not needed to compile HTSlib. A user has reported crashed with
+# version 1.14, so let's remove everything that is not strictly needed.
+#
+preconfigopts = 'module unload cray-libsci cray-mpich xpmem cray-dsmml ; module list ; '
+prebuildopts = preconfigopts
+preinstallopts = preconfigopts
+
+configopts = '--with-libdeflate --enable-libcurl --enable-s3 --enable-gcs '
+
+sanity_check_paths = {
+    'files': ['bin/bgzip', 'bin/tabix', 'lib/libhts.%s' % SHLIB_EXT],
+    'dirs':  ['include'],
+}
+
+sanity_check_commands = [
+    'bgzip --version',
+    'htsfile --version',
+    'tabix --version',
+]
+
+moduleclass = 'bio'

@@ -1,0 +1,96 @@
+# Created by Orian Louant for the LUMI consortium
+
+easyblock = 'CmdCp'
+
+name          = 'WRF'
+version       = '4.3.3'
+versionsuffix = '-chem'
+
+local_Perl_version = '5.36.0'
+
+local_configuration  = [
+    ('WRF_EM_CORE',                  '1'),
+    ('WRF_CHEM',                     '1'),
+    ('WRF_KPP',                      '1'),
+    ('WRFIO_NCD_LARGE_FILE_SUPPORT', '1'),
+    ('NETCDF',                       '${NETCDF_DIR}'),
+    ('FLEX_LIB_DIR',                 '$EBROOTFLEX/lib'),
+    ('YACC_PATH',                    '$EBROOTBYACC/bin'),
+    ('HDF5',                         '$CRAY_HDF5_PREFIX'),
+]
+
+local_compile_targets = [
+    'em_real',
+    'emi_conv',
+]
+
+homepage = 'https://www2.acom.ucar.edu/wrf-chem'
+
+whatis = [
+    'Description: WRF-Chem is the Weather Research and Forecasting (WRF) model coupled with Chemistry.'
+]
+
+description = """
+WRF-Chem is the Weather Research and Forecasting (WRF) model coupled with
+Chemistry. The model simulates the emission, transport, mixing, and chemical
+transformation of trace gases and aerosols simultaneously with the meteorology.
+The model is used for investigation of regional-scale air quality, field program
+analysis, and cloud-scale interactions between clouds and chemistry.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '22.08'}
+
+source_urls = ['https://github.com/wrf-model/WRF/archive/']
+sources = ['v%(version)s.tar.gz']
+
+checksums = ['1b98b8673513f95716c7fc54e950dfebdb582516e22758cd94bc442bccfc0b86']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+    ('Perl',       local_Perl_version),
+]
+
+dependencies = [
+    ('cray-hdf5',   EXTERNAL_MODULE),
+    ('cray-netcdf', EXTERNAL_MODULE),
+]
+
+unpack_options    = '--strip-components=1'
+buildininstalldir = True
+
+local_configure_cmds = """./configure <<'EOF'
+34
+1
+EOF
+sed -i s/gcc/cc/ configure.wrf && \
+sed -i s/mpicc/cc/ configure.wrf && \
+sed -i s/gfortran/ftn/ configure.wrf && \
+sed -i s/mpif90/ftn/ configure.wrf && \
+sed -i 's/-ll //' chem/KPP/kpp/kpp-2.1/src/Makefile && \
+sed -i 's/#  YACC=/YACC=${YACC_PATH}\//' chem/KPP/configure_kpp"""
+
+local_preconfigure_cmds = ' && '.join(['export ' + x[0] + '=' + x[1] for x in local_configuration])
+local_build_cmds        = ' && '.join(['./compile %s' % x for x in local_compile_targets])
+
+cmds_map = [
+    ('v%(version)s.tar.gz', 
+     ' && '.join([
+        local_preconfigure_cmds,
+        local_configure_cmds,
+        local_build_cmds
+    ])),
+]
+
+files_to_copy = None
+
+sanity_check_paths = {
+    'files': ['main/%s' % x for x in ['wrf.exe', 'ndown.exe', 'tc.exe', 'real.exe', 'libwrflib.a']],
+    'dirs':  ['main']
+}
+
+modextrapaths = {
+    'PATH'            : 'main',
+    'LD_LIBRARY_PATH' : 'main',
+}
+
+moduleclass = 'chem'

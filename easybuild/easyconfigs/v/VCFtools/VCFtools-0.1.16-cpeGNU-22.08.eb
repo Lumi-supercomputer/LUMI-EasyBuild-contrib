@@ -1,0 +1,52 @@
+easyblock = 'ConfigureMake'
+
+name =    'VCFtools'
+version = '0.1.16'
+
+homepage = "https://vcftools.github.io"
+
+whatis = [
+    'Description: VCFtools provides methods for working with VCF files'
+]
+
+description = """
+The aim of VCFtools is to provide  easily accessible methods for working with
+complex genetic variation data in the form of VCF files.
+"""
+
+docurls = [
+   'man page vcftools in section 1'
+]
+
+toolchain = {'name': 'cpeGNU', 'version': '22.08'}
+
+source_urls = ['https://github.com/%(namelower)s/%(namelower)s/releases/download/v%(version)s/']
+sources =     ['%(namelower)s-%(version)s.tar.gz']
+patches =     ['VCFtools-0.1.16_gzip_regexp.patch']
+checksums =   ['dbfc774383c106b85043daa2c42568816aa6a7b4e6abc965eeea6c47dde914e3']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+    ('Perl',   '5.36.0'),
+    ('HTSlib', '1.15.1'),
+    ('zlib',   '1.2.12'),
+]
+
+modextrapaths = {
+    'PERL5LIB': 'lib/perl5/site_perl'
+}
+
+# Note that the test lists only a small subset of the commands.
+sanity_check_paths = {
+    'files': ['bin/%s' % x for x in ['%(namelower)s', 'vcf-sort', 'vcf-stats']],
+    'dirs':  [],
+}
+
+sanity_check_commands = [ # Cannot easily try the commands as most return error codes for --help.
+    'vcftools --version',
+]
+
+moduleclass = 'bio'
