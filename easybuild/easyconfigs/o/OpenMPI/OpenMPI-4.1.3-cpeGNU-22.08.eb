@@ -3,8 +3,23 @@ easyblock = 'ConfigureMake'
 name = 'OpenMPI'
 version = '4.1.3'
 
-homepage = 'http://www.open-mpi.org/'
-description = """The Open MPI Project is an open source MPI-3 implementation."""
+homepage = 'https://www.open-mpi.org/'
+
+whatis = [
+    "Description: The Open MPI Project is an open source MPI-3 implementation."    
+]
+
+description = """
+The Open MPI Project is an open source MPI-3 implementation.
+
+Note that despite the inclusion of the rocm module this MPI module
+is actually not GPU-aware as the interconnect of LUMI does not support
+UCX, which is currently a requirement for Open MPI on AMD GPUs.
+
+The primary MPI application which users should use as much as possible
+on LUMI is cray-mpich. This module is only to solve very specific problems
+and may in fact cause other ones.
+"""
 
 toolchain = {'name': 'cpeGNU', 'version': '22.08'}
 
