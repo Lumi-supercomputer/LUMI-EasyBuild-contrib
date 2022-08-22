@@ -13,6 +13,11 @@ OpenMM is a high-performance toolkit for molecular simulation. You can use it as
 an application, a library, or a flexible programming environment. It include 
 extensive language bindings for Python, C, C++, and Fortran.
 
+The build process does run a number of internal tests before installing in the
+final location. However, in EasyConfigs with the Cray and AMD AOCC compilers the tests
+have been disabled as one of them crashes. Hence the cpeCray and cpeAOCC versions 
+may or may not work for your case.
+
 
 ## EasyBuild
 
@@ -41,12 +46,15 @@ One of the test fail (segfault), be aware of it if you are using this version.
     `buildtools`
 
 
-### Version 7.7.0 for 21.12 and 22.06
+### Version 7.7.0 for 21.12, 22.06 and 22.08
     
   * The EasyConfig is a fairly straightforward evolution of the 7.5.1 one.
 
   * The test failure for #71 TestSerializeState (with SEGFAULT) is still present
-    with the Cray compiler in 22.06. The crash is internal in the code and doesn't
-    seem to be the result of a library that is linked in.
+    with the Cray compiler in 22.06 and 22.08. The crash is internal in the code 
+    and doesn't seem to be the result of a library that is linked in.
+    
+    The same test also fails with cpeAOCC/22.08, so it seems to be caused by either
+    a bug in OpenMM that shows with clang-based compilers or a bug in clang.
 
     
