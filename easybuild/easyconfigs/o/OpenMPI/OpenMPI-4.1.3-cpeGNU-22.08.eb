@@ -1,0 +1,27 @@
+easyblock = 'ConfigureMake'
+
+name = 'OpenMPI'
+version = '4.1.3'
+
+homepage = 'http://www.open-mpi.org/'
+description = """The Open MPI Project is an open source MPI-3 implementation."""
+
+toolchain = {'name': 'cpeGNU', 'version': '22.08'}
+
+source_urls = ['http://www.open-mpi.org/software/ompi/v%(version_major_minor)s/downloads']
+sources = [SOURCELOWER_TAR_GZ]
+checksums = ['9c0fd1f78fc90ca9b69ae4ab704687d5544220005ccd7678bf58cc13135e67e0']
+
+dependencies = [
+    ('rocm/5.0.2', EXTERNAL_MODULE)
+]
+
+configopts  = '--with-libfabric=/opt/cray/libfabric/$(pkg-config --modversion libfabric) '
+configopts += '--with-slurm '
+
+sanity_check_paths = {
+    'files': ['bin/ompi_info', 'bin/opal_wrapper', 'bin/orterun', 'lib/libmpi.so'],
+    'dirs': ['bin', 'lib', 'include'],
+}
+
+moduleclass = 'mpi'
