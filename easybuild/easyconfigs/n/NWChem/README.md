@@ -14,7 +14,7 @@
 -   There is no support for NWChem in the CSCS repository
     
 
-### Version 7.0.2 for CPE 21.08 and 22.06
+### Version 7.0.2 for CPE 21.08, 22.06 and 22.08
 
 -   The easyconfig is a LUMI development
 

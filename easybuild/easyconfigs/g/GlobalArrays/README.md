@@ -19,7 +19,7 @@
   * Internal build, inspired on the easybuilders recipe.
   
 
-### Version 5.8.1 for cpeGNU 22.06
+### Version 5.8.1 for cpeGNU 22.06 and 22.08
 
   * Straightforward port of the 5.8 EasyConfig.
   
