@@ -20,7 +20,7 @@
     EasyConfig.
 
 
-### Version 3.2 for CPE 22.06
+### Version 3.2 for CPE 22.06 and 22.08
 
   * Almost straightforwared port of the 3.1 one but with a different
     edit of the configure script that might be more robust across
@@ -32,4 +32,6 @@
     take an AMD-specific code path.
     
   * Fixed the setup for the Cray compilers.
+  
+  * Added a cpeAOCC variant in 22.08.
   

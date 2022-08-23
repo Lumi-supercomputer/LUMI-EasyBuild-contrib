@@ -1,0 +1,95 @@
+# Created by Orian Louant for the LUMI consortium
+# Updated by Kurt Lust for the LIUMI consortium
+
+easyblock = 'CmdCp'
+
+name          = 'WPS'
+version       = '4.3.1'
+
+local_Perl_version   = '5.36.0'
+local_JasPer_version = '2.0.33'   # Inconmpatible with 3.0.4 used in the 22.06 stack.
+local_libpng_version = '1.6.37'
+local_zlib_version   = '1.2.12'
+local_WRF_version    = '4.3.3'
+
+local_configuration  = [
+    ('NETCDF',    '${NETCDF_DIR}'),
+    ('WRF_DIR',   '$EBROOTWRF'),
+    ('JASPERINC', '$EBROOTJASPER/include'),
+    ('JASPERLIB', '$EBROOTJASPER/lib'),
+]
+
+homepage = 'https://www2.acom.ucar.edu/wrf-chem'
+
+whatis = [
+    'Description: WPS is the is the Preprocessing System (WPS) for WRF'
+]
+
+description = """
+WRF Preprocessing System (WPS) for WRF. The Weather Research and Forecasting
+(WRF) Model is a next-generation mesoscale numerical weather prediction system
+designed to serve both operational forecasting and atmospheric research needs.
+
+The plotfmt.exe and plotgrid.exe tools are not included in this module as they
+depend on NCAR Graphics which is no longer maintained and hasn't seen an update
+since 2019.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '22.08'}
+
+source_urls = ['https://github.com/wrf-model/WPS/archive/']
+sources = ['v%(version)s.tar.gz']
+
+checksums = ['db6da44a2ca68cc289e98ab388a53c27283eb4ed8e92edee268466543fdedb0e']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+    ('Perl',       local_Perl_version)
+]
+
+dependencies = [
+    ('cray-hdf5',   EXTERNAL_MODULE),
+    ('cray-netcdf', EXTERNAL_MODULE),
+    ('WRF',         local_WRF_version, '-chem'),
+    ('zlib',        local_zlib_version),
+    ('JasPer',      local_JasPer_version),
+    ('libpng',      local_libpng_version),
+]
+
+unpack_options    = '--strip-components=1'
+buildininstalldir = True
+
+local_configure_cmds = """./configure <<'EOF'
+3
+EOF
+sed -i s/gcc/cc/ configure.wps && \
+sed -i s/mpicc/cc/ configure.wps && \
+sed -i s/gfortran/ftn/ configure.wps && \
+sed -i s/mpif90/ftn/ configure.wps"""
+
+local_preconfigure_cmds = ' && '.join(['export ' + x[0] + '=' + x[1] for x in local_configuration])
+local_build_cmds        = './compile'
+
+cmds_map = [
+    ('v%(version)s.tar.gz', 
+     ' && '.join([
+        local_preconfigure_cmds,
+        local_configure_cmds,
+        local_build_cmds
+    ])),
+]
+
+files_to_copy = None
+
+sanity_check_paths = {
+    'files': ['geogrid.exe', 'metgrid.exe', 'ungrib.exe', 
+              'util/avg_tsfc.exe', 'util/g1print.exe', 'util/g2print.exe', 'util/mod_levs.exe',
+              'util/rd_intermediate.exe','util/calc_ecmwf_p.exe', 
+              'util/height_ukmo.exe',  'util/int2nc.exe'],
+    'dirs':  []
+}
+
+modextrapaths = {
+    'PATH'            : ['.', 'util'],
+    'LD_LIBRARY_PATH' : '.',
+}

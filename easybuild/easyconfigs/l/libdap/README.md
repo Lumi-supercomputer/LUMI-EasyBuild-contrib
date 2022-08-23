@@ -26,6 +26,6 @@ package.
   * Trivial port of the 3.20.8 EasyConfig file.
 
 
-### Version 3.20.10 for CPE 22.06
+### Version 3.20.10 for CPE 22.06, 22.08
 
   * Trivial port of the 3.20.9 EasyConfig file.

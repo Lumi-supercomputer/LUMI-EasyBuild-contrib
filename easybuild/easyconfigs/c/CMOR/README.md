@@ -21,7 +21,7 @@ complete. Use at your own risk.
   * [CMOR support in Spack](https://github.com/spack/spack/tree/develop/var/spack/repos/builtin/packages/cmor)
 
 
-### Version 3.6.1 for CPE 21.08 and 21.12
+### Version 3.6.1 for CPE 21.08, 21.12, 22.06, 22.08
 
   * Developed our own ConfigureMake-based EasyConfig file by analysing the
     Spack example and the configure script.

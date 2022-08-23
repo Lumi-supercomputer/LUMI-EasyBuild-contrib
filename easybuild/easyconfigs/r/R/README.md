@@ -17,7 +17,7 @@ the other EasyConfigs offer examples of how to add packages.
   * [Support in the CSCS repository](https://github.com/eth-cscs/production/tree/master/easybuild/easyconfigs/r/R)
   
   
-### Version 4.2.1 for cpeGNU 22.06
+### Version 4.2.1 for cpeGNU 22.06, 22.08
 
   * Worked from the EasyBuilders EasyConfig but removed all OpenGL-related stuff
     and also removed all extensions to create the `-raw` version which has no

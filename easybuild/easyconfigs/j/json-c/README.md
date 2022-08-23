@@ -22,7 +22,7 @@
     majority of packages installed on the system.
 
     
-### Version 0.16 for CPE 21.12 and 22.06
+### Version 0.16 for CPE 21.12, 22.06, 22.08
     
   * Trivial version bump.
 

@@ -1,0 +1,51 @@
+easyblock = 'ConfigureMake'
+
+name =    'makedepf90'
+version = '2.8.8'
+
+homepage = 'https://linux.die.net/man/1/makedepf90'
+
+whatis = [
+   'Description: Makedepf90 is a program for automatic creation of Makefile-style dependency lists for Fortran source code.'
+]
+
+description = """
+makedepf90 is a program for automatic creation of dependency lists and 
+compilation rules for Makefiles.
+
+The original idea was to provide the same functionality for Fortran as
+
+gcc -MM *.c
+
+does for C. Nowadays makedepf90 actually supersedes this functionality
+
+This software is no longer maintained so is offered without any warranty
+that it works properly or can continue to work on LUMI in the future.
+It is fully offered "as-is", without support from the LUMI User Support
+Team, unless someone would pick up development again.
+"""
+
+docurls = [
+    'Man page for the makedepf90 command in section 1'    
+]
+
+toolchain = SYSTEM
+
+sources =     ['%(name)s_%(version)s.orig.tar.gz']
+source_urls = ['https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/%(name)s/%(version)s-1/']
+checksums =   ['a5118aea198219f59bc04eab0a2099341cecac76a7029c2aef72141645e7596a']
+
+preconfigopts = 'sed -e "s|^mandir=.*|mandir=\'\${prefix}/share/man\'|" -i configure && '
+prebuildopts = 'make depend && '
+
+sanity_check_paths = {
+    'files': ['bin/makedepf90', 'share/man/man1/makedepf90.1'],
+    'dirs':  []
+}
+
+sanity_check_commands = [
+    'makedepf90 --help',
+    'makedepf90 --version',    
+]
+
+moduleclass = 'devel'
