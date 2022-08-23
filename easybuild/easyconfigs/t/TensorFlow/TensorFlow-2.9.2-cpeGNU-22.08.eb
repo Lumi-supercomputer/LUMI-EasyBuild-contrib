@@ -109,6 +109,7 @@ exts_list = [
    ),
 ]
 
+# FIXME Do this with a postinstallpatches when https://github.com/easybuilders/easybuild-framework/issues/4040 is fixed
 postinstallcmds = [
     'cp /users/rafaelsarmiento/git_/LUMI-EasyBuild-contrib/easybuild/easyconfigs/t/TensorFlow/test-patch/slurm_cluster_resolver_lumi.py '
     '%(installdir)s/lib/python3.9/site-packages/tensorflow/python/distribute/cluster_resolver/slurm_cluster_resolver.py'
