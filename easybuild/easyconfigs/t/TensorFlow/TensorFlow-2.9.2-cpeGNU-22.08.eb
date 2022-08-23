@@ -1,0 +1,122 @@
+easyblock = "PythonBundle"
+
+name = 'TensorFlow'
+version = '2.9.2'
+
+homepage = 'https://www.tensorflow.org/'
+description = """An open-source software library for Machine Intelligence."""
+
+toolchain = {'name': 'cpeGNU', 'version': '22.08'}
+
+dependencies = [
+    ('cray-python', EXTERNAL_MODULE),
+    ('aws-ofi-rccl', '66b3b31')
+]
+
+exts_default_options = {
+    'source_urls': [PYPI_SOURCE],
+    'use_pip': True,
+}
+
+exts_list = [
+    ('termcolor', '1.1.0'),
+    ('tensorboard-plugin-wit', '1.8.1', {'unpack_sources': False, 'source_tmpl': 'tensorboard_plugin_wit-%(version)s-py3-none-any.whl'}),
+    ('python-hostlist', '1.21', {'modulename': 'hostlist'}),
+    ('pyasn1', '0.4.8'),
+    ('libclang', '14.0.6', {'modulename': 'os'}),
+    ('keras', '2.9.0', {'unpack_sources': False, 'source_tmpl': '%(name)s-%(version)s-py2.py3-none-any.whl'}),
+    ('flatbuffers', '1.12'),
+    ('zipp', '3.8.1', {'unpack_sources': False, 'source_tmpl': '%(name)s-%(version)s-py3-none-any.whl'}),
+    ('wrapt', '1.14.1'),
+    ('wheel', '0.37.1'),
+    ('urllib3', '1.26.11'),
+    ('typing_extensions', '4.3.0', {'unpack_sources': False, 'source_tmpl': '%(name)s-%(version)s-py3-none-any.whl'}),
+    ('tensorflow-io-gcs-filesystem', '0.26.0', {
+        'unpack_sources': False,
+        'source_tmpl': 'tensorflow_io_gcs_filesystem-%(version)s-cp39-cp39-manylinux_2_12_x86_64.manylinux2010_x86_64.whl',
+        'modulename': 'os'
+        }
+    ),
+    ('tensorflow-estimator', '2.9.0', {
+        'unpack_sources': False,
+        'source_tmpl': 'tensorflow_estimator-%(version)s-py2.py3-none-any.whl',
+        'modulename': 'tensorflow_estimator',
+        }
+    ),
+    ('tensorboard-data-server', '0.6.1', {
+        'unpack_sources': False,
+        'source_tmpl': 'tensorboard_data_server-%(version)s-py3-none-manylinux2010_x86_64.whl'
+        }
+    ),
+    ('six', '1.16.0'),
+    ('rsa', '4.9', {'unpack_sources': False, 'source_tmpl': '%(name)s-%(version)s-py3-none-any.whl'}),
+    ('pyparsing', '3.0.9', {'unpack_sources': False, 'source_tmpl': '%(name)s-%(version)s-py3-none-any.whl'}),
+    ('pyasn1-modules', '0.2.8'),
+    ('protobuf', '3.19.4', {'modulename': 'google.protobuf'}),
+    ('oauthlib', '3.2.0'),
+    ('numpy', '1.22.4', {
+        'unpack_sources': False,
+        'skipsteps': ['build', 'test'],
+        'easyblock': 'PythonPackage',
+        'source_tmpl': '%(name)s-%(version)s-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl'
+        }
+    ),
+   ('MarkupSafe', '2.1.1'),
+   ('idna', '3.3'),
+   ('gast', '0.4.0'),
+   ('charset-normalizer', '2.1.0'),
+   ('certifi', '2022.6.15'),
+   ('cachetools', '5.2.0'),
+   ('absl-py', '1.2.0', {'modulename': 'absl'}),
+   ('Werkzeug', '2.2.2'),
+   ('requests', '2.28.1'),
+   ('packaging', '21.3'),
+   ('opt-einsum', '3.3.0', {
+       'unpack_sources': False,
+       'source_tmpl': 'opt_einsum-%(version)s-py3-none-any.whl',
+       'module_name': 'opt_einsum'
+       }
+   ),
+   ('Keras-Preprocessing', '1.1.2', {
+       'unpack_sources': False,
+       'source_tmpl': 'Keras_Preprocessing-%(version)s-py2.py3-none-any.whl',
+       'module_name': 'keras_preprocessing'
+       }
+   ),
+   ('importlib-metadata', '4.12.0', {
+       'unpack_sources': False,
+       'source_tmpl': 'importlib_metadata-%(version)s-py3-none-any.whl',
+       'module_name': 'importlib_metadata'
+       }
+   ),
+   ('h5py', '3.7.0', {
+       'unpack_sources': False,
+       'source_tmpl': '%(name)s-%(version)s-cp39-cp39-manylinux_2_12_x86_64.manylinux2010_x86_64.whl',
+       }
+   ),
+   ('grpcio', '1.47.0', {'modulename': 'grpc'}),
+   ('google-pasta', '0.2.0', {'modulename': 'pasta'}),
+   ('google-auth', '2.10.0', {'modulename': 'google.auth'}),
+   ('astunparse', '1.6.3'),
+   ('requests-oauthlib', '1.3.1'),
+   ('Markdown', '3.4.1'),
+   ('google-auth-oauthlib', '0.4.6', {'modulename': 'google_auth_oauthlib'}),
+   ('tensorboard', '2.9.1', {'source_tmpl': 'tensorboard-%(version)s-py3-none-any.whl'}),
+   ('tensorflow-rocm', version, {
+       'source_tmpl': 'tensorflow_rocm-%(version)s-cp39-cp39-manylinux2014_x86_64.whl',
+       'modulename': 'tensorflow'
+       }
+   ),
+]
+
+postinstallcmds = [
+    'cp /users/rafaelsarmiento/git_/LUMI-EasyBuild-contrib/easybuild/easyconfigs/t/TensorFlow/test-patch/slurm_cluster_resolver_lumi.py '
+    '%(installdir)s/lib/python3.9/site-packages/tensorflow/python/distribute/cluster_resolver/slurm_cluster_resolver.py'
+]
+
+sanity_check_paths = {
+    'files': ['lib/python%(pyshortver)s/site-packages/tensorflow/libtensorflow_framework.so.2'],
+    'dirs': ['lib/python%(pyshortver)s/site-packages/tensorflow_estimator'],
+}
+
+moduleclass = 'devel'
