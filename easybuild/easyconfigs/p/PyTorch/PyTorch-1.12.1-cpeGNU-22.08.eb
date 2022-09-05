@@ -12,7 +12,7 @@ toolchain = {'name': 'cpeGNU', 'version': '22.08'}
 
 dependencies = [
     ('cray-python', EXTERNAL_MODULE),
-    ('aws-ofi-rccl', '66b3b31')
+    ('rccl', '2.12.7')  # rccl-2.12.7 so that the aws-ofi-rccl plugin can be optionally used
 ]
 
 exts_default_options = {
