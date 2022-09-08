@@ -29,7 +29,11 @@ dependencies = [
     #('Hypre', '2.21.0'),
 ]
 
-configopts = 'CC="$CC" CXX="$CXX" FC="$FC" F77="$F77" F90="$F90" CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" FCFLAGS="$FCFLAGS" FFLAGS="$FFLAGS" CPPFLAGS="$CPPFLAGS" LDFLAGS="$LDFLAGS" LIBS="$LIBS" --known-has-attribute-aligned=1 --known-mpi-int64_t=0 --known-bits-per-byte=8 --known-64-bit-blas-indices=0 --known-sdot-returns-double=0 --known-snrm2-returns-double=0 --known-memcmp-ok=1 --known-mpi-c-double-complex=1 --known-mpi-shared-libraries=0 --known-sizeof-MPI_Comm=4 --known-sizeof-MPI_Fint=4 --known-sizeof-char=1 --known-sizeof-double=8 --known-sizeof-float=4 --known-sizeof-int=4 --known-sizeof-long-long=8 --known-sizeof-long=8 --known-sizeof-short=2 --known-sizeof-size_t=8 --known-sizeof-void-p=8 --with-ar=ar --with-batch=0 --with-cc=cc --with-clib-autodetect=0 --with-cxx=CC --with-cxxlib-autodetect=0 --with-debugging=0 --with-dependencies=0 --with-fc=ftn --with-fortran-datatypes=1 --with-fortran-interfaces=1 --with-fortran-bindings=1 --with-fortranlib-autodetect=0 --with-ranlib=ranlib --with-scalar-type=real --with-shared-ld=ar --with-etags=0 --with-x=0 --with-ssl=0 --with-shared-libraries=1 --with-mpi-lib=[] --with-mpi-include=[] --with-mpiexec=srun --with-blas-lapack=1 --with-superlu=0 --with-superlu_dist=0 --with-parmetis=0 --with-metis=1 --with-hypre=0 --with-scalapack=1 --with-ptscotch=1 --with-mumps=0 --with-hdf5=1 --with-cxx-dialect=C++11 --with-metis-dir="$EBROOTMETIS" --with-hdf5-dir="$CRAY_HDF5_PARALLEL_PREFIX" --with-ptscotch-dir="$EBROOTSCOTCH"'
+configopts = 'CC=cc CXX=CC FC=ftn --with-cc=cc --with-cxx=CC --with-fc=ftn '
+configopts += 'CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" FCFLAGS="$FCFLAGS" FFLAGS="$FFLAGS" CPPFLAGS="$CPPFLAGS" LDFLAGS="$LDFLAGS" '
+configopts += '--with-fortran-datatypes=1 --with-fortran-interfaces=1 --with-fortran-bindings=1 --with-cxx-dialect=C++11 '
+configopts += '--with-x=0 --with-ssl=0 --with-shared-libraries=1 --with-mpiexec=srun --with-blas-lapack=1 --with-metis=1 --with-hypre=0 --with-scalapack=1 --with-ptscotch=1 --with-mumps=0 --with-hdf5=1 '
+configopts += '--with-metis-dir="$EBROOTMETIS" --with-hdf5-dir="$CRAY_HDF5_PARALLEL_PREFIX" --with-ptscotch-dir="$EBROOTSCOTCH"'
 
 
 sanity_check_paths = {
