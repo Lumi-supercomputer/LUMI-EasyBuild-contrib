@@ -1,0 +1,43 @@
+easyblock = 'ConfigureMake'
+
+name = 'PETSc'
+version = '3.17.4'
+versionsuffix = '-GPU'
+
+homepage = 'https://www.mcs.anl.gov/petsc'
+description = """PETSc, pronounced PET-see (the S is silent), is a suite of data structures and routines for the
+ scalable (parallel) solution of scientific applications modeled by partial differential equations."""
+
+toolchain = {'name': 'cpeCray', 'version': '22.08'}
+toolchainopts = {'usehip': True}
+
+source_urls = [
+    'https://ftp.mcs.anl.gov/pub/petsc/release-snapshots/',
+#    'ftp://ftp.mcs.anl.gov/pub/petsc/release-snapshots/',
+]
+sources = [SOURCELOWER_TAR_GZ]
+
+builddependencies = [('buildtools', '%(toolchain_version)s', '', True)]
+
+dependencies = [
+    ('cray-python', EXTERNAL_MODULE),
+    ('cray-hdf5-parallel', EXTERNAL_MODULE),
+    ('Boost', '1.79.0'),
+    ('METIS', '5.1.0'),
+    ('SCOTCH', '6.1.3'),
+]
+
+configopts = 'CC=cc CXX=CC FC=ftn --with-cc=cc --with-cxx=CC --with-fc=ftn '
+configopts += 'CFLAGS="-O2" CXXFLAGS="-O2" FCFLAGS="$FCFLAGS" FFLAGS="$FFLAGS" CPPFLAGS="$CPPFLAGS" LDFLAGS="" '
+configopts += '--with-fortran-datatypes=1 --with-fortran-interfaces=1 --with-fortran-bindings=1 --with-cxx-dialect=C++11 '
+configopts += '--with-x=0 --with-ssl=0 --with-shared-libraries=1 --with-mpiexec=srun --with-blas-lapack=1 --with-metis=1 --with-hypre=0 --with-scalapack=1 --with-ptscotch=1 --with-mumps=0 --with-hdf5=1 '
+configopts += '--with-metis-dir="$EBROOTMETIS" --with-hdf5-dir="$CRAY_HDF5_PARALLEL_PREFIX" --with-ptscotch-dir="$EBROOTSCOTCH" '
+configopts += '--HIPC=hipcc --with-hip=1 --with-hip-arch="gfx90a" --with-hip-dir="/opt/rocm/hip"'
+
+
+sanity_check_paths = {
+    'files': ['lib/libpetsc.%s' % SHLIB_EXT],
+    'dirs': ['lib/pkgconfig', 'lib/petsc/bin'],
+}
+
+moduleclass = 'numlib'
