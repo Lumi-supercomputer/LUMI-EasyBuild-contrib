@@ -4,7 +4,16 @@ name = 'CuPy'
 version = '11.0.0'
 
 homepage = 'https://cupy.dev'
-description = 'CuPy is an open-source array library for GPU-accelerated computing with Python'
+
+whatis = [
+    'Description: CuPy is an open-source array library for GPU-accelerated computing with Python'
+]
+
+description = """"
+CuPy is an open-source array library for GPU-accelerated computing with Python.
+CuPy acts as a drop-in replacement to run existing NumPy/SciPy code on NVIDIA CUDA 
+or AMD ROCm platforms.
+"""
 
 toolchain = {'name': 'cpeGNU', 'version': '22.08'}
 
