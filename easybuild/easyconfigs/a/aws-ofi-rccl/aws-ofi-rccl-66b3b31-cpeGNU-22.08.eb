@@ -4,9 +4,21 @@ name = 'aws-ofi-rccl'
 version = '66b3b31'
 
 homepage = 'https://github.com/ROCmSoftwarePlatform/aws-ofi-rccl'
-description = """AWS OFI RCCL is a plug-in which enables EC2 developers
-to use libfabric as a network provider while running AMD's RCCL based
-applications"""
+
+whatis = [
+    'Description: AWS OFI RCCL is a plug-in which enables EC2 developers to use libfabric as a network provider.'
+]
+
+description = """
+Machine learning frameworks running on top of AMD GPUs use a library called 
+RCCL which provides standard collective communication routines for an arbitrary 
+number of GPUs installed across single or multiple nodes.
+
+This module implements a plug-in which maps RCCLs connection-oriented transport 
+APIs to libfabric's connection-less reliable interface. This allows RCCL 
+applications to take benefit of libfabric's transport layer services like 
+reliable message support and operating system bypass.
+"""
 
 toolchain = {'name': 'cpeGNU', 'version': '22.08'}
 
@@ -32,7 +44,7 @@ configopts = (
 
 sanity_check_paths = {
     'files': ['lib/librccl-net.so.0.0.0'],
-    'dirs': ['bin', 'lib']
+    'dirs':  ['bin', 'lib']
 }
 
 moduleclass = 'devel'

@@ -5,8 +5,15 @@ version = '1.12.1'
 _rocm_pt_build = '5.1.1'
 
 homepage = 'https://pytorch.org'
-description = """An open source machine learning framework that accelerates the path
-from research prototyping to production deployment"""
+
+whatis = [
+    'Description: PyTorch is an open source machine learning framework'
+]
+
+description = """
+PyTorch is an open source machine learning framework that accelerates the path
+from research prototyping to production deployment.
+"""
 
 toolchain = {'name': 'cpeGNU', 'version': '22.08'}
 

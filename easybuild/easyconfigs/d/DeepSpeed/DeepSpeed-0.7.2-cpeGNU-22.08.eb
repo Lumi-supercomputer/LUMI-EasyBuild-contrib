@@ -4,8 +4,15 @@ name = 'DeepSpeed'
 version = '0.7.2'
 
 homepage = 'https://www.deepspeed.ai'
-description = """DeepSpeed is an easy-to-use deep learning optimization software suite
-that enables unprecedented scale and speed for Deep Learning Training and Inference."""
+
+whatis = [
+    'Description: DeepSpeed is a Python-based deep learning optimization software suite'
+]
+
+description = """
+DeepSpeed is a Python-based easy-to-use deep learning optimization software suite
+that enables unprecedented scale and speed for Deep Learning Training and Inference.
+"""
 
 toolchain = {'name': 'cpeGNU', 'version': '22.08'}
 
