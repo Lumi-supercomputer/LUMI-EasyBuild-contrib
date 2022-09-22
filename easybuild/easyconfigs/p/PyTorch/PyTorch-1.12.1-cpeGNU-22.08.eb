@@ -1,0 +1,58 @@
+easyblock = "PythonBundle"
+
+name = 'PyTorch'
+version = '1.12.1'
+_rocm_pt_build = '5.1.1'
+
+homepage = 'https://pytorch.org'
+description = """An open source machine learning framework that accelerates the path
+from research prototyping to production deployment"""
+
+toolchain = {'name': 'cpeGNU', 'version': '22.08'}
+
+dependencies = [
+    ('cray-python', EXTERNAL_MODULE),
+    ('rccl', '2.12.7')  # rccl-2.12.7 so that the aws-ofi-rccl plugin can be optionally used
+]
+
+exts_default_options = {
+    'source_urls': [PYPI_SOURCE, f'https://download.pytorch.org/whl/rocm{_rocm_pt_build}'],
+    'unpack_sources': False,
+    'use_pip': True,
+}
+
+exts_list = [
+    ('python-hostlist', '1.21', {'modulename': 'hostlist'}),
+    ('urllib3', '1.26.11', {'source_tmpl': '%(name)s-%(version)s-py2.py3-none-any.whl'}),
+    ('typing_extensions', '4.3.0', {'source_tmpl': '%(name)s-%(version)s-py3-none-any.whl'}),
+    ('pillow', '9.2.0', {'source_tmpl': 'Pillow-9.2.0-cp39-cp39-manylinux_2_28_x86_64.whl', 'modulename': 'PIL'}),
+    ('numpy', '1.23.2', {
+        'unpack_sources': False,
+        'skipsteps': ['build', 'test'],
+        'easyblock': 'PythonPackage',
+        'source_tmpl': '%(name)s-%(version)s-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl'
+        }
+    ),
+    ('idna', '3.3', {'source_tmpl': '%(name)s-%(version)s-py3-none-any.whl'}),
+    ('charset_normalizer', '2.1.0', {'source_tmpl': '%(name)s-%(version)s-py3-none-any.whl'}),
+    ('certifi', '2022.6.15', {'source_tmpl': '%(name)s-%(version)s-py3-none-any.whl'}),
+    ('torch', f'{version}%2Brocm{_rocm_pt_build}', {
+        'source_tmpl': '%(name)s-%(version)s-cp39-cp39-linux_x86_64.whl',
+    }),
+    ('requests', '2.28.1', {'source_tmpl': '%(name)s-%(version)s-py3-none-any.whl'}),
+    ('torchvision', f'0.13.1%2Brocm{_rocm_pt_build}', {'source_tmpl': '%(name)s-%(version)s-cp39-cp39-linux_x86_64.whl'}),
+    ('torchaudio', f'0.12.1%2Brocm{_rocm_pt_build}', {'source_tmpl': '%(name)s-%(version)s-cp39-cp39-linux_x86_64.whl'})
+]    
+
+postinstallcmds = [
+    'rm %(installdir)s/lib/python%(pyshortver)s/site-packages/torch/lib/librccl.so && '
+    'ln -s $EBROOTRCCL/lib/librccl.so.1.0 %(installdir)s/lib/python%(pyshortver)s/site-packages/torch/lib/librccl.so'
+]
+
+sanity_check_paths = {
+    'files': ['lib/python%(pyshortver)s/site-packages/torch/_C.cpython-39-x86_64-linux-gnu.so'],
+    'dirs': ['lib/python%(pyshortver)s/site-packages/torchaudio',
+             'lib/python%(pyshortver)s/site-packages/torchvision'],
+}
+
+moduleclass = 'devel'
