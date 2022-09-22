@@ -2,13 +2,16 @@
 
 Note that we cannot fully support Open MPI on LUMI. Users should get
 decent performance on LUMI-C, but despite including the rocm modules,
-this is not a GPU-zware version of MPI as currently UCX is required
+this is not a GPU-aware version of MPI as currently UCX is required
 for that but not supported on the SlingShot 11 interconnect of
 LUMI.
 
 The primary MPI implementation on LUMI and the only one which we can
-fully support remains the implementation profided by the cray-mpich
-modules on top of libfabric as the communication library.
+fully support remains the implementation provided by the cray-mpich
+modules on top of libfabric as the communication library. The Cray
+MPICH implementation also contains some optimisations that are not
+available in the upstream MPICH installation but are essential for
+scalability in certain large runs on LUMI.
 
   * [Open MPI web site](https://www.open-mpi.org/)
 
@@ -34,5 +37,7 @@ modules on top of libfabric as the communication library.
 
 ### Version 4.1.3 for cpeGNU 22.08
 
-  * A simple port of the 4.1.2 recipe, with the same restrictions.
+  * A simple port of the 4.1.2 recipe, with the same restrictions, but one
+    addition to automatically detect the libfabric version so that it can
+    still work after a system update that installs a new libfabric.
 
