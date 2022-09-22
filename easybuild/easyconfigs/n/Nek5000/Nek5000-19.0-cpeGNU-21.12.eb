@@ -4,7 +4,23 @@ name = 'Nek5000'
 version = '19.0'
 
 homepage = 'https://nek5000.mcs.anl.gov/'
-description = "a fast and scalable high-order solver for computational fluid dynamics"
+
+whatis = [
+    'Description: Nek5000 is a fast and scalable high-order solver for computational fluid dynamics'
+]
+
+description = """
+Nek5000 is a spectral element solver for computational fluid dynamics.
+It features state-of-the-art, scalable algorithms that are fast and 
+efficient on platforms ranging from laptops to the world’s fastest 
+computers. Applications span a wide range of fields, including fluid 
+flow, thermal convection, combustion and magnetohydrodynamics. 
+The user community includes hundreds of scientists and engineers in 
+academia, laboratories and industry.
+
+This module provides the necessary tools to build your Nek5000
+binary.
+"""
 
 toolchain = {'name': 'cpeGNU', 'version': '21.12'}
 toolchainopts = {'pic': True, 'usempi': True}
@@ -24,7 +40,9 @@ sources = ['v%(version)s.tar.gz']
 
 #builddependencies = [('CMake', '3.10.2')]
 
-dependencies = [('X11', '21.12')]
+dependencies = [(
+    'X11', '%(toolchain_version)s')
+]
 
 buildininstalldir = True
 
