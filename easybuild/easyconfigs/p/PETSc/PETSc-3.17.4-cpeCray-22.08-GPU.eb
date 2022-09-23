@@ -34,6 +34,7 @@ configopts += '--with-x=0 --with-ssl=0 --with-shared-libraries=1 --with-mpiexec=
 configopts += '--with-metis-dir="$EBROOTMETIS" --with-hdf5-dir="$CRAY_HDF5_PARALLEL_PREFIX" --with-ptscotch-dir="$EBROOTSCOTCH" '
 configopts += '--HIPC=hipcc --with-hip=1 --with-hip-arch="gfx90a" --with-hip-dir="/opt/rocm/hip"'
 
+build_cmd_targets = ["all", "check"]
 
 sanity_check_paths = {
     'files': ['lib/libpetsc.%s' % SHLIB_EXT],
