@@ -62,6 +62,7 @@ buildininstalldir = 'True'
 
 install_cmd  = "source etc/bashrc WM_COMPILER=Cray WM_MPLIB=CRAY-MPICH MPICH_DIR=${CRAY_MPICH_PREFIX} "
 install_cmd += "&& cp ./wmake/rules/General/cgal-no-mpfr ./wmake/rules/General/cgal "
+install_cmd += "&& export FOAM_EXTRA_CXXFLAGS='-D_GLIBCXX_USE_CXX11_ABI=0' "  # This has to be set after sourcing etc/bashrc!
 install_cmd += "&& ./bin/tools/foamConfigurePaths -boost boost-system -boost-path ${EBROOTBOOST} -fftw fftw-system -fftw-path ${FFTW_ROOT} -scotch scotch-system -scotch-path ${EBROOTSCOTCH} -cgal cgal-system -cgal-path ${EBROOTCGAL} "
 install_cmd += "&& ./Allwmake -j 32"
 
