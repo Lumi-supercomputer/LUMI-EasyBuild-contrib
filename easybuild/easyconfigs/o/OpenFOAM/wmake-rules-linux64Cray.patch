@@ -37,7 +37,7 @@ diff -Naur OpenFOAM-9-cpeGNU-21.08/wmake/rules/linux64Cray/c++ OpenFOAM-9/wmake/
 +
 +ptFLAGS     = -DNoRepository -ftemplate-depth-100
 +
-+c++FLAGS    = $(GFLAGS) $(c++WARN) $(c++OPT) $(c++DBUG) $(ptFLAGS) $(LIB_HEADER_DIRS) -fPIC
++c++FLAGS    = $(GFLAGS) $(c++WARN) $(c++OPT) $(c++DBUG) $(ptFLAGS) $(LIB_HEADER_DIRS) -fPIC -D_GLIBCXX_USE_CXX11_ABI=0
 +
 +Ctoo        = $(WM_SCHEDULER) $(CC) $(c++FLAGS) -c $< -o $@
 +cxxtoo      = $(Ctoo)
