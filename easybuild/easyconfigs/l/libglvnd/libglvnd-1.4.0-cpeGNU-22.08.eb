@@ -5,13 +5,15 @@ version = '1.4.0'
 
 homepage = 'https://gitlab.freedesktop.org/glvnd/libglvnd'
 
-whatis = ['Description: libglvnd is a vendor-neutral dispatch layer for arbitrating OpenGL API calls']
+whatis = [
+    'Description: libglvnd is a vendor-neutral dispatch layer for arbitrating OpenGL API calls'
+]
 
 description = """
- libglvnd is a vendor-neutral dispatch layer for arbitrating OpenGL API calls
- between multiple vendors.
+libglvnd is a vendor-neutral dispatch layer for arbitrating OpenGL API calls
+between multiple vendors.
 
- Both GLX and EGL are supported, in any combination with OpenGL and OpenGL ES.
+Both GLX and EGL are supported, in any combination with OpenGL and OpenGL ES.
 """
 
 software_license_urls = ['https://gitlab.freedesktop.org/glvnd/libglvnd#libglvnd']
@@ -29,6 +31,12 @@ builddependencies = [
 dependencies = [
     ('X11', '%(toolchain_version)s'),
 ]
+
+O# Taken from the EasyBuilders one but for now disabled:# Let EGL find system-installed vendor files in /etc/glvnd/egl_vendor.d etc.
+#allow_prepend_abs_path = True
+#modextrapaths = {
+#    "__EGL_VENDOR_LIBRARY_DIRS": "/etc/glvnd/egl_vendor.d:/usr/share/glvnd/egl_vendor.d"
+#}
 
 sanity_check_paths = {
     'files': ['lib/lib%s.%s' % (x, SHLIB_EXT) for x in ['EGL', 'GL', 'GLX', 'OpenGL']],
