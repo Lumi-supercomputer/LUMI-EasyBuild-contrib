@@ -1,0 +1,64 @@
+easyblock = 'ConfigureMake'
+versionsuffix = '-egl'
+# available: -glx, -osmesa, -egl
+# GLEW does support GLX (onscreen or requiring VirtualGL), EGL (technically can do both onscreen and   
+# offscreen), and OSMESA (offscreen software only).
+
+name =    'glew'
+version = '2.2.0'
+
+homepage = 'https://github.com/nigels-com/glew'
+
+whatis = [
+    'Description: GLEW - The OpenGL Extension Wrangler Library'
+]
+
+description = """
+The OpenGL Extension Wrangler Library (GLEW) is a cross-platform open-source
+C/C++ extension loading library. GLEW provides efficient run-time mechanisms
+for determining which OpenGL extensions are supported on the target platform.
+
+GLEW comes with three different backends that unfortunately must be selected
+by loading another version of GLEW.
+* GLX: The default backend on Linux, for on-screen rendering or rendering using
+  VirtualGL
+* EGL: Technically capable of both on-screen and off-screen rendering
+* OSMESA: Backend for off-screen rendering only.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '22.08'}
+
+source_urls = ['https://github.com/nigels-com/glew/releases/download/%(name)s-%(version)s/']
+sources =     ['%(name)s-%(version)s.tgz']
+checksums =   ['d4fc82893cfb00109578d0a1a2337fb8ca335b3ceccf97b97e5cc7f08e4353e1']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', SYSTEM)
+]
+
+dependencies = [
+    ('Mesa', '22.0.3'),
+    ('X11',  '%(toolchain_version)s'),
+]
+
+# The next line is the one doing the magic. Bascially, SYSTEM can get
+# three values depending on the desired backend:
+# SYSTEM=linux for the GLX backend
+# SYSTEM-linux-egl for the EGL backend
+# SYSTEM=linux-osmesa for the OSMESA backend
+local_system = 'SYSTEM=linux`echo %(versionsuffix)s|sed -e "s/-glx//g"`'
+buildopts = local_system
+
+skipsteps = ['configure']
+
+preinstallopts = 'GLEW_PREFIX=%(installdir)s GLEW_DEST=%(installdir)s '
+install_cmd = 'make install.all ' + local_system
+
+sanity_check_paths = {
+    'files': ['lib/libGLEW.a', 'lib/libGLEW.%s' % SHLIB_EXT] +
+             ['bin/glewinfo', 'bin/visualinfo'] +
+             ['include/GL/%s.h' % h for h in ['glew', 'glxew', 'wglew']],
+    'dirs':  []
+}
+
+moduleclass = 'devel'
