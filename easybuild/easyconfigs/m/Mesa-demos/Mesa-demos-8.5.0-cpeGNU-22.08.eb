@@ -1,0 +1,48 @@
+easyblock = 'MesonNinja'
+
+local_freetype_version =     '2.12.1'        # https://download.savannah.gnu.org/releases/freetype/
+
+name =    'Mesa-demos'
+version = '8.5.0'
+
+homepage = 'https://www.mesa3d.org/'
+
+whatis = [
+    'Description: Mesa-util contains a number of Mesa utilities and demo programs, including glxinfo and eglinfo'
+]
+
+description = """
+Mesa utility programs and demos. This module provides the useful glxinfo
+and eglinfo commands, but also a number of Mesa demo programs that are
+useful to test if the Mesa installation functions.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '22.08'}
+
+source_urls = ['https://mesa.freedesktop.org/archive/demos/%(version)s']
+sources =     [SOURCELOWER_TAR_BZ2]
+checksums =   ['cea2df0a80f09a30f635c4eb1a672bf90c5ddee0b8e77f4d70041668ef71aac1']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', SYSTEM),
+    ('freetype',   local_freetype_version),
+]
+
+dependencies = [
+    ('Mesa',     '22.0.3'),
+    ('glew',     '2.2.0',  '-egl'),
+    ('libGLU',   '9.0.2'),
+    ('freeglut', '3.2.2'),
+]
+
+sanity_check_paths = {
+    'files': ['bin/eglinfo', 'bin/glxinfo'],
+    'dirs':  []
+}
+
+# There's really not that much we can test without display...
+sanity_check_commands = [
+    'glxinfo -h',
+]
+
+moduleclass = 'vis'
