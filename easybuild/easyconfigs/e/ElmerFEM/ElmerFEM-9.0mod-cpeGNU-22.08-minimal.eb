@@ -1,0 +1,96 @@
+easyblock = 'CMakeMake'
+
+name =          'ElmerFEM'
+version =       '9.0mod'
+versionsuffix = '-minimal'
+
+local_commit = '4c1a3e85cbcceab4dff460a3f2856581772cccd0'
+
+homepage = 'https://www.csc.fi/elmer'
+
+whatis = [
+    'Description: ElmerFEM is a finite element software for multiphysical problems published under open source. '
+]
+
+description = """
+Elmer is an open source multiphysical simulation software mainly developed by 
+CSC - IT Center for Science (CSC). Elmer development was started as national 
+collaboration with Finnish Universities, research institutes and industry. 
+After it's open source publication, the use and development of Elmer has 
+become largely international.
+
+Elmer includes physical models of fluid dynamics, structural mechanics, 
+electromagnetics, heat transfer and acoustics, and beyond. These are described 
+by partial differential equations which Elmer solves by the Finite Element 
+Method (FEM). Elmer supports parallel computing. For many problems good 
+scalability over thousands of cores is reached. 
+
+The development of Elmer has been pushed forward by numerous R&D projects 
+where the capabilities have been gradually extended. Currently the most notable 
+use fields are computational glaciology and computational electromagnetics. 
+Elmer with its ice-related modules, known as Elmer/Ice, has a large international 
+community and dedicated portal, see elmerice.elmerfem.org. In electromagnetics 
+Elmer team is part of The Centre of Excellence in High-Speed Electromechanical 
+Energy Conversion Systems (HiECSs), www.aalto.fi/en/hiecs. There are also many 
+other niche areas where Elmer offers competitive solutions, for example in 
+fluid-structure interaction, and thermal problems involving thermal radiation. 
+
+For more concurrent information visit the community portal at http://www.elmerfem.org.
+
+This is currently a rather minimal build of Elmer, with many extensions not
+activated and without the GUI. It is build with both MPI and OpenMP enabled,
+but none of the optional external packages is included. It is build according
+to the instructions on the Elmer web site and the GitHub, where those extra
+packages are also not mentioned, though they are mentioned in the Spack
+recipe and can be found in the CMake build recipes in the sources.
+"""
+
+docurls = [
+    'Downloadable manuals at http://www.nic.funet.fi/pub/sci/physics/elmer/doc/',
+    'YouTube channel with webinars at https://www.youtube.com/user/elmerfem/playlists',
+]
+
+toolchain = {'name': 'cpeGNU', 'version': '22.08'}
+toolchainopts = {'openmp': False, 'usempi': True, 'verbose': False, 'gfortran9-compat': True}
+
+# https://github.com/ElmerCSC/elmerfem/archive/refs/tags/release-9.0.tar.gz
+#sources =     ['release-%(version)s.tar.gz']
+#source_urls = ['https://github.com/ElmerCSC/elmerfem/archive/refs/tags']
+sources = [
+    {
+        'filename': SOURCELOWER_TAR_GZ,
+        'git_config': {
+                'url':       'https://github.com/ElmerCSC',
+                'repo_name': 'elmerfem', 
+                'commit':    local_commit, 
+            }
+    }
+]
+
+builddependencies = [ # Create a reproducible build environment.
+    ('buildtools',   '%(toolchain_version)s',   '', True), # For CMake among others.
+]
+
+configopts  = '-DWITH_MPI:BOOL=TRUE '
+configopts += '-DWITH_OpenMP:BOOL=TRUE '
+configopts += '-DWITH_ELMERGUI:BOOL=FALSE '
+# We won't turn the next settings off explicitly.
+#configopts += '-DWITH_Mumps=OFF '
+#configopts += '-DWITH_Hypre=OFF '
+#configopts += '-DWITH_Trilinos=OFF '
+#configopts += '-DWITH_LUA=OFF '
+#configopts += '-DWITH_Zoltan=OFF '
+
+maxparallel = 1
+
+sanity_check_paths = {
+    'files':  ['bin/%s' % exe for exe in ['elmerf90', 'ElmerGrid', 'elmerld', 'ElmerSolver', 'matc', 'Mesh2D', 'Radiators', 'ViewFactors'] ],
+    'dirs':   ['lib/elmersolver', 'share/elmersolver/include', 'share/elmersolver/lib', 'share/elmersolver/license_texts']
+}
+
+modextravars = {
+    'ELMER_HOME':             '%(installdir)s',
+    'ELMER_Fortran_COMPILER': 'ftn', 
+}
+
+moduleclass = 'cae'
