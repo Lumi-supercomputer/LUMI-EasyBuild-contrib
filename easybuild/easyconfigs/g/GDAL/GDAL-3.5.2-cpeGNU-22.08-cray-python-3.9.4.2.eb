@@ -1,6 +1,6 @@
 easyblock = 'ConfigureMake'
 
-local_craypython_version =  '3.9.4.2'
+local_craypython_version =   '3.9.4.2'
 local_cURL_version =         '7.83.1'        # https://curl.haxx.se/download/
 local_expat_version =        '2.4.8'         # https://github.com/libexpat/libexpat/releases
 local_JasPer_version =       '3.0.4'         # https://github.com/jasper-software/jasper/releases
@@ -15,7 +15,7 @@ local_zlib_version =         '1.2.12'        # https://zlib.net/
 
 name =    'GDAL'
 version = '3.5.2'
-versionsuffix = '-crayPython-' + local_craypython_version
+versionsuffix = '-cray-python-' + local_craypython_version
 
 homepage = 'https://www.gdal.org'
 
