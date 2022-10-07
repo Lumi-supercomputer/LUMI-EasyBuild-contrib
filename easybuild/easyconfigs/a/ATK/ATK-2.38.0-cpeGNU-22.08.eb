@@ -1,0 +1,49 @@
+# Adapted from a standard EasyConfig for LUMI by Kurt Lust (kurt.lust@UAntwerpen.be), LUMI User Support Team
+easyblock = 'MesonNinja'
+
+local_GLib_version =         '2.73.0'        # https://ftp.gnome.org/pub/GNOME/sources/glib/
+local_GObject_version =      '1.72.0'        # https://github.com/GNOME/gobject-introspection/releases
+
+name =    'ATK'
+version = '2.38.0'
+
+homepage = 'https://developer.gnome.org/atk/'
+
+whatis = [
+    'Description: ATK is the Accessibility Toolkit API from Gnome'
+]
+
+description = """
+ATK provides the set of accessibility interfaces that are implemented by other
+toolkits and applications. Using the ATK interfaces, accessibility tools have
+full access to view and control running applications.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '22.08'}
+
+source_urls = [FTPGNOME_SOURCE]
+sources =     [SOURCELOWER_TAR_XZ]
+checksums =   ['ac4de2a4ef4bd5665052952fe169657e65e895c5057dffb3c2a810f6191a0c36']
+
+builddependencies = [
+    ('buildtools',            '%(toolchain_version)s', '',               SYSTEM),
+    ('GObject-Introspection', local_GObject_version,   '-cray-python3.9'),
+]
+
+dependencies = [
+    ('GLib', local_GLib_version),
+]
+
+configopts  = "--buildtype=release --default-library=both "
+configopts += "-Dintrospection=true "
+
+sanity_check_paths = {
+    'files': ['lib/libatk-1.0.%s' % SHLIB_EXT, 'include/atk-1.0/atk/atk.h'],
+    'dirs':  ['share/locale'],
+}
+
+sanity_check_commands = [
+    'pkg-config --libs atk',  # Check if the .pc file is compatible with our pkg-config.    
+]
+
+moduleclass = 'vis'

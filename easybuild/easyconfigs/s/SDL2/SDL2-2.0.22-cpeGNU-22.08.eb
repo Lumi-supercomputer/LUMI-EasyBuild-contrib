@@ -1,0 +1,44 @@
+# Adapted from a standard EasyConfig for LUMI by Kurt Lust (kurt.lust@UAntwerpen.be), LUMI User Support Team
+easyblock = 'ConfigureMake'
+
+name =    'SDL2'
+version = '2.0.22'
+
+homepage = 'https://www.libsdl.org/'
+
+whatis = [
+    'Description: SDL is the Simple DirectMedia Layer, a cross-platform multimedia library'
+]
+description = """
+Simple DirectMedia Layer is a cross-platform development library designed to 
+provide low level access to audio, keyboard, mouse, joystick, and graphics 
+hardware via OpenGL and Direct3D. It is used by video playback software, 
+emulators, and popular games including Valve's award winning catalog and 
+many Humble Bundle games.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '22.08'}
+
+source_urls = ['https://www.libsdl.org/release/']
+sources =     [SOURCE_TAR_GZ]
+checksums =   ['fe7cbf3127882e3fc7259a75a0cb585620272c51745d3852ab9dd87960697f2e']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', SYSTEM)
+]
+
+dependencies = [
+    ('X11', '%(toolchain_version)s'),
+]
+
+sanity_check_paths = {
+    'files': ['bin/sdl2-config', 'lib/libSDL2.%s' % SHLIB_EXT],
+    'dirs':  [],
+}
+
+sanity_check_commands = [
+    'pkg-config --libs sdl2',
+    'sdl2-config --libs',     
+]
+
+moduleclass = 'lib'

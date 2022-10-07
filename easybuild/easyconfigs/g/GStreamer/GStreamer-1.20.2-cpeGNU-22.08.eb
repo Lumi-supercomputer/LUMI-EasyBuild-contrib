@@ -1,0 +1,68 @@
+# Adapted from a standard EasyConfig for LUMI by Kurt Lust (kurt.lust@UAntwerpen.be), LUMI User Support Team
+easyblock = 'MesonNinja'
+
+local_craypython_version =  '3.9.4.2'
+local_gettext_version =      '0.21'          # https://ftp.gnu.org/pub/gnu/gettext/
+local_GLib_version =         '2.73.0'        # https://ftp.gnome.org/pub/GNOME/sources/glib/
+local_GMP_version =          '6.2.1'         # https://ftp.gnu.org/gnu/gmp/
+local_GObject_version =      '1.72.0'        # https://github.com/GNOME/gobject-introspection/releases
+local_GSL_version =          '2.7.1'         # https://ftp.gnu.org/gnu/gsl/
+local_libunwind_version  =   '1.6.2'         # http://download.savannah.nongnu.org/releases/libunwind/
+local_zlib_version =         '1.2.12'        # https://zlib.net/
+
+name =    'GStreamer'
+version = '1.20.2'
+
+homepage = 'https://gstreamer.freedesktop.org/'
+
+whatis = [
+    'Description: GStreamer is a library for constructing graphs of media-handling  components.'
+]
+
+description = """
+GStreamer is a library for constructing graphs of media-handling
+components. The applications it supports range from simple
+Ogg/Vorbis playback, audio/video streaming to complex audio
+(mixing) and video (non-linear editing) processing.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '22.08'}
+
+source_urls = ['https://gstreamer.freedesktop.org/src/gstreamer']
+sources = [SOURCELOWER_TAR_XZ]
+checksums = ['df24e8792691a02dfe003b3833a51f1dbc6c3331ae625d143b17da939ceb5e0a']
+
+builddependencies = [
+    ('buildtools',            '%(toolchain_version)s', '',               SYSTEM), # For meson, ninja, bison, flex
+    ('GObject-Introspection', local_GObject_version,   '-cray-python3.9'),
+    ('gettext',               local_gettext_version),
+]
+
+dependencies = [
+    ('cray-python/' + local_craypython_version, EXTERNAL_MODULE),
+    ('zlib',      local_zlib_version),
+    ('GMP',       local_GMP_version),
+    ('GSL',       local_GSL_version,      '-sequential'),
+    ('GLib',      local_GLib_version),
+    ('libunwind', local_libunwind_version),
+    ('elfutils',  '0.187'),
+]
+
+sanity_check_paths = {
+    'files': [],
+    'dirs':  ['include', 'share', 'libexec'],
+}
+
+sanity_check_commands = [
+    'pkg-config --libs gstreamer-1.0',
+    'pkg-config --libs gstreamer-base-1.0',
+    'pkg-config --libs gstreamer-check-1.0',
+    'pkg-config --libs gstreamer-controller-1.0',
+    'pkg-config --libs gstreamer-net-1.0',
+    'gst-inspect-1.0 --help', 
+    'gst-launch-1.0 --help',
+    'gst-stats-1.0 --help',
+    'gst-typefind-1.0 --help',
+]
+
+moduleclass = 'vis'

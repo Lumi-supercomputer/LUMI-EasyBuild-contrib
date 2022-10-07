@@ -1,0 +1,47 @@
+# Adapted from a standard EasyConfig for LUMI by Kurt Lust (kurt.lust@UAntwerpen.be), LUMI User Support Team
+easyblock = 'MesonNinja'
+
+local_GLib_version =         '2.73.0'        # https://ftp.gnome.org/pub/GNOME/sources/glib/
+local_libxml2_version =      '2.9.12'        # http://xmlsoft.org/sources/
+
+name =    'at-spi2-atk'
+version = '2.38.0'
+
+homepage = 'https://wiki.gnome.org/Accessibility'
+
+whatis = [
+    'Description: AT-SPI 2 toolkit bridge'
+]
+
+description = "AT-SPI 2 toolkit bridge"
+
+toolchain = {'name': 'cpeGNU', 'version': '22.08'}
+
+source_urls = [FTPGNOME_SOURCE]
+sources =     [SOURCELOWER_TAR_XZ]
+checksums =   ['cfa008a5af822b36ae6287f18182c40c91dd699c55faa38605881ed175ca464f']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', SYSTEM), # For meson and ninja
+]
+
+dependencies = [
+    ('GLib',         local_GLib_version),
+    #('DBus', '1.14.0'),
+    ('at-spi2-core', '2.44.1'),
+    ('libxml2',      local_libxml2_version),
+    ('ATK',          '2.38.0'),
+]
+
+configopts = "--libdir lib "
+
+sanity_check_paths = {
+    'files': ['lib/libatk-bridge-2.0.%s' % SHLIB_EXT],
+    'dirs':  [],
+}
+
+sanity_check_commands = [
+    'pkg-config --libs atk-bridge-2.0',
+]
+
+moduleclass = 'vis'

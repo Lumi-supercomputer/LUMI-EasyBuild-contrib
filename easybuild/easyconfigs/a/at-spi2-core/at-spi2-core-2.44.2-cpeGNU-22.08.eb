@@ -1,0 +1,50 @@
+# Adapted from a standard EasyConfig for LUMI by Kurt Lust (kurt.lust@UAntwerpen.be), LUMI User Support Team
+easyblock = 'MesonNinja'
+
+local_gettext_version =      '0.21'          # https://ftp.gnu.org/pub/gnu/gettext/
+local_GLib_version =         '2.73.0'        # https://ftp.gnome.org/pub/GNOME/sources/glib/
+local_GObject_version =      '1.72.0'        # https://github.com/GNOME/gobject-introspection/releases
+
+name =    'at-spi2-core'
+version = '2.44.1'
+
+homepage = 'https://wiki.gnome.org/Accessibility'
+
+whatis = [
+    'Description: Assistive Technology Service Provider Interface.'    
+]
+
+description = """
+Assistive Technology Service Provider Interface.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '22.08'}
+
+source_urls = [FTPGNOME_SOURCE]
+sources =     [SOURCELOWER_TAR_XZ]
+checksums =   ['4beb23270ba6cf7caf20b597354d75194d89afb69d2efcf15f4271688ba6f746']
+
+builddependencies = [
+    ('buildtools',            '%(toolchain_version)s', '',               SYSTEM), # For meson and ninja
+    ('GObject-Introspection', local_GObject_version,   '-cray-python3.9'),
+    ('gettext',               local_gettext_version),
+]
+
+dependencies = [
+    ('GLib', local_GLib_version),
+    #('DBus', '1.14.0'),
+    ('X11', '%(toolchain_version)s'),
+]
+
+configopts = "--libdir lib "
+
+sanity_check_paths = {
+    'files': ['lib/libatspi.%s' % SHLIB_EXT],
+    'dirs':  [],
+}
+
+sanity_check_commands = [
+    'pkg-config --libs atspi-2',
+]
+
+moduleclass = 'vis'

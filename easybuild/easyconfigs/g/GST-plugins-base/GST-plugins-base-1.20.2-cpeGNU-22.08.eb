@@ -1,0 +1,66 @@
+# Adapted from a standard EasyConfig for LUMI by Kurt Lust (kurt.lust@UAntwerpen.be), LUMI User Support Team
+easyblock = 'MesonNinja'
+
+local_gettext_version =      '0.21'          # https://ftp.gnu.org/pub/gnu/gettext/
+local_GLib_version =         '2.73.0'        # https://ftp.gnome.org/pub/GNOME/sources/glib/
+local_GObject_version =      '1.72.0'        # https://github.com/GNOME/gobject-introspection/releases
+local_zlib_version =         '1.2.12'        # https://zlib.net/
+
+name =    'GST-plugins-base'
+version = '1.20.2'
+
+homepage = 'https://gstreamer.freedesktop.org/'
+
+whatis = [
+    'Description: Plugins for GStreamer.'
+]
+
+description = """
+GStreamer is a library for constructing graphs of media-handling
+components. The applications it supports range from simple
+Ogg/Vorbis playback, audio/video streaming to complex audio
+(mixing) and video (non-linear editing) processing.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '22.08'}
+
+source_urls = ['https://gstreamer.freedesktop.org/src/gst-plugins-base']
+sources = [SOURCELOWER_TAR_XZ]
+checksums = ['ab0656f2ad4d38292a803e0cb4ca090943a9b43c8063f650b4d3e3606c317f17']
+
+builddependencies = [
+    ('buildtools',            '%(toolchain_version)s', '',               SYSTEM), # For meson, ninja and bison
+    ('GObject-Introspection', local_GObject_version,   '-cray-python3.9'),
+    ('gettext',               local_gettext_version),
+]
+
+dependencies = [
+    ('zlib',       local_zlib_version),
+    ('GLib',       local_GLib_version),
+    ('GStreamer',  '1.20.2'),
+    ('Gdk-Pixbuf', '2.42.8'),
+    ('X11',        '%(toolchain_version)s'),
+    ('Mesa',       '22.0.3'),
+    ('Graphene',   '1.10.8'),
+]
+
+local_binaries = ['discoverer', 'play', 'device-monitor']
+local_pkgconfig = [ 'gstreamer-allocators', 'gstreamer-app', 'gstreamer-audio', 'gstreamer-fft', 'gstreamer-gl',
+                    'gstreamer-gl-egl', 'gstreamer-gl-prototypes', 'gstreamer-gl-x11', 'gstreamer-pbutils',
+                    'gstreamer-plugins-base', 'gstreamer-riff', 'gstreamer-rtp', 'gstreamer-rtsp',
+                    'gstreamer-sdp', 'gstreamer-tag', 'gstreamer-video' ]
+
+sanity_check_paths = {
+    'files': ['bin/gst-%s-1.0' % x for x in local_binaries] +
+             ['lib/libgst%s-1.0.%s' % (x, SHLIB_EXT) for x in ['app', 'audio', 'video']] + 
+             ['lib/pkgconfig/%s-1.0.pc' % x for x in local_pkgconfig],
+    'dirs':  ['include', 'share']
+}
+
+sanity_check_commands = [
+    'pkg-config --libs %s-1.0' % x for x in local_pkgconfig
+    ] + [
+    'gst-%s-1.0 --help' % x for x in local_binaries 
+    ]
+
+moduleclass = 'vis'

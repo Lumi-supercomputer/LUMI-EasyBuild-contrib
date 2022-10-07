@@ -1,0 +1,65 @@
+# Adapted from a standard EasyConfig for LUMI by Kurt Lust (kurt.lust@UAntwerpen.be), LUMI User Support Team
+easyblock = 'CMakeMake'
+
+local_libpng_version =       '1.6.37'        # http://www.libpng.org/pub/png/libpng.html
+local_zlib_version =         '1.2.12'        # https://zlib.net/
+
+name =    'libharu'
+version = '2.4.2'
+
+homepage = 'https://github.com/libharu/libharu/releases'
+
+whatis = [
+    'Description: libhary provides the Haru free PDF library',
+]
+
+description = """
+libHaru is a free, cross platform, open source library for generating PDF files. 
+At this moment libHaru does not support reading and editing existing PDF files 
+and it's unlikely this support will ever appear.
+
+It supports the following features:
+
+* Generating PDF files with lines, text, images.
+* Outline, text annotation, link annotation.
+* Compressing document with deflate-decode.
+* Embedding PNG, Jpeg images.
+* Embedding Type1 font and TrueType font.
+* Creating encrypted PDF files.
+* Using various character sets (ISO8859-1~16, MSCP1250~8, KOI8-R).
+* Supporting CJK fonts and encodings. You can add the feature of PDF creation 
+  by using HARU without understanding complicated internal structure of PDF. 
+  libHaru is written in ANSI C, so theoretically it supports most of the modern 
+  OSes.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '22.08'}
+
+sources = [
+    {   # https://github.com/libharu/libharu/archive/refs/tags/v2.4.2.tar.gz
+        'filename':          SOURCELOWER_TAR_GZ,
+        'download_filename': 'v%(version)s.tar.gz',
+        'source_urls':       ['https://github.com/libharu/libharu/archive/refs/tags'],
+    },
+]
+checksums = ['226de46ffb035714f6f3c9ab52f22ca83d95c7af8480f7fd133537f072cda6cc']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', SYSTEM),
+]
+
+dependencies = [
+    ('zlib',   local_zlib_version),
+    ('libpng', local_libpng_version)
+]
+
+configopts = '-DCMAKE_INSTALL_LIBDIR=lib '
+
+parallel = 1
+
+sanity_check_paths = {
+    'files': ['lib/libhpdf.%s' % SHLIB_EXT],
+    'dirs':  ['include', 'lib', 'share/libharu'],
+}
+
+moduleclass = 'lib'

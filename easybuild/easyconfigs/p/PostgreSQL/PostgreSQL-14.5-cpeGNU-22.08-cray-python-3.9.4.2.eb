@@ -1,0 +1,78 @@
+# Adapted from a standard EasyConfig for LUMI by Kurt Lust (kurt.lust@UAntwerpen.be), LUMI User Support Team
+easyblock = 'ConfigureMake'
+
+local_craypython_version =   '3.9.4.2'
+local_libreadline_version =  '8.1.2'         # https://ftp.gnu.org/pub/gnu/readline/
+local_zlib_version =         '1.2.12'        # https://zlib.net/
+
+name =          'PostgreSQL'
+version =       '14.5'
+versionsuffix = '-cray-python-' + local_craypython_version
+homepage = 'https://www.postgresql.org/'
+
+whatis = [
+    'Description: PostgreSQL is an open source object-relational database system'
+]
+
+description = """
+PostgreSQL is a powerful, open source object-relational database system.
+It is fully ACID compliant, has full support for foreign keys,
+joins, views, triggers, and stored procedures (in multiple languages).
+It includes most SQL:2008 data types, including INTEGER,
+NUMERIC, BOOLEAN, CHAR, VARCHAR, DATE, INTERVAL, and TIMESTAMP.
+It also supports storage of binary large objects, including pictures,
+sounds, or video. It has native programming interfaces for C/C++, Java,
+.Net, Perl, Python, Ruby, Tcl, ODBC, among others, and exceptional 
+documentation.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '22.08'}
+
+source_urls = ['http://ftp.postgresql.org/pub/source/v%(version)s/']
+sources =     [SOURCELOWER_TAR_GZ]
+checksums =   ['90ead393dbc654cb0075eaaf0ec2058e6b9866ced478fed3cf2b68a5bc04eb24']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', SYSTEM),
+]
+
+dependencies = [
+    ('libreadline', local_libreadline_version),
+    ('zlib',        local_zlib_version),
+    ('cray-python/' + local_craypython_version, EXTERNAL_MODULE),
+    #('OpenSSL', '1.1', '', True), # Should make this a os dependency on lumi.
+]
+
+osdependencies = [
+    ('openssl-devel', 'libssl-dev', 'libopenssl-devel')
+]
+
+configopts = '--with-python --with-openssl'
+
+local_binaries = [ 'clusterdb', 'createdb', 'createuser', 'dropdb', 'dropuser', 'ecpg', 'initdb',
+    'pg_amcheck', 'pg_archivecleanup', 'pg_basebackup', 'pgbench', 'pg_checksums', 'pg_config', 
+    'pg_controldata', 'pg_ctl', 'pg_dump', 'pg_dumpall', 'pg_isready', 'pg_receivewal', 'pg_recvlogical', 
+    'pg_resetwal', 'pg_restore', 'pg_rewind', 'pg_test_fsync', 'pg_test_timing', 'pg_upgrade', 
+    'pg_verifybackup', 'pg_waldump', 'postgres', 'postmaster', 'psql', 'reindexdb', 'vacuumdb' ]
+
+local_libraries_pkgconfig = [ 'libecpg_compat', 'libecpg', 'libpgtypes', 'libpq']
+
+sanity_check_paths = {
+#    'files': ['bin/psql', 'bin/pg_config', 'lib/libpq.a', 'lib/libpq.%s' % SHLIB_EXT],
+    'files': #
+             [ 'bin/%s' % x for x in local_binaries ] +
+             [ 'lib/%s.a' % x for x in local_libraries_pkgconfig ] +
+             [ 'lib/%s.%s' % (x, SHLIB_EXT) for x in local_libraries_pkgconfig ] +
+             [  'lib/pkgconfig/%s.pc' % x for x in local_libraries_pkgconfig ],
+    'dirs':  ['share/postgresql'],
+}
+
+sanity_check_commands = [ # Check if the pkgconfig files are compatible with the version of pkg-config.
+    'pkg-config --libs %s' % x for x in local_libraries_pkgconfig 
+    ] + [ # Check if the binaries at least load.
+    '%s --help' % x for x in local_binaries 
+    ]
+
+
+moduleclass = 'data'
+ 
