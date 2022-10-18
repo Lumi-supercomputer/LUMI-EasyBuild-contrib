@@ -5,6 +5,7 @@ local_PROJ_version =         '9.0.0'         # https://proj.org/download.html
 local_SQLite_version =       '3.38.3'        # https://www.sqlite.org/
 local_libjpegturbo_version = '2.1.3'         # https://github.com/libjpeg-turbo/libjpeg-turbo/releases
 local_libtiff_version =      '4.4.0'         # https://download.osgeo.org/libtiff/
+local_PROJ_version =         '9.0.0'         # https://proj.org/download.html
 local_zlib_version =         '1.2.12'        # https://zlib.net/
 
 name =    'libgeotiff'
