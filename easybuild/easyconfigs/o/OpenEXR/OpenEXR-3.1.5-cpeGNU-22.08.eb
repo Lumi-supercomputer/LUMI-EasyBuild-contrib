@@ -1,0 +1,56 @@
+easyblock = 'CMakeMake'
+
+name =    'OpenEXR'
+version = '3.1.5'
+
+homepage = 'https://www.openexr.com/'
+
+whatis = [
+    'OpenEXR provides tools to work with the EXR HDR image file format'
+]
+
+description = """
+OpenEXR is a high dynamic-range (HDR) image file format developed by Industrial Light & Magic
+for use in computer imaging applications.
+"""
+
+docurls = [
+   'Web-based technical documentation on https://openexr.readthedocs.io/en/latest/'
+]
+
+toolchain = {'name': 'cpeGNU', 'version': '22.08'}
+
+source_urls = ['https://github.com/openexr/openexr/archive/']
+sources =     ['v%(version)s.tar.gz']
+checksums =   ['93925805c1fc4f8162b35f0ae109c4a75344e6decae5a240afdfce25f8a433ec']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', SYSTEM), # For CMake
+]
+
+configopts  = '-DCMAKE_INSTALL_LIBDIR=lib '
+configopts += '-DOPENEXR_BUILD_PYTHON_LIBS=OFF'
+
+sanity_check_paths = {
+    'files': ['lib/lib%s.%s' % (x, SHLIB_EXT) for x in
+              ['Iex', 'IlmThread', 'Imath', 'OpenEXR', 'OpenEXRUtil']] +
+             ['bin/exr%s' % x for x in
+              ['envmap', 'header', 'makepreview', 'maketiled', 'multipart', 'multiview', 'stdattr']],
+    'dirs':  ['include/OpenEXR', 'share'],
+}
+
+sanity_check_commands = [
+    'pkg-config --libs Imath',
+    'pkg-config --libs OpenEXR', 
+    'exrinfo --help ',  # Unfortunately the only command that does not return an error code when used with --help.    
+    'exr2aces --help ;       [[ $? == 1 ]]',  # There may of cause be other errors also that return error code 1...
+    'exrenvmap --help ;      [[ $? == 1 ]]',  # There may of cause be other errors also that return error code 1...
+    'exrheader --help ;      [[ $? == 1 ]]',  # There may of cause be other errors also that return error code 1...
+    'exrmakepreview --help ; [[ $? == 1 ]]',  # There may of cause be other errors also that return error code 1...
+    'exrmaketiled --help ;   [[ $? == 1 ]]',  # There may of cause be other errors also that return error code 1...
+    'exrmultipart --help ;   [[ $? == 1 ]]',  # There may of cause be other errors also that return error code 1...
+    'exrmultiview --help ;   [[ $? == 1 ]]',  # There may of cause be other errors also that return error code 1...
+    'exrstdattr --help ;     [[ $? == 1 ]]',  # There may of cause be other errors also that return error code 1...
+]
+
+moduleclass = 'vis'

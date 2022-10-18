@@ -1,0 +1,64 @@
+# Easyconfig for unixODBC
+# Author: Lykle Voort
+# SURFsara, Amsterdam, The Netherlands
+
+easyblock = 'ConfigureMake'
+
+local_libiconv_version =     '1.17'          # https://ftp.gnu.org/pub/gnu/libiconv/
+local_libreadline_version =  '8.1.2'         # https://ftp.gnu.org/pub/gnu/readline/
+local_ncurses_version =      '6.2'           # https://ftp.gnu.org/pub/gnu/ncurses/
+
+name =    'unixODBC'
+version = '2.3.11'
+
+homepage = "http://www.unixodbc.org"
+
+whatis = [
+    'Descripttion: unixODBC provides a uniform interface between application and database driver'
+]
+
+description = """
+unixODBC provides a uniform interface between application and database driver.
+"""
+
+docurls = [
+    'man pages for the dltest, isql, iusql, odbc_config and odbcinst commands in section 1, odbc.ini and odbcinst.ini in section 5, unixODBC in section 7'
+]
+
+toolchain = {'name': 'cpeGNU', 'version': '22.08'}
+
+# http://ftp.unixodbc.org/unixODBC-2.3.11.tar.gz
+sources =     [SOURCE_TAR_GZ]
+source_urls = ['http://ftp.unixodbc.org/']
+checksums =   ['d9e55c8e7118347e3c66c87338856dad1516b490fb7c756c1562a2c267c73b5c']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', SYSTEM),
+]
+
+dependencies = [
+    ('ncurses',     local_ncurses_version),
+    ('libreadline', local_libreadline_version),
+    ('libiconv',    local_libiconv_version),
+]
+
+local_libraries = [ 'odbccr', 'odbcinst', 'odbc' ]
+
+sanity_check_paths = {
+    'files': #
+             [ 'bin/%s' % x for x in [ 'dltest', 'isql', 'iusql', 'odbc_config', 'odbcinst', 'slencheck' ] ] + 
+             [ 'lib/lib%s.%s' % (x, SHLIB_EXT) for x in local_libraries ] +
+             [ 'lib/pkgconfig/%s.pc'% x for x in local_libraries ], 
+    'dirs':  [ 'share/man' ]
+}
+
+sanity_check_commands = [ # Check if pkg-config can process the .pc files.
+    'pkg-config --libs %s' % x for x in local_libraries
+    ] + [ # Check if the following commands at least load.
+    'isql --help',
+    'iusql --help', 
+    'odbc_config --version',
+    'odbcinst --help',
+    ]
+
+moduleclass = 'data'

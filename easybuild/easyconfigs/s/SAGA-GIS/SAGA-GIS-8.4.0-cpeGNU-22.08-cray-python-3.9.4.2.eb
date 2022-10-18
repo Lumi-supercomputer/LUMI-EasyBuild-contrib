@@ -1,0 +1,102 @@
+easyblock = 'CMakeMake'
+
+local_craypython_version =   '3.9.4.2'
+local_cURL_version =         '7.83.1'        # https://curl.haxx.se/download/
+local_JasPer_version =       '3.0.4'         # https://github.com/jasper-software/jasper/releases
+local_libtiff_version =      '4.4.0'         # https://download.osgeo.org/libtiff/
+local_PROJ_version =         '9.0.0'         # https://proj.org/download.html
+
+name =          'SAGA-GIS'
+version =       '8.4.0'
+versionsuffix = '-cray-python-'+ local_craypython_version
+
+homepage = 'https://saga-gis.sourceforge.io/'
+
+whatis = [
+    'Description: SAGA-GIS is a System for Automated Geoscientific Analysis.'
+]
+
+description = """
+* SAGA is the abbreviation for System for Automated Geoscientific Analyses
+
+* SAGA is a Geographic Information System (GIS) software
+
+* SAGA has been designed for an easy and effective implementation of spatial algorithms
+
+* SAGA offers a comprehensive, growing set of geoscientific methods
+
+* SAGA provides an easily approachable user interface with many visualisation options
+
+* SAGA runs under Windows and Linux operating systems
+
+* SAGA is a Free Open Source Software (FOSS)
+
+Included optional extensions:
+
+* OpenMP is enabbled
+
+* PostgreSQL is included, but no support yet for PostgreGIS
+
+* cURL is included for https support in webservices
+"""
+
+docurls = [
+    'Man page for the saga_cmd and saga_gui commands (section 1)',
+]
+
+toolchain = {'name': 'cpeGNU', 'version': '22.08'}
+toolchainopts = {'openmp': True}  # Turned on automatically anyway...
+
+# https://sourceforge.net/projects/saga-gis/files/SAGA%20-%208/SAGA%20-%208.4.0/saga-8.4.0_src.zip/download
+sources =     ['saga-%(version)s_src.zip']
+source_urls = [('https://sourceforge.net/projects/saga-gis/files/SAGA%20-%208/SAGA%20-%20%(version)s', '/download')]
+checksums =   ['f481ca5a68a62a65136901b867d32d3f7537dbbf773e3ed7c96ee3abb00778ca']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', SYSTEM), # For CMake
+]
+
+dependencies = [
+    # Mandatory modules
+    ('LibTIFF',       local_libtiff_version),
+    ('JasPer',        local_JasPer_version),
+    ('PROJ',          local_PROJ_version),
+    ('GDAL',          '3.5.2',              '-cray-python-' + local_craypython_version),
+    ('PDAL',          '2.4.3',              '-cray-python-' + local_craypython_version),
+    ('unixODBC',      '2.3.11'),
+    ('wxWidgets',     '3.2.1'),
+    # Optional features
+    ('cURL',          local_cURL_version),
+    ('PostgreSQL',    '14.5',                '-cray-python-' + local_craypython_version),
+]
+
+start_dir = 'saga-gis'
+
+configopts  = '-DCMAKE_INSTALL_LIBDIR="lib" '
+configopts += '-DOpenMP_SUPPORT=ON '
+configopts += '-DWITH_GUI=ON '
+configopts += '-DCURL_DIR=$EBROOTCURL '
+configopts += '-DWITH_TOOLS_GDAL=ON '
+configopts += '-DWITH_TOOLS_HPDF=OFF '
+configopts += '-DWITH_TOOLS_OPENCV=OFF '
+configopts += '-DWITH_TOOLS_PDAL=ON '
+configopts += '-DWITH_TOOLS_POSTGRES=ON ' # May not make sense without PostGIS?
+configopts += '-DWITH_TOOLS_PROJ=ON '
+configopts += '-DWITH_TOOLS_RIEGL=OFF '
+configopts += '-DWITH_TOOLS_VIGRA=OFF '
+configopts += '-DWITH_TRIANGLE=ON '       # Otherwise the Qhull library is needed.
+
+sanity_check_paths = {
+    'files': ['bin/saga_cmd', 'bin/saga_gui', 'share/man/man1/saga_cmd.1', 'include/saga/saga_api/saga_api.h', 
+                'lib/libsaga_api.%s' % SHLIB_EXT, 'lib/libsaga_gdi.%s' % SHLIB_EXT],
+    'dirs':  ['share/saga/toolchains', 'lib/saga'],
+}
+
+sanity_check_commands = [
+    'saga_cmd --help',
+]
+
+
+
+
+moduleclass = 'data'

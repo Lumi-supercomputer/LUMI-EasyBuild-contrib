@@ -1,0 +1,88 @@
+easyblock = 'CMakeMake'
+
+local_craypython_version =   '3.9.4.2'
+local_libunwind_version  =   '1.6.2'         # http://download.savannah.nongnu.org/releases/libunwind/
+
+name =          'PDAL'
+version =       '2.4.3'
+versionsuffix = '-cray-python-'+ local_craypython_version
+
+homepage = 'https://pdal.io/'
+
+whatis = [
+    'Description: PDAL is a C++ library for translating and manipulating point cloud data.'
+]
+
+description = """
+PDAL is a C++ library for translating and manipulating point cloud data. It is 
+very much like the GDAL library which handles raster and vector data. 
+
+In addition to the library code, PDAL provides a suite of command-line 
+applications that users can conveniently use to process, filter, translate, 
+and query point cloud data.
+
+The module currently supports almost none of the plugins as they need
+additional dependencies and it is not always clear which ones as the
+installation manual of this package is very poor and incomplete.
+
+Note that despite the name of the module, Python support is still
+incomplete due to configuration problems of PDAL and lack of information
+in the manual.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '22.08'}
+
+# https://github.com/PDAL/PDAL/releases/download/2.4.3/PDAL-2.4.3-src.tar.bz2
+sources =     ['PDAL-%(version)s-src.tar.bz2']
+source_urls = ['https://github.com/PDAL/PDAL/releases/download/%(version)s']
+checksums =   ['3d2b00e87d177f6d01fee3dd3436cd9fc1f6d821fae40f36dccc07469d0d8226']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', SYSTEM), # For CMake
+]
+
+dependencies = [
+    ('GDAL',        '3.5.2',                 '-cray-python-' + local_craypython_version), # Also pulls in GeoTIFF which is also needed.
+    ('PostgreSQL',  '14.5',                  '-cray-python-' + local_craypython_version),
+    ('libunwind',   local_libunwind_version),
+    ('libexecinfo', '1.1-3'),
+#    ('absl',        '1.3.0',                 '-cray-python-' + local_craypython_version), # Doesn't seem to be what PDAL needs?
+]
+
+configopts  = '-DCMAKE_INSTALL_LIBDIR="lib" '
+configopts += '-DWITH_COMPLETION=ON '              # bash command completion
+configopts += '-DWITH_LZMA=ON '
+configopts += '-DBUILD_PLUGIN_CPD=OFF '            # Seems to need an additiona dependency, but not clear which one.
+configopts += '-DBUILD_PLUGIN_DRACO=OFF '          # Seems to need an additiona dependency, but not clear which one.
+configopts += '-DBUILD_PLUGIN_E57=OFF '            # Needs the XercesC library. 
+configopts += '-DBUILD_PLUGIN_FBX=OFF '
+configopts += '-DBUILD_PLUGIN_HDF=OFF '
+configopts += '-DBUILD_PLUGIN_I3S=OFF '
+configopts += '-DBUILD_PLUGIN_ICEBRIDGE=OFF '      # This one needs HDF5, but possibly other software also?
+configopts += '-DBUILD_PLUGIN_MATLAB=OFF '
+configopts += '-DBUILD_PLUGIN_MBIO=OFF '
+configopts += '-DBUILD_PLUGIN_NITF=OFF '
+configopts += '-DBUILD_PLUGIN_OPENSCENEGRAPH=OFF ' #
+configopts += '-DBUILD_PLUGIN_PGPOINTCLOUD=ON '
+configopts += '-DBUILD_PLUGIN_RDBLIB=OFF '
+configopts += '-DBUILD_PLUGIN_RIVLIB=OFF '
+configopts += '-DBUILD_PLUGIN_TEASER=OFF '
+configopts += '-DBUILD_PLUGIN_TILEDB=OFF '          # Not clear from the manual if this needs an additional library or sources to be injected.
+configopts += '-DBUILD_TOOLS_NITFWRAP=OFF '
+#configopts += '-Dabsl_DIR="$EBROOTABSL" '
+
+sanity_check_paths = {
+    'files': ['bin/pdal', 'bin/pdal-config'] + 
+             ['lib/lib%s.%s' % (x, SHLIB_EXT) for x in 
+               ['pdal_base', 'pdal_plugin_kernel_fauxplugin', 'pdal_plugin_reader_pgpointcloud', 'pdal_plugin_writer_pgpointcloud', 'pdal_util']],
+    'dirs':  ['include/pdal', 'etc/bash_completion.d'],
+}
+
+
+sanity_check_commands = [
+    'pkg-config --libs pdal',  # Check if the pkg-config file is compatible with LUMI.
+    'pdal --help',             # Check if the main PDAL binary at least loads.
+    'pdal-config --libs', 
+]
+
+moduleclass = 'data'
