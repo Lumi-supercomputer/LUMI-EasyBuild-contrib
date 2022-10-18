@@ -1,0 +1,56 @@
+easyblock = 'ConfigureMake'
+
+local_bzip2_version =        '1.0.8'         # http://www.bzip.org/downloads.html
+local_libarchive_version =   '3.6.1'         # https://github.com/libarchive/libarchive/releases
+local_XZ_version =           '5.2.5'         # https://tukaani.org/xz/
+local_zstd_version =         '1.5.2'         # https://github.com/facebook/zstd/releases
+
+name =    'elfutils'
+version = '0.187'
+
+homepage = 'http://elfutils.org/'
+
+whatis = [
+    'Description: elfutils provides libraries and tools for ELF files and DWARF data.'
+]
+
+description = """
+elfutils is a collection of utilities and libraries to read, create and modify 
+ELF binary files, find and handle DWARF debug data, symbols, thread state and 
+stacktraces for processes and core files on GNU/Linux.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '22.08'}
+
+source_urls = ['https://sourceware.org/elfutils/ftp/%(version)s/']
+sources =     [SOURCE_TAR_BZ2]
+checksums =   ['e70b0dfbe610f90c4d1fe0d71af142a4e25c3c4ef9ebab8d2d72b65159d454c8']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', SYSTEM),  # for M4
+]
+
+dependencies = [
+    ('bzip2',      local_bzip2_version),
+    ('libarchive', local_libarchive_version),
+    ('XZ',         local_XZ_version),
+    ('zstd',       local_zstd_version),
+]
+
+configopts = "--disable-debuginfod --disable-libdebuginfod --disable-rpath"
+
+postinstallcmds = [
+    'for i in %(installdir)s/bin/*; do patchelf --replace-needed ../libdw/libdw.so libdw.so $i; done',
+    'for i in %(installdir)s/lib/*.so*; do patchelf --replace-needed ../libdw/libdw.so libdw.so $i; done',
+]
+
+sanity_check_paths = {
+    'files': ['bin/eu-elfcmp', 'include/dwarf.h', 'lib/libelf.%s' % SHLIB_EXT],
+    'dirs':  []
+}
+
+sanity_check_commands = [
+    'eu-elfcmp --help',
+]
+
+moduleclass = 'lib'
