@@ -11,6 +11,7 @@ local_libpng_version =       '1.6.37'        # http://www.libpng.org/pub/png/lib
 local_libtiff_version =      '4.4.0'         # https://download.osgeo.org/libtiff/
 local_PROJ_version =         '9.0.0'         # https://proj.org/download.html
 local_PCRE_version =         '8.45'          # https://ftp.pcre.org/pub/pcre/
+local_PROJ_version =         '9.0.0'         # https://proj.org/download.html
 local_zlib_version =         '1.2.12'        # https://zlib.net/
 
 
