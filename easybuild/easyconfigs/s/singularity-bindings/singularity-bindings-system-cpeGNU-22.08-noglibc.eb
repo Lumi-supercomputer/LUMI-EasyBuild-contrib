@@ -1,0 +1,90 @@
+easyblock = 'Bundle'
+
+local_craympich_version = '8.1.18'
+local_libfabric_version = '1.15.0.0'
+
+name = 'singularity-bindings'
+version = 'system'
+versionsuffix = '-noglibc'
+
+homepage = 'https://www.sylabs.io/'
+
+whatis = [
+    'Description: Bindings to let singularity containers use the cray-mpich libraries on the system'    
+]
+
+description = """
+Singularity is a portable application stack packaging and runtime utility.
+This module provides the MPI support for singularity containers based
+on MPICH versions which are ABI-compatible with cray-mpich.
+
+Singularity on LUMI is provided in the base OS images, so no module needs
+to be loaded to just use singularity. This module sets SINGULARTY_BIND and
+SINGULARITYENV_LD_LIBRARY_PATH to enable containers that use an MPICH 
+version that is ABI compatible with cray-mpich to use the cray-mpich
+libraries provided on LUMI for optimal performance on the interconnect
+of LUMI.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '22.08'}
+
+dependencies = [
+    (f'cray-mpich-abi/{local_craympich_version}', EXTERNAL_MODULE),
+]
+
+_glibc_stack = ('/lib64/libSegFault.so:/lib64/libSegFault.so,'
+                '/lib64/librt.so.1:/lib64/librt.so.1,'
+                '/lib64/libnss_dns.so.2:/lib64/libnss_dns.so.2,'
+                '/lib64/libanl.so.1:/lib64/libanl.so.1,'
+                '/lib64/libresolv.so.2:/lib64/libresolv.so.2,'
+                '/lib64/libnsl.so.1:/lib64/libnsl.so.1,'
+                '/lib64/libBrokenLocale.so.1:/lib64/libBrokenLocale.so.1,'
+                '/lib64/libc.so.6:/lib64/libc.so.6,'
+                '/lib64/libnss_hesiod.so.2:/lib64/libnss_hesiod.so.2,'
+                '/lib64/libutil.so.1:/lib64/libutil.so.1,'
+                '/lib64/libnss_files.so.2:/lib64/libnss_files.so.2,'
+                '/lib64/libnss_compat.so.2:/lib64/libnss_compat.so.2,'
+                '/lib64/libnss_db.so.2:/lib64/libnss_db.so.2,'
+                '/lib64/libm.so.6:/lib64/libm.so.6,'
+                '/usr/lib64/libcurl.so.4,'
+                '/usr/lib64/libnghttp2.so.14,'
+                '/usr/lib64/libidn2.so.0,'
+                '/usr/lib64/libssh.so.4,'
+                '/usr/lib64/libpsl.so.5,'
+                '/usr/lib64/libssl.so.1.1,'
+                '/usr/lib64/libcrypto.so.1.1,'
+                '/usr/lib64/libgssapi_krb5.so.2,'
+                '/usr/lib64/libldap_r-2.4.so.2,'
+                '/usr/lib64/liblber-2.4.so.2,'
+                '/usr/lib64/libjson-c.so.3,'
+                '/usr/lib64/libunistring.so.2,'
+                '/usr/lib64/libkrb5.so.3,'
+                '/usr/lib64/libk5crypto.so.3,'
+                '/usr/lib64/libkrb5support.so.0,'
+                '/usr/lib64/libsasl2.so.3,'
+                '/usr/lib64/libkeyutils.so.1,'
+                '/lib64/libpthread.so.0:/lib64/libpthread.so.0,'
+                '/lib64/libdl.so.2:/lib64/libdl.so.2,'
+                '/lib64/libmvec.so.1:/lib64/libmvec.so.1,'
+                '/lib64/libthread_db.so.1:/lib64/libthread_db.so.1,'
+                '/lib64/ld-linux-x86-64.so.2:/lib64/ld-linux-x86-64.so.2')
+
+modextravars = {
+    'SINGULARITYENV_LD_LIBRARY_PATH': ('/lib64:'
+                                       '/opt/cray/pe/mpich/' + local_craympich_version + '/ofi/gnu/9.1/lib-abi-mpich:'
+                                       '/opt/cray/pe/lib64:'
+                                       '/opt/cray/pe:'
+                                       '/opt/cray/libfabric/' + local_libfabric_version + '/lib64:'
+                                       '/usr/lib64:'
+                                       '/opt/cray/pe/gcc-libs'),
+    'SINGULARITY_BIND': ('/opt/cray,'
+                         '/usr/lib64/libibverbs.so.1,'
+                         '/usr/lib64/librdmacm.so.1,'
+                         '/usr/lib64/libnl-3.so.200,'
+                         '/usr/lib64/libnl-route-3.so.200,'
+                         '/usr/lib64/libcxi.so.1,'
+                         '/usr/lib64/libpals.so.0,'
+                         '/var/spool/slurmd/mpi_cray_shasta,'
+                         '/usr/lib64/libibverbs/libmlx5-rdmav25.so,'
+                         '/etc/libibverbs.d')
+}
