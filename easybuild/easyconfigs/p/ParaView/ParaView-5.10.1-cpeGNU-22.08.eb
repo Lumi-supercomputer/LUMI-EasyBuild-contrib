@@ -1,0 +1,83 @@
+easyblock = 'CMakeMake'
+
+name = 'ParaView'
+version = '5.10.1'
+
+local_XZ_version     = '5.2.5'
+local_Mesa_version   = '22.2.1'
+local_zlib_version   = '1.2.12'
+local_FFmpeg_version = '5.0.1'
+local_Szip_version   = '2.1.1'
+
+homepage = 'https://www.paraview.org'
+description = """
+ParaView is a scientific parallel visualizer.
+"""
+
+docurls = ['https://docs.paraview.org/']
+software_license_urls = [
+    'https://gitlab.kitware.com/paraview/paraview/-/blob/v%(version)s/License_v1.2.txt'
+]
+
+toolchain = {'name': 'cpeGNU', 'version': '22.08'}
+toolchainopts = {'pic': True, 'usempi': True}
+
+local_download_suffix = 'download.php?submit=Download&version=v%(version_major_minor)s&type=source&os=all&downloadFile='
+
+source_urls = ['https://www.paraview.org/paraview-downloads/%s' % local_download_suffix]
+sources = ['%(name)s-v%(version)s.tar.gz']
+patches = ['ParaView-5.10.1_fix_FFmpeg_5.x_API_change.patch']
+checksums = [
+    '59ca46a929a52d8abec107b72e19447cba3d8e64871b6fbc8e99b0f3b167db46',  # ParaView-v5.10.1.tar.gz
+    '4ba1b29aa0a6e6cae78e191be5b80fd3cd9a5e1719cbdec52631f16655eb4ea0',  # ParaView-5.10.1_fix_FFmpeg_5.x_API_change.patch
+]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+    ('cray-python', EXTERNAL_MODULE),
+    ('cray-hdf5',   EXTERNAL_MODULE),
+    ('cray-netcdf', EXTERNAL_MODULE),
+    ('X11',         '%(toolchain_version)s'),
+    ('XZ',          local_XZ_version),
+    ('Mesa',        local_Mesa_version),
+    ('zlib',        local_zlib_version),
+    ('FFmpeg',      local_FFmpeg_version),
+    ('Szip',        local_Szip_version),
+]
+
+configopts  = ' -DPARAVIEW_INSTALL_DEVELOPMENT_FILES=ON'
+configopts += ' -DPARAVIEW_BUILD_SHARED_LIBS=ON'
+configopts += ' -DPARAVIEW_USE_MPI=ON'
+configopts += ' -DPARAVIEW_ENABLE_FFMPEG=ON'
+configopts += ' -DPARAVIEW_USE_QT=OFF'
+
+# Fix protobuf error
+configopts += ' -DCMAKE_SHARED_LINKER_FLAGS=-lpthread'
+
+configopts += ' -DVTK_USE_X=OFF'
+configopts += ' -DVTK_OPENGL_HAS_OSMESA=ON'
+
+configopts += ' -DOSMESA_INCLUDE_DIR=${EBROOTMESA}/include'
+configopts += ' -DOSMESA_LIBRARY=${EBROOTMESA}/lib64/libOSMesa.%s' % SHLIB_EXT
+configopts += ' -DOPENGL_INCLUDE_DIR=IGNORE '
+configopts += ' -DOPENGL_xmesa_INCLUDE_DIR=IGNORE '
+configopts += ' -DOPENGL_gl_LIBRARY=IGNORE '
+
+configopts += ' -DPARAVIEW_USE_VTKM=OFF'
+
+configopts += ' -DPARAVIEW_USE_PYTHON=ON'
+configopts += ' -DPython3_ROOT_DIR=$EBROOTPYTHON'
+
+sanity_check_paths = {
+    'files': ['bin/pvserver', 'bin/pvpython'],
+    'dirs': ['include/paraview-%(version_major_minor)s', 'lib/python%(pyshortver)s/site-packages'],
+}
+
+sanity_check_commands = ['python -c "import paraview"']
+
+modextrapaths = {'PYTHONPATH': 'lib/python%(pyshortver)s/site-packages'}
+
+moduleclass = 'vis'
