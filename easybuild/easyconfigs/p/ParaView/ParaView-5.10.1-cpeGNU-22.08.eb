@@ -29,7 +29,7 @@ sources = ['%(name)s-v%(version)s.tar.gz']
 patches = ['ParaView-5.10.1_fix_FFmpeg_5.x_API_change.patch']
 checksums = [
     '59ca46a929a52d8abec107b72e19447cba3d8e64871b6fbc8e99b0f3b167db46',  # ParaView-v5.10.1.tar.gz
-    '4ba1b29aa0a6e6cae78e191be5b80fd3cd9a5e1719cbdec52631f16655eb4ea0',  # ParaView-5.10.1_fix_FFmpeg_5.x_API_change.patch
+    'cfd0644d3fcf64d7b2cdce89718a4f13b493e8f25f520c386016098b8605332c',  # ParaView-5.10.1_fix_FFmpeg_5.x_API_change.patch
 ]
 
 builddependencies = [
