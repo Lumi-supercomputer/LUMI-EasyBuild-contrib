@@ -1,0 +1,79 @@
+# This is a Mesa using software rendering via Gallium-DRI and libglvnd
+# - libglvnd can dynamically choose between system-installed NVidia
+# libGLX/libEGL or the software renderers provided by this Mesa
+# - EGL is available
+#
+# Software renderers enabled (swr deprecated as of v22):
+# - llvmpipe: uses LLVM for JIT code generation (multi-threaded)
+# - softpipe: a reference Gallium driver
+# Default renderer is llvmpipe. To use softpipe, set the environment
+# variable GALLIUM_DRIVER=softpipe
+
+name = 'Mesa'
+version = '22.2.1'
+
+local_Mako_version     =  '1.2.0'
+local_libxml2_version  =  '2.9.12'
+local_expat_version    =  '2.4.8'
+local_gettext_version  =  '0.21'
+
+local_zlib_version      = '1.2.12'
+local_zstd_version      = '1.5.2'
+local_libglvnd_version  = '1.4.0'
+local_libunwind_version = '1.6.2'
+local_LLVM_version      = '14.0.6'
+
+homepage = 'https://www.mesa3d.org/'
+description = """
+ Mesa is an open-source implementation of the OpenGL specification - a system
+ for rendering interactive 3D graphics.
+"""
+
+docurls = ['https://docs.mesa3d.org/']
+software_license_urls = ['https://docs.mesa3d.org/license.html']
+
+toolchain = {'name': 'cpeGNU', 'version': '22.08'}
+
+source_urls = [
+    'https://mesa.freedesktop.org/archive/',
+    'https://mesa.freedesktop.org/archive/%(version)s',
+    'ftp://ftp.freedesktop.org/pub/mesa/%(version)s',
+    'ftp://ftp.freedesktop.org/pub/mesa/older-versions/%(version_major)s.x/%(version)s',
+    'ftp://ftp.freedesktop.org/pub/mesa/older-versions/%(version_major)s.x',
+]
+sources = [SOURCELOWER_TAR_XZ]
+checksums = ['0079beac0a33f45e7e0aec59e6913eafbc4268a3f1e2e330017440494f91b13c']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+    ('Mako',       local_Mako_version),
+    ('libxml2',    local_libxml2_version),
+    ('expat',      local_expat_version),
+    ('gettext',    local_gettext_version),
+]
+
+dependencies = [
+    ('zlib',      local_zlib_version),
+    ('zstd',      local_zstd_version),
+    ('libglvnd',  local_libglvnd_version),
+    ('libunwind', local_libunwind_version),
+    ('LLVM',      local_LLVM_version),
+    ('X11',       '%(toolchain_version)s'),
+]
+
+configopts  = "-Dplatforms=x11 -Dosmesa=true -Ddri-drivers='' -Dvulkan-drivers='' "
+configopts += "-Dllvm=true -Dshared-llvm=true -Dlibunwind=true -Dglvnd=true"
+
+# Easybuild will automatically add appropriate Gallium drivers for the processor architecture of the host
+# If you need a different configuration, it possible to override those values by setting your own configopts
+# configopts += " -Dgallium-drivers=swrast"
+
+# symlink indirect to mesa GLX, similar to Debian, see
+# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=881789
+# This helps in certain X forwarding situations (e.g. XQuartz)
+postinstallcmds = ["ln -s libGLX_mesa.so.0 %(installdir)s/lib/libGLX_indirect.so.0"]
+
+# Tells libglvnd where to find EGL libraries
+modextrapaths = {"__EGL_VENDOR_LIBRARY_DIRS": "share/glvnd/egl_vendor.d"}
+
+moduleclass = 'vis'
