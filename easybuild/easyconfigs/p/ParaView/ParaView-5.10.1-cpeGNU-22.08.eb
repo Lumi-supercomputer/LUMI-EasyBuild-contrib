@@ -10,8 +10,77 @@ local_FFmpeg_version = '5.0.1'
 local_Szip_version   = '2.1.1'
 
 homepage = 'https://www.paraview.org'
+
+whatis = ['Description: ParaView is a data analysis and visualization application']
+
 description = """
-ParaView is a scientific parallel visualizer.
+ ParaView is an open-source, multi-platform data analysis and visualization 
+ application. ParaView users can quickly build visualizations to analyze their 
+ data using qualitative and quantitative techniques. The data exploration can be
+ done interactively in 3D or programmatically using ParaView’s batch processing
+ capabilities.
+ 
+ ParaView was developed to analyze extremely large datasets using distributed
+ memory computing resources. It can be run on supercomputers to analyze datasets
+ of petascale size as well as on laptops for smaller data, has become an integral
+ tool in many national laboratories, universities and industry, and has won
+ several awards related to high performance computation.
+"""
+
+usage = """
+This version of ParaView only contains the server and the files needed for 
+development (including Python). You need to install a matching version of the
+client on your local machine by downloading the binary installer:
+
+ - Windows: https://www.paraview.org/download/?version=v%(version_major_minor)s
+ - MacOS: https://www.paraview.org/download/?version=v%(version_major_minor)s&filter=macOS
+ - Linux: https://www.paraview.org/download/?version=v%(version_major_minor)s&filter=Linux
+
+Important: the server and client version should match
+
+To run the server, create an allocation with salloc where you specify the time, 
+the number of server processes you want to launch, the memory and th account 
+(project) to charge.
+
+ $ salloc --time=<time> --ntasks=<nprocesses> --mem=<mem> --partition=small --account=<account>
+
+Once the allocation is granted, start the server with 
+
+ $ module load LUMI/%(toolchain_version)s
+ $ module load ParaView/%(version)s-%(toolchain_name)s-%(toolchain_version)s
+ $ srun pvserver
+
+Once the server has started, the node name and port should be printed in the 
+standard output. 
+
+To be able to connect to the server sunning on the compute node, we need to 
+create a tunnel between the node and your local machine by running the following
+command on your local machine:
+
+ $ ssh -N -L <port>:nid<id>:<port> <username>@lumi.csc.fi
+
+where you need to replace <port> with the value provided in the 
+output of the pvserver command. You also need to replace <id> with the number of
+the node where the ParaView server is running and <username> with your 
+username.
+
+For example, if the server has been started on node nid002528 and that
+the server port is 11111, a user with username lumiuser, should run the 
+following command to create the tunnel:
+
+ $ ssh -N -L 11111:nid002528:11111 lumiuser@lumi.csc.fi
+
+The next step is to start the client on your local machine and configure it to 
+connect to the server. To do so, go to 
+
+File > Connect... > Add Server
+
+Give a name to the configuration, for example LUMI, use "Client / Server" for
+Server Type and "localhost" for Host. For the port, use the one that was used
+for the tunnel creation, i.e., the port provided by pvserver. Click on Configure
+and on the next screen choose "Manual" for the Startup Type and click on Save.
+
+Now, you can select the newly created configuration and click connect.
 """
 
 docurls = ['https://docs.paraview.org/']
