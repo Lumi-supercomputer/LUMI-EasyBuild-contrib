@@ -1,0 +1,53 @@
+easyblock = 'Bundle'
+
+local_craympich_version = '8.1.18'
+local_libfabric_version = '1.15.0.0'
+
+name = 'singularity-bindings'
+version = 'system'
+versionsuffix = '-noglibc'
+
+homepage = 'https://www.sylabs.io/'
+
+whatis = [
+    'Description: Bindings to let singularity containers use the cray-mpich libraries on the system'    
+]
+
+description = """
+Singularity is a portable application stack packaging and runtime utility.
+This module provides the MPI support for singularity containers based
+on MPICH versions which are ABI-compatible with cray-mpich.
+
+Singularity on LUMI is provided in the base OS images, so no module needs
+to be loaded to just use singularity. This module sets SINGULARTY_BIND and
+SINGULARITYENV_LD_LIBRARY_PATH to enable containers that use an MPICH 
+version that is ABI compatible with cray-mpich to use the cray-mpich
+libraries provided on LUMI for optimal performance on the interconnect
+of LUMI.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '22.08'}
+
+dependencies = [
+    (f'cray-mpich-abi/{local_craympich_version}', EXTERNAL_MODULE),
+]
+
+modextravars = {
+    'SINGULARITYENV_LD_LIBRARY_PATH': ('/lib64:'
+                                       '/opt/cray/pe/mpich/' + local_craympich_version + '/ofi/gnu/9.1/lib-abi-mpich:'
+                                       '/opt/cray/pe/lib64:'
+                                       '/opt/cray/pe:'
+                                       '/opt/cray/libfabric/' + local_libfabric_version + '/lib64:'
+                                       '/usr/lib64:'
+                                       '/opt/cray/pe/gcc-libs'),
+    'SINGULARITY_BIND': ('/opt/cray,'
+                         '/usr/lib64/libibverbs.so.1,'
+                         '/usr/lib64/librdmacm.so.1,'
+                         '/usr/lib64/libnl-3.so.200,'
+                         '/usr/lib64/libnl-route-3.so.200,'
+                         '/usr/lib64/libcxi.so.1,'
+                         '/usr/lib64/libpals.so.0,'
+                         '/var/spool/slurmd/mpi_cray_shasta,'
+                         '/usr/lib64/libibverbs/libmlx5-rdmav25.so,'
+                         '/etc/libibverbs.d')
+}
