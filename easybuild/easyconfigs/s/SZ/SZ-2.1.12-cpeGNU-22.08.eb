@@ -1,0 +1,61 @@
+# Based on a easyconfig by the Juelich Supercomputing Centre
+# Adapted for LUMI by Orian Louant
+
+easyblock = 'CMakeMake'
+
+name = 'SZ'
+version = '2.1.12'
+
+homepage = 'https://szcompressor.org'
+
+whatis = ['SZ is a modular parametrizable lossy compressor framework for scientific data']
+
+description = """
+ SZ is a modular parametrizable lossy compressor framework for scientific data
+ (floating point and integers). It has applications in simulations, AI and
+ instruments. It is a production quality software and a research platform for
+ lossy compression.
+ 
+ SZ can be used for classic use-cases: visualization, accelerating I/O,
+ reducing memory and storage footprint and more advanced use-cases like
+ compression of DNN models and training sets, acceleration of computation,
+ checkpoint/restart, reducing streaming intensity and running efficiently large
+ problems that cannot fit in memory. Other use-cases will augment this list as
+ users find new opportunities to benefit from lossy compression of scientific
+ data.
+"""
+
+software_license_urls = ['https://github.com/szcompressor/SZ/blob/master/copyright-and-BSD-license.txt']
+
+toolchain = {'name': 'cpeGNU', 'version': '22.08'}
+toolchainopts = {'pic': True}
+
+github_account = 'szcompressor'
+source_urls = [GITHUB_SOURCE]
+sources = ['v%(version)s.tar.gz']
+checksums = ['3712b2cd7170d1511569e48a208f02dfb72ecd7ad053c321e2880b9083e150de']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+    ('cray-hdf5',   EXTERNAL_MODULE),
+    ('cray-netcdf', EXTERNAL_MODULE),
+]
+
+preconfigopts = 'module rm cray-libsci && '
+
+configopts  = "-DBUILD_FORTRAN=ON "
+configopts += "-DBUILD_HDF5_FILTER=ON "
+configopts += "-DBUILD_NETCDF_READER=ON "
+configopts += "-DBUILD_OPENMP=ON "
+
+prebuildopts = 'module rm cray-libsci && '
+
+sanity_check_paths = {
+    'files': ['bin/sz', 'lib/libSZ.%s' % SHLIB_EXT],
+    'dirs': ['bin', 'include', 'lib'],
+}
+
+moduleclass = 'data'
