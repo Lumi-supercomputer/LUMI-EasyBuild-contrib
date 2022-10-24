@@ -1,0 +1,54 @@
+# Based on a easyconfig by the Juelich Supercomputing Centre
+# Adapted for LUMI by Orian Louant
+
+easyblock = 'ConfigureMake'
+
+name = 'ZeroMQ'
+version = '4.3.4'
+
+homepage = 'https://www.zeromq.org/'
+
+whatis = ['Description: ZeroMQ is an open-source universal messaging library']
+
+description = """
+ ZeroMQ looks like an embeddable networking library but acts like a concurrency
+ framework. It gives you sockets that carry atomic messages across various
+ transports like in-process, inter-process, TCP, and multicast. You can connect
+ sockets N-to-N with patterns like fanout, pub-sub, task distribution, and
+ request-reply. It's fast enough to be the fabric for clustered products. Its
+ asynchronous I/O model gives you scalable multicore applications, built as
+ asynchronous message-processing tasks. It has a score of language APIs and runs
+ on most operating systems.
+"""
+
+docurls = ['https://zeromq.org/get-started/']
+
+toolchain = {'name': 'cpeGNU', 'version': '22.08'}
+
+source_urls = ['https://github.com/zeromq/libzmq/releases/download/v%(version)s/']
+sources = [SOURCELOWER_TAR_GZ]
+checksums = ['c593001a89f5a85dd2ddf564805deb860e02471171b3f204944857336295c3e5']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+    ('OpenPGM', '5.2.122'),
+    ('libsodium', '1.0.18'),
+]
+
+preconfigopts = 'module rm cray-libsci && '
+
+# Compialtion warnings in GCC 11, cf. https://github.com/zeromq/libzmq/issues/4178
+# Needto disable warnings as errors.
+configopts = '--with-pic --with-pgm --with-libsodium --disable-Werror'
+
+prebuildopts = 'module rm cray-libsci && '
+
+sanity_check_paths = {
+    'files': ['lib/libzmq.%s' % SHLIB_EXT, 'lib/libzmq.a'],
+    'dirs': ['include', 'lib'],
+}
+
+moduleclass = 'devel'
