@@ -45,6 +45,7 @@ modextravars = {
                          '/usr/lib64/librdmacm.so.1,'
                          '/usr/lib64/libnl-3.so.200,'
                          '/usr/lib64/libnl-route-3.so.200,'
+                         '/usr/lib64/libjson-c.so.3,'
                          '/usr/lib64/libcxi.so.1,'
                          '/usr/lib64/libpals.so.0,'
                          '/var/spool/slurmd/mpi_cray_shasta,'
