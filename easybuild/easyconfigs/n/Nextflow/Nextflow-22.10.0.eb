@@ -4,8 +4,45 @@ name = 'Nextflow'
 version = '22.10.0'
 
 homepage = 'https://www.nextflow.io'
-description = """Nextflow is a reactive workflow framework and a programming DSL 
- that eases writing computational pipelines with complex data"""
+
+whatis = [
+    'Description: Nextflow is a reactive workflow framework and a programming DSL'
+]
+
+description = """
+Nextflow is a reactive workflow framework and a programming DSL 
+that eases writing computational pipelines with complex data.
+
+Nextflow enables scalable and reproducible scientific workflows using 
+software containers. It allows the adaptation of pipelines written in 
+the most common scripting languages.
+
+Its fluent DSL simplifies the implementation and the deployment of 
+complex parallel and reactive workflows on clouds and clusters.
+"""
+
+usage = """
+There are two problems with running Nextflow on a large scale on a 
+machine such as LUMI.
+
+1.  The Slurm executor of Nextflow is not suitable for large workflows 
+    involving tens of thousands of processes on HPC systems. In fact,
+    you'll quickly bump against the limit of the number of jobs that
+    a user can have in the queue.
+    
+    The solution is to ust the HyperQueue metascheculer as the executor.
+    
+2.  Nextflow workflows tend to generate tons of files which may degrade
+    the performance of the parallel file system for all users. If you are
+    not careful when setting up your workflow, you may very well bump 
+    into your file number quota limit. And as that limit is there to avoid
+    performance degradation for all users, it cannot be raised.
+"""
+
+docurls = [
+    'Information on Nextflow with HyperQueue on the CSC web site: https://docs.csc.fi/support/tutorials/nextflow-hq/',
+    'Nextflow tutorial for the CSC puhti system: https://github.com/yetulaxman/Biocontainer/blob/master/_tutorials/nextflow_tutorial.md',
+]
 
 toolchain = SYSTEM
 
@@ -14,7 +51,7 @@ sources = ['v%(version)s.tar.gz']
 checksums = ['7eceff3e32bd1bcd09744890501456e0a2b5448916fb25f3e6a8f338a239af8b']
 
 # specify dependency on Java/11 "wrapper", rather than a specific Java version
-dependencies = [('Java', '11', '', SYSTEM)]
+dependencies = [('Java', '11')]
 
 skipsteps = ['configure', 'build']
 
