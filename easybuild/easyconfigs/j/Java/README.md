@@ -34,3 +34,6 @@ it multiple times in the same `LUMI` stack.
 -   The EasyConfigs come from the EasyBuilders repository with only some
     changes to the documentation.
 
+-   Additional change though: `JAVA_ROOT` and `JAVA_BINDIR` are also set (`JAVA_HOME` 
+    is set by the EasyBlock) to ensure that all references to the system Java are
+    removed when the Java module is loaded.

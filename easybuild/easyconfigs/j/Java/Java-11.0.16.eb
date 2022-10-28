@@ -36,4 +36,9 @@ checksums = [
     }
 ]
 
+modextravars = {
+    'JAVA_ROOT':   '%(installdir)s',
+    'JAVA_BINDIR': '%(installdir)s/bin',
+}
+
 moduleclass = 'lang'
