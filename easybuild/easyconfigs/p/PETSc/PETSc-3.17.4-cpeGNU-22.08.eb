@@ -12,7 +12,6 @@ toolchain = {'name': 'cpeGNU', 'version': '22.08'}
 
 source_urls = [
     'https://ftp.mcs.anl.gov/pub/petsc/release-snapshots/',
-#    'ftp://ftp.mcs.anl.gov/pub/petsc/release-snapshots/',
 ]
 sources = [SOURCELOWER_TAR_GZ]
 
@@ -29,12 +28,18 @@ dependencies = [
     #('Hypre', '2.21.0'),
 ]
 
-configopts = 'CC=cc CXX=CC FC=ftn --with-cc=cc --with-cxx=CC --with-fc=ftn '
+local_petsc_arch = 'cray-x86-milan-gnu'
+#PETSC_ARCH=local_petsc_arch
+
+configopts = '--with-petsc-arch=cray-x86-milan-gnu '
+configopts += 'CC=cc CXX=CC FC=ftn --with-cc=cc --with-cxx=CC --with-fc=ftn '
 configopts += 'CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" FCFLAGS="$FCFLAGS" FFLAGS="$FFLAGS" CPPFLAGS="$CPPFLAGS" LDFLAGS="$LDFLAGS" '
 configopts += '--with-fortran-datatypes=1 --with-fortran-interfaces=1 --with-fortran-bindings=1 --with-cxx-dialect=C++11 '
 configopts += '--with-x=0 --with-ssl=0 --with-shared-libraries=1 --with-mpiexec=srun --with-blas-lapack=1 --with-metis=1 --with-hypre=0 --with-scalapack=1 --with-ptscotch=1 --with-mumps=0 --with-hdf5=1 '
 configopts += '--with-metis-dir="$EBROOTMETIS" --with-hdf5-dir="$CRAY_HDF5_PARALLEL_PREFIX" --with-ptscotch-dir="$EBROOTSCOTCH"'
 
+# This is for checking if linking against the library is correct
+runtest = 'check_build MPIEXEC=exec V=1'
 
 sanity_check_paths = {
     'files': ['lib/libpetsc.%s' % SHLIB_EXT],
