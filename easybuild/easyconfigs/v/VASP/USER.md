@@ -3,7 +3,9 @@
 [lumi-g]: https://docs.lumi-supercomputer.eu/hardware/compute/lumig/
 [eap]: https://docs.lumi-supercomputer.eu/hardware/compute/eap/
 [slurm-quickstart]: https://docs.lumi-supercomputer.eu/runjobs/scheduled-jobs/slurm-quickstart/
-[batch-job]: https://docs.lumi-supercomputer.eu/)runjobs/scheduled-jobs/batch-job/
+[slurm-bindings]: https://docs.lumi-supercomputer.eu/runjobs/scheduled-jobs/distribution-binding#slurm-binding-options
+[batch-job]: https://docs.lumi-supercomputer.eu/runjobs/scheduled-jobs/batch-job/
+[EasyBuild]: https://docs.lumi-supercomputer.eu/software/installing/easybuild/
 
 # VASP on LUMI
 
@@ -14,15 +16,14 @@ general, it runs well on [LUMI-C][lumi-c].
 **There is currently no version of VASP that can use the AMD GPUs in the [GPU
 Early Access Platform][eap] or [LUMI-G][lumi-g].**
 
+## Installing VASP
 
-## Installing VASP 
+We provide automatic installation scripts for several versions of VASP. In
+general, the installation procedure is described on the [EasyBuild
+page][EasyBuild]. The step by step procedure to install VASP
+6.3.2 is:
 
-We provide automatic installation scripts for several versions of VASP. 
-The general procedure is described on the 
-[EasyBuild page](https://docs.lumi-supercomputer.eu/software/installing/easybuild/). 
-The step by step procedure to install VASP 6.3.2 is:
-
-1. Download the VASP source code "vasp.6.3.2.tgz" from the [VASP portal](https://www.vasp.at/).
+1. Download the VASP source code "vasp.6.3.2.tgz" from the [VASP portal][vasp].
 2. Upload the file somewhere to your home directory on LUMI.
 3. Load the LUMI software environment: `module load LUMI/22.08`.
 4. Select the LUMI-C partition: `module load partition/C`.
@@ -56,14 +57,16 @@ $ eb -S VASP
 ```
 
 or by checking the list further down this page 
-or by checking the [LUMI-EasyBuild-contrib](https://github.com/Lumi-supercomputer/LUMI-EasyBuild-contrib/tree/main/easybuild/easyconfigs/v/VASP) repository on GitHub directly.
+or by checking the
+[LUMI-EasyBuild-contrib](https://github.com/Lumi-supercomputer/LUMI-EasyBuild-contrib/tree/main/easybuild/easyconfigs/v/VASP)
+repository on GitHub directly.
 
 We build the VASP executables with bindings to several external libraries
 activated: currently HDF5, Wannier90, DFTD4, and Libxc.
 
-## Example batch scripts 
+## Example batch scripts
 
-A typical batch job using 4 compute nodes and MPI only:
+A typical VASP [batch job][batch-job] using 4 compute nodes and MPI only:
 
 ```bash
 #!/bin/bash
@@ -84,7 +87,7 @@ module load VASP/6.3.2-cpeGNU-22.08
 srun vasp_std
 ```
 
-A typical batch job with MPI and 8 OpenMP threads per rank:
+A typical VASP batch job with MPI and 8 OpenMP threads per rank:
 
 ```bash
 #!/bin/bash
@@ -123,7 +126,7 @@ srun vasp_std
   performance as much as you might expect. That can be useful when you are
   constrained by memory and need more available memory per MPI rank. It is
   important to explicitly [pin the MPI ranks to processor
-  cores](../../runjobs/scheduled-jobs/distribution-binding.md#slurm-binding-options) if you
+  cores][slurm-bindings] if you
   run with less than 128 cores per node.
 * If possible, use k-point parallelization `KPAR` up to the maxium number of
   k-points. It is often a good choice to use 1 compute node per k-point.
