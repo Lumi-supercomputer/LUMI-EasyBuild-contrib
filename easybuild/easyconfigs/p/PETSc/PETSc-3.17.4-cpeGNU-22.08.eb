@@ -22,6 +22,7 @@ dependencies = [
     ('cray-hdf5-parallel', EXTERNAL_MODULE),
     ('Boost', '1.79.0'),
     ('METIS', '5.1.0'),
+    ('ParMETIS','4.0.3'),
     ('SCOTCH', '6.1.3'),
     #('MUMPS', '5.4.0', '-metis'),
     #('SuiteSparse', '5.10.1', '-METIS-5.1.0'),
@@ -36,7 +37,7 @@ configopts += ' CC=cc CXX=CC FC=ftn --with-cc=cc --with-cxx=CC --with-fc=ftn '
 configopts += 'CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" FCFLAGS="$FCFLAGS" FFLAGS="$FFLAGS" CPPFLAGS="$CPPFLAGS" LDFLAGS="$LDFLAGS" '
 configopts += '--with-fortran-datatypes=1 --with-fortran-interfaces=1 --with-fortran-bindings=1 --with-cxx-dialect=C++11 '
 configopts += '--with-x=0 --with-ssl=0 --with-shared-libraries=1 --with-mpiexec=srun --with-blas-lapack=1 --with-metis=1 --with-hypre=0 --with-scalapack=1 --with-ptscotch=1 --with-mumps=0 --with-hdf5=1 '
-configopts += '--with-metis-dir="$EBROOTMETIS" --with-hdf5-dir="$CRAY_HDF5_PARALLEL_PREFIX" --with-ptscotch-dir="$EBROOTSCOTCH"'
+configopts += '--with-metis-dir="$EBROOTMETIS" --with-parmetis-dir="$EBROOTPARMETIS" --with-hdf5-dir="$CRAY_HDF5_PARALLEL_PREFIX" --with-ptscotch-dir="$EBROOTSCOTCH"'
 
 # This is for checking if linking against the library is correct
 runtest = 'check_build MPIEXEC=exec V=1'
