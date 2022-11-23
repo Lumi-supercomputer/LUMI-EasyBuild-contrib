@@ -1,0 +1,51 @@
+easyblock = "PythonBundle"
+
+name = 'DeepSpeed'
+version = '0.7.2'
+
+homepage = 'https://www.deepspeed.ai'
+
+whatis = [
+    'Description: DeepSpeed is a Python-based deep learning optimization software suite'
+]
+
+description = """
+DeepSpeed is a Python-based easy-to-use deep learning optimization software suite
+that enables unprecedented scale and speed for Deep Learning Training and Inference.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '22.08'}
+
+dependencies = [
+    ('cray-python', EXTERNAL_MODULE),
+    ('PyTorch', '1.12.1')
+]
+
+exts_default_options = {
+    'source_urls': [PYPI_SOURCE],
+    'unpack_sources': False,
+    'use_pip': True,
+}
+
+exts_list = [
+    ('py-cpuinfo', '8.0.0', {'modulename': 'cpuinfo'}),
+    ('ninja', '1.10.2.3', {'source_tmpl': '%(name)s-%(version)s-py2.py3-none-manylinux_2_5_x86_64.manylinux1_x86_64.whl'}),
+    ('hjson', '3.1.0'),
+    ('tqdm', '4.64.0', {'source_tmpl': '%(name)s-%(version)s-py2.py3-none-any.whl'}),
+    ('pyparsing','3.0.9', {'source_tmpl': '%(name)s-%(version)s-py3-none-any.whl'}),
+    ('pydantic', '1.9.2', {'source_tmpl': '%(name)s-%(version)s-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl'}),
+    ('psutil', '5.9.1', {'source_tmpl': '%(name)s-%(version)s-cp39-cp39-manylinux_2_12_x86_64.manylinux2010_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl'}),
+    ('packaging', '21.3', {'source_tmpl': '%(name)s-%(version)s-py3-none-any.whl'}),
+    ('%(namelower)s', '%(version)s')
+]    
+
+postinstallcmds = [
+    "sed -i 's/hostname -I/hostname -i/g' %(installdir)s/lib/python%(pyshortver)s/site-packages/deepspeed/comm/comm.py"
+]
+
+sanity_check_paths = {
+    'files': ['bin/%(namelower)s', 'bin/ninja'],
+    'dirs': ['lib/python%(pyshortver)s/site-packages/%(namelower)s']
+}
+
+moduleclass = 'devel'

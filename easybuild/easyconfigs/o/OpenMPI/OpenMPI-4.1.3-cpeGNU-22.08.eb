@@ -32,7 +32,7 @@ dependencies = [
 ]
 
 configopts  = '--with-libfabric=/opt/cray/libfabric/$(pkg-config --modversion libfabric) '
-configopts += '--with-slurm '
+configopts += '--with-pmi=/usr '
 
 sanity_check_paths = {
     'files': ['bin/ompi_info', 'bin/opal_wrapper', 'bin/orterun', 'lib/libmpi.so'],
