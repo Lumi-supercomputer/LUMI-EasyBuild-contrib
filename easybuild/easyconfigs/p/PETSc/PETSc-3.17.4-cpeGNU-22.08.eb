@@ -24,9 +24,10 @@ dependencies = [
     ('METIS', '5.1.0'),
     ('ParMETIS','4.0.3'),
     ('SCOTCH', '6.1.3'),
-    #('MUMPS', '5.4.0', '-metis'),
-    #('SuiteSparse', '5.10.1', '-METIS-5.1.0'),
-    #('Hypre', '2.21.0'),
+    ('MUMPS', '5.5.1', '-metis'),
+    ('Hypre', '2.26.0'),
+    ('SuperLU_DIST', '8.1.2'),
+    ('STRUMPACK', '6.3.1'),
 ]
 
 local_petsc_arch = 'cray-x86-milan-gnu'
@@ -36,8 +37,8 @@ configopts = '--with-petsc-arch=' + local_petsc_arch
 configopts += ' CC=cc CXX=CC FC=ftn --with-cc=cc --with-cxx=CC --with-fc=ftn '
 configopts += 'CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" FCFLAGS="$FCFLAGS" FFLAGS="$FFLAGS" CPPFLAGS="$CPPFLAGS" LDFLAGS="$LDFLAGS" '
 configopts += '--with-fortran-datatypes=1 --with-fortran-interfaces=1 --with-fortran-bindings=1 --with-cxx-dialect=C++11 '
-configopts += '--with-x=0 --with-ssl=0 --with-shared-libraries=1 --with-mpiexec=srun --with-blas-lapack=1 --with-metis=1 --with-hypre=0 --with-scalapack=1 --with-ptscotch=1 --with-mumps=0 --with-hdf5=1 '
-configopts += '--with-metis-dir="$EBROOTMETIS" --with-parmetis-dir="$EBROOTPARMETIS" --with-hdf5-dir="$CRAY_HDF5_PARALLEL_PREFIX" --with-ptscotch-dir="$EBROOTSCOTCH"'
+configopts += '--with-x=0 --with-ssl=0 --with-shared-libraries=1 --with-mpiexec=srun --with-blas-lapack=1 --with-metis=1 --with-hypre=1 --with-scalapack=1 --with-ptscotch=1 --with-mumps=1 --with-hdf5=1 --with-superlu_dist=1 --with-strumpack=1 '
+configopts += '--with-metis-dir="$EBROOTMETIS" --with-parmetis-dir="$EBROOTPARMETIS" --with-hdf5-dir="$CRAY_HDF5_PARALLEL_PREFIX" --with-ptscotch-dir="$EBROOTSCOTCH" --with-hypre-dir="$EBROOTHYPRE" --with-mumps-dir="$EBROOTMUMPS" --with-superlu_dist-dir="$EBROOTSUPERLU_DIST" --with-strumpack-dir="$EBROOTSTRUMPACK" '
 
 # This is for checking if linking against the library is correct
 runtest = 'check_build MPIEXEC=exec V=1'
