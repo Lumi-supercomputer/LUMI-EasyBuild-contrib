@@ -8,7 +8,7 @@ description = """SuperLU is a general purpose library for the direct solution of
  of linear equations on high performance machines."""
 
 toolchain = {'name': 'cpeGNU', 'version': '22.08'}
-toolchainopts = {'pic': True, 'openmp': True}
+toolchainopts = {'pic': True, 'openmp': False}
 
 github_account = 'xiaoyeli'
 source_urls = [GITHUB_LOWER_SOURCE]
