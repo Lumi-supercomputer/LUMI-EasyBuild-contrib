@@ -7,7 +7,7 @@ description = """Hypre is a library for solving large, sparse linear systems of 
  and elsewhere to study physical phenomena in the defense, environmental, energy, and biological sciences."""
 
 toolchain = {'name': 'cpeGNU', 'version': '22.08'}
-toolchainopts = {'pic': True}
+toolchainopts = {'openmp': True, 'pic': True}
 
 source_urls = ['https://github.com/hypre-space/hypre/archive/']
 sources = ['v%(version)s.tar.gz']
