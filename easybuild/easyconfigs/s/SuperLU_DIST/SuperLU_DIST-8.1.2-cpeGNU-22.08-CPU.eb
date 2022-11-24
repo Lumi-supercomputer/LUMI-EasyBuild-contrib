@@ -25,6 +25,7 @@ dependencies = [
 configopts = '-DTPL_PARMETIS_INCLUDE_DIRS="${EBROOTPARMETIS}/include" '
 configopts += '-DTPL_PARMETIS_LIBRARIES="${EBROOTPARMETIS}/lib/libparmetis.a;${EBROOTPARMETIS}/lib/libmetis.a" '
 configopts += '-DTPL_ENABLE_INTERNAL_BLASLIB=OFF '
+configopts += '-Denable_openmp:BOOL=FALSE '
 configopts += '-DMPIEXEC_EXECUTABLE="srun" '
 
 # Some tests run longer than default 1500s timeout on fairly big machine (36 cores).
