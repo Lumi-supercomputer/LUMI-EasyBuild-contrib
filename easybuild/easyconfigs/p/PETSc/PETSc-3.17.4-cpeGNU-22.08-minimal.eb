@@ -2,6 +2,7 @@ easyblock = 'ConfigureMake'
 
 name = 'PETSc'
 version = '3.17.4'
+version_suffix = "-minimal"
 
 homepage = 'https://www.mcs.anl.gov/petsc'
 description = """PETSc, pronounced PET-see (the S is silent), is a suite of data structures and routines for the
