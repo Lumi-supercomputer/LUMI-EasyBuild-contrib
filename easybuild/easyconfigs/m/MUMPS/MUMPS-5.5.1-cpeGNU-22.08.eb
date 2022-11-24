@@ -10,7 +10,7 @@ description = "A parallel sparse direct solver"
 # TODO: Add note on specific license
 
 toolchain = {'name': 'cpeGNU', 'version': '22.08'}
-toolchainopts = {'pic': True, 'usempi': True}
+toolchainopts = {'openmp': True, 'pic': True, 'usempi': True}
 
 source_urls = ['https://mumps-solver.org/']
 sources = ['%(name)s_%(version)s.tar.gz']
