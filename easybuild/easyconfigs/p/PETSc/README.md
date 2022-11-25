@@ -14,5 +14,6 @@
 
 ### Version 3.17 from CPE 21.08 on
 
-  * Dependencies: python (Cray), HDF5 (Cray), Boost, METIS, SCOTCH
+  * OpenMP enabled; Hypre, METIS, ParMETIS, SCOTCH, MUMPS, SuperLU_Dist, STRUMPACK; dependencies: python (Cray), HDF5 (Cray), Boost
+  * `-minimal`: no OpenMP, dependencies: python (Cray), HDF5 (Cray), Boost, METIS, SCOTCH
 
