@@ -20,7 +20,7 @@ toolchain = {'name': 'cpeGNU', 'version': '22.08'}
 
 source_urls = ['https://gitlab.freedesktop.org/glvnd/libglvnd/-/archive/v%(version)s/']
 sources = ['libglvnd-v%(version)s.tar.gz']
-checksums = ['e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855']
+checksums = ['33b8b993adf47a21bc1c46bcf970927edeb9884390d5b09b1aed051d600c0b2f']
 
 builddependencies = [
     ('buildtools', '%(toolchain_version)s', '', True),
