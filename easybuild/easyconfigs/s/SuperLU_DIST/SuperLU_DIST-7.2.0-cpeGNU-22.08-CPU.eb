@@ -1,0 +1,39 @@
+easyblock = "CMakeMake"
+
+name = 'SuperLU_DIST'
+version = '7.2.0'
+
+homepage = 'https://crd-legacy.lbl.gov/~xiaoye/SuperLU/'
+description = """SuperLU is a general purpose library for the direct solution of large, sparse, nonsymmetric systems
+ of linear equations on high performance machines."""
+
+toolchain = {'name': 'cpeGNU', 'version': '22.08'}
+toolchainopts = {'pic': True, 'openmp': True}
+
+github_account = 'xiaoyeli'
+source_urls = [GITHUB_LOWER_SOURCE]
+sources = ["v%(version)s.tar.gz"]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+    ('ParMETIS', '4.0.3'),
+]
+
+configopts = '-DTPL_PARMETIS_INCLUDE_DIRS="${EBROOTPARMETIS}/include" '
+configopts += '-DTPL_PARMETIS_LIBRARIES="${EBROOTPARMETIS}/lib/libparmetis.a;${EBROOTPARMETIS}/lib/libmetis.a" '
+configopts += '-DTPL_ENABLE_INTERNAL_BLASLIB=OFF '
+configopts += '-DMPIEXEC_EXECUTABLE="srun" '
+
+# Some tests run longer than default 1500s timeout on fairly big machine (36 cores).
+# Include only first four tests, which should be fairly small to run
+pretestopts = 'export ARGS="$ARGS --tests-regex pdtest_[21]x1_[13]_2_8_20_SP" && '
+
+sanity_check_paths = {
+    'files': ['lib64/libsuperlu_dist.a'],
+    'dirs': ['include']
+}
+
+moduleclass = 'numlib'
