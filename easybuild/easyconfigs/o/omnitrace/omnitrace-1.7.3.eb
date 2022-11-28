@@ -1,0 +1,50 @@
+# Created for LUMI by Orian Louant
+easyblock = 'Binary'
+
+name = 'omnitrace'
+version = '1.7.3'
+
+local_rocm_version = '50000'
+local_suse_version = '15.3'
+
+toolchain = SYSTEM
+
+homepage = 'https://amdresearch.github.io/omnitrace/index.html'
+
+description = """
+ Omnitrace is designed for both high-level profiling and comprehensive tracing of
+ applications running on the CPU or the CPU+GPU via dynamic binary
+ instrumentation, call-stack sampling, and various other means for determining
+ currently executing function and line information.
+
+ Visualization of the comprehensive omnitrace results can be viewed in any modern
+ web browser by visiting ui.perfetto.dev and loading the perfetto output (.proto
+ files) produced by omnitrace.
+
+ Aggregated high-level results are available in text files for human consumption
+ and JSON files for programmatic analysis. The JSON output files are compatible
+ with the python package hatchet which converts the performance data into pandas
+ dataframes and facilitate multi-run comparisons, filtering, visualization in
+ Jupyter notebooks, and much more.
+"""
+
+local_src_script = '%s-%s-opensuse-%s-ROCm-%s-PAPI-OMPT-Python3.sh' % (
+  '%(name)s',
+  '%(version)s',
+  local_suse_version,
+  local_rocm_version
+)
+
+source_urls = ['https://github.com/AMDResearch/omnitrace/releases/download/v%(version)s/']
+sources = [local_src_script]
+checksums = ['2884b3ff825f2248ccd041bfb3fbf6ca336196d8194be58c55d64d20afcf02f2']
+
+install_cmd  = 'chmod +x %s && ' % (local_src_script)
+install_cmd += './%s --prefix=%s --exclude-subdir' % (local_src_script, '%(installdir)s')
+
+sanity_check_paths = {
+    'files': ['bin/omnitrace'],
+    'dirs': []
+}
+
+moduleclass = 'perf'
