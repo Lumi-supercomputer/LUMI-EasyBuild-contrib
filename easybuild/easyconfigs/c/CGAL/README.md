@@ -1,6 +1,8 @@
 # CGAL release 4
 
  * It is intended as requirement for OpenFOAM
+ 
+ * [CGAL home page](http://www.cgal.org/)
 
 ## OpenFOAM specific notes
 
