@@ -11,6 +11,8 @@ whatis = [
 
 description = "aria2 is a lightweight multi-protocol & multi-source command-line download utility."
 
+software_license_urls = ['https://raw.githubusercontent.com/aria2/aria2/release-%(version)s/COPYING']
+
 toolchain = {'name': 'cpeGNU', 'version': '21.12'}
 
 source_urls = ['https://github.com/aria2/aria2/releases/download/release-%(version)s']
