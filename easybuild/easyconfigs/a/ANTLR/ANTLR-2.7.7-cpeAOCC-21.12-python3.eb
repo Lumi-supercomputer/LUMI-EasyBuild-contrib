@@ -23,6 +23,8 @@ particular package. Users are advised to use newer versions whenever
 possible.
 """
 
+software_license_urls = ['https://www.antlr2.org/license.html']
+
 toolchain = {'name': 'cpeAOCC', 'version': '21.12'}
 
 source_urls = ['https://www.antlr2.org/download/']
