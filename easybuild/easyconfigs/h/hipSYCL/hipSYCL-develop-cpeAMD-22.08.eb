@@ -1,0 +1,70 @@
+easyblock = 'CMakeMake'
+
+name =    'hipSYCL'
+version = 'develop'
+
+homepage = 'https://hipsycl.github.io/'
+
+whatis = [
+    "Description: hipSYCL is a modern SYCL implementation targeting CPUs and GPUs, with a focus on leveraging existing toolchains such as CUDA or HIP"
+]
+
+description = """
+hipSYCL is a modern SYCL implementation targeting CPUs and
+GPUs, with a focus on leveraging existing toolchains such as CUDA or HIP.
+
+It targets any CPU via OpenMP, NVIDIA GPUs via CUDA, AMD GPUs via HIP/ROCm and 
+Intel GPUs via oneAPI Level Zero and SPIR-V (experimental). However, this 
+module is for LUMI and does not contain the NVIDIA and Intel GPU support.
+"""
+
+toolchain = {'name': 'cpeAMD', 'version': '22.08'}
+toolchainopts = {'verbose': False, 'openmp': True}
+
+#source_urls = ["https://github.com/illuhad/hipSYCL/archive/refs/tags/"]
+#sources =     ["v%(version)s.tar.gz"]
+#checksums =   ['7a1d6c39dd73d8b84e7506003f20918aa3763850e7a5ea3d6add5bd67f6ec0da']
+
+sources = [{
+    'filename':   '%(namelower)s-%(version)s.tar.gz',
+    'git_config': {
+    	'url':       'https://github.com/illuhad',
+        'repo_name': 'hipSYCL',
+        'commit': 'facd918',
+    }
+}]
+
+dependencies = [
+    ('Boost',                '1.79.0'),
+    ('cray-python/3.9.12.1', EXTERNAL_MODULE),
+    ('rocm/5.0.2',           EXTERNAL_MODULE),
+]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+configopts = '-DROCM_PATH=$ROCM_PATH '
+configopts += '-DWITH_ACCELERATED_CPU=OFF '
+configopts += '-DWITH_CPU_BACKEND=ON '
+configopts += '-DWITH_CUDA_BACKEND=OFF '
+configopts += '-DWITH_ROCM_BACKEND=ON '
+configopts += '-DDEFAULT_GPU_ARCH=gfx90a '
+
+sanity_check_paths = {
+    'files': ['bin/syclcc-clang', 'include/sycl/sycl.hpp',
+              'lib/hipSYCL/librt-backend-omp.%s' % SHLIB_EXT,
+              'lib/hipSYCL/librt-backend-hip.%s' % SHLIB_EXT,
+              'lib/libhipSYCL_clang.%s' % SHLIB_EXT,
+              'lib/libhipSYCL-rt.%s' % SHLIB_EXT],
+    'dirs': ['include/CL', 'include/hipSYCL', 'include/SYCL'],
+}
+sanity_check_commands = [
+    'syclcc --help'
+]
+
+modextravars = {
+    'HIPSYCL_TARGETS': 'hip:gfx90a',
+}
+
+moduleclass = 'compiler'
