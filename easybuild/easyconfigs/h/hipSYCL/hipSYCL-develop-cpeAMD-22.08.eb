@@ -37,7 +37,7 @@ sources = [{
 dependencies = [
     ('Boost',                '1.79.0'),
     ('cray-python/3.9.12.1', EXTERNAL_MODULE),
-    ('rocm/5.0.2',           EXTERNAL_MODULE),
+#    ('rocm/5.1.0',           EXTERNAL_MODULE),
 ]
 
 builddependencies = [
@@ -45,10 +45,12 @@ builddependencies = [
 ]
 
 configopts = '-DROCM_PATH=$ROCM_PATH '
-configopts += '-DWITH_ACCELERATED_CPU=OFF '
+configopts += '-DWITH_ACCELERATED_CPU=ON '
 configopts += '-DWITH_CPU_BACKEND=ON '
 configopts += '-DWITH_CUDA_BACKEND=OFF '
 configopts += '-DWITH_ROCM_BACKEND=ON '
+# CMAKE_CXX_LINK_EXECUTABLE=hipcc
+configopts += '-DCMAKE_SHARED_LINKER_FLAGS="-fopenmp-targets=x86_64-pc-linux-gnu" '
 configopts += '-DDEFAULT_GPU_ARCH=gfx90a '
 
 sanity_check_paths = {
