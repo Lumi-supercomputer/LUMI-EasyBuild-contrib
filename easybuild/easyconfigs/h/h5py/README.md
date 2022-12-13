@@ -1,10 +1,12 @@
-# h5py
+# h5py instructions
 
-  * [h5py web site](https://www.h5py.org/)
+-   [h5py web site](http://www.h5py.org/)
 
-      * [h5py Documentation](https://docs.h5py.org/en/stable/)
+    -   [h5py Documentation](https://docs.h5py.org/en/stable/)
 
-  * [h5py on GitHub](https://github.com/h5py/h5py)
+-   [h5py on GitHub](https://github.com/h5py/h5py)
+  
+-   [h5py on PyPi](https://pypi.org/project/h5py/)
 
 
 ## EasyBuild
