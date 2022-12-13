@@ -1,5 +1,6 @@
-# libxsmm license information.
+# libxsmm license information
 
-The libxsmm package is covered by a BSD 3-Clause license a copy of which 
-can be found in the
-[LICENSE.md file in the libxsmm GitHub repository](https://github.com/libxsmm/libxsmm/blob/main/LICENSE.md).
+Libxsmm is licensed under the BSD 3-Clause License, see the
+["BSD 3-Clause License" page in the documentation](https://libxsmm.readthedocs.io/en/latest/LICENSE/)
+or the [LICENSE.md file in the GitHub repository](https://github.com/libxsmm/libxsmm/blob/main/LICENSE.md).
+

@@ -1,7 +1,7 @@
 # LAMMPS License information
 
 LAMMPS is licensed under the terms of the 
-GNU General Public License version 2.0.
+[GNU Public License Version 2](https://github.com/lammps/lammps/blob/develop/LICENSE).
 More information can be found on the 
 ["LAMMPS open-source license" page in the LAMMPS documentation](https://docs.lammps.org/Intro_opensource.html).
 A copy of the license can also be found in the 
