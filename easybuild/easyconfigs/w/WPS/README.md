@@ -4,7 +4,9 @@
   
   * [WPS on GitHub](https://github.com/wrf-model/WPS)
 
+  * [WRF Users' Page](https://www2.mmm.ucar.edu/wrf/users/)
 
+  
 ## EasyBuild
 
   * [WPS support in the EasyBuilders repository](https://github.com/easybuilders/easybuild-easyconfigs/tree/develop/easybuild/easyconfigs/w/WPS)
