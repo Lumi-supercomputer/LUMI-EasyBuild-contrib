@@ -8,5 +8,3 @@ Note that according to the [LUMI Conditions of Use](https://www.lumi-supercomput
 it is the User's responsibility to respect the software license terms. The EasyConfigs provided in the
 [LUMI-EasyBuild-contrib repository](https://github.com/Lumi-supercomputer/LUMI-EasyBuild-contrib/tree/main/easybuild/easyconfigs/n/NAMD) 
 do not imply that you have the right to use the software on LUMI.
-
-
