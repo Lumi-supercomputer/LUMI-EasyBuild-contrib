@@ -1,6 +1,6 @@
 # NAMD
 
-  * [NAMD Website](https://openmm.org/)
+  * [NAMD Website](http://www.ks.uiuc.edu/Research/namd/)
 
 ## General information
 
