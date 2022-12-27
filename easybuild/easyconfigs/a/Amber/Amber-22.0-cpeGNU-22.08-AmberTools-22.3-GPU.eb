@@ -1,0 +1,121 @@
+easyblock = 'CMakeMake'
+
+name = 'Amber'
+
+local_amber_ver = 22
+local_ambertools_ver = 22
+# Patch levels from https://ambermd.org/AmberPatches.php and https://ambermd.org/ATPatches.php
+local_patchlevels = (3, 0)  # (AmberTools, Amber)
+version = '%s.%s' % (local_amber_ver, local_patchlevels[1])
+versionsuffix = '-AmberTools-%s.%s-GPU' % (local_ambertools_ver, local_patchlevels[0])
+
+homepage = 'https://ambermd.org/amber.html'
+description = """Amber (originally Assisted Model Building with Energy Refinement) is software for performing
+ molecular dynamics and structure prediction."""
+
+toolchain = {'name': 'cpeGNU', 'version': '22.08'}
+toolchainopts = {'usempi': True, 'openmp': True}
+
+sources = [
+    '%%(name)s%s.tar.bz2' % local_amber_ver,
+    {'filename': 'AmberTools%s.tar.bz2' % local_ambertools_ver, 'alt_location': 'AmberTools'},
+    'amber_amd.23jun22.tar.bz2',
+]
+
+patches = [
+     'AmberTools-20_cmake-locate-netcdf.patch',
+     'AmberTools-20_fix_missing_MPI_LIBRARY_error.patch',
+     'Amber-22_remove_undeclared_redundant_variable.patch',
+]
+
+builddependencies = [
+    ('buildtools',   '%(toolchain_version)s',   '', True),
+    ('rocm', EXTERNAL_MODULE),
+]
+
+dependencies = [
+    ('cray-python', EXTERNAL_MODULE),
+    ('cray-fftw', EXTERNAL_MODULE),
+    ('cray-hdf5-parallel/1.12.1.5', EXTERNAL_MODULE),
+    ('cray-parallel-netcdf', EXTERNAL_MODULE),
+    ('cray-netcdf-hdf5parallel', EXTERNAL_MODULE),
+    ('Boost',      '1.79.0', ''),
+]
+
+preconfigopts = 'cd ../amber22_src && ./update_amber --update && cd build && '
+
+local_configopts =  '-DMPI=ON -DOPENMP=ON -DCOMPILER=CRAY -DSTATIC=ON ' 
+local_configopts += '-DUSE_FFT=ON -DHIP=ON -DVKFFT=ON -DHIP_RDC=ON -DHIP_TOOLKIT_ROOT_DIR=$ROCM_PATH -DHIPCUDA_EMULATE_VERSION="10.1" '
+local_configopts += '-DCHECK_UPDATES=FALSE -DAPPLY_UPDATES=FALSE '
+local_configopts += '-DDOWNLOAD_MINICONDA=FALSE -DBUILD_PYTHON=OFF '
+local_configopts += '-DFORCE_EXTERNAL_LIBS="netcdf;fftw;blas;lapack;pnetcdf" -DTRUST_SYSTEM_LIBS=TRUE '
+local_configopts += '-DBLAS_LIBRARIES=$CRAY_LIBSCI_PREFIX_DIR/lib/libsci_gnu.so -DLAPACK_LIBRARIES=$CRAY_LIBSCI_PREFIX_DIR/lib/libsci_gnu.so ' # Cray LibSci
+local_configopts += '-DNetCDF_INCLUDES=$CRAY_NETCDF_HDF5PARALLEL_PREFIX/include -DNetCDF_INCLUDES_F90=$CRAY_NETCDF_HDF5PARALLEL_PREFIX/include ' # NetCDF 
+local_configopts += '-DNetCDF_LIBRARIES_F90=$CRAY_NETCDF_HDF5PARALLEL_PREFIX/lib/libnetcdff.so -DNetCDF_LIBRARIES_F77=$CRAY_NETCDF_HDF5PARALLEL_PREFIX/lib/libnetcdff.so -DNetCDF_LIBRARIES_C=$CRAY_NETCDF_HDF5PARALLEL_PREFIX/lib/libnetcdf.so  '
+local_configopts += '-DPnetCDF_LIBRARY=$CRAY_PARALLEL_NETCDF_PREFIX/lib/libpnetcdf.so -DPnetCDF_INCLUDE_DIR=$CRAY_PARALLEL_NETCDF_PREFIX/include ' # Parallel NetCDF
+local_configopts += '-DBUILD_HOST_TOOLS=ON '
+
+#-DCMAKE_INSTALL_PREFIX=/users/maciszpin/EasyBuild/SW/LUMI-22.08/C/Amber/22.0-cpeGNU-22.08-AmberTools-22.3-GPU -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER='cc' -DCMAKE_C_FLAGS='-O2 -ftree-vectorize -fno-math-errno -fopenmp' -DCMAKE_CXX_COMPILER='CC' -DCMAKE_CXX_FLAGS='-O2 -ftree-vectorize -fno-math-errno -fopenmp' -DCMAKE_Fortran_COMPILER='ftn' -DCMAKE_Fortran_FLAGS='-O2 -ftree-vectorize -fno-math-errno -fopenmp' -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_FIND_USE_PACKAGE_REGISTRY=FALSE -DBOOST_ROOT=/appl/lumi/SW/LUMI-22.08/C/EB/Boost/1.79.0-cpeGNU-22.08 -DBoost_NO_SYSTEM_PATHS=ON -DMPI=ON -DOPENMP=ON -DCOMPILER=CRAY -DSTATIC=ON -DUSE_FFT=ON -DHIP=ON -DVKFFT=ON -DHIP_RDC=ON -DHIP_TOOLKIT_ROOT_DIR=$ROCM_PATH -DHIPCUDA_EMULATE_VERSION="10.1" -DCHECK_UPDATES=FALSE -DAPPLY_UPDATES=FALSE -DDOWNLOAD_MINICONDA=FALSE -DBUILD_PYTHON=OFF -DFORCE_EXTERNAL_LIBS="netcdf;fftw;blas;lapack;pnetcdf" -DTRUST_SYSTEM_LIBS=TRUE -DBLAS_LIBRARIES=$CRAY_LIBSCI_PREFIX_DIR/lib/libsci_gnu.so -DLAPACK_LIBRARIES=$CRAY_LIBSCI_PREFIX_DIR/lib/libsci_gnu.so -DNetCDF_INCLUDES=$CRAY_NETCDF_HDF5PARALLEL_PREFIX/include -DNetCDF_INCLUDES_F90=$CRAY_NETCDF_HDF5PARALLEL_PREFIX/include -DNetCDF_LIBRARIES_F90=$CRAY_NETCDF_HDF5PARALLEL_PREFIX/lib/libnetcdff.so -DNetCDF_LIBRARIES_F77=$CRAY_NETCDF_HDF5PARALLEL_PREFIX/lib/libnetcdff.so -DNetCDF_LIBRARIES_C=$CRAY_NETCDF_HDF5PARALLEL_PREFIX/lib/libnetcdf.so  -DPnetCDF_LIBRARY=$CRAY_PARALLEL_NETCDF_PREFIX/lib/libpnetcdf.so -DPnetCDF_INCLUDE_DIR=$CRAY_PARALLEL_NETCDF_PREFIX/include -DBUILD_HOST_TOOLS=OFF -DUSE_HOST_TOOLS=ON -DHOST_TOOLS_DIR=/users/maciszpin/EasyBuild/SW/LUMI-22.08/C/Amber/22.0-cpeGNU-22.08-AmberTools-22.3-GPU -Bamber
+
+local_configopts  = '-D CMAKE_BUILD_TYPE=Release '  
+local_configopts += '-D CMAKE_C_COMPILER=cc '
+local_configopts += '-D CMAKE_CXX_COMPILER=CC '
+local_configopts += '-D CMAKE_Fortran_COMPILER=ftn '
+local_configopts += '-D COMPILER=CRAY '
+local_configopts += '-D CMAKE_CXX_FLAGS="-O3 -ftree-vectorize -fno-math-errno -fopenmp" '
+local_configopts += '-D CMAKE_C_FLAGS="-O3 -ftree-vectorize -fno-math-errno -fopenmp" '
+local_configopts += '-D CMAKE_Fortran_FLAGS="-O3 -ftree-vectorize -fno-math-errno -fopenmp"  '
+local_configopts += '-D STATIC=ON '
+local_configopts += '-D DISABLE_WARNINGS=ON '
+local_configopts += '-D CMAKE_VERBOSE_MAKEFILE=ON '
+local_configopts += '-D CMAKE_FIND_USE_PACKAGE_REGISTRY=FALSE '
+local_configopts += '-D BOOST_ROOT=$EBROOTBOOST '
+local_configopts += '-D Boost_NO_SYSTEM_PATHS=ON ' 
+local_configopts += '-D MPI=ON '
+local_configopts += '-D OPENMP=ON '
+local_configopts += '-D USE_FFT=ON '
+local_configopts += '-D BUILD_PYTHON=OFF '
+local_configopts += '-D CHECK_UPDATES=OFF '
+local_configopts += '-D APPLY_UPDATES=FALSE '
+local_configopts += '-D DOWNLOAD_MINICONDA=OFF '
+local_configopts += '-D HIP=ON '
+local_configopts += '-D GTI=TRUE '
+local_configopts += '-D VKFFT=ON '
+local_configopts += '-D HIP_RDC=ON '
+local_configopts += '-D HIP_TOOLKIT_ROOT_DIR=$ROCM_PATH '
+local_configopts += '-D HIPCUDA_EMULATE_VERSION="10.1" '
+local_configopts += '-D FORCE_EXTERNAL_LIBS="netcdf;fftw;blas;lapack;pnetcdf" '
+local_configopts += '-D TRUST_SYSTEM_LIBS=TRUE '
+local_configopts += '-D BLAS_LIBRARIES=$CRAY_LIBSCI_PREFIX_DIR/lib/libsci_gnu.so '
+local_configopts += '-D LAPACK_LIBRARIES=$CRAY_LIBSCI_PREFIX_DIR/lib/libsci_gnu.so '
+local_configopts += '-D NetCDF_INCLUDES=$CRAY_NETCDF_HDF5PARALLEL_PREFIX/include '
+local_configopts += '-D NetCDF_INCLUDES_F90=$CRAY_NETCDF_HDF5PARALLEL_PREFIX/include '
+local_configopts += '-D NetCDF_LIBRARIES_F90=$CRAY_NETCDF_HDF5PARALLEL_PREFIX/lib/libnetcdff.so '
+local_configopts += '-D NetCDF_LIBRARIES_F77=$CRAY_NETCDF_HDF5PARALLEL_PREFIX/lib/libnetcdff.so ' 
+local_configopts += '-D NetCDF_LIBRARIES_C=$CRAY_NETCDF_HDF5PARALLEL_PREFIX/lib/libnetcdf.so '
+local_configopts += '-D PnetCDF_LIBRARY=$CRAY_PARALLEL_NETCDF_PREFIX/lib/libpnetcdf.so '
+local_configopts += '-D PnetCDF_INCLUDE_DIR=$CRAY_PARALLEL_NETCDF_PREFIX/include '
+
+local_configopts_tools  = '-D BUILD_HOST_TOOLS=ON '
+local_configopts_tools += '-D CMAKE_INSTALL_PREFIX=%(installdir)s/tools '
+local_configopts_tools += '-B tools '
+
+local_configopts_amber  = '-D BUILD_HOST_TOOLS=OFF '
+local_configopts_amber += '-D USE_HOST_TOOLS=ON '
+local_configopts_amber += '-D HOST_TOOLS_DIR=%(installdir)s/tools '
+local_configopts_amber += '-B amber '
+
+configopts = [ local_configopts + local_configopts_tools, local_configopts + local_configopts_amber ]
+
+prebuildopts = ['cd ../amber22_src/build/tools && ', 'cd ../amber22_src/build/amber && '] # ,'cd ../amber22_src/build/amber && ']
+
+buildopts = ['', 'xblas_build']
+
+#install_cmd = ['make install', 'make xblas_build install']
+#install_target_subdir = ['tools', 'amber', 'amber']
+
+preinstallopts = ['cd ../amber22_src/build/tools && ', 'cd ../amber22_src/build/amber && '] # ,'cd ../amber22_src/build/amber && ']
+
+installopts = ['-j64', '-j64']
+
+moduleclass = 'chem'
