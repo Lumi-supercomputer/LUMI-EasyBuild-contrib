@@ -1,0 +1,56 @@
+# Based on an EasCconfig by CSCS
+# Adapated for LUMI by Orian Louant
+easyblock = 'BinariesTarball'
+
+name = 'Paraver'
+version = '4.10.6'
+
+homepage = 'http://www.bsc.es/computer-sciences/performance-tools/paraver'
+
+whatis = ['Description: Paraver is performance visualization and analysis tool']
+
+description = """
+ Paraver is a very powerful performance visualization and analysis tool
+ based on traces that can be used to analyse any information that is expressed
+ on its input trace format.
+
+ Paraver was developed to respond to the need to have a qualitative global
+ perception of the application behavior by visual inspection and then to be able
+ to focus on the detailed quantitative analysis of the problems. Expressive
+ power, flexibility and the capability of efficiently handling large traces are
+ key features addressed in the design of Paraver. The clear and modular structure
+ of Paraver plays a significant role towards achieving these targets.
+
+ Its analysis power is based on two main pillars.
+
+  - Its trace format has no semantics; extending the tool to support new
+    performance data or new programming models requires no changes to the
+    visualizer, just to capture such data in a Paraver trace
+  - Metrics are not hardwired on the tool but programmed. To compute them, the
+    tool offers a large set of time functions, a filter module, and a mechanism
+    to combine two time lines.
+
+ Traces for parallel MPI, OpenMP and other programs can be genereated with
+ Extrae.
+"""
+
+toolchain = SYSTEM
+source_urls = ['https://ftp.tools.bsc.es/wxparaver/']
+sources = ['wxparaver-%(version)s-Linux_x86_64.tar.bz2']
+checksums = ['27b4fc974468a834d9d758d6018cf0905ea35677bd1cac8d77211c8cf2abe76b']
+
+postinstallcmds = [
+    'cp -a %(builddir)s/wxparaver-%(version)s-Linux_x86_64/* %(installdir)s/ ; '
+]
+
+sanity_check_paths = {
+    'files': ['include/cfg.h', 'bin/wxparaver'],
+    'dirs': ['cfgs',],
+}
+
+modextravars = {
+    'EXTRAECFGDIR': '%(installdir)s/cfgs',
+    '%(name)s_installed_version': '%(version)s',
+}
+
+moduleclass = 'perf'
