@@ -113,6 +113,9 @@ for x in ['pdt', 'pdt-openmp', 'mpi-pdt', 'mpi-pdt-openmp']:
 for x in ['pthread-pdt', 'pthread-pdt-openmp', 'mpi-pthread-pdt', 'mpi-pthread-pdt-openmp']:
     local_sanity_libsuffixes.append('rocm-rocprofiler-roctracer-hip-cray-papi-%s' % x)
 
+for x in ['pthread-pdt', 'pthread-pdt-openmp', 'mpi-pthread-pdt', 'mpi-pthread-pdt-openmp']:
+    local_sanity_libsuffixes.append('rocm-rocprofiler-roctracer-hip-cray-clang-papi-%s' % x)
+
 sanity_check_paths = {
    'files': ['lib/libTAUsh-%s.%s' % (x, SHLIB_EXT) for x in local_sanity_libsuffixes],
    'dirs': [],
