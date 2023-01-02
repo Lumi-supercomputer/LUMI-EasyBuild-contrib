@@ -1,0 +1,120 @@
+easyblock = 'ConfigureMake'
+
+name = 'TAU'
+version = '2.32'
+
+local_zlib_version      = '1.2.12'
+local_libunwind_version = '1.6.2'
+local_elfutils_version  = '0.188'
+local_libbfd_version    = '2.39'
+local_PDT_version       = '3.25.1'
+local_libdwarf_version  = '20210528'
+
+homepage = 'http://www.tau.uoregon.edu/'
+
+whatis = ['Description: the TAU Performance System is a portable profiling and tracing toolkit']
+
+description = """
+TAU Performance System is a portable profiling and tracing toolkit for
+performance analysis of parallel programs written in Fortran, C, C++, UPC, Java
+and Python.
+
+TAU (Tuning and Analysis Utilities) is capable of gathering performance
+information through instrumentation of functions, methods, basic blocks, and
+statements as well as event-based sampling. All C++ language features are
+supported including templates and namespaces. The API also provides selection of
+profiling groups for organizing and controlling instrumentation. The
+instrumentation can be inserted in the source code using an automatic
+instrumentor tool based on the Program Database Toolkit (PDT), dynamically using
+DyninstAPI, at runtime in the Java Virtual Machine, or manually using the
+instrumentation API.
+
+TAU's profile visualization tool, paraprof, provides graphical displays of all
+the performance analysis results, in aggregate and single node/context/thread
+forms. The user can quickly identify sources of performance bottlenecks in the
+application using the graphical interface. In addition, TAU can generate event
+traces that can be displayed with the Vampir, Paraver or JumpShot trace
+visualization tools.
+"""
+
+docurls = ['https://www.cs.uoregon.edu/research/tau/docs/newguide/index.html']
+
+toolchain = {'name': 'cpeGNU', 'version': '22.08'}
+
+source_urls = ['https://www.cs.uoregon.edu/research/tau/tau_releases/']
+sources = ['%(namelower)s-%(version)s.tar.gz']
+checksums = ['ee774a06e30ce0ef0f053635a52229152c39aba4f4933bed92da55e5e13466f3']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+    ('rocm',        EXTERNAL_MODULE),
+]
+
+dependencies = [
+    ('zlib',        local_zlib_version),
+    ('libunwind',   local_libunwind_version),
+    ('elfutils',    local_elfutils_version),
+    ('libbfd',      local_libbfd_version),
+    ('PDT',         local_PDT_version),
+    ('libdwarf',    local_libdwarf_version),
+    ('papi',        EXTERNAL_MODULE),
+]
+
+skipsteps = ['install']
+
+buildopts = 'clean install'
+
+prefix_opt = '-prefix='
+
+local_base_configopts  = '-cc=cc -fortran=ftn '
+local_base_configopts += '-papi=${CRAY_PAPI_PREFIX} '
+local_base_configopts += '-pdt=${EBROOTPDT} '
+local_base_configopts += '-bfd=${EBROOTLIBBFD} '
+local_base_configopts += '-zlib=${EBROOTZLIB} '
+local_base_configopts += '-unwind=${EBROOTLIBUNWIND} '
+local_base_configopts += '-elf=${EBROOTELFUTILS} '
+local_base_configopts += '-dwarf=${EBROOTLIBDWARF} '
+
+local_rocm_configopts  = '-rocm=${ROCM_PATH} '
+local_rocm_configopts += '-rocprofiler=${ROCM_PATH}/rocprofiler '
+local_rocm_configopts += '-roctracer=${ROCM_PATH}/roctracer '
+local_rocm_configopts += '-hip=${ROCM_PATH}/hip '
+
+preconfigopts = []
+prebuildopts  = []
+
+configopts = []
+
+for local_model in [' ', '-openmp', '-mpi', '-openmp -mpi']:
+    local_model_opts = local_base_configopts + ' ' + local_model
+    
+    configopts.append(local_model_opts + ' -c++=CC '                           )
+    configopts.append(local_model_opts + ' -c++=hipcc ' + local_rocm_configopts)
+
+for local_opts in configopts:
+    if 'rocm' in local_opts:
+        preconfigopts.append('')
+        prebuildopts.append('')
+    else:
+        preconfigopts.append('module rm rocm && ')
+        prebuildopts.append('module rm rocm && ')
+
+postinstallcmds = [
+    'ln -s %(installdir)s/craycnl/lib %(installdir)s/lib',
+    'ln -s %(installdir)s/craycnl/bin %(installdir)s/bin',
+]
+
+local_sanity_libsuffixes = []
+
+for x in ['pdt', 'pdt-openmp', 'mpi-pdt', 'mpi-pdt-openmp']:
+    local_sanity_libsuffixes.append('gnu-papi-%s' % x)
+
+for x in ['pthread-pdt', 'pthread-pdt-openmp', 'mpi-pthread-pdt', 'mpi-pthread-pdt-openmp']:
+    local_sanity_libsuffixes.append('rocm-rocprofiler-roctracer-hip-gnu-papi-%s' % x)
+
+sanity_check_paths = {
+   'files': ['lib/libTAUsh-%s.%s' % (x, SHLIB_EXT) for x in local_sanity_libsuffixes],
+   'dirs': [],
+}
+
+moduleclass = 'perf'

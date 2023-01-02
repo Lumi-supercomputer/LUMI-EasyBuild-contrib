@@ -1,0 +1,58 @@
+diff -ruN tau-2.32/src/wrappers/memory/Makefile tau-2.32.new/src/wrappers/memory/Makefile
+--- tau-2.32/src/wrappers/memory/Makefile       2021-01-10 06:24:17.000000000 +0100
++++ tau-2.32.new/src/wrappers/memory/Makefile   2023-01-02 11:40:58.000000000 +0100
+@@ -26,13 +26,13 @@
+        $(TAU_AR) $(ARFLAGS) $@ $(STATIC_OBJ)
+
+ static.o: memory_wrapper.c
+-       $(CC) -c $(CFLAGS) $< -o $@
++       $(CC) -c $(CFLAGS) -D_GNU_SOURCE $< -o $@
+
+ dynamic.o: memory_wrapper.c
+-       $(CC) -c $(CFLAGS) -DTAU_MEMORY_WRAPPER_DYNAMIC=1 $< -o $@
++       $(CC) -c $(CFLAGS) -D_GNU_SOURCE -DTAU_MEMORY_WRAPPER_DYNAMIC=1 $< -o $@
+
+ %.o: %.c
+-       $(CC) -c $(CFLAGS) $< -o $@
++       $(CC) -c $(CFLAGS) -D_GNU_SOURCE $< -o $@
+
+ clean:
+        /bin/rm -f libTauMemoryWrap.a $(TAU_MEMORYWRAP_SHARED) $(DYNAMIC_OBJ) $(STATIC_OBJ)
+diff -ruN tau-2.32/src/wrappers/pthread/Makefile tau-2.32.new/src/wrappers/pthread/Makefile
+--- tau-2.32/src/wrappers/pthread/Makefile      2021-01-10 06:24:17.000000000 +0100
++++ tau-2.32.new/src/wrappers/pthread/Makefile  2023-01-02 10:59:04.000000000 +0100
+@@ -19,13 +19,13 @@
+        $(TAU_AR) $(ARFLAGS) $@ $<
+
+ pthread_wrap_ld.o: pthread_wrap.c
+-       $(CC) -DTAU_LIBRARY_SOURCE $(CFLAGS) -g -c $<  -o $@
++       $(CC) -DTAU_LIBRARY_SOURCE $(CFLAGS) -D_GNU_SOURCE -g -c $<  -o $@
+
+ $(PTHREAD_LDPRELOAD_LIB): pthread_wrap_preload.o
+        $(CC) $(TAU_SHFLAGS) $@ $< -ldl
+
+ pthread_wrap_preload.o: pthread_wrap.c
+-       $(CC) -DTAU_LIBRARY_SOURCE -DTAU_PRELOAD_LIB $(CFLAGS) -g -c $< -o $@
++       $(CC) -DTAU_LIBRARY_SOURCE -DTAU_PRELOAD_LIB $(CFLAGS) -D_GNU_SOURCE -g -c $< -o $@
+
+ # *CWL* This is REQUIRED for any component of TAU for a successful new build!
+ clean:
+diff -ruN tau-2.32/src/wrappers/taupreload/Makefile tau-2.32.new/src/wrappers/taupreload/Makefile
+--- tau-2.32/src/wrappers/taupreload/Makefile   2022-11-04 01:07:23.000000000 +0100
++++ tau-2.32.new/src/wrappers/taupreload/Makefile       2023-01-02 10:58:33.000000000 +0100
+@@ -10,13 +10,13 @@
+        $(TAU_SHARED_INSTALL_CMD)
+
+ taupreload.o: taupreload.c
+-       $(TAU_CC) $(CFLAGS) -c taupreload.c
++       $(TAU_CC) $(CFLAGS) -D_GNU_SOURCE -c taupreload.c
+
+ libTAU-preload$(TAU_SHLIBX): taupreload.o
+        $(TAU_CC) $(TAU_SHFLAGS) libTAU-preload$(TAU_SHLIBX) taupreload.o $(TAU_LIBDL)
+
+ dl_auditor.o: dl_auditor.c
+-       $(TAU_CC) $(CFLAGS) -c dl_auditor.c
++       $(TAU_CC) $(CFLAGS) -D_GNU_SOURCE -c dl_auditor.c
+
+ libTAU-dl-auditor$(TAU_SHLIBX): dl_auditor.o
+        $(TAU_CC) -lc -ldl $(TAU_SHFLAGS) libTAU-dl-auditor$(TAU_SHLIBX) dl_auditor.o -ldl
