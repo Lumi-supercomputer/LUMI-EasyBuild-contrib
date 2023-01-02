@@ -1,0 +1,45 @@
+easyblock = 'ConfigureMake'
+
+name = 'libdwarf'
+version = '20210528'
+
+local_zlib_version = '1.2.12'
+local_elfutils_version = '0.188'
+
+homepage = 'https://www.prevanders.net/dwarf.html'
+
+whatis = [
+    'Description: libdwarf is a library to manipulate information '
+    'in the DWARF Debugging Information Format'
+]
+
+description = """
+ The DWARF Debugging Information Format is of interest to programmers working
+ on compilers and debuggers (and anyone interested in reading or writing DWARF
+ information)
+"""
+
+toolchain = {'name': 'cpeAOCC', 'version': '22.08'}
+toolchainopts = {'pic': True}
+
+source_urls = ['https://www.prevanders.net']
+sources = [SOURCE_TAR_GZ]
+checksums = ['b8ba0ee9b70d2052d45272489d79bf456c4d342fc8c3bba45038afc50ec6e28b']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+    ('zlib',     local_zlib_version),
+    ('elfutils', local_elfutils_version),
+]
+
+configopts  = '--enable-shared'
+
+sanity_check_paths = {
+    'files': ['lib/libdwarf.%s' % SHLIB_EXT],
+    'dirs': ['include'],
+}
+
+moduleclass = 'tools'
