@@ -1,0 +1,56 @@
+easyblock = 'ConfigureMake'
+
+name = 'PDT'
+version = '3.25.1'
+
+homepage = 'https://www.cs.uoregon.edu/research/pdt/'
+
+whatis = ['Description: the Program Database Toolkit is a framework for analyzing source code']
+
+description = """
+ Program Database Toolkit (PDT) is a framework for analyzing source code
+ written in several programming languages and for making rich program
+ knowledge accessible to developers of static and dynamic analysis tools.
+ PDT implements a standard program representation, the program database
+ (PDB), that can be accessed in a uniform way through a class library
+ supporting common PDB operations.
+"""
+
+toolchain = {'name': 'cpeCray', 'version': '22.08'}
+
+source_urls = ['https://www.cs.uoregon.edu/research/paracomp/pdtoolkit/Download/']
+sources = ['pdtoolkit-%(version)s.tar.gz']
+checksums = ['0b6f8a6b8769c181b2ae6cae7298f04b8e3e3d68066f598ed24574e19500bc97']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+local_configure_patch_lines = [
+    '    elif [ -r /opt/cray ]',
+    '    then',
+    '      ARCH=CRAY',
+    '      PLATFORM=x86_64',
+    '      echo "Looks like a Cray machine..."'
+]
+
+skipsteps = ['install']
+buildopts = 'clean install'
+
+preconfigopts = 'ls && sed -i \'100 a%s\'' % '\\n'.join(local_configure_patch_lines) + ' configure && '
+
+prefix_opt = '-prefix='
+configopts = '-CC -useropt="-fPIC"'
+
+# PDT assume the classic Cray compiler so we need to remove some flags
+prebuildopts = 'sed -i "s/\-h conform,instantiate\=used//" ductape/Makefile && '
+
+postinstallcmds = [
+    'ln -s %(installdir)s/x86_64/bin %(installdir)s/bin',
+    'ln -s %(installdir)s/x86_64/lib %(installdir)s/lib',
+]
+
+sanity_check_paths = {
+   'files': ['bin/cparse', 'include/pdb.h', 'lib/libpdb.a'],
+   'dirs': [],
+}
