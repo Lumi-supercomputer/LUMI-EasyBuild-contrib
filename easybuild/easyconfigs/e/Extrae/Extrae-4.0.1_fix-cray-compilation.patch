@@ -1,0 +1,44 @@
+diff -ruN extrae-4.0.1/src/merger/common/bfd_manager.c extrae-4.0.1.new/src/merger/common/bfd_manager.c
+--- extrae-4.0.1/src/merger/common/bfd_manager.c        2022-03-25 17:12:51.000000000 +0100
++++ extrae-4.0.1.new/src/merger/common/bfd_manager.c    2022-12-29 21:53:58.000000000 +0100
+@@ -225,7 +225,7 @@
+  *
+  * @return No return value.
+  */
+-static void BFDmanager_findAddressInSection (bfd * abfd, asection * section, PTR data)
++static void BFDmanager_findAddressInSection (bfd * abfd, asection * section, void * data)
+ {
+ #if HAVE_BFD_GET_SECTION_SIZE || HAVE_BFD_SECTION_SIZE || HAVE_BFD_GET_SECTION_SIZE_BEFORE_RELOC
+        bfd_size_type size;
+diff -ruN extrae-4.0.1/src/tracer/wrappers/API/wrapper.c extrae-4.0.1.new/src/tracer/wrappers/API/wrapper.c
+--- extrae-4.0.1/src/tracer/wrappers/API/wrapper.c      2022-05-13 17:42:10.000000000 +0200
++++ extrae-4.0.1.new/src/tracer/wrappers/API/wrapper.c  2022-12-30 08:30:54.000000000 +0100
+@@ -1624,10 +1624,10 @@
+        Backend_ChangeNumberOfThreads (numthreads);
+ }
+
+-
+ /******************************************************************************
+  * Backend_preInitialize :
+  ******************************************************************************/
++void Extrae_AddSyncEntryToLocalSYM(unsigned long long sync_time);
+
+ int Backend_preInitialize (int me, int world_size, const char *config_file, int forked)
+ {
+@@ -1861,7 +1861,7 @@
+        {
+                ApplBegin_Time = TIME;
+                TRACE_EVENT (ApplBegin_Time, APPL_EV, EVT_BEGIN);
+-               Extrae_AddSyncEntryToLocalSYM(ApplBegin_Time);
++               Extrae_AddSyncEntryToLocalSYM( (unsigned long long) ApplBegin_Time);
+ #if !defined(IS_BG_MACHINE)
+                Extrae_AnnotateTopology (TRUE, ApplBegin_Time);
+ #endif
+@@ -2131,7 +2131,7 @@
+                Extrae_getrusage_set_to_0_Wrapper (InitTime);
+
+                TRACE_MPIINITEV (EndTime, init_event, EVT_END, EMPTY, EMPTY, EMPTY, EMPTY, GetTraceOptions());
+-               Extrae_AddSyncEntryToLocalSYM (EndTime);
++               Extrae_AddSyncEntryToLocalSYM ( (unsigned long long)EndTime);
+                Extrae_AnnotateTopology (FALSE, EndTime);
+        }

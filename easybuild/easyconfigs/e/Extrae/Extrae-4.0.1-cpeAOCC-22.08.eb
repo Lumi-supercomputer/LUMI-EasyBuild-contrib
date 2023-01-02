@@ -1,0 +1,84 @@
+# Created for LUMI by Orian Louant
+easyblock = 'ConfigureMake'
+
+name = 'Extrae'
+version = '4.0.1'
+
+local_zlib_version      = '1.2.12'
+local_Boost_version     = '1.79.0'
+local_elfutils_version  = '0.188'
+local_libunwind_version = '1.6.2'
+local_libxml2_version   = '2.9.12'
+local_libbfd_version    = '2.39'
+local_libdwarf_version  = '0.5.0'
+
+homepage = 'https://tools.bsc.es/extrae'
+
+whatis = ['Description: Extrae is a package devoted to generate Paraver trace-files']
+
+description = """
+Extrae is a package devoted to generate Paraver trace-files for a post-mortem
+analysis. Extrae is a tool that uses different interposition mechanisms to
+inject probes into the target application so as to gather information regarding
+the application performance.
+"""
+
+docurls = ['https://tools.bsc.es/doc/html/extrae/index.html']
+software_license_urls = ['https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html']
+
+toolchain = {'name': 'cpeAOCC', 'version': '22.08'}
+
+source_urls = ['https://ftp.tools.bsc.es/%(namelower)s/']
+sources = ['%(namelower)s-%(version)s-src.tar.bz2']
+patches = ['Extrae-4.0.1_fix-cray-compilation.patch']
+checksums = [
+    'c2bce71366d2146b1fa2e3369195fe427b1cda76432a36a5a63db4c59b86faae', # extrae-4.0.1-src.tar.bz2
+    '6e394c43c11f159cfd479b1aaa6ae2e5294f2ada44b21bc715d734689099e70d', # Extrae-4.0.1_fix-cray-compilation.patch
+]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+    ('zlib',      local_zlib_version),
+    ('Boost',     local_Boost_version),
+    ('elfutils',  local_elfutils_version),
+    ('libunwind', local_libunwind_version),
+    ('libxml2',   local_libxml2_version),
+    ('libbfd',    local_libbfd_version),
+    ('libdwarf',  local_libdwarf_version),
+    ('papi',      EXTERNAL_MODULE),
+]
+
+preconfigopts = 'export MPICC=`which cc` && '
+
+configopts  = '--enable-openmp '
+configopts += '--enable-sampling '
+configopts += '--without-dyninst '
+configopts += '--with-binary-type=64 '
+configopts += '--with-mpi=${CRAY_MPICH_DIR} '
+configopts += '--with-unwind=${EBROOTLIBUNWIND} '
+configopts += '--with-boost=${EBROOTBOOST} '
+configopts += '--with-elf=${EBROOTELFUTILS} '
+configopts += '--with-dwarf=${EBROOTLIBDWARF} '
+configopts += '--with-binutils=${EBROOTLIBBFD} '
+configopts += '--with-libz=${EBROOTZLIB} '
+configopts += '--with-papi=${CRAY_PAPI_PREFIX} '
+
+local_tracerlibs = [
+    'mpi', 'omp', 'pt', 'smpss', 'nanos',
+    'ompi', 'ptmpi', 'smpssmpi', 'nanosmpi'
+]
+
+sanity_check_paths = {
+    'files': ['bin/extrae-cmd', 'include/extrae.h'] +
+             ['lib/lib%strace.%s' % (x, SHLIB_EXT) for x in local_tracerlibs],
+    'dirs': [],
+}
+
+modextravars = {
+    'EXTRAE_HOME': '%(installdir)s',
+}
+
+moduleclass = 'perf'
