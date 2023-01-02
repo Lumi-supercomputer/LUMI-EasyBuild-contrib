@@ -33,7 +33,7 @@ sources = ['%(namelower)s-%(version)s-src.tar.bz2']
 patches = ['Extrae-4.0.1_fix-cray-compilation.patch']
 checksums = [
     'c2bce71366d2146b1fa2e3369195fe427b1cda76432a36a5a63db4c59b86faae', # extrae-4.0.1-src.tar.bz2
-    '6e394c43c11f159cfd479b1aaa6ae2e5294f2ada44b21bc715d734689099e70d', # Extrae-4.0.1_fix-cray-compilation.patch
+    '2bf10c61f2c278395ce2bcab8278f8d43bd3ad3f375b8961c196870cd0a36465', # Extrae-4.0.1_fix-cray-compilation.patch
 ]
 
 builddependencies = [
