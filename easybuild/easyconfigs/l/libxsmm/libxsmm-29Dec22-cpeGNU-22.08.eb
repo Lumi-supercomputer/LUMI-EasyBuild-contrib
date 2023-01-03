@@ -1,0 +1,40 @@
+easyblock = 'MakeCp'
+
+name =    'libxsmm'
+version = '29Dec22'
+
+local_github_commit = '1dc041554645421be450a64f77a09575e427c584'
+
+homepage = 'https://readthedocs.org/projects/libxsmm'
+
+whatis = [
+    'Description: Library targeting Intel Architecture for specialized dense and sparse matrix operations, and deep learning primitives'
+]
+
+description = """
+Library targeting Intel Architecture for specialized dense and sparse matrix
+operations, and deep learning primitives.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '22.08'}
+toolchainopts = {'usempi': True, 'openmp': True}
+
+source_urls = ['https://github.com/libxsmm/libxsmm/archive/']
+sources = ['%s.tar.gz' % local_github_commit]
+
+buildopts = "PREFIX=%(installdir)s CXX=CC CC=cc FC=ftn AVX=2 STATIC=0 BLAS=0 install"
+
+skipsteps = [
+    'configure',
+    'install'
+]
+
+files_to_copy = []
+
+sanity_check_paths = {
+    'files': ['include/%(name)s.f', 'include/%(name)s.h', 'lib/%(name)s.so'],
+    'dirs': ['include', 'include/%(name)s', 'lib'],
+}
+
+moduleclass = 'chem'
+

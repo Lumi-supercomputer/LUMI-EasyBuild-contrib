@@ -17,3 +17,8 @@
 ### libxsmm 1.17 for cpeGNU 21.08
 
   * The EasyConfig is a direct port of the CSCS one.
+
+### libxsmm 29Dec22 for CPE 22.08
+
+  * Created for PyFR as it requires a recent version of libxsmm but no release
+    exists. Use the date of the commit as the version.
