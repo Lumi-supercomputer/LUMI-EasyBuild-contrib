@@ -1,0 +1,230 @@
+easyblock = 'Bundle'
+
+local_zlib_version       = '1.2.12'
+local_CubeLib_version    = '4.8'
+local_CubeWriter_version = '4.8'
+local_OPARI2_version     = '2.0.7'
+local_OTF2_version       = '3.0.2'
+local_libunwind_version  = '1.6.2'
+local_libbfd_version     = '2.39'
+
+local_CubeLib_checksum    = '171c93ac5afd6bc74c50a9a58efdaf8589ff5cc1e5bd773ebdfb2347b77e2f68'
+local_CubeWriter_checksum = '73c7f9e9681ee45d71943b66c01cfe675b426e4816e751ed2e0b670563ca4cf3'
+local_OPARI2_checksum     = 'e302a4cc265eb2a4aa27c16a90eabd9e1e58cb02a191dd1c4d86f9a0df128715'
+local_OTF2_checksum       = 'ae3a7ad83055d8f873738fee5031470652d31b9bcbf223dd556aea41f5f62303'
+local_ScoreP_checksum     = '4c0f34f20999f92ebe6ca1ff706d0846b8ce6cd537ffbedb49dfaef0faa66311'
+
+name = 'Score-P'
+version = '8.0'
+
+homepage = 'https://www.score-p.org'
+
+whatis = [
+    "Description: Score-P measurement infrastructure is a highly scalable and easy-to-use "
+    "tool suite for profiling, event tracing, and online analysis of HPC "
+    "applications."
+]
+
+description = """
+The goal of Score-P is to simplify the analysis of the behavior of high
+performance computing software and to allow the developers of such software to
+find out where and why performance problems arise, where bottlenecks may be
+expected and where their codes offer room for further improvements with respect
+to the run time. A number of tools have been around to help in this respect, but
+typically each of these tools has only handled a certain subset of the questions
+of interest. A software developer who wanted to have a complete picture of his
+code therefore was required to use a multitude of programs to obtain the desired
+information. Most of these utilities work along similar principles. The first
+step is usually an instrumentation of the code to be investigated. Next, the
+instrumented programs are executed and write out (often very large amounts of)
+performance data. These data are then finally graphically displayed and analyzed
+after the end of the program run. In certain special cases, the visualization
+and analysis of the program behavior is also done while the program is running.
+
+Score-P supports the following parallel programming paradigms:
+
+- Multi-process paradigms:
+    - MPI
+    - SHMEM
+- Thread-parallel paradigms:
+    - OpenMP
+    - Pthreads
+
+And possible combinations from these including simple serial programs.
+
+This module is a bundle that includes Score-P as well as its depedencies:
+CubeLib, CubeWriter, OPARI2 and OTF2.
+"""
+
+usage = """
+The first step is to instruments your code. This is done by using the Score-P
+command that needs to be prefixed to all the compile and link commands usually
+employed to build the application. Thus, an application executable app that is
+normally generated from the two source files src1.f90 and src2.f90 via the
+command:
+
+  ftn src1.f90 src2.f90 -o app
+
+will now be built by:
+
+  scorep ftn src1.f90 src2.f90 -o app
+
+It's not necessary to use the instrumenter all source files. You can for example
+only include those containing MPI code. However, when invoking the linker, the
+instrumenter must always be used.
+
+Once your application has been instrumented, you can start a profiling
+experiment by setting the SCOREP_ENABLE_PROFILING environment variable to true
+and disabling tracing by setting SCOREP_ENABLE_TRACING to false. In addition you
+can define the memory that can be used by Score-P as well as the output
+directory where to store the profiling data.
+
+  export SCOREP_ENABLE_PROFILING=true
+  export SCOREP_ENABLE_TRACING=false
+  export SCOREP_TOTAL_MEMORY=100M
+  export SCOREP_EXPERIMENT_DIRECTORY=<output-dir>
+
+After running your instrumented application, you can use the scorep-score tool
+to obtain insights into the application execution and potential execution
+overhead due to Score-P
+
+  scorep-score <output-dir>/profile.cubex
+
+For a more detailed report you can use the -r option.
+
+  scorep-score -r <output-dir>/profile.cubex
+
+As a second measurement step, you can perform a tracing experiment by setting
+the value of the SCOREP_ENABLE_TRACING environment variable to true.
+
+  export SCOREP_ENABLE_TRACING=true
+  export SCOREP_ENABLE_PROFILING=false
+  export SCOREP_TOTAL_MEMORY=274M
+  export SCOREP_EXPERIMENT_DIRECTORY=<output-dir>
+
+The optimal memory for the tracing experiment can be determined using data from
+a previous profiling experiment and the scorep-score tool:
+
+  $ scorep-score <output-dir>/profile.cubex
+
+  (hint: When tracing set SCOREP_TOTAL_MEMORY=274MB to avoid intermediate
+  flushes or reduce requirements using USR regions filters.)
+
+After the execution of your application, you can use the trace file located at
+<output-dir>/traces.otf2. This file can be visualized using tools like Vampir.
+
+It may be desirable to reduce the amount of generated tracing data in order to
+minimize overheads. This can be done by filtering out small routines that are
+called often. You are invited to read the Score-P user manual for more
+information.
+"""
+
+docurls = [
+    'https://perftools.pages.jsc.fz-juelich.de/cicd/scorep/tags/scorep-8.0/html/'
+]
+
+software_license_urls = [
+    'https://scalasca.org/scalasca/front_content.php?idart=1094',
+    'https://opensource.org/licenses/BSD-3-Clause'
+]
+
+toolchain = {'name': 'cpeAMD', 'version': '22.08'}
+toolchainopts = {'openmp': True, 'usempi': True, 'pic': True}
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+    ('zlib',            local_zlib_version),
+    ('libunwind',       local_libunwind_version),
+    ('libbfd',          local_libbfd_version),
+    ('papi',            EXTERNAL_MODULE),
+    ('cray-openshmemx', EXTERNAL_MODULE),
+    ('rocm',            EXTERNAL_MODULE),
+]
+
+default_easyblock = 'ConfigureMake'
+
+local_ScoreP_configopts  = ' --with-machine-name=LUMI '
+local_ScoreP_configopts += ' --enable-shared '
+local_ScoreP_configopts += ' --with-libbfd=$EBROOTLIBBFD '
+local_ScoreP_configopts += ' --with-rocm '
+local_ScoreP_configopts += ' --with-libroctracer64-include=${ROCM_PATH}/roctracer/include '
+local_ScoreP_configopts += ' --with-libroctracer64-lib=${ROCM_PATH}/roctracer/lib '
+local_ScoreP_configopts += ' --with-librocm_smi64-include=${ROCM_PATH}/rocm_smi/include '
+local_ScoreP_configopts += ' --with-librocm_smi64-lib=${ROCM_PATH}/rocm_smi/lib '
+local_ScoreP_configopts += ' --with-libunwind=$EBROOTLIBUNWIND '
+local_ScoreP_configopts += ' --with-cubelib=%(installdir)s/bin '
+local_ScoreP_configopts += ' --with-cubew=%(installdir)s/bin '
+local_ScoreP_configopts += ' --with-otf2=%(installdir)s/bin '
+local_ScoreP_configopts += ' --with-opari2=%(installdir)s/bin '
+local_ScoreP_configopts += ' --with-papi-header=${CRAY_PAPI_PREFIX}/include --with-papi-lib=${CRAY_PAPI_PREFIX}/lib '
+
+components = [
+    ('CubeLib', local_CubeLib_version, {
+        'source_urls' : ['https://perftools.pages.jsc.fz-juelich.de/cicd/cubelib/tags/cubelib-%(version)s'],
+        'sources'     : ['cubelib-%(version)s.tar.gz'],
+        'checksums'   : [local_CubeLib_checksum],
+        'configopts'  : '--enable-shared',
+        'start_dir'   : '%(namelower)s-%(version)s',
+    }),
+    ('CubeWriter', local_CubeWriter_version, {
+        'source_urls' : ['https://perftools.pages.jsc.fz-juelich.de/cicd/cubew/tags/cubew-%(version)s'],
+        'sources'     : ['cubew-%(version)s.tar.gz'],
+        'checksums'   : [local_CubeWriter_checksum],
+        'start_dir'   : 'cubew-%(version)s',
+    }),
+    ('OPARI2', local_OPARI2_version, {
+        'source_urls' : ['http://perftools.pages.jsc.fz-juelich.de/cicd/%(namelower)s/tags/%(namelower)s-%(version)s'],
+        'sources'     : [SOURCELOWER_TAR_GZ],
+        'checksums'   : [local_OPARI2_checksum],
+        'start_dir'   : '%(namelower)s-%(version)s',
+    }),
+    ('OTF2', local_OTF2_version, {
+        'source_urls' : ['http://perftools.pages.jsc.fz-juelich.de/cicd/%(namelower)s/tags/%(namelower)s-%(version)s'],
+        'sources'     : [SOURCELOWER_TAR_GZ],
+        'checksums'   : [local_OTF2_checksum],
+        'configopts'  : '--enable-shared',
+        'start_dir'   : '%(namelower)s-%(version)s',
+    }),
+    (name, version, {
+        'easyblock'   : 'ConfigureMake',
+        'source_urls' : ['https://perftools.pages.jsc.fz-juelich.de/cicd/scorep/tags/scorep-%(version)s'],
+        'sources'     : ['scorep-%(version)s.tar.gz'],
+        'checksums'   : [local_ScoreP_checksum],
+        'configopts'  : local_ScoreP_configopts,
+        'start_dir'   : 'scorep-%(version)s',
+    })
+]
+
+sanity_check_paths = {
+    'files': ['bin/scorep', 'include/scorep/SCOREP_User.h'],
+    'files': ['bin/otf2-config'],
+    'dirs': [],
+}
+
+sanity_check_commands = ['scorep-config --help']
+
+modextravars = {
+    'EBROOTCUBELIB':       '%(installdir)s',
+    'EBVERSIONCUBELIB':    local_CubeLib_version,
+    'EBROOTCUBEWRITER':    '%(installdir)s',
+    'EBVERSIONCUBEWRITER': local_CubeWriter_version,
+    'EBROOTOPARI2':        '%(installdir)s',
+    'EBVERSIONOPARI2':     local_OPARI2_version,
+    'EBROOTOTF2':          '%(installdir)s',
+    'EBVERSIONOTF2':       local_OTF2_version,
+}
+
+modluafooter = """
+extensions( "CubeLib/%(cubelib)s, CubeWriter/%(cubewriter)s, " ..
+            "OPARI2/%(opari2)s, OTF2/%(otf2)s")
+""" % {
+    'cubelib'    : local_CubeLib_version,
+    'cubewriter' : local_CubeWriter_version,
+    'opari2'     : local_OPARI2_version,
+    'otf2'       : local_OTF2_version,
+}
+
+moduleclass = 'perf'
