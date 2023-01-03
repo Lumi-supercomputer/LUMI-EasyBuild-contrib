@@ -1,0 +1,23 @@
+--- amber22_src.orig/cmake/PMEMDCompilerFlags.cmake	2022-06-19 16:11:44.000000000 +0300
++++ amber22_src/cmake/PMEMDCompilerFlags.cmake	2023-01-03 16:25:56.000000000 +0200
+@@ -210,7 +210,8 @@
+ 		set(PMEMD_NVCC_FLAGS -O3)
+ 		# list(APPEND PMEMD_NVCC_FLAGS -ffast-math)
+ 
+-		list(APPEND PMEMD_NVCC_FLAGS -std=c++11) 
++                # Remove deprecated c++ option for HIP libraries
++		#list(APPEND PMEMD_NVCC_FLAGS -std=c++11) 
+ 
+ 		if(DISABLE_WARNINGS)
+ 			list(APPEND PMEMD_NVCC_FLAGS -w)
+@@ -234,7 +235,9 @@
+ 	
+ 
+ 	if(MPI)
+-		list(APPEND PMEMD_NVCC_FLAGS -DMPICH_IGNORE_CXX_SEEK)
++                # Add Cray MPICH include option to use with hipcc 
++		#list(APPEND PMEMD_NVCC_FLAGS -DMPICH_IGNORE_CXX_SEEK)
++		list(APPEND PMEMD_NVCC_FLAGS -DMPICH_IGNORE_CXX_SEEK -I$ENV{CRAY_MPICH_PREFIX}/include)
+ 	endif()
+ 
+ 
