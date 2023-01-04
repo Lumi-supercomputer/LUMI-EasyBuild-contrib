@@ -1,0 +1,58 @@
+easyblock = 'CMakeMake'
+
+name = 'Amber'
+
+local_amber_ver = 22
+local_ambertools_ver = 22
+# Patch levels from https://ambermd.org/AmberPatches.php and https://ambermd.org/ATPatches.php
+patchlevels = (3, 0)  # (AmberTools, Amber)
+version = '%s.%s' % (local_amber_ver, patchlevels[1])
+versionsuffix = '-AmberTools-%s.%s' % (local_ambertools_ver, patchlevels[0])
+
+homepage = 'https://ambermd.org/amber.html'
+description = """Amber (originally Assisted Model Building with Energy Refinement) is software for performing
+ molecular dynamics and structure prediction."""
+
+toolchain = {'name': 'cpeGNU', 'version': '22.08'}
+toolchainopts = {'usempi': True, 'openmp': True}
+
+sources = [
+    '%%(name)s%s.tar.bz2' % local_amber_ver,
+    {'filename': 'AmberTools%s.tar.bz2' % local_ambertools_ver, 'alt_location': 'AmberTools'},
+]
+
+patches = [
+     'AmberTools-20_cmake-locate-netcdf.patch',
+     'AmberTools-20_fix_missing_MPI_LIBRARY_error.patch',
+     'Amber-22_remove_undeclared_redundant_variable.patch',
+]
+
+builddependencies = [
+    ('buildtools',   '%(toolchain_version)s',   '', True),
+]
+
+dependencies = [
+    ('cray-python', EXTERNAL_MODULE),
+    ('cray-fftw', EXTERNAL_MODULE),
+    ('cray-hdf5-parallel/1.12.1.5', EXTERNAL_MODULE),
+    ('cray-parallel-netcdf', EXTERNAL_MODULE),
+    ('cray-netcdf-hdf5parallel', EXTERNAL_MODULE),
+    ('Boost',      '1.79.0', ''),
+]
+
+preconfigopts = 'cd ../amber22_src && ./update_amber --update && cd build && '
+
+configopts =  '-DMPI=ON -DOPENMP=ON -DCOMPILER=CRAY -DSTATIC=ON ' 
+configopts += '-DCHECK_UPDATES=FALSE -DAPPLY_UPDATES=FALSE '
+configopts += '-DDOWNLOAD_MINICONDA=FALSE -DBUILD_PYTHON=OFF '
+configopts += '-DFORCE_EXTERNAL_LIBS="netcdf;fftw;blas;lapack;pnetcdf" -DTRUST_SYSTEM_LIBS=TRUE '
+configopts += '-DBLAS_LIBRARIES=$CRAY_LIBSCI_PREFIX_DIR/lib/libsci_gnu.so -DLAPACK_LIBRARIES=$CRAY_LIBSCI_PREFIX_DIR/lib/libsci_gnu.so ' # Cray LibSci
+configopts += '-DNetCDF_INCLUDES=$CRAY_NETCDF_HDF5PARALLEL_PREFIX/include -DNetCDF_INCLUDES_F90=$CRAY_NETCDF_HDF5PARALLEL_PREFIX/include ' # NetCDF 
+configopts += '-DNetCDF_LIBRARIES_F90=$CRAY_NETCDF_HDF5PARALLEL_PREFIX/lib/libnetcdff.so -DNetCDF_LIBRARIES_F77=$CRAY_NETCDF_HDF5PARALLEL_PREFIX/lib/libnetcdff.so -DNetCDF_LIBRARIES_C=$CRAY_NETCDF_HDF5PARALLEL_PREFIX/lib/libnetcdf.so  '
+configopts += '-DPnetCDF_LIBRARY=$CRAY_PARALLEL_NETCDF_PREFIX/lib/libpnetcdf.so -DPnetCDF_INCLUDE_DIR=$CRAY_PARALLEL_NETCDF_PREFIX/include ' # Parallel NetCDF
+
+prebuildopts = 'cd ../amber22_src/build && '
+
+preinstallopts = 'cd ../amber22_src/build && '
+
+moduleclass = 'chem'
