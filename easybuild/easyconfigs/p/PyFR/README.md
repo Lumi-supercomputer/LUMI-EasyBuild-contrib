@@ -9,9 +9,10 @@
 
 ## EasyBuild
 
-  * [h5py support in the EasyBuilders repository](https://github.com/easybuilders/easybuild-easyconfigs/tree/develop/easybuild/easyconfigs/p/PyFR)
+  * [PyFR support in the EasyBuilders repository](https://github.com/easybuilders/easybuild-easyconfigs/tree/develop/easybuild/easyconfigs/p/PyFR)
 
-  * [h5py support in the CSCS repository](https://github.com/eth-cscs/production/tree/master/easybuild/easyconfigs/p/PyFR)
+  * [PyFR support in the CSCS repository](https://github.com/eth-cscs/production/tree/master/easybuild/easyconfigs/p/PyFR)
+
 
 ### Version 1.15.0 for CPE GNU 22.08
 
