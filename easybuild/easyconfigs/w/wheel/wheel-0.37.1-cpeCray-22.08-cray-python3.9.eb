@@ -27,7 +27,7 @@ description = """
 docurls = ['https://wheel.readthedocs.io/en/stable/']
 software_license_urls = ['https://github.com/pypa/wheel/blob/main/LICENSE.txt']
 
-toolchain = {'name': 'cpeGNU', 'version': '22.08'}
+toolchain = {'name': 'cpeCray', 'version': '22.08'}
 
 sources = [SOURCE_TAR_GZ]
 checksums = ['e9a504e793efbca1b8e0e9cb979a249cf4a0a7b5b8c9e8b65a5e39d49529c1c4']

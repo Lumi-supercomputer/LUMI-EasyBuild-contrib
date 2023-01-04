@@ -1,0 +1,129 @@
+# Created for LUMI by Orian Louant
+easyblock = 'PythonBundle'
+
+name = 'PyFR'
+version = '1.15.0'
+versionsuffix = '-GPU'
+
+local_wheel_version   = '0.37.1'
+local_Mako_version    = '1.2.0'
+local_h5py_version    = '3.7.0'
+local_METIS_version   = '5.1.0'
+
+local_flit_core_version         = '3.8.0'
+local_tomli_version             = '2.0.1'
+local_pathspec_version          = '0.10.2'
+local_hatchling_version         = '1.11.1'
+local_hatch_vcs_version         = '0.2.0'
+local_platformdirs_version      = '2.5.4'
+local_typing_extensions_version = '4.4.0'
+local_pytools_version           = '2022.1.12'
+local_GiMMiK_version            = '3.0'
+
+local_flit_core_checksum         = 'b305b30c99526df5e63d6022dd2310a0a941a187bd3884f4c8ef0418df6c39f3'
+local_tomli_checksum             = 'de526c12914f0c550d15924c62d72abc48d6fe7364aa87328337a31007fe8a4f'
+local_pathspec_checksum          = '8f6bf73e5758fd365ef5d58ce09ac7c27d2833a8d7da51712eac6e27e35141b0'
+local_hatchling_checksum         = '9f84361f70cf3a7ab9543b0c3ecc64211ed2ba8a606a71eb6a473c1c9b08e1d0'
+local_hatch_vcs_checksum         = '9913d733b34eec9bb0345d0626ca32165a4ad2de15d1ce643c36d09ca908abff'
+local_platformdirs_checksum      = '1006647646d80f16130f052404c6b901e80ee4ed6bef6792e1f238a8969106f7'
+local_typing_extensions_checksum = '1511434bb92bf8dd198c12b1cc812e800d4181cfcb867674e0f8279cc93087aa'
+local_pytools_checksum           = '4d62875e9a2ab2a24e393a9a8b799492f1a721bffa840af3807bfd42871dd1f4'
+local_GiMMiK_checksum            = '49c3574d815acdc88625b7a8660c6d1f0a643a0353cfc65f6ccee04da05a2611'
+local_PyFR_checksum              = 'f3b916a42ff54d4a246107f32ddac53f2cd8217ecb139d857b3870f615ac7793'
+
+homepage = 'https://www.pyfr.org/'
+
+whatis = ['Description: PyFR is a framework for solving advection-diffusion type problems']
+
+description = """
+ PyFR is an open-source Python based framework for solving advection-diffusion
+ type problems on streaming architectures using the Flux Reconstruction approach
+ of Huynh. The framework is designed to solve a range of governing systems on
+ mixed unstructured grids containing various element types. It is also designed
+ to target a range of hardware platforms via use of an in-built domain specific
+ language derived from the Mako templating engine. PyFR has the following 
+ capabilities:
+ 
+  - Governing Equations - Euler, Navier Stokes
+  - Dimensionality - 2D, 3D
+  - Element Types - Triangles, Quadrilaterals, Hexahedra, Prisms, Tetrahedra, Pyramids
+  - Platforms - CPU Clusters, Nvidia GPU Clusters, AMD GPU Clusters
+  - Spatial Discretisation - High-Order Flux Reconstruction
+  - Temporal Discretisation - Explicit and Implicit (via Dual Time-Stepping)
+  - Precision - Single, Double
+  - Mesh Files Imported - Gmsh (.msh)
+  - Solution Files Exported - Unstructured VTK (.vtu, .pvtu)
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '22.08'}
+toolchainopts = {'usempi': True}
+
+builddependencies = [
+  ('wheel', local_wheel_version, '-cray-python%(pyshortver)s')
+]
+
+dependencies = [
+    ('cray-python', EXTERNAL_MODULE),
+    ('Mako',        local_Mako_version),
+    ('h5py',        local_h5py_version, '-parallel'),
+    ('METIS',       local_METIS_version),
+    ('rocm',        EXTERNAL_MODULE),
+]
+
+exts_default_options = {
+    'source_urls': [PYPI_SOURCE],
+    'use_pip': True,
+    'use_pip_for_deps':  False,
+    'download_dep_fail': True,
+    'sanity_pip_check': False,
+}
+
+exts_list = [
+    ('flit-core', local_flit_core_version, {
+        'source_tmpl' : 'flit_core-%s.tar.gz' % local_flit_core_version,
+        'checksums'   : [local_flit_core_checksum],
+    }),
+    ('tomli', local_tomli_version, {
+        'checksums' : [local_tomli_checksum],
+    }),
+    ('pathspec', local_pathspec_version, {
+        'checksums' : [local_pathspec_checksum],
+    }),
+    ('hatchling', local_hatchling_version, {
+        'checksums' : [local_hatchling_checksum],
+    }),
+    ('hatch-vcs', local_hatch_vcs_version, {
+        'source_tmpl' : 'hatch_vcs-%s.tar.gz' % local_hatch_vcs_version,
+        'checksums'   : [local_hatch_vcs_checksum],
+    }),
+    ('platformdirs', local_platformdirs_version, {
+        'checksums' : [local_platformdirs_checksum],
+    }),
+    ('typing-extensions', local_typing_extensions_version, {
+        'source_tmpl' : 'typing_extensions-%s.tar.gz' % local_typing_extensions_version,
+        'checksums'   : [local_typing_extensions_checksum],
+    }),
+    ('pytools', local_pytools_version, {
+        'checksums' : [local_pytools_checksum],
+    }),
+    ('GiMMiK', local_GiMMiK_version, {
+        'source_tmpl' : 'v%s.tar.gz' % local_GiMMiK_version,
+        'source_urls' : ['https://github.com/PyFR/GiMMiK/archive/refs/tags/'],
+        'checksums'   : [local_GiMMiK_checksum],
+    }),
+    (name, version, {
+        'source_tmpl' : 'v%(version)s.tar.gz',
+        'source_urls' : ['https://github.com/PyFR/PyFR/archive/refs/tags/'],
+        'checksums'   : [local_PyFR_checksum],
+    }),
+]
+
+postinstallcmds = [
+    'sed -i "168d" %(installdir)s/lib/python%(pyshortver)s/site-packages/pyfr/backends/hip/driver.py',
+]
+
+modluafooter = """
+setenv("PYFR_METIS_LIBRARY_PATH", pathJoin(os.getenv("EBROOTMETIS"), "lib/libmetis.so"))
+"""
+
+moduleclass = 'phys'
