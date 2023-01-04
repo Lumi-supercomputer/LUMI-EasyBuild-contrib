@@ -6,6 +6,11 @@
     
     -   [GitHub releases](https://github.com/OSGeo/gdal/releases)
     
+## General remarks
+    
+Installing GDAL takes a lot of time. It is a huge package and parallel compile is known
+to sometimes fail so the build process has to be entirely sequential and can take hours.    
+    
     
 ## EasyBuild
 

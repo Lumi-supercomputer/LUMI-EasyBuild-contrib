@@ -36,8 +36,14 @@ configopts = [
     '-DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_LIBDIR=lib'
 ]
 
+postinstallcmds = [
+    'pwd',
+    'cd ../%(namelower)s-%(version)s && mkdir -p %(installdir)s/share/licenses/GEOS && cp -f COPYING %(installdir)s/share/licenses/GEOS/COPYING',
+]
+
 sanity_check_paths = {
-    'files': ['bin/geos-config', 'bin/geosop', 'lib/libgeos.%s' % SHLIB_EXT, 'lib/libgeos.a', 'include/geos_c.h'],
+    'files': ['bin/geos-config', 'bin/geosop', 'lib/libgeos.%s' % SHLIB_EXT, 'lib/libgeos.a', 'include/geos_c.h',
+              'share/licenses/GEOS/COPYING'],
     'dirs':  [],
 }
 

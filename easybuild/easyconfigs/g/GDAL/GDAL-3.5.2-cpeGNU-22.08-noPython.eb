@@ -9,6 +9,7 @@ local_libxml2_version =      '2.9.12'        # http://xmlsoft.org/sources/
 local_libpng_version =       '1.6.37'        # http://www.libpng.org/pub/png/libpng.html
 local_libtiff_version =      '4.4.0'         # https://download.osgeo.org/libtiff/
 local_PCRE_version =         '8.45'          # https://ftp.pcre.org/pub/pcre/
+local_PROJ_version =         '9.0.0'         # https://proj.org/download.html
 local_zlib_version =         '1.2.12'        # https://zlib.net/
 
 
@@ -71,9 +72,9 @@ dependencies = [
     ('LibTIFF',       local_libtiff_version),
     ('zlib',          local_zlib_version),
     ('PCRE',          local_PCRE_version),
+    ('PROJ',          local_PROJ_version),
     ('HDF',           '4.2.15'),
     ('GEOS',          '3.11.0'),
-    ('PROJ',          '9.1.0'),
     ('libgeotiff',    '1.7.1'),
 ]
 
@@ -88,10 +89,16 @@ configopts += '--with-geotiff=$EBROOTLIBGEOTIFF --with-hdf4=$EBROOTHDF '
 
 maxparallel = 1
 
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/GDAL && cp -f LICENSE.TXT %(installdir)s/share/licenses/GDAL/LICENSE.TXT',
+    'cp -f PROVENANCE.TXT %(installdir)s/share/licenses/GDAL/PROVENANCE.TXT',
+]
+
 modextrapaths = {'PYTHONPATH': 'lib/python%(pyshortver)s/site-packages'}
 
 sanity_check_paths = {
-    'files': ['lib/libgdal.a', 'lib/libgdal.%s' % SHLIB_EXT, 'lib/pkgconfig/gdal.pc'],
+    'files': ['lib/libgdal.a', 'lib/libgdal.%s' % SHLIB_EXT, 'lib/pkgconfig/gdal.pc',
+              'share/licenses/GDAL/LICENSE.TXT', 'share/licenses/GDAL/PROVENANCE.TXT'],
     'dirs':  ['bin', 'include']
 }
 
