@@ -1,0 +1,120 @@
+##
+# This file is an EasyBuild reciPY as per https://github.com/easybuilders/easybuild
+#
+# Copyright:: Copyright 2014-2015 The Cyprus Institute
+# Authors:: Thekla Loizou <t.loizou@cyi.ac.cy>
+# License:: MIT/GPL
+#
+##
+# Adapted for LUMI by Kurt Lust (LUST)
+easyblock = 'CMakeMake'
+
+local_cURL_version =         '7.83.1'        # https://curl.haxx.se/download/
+local_libtiff_version =      '4.4.0'         # https://download.osgeo.org/libtiff/
+local_SQLite_version =       '3.38.3'        # https://www.sqlite.org/
+local_XZ_version =           '5.2.5'         # https://tukaani.org/xz/
+
+local_PROJ_data_version =    '1.11'          # https://download.osgeo.org/proj/
+
+name =    'PROJ'
+version = '9.1.0'
+
+homepage = 'https://proj.org'
+
+whatis = [
+    'Description: PROJ is a standard UNIX filter function which converts geographic longitude and latitude coordinates into cartesian coordinates (and vice versa)',
+    'This module provides a number of command line tools and static and shared libraries',
+]
+
+description = """
+PROJ is a standard UNIX filter function which converts geographic longitude
+and latitude coordinates into cartesian coordinates (and vice versa), and it is
+a C API for software developers to include coordinate transformation in their
+own software.
+
+This module provides the command line tools and static and shared libraries.
+"""
+
+usage = """
+The module provides a number of command line tools:
+* cs2cs: Cartographic coordinate system filter
+* geod and invgeod: direct and inverse geodesic computations
+* proj and invproj: forward and inverse cartographic projection filter
+* cct: 4D equivalent to the proj projection program
+* projinfo: query information on a geodetic object
+* projsync: downloads remote resource files into a local directory
+* gie: Regression testing framework for the PROJ transformation library
+These commands are documented through the man pages cs2cs, geod and proj.
+
+The library routines are documented in the web-based documentation.
+
+The module also contains PROJ data version %(PROJ_data)s.
+""" % {
+    'PROJ_data': local_PROJ_data_version,
+}
+
+docurls = [
+    'Web-based documentation on https://proj.org/',
+    'Man pages for the commands (section 1)',
+]
+
+toolchain = {'name': 'cpeGNU', 'version': '22.08'}
+toolchainopts = {'pic': True}
+
+sources = [
+    {  # https://download.osgeo.org/proj/proj-9.1.0.tar.gz
+       'filename':    SOURCELOWER_TAR_GZ,
+       'source_urls': ['https://download.osgeo.org/proj/'],
+    },    
+    {  # https://download.osgeo.org/proj/proj-data-1.11.tar.gz
+       'filename':    'proj-data-' + local_PROJ_data_version + '.tar.gz',
+       'source_urls': ['https://download.osgeo.org/proj'],
+       'extract_cmd': 'mkdir -p proj-data ; cd proj-data ; tar -xf %s'
+    },    
+]
+checksums =   [
+    '81b2239b94cad0886222cde4f53cb49d34905aad2a1317244a0c30a553db2315', # proj-9.1.0.tar.gz
+    'a67b7ce4622c30be6bce3a43461e8d848da153c3b171beebbbea28f64d4ef363',
+]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+#    ('googletest', '1.11.0'), # Use the internal one.
+]
+
+dependencies = [
+    ('SQLite',  local_SQLite_version),
+    ('LibTIFF', local_libtiff_version),
+    ('cURL',    local_cURL_version),
+    ('XZ',      local_XZ_version),
+#    ('nlohmann_json', '3.10.5'), # We use the internal one, so cemment this out. And why does a header file only library need to be a dependency?
+]
+
+# build twice, once for static, once for shared libraries
+configopts = [
+    '-DCMAKE_INSTALL_LIBDIR=lib', 
+    '-DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_LIBDIR=lib'
+]
+
+postinstallcmds = [
+    'cp %(builddir)s/proj-data/* %(installdir)s/share/proj',  
+]
+
+sanity_check_paths = {
+    'files': ['bin/cct', 'bin/cs2cs', 'bin/geod', 'bin/gie', 'bin/proj', 'bin/projinfo',
+              'lib/libproj.a', 'lib/libproj.%s' % SHLIB_EXT],
+    'dirs': ['include'],
+}
+
+sanity_check_commands = [
+    'cct -h', 
+    'gie -h',   
+]
+
+modextravars = { # For compatibility with environment variables used in CSC container.
+                 # It would be better if users would use the EBVERSION* variables when they exist.
+    'PROJ_VERSIOM':     version,
+    'PROJDATA_VERSION': local_PROJ_data_version
+}
+
+moduleclass = 'lib'
