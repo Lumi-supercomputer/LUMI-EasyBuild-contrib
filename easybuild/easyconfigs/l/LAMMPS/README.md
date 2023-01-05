@@ -4,10 +4,12 @@
 
   * [LAMMPS GitHub](https://github.com/lammps/lammps)
   
-  * [Notes developed at JSC on LAMMPS optimisation](https://fzj-jsc.github.io/tuning_lammps/)
+  * JSC had public notes on LAMMPS optimization (link was 
+    [fzj-jsc.github.io/tuning_lammps/](https://fzj-jsc.github.io/tuning_lammps/))
+    but these are no longer available.
   
     Basically the advice from JSC is to use Kokkos as it covers multicore and GPU, 
-    but ti does need to be enabled also by users running LAMMPS. 
+    but it does need to be enabled also by users running LAMMPS. 
 
 
 ## EasyBuild support
@@ -25,10 +27,16 @@
   * [LAMMPS support in Spack](https://github.com/spack/spack/tree/develop/var/spack/repos/builtin/packages/lammps)
 
 
-### 29Oct20*-minimal
+### 29Oct20-*-minimal for cpeGNU 21.08
 
   * This is an EasyConfig file directly derived from the CSCS one.
 
   * Added support for jpeg and png based on the Spack recipe.
 
   * It does not yet work with cpeCray because FFmpeg does not compile.
+
+
+### 23Jun22_update2-*-minimal for cpeGNU 22.08
+
+  * Fairly trivial update of the one for the 29Oct20 version.
+  
