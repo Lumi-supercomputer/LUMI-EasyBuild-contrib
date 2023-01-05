@@ -1,5 +1,7 @@
 # BCFtools instructions
 
+  * [HTSlib/SAMtools/BCFtools home page](https://www.htslib.org)
+
   * [BCFtools development and home page on GitHub](https://samtools.github.io/bcftools/)
 
   * [BCFtools installation guide](https://samtools.github.io/bcftools/howtos/install.html)

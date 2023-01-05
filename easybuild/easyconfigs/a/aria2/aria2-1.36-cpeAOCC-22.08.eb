@@ -19,6 +19,8 @@ docurls = [
     'Man page for the ares2 command in section 1',    
 ]
 
+software_license_urls = ['https://raw.githubusercontent.com/aria2/aria2/release-%(version)s/COPYING']
+
 toolchain = {'name': 'cpeAOCC', 'version': '22.08'}
 
 source_urls = ['https://github.com/aria2/aria2/releases/download/release-%(version)s']

@@ -8,6 +8,10 @@ package.
       * [libdap downloads](https://www.opendap.org/pub/source/),
         sometimes contains newer versions than mentioned on the web site.
 
+  * [libdap GitHub](https://github.com/OPENDAP/libdap4)
+
+      * [GitHub releases](https://github.com/OPENDAP/libdap4/releases)
+
 
 ## EasyBuild
 

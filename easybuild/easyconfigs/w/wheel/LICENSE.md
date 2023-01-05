@@ -1,5 +1,6 @@
-# Wheel license
+# wheel license information
 
-The wheel package is covered by an MIT License. 
-The exact license for wheel can be found in the
-[LICENSE.txt file in the wheel GitHub repository](https://github.com/pypa/wheel/blob/main/LICENSE.txt).
+The wheel Python package is distributed under the MIT License, 
+a copy of which can be found in the
+[LICENSE.txt file in the source repository](https://github.com/pypa/wheel/blob/main/LICENSE.txt).
+

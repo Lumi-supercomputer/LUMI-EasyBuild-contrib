@@ -36,6 +36,8 @@ docurls = [
     'Tutorials:  https://docs.abinit.org/tutorial/'
 ]
 
+software_license_urls = ['https://docs.abinit.org/about/license/']
+
 toolchain = {'name': 'cpeGNU', 'version': '21.12'}
 toolchainopts = {'usempi': True, 'openmp': True, 'pic': True, 'gfortran9-compat': True}
 
