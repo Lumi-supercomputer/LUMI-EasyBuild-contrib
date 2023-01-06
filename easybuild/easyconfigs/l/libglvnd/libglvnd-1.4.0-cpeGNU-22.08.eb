@@ -32,7 +32,7 @@ dependencies = [
     ('X11', '%(toolchain_version)s'),
 ]
 
-O# Taken from the EasyBuilders one but for now disabled:# Let EGL find system-installed vendor files in /etc/glvnd/egl_vendor.d etc.
+# Taken from the EasyBuilders one but for now disabled:# Let EGL find system-installed vendor files in /etc/glvnd/egl_vendor.d etc.
 #allow_prepend_abs_path = True
 #modextrapaths = {
 #    "__EGL_VENDOR_LIBRARY_DIRS": "/etc/glvnd/egl_vendor.d:/usr/share/glvnd/egl_vendor.d"

@@ -2,10 +2,10 @@
 
 LLVM, mostly meant to be used in the OpenGL stack. These EasyConfigs are certainly 
 not meant to be a replacement for the HPE Cray or AMD compilers on LUMI.
+
 -   [LLVM web site](https://llvm.org/)
 
     -   [LLVM Documentation](https://llvm.org/docs/)
-
 
 -   [GitHub](https://github.com/llvm/llvm-project)
     
