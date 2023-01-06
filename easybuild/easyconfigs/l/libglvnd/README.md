@@ -1,5 +1,7 @@
 # libglvnd instructions
 
+libglvnd: the GL Ventdor-Neutral Dispatch library
+
 -   [libglvnd GitLab](https://gitlab.freedesktop.org/glvnd/libglvnd)
     
     -   [Release info in tags](https://gitlab.freedesktop.org/glvnd/libglvnd/-/tags)

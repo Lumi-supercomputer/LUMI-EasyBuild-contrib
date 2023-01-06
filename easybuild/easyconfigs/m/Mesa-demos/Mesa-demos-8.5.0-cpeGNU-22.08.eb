@@ -35,6 +35,11 @@ dependencies = [
     ('freeglut', '3.2.2'),
 ]
 
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/mesa-demos',  # Should already exist at this point, but you never now...
+    'cd ../%(namelower)s-%(version)s/src/glsl && cp *.vert *.frag bezier.geom %(installdir)s/share/mesa-demos',
+]
+
 sanity_check_paths = {
     'files': ['bin/eglinfo', 'bin/glxinfo'],
     'dirs':  []

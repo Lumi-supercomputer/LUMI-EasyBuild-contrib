@@ -1,6 +1,9 @@
 # freeglut instructions
 
 -   [FreeGLUT web site on SourceForge](https://freeglut.sourceforge.net/)
+
+-   [FreeGLUT repository on GitHub](https://github.com/FreeGLUTProject/freeglut)
+
     
 
 ## EasyBuild
