@@ -29,7 +29,7 @@ builddependencies = [
 ]
 
 dependencies = [
-    ('Mesa',     '22.0.3'),
+    ('Mesa',     '22.2.1'),
     ('glew',     '2.2.0',  '-egl'),
     ('libGLU',   '9.0.2'),
     ('freeglut', '3.2.2'),

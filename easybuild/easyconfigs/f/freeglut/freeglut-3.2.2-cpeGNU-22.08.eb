@@ -37,7 +37,7 @@ builddependencies = [
 
 dependencies = [
     ('X11',    '%(toolchain_version)s'), # Just for clarity, would be pulled in by the other dependencies anyway
-    ('Mesa',   '22.0.3'),                # Just for clarity, would be pulled in by the libGLU dependency anyway
+    ('Mesa',   '22.2.1'),                # Just for clarity, would be pulled in by the libGLU dependency anyway
     ('libGLU', '9.0.2'),
 ]
 

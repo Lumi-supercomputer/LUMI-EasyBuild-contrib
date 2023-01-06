@@ -16,7 +16,7 @@
 -   [Mesa support in the CSCS repository](https://github.com/eth-cscs/production/tree/master/easybuild/easyconfigs/m/Mesa)
 
 
-### Version 22.0.3 for cpeGNU/22.08
+### Version 22.2.1 for cpeGNU/22.08
 
 -   The EasyConfig is a direct port of the EasyBuilders one for the GCCcore toolchain,
     replacing:
@@ -27,8 +27,3 @@
         
     -   libdrm as we have it in the X11 module.
     
-
-### Version 22.2.1 for CPE 22.08
-
--   Based on the EasyBuilders easyconfig.
-  
