@@ -8,7 +8,7 @@
 ## Remarks
 
 GLEW supports multiple backends, but unfortunately these have to be chosen at
-run-time. Hence the EasyConfig files with different versionsuffix (that otherwise
+compile time. Hence the EasyConfig files with different versionsuffix (that otherwise
 are identical, as there is some logic in the EasyConfig to derive the backend from
 the versionsuffix).
 
@@ -36,3 +36,6 @@ The back-ends are:
     correspond to 22.08 on LUMI.
     
 -   Some dependencies were adapted to the way we work on LUMI.
+
+-   Note that GLEW does build two commands but they cannot be used to test the installation
+    as they require the full graphical context to work.

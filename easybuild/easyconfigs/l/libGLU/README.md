@@ -1,7 +1,12 @@
 # libGLU instructions
 
 The libGLU library is a library that is currently maintained within the
-[freedesktop.org Mesa project](https://www.mesa3d.org/)
+[freedesktop.org Mesa project](https://www.mesa3d.org/).
+Note that the library relies on features that are deprecated in the
+recent OpenGL standard, so it may not be long for this world anymore.
+
+
+-   [libGLU on the freedesktop.org GitLab](https://gitlab.freedesktop.org/mesa/glu)
 
 -   [libGLU downloads](https://mesa.freedesktop.org/archive/glu/)
     

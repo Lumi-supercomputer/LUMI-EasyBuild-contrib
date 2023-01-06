@@ -1,4 +1,5 @@
 # libglvnd license information
 
-The libglvnd license can be found towards the bottom of the
-[libglvnd README.md file](https://gitlab.freedesktop.org/glvnd/libglvnd#libglvnd).
+Information on the licenses covering libglvnd is available in the
+README.md file included with the sources, see
+[the README.md file in the GitLab repository](https://gitlab.freedesktop.org/glvnd/libglvnd/-/blob/master/README.md).
