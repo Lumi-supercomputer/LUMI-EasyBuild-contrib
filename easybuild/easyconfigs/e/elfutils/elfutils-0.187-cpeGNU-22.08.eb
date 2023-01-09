@@ -42,6 +42,9 @@ configopts = "--disable-debuginfod --disable-libdebuginfod --disable-rpath"
 postinstallcmds = [
     'for i in %(installdir)s/bin/*; do patchelf --replace-needed ../libdw/libdw.so libdw.so $i; done',
     'for i in %(installdir)s/lib/*.so*; do patchelf --replace-needed ../libdw/libdw.so libdw.so $i; done',
+    'mkdir -p               %(installdir)s/share/licenses/elfutils && ' +
+    'cp -f COPYING*         %(installdir)s/share/licenses/elfutils && ' +
+    'cp -f doc/COPYING-GFDL %(installdir)s/share/licenses/elfutils',
 ]
 
 sanity_check_paths = {
