@@ -5,6 +5,10 @@ provide low level access to audio, keyboard, mouse, joystick, and graphics
 hardware via OpenGL and Direct3D.
 
 -   [SDL2 home page](https://www.libsdl.org/)
+
+-   [SDL on GitHub](https://github.com/libsdl-org/SDL)
+
+    -   [GitHub releases](https://github.com/libsdl-org/SDL/releases)
     
     
 ## EasyBuild
@@ -19,6 +23,10 @@ hardware via OpenGL and Direct3D.
 ### Version 2.0.22 for cpeGNU/22.08
 
 -   The EasyConfig is a direct port of the EasyBuilders one.
+
+    This is an old version, but not as old as it appears as they changed the version
+    numbering afterwared. 2.0.22 was followed by 2.24.0. This version was taken simply
+    to align with what is used in the EesyBuilders repository for the 2022a toolchain.
     
 -   This may be a problematic tool on the compute nodes of LUMI as it detects DBUS
     which does not work on the compute nodes.

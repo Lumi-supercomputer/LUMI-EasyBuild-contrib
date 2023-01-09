@@ -9,6 +9,7 @@ homepage = 'https://www.libsdl.org/'
 whatis = [
     'Description: SDL is the Simple DirectMedia Layer, a cross-platform multimedia library'
 ]
+
 description = """
 Simple DirectMedia Layer is a cross-platform development library designed to 
 provide low level access to audio, keyboard, mouse, joystick, and graphics 
@@ -30,6 +31,11 @@ builddependencies = [
 dependencies = [
     ('X11', '%(toolchain_version)s'),
 ]
+
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/SDL2 && ' +
+    'cp -f LICENSE.txt %(installdir)s/share/licenses/SDL2/LICENSE.txt'
+] 
 
 sanity_check_paths = {
     'files': ['bin/sdl2-config', 'lib/libSDL2.%s' % SHLIB_EXT],
