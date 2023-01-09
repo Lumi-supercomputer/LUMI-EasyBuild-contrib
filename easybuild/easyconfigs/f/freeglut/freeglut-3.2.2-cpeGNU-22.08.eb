@@ -1,0 +1,64 @@
+easyblock = 'CMakeMake'
+
+name = 'freeglut'
+version = '3.2.2'
+
+homepage = 'http://freeglut.sourceforge.net/'
+
+whatis = [
+    'Description: freeglut is a completely OpenSourced alternative to the OpenGL Utility Toolkit (GLUT) library.'    
+]
+
+description = """
+The freeglut library is a completely OpenSourced alternative to the OpenGL 
+Utility Toolkit (GLUT) library. GLUT was originally written by Mark Kilgard to 
+support the sample programs in the second edition OpenGL 'RedBook'. Since then, 
+GLUT has been used in a wide variety of practical applications because it is 
+simple, widely available and highly portable.
+
+GLUT (and hence freeglut) takes care of all the system-specific chores required 
+for creating windows, initializing OpenGL contexts, and handling input events, 
+to allow for trully portable OpenGL programs.
+"""
+
+docurls = [
+    'Web-based API documentation on https://freeglut.sourceforge.net/docs/api.php',
+]
+
+toolchain = {'name': 'cpeGNU', 'version': '22.08'}
+
+source_urls = [SOURCEFORGE_SOURCE]
+sources =     [SOURCE_TAR_GZ]
+checksums =   ['c5944a082df0bba96b5756dddb1f75d0cd72ce27b5395c6c1dde85c2ff297a50']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', SYSTEM), # For CMake
+]
+
+dependencies = [
+    ('X11',    '%(toolchain_version)s'), # Just for clarity, would be pulled in by the other dependencies anyway
+    ('Mesa',   '22.2.1'),                # Just for clarity, would be pulled in by the libGLU dependency anyway
+    ('libGLU', '9.0.2'),
+]
+
+configopts  = '-DCMAKE_INSTALL_LIBDIR=lib '
+configopts += '-DX11_X11_LIB="$EBROOTX11/lib/libX11.%s" ' % SHLIB_EXT
+configopts += '-DX11_X11_INCLUDE_PATH="$EBROOTX11/include/X11" '
+configopts += '-DX11_Xext_LIB="$EBROOTX11/lib/libXext.%s" ' % SHLIB_EXT
+configopts += '-DX11_Xrandr_LIB="$EBROOTX11/lib/libXrandr.%s" ' % SHLIB_EXT
+configopts += '-DX11_Xrandr_INCLUDE_PATH="$EBROOTX11/include/X11/extensions/" '
+configopts += '-DX11_Xi_LIB="$EBROOTX11/lib/libXrandr.%s" ' % SHLIB_EXT
+configopts += '-DX11_Xi_INCLUDE_PATH="$EBROOTX11/include/X11/extensions/" '
+
+postinstallcmds = [
+    'cd ../%(namelower)s-%(version)s && ' +
+    'mkdir -p %(installdir)s/share/licenses/freeglut && ' +
+    'cp COPYING %(installdir)s/share/licenses/freeglut/COPYING',    
+]
+
+sanity_check_paths = {
+    'files': [('lib/libglut.a', 'lib64/libglut.a'), ('lib/libglut.%s' % SHLIB_EXT, 'lib64/libglut.%s' % SHLIB_EXT)],
+    'dirs':  ['include/GL'],
+}
+
+moduleclass = 'lib'

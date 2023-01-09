@@ -1,0 +1,42 @@
+easyblock = 'ConfigureMake'
+
+name =    'libGLU'
+version = '9.0.2'
+
+homepage = 'https://mesa.freedesktop.org/archive/glu/'
+
+whatis = [
+    'Description: libGLU, the OpenGL Utility Library (GLU), is a computer graphics library for OpenGL.'
+]
+
+description = """
+The libGLU or OpenGL Utility Library (GLU) is a computer graphics library for OpenGL. 
+It was originally developed by SGI, but there is now a version maintained by the
+freedesktop.org organisation and this is the version installed in this module.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '22.08'}
+toolchainopts = {'pic': True}
+
+source_urls = ['https://mesa.freedesktop.org/archive/glu/']
+sources =     ['glu-%(version)s.tar.gz']
+checksums =   ['24effdfb952453cc00e275e1c82ca9787506aba0282145fff054498e60e19a65']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', SYSTEM)
+]
+
+dependencies = [
+    ('Mesa', '22.2.1'),
+]
+
+sanity_check_paths = {
+    'files': ['lib/libGLU.%s' % SHLIB_EXT],
+    'dirs':  [],
+}
+
+sanity_check_commands = [
+    'pkg-config --libs glu',  # Check if the Cray pkg-config can process the pkgconfig file for libGLU.
+]
+
+moduleclass = 'vis'
