@@ -29,8 +29,8 @@ dependencies = [
     ('ParMETIS', '4.0.3'),
     ('MUMPS', '5.5.1', '-metis'),
     ('SuperLU_DIST', '8.1.2'),
-    ('cray-hdf5',   EXTERNAL_MODULE),
-    ('cray-netcdf', EXTERNAL_MODULE),
+    ('cray-hdf5-parallel',   EXTERNAL_MODULE),
+    ('cray-netcdf-hdf5parallel', EXTERNAL_MODULE),
 #    ('MATIO', '1.5.17'),
 ]
 
@@ -41,6 +41,11 @@ local_packages = [
     'AztecOO',
     'Belos',
     'Epetra',
+    'Isorropia',
+    'Moertel',
+    'Teko',
+    'Piro',
+    'EpetraExt',
     'FEI',
     'ForTrilinos',
     'Galeri',
@@ -84,13 +89,6 @@ local_packages = [
 ]
 
 local_disabled_packages = [
-# Fails to compile
-    'EpetraExt',
-# Depends on EpetraExt
-    'Isorropia',
-    'Moertel',
-    'Teko',
-    'Piro',
 # Requires MATIO
     'SEACAS',
     'SEACASExo2mat',
@@ -153,10 +151,5 @@ sanity_check_paths = {
     'files': ['include/Trilinos_version.h'],
     'dirs':  ['include', 'lib'],
 }
-
-# too parallel is too slow because of memory requirements (results in
-# swapping), and may cause build/tests to fail building with 20 cores
-# seems to require about 100GB of memory (peak usage)
-maxparallel = 10
 
 moduleclass = 'numlib'
