@@ -140,6 +140,10 @@ configopts += '-D TPL_ENABLE_X11=OFF '
 configopts += '-D TPL_ENABLE_MPI=ON '
 configopts += '-D MPI_EXEC:STRING=srun '
 configopts += '-D MPI_EXEC_NUMPROCS_FLAG:STRING="-n" '
+configopts += '-D Kokkos_ENABLE_Serial:BOOL=ON '
+configopts += '-D Tpetra_INST_SERIAL:BOOL=ON '
+configopts += '-D Kokkos_ENABLE_OpenMP:BOOL=ON '
+
 
 for pkg in local_packages:
     configopts += '-D Trilinos_ENABLE_%s=ON ' % pkg
