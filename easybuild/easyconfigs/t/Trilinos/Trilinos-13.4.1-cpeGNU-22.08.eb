@@ -31,7 +31,7 @@ dependencies = [
     ('SuperLU_DIST', '8.1.2'),
     ('cray-hdf5-parallel',   EXTERNAL_MODULE),
     ('cray-netcdf-hdf5parallel', EXTERNAL_MODULE),
-#    ('MATIO', '1.5.17'),
+    ('MATIO', '1.5.23'),
 ]
 
 local_packages = [
@@ -86,13 +86,12 @@ local_packages = [
     'Xpetra',
     'Zoltan',
     'Zoltan2',
-]
-
-local_disabled_packages = [
-# Requires MATIO
     'SEACAS',
     'SEACASExo2mat',
     'SEACASMat2exo',
+]
+
+local_disabled_packages = [
 ]
 
 configopts =  '-D CMAKE_BUILD_TYPE=Release '
@@ -125,9 +124,9 @@ configopts += '-D ParMETIS_LIBRARY_NAMES:STRING="parmetis;metis" '
 configopts += '-D TPL_ENABLE_MUMPS=ON '
 configopts += '-D TPL_MUMPS_INCLUDE_DIRS:FILEPATH=$EBROOTMUMPS/include '
 configopts += '-D MUMPS_LIBRARY_DIRS:FILEPATH=$EBROOTMUMPS/lib '
-configopts += '-D TPL_ENABLE_Matio=OFF '
-#configopts += '-D TPL_Matio_INCLUDE_DIRS:FILEPATH=$prefix/include '
-#configopts += '-D Matio_LIBRARY_DIRS:FILEPATH=$prefix/lib '
+configopts += '-D TPL_ENABLE_Matio=ON '
+configopts += '-D TPL_Matio_INCLUDE_DIRS:FILEPATH=$EBROOTMATIO/include '
+configopts += '-D Matio_LIBRARY_DIRS:FILEPATH=$EBROOTMATIO/lib '
 configopts += '-D TPL_ENABLE_HDF5=ON '
 configopts += '-D TPL_HDF5_INCLUDE_DIRS=\$HDF5_DIR/include '
 configopts += '-D HDF5_LIBRARY_DIRS="\$HDF5_DIR/lib" '
@@ -143,13 +142,14 @@ configopts += '-D MPI_EXEC_NUMPROCS_FLAG:STRING="-n" '
 configopts += '-D Kokkos_ENABLE_Serial:BOOL=ON '
 configopts += '-D Tpetra_INST_SERIAL:BOOL=ON '
 configopts += '-D Kokkos_ENABLE_OpenMP:BOOL=ON '
+configopts += '-D CMAKE_CXX_STANDARD:STRING=17 '
 
 
-for pkg in local_packages:
-    configopts += '-D Trilinos_ENABLE_%s=ON ' % pkg
+for local_pkg in local_packages:
+    configopts += '-D Trilinos_ENABLE_%s=ON ' % local_pkg
 
-for pkg in local_disabled_packages:
-    configopts += '-D Trilinos_ENABLE_%s=OFF ' % pkg
+for local_pkg in local_disabled_packages:
+    configopts += '-D Trilinos_ENABLE_%s=OFF ' % local_pkg
 
 sanity_check_paths = {
     'files': ['include/Trilinos_version.h'],
