@@ -1,0 +1,46 @@
+easyblock = 'CMakeMake'
+
+name = 'Peridigm'
+version = '1.4.1'
+
+homepage = 'https://github.com/peridigm/peridigm'
+
+description = """Peridigm is an open-source computational peridynamics code developed, originally at Sandia National Laboratories and open-sourced in 2011, 
+for massively-parallel multi-physics simulations. It has been applied primarily to problems in solid mechanics involving pervasive material failure. 
+Peridigm is a C++ code utilizing foundational software components from Sandia's Trilinos project and is fully compatible with the Cubit mesh generator 
+and Paraview visualization code."""
+
+
+toolchain = {'name': 'cpeGNU', 'version': '22.08'}
+toolchainopts = {'usempi': True, 'openmp': True, 'pic': True, 'strict': True}
+
+sources = [{
+    'filename':   'peridigm-%(version)s.tar.gz',    
+    'git_config': {
+        'url': 'https://github.com/peridigm',
+        'repo_name': 'peridigm',
+        'commit': 'd369819345c2c72535ff4fdb0edb31f9d3a96f6f',
+    }
+}]
+
+builddependencies = [
+    ('buildtools',   '%(toolchain_version)s',   '', True),
+]
+
+dependencies = [
+    ('cray-python',   EXTERNAL_MODULE),
+    ('cray-libsci',   EXTERNAL_MODULE),
+    ('Boost', '1.79.0'),
+    ('Trilinos', '13.4.1'),
+]
+
+configopts =  '-D CMAKE_BUILD_TYPE=Release '
+configopts += '-D Trilinos_DIR=$EBROOTTRILINOS '
+configopts += '-D CMAKE_CXX_FLAGS:STRING="-O2 -Wall -std=c++17 -pedantic -Wno-long-long -ftrapv -Wno-deprecated -fopenmp" '
+
+sanity_check_paths = {
+    'files': ['bin/Peridigm'],
+    'dirs':  ['bin'],
+}
+
+moduleclass = 'phys'
