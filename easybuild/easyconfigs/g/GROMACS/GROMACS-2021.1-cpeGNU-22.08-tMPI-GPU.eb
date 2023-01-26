@@ -1,0 +1,144 @@
+# Contributed by Luca Marsella and Victor Holanda Rusu (CSCS)
+#
+# This file is an EasyBuild reciPY as per https://github.com/hpcugent/easybuild
+#
+# Copyright:: Copyright 2012-2013 University of Luxembourg / LCSB, Cyprus Institute / CaSToRC, Ghent University
+# Authors::   Wiktor Jurkowski <wiktor.jurkowski@uni.lu>, Fotis Georgatos <fotis.georgatos@uni.lu>, \
+# George Tsouloupas <g.tsouloupas@cyi.ac.cy>, Kenneth Hoste
+# License::   MIT/GPL
+# $Id$
+#
+# This work implements a part of the HPCBIOS project and is a component of the policy:
+# http://hpcbios.readthedocs.org/en/latest/HPCBIOS_2012-93.html
+#
+# Adapted by Kurt Lust (kurt.lust@uantwerpen.be) for the LUMI consortium
+#
+easyblock = 'CMakeMake'
+
+name =          'GROMACS'
+version =       '2021.1'
+versionsuffix = '-tMPI-GPU' 
+
+homepage = 'https://github.com/ROCmSoftwarePlatform/Gromacs'
+
+whatis = [
+    'ROCm\'s implementation of Gromacs'
+]
+
+description = """
+GROMACS is a versatile package to perform molecular dynamics, i.e. simulate the
+Newtonian equations of motion for systems with hundreds to millions of
+particles.
+
+Binaries included:
+* gmx: Compiled with HIP support 
+
+This is single-node threadMPI version with GPU enabled (HIP).
+
+The module sets the environment variables that would otherwise be set by running
+the script $EBROOTGROMACS/bin/GMXRC. So running this script snould not be
+necessary in most cases.
+
+The module also defines the shell function gromacs-completion that can be used to
+turn bash command completion on for GROMACS. Note that unloading the module will
+not turn this off, so it may have consequences for things you do later on or
+conflict with the command completion of a different version of GROMACS.
+
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '22.08'}
+toolchainopts = {'opt': True, 'usempi': False, 'verbose': False, 'pic': True, 'openmp': True}
+
+sources = [{
+    'filename': 'gromacs-amd.tar.gz',
+    'git_config': {
+        'url': 'https://github.com/ROCmSoftwarePlatform',
+        'repo_name': 'Gromacs',
+        'commit': '7bbbb2de208ac1a42c7144ac28ecc5fb0dc0dd4e',
+    },
+}]
+
+builddependencies = [
+    ('buildtools',         '%(toolchain_version)s', '', True), # For CMake
+    ('cray-fftw', EXTERNAL_MODULE),
+    ('cray-python', EXTERNAL_MODULE),
+    ('rocm', EXTERNAL_MODULE),
+]
+
+dependencies = [
+    ('cray-fftw', EXTERNAL_MODULE),
+    ('cray-python', EXTERNAL_MODULE),
+    ('rocm', EXTERNAL_MODULE),
+]
+
+configopts =  '-DCMAKE_BUILD_TYPE=Release '
+configopts += ' -DCMAKE_C_COMPILER=gcc '
+configopts += ' -DCMAKE_CXX_COMPILER=g++ '
+configopts += ' -DGMX_OPENMP=ON '
+configopts += ' -DGMX_MPI=OFF '
+configopts += ' -DGMX_GPU=HIP '
+configopts += ' -DCMAKE_HIP_ARCHITECTURES="gfx90a" '
+configopts += ' -DAMDGPU_TARGETS="gfx90a" '
+configopts += ' -DGPU_TARGETS="gfx90a" '
+configopts += ' -DHIP_HIPCC_FLAGS="-O3 --amdgpu-target=gfx90a --save-temps" '
+configopts += ' -DGMX_GPU_USE_VKFFT=ON '
+configopts += ' -DCMAKE_C_FLAGS="-Ofast" '
+configopts += ' -DCMAKE_CXX_FLAGS="-Ofast" '
+configopts += ' -DGMX_SIMD=AVX2_256 '
+configopts += ' -DCMAKE_EXE_LINKER_FLAGS="-fopenmp" '
+configopts += ' -DGMX_BUILD_FOR_COVERAGE=OFF '
+configopts += ' -DGMX_EXTERNAL_LAPACK=ON '
+configopts += ' -DGMX_EXTERNAL_BLAS=ON '
+configopts += ' -DGMX_BLAS_USER=$CRAY_LIBSCI_PREFIX_DIR/lib/libsci_gnu.so '
+configopts += ' -DGMX_LAPACK_USER=$CRAY_LIBSCI_PREFIX_DIR/lib/libsci_gnu.so '
+configopts += ' -DBUILD_SHARED_LIBS=OFF '
+configopts += ' -DGMX_DOUBLE=OFF '
+
+skipsteps = ['test']
+
+# This does what GMXRC.bash does except that it does not enable the command completion.
+modextravars = {
+    'GROMACS_DIR':     '%(installdir)s',
+    'GMXBIN':          '%(installdir)s/bin',
+    'GMXMAN':          '%(installdir)s/share/man',
+    'GMXDATA':         '%(installdir)s/share/data',
+    'GMXTOOLCHAINDIR': '%(installdir)s/share/cmake', # Defined in the standard script but not exported.
+}
+
+local_bash_completion = """
+[==[
+  if test -n "${BASH_VERSION+set}" && (complete) > /dev/null 2>&1; then
+    if (shopt -s extglob) > /dev/null 2>&1; then
+      shopt -s extglob ;
+      if [ -f $GMXBIN/gmx-completion.bash ]; then
+        source $GMXBIN/gmx-completion.bash ;
+        for cfile in $GMXBIN/gmx-completion-*.bash ; do
+          source $cfile ;
+        done ;
+      fi ;
+    fi ;
+  elif test -n "${ZSH_VERSION+set}" > /dev/null 2>&1 ; then
+    autoload bashcompinit ;
+    if (bashcompinit) > /dev/null 2>&1; then
+      bashcompinit ;
+      if [ -f $GMXBIN/gmx-completion.bash ]; then
+        source $GMXBIN/gmx-completion.bash ;
+        for cfile in $GMXBIN/gmx-completion-*.bash ; do
+          source $cfile ;
+        done ;
+      fi ;
+    fi ;
+  fi
+]==]
+"""
+
+local_csh_completion = '"echo \'Not implemented\'"'
+
+modluafooter = """
+set_shell_function( 'gromacs-completion', %(bash_completion)s, %(csh_completion)s )
+""" % {
+    'bash_completion': local_bash_completion,
+    'csh_completion':  local_csh_completion,
+}
+
+moduleclass = 'bio'
