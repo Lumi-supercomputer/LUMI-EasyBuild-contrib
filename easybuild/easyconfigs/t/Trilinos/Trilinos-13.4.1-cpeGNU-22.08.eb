@@ -1,0 +1,159 @@
+easyblock = 'CMakeMake'
+
+name = 'Trilinos'
+version = '13.4.1'
+
+homepage = 'https://trilinos.org'
+description = """The Trilinos Project is an effort to develop algorithms and enabling technologies
+ within an object-oriented software framework for the solution of large-scale, complex multi-physics
+ engineering and scientific problems. A unique design feature of Trilinos is its focus on packages."""
+
+toolchain = {'name': 'cpeGNU', 'version': '22.08'}
+toolchainopts = {'usempi': True, 'pic': True, 'openmp': True, 'strict': True}
+
+local_version = version.replace('.','-')
+sources = [{
+    'filename':          SOURCE_TAR_GZ,
+    'download_filename': f'trilinos-release-{local_version}.tar.gz',
+    'source_urls':       ['https://github.com/trilinos/Trilinos/archive/refs/tags'],
+}]
+
+builddependencies = [
+    ('buildtools',   '%(toolchain_version)s',   '', True),
+]
+dependencies = [
+    ('cray-python',   EXTERNAL_MODULE),
+    ('cray-libsci',   EXTERNAL_MODULE),
+    ('Boost', '1.79.0'),
+    ('SCOTCH', '6.1.3'),
+    ('ParMETIS', '4.0.3'),
+    ('MUMPS', '5.5.1'),
+    ('SuperLU_DIST', '8.1.2'),
+    ('cray-hdf5-parallel',   EXTERNAL_MODULE),
+    ('cray-netcdf-hdf5parallel', EXTERNAL_MODULE),
+    ('MATIO', '1.5.23'),
+]
+
+local_packages = [
+    'Amesos',
+    'Amesos2',
+    'Anasazi',
+    'AztecOO',
+    'Belos',
+    'Epetra',
+    'Isorropia',
+    'Moertel',
+    'Teko',
+    'Piro',
+    'EpetraExt',
+    'FEI',
+    'ForTrilinos',
+    'Galeri',
+    'GlobiPack',
+    'Ifpack',
+    'Ifpack2',
+    'Intrepid',
+    'Kokkos',
+    'Komplex',
+    'Mesquite',
+    'ML',
+    'MOOCHO',
+    'MueLu',
+    'NOX',
+    'OptiPack',
+    'Pamgen',
+    'Phalanx',
+    'Pliris',
+    'ROL',
+    'RTOp',
+    'Rythmos',
+    'Sacado',
+    'Shards',
+    'ShyLU',
+    'STK',
+    'STKSearch',
+    'STKTopology',
+    'STKUtil',
+    'Stokhos',
+    'Stratimikos',
+    'Sundance',
+    'Teuchos',
+    'ThreadPool',
+    'Thyra',
+    'Tpetra',
+    'TrilinosCouplings',
+    'Triutils',
+    'Xpetra',
+    'Zoltan',
+    'Zoltan2',
+    'SEACAS',
+    'SEACASExo2mat',
+    'SEACASMat2exo',
+]
+
+local_disabled_packages = [
+]
+
+configopts =  '-D CMAKE_BUILD_TYPE=Release '
+configopts += '-D TPL_ENABLE_MPI=ON '
+configopts += '-D Trilinos_ENABLE_OpenMP=ON '
+configopts += '-D BUILD_SHARED_LIBS=ON '
+configopts += '-D TPL_ENABLE_BLAS=ON '
+configopts += '-D TPL_ENABLE_LAPACK=ON '
+configopts += '-D TPL_ENABLE_SCALAPACK=ON '
+configopts += '-D BLAS_LIBRARY_NAMES="" '
+configopts += '-D LAPACK_LIBRARY_NAMES="" '
+configopts += '-D SCALAPACK_LIBRARY_NAMES="" '
+configopts += '-D TPL_ENABLE_Scotch=ON '
+configopts += '-D TPL_ENABLE_SuperLU=OFF '
+configopts += '-D TPL_SuperLU_INCLUDE_DIRS:FILEPATH=$EBROOTSUPERLUDIST/include '
+configopts += '-D SuperLU_LIBRARY_DIRS:FILEPATH=$EBROOTSUPERLUDIST/lib '
+configopts += '-D HAVE_SUPERLU_GLOBALLU_T_ARG=YES '
+configopts += '-D TPL_ENABLE_SuperLUDist=ON '
+configopts += '-D TPL_SuperLUDist_INCLUDE_DIRS:FILEPATH=$EBROOTSUPERLUDIST/include '
+configopts += '-D SuperLUDist_LIBRARY_DIRS:FILEPATH=$EBROOTSUPERLUDIST/lib '
+configopts += '-D HAVE_SUPERLUDIST_ENUM_NAMESPACE=YES '
+configopts += '-D HAVE_SUPERLUDIST_LUSTRUCTINIT_2ARG=YES '
+configopts += '-D TPL_ENABLE_METIS=ON '
+configopts += '-D TPL_METIS_INCLUDE_DIRS:FILEPATH=$EBROOTPARMETIS/include '
+configopts += '-D METIS_LIBRARY_DIRS:FILEPATH=$EBROOTPARMETIS/lib '
+configopts += '-D TPL_ENABLE_ParMETIS=ON '
+configopts += '-D TPL_ParMETIS_INCLUDE_DIRS:FILEPATH=$EBROOTPARMETIS/include '
+configopts += '-D ParMETIS_LIBRARY_DIRS:FILEPATH=$EBROOTPARMETIS/lib '
+configopts += '-D ParMETIS_LIBRARY_NAMES:STRING="parmetis;metis" '
+configopts += '-D TPL_ENABLE_MUMPS=ON '
+configopts += '-D TPL_MUMPS_INCLUDE_DIRS:FILEPATH=$EBROOTMUMPS/include '
+configopts += '-D MUMPS_LIBRARY_DIRS:FILEPATH=$EBROOTMUMPS/lib '
+configopts += '-D TPL_ENABLE_Matio=ON '
+configopts += '-D TPL_Matio_INCLUDE_DIRS:FILEPATH=$EBROOTMATIO/include '
+configopts += '-D Matio_LIBRARY_DIRS:FILEPATH=$EBROOTMATIO/lib '
+configopts += '-D TPL_ENABLE_HDF5=ON '
+configopts += '-D TPL_HDF5_INCLUDE_DIRS=\$HDF5_DIR/include '
+configopts += '-D HDF5_LIBRARY_DIRS="\$HDF5_DIR/lib" '
+configopts += '-D TPL_ENABLE_Netcdf=ON '
+configopts += '-D TPL_Netcdf_INCLUDE_DIRS=\$NETCDF_DIR/include '
+configopts += '-D Netcdf_LIBRARY_DIRS="\$NETCDF_DIR/lib;\$HDF5_DIR/lib" '
+configopts += '-D TPL_ENABLE_Boost=ON '
+configopts += '-D TPL_Boost_INCLUDE_DIRS=\$EBROOTBOOST/include '
+configopts += '-D TPL_ENABLE_X11=OFF '
+configopts += '-D TPL_ENABLE_MPI=ON '
+configopts += '-D MPI_EXEC:STRING=srun '
+configopts += '-D MPI_EXEC_NUMPROCS_FLAG:STRING="-n" '
+configopts += '-D Kokkos_ENABLE_Serial:BOOL=ON '
+configopts += '-D Tpetra_INST_SERIAL:BOOL=ON '
+configopts += '-D Kokkos_ENABLE_OpenMP:BOOL=ON '
+configopts += '-D CMAKE_CXX_STANDARD:STRING=17 '
+
+
+for local_pkg in local_packages:
+    configopts += '-D Trilinos_ENABLE_%s=ON ' % local_pkg
+
+for local_pkg in local_disabled_packages:
+    configopts += '-D Trilinos_ENABLE_%s=OFF ' % local_pkg
+
+sanity_check_paths = {
+    'files': ['include/Trilinos_version.h'],
+    'dirs':  ['include', 'lib'],
+}
+
+moduleclass = 'numlib'
