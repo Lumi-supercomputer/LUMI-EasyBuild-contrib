@@ -1,12 +1,19 @@
 easyblock = 'CMakeMake'
 
-name = 'Trilinos'
+name =    'Trilinos'
 version = '13.4.1'
 
 homepage = 'https://trilinos.org'
-description = """The Trilinos Project is an effort to develop algorithms and enabling technologies
- within an object-oriented software framework for the solution of large-scale, complex multi-physics
- engineering and scientific problems. A unique design feature of Trilinos is its focus on packages."""
+
+whatis = [
+    "Description: Trilinos is an object-oriented collection of reusable scientific libraries"
+]
+
+description = """
+The Trilinos Project is an effort to develop algorithms and enabling technologies
+within an object-oriented software framework for the solution of large-scale, complex multi-physics
+engineering and scientific problems. A unique design feature of Trilinos is its focus on packages.
+"""
 
 toolchain = {'name': 'cpeGNU', 'version': '22.08'}
 toolchainopts = {'usempi': True, 'pic': True, 'openmp': True, 'strict': True}
@@ -21,6 +28,7 @@ sources = [{
 builddependencies = [
     ('buildtools',   '%(toolchain_version)s',   '', True),
 ]
+
 dependencies = [
     ('cray-python',   EXTERNAL_MODULE),
     ('cray-libsci',   EXTERNAL_MODULE),
