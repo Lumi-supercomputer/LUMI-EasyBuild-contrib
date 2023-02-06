@@ -8,24 +8,37 @@
 ##
 easyblock = 'ConfigureMake'
 
-name = 'MATIO'
+name =    'MATIO'
 version = '1.5.23'
 
-homepage = 'https://sourceforge.net/projects/matio/'
-description = """matio is an C library for reading and writing Matlab MAT files."""
+homepage = 'https://matio.sourceforge.io/'
+
+whatis = [
+    "Description: MATIO is a C library for reading and writing Matlab MAT files."
+]
+
+description = """
+matio is a C library for reading and writing Matlab MAT files.
+"""
+
+docurls = [
+    "PDF of the documentation available on https://sourceforge.net/projects/matio/files/matio/%(version)s/matio_user_guide.pdf/download",
+]
 
 toolchain = {'name': 'cpeGNU', 'version': '22.08'}
 
 source_urls = [SOURCEFORGE_SOURCE]
-sources = [SOURCELOWER_ZIP]
+sources =     [SOURCELOWER_ZIP]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s',   '', True)
+]
 
 preconfigopts = 'chmod +x configure && '
 
-builddependencies = [('buildtools', '%(toolchain_version)s',   '', True)]
-
 sanity_check_paths = {
     'files': ['include/matio.h', 'bin/matdump', 'lib/libmatio.a'],
-    'dirs': [],
+    'dirs':  [],
 }
 
 moduleclass = 'lib'
