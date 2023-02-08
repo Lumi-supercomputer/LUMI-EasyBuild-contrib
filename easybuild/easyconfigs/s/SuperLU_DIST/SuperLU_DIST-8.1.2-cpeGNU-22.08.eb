@@ -1,18 +1,39 @@
 easyblock = "CMakeMake"
 
-name = 'SuperLU_DIST'
+name =    'SuperLU_DIST'
 version = '8.1.2'
 
 homepage = 'https://crd-legacy.lbl.gov/~xiaoye/SuperLU/'
-description = """SuperLU is a general purpose library for the direct solution of large, sparse, nonsymmetric systems
- of linear equations on high performance machines."""
+
+whatis = [
+    'Description: SuperLU is a general purpose library for the direct solution of large, sparse, ' +
+    'nonsymmetric systems of linear equations on high performance machines.'
+]
+
+description = """
+SuperLU is a general purpose library for the direct solution of large, sparse, 
+nonsymmetric systems of linear equations. The library is written in C and is 
+callable from either C or Fortran program. It uses MPI, OpenMP and CUDA to 
+support various forms of parallelism. It supports both real and complex 
+datatypes, both single and double precision, and 64-bit integer indexing. 
+The library routines performs an LU decomposition with partial pivoting and 
+triangular system solves through forward and back substitution. The LU 
+factorization routines can handle non-square matrices but the triangular 
+solves are performed only for square matrices. The matrix columns may be 
+preordered (before factorization) either through library or user supplied 
+routines. This preordering for sparsity is completely separate from the 
+factorization. Working precision iterative refinement subroutines are provided 
+for improved backward stability. Routines are also provided to equilibrate the 
+system, estimate the condition number, calculate the relative backward error, 
+and estimate error bounds for the refined solutions.
+"""
 
 toolchain = {'name': 'cpeGNU', 'version': '22.08'}
 toolchainopts = {'pic': True, 'openmp': False}
 
 github_account = 'xiaoyeli'
-source_urls = [GITHUB_LOWER_SOURCE]
-sources = ["v%(version)s.tar.gz"]
+source_urls =    [GITHUB_LOWER_SOURCE]
+sources =        ["v%(version)s.tar.gz"]
 
 builddependencies = [
     ('buildtools', '%(toolchain_version)s', '', True),
@@ -22,7 +43,7 @@ dependencies = [
     ('ParMETIS', '4.0.3'),
 ]
 
-configopts = '-DTPL_PARMETIS_INCLUDE_DIRS="${EBROOTPARMETIS}/include" '
+configopts  = '-DTPL_PARMETIS_INCLUDE_DIRS="${EBROOTPARMETIS}/include" '
 configopts += '-DTPL_PARMETIS_LIBRARIES="${EBROOTPARMETIS}/lib/libparmetis.a;${EBROOTPARMETIS}/lib/libmetis.a" '
 configopts += '-DTPL_ENABLE_INTERNAL_BLASLIB=OFF '
 configopts += '-Denable_openmp:BOOL=FALSE '
@@ -34,7 +55,11 @@ pretestopts = 'export ARGS="$ARGS --tests-regex pdtest_[21]x1_[13]_2_8_20_SP" &&
 
 sanity_check_paths = {
     'files': ['lib64/libsuperlu_dist.a'],
-    'dirs': ['include']
+    'dirs':  ['include']
 }
+
+sanity_check_commands = [
+    'pkg-config --libs superlu_dist',
+]
 
 moduleclass = 'numlib'
