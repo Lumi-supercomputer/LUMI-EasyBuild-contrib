@@ -1,10 +1,8 @@
 # Amber license information
 
-Amber is licensed software. In principle all academic use of Amber is covered by the
-CSC license, also for non-Finnish academic users, but as we have no way to limit
-access to only those users, for now Amber needs to be installed in your project
-space and users need their own license for now to download the right version of
-Amber.
+Amber is licensed software. All *academic* use of Amber is covered by the
+CSC license, also for non-Finnish academic users. See more details in the
+[CSC documentation](https://docs.csc.fi/apps/amber/).
 
 AmberTools is free software distributed under the GNU General Public License with a
 few components licensed differently. Amber itself has a separate license though.

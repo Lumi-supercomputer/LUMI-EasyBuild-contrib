@@ -42,7 +42,7 @@ has to be downloaded separately.
 
 -   When installing using this EasyConfig, the user should provide the
     `Amber22.tar.bz2` , `AmberTools22.tar.bz2` and `amber_amd.23jun22.tar.bz2` files
-    n a place where EasyBuild can find them
+    in a place where EasyBuild can find them
     (e.g., in the current directory if you add `-r .` to the EasyBuild command line, or you can
     look for the first directory in `$EASYBUILD_SOURCEPATH`, create the subdirectory
     `a/Amber` in that directory and put the source files in that `a/Amber` subdirectory).
