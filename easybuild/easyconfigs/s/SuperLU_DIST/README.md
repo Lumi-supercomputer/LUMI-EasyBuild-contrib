@@ -14,12 +14,14 @@
 -   There is no support for SuperLU in the CSCS repository.
 
 
-## Version 7.2.0 for cpeGNU 22.08
+### Version 7.2.0 for cpeGNU 22.08
 
 -   The EasyConfig is an extended version of the EasyBuilders one.
 
 
-## Version 8.1.2
+### Version 8.1.2
 
 -   The EasyConfig is adapted from the 7.2.0 one.
+
+-   But **note that OpenMP is disabled in this version**.
 
