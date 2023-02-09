@@ -16,8 +16,8 @@
 easyblock = 'CMakeMake'
 
 name =          'GROMACS'
-version =       '2021.1'
-versionsuffix = '-tMPI-GPU' 
+version =       '2023-dev'
+versionsuffix = '-AMD-GPU' 
 
 homepage = 'https://github.com/ROCmSoftwarePlatform/Gromacs'
 
@@ -31,7 +31,8 @@ Newtonian equations of motion for systems with hundreds to millions of
 particles.
 
 Binaries included:
-* gmx: Compiled with HIP support 
+* gmx: Compiled with HIP support (single precision only)
+* gmx_mpi: Compiled with HIP support and MPI (single precision only) 
 
 This is single-node threadMPI version with GPU enabled (HIP).
 
@@ -71,28 +72,37 @@ dependencies = [
     ('rocm', EXTERNAL_MODULE),
 ]
 
-configopts =  '-DCMAKE_BUILD_TYPE=Release '
-configopts += ' -DCMAKE_C_COMPILER=gcc '
-configopts += ' -DCMAKE_CXX_COMPILER=g++ '
-configopts += ' -DGMX_OPENMP=ON '
-configopts += ' -DGMX_MPI=OFF '
-configopts += ' -DGMX_GPU=HIP '
-configopts += ' -DCMAKE_HIP_ARCHITECTURES="gfx90a" '
-configopts += ' -DAMDGPU_TARGETS="gfx90a" '
-configopts += ' -DGPU_TARGETS="gfx90a" '
-configopts += ' -DHIP_HIPCC_FLAGS="-O3 --amdgpu-target=gfx90a --save-temps" '
-configopts += ' -DGMX_GPU_USE_VKFFT=ON '
-configopts += ' -DCMAKE_C_FLAGS="-Ofast" '
-configopts += ' -DCMAKE_CXX_FLAGS="-Ofast" '
-configopts += ' -DGMX_SIMD=AVX2_256 '
-configopts += ' -DCMAKE_EXE_LINKER_FLAGS="-fopenmp" '
-configopts += ' -DGMX_BUILD_FOR_COVERAGE=OFF '
-configopts += ' -DGMX_EXTERNAL_LAPACK=ON '
-configopts += ' -DGMX_EXTERNAL_BLAS=ON '
-configopts += ' -DGMX_BLAS_USER=$CRAY_LIBSCI_PREFIX_DIR/lib/libsci_gnu.so '
-configopts += ' -DGMX_LAPACK_USER=$CRAY_LIBSCI_PREFIX_DIR/lib/libsci_gnu.so '
-configopts += ' -DBUILD_SHARED_LIBS=OFF '
-configopts += ' -DGMX_DOUBLE=OFF '
+local_configopts =  '-D CMAKE_BUILD_TYPE=Release '
+local_configopts += '-D CMAKE_C_COMPILER=cc '
+local_configopts += '-D CMAKE_CXX_COMPILER=CC '
+local_configopts += '-D GMX_OPENMP=ON '
+local_configopts += '-D GMX_MPI=ON '
+local_configopts += '-D GMX_GPU=HIP '
+local_configopts += '-D CMAKE_HIP_ARCHITECTURES="gfx90a" '
+local_configopts += '-D AMDGPU_TARGETS="gfx90a" '
+local_configopts += '-D GPU_TARGETS="gfx90a" '
+local_configopts += '-D HIP_HIPCC_FLAGS="-O3 --amdgpu-target=gfx90a --save-temps -I$CRAY_MPICH_PREFIX/include" '
+local_configopts += '-D GMX_GPU_USE_VKFFT=ON '
+local_configopts += '-D CMAKE_C_FLAGS="-Ofast" '
+local_configopts += '-D CMAKE_CXX_FLAGS="-Ofast" '
+local_configopts += '-D GMX_SIMD=AVX2_256 '
+local_configopts += '-D CMAKE_EXE_LINKER_FLAGS="-fopenmp" '
+local_configopts += '-D GMX_BUILD_FOR_COVERAGE=OFF '
+local_configopts += '-D GMX_EXTERNAL_LAPACK=ON '
+local_configopts += '-D GMX_EXTERNAL_BLAS=ON '
+local_configopts += '-D GMX_BLAS_USER=$CRAY_LIBSCI_PREFIX_DIR/lib/libsci_gnu.so '
+local_configopts += '-D GMX_LAPACK_USER=$CRAY_LIBSCI_PREFIX_DIR/lib/libsci_gnu.so '
+local_configopts += '-D BUILD_SHARED_LIBS=OFF '
+local_configopts += '-D GMX_DOUBLE=OFF '
+local_configopts += '-D CMAKE_CXX_LINK_FLAGS=-I$CRAY_MPICH_PREFIX/include '
+local_configopts += '-D HIP_CLANG_PARALLEL_BUILD_LINK_OPTIONS=-I$CRAY_MPICH_PREFIX/include '
+local_configopts += '-D HIP_VERBOSE_BUILD=ON '
+local_configopts += '-D CMAKE_VERBOSE_MAKEFILE=ON ' 
+
+configopts = [
+    local_configopts + '-DGMX_MPI=OFF',
+    local_configopts + '-DGMX_MPI=ON',
+]
 
 skipsteps = ['test']
 
