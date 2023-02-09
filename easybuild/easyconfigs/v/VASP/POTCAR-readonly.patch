@@ -1,0 +1,43 @@
+From c601b4a04eb911c6191b59da6d630c7e65bf6225 Mon Sep 17 00:00:00 2001
+From: Peter Larsson <egplar@gmail.com>
+Date: Wed, 8 Feb 2023 23:16:42 +0200
+Subject: [PATCH] Open POTCAR files readonly
+
+This seems to help with the slow reads at program startup on LUMI, especially with HDF5 enabled.
+---
+ src/pseudo.F | 4 ++--
+ src/string.F | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/src/pseudo.F b/src/pseudo.F
+index b29d944..5e09051 100644
+--- a/src/pseudo.F
++++ b/src/pseudo.F
+@@ -212,9 +212,9 @@ MODULE PSEUDO
+ !        END IF
+       END IF
+ #endif
+-      OPEN(UNIT=10,FILE=DIR_APP(1:DIR_LEN)//'POTCAR',STATUS='OLD',IOSTAT=IERR)
++      OPEN(UNIT=10,FILE=DIR_APP(1:DIR_LEN)//'POTCAR',ACTION='READ',STATUS='OLD',IOSTAT=IERR)
+       IF (IERR/=0) THEN
+-         OPEN(UNIT=10,FILE='POTCAR',STATUS='OLD')
++         OPEN(UNIT=10,FILE='POTCAR',ACTION='READ',STATUS='OLD')
+       ENDIF
+ 
+       LPAW = .FALSE.
+diff --git a/src/string.F b/src/string.F
+index 5aa9267..530f363 100644
+--- a/src/string.F
++++ b/src/string.F
+@@ -93,7 +93,7 @@ contains
+         integer, intent(out) :: ierr
+         character(len=:), allocatable :: content
+         integer file_unit
+-        open(newunit=file_unit,file=filename,status='old',form='unformatted',access='stream',iostat=ierr)
++        open(newunit=file_unit,file=filename,status='old',action='read',form='unformatted',access='stream',iostat=ierr)
+         if (ierr /= 0) then
+             content = ""
+             return
+-- 
+2.34.1
+
