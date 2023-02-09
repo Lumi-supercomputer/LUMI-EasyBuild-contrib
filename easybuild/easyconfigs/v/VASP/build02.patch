@@ -1,0 +1,11 @@
+--- src/lib/drdatab.F	2019-11-04 15:45:34.000000000 +0200
++++ ../vasp.5.4.4.pl2/src/lib/drdatab.F	2023-01-29 11:19:24.000000000 +0200
+@@ -125,7 +125,7 @@
+          WORK=FNAM
+          CALL STRIP(WORK,L,'A')
+          IF (L.EQ.0) GOTO 10
+-         OPEN(IU,FILE=WORK(1:L),STATUS='OLD',ERR=10)
++         OPEN(IU,FILE=WORK(1:L),STATUS='OLD',ACTION='READ',ERR=10)
+       ELSE
+          REWIND IU
+       ENDIF
