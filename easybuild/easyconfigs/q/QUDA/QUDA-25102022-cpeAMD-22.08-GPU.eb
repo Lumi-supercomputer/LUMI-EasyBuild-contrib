@@ -22,16 +22,21 @@ sources = [{
 }]
 
 builddependencies = [
+    ('rocm',   EXTERNAL_MODULE),
     ('buildtools',   '%(toolchain_version)s',   '', True),
-    ('rocm',   EXTERNAL_MODULE),
-]
-
-dependencies = [
-    ('rocm',   EXTERNAL_MODULE),
     ('cray-libsci',   EXTERNAL_MODULE),
 ]
 
+#dependencies = [
+#    ('rocm',   EXTERNAL_MODULE),
+#]
+
+preconfigopts = 'unset MPICXX && unset MPICC && '
+
 configopts =  '-D CMAKE_BUILD_TYPE=Release '
+configopts += '-D CMAKE_C_COMPILER=cc '
+configopts += '-D CMAKE_CXX_COMPILER=CC '
+configopts += '-D CMAKE_HIP_COMPILER=$ROCM_PATH/llvm/bin/amdclang++ '
 configopts += '-D QUDA_TARGET_TYPE=HIP '
 configopts += '-D QUDA_BUILD_ALL_TESTS=ON '
 configopts += '-D QUDA_MPI=ON '
