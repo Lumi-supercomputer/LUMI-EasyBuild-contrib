@@ -99,4 +99,11 @@ engines.
   * As PLUMED 2.8.0 is a .0 version, we decided to also offer recipes for the latest
     2.7 version at the time of developement.
 
-  
+
+### GROMACS-2023-dev-cpeGNU-22.08-MPI-GPU
+
+  * This is an EasyConfig for AMD's own HIP-port of GROMACS which is a version
+    that is not supported by the main GROMACS developers, who prefer to work with
+    SYCL for support for AMD GPUs. It is derived from the container recipes of AMD.
+
+
