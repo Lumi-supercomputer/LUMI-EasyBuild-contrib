@@ -31,8 +31,8 @@ patches = [
 ]
 
 builddependencies = [
-    ('rocm', EXTERNAL_MODULE),
     ('buildtools',   '%(toolchain_version)s',   '', True),
+    ('rocm', '5.3.3', '', SYSTEM),
 ]
 
 dependencies = [
@@ -41,7 +41,8 @@ dependencies = [
     ('cray-hdf5-parallel/1.12.1.5', EXTERNAL_MODULE),
     ('cray-parallel-netcdf', EXTERNAL_MODULE),
     ('cray-netcdf-hdf5parallel', EXTERNAL_MODULE),
-    ('Boost',      '1.79.0', ''),
+    ('Boost', '1.79.0', ''),
+    ('arpack-ng', '3.9.0', '-OpenMP'),
 ]
 
 preconfigopts = 'cd ../amber22_src && ./update_amber --update && cd build && '
@@ -76,10 +77,10 @@ local_configopts += '-D VKFFT=ON '
 local_configopts += '-D HIP_RDC=ON '
 local_configopts += '-D HIP_TOOLKIT_ROOT_DIR=$ROCM_PATH '
 local_configopts += '-D HIPCUDA_EMULATE_VERSION="10.1" '
-local_configopts += '-D FORCE_EXTERNAL_LIBS="netcdf;fftw;blas;lapack;pnetcdf" '
+local_configopts += '-D FORCE_EXTERNAL_LIBS="netcdf;fftw;blas;lapack;pnetcdf;arpack" '
 local_configopts += '-D TRUST_SYSTEM_LIBS=TRUE '
-local_configopts += '-D BLAS_LIBRARIES=$CRAY_LIBSCI_PREFIX_DIR/lib/libsci_gnu.so '
-local_configopts += '-D LAPACK_LIBRARIES=$CRAY_LIBSCI_PREFIX_DIR/lib/libsci_gnu.so '
+local_configopts += '-D BLAS_LIBRARIES=$CRAY_LIBSCI_PREFIX_DIR/lib/libsci_gnu_mp.so '
+local_configopts += '-D LAPACK_LIBRARIES=$CRAY_LIBSCI_PREFIX_DIR/lib/libsci_gnu_mp.so '
 local_configopts += '-D NetCDF_INCLUDES=$CRAY_NETCDF_HDF5PARALLEL_PREFIX/include '
 local_configopts += '-D NetCDF_INCLUDES_F90=$CRAY_NETCDF_HDF5PARALLEL_PREFIX/include '
 local_configopts += '-D NetCDF_LIBRARIES_F90=$CRAY_NETCDF_HDF5PARALLEL_PREFIX/lib/libnetcdff.so '
@@ -87,6 +88,7 @@ local_configopts += '-D NetCDF_LIBRARIES_F77=$CRAY_NETCDF_HDF5PARALLEL_PREFIX/li
 local_configopts += '-D NetCDF_LIBRARIES_C=$CRAY_NETCDF_HDF5PARALLEL_PREFIX/lib/libnetcdf.so '
 local_configopts += '-D PnetCDF_LIBRARY=$CRAY_PARALLEL_NETCDF_PREFIX/lib/libpnetcdf.so '
 local_configopts += '-D PnetCDF_INCLUDE_DIR=$CRAY_PARALLEL_NETCDF_PREFIX/include '
+local_configopts += '-D ARPACK_LIBRARY=$EBROOTARPACKMINNG/lib/libarpack.so '
 
 local_configopts_tools  = '-D BUILD_HOST_TOOLS=ON '
 local_configopts_tools += '-D CMAKE_INSTALL_PREFIX=%(installdir)s/tools '
@@ -99,11 +101,11 @@ local_configopts_amber += '-B amber '
 
 configopts = [ local_configopts + local_configopts_tools, local_configopts + local_configopts_amber ]
 
-prebuildopts = ['cd ../amber22_src/build/tools && ', 'cd ../amber22_src/build/amber && '] # ,'cd ../amber22_src/build/amber && ']
+prebuildopts = ['cd ../amber22_src/build/tools && ', 'cd ../amber22_src/build/amber && '] 
 
 buildopts = ['', 'xblas_build']
 
-preinstallopts = ['cd ../amber22_src/build/tools && ', 'cd ../amber22_src/build/amber && '] # ,'cd ../amber22_src/build/amber && ']
+preinstallopts = ['cd ../amber22_src/build/tools && ', 'cd ../amber22_src/build/amber && '] 
 
 installopts = ['-j64', '-j64']
 

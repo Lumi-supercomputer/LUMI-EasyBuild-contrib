@@ -37,19 +37,32 @@ dependencies = [
     ('cray-hdf5-parallel/1.12.1.5', EXTERNAL_MODULE),
     ('cray-parallel-netcdf', EXTERNAL_MODULE),
     ('cray-netcdf-hdf5parallel', EXTERNAL_MODULE),
-    ('Boost',      '1.79.0', ''),
+    ('Boost', '1.79.0', ''),
+    ('arpack-ng', '3.9.0', '-OpenMP'),
 ]
 
 preconfigopts = 'cd ../amber22_src && ./update_amber --update && cd build && '
 
-configopts =  '-DMPI=ON -DOPENMP=ON -DCOMPILER=CRAY -DSTATIC=ON ' 
-configopts += '-DCHECK_UPDATES=FALSE -DAPPLY_UPDATES=FALSE '
-configopts += '-DDOWNLOAD_MINICONDA=FALSE -DBUILD_PYTHON=OFF '
-configopts += '-DFORCE_EXTERNAL_LIBS="netcdf;fftw;blas;lapack;pnetcdf" -DTRUST_SYSTEM_LIBS=TRUE '
-configopts += '-DBLAS_LIBRARIES=$CRAY_LIBSCI_PREFIX_DIR/lib/libsci_gnu.so -DLAPACK_LIBRARIES=$CRAY_LIBSCI_PREFIX_DIR/lib/libsci_gnu.so ' # Cray LibSci
-configopts += '-DNetCDF_INCLUDES=$CRAY_NETCDF_HDF5PARALLEL_PREFIX/include -DNetCDF_INCLUDES_F90=$CRAY_NETCDF_HDF5PARALLEL_PREFIX/include ' # NetCDF 
-configopts += '-DNetCDF_LIBRARIES_F90=$CRAY_NETCDF_HDF5PARALLEL_PREFIX/lib/libnetcdff.so -DNetCDF_LIBRARIES_F77=$CRAY_NETCDF_HDF5PARALLEL_PREFIX/lib/libnetcdff.so -DNetCDF_LIBRARIES_C=$CRAY_NETCDF_HDF5PARALLEL_PREFIX/lib/libnetcdf.so  '
-configopts += '-DPnetCDF_LIBRARY=$CRAY_PARALLEL_NETCDF_PREFIX/lib/libpnetcdf.so -DPnetCDF_INCLUDE_DIR=$CRAY_PARALLEL_NETCDF_PREFIX/include ' # Parallel NetCDF
+configopts  = '-D COMPILER=CRAY '
+configopts += '-D MPI=ON '
+configopts += '-D OPENMP=ON '
+configopts += '-D STATIC=ON ' 
+configopts += '-D CHECK_UPDATES=FALSE '
+configopts += '-D APPLY_UPDATES=FALSE '
+configopts += '-D DOWNLOAD_MINICONDA=FALSE '
+configopts += '-D BUILD_PYTHON=OFF '
+configopts += '-D FORCE_EXTERNAL_LIBS="netcdf;fftw;blas;lapack;pnetcdf;arpack" '
+configopts += '-D TRUST_SYSTEM_LIBS=TRUE '
+configopts += '-D BLAS_LIBRARIES=$CRAY_LIBSCI_PREFIX_DIR/lib/libsci_gnu_mp.so '
+configopts += '-D LAPACK_LIBRARIES=$CRAY_LIBSCI_PREFIX_DIR/lib/libsci_gnu_mp.so '
+configopts += '-D NetCDF_INCLUDES=$CRAY_NETCDF_HDF5PARALLEL_PREFIX/include '
+configopts += '-D NetCDF_INCLUDES_F90=$CRAY_NETCDF_HDF5PARALLEL_PREFIX/include '
+configopts += '-D NetCDF_LIBRARIES_F90=$CRAY_NETCDF_HDF5PARALLEL_PREFIX/lib/libnetcdff.so '
+configopts += '-D NetCDF_LIBRARIES_F77=$CRAY_NETCDF_HDF5PARALLEL_PREFIX/lib/libnetcdff.so ' 
+configopts += '-D NetCDF_LIBRARIES_C=$CRAY_NETCDF_HDF5PARALLEL_PREFIX/lib/libnetcdf.so '
+configopts += '-D PnetCDF_LIBRARY=$CRAY_PARALLEL_NETCDF_PREFIX/lib/libpnetcdf.so '
+configopts += '-D PnetCDF_INCLUDE_DIR=$CRAY_PARALLEL_NETCDF_PREFIX/include '
+configopts += '-D ARPACK_LIBRARY=$EBROOTARPACKMINNG/lib/libarpack.so '
 
 prebuildopts = 'cd ../amber22_src/build && '
 
