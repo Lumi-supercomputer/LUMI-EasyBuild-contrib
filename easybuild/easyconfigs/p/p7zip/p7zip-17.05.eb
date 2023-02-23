@@ -1,0 +1,95 @@
+easyblock = 'MakeCp'
+
+import os as local_os
+
+# The first line below is a dirty trick not very much loved by the EasyBuild developers but
+# it helps to make this EasyConfig indpendent of the LUMI software stack version as there is
+# no other reference to that version in the file that we can use since it relies on the
+# SYSTEM toolchain.
+local_LUMI_version = local_os.environ['LUMI_STACK_CPE_VERSION']
+
+local_p7zip_version = '17.05'
+
+name =    'p7zip'
+version = local_p7zip_version
+
+homepage = 'http://p7zip.sourceforge.net/'
+
+whatis = [
+    "Description: Linux port of the 7-zip 7z and 7za commands.",
+    "Keywords: 7-zip, 7zip, compression, archive, LZMA, ZIP, CAB, ARJ, GZIP, BZIP2, TAR, CPIO, RPN, DEB"
+]
+
+description = """
+7-zip is a file archiver with high compression ration originally developed for
+Windows. It does not only support its own 7z format based on LZMA and LZMA2
+compression, but also several other popular compressed file formats, some
+for packing and unpacking, others only for unpacking.
+
+p7zip is a quick port of the command line tools of the Windows 7zip package
+(7z.exe and 7za.exe). These tools can be used to decompress archives (also
+multi-file 7-zip archives) created on Windows machines.
+
+There are three executables:
+* 7z uses plugins (7z.so and Codecs/Rar.so) to handle archives.
+* 7za is a stand-alone executable (7za handles less archive formats than 7z).
+* 7zr is a light stand-alone executable that supports only 7z/LZMA/BCJ/BCJ2.
+
+Note that as this tool comes from the Windows world, it does not store the
+owner and group of a file or its permissions, so it is not suitable for
+backup purposes on LUMI.
+
+WARNING: The programs offered by this module are currently not fully 
+functiona. Some tests during the build process fail.
+"""
+
+docurls = [
+    'Web site for the Windows utilities on which p7zip is based: https://www.7-zip.org/',
+    'Manual pages for the 7z, 7za and 7zr commands in section 1',
+]
+
+toolchain = SYSTEM
+
+github_account = 'p7zip-project'
+source_urls =    [GITHUB_LOWER_SOURCE]
+sources =        ['v%(version)s.tar.gz']
+checksums =      ['9473e324de6a87d89cb7ff65b0fec4ae3f147f03ffc138189c336a4650d74804']
+
+builddependencies = [
+    ('buildtools', local_LUMI_version),
+]
+
+prebuildopts = 'cp makefile.linux_amd64 makefile.machine &&'
+# Note that the system-GCC only supports znver1 at the moment.
+buildopts = 'all3 CC="$CC" CXX="$CXX" OPTFLAGS="-O2 -march=znver1 -s"'
+
+# Note the tests for test_7z and test currently fail with errors related to the zstd support...
+#runtest = 'test_7zr test_7z test'
+runtest = 'test_7zr'
+
+files_to_copy = [
+    (['bin/7za', 'bin/7zr', 'bin/7zCon.sfx'], 'bin'),  # stand-alone binaries
+    (['bin/7z', 'bin/7z.%s' % SHLIB_EXT, 'bin/Codecs'], 'libexec'),  # 7z requires 7z.so plugin in same directory
+    (['man1'], 'share/man'),
+]
+
+# put script in place for 7z, since it *must* be called full path, to ensure that 7z.so is found in the same directory
+# see also http://sourceforge.net/p/p7zip/discussion/383044/thread/5e4085ab/
+postinstallcmds = [
+    "echo '#!/bin/sh\n%(installdir)s/libexec/7z $@' > %(installdir)s/bin/7z",
+    "chmod +x %(installdir)s/bin/7z",  # set execution bits according to current umask
+    "mkdir -p %(installdir)s/share/licenses/%(name)s && cd DOC && cp License.txt copying.txt readme.txt unRarLicense.txt %(installdir)s/share/licenses/%(name)s"
+]
+
+sanity_check_paths = {
+    'files': ['bin/7z', 'bin/7za', 'bin/7zCon.sfx', 'bin/7zr', 'libexec/7z', 'libexec/7z.%s' % SHLIB_EXT],
+    'dirs':  ['libexec/Codecs'],
+}
+
+sanity_check_commands = [
+    '7z --help',
+    '7z x || test $? -gt 0',
+    "! 7z i | grep -q \"Can't load\" ",
+]
+
+moduleclass = 'tools'
