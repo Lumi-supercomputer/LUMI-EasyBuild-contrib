@@ -1,0 +1,42 @@
+# contributed by Johan Hellsvik (PDC)
+easyblock = 'MakeCp'
+
+name = 'UppASD'
+version = '6.0.2'
+
+homepage = 'https://github.com/UppASD/UppASD/'
+
+whatis = [
+    'Uppsala Atomistic Spin Dynamics software'
+]
+
+description = """
+The UppASD software package is a simulation suite to study magnetization dynamics
+by means of the atomistic version of the Landau-Lifshitz-Gilbert (LLG) equation.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '22.06'}
+toolchainopts = {'openmp': True, 'usempi': True}
+
+source_urls = ['https://github.com/%(name)s/%(name)s/archive/refs/tags/v%(version)s']
+sources = [SOURCELOWER_TAR_GZ]
+
+build_cmd = "make deps && make gfortran-ftn"
+
+dependencies = [
+     ('cray-libsci/22.06.1.3', EXTERNAL_MODULE),
+]
+
+files_to_copy = [
+    (['./source/sd'], './bin/'),
+    (['./ASD_GUI'], '.'),
+    (['./ASD_Tools'], '.'),
+    (['./examples'], '.'),
+]
+
+sanity_check_paths = {
+    'files': ['bin/sd','ASD_GUI/ASD_GUI/ASD_GUI.py'],
+    'dirs': ['bin','ASD_GUI','ASD_Tools','examples'],
+}
+
+moduleclass = 'phys'
