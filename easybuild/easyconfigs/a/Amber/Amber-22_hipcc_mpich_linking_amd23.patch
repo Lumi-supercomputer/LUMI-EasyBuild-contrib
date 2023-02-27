@@ -1,0 +1,12 @@
+--- amber22_src.orig/cmake/PMEMDCompilerFlags.cmake	2023-01-09 17:12:51.000000000 +0200
++++ amber22_src/cmake/PMEMDCompilerFlags.cmake	2023-01-09 17:13:17.000000000 +0200
+@@ -234,7 +234,8 @@
+ 	
+ 
+ 	if(MPI)
+-		list(APPEND PMEMD_NVCC_FLAGS -DMPICH_IGNORE_CXX_SEEK)
++		#list(APPEND PMEMD_NVCC_FLAGS -DMPICH_IGNORE_CXX_SEEK)
++                list(APPEND PMEMD_NVCC_FLAGS -DMPICH_IGNORE_CXX_SEEK -I$ENV{CRAY_MPICH_PREFIX}/include)
+ 	endif()
+ 
+ 
