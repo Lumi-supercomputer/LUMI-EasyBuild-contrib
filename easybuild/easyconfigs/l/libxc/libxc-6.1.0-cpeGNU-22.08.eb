@@ -5,13 +5,13 @@ local_bzip2_version = '1.0.8'
 
 easyblock = 'CMakeMake'
 
-name = 'libxc'
+name =    'libxc'
 version = '6.1.0'
 
 homepage = 'https://www.tddft.org/programs/libxc/'
 
 whatis = [
-    "Libxc is a library of exchange-correlation and kinetic energy functionals " 
+    "Description: Libxc is a library of exchange-correlation and kinetic energy functionals " 
     "for density-functional theory."
 ]
 
@@ -52,7 +52,7 @@ configopts = [
 
 sanity_check_paths = {
     'files': ['lib/%(name)s.so', 'lib/%(name)sf90.so', 'lib/%(name)sf03.so'],
-    'dirs': ['include'],
+    'dirs':  ['include'],
 }
 
 moduleclass = 'chem'
