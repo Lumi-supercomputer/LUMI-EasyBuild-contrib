@@ -12,10 +12,18 @@ frequency domain data. For distributed computations with MPI, slab decomposition
 in space domain and pencil decomposition in frequency domain
 (sparse data within a pencil / column must be on one rank) is used.
 
+
 ## EasyBuild
 
   * [SpFFT in the CSCS repository](https://github.com/easybuilders/CSCS/tree/master/easybuild/easyconfigs/s/SpFFT)
 
+
 ### Version 1.0.5 for CPE 21.08
 
   * The EasyConfig is derived from the CSCS one
+  
+ 
+### Version 1.0.6 for 22.08 with GPU support
+
+  * The EasyConfig is an adaptation of the 1.0.5 one but now with GPU support
+    enabled.
