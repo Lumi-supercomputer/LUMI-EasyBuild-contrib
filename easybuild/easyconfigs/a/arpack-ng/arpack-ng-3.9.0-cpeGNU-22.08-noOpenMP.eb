@@ -2,7 +2,7 @@ easyblock = 'CMakeMake'
 
 name =          'arpack-ng'
 version =       '3.9.0'
-versionsuffix = '-OpenMP'
+versionsuffix = '-noOpenMP'
 
 homepage = 'https://github.com/opencollab/arpack-ng'
 
@@ -13,13 +13,13 @@ whatis = [
 description = """
 ARPACK is a collection of Fortran77 subroutines designed to solve large scale eigenvalue problems.
 
-This module is compiled with OpenMP support and should not be combined with other packages
-that use LibSci but are compiled without OpenMP support as otherwise a conflict with multiple
+This module is compiled without OpenMP support and should not be combined with other packages
+that use LibSci but are compiled with OpenMP support as otherwise a conflict with multiple
 LibSci libraries will occur. 
 """
 
 toolchain = {'name': 'cpeGNU', 'version': '22.08'}
-toolchainopts = {'pic': True, 'usempi': True, 'openmp': True}
+toolchainopts = {'pic': True, 'usempi': True, 'openmp': False}
 
 github_account = 'opencollab'
 source_urls =    [GITHUB_SOURCE]
