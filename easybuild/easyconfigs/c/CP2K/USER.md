@@ -1,13 +1,13 @@
 # CP2K on LUMI
 
-[CP2K (https://www.cp2k.org/) is a CP2K is a quantum chemistry and solid state physics software package that can perform atomistic simulations of solid state, liquid, molecular, periodic, material, crystal, and biological systems. In
+[CP2K](https://www.cp2k.org/) is a CP2K is a quantum chemistry and solid state physics software package that can perform atomistic simulations of solid state, liquid, molecular, periodic, material, crystal, and biological systems. In
 general, it runs well on LUMI-C and several of the simulation methods such as LS-DFT and RPA calculations can utilize the GPUs on LUMI-G with some speed-up.
 
 ## Installing CP2K
 
 We provide automatic installation scripts for several versions of CP2K. In
 general, the installation procedure is described on the [EasyBuild
-page][https://docs.lumi-supercomputer.eu/software/installing/easybuild/]. For example, the step by step procedure for installing CP2K 2023.1 with GPU support is:
+page](https://docs.lumi-supercomputer.eu/software/installing/easybuild/). For example, the step by step procedure for installing CP2K 2023.1 with GPU support is:
 
 1. Load the LUMI software environment: `module load LUMI/22.08`.
 2. Select the LUMI-G partition: `module load partition/G`.
