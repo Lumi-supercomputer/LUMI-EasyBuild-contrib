@@ -1,0 +1,74 @@
+easyblock = 'EB_Java'
+
+name =        'Java'
+version =     '17.0.6'
+local_build = '10'
+
+homepage = 'http://openjdk.java.net'
+
+whatis = [
+    'Description: Java Platform, Standard Edition (Java SE) lets you develop and deploy Java applications on desktops and servers'    
+]
+
+description = """
+Java Platform, Standard Edition (Java SE) lets you develop and deploy
+Java applications on desktops and servers.
+"""
+
+docurls = [
+    'Man pages in section 1 (after loading the module)',    
+]
+
+toolchain = SYSTEM
+
+local_tarball_tmpl = 'OpenJDK%%(version_major)sU-jdk_%s_linux_hotspot_%%(version)s_%s.tar.gz'
+
+# Using the Adoptium Eclipse Temurin builds, recommended by https://whichjdk.com/#distributions
+
+source_urls = ['https://github.com/adoptium/temurin%%(version_major)s-binaries/releases/download/jdk-%%(version)s+%s/'
+               % local_build]
+sources = [local_tarball_tmpl % ('%(jdkarch)s', local_build)]
+
+checksums = [
+    {
+        local_tarball_tmpl % ('x64', local_build):
+            'a0b1b9dd809d51a438f5fa08918f9aca7b2135721097f0858cf29f77a35d4289',
+        local_tarball_tmpl % ('aarch64', local_build):
+            '9e0e88bbd9fa662567d0c1e22d469268c68ac078e9e5fe5a7244f56fec71f55f',
+        local_tarball_tmpl % ('ppc64le', local_build):
+            'cb772c3fdf3f9fed56f23a37472acf2b80de20a7113fe09933891c6ef0ecde95',
+    }
+]
+
+sanity_check_commands = [
+    'jar --version',
+    'jarsigner --help',
+    'java --version',
+    'javac --version',
+    'javadoc --version',
+    'javap --help',
+    'jcmd --help',
+    # Cannot test for jconsole, likely because it may need some graphics library?
+    'jdb --help',
+    'jdeprscan --help', # Does also have a --version but that returns exit code 1.
+    'jdeps --version',
+    'jfr --version',
+    'jhsdb --help',
+    'jimage --version',
+    'jinfo --help',
+    'jlink --version',
+    'jmap --help',
+    'jmod --version',
+    'jpackage --version',
+    'jps --help',
+    'jrunscript --help',
+    'jshell --version',
+    'jstack --help',
+    'jstat --help',
+    'jstatd --help',
+    'keytool --help',
+    # No easy test for rmiregistry, or we'd have to check the error output to see if the application has loaded properly.
+    # No easy test for serialver, or we'd have to check the error output to see if the application has loaded properly.
+]
+
+moduleclass = 'lang'
