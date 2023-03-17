@@ -2,7 +2,7 @@
 
   * [UppASD home page](https://github.com/UppASD/UppASD)
   
-  * [UppASD dcouemntation](https://uppasd.github.io/UppASD-manual/)
+  * [UppASD documentation](https://uppasd.github.io/UppASD-manual/)
 
 
 ## EasyBuild
