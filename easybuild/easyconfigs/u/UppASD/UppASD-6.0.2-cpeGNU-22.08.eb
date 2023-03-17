@@ -1,0 +1,62 @@
+# contributed by Johan Hellsvik (PDC)
+easyblock = 'MakeCp'
+
+name =    'UppASD'
+version = '6.0.2'
+
+homepage = 'https://github.com/UppASD/UppASD/'
+
+whatis = [
+    'Description: Uppsala Atomistic Spin Dynamics software'
+]
+
+description = """
+The UppASD software package is a simulation suite to study magnetization dynamics
+by means of the atomistic version of the Landau-Lifshitz-Gilbert (LLG) equation.
+
+Note that not all features are fully installed or operational on LUMI. In particular,
+the Python files needed to install the GUI are provided in $EBROOTUPPASD but
+the GUI is not installed at the moment, and not all Python scripts in
+$EBROOTUPPASD can work on LUMI.
+"""
+
+docurls = [
+    'Web-based documentation at https://uppasd.github.io/UppASD-manual/',
+]
+
+toolchain = {'name': 'cpeGNU', 'version': '22.08'}
+toolchainopts = {'openmp': True, 'usempi': True}
+
+source_urls = ['https://github.com/%(name)s/%(name)s/archive/refs/tags/v%(version)s']
+sources =     [SOURCELOWER_TAR_GZ]
+
+build_cmd = "make deps && make gfortran-ftn"
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+# cray-libsci/22.08.1.1 is loaded by the toolchain so is not explicitly needed as a dependency.
+# dependencies = [
+#      ('cray-libsci/22.08.1.1', EXTERNAL_MODULE),
+# ]
+
+files_to_copy = [
+    (['./source/sd'], './bin/'),
+    (['./ASD_GUI'],   '.'),
+    (['./ASD_Tools'], '.'),
+    (['./examples'],  '.'),
+]
+
+postinstallcmds = [
+    'cd %(installdir)s/ASD_Tools && chmod a-x interactiveASD.py', # Disable this Python script as it needs matplotlib which is currently not included as a dependency
+    'cd %(installdir)s/ASD_Tools && chmod a-x blsviz.py',        # Wrong shebang, and not clear what it really needs.
+    'mkdir -p %(installdir)s/share/licenses/UppASD && cp LICENSE %(installdir)s/share/licenses/UppASD',
+]
+
+sanity_check_paths = {
+    'files': ['bin/sd','ASD_GUI/ASD_GUI/ASD_GUI.py'],
+    'dirs':  ['bin','ASD_GUI','ASD_Tools','examples'],
+}
+
+moduleclass = 'phys'
