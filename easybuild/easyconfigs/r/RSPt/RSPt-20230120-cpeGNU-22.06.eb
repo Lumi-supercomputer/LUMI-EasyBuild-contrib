@@ -24,7 +24,7 @@ toolchainopts = {'usempi': True}
 maxparallel=1
 
 # Request access to RSPt source code by contacting the developers.
-sources =['/pdc/software/eb_repo/sources/r/%(namelower)s-%(version)s.zip']
+sources =['%(namelower)s-%(version)s.zip']
 
 # Creating the RSPTmake.inc file
 prebuildopts = 'echo "FCOMPILER = ftn" > RSPTmake.inc && '
