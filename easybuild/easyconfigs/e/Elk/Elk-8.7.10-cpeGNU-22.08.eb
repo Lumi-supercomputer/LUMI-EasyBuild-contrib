@@ -14,7 +14,7 @@ description = """
 The Elk all-electron full-potential linearised augmented-plane wave (LAPW) code with many advanced features.
 """
 
-toolchain = {'name': 'cpeGNU', 'version': '22.06'}
+toolchain = {'name': 'cpeGNU', 'version': '22.08'}
 toolchainopts = {'openmp': True, 'usempi': True}
 
 maxparallel=1
@@ -44,8 +44,8 @@ prebuildopts += 'cp $EBROOTWANNIER90//lib/libwannier.a src/ && '
 dependencies = [
      ('cray-libsci/21.08.1.2', EXTERNAL_MODULE),
      ('cray-fftw/3.3.10.1', EXTERNAL_MODULE),
-     ('libxc', '6.0.0'),
-     ('wannier90', '3.1.0'),
+     ('libxc', '6.1.0'),
+     ('Wannier90', '3.1.0'),
 ]
 
 files_to_copy = [
