@@ -15,7 +15,7 @@ package.
 
 ## EasyBuild
 
-  * [libdap support in the EasyBuilders repository]()
+  * [libdap support in the EasyBuilders repository](https://github.com/easybuilders/easybuild-easyconfigs/tree/develop/easybuild/easyconfigs/l/libdap)
 
   * There is no libdap support in the CSCS repository
 
@@ -33,3 +33,8 @@ package.
 ### Version 3.20.10 for CPE 22.06, 22.08
 
   * Trivial port of the 3.20.9 EasyConfig file.
+
+### Version 3.20.11 for CPE 22.12, 23.03
+
+  * Trivial version bump of the 3.20.10 EasyConfig.
+
