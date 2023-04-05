@@ -64,3 +64,9 @@
   * Compilation in cpeAOCC fails with link errors about a Fortran routine that is not
     found.
 
+### Version 2.1.1 for CPE 22.12 and later
+
+  * Straightforward port of the 2.0.5 EasyConfig.
+
+  * Added a copy of the LICENSE file to the installation directories.
+
