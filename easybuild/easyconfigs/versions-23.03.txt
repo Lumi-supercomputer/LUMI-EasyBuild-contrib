@@ -1,0 +1,8 @@
+# Versions of some packages in LUMI-EasyBuild-contrib.
+
+local_CDO_version =          '2.1.1'         # https://code.mpimet.mpg.de/projects/cdo/files
+local_CMOR_version =         '3.7.2'         # https://github.com/PCMDI/cmor/releases
+
+local_ecCodes_version =      '2.30.0'        # https://confluence.ecmwf.int/display/ECC/Releases
+
+local_jsonc_version =        '0.16'          # https://github.com/json-c/json-c/tags
