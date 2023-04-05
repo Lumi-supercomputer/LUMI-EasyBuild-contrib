@@ -42,6 +42,16 @@
     
   * Build without Python support as that is for Python2. Python3 support supposedly
     comes via the eccodes PyPi package but was not tested.
-    
+
+
+### Version 2.30.0 for CPE 22.12 and 23.03
+
+  * Trivial port from 2.26.0, with all remarks still valid.
+
+
+
 TODO: ecCodes comes with samples. Can we figure out how to use them and build some quick
 sanity checks with them?
+
+
+
