@@ -36,7 +36,15 @@
     on the system that assume that UDUNITS-2 is installed in the system directories.
 
 
-### Version 5.1.0 for CPE 22.06
+### Version 5.1.0 for CPE 22.06 and 22.08
 
-  * This is a grivial port of the 5.0.6 one.
+  * This is a trivial port of the 5.0.6 one.
+
+
+### Version 5.1.5 for CPE 22.121 and 23.03
+
+  * This is a trivial port of the 5.1.5 one.
   
+  * Added license and citation information files to the installation.
+
+

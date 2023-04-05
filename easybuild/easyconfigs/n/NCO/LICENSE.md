@@ -9,3 +9,6 @@ Further copyright information can be found in the
 
 Suggested citations for users of NCO can be found in the
 [CITATION file in the source repository](https://github.com/nco/nco/blob/master/CITATION).
+
+From version 5.1.5 on, these files can also be found after installation and loading of the module
+in the directory `$EBROOTNCO/share/licenses/NCO`.
