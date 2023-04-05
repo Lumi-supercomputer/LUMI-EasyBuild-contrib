@@ -7,7 +7,7 @@
 
 ## EasyBuild
 
-  * [json-c support in the EasyBuilders repository]()
+  * [json-c support in the EasyBuilders repository](https://github.com/easybuilders/easybuild-easyconfigs/tree/develop/easybuild/easyconfigs/j/json-c)
 
   * No support for json-c in the CSCS repository
 
@@ -22,7 +22,7 @@
     majority of packages installed on the system.
 
     
-### Version 0.16 for CPE 21.12, 22.06, 22.08
+### Version 0.16 for CPE 21.12, 22.06, 22.08, 22.12, 23.03
     
   * Trivial version bump.
 
