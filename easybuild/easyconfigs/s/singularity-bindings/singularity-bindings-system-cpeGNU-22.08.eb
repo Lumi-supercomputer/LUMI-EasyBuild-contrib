@@ -1,7 +1,7 @@
 easyblock = 'Bundle'
 
-local_craympich_version = '8.1.18'
-local_libfabric_version = '1.15.0.0'
+local_craympich_version = '8.1.25'
+local_libfabric_version = '1.15.2.0'
 
 name = 'singularity-bindings'
 version = 'system'
@@ -60,8 +60,8 @@ modextravars = {
                                        '/usr/lib64:'
                                        '/opt/cray/pe/gcc-libs'),
     'SINGULARITY_BIND': ('/opt/cray,'
-                         '/usr/lib64/libibverbs.so.1,'
-                         '/usr/lib64/librdmacm.so.1,'
+                         '/usr/lib64/libbrotlidec.so.1,'
+                         '/usr/lib64/libbrotlicommon.so.1,'
                          '/usr/lib64/libnl-3.so.200,'
                          '/usr/lib64/libnl-route-3.so.200,'
                          '/usr/lib64/libcxi.so.1,'
@@ -82,9 +82,9 @@ modextravars = {
                          '/usr/lib64/libkrb5support.so.0,'
                          '/usr/lib64/libsasl2.so.3,'
                          '/usr/lib64/libkeyutils.so.1,'
-                         '/usr/lib64/libpals.so.0,'
                          '/var/spool/slurmd/mpi_cray_shasta,'
-                         '/usr/lib64/libibverbs/libmlx5-rdmav25.so,'
-                         '/etc/libibverbs.d,'
+                         '/usr/lib64/libzstd.so.1,'
+                         '/lib64/libselinux.so.1,'
+                         '/usr/lib64/libpcre.so.1,'
                          f'{_glibc_stack}')
 }
