@@ -103,4 +103,18 @@ version of GSL that is linked into PLUMED. It looks like a problem in the PLUMED
 process itself causes it to link to multiple libsci libraries if `--enable-external-blas`
 and `--enable-external-lapack` are used.
 
+### 2.7.4 and 2.8.0 for CPE 22.08 (after update of April 2023)
+
+  * There was a problem with the EasyConfig of PLUMED as there was an interaction between
+    the PYTHONPATH set by EasyBuild and adjusted by cray-python, causing the build process
+    to fail in the installation process
+    
+    Two solutions have been implemented:
+    
+      * `-cray-python-3.9.12.1`-versions: Load Python in a different way so that we 
+        can first unset the PYTHONPATH.
+        
+      * `-noPython`: Simply disables Python; build PLUMED without Python support.
+
+
 
