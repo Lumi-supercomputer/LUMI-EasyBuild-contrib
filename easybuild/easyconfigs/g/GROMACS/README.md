@@ -94,10 +94,15 @@ engines.
   * 2020 versions did not work with the GNU compiler in LUMI/21.12
   
 
-### Version 2021.4 with PLUMED 2.7.4 and 2.8.0 for CPE 21.12
+### Version 2021.4 with PLUMED 2.7.4 and 2.8.0 for CPE 21.12 and later
 
   * As PLUMED 2.8.0 is a .0 version, we decided to also offer recipes for the latest
     2.7 version at the time of developement.
+    
+  * **After the March/April 2023 system update building PLUMED broke so those easyconfigs
+    were replaced with two versions, one without Python support and one with a different way
+    of enabling support for the `cray-python` modules. Therefore the corresponding 
+    EasyConfigs of GROMACS have also been replaced.**
 
 
 ### GROMACS-2023-dev-cpeGNU-22.08-MPI-GPU

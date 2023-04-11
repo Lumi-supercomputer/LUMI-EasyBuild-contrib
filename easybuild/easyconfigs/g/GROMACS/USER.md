@@ -15,3 +15,16 @@ SYCL port.
 Check the technical documentation of the EasyConfigs to find out on which branch of GROMACS
 the recipes are based. That documentation is more towards the bottom of the page.
 
+
+## A note about the CPU versions with PLUMED after the March/April 2023 update
+
+After the March/April 2023 system update building PLUMED broke so those easyconfigs
+were replaced with two versions, one without Python support and one with a different way
+of enabling support for the `cray-python` modules. Therefore the corresponding 
+EasyConfigs of GROMACS have also been replaced.
+
+It is done this way because it is also unclear if the Python support is needed when
+used with GROMACS. Both versions with and without Python support for PLUMED bild.
+
+
+See also the [page on PLUMED](../../p/PLUMED/).
