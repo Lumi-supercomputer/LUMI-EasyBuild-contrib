@@ -39,7 +39,7 @@ dependencies = [
 
 preconfigopts = ' ./autogen.sh && '
 configopts = (
-    ' --with-libfabric=/opt/cray/libfabric/1.15.0.0 '
+    ' --with-libfabric=/opt/cray/libfabric/$(pkg-config --modversion libfabric) '
     ' --with-hip=$EBROOTROCM/hip '
     ' --with-rccl=$EBROOTRCCL '
 )
