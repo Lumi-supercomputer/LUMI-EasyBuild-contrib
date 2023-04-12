@@ -8,3 +8,26 @@ Note that according to the [LUMI Conditions of Use](https://www.lumi-supercomput
 it is the User's responsibility to respect the software license terms. The EasyConfigs provided in the
 [LUMI-EasyBuild-contrib repository](https://github.com/Lumi-supercomputer/LUMI-EasyBuild-contrib/tree/main/easybuild/easyconfigs/n/NAMD) 
 do not imply that you have the right to use the software on LUMI.
+
+The NAMD licensse aggreement also explictly requires that the use of NAMD is acknoledged
+in any publication or report using the citation:
+
+> NAMD was developed by the Theoretical Biophysics Group in the Beckman  
+  Institute for Advanced Science and Technology at the University of  
+  Illinois at Urbana-Champaign.
+ 
+All published work should also include the following reference:
+ 
+> James C. Phillips, David J. Hardy, Julio D. C. Maia, John E. Stone,
+  Joao V. Ribeiro, Rafael C. Bernardi, Ronak Buch, Giacomo Fiorin,
+  Jerome Henin, Wei Jiang, Ryan McGreevy, Marcelo C. R. Melo,
+  Brian K. Radak, Robert D. Skeel, Abhishek Singharoy, Yi Wang, Benoit Roux,
+  Aleksei Aksimentiev, Zaida Luthey-Schulten, Laxmikant V. Kale,
+  Klaus Schulten, Christophe Chipot, and Emad Tajkhorshid.
+  Scalable molecular dynamics on CPU and GPU architectures with NAMD.
+  Journal of Chemical Physics, 153:044130, 2020. doi:10.1063/5.0014475"
+
+Electronic documents will include a direct link to the official NAMD page  
+at http://www.ks.uiuc.edu/Research/namd/
+ 
+(The above text copied from the NAMD 2.14 license and may evolve over time!)
