@@ -16,7 +16,7 @@ Check the technical documentation of the EasyConfigs to find out on which branch
 the recipes are based. That documentation is more towards the bottom of the page.
 
 
-## A note about the CPU versions with PLUMED after the March/April 2023 update
+## A note about the CPU versions with PLUMED after the March/April 2023 system maintenance/update
 
 After the March/April 2023 system update building PLUMED broke so those easyconfigs
 were replaced with two versions, one without Python support and one with a different way

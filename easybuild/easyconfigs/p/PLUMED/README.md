@@ -114,6 +114,9 @@ and `--enable-external-lapack` are used.
       * `-cray-python-3.9.12.1`-versions: Load Python in a different way so that we 
         can first unset the PYTHONPATH.
         
+        These EasyConfigs need further investigation and are a temporary workaround as we
+        suspect they may still be picking up unintended Python binaries or packages.
+        
       * `-noPython`: Simply disables Python; build PLUMED without Python support.
 
 
