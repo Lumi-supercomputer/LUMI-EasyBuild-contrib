@@ -35,7 +35,7 @@ builddependencies = [
 ]
 
 dependencies = [
-    ('rocm/5.0.2', EXTERNAL_MODULE)
+    ('rocm', EXTERNAL_MODULE)
 ]
 
 configopts = ' -DCMAKE_CXX_COMPILER=hipcc '
