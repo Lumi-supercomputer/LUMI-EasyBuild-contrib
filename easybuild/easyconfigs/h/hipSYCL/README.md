@@ -13,6 +13,10 @@
 
 -   No support in the CSCS repository at the time of writing.
 
+### Version 0.9.4 for cpeGNU/22.08
+
+-   Version bump of hipSYCL/OpenSYCL based on the previous configuration 0.9.3, it also uses the LUMI custom rocm/5.3.3 module. 
+
 ### Version 0.9.3 for cpeGNU/22.08
 
 -   This EasyConfig is contributed by Jørgen Nordmoen, USIT, University of Oslo.
