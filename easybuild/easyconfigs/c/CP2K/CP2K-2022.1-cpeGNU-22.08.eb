@@ -37,7 +37,7 @@ dependencies = [
     ('libvori', '220621'),
     ('libxc', '5.2.2'),
     ('libxsmm', '1.17'),
-    ('PLUMED', '2.8.0'),
+    ('PLUMED', '2.8.0','-noPython'),
     ('spglib', '1.16.3')
 ]
 
