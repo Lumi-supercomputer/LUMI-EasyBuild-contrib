@@ -1,0 +1,58 @@
+# contributed by Luca Marsella (CSCS)
+# adapated for LUMI by Peter Larsson
+
+local_bzip2_version = '1.0.8'
+
+easyblock = 'CMakeMake'
+
+name =    'libxc'
+version = '6.1.0'
+versionsuffix = '-nofhc'
+homepage = 'https://www.tddft.org/programs/libxc/'
+
+whatis = [
+    "Description: Libxc is a library of exchange-correlation and kinetic energy functionals " 
+    "for density-functional theory."
+]
+
+description = """
+Libxc is a library of exchange-correlation and kinetic energy functionals for 
+density-functional theory. The original aim was to provide a portable, well 
+tested and reliable set of LDA, GGA, and meta-GGA functionals.
+
+Libxc is written in C, but it also comes with Fortran binding. 
+
+It is released under the MPL license (v. 2.0). In all publications resulting 
+from your use of Libxc, please cite:
+
+[ref] Susi Lehtola, Conrad Steigemann, Micael J. T. Oliveira, and Miguel A. L. Marques, 
+      "Recent developments in Libxc - A comprehensive  library of functionals for 
+      density functional theory", Software X 7, 1 (2018)
+"""
+
+docurls = [
+    'Manual: https://www.tddft.org/programs/libxc/manual/',
+    'Available functionals: https://www.tddft.org/programs/libxc/functionals/'
+]
+
+toolchain = {'name': 'cpeGNU', 'version': '22.12'}
+toolchainopts = {'opt': True}
+
+source_urls = ['https://gitlab.com/%(name)s/%(name)s/-/archive/%(version)s']
+sources = [SOURCE_TAR_BZ2]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True), # For CMake
+    ('bzip2',      local_bzip2_version),
+]
+
+configopts = [
+    " -DENABLE_FORTRAN=ON -DCMAKE_INSTALL_LIBDIR=lib  -DBUILD_SHARED_LIBS=ON -DDISABLE_FHC=ON ",
+]
+
+sanity_check_paths = {
+    'files': ['lib/%(name)s.so', 'lib/%(name)sf90.so', 'lib/%(name)sf03.so'],
+    'dirs':  ['include'],
+}
+
+moduleclass = 'chem'
