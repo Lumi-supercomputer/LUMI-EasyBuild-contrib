@@ -25,27 +25,27 @@ page][EasyBuild]. The step by step procedure to install VASP
 
 1. Download the VASP source code "vasp.6.3.2.tgz" from the [VASP portal][vasp].
 2. Upload the file somewhere to your home directory on LUMI.
-3. Load the LUMI software environment: `module load LUMI/22.08`.
+3. Load the LUMI software environment: `module load LUMI/22.12`.
 4. Select the LUMI-C partition: `module load partition/C`.
 5. Load the EasyBuild module: `module load EasyBuild-user`.
 
 Then, you can run the install command:
 
 ```bash
-$ eb --sourcepath=<directory-where-the-VASP-source-is-stored> VASP-6.3.2-cpeGNU-22.08.eb -r
+$ eb --sourcepath=<directory-where-the-VASP-source-is-stored> VASP-6.3.2-cpeGNU-22.12.eb -r
 ```
 
 The installation process is quite slow. It will take about 20 minutes, but
-afterwards, you will have a module called "VASP/6.3.2-cpeGNU-22.08" installed
+afterwards, you will have a module called "VASP/6.3.2-cpeGNU-22.12" installed
 in your home directory. Load the module to use it
 
 ```bash
-$ module load VASP/6.3.2-cpeGNU-22.08
+$ module load VASP/6.3.2-cpeGNU-22.12
 ```
 
 The usual VASP binaries, `vasp_std`, `vasp_gam` etc. will now be in your
 `PATH`. Launch VASP via the [Slurm scheduler][slurm-quickstart], e.g. `srun
-vasp_std`. Please note that you must do `module load LUMI/22.08 partition/C` to
+vasp_std`. Please note that you must do `module load LUMI/22.12 partition/C` to
 see the VASP module in the module system. The same applies to the Slurm batch
 scripts which you send to the compute nodes.
 
@@ -62,7 +62,8 @@ or by checking the
 repository on GitHub directly.
 
 We build the VASP executables with bindings to several external libraries
-activated: currently HDF5, Wannier90, DFTD4, and Libxc.
+activated: currently HDF5, Wannier90, DFTD4, and Libxc. There are also some patches
+made to the reading of input files to less the load on the parallel file system.
 
 ## Example batch scripts
 
@@ -82,8 +83,8 @@ A typical VASP [batch job][batch-job] using 4 compute nodes and MPI only:
 
 export OMP_NUM_THREADS=1
 
-module load LUMI/22.08 partition/C
-module load VASP/6.3.2-cpeGNU-22.08
+module load LUMI/22.12 partition/C
+module load VASP/6.3.2-cpeGNU-22.12
 srun vasp_std
 ```
 
@@ -106,8 +107,8 @@ export OMP_PLACES=cores
 export OMP_PROC_BIND=close
 export OMP_STACKSIZE=512m
 
-module load LUMI/22.08 partition/C
-module load VASP/6.3.2-cpeGNU-22.08
+module load LUMI/22.12 partition/C
+module load VASP/6.3.2-cpeGNU-22.12
 srun vasp_std
 ```
 
