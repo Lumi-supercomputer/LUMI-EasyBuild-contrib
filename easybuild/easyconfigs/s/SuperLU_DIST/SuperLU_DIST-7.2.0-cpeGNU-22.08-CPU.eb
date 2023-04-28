@@ -2,6 +2,7 @@ easyblock = "CMakeMake"
 
 name = 'SuperLU_DIST'
 version = '7.2.0'
+versionsuffix = '-CPU'
 
 homepage = 'https://crd-legacy.lbl.gov/~xiaoye/SuperLU/'
 description = """SuperLU is a general purpose library for the direct solution of large, sparse, nonsymmetric systems
