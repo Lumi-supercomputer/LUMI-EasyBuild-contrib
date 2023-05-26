@@ -1,0 +1,124 @@
+easyblock = 'Bundle'
+
+local_libcircle_version  = '0.3.0'
+local_lwgrp_version      = '1.0.4'
+local_dtcmp_version      = '1.1.4'
+local_libarchive_version = '3.6.1'
+local_attr_version       = '2.5.1'
+
+local_dtcmp_checksum        = 'dd83d8cecd68e13b78b68e88675cc5847cde06742b7740e140b98f4a08127dd3'
+local_libcircle_checksum    = '5ce38eb5b3c2b394bca1316310758f276c893dd3f4c15d7bc14ea05d3110ce58'
+local_lwgrp_checksum        = '0c933df7658660a0225f8e3a940eb2621efa4421397859417c8d90d906d4e90a'
+local_attr_checksum         = 'bae1c6949b258a0d68001367ce0c741cebdacdd3b62965d17e5eb23cd78adaf8'
+local_mpiFileUtils_checksum = 'cca1e43e16584a95945cf3c0871209c9e6a1ede128032d62141df14cbd08fca2'  
+
+# used for description and sanity check
+local_utilities = {
+    'dbcast'  :  'Broadcast a file to each compute node.',
+    'dbz2'    :  'Compress and decompress a file with bz2.',
+    'dchmod'  :  'Change owner, group, and permissions on files.',
+    'dcmp'    :  'Compare contents between directories or files.',
+    'dcp'     :  'Copy files.',
+    'ddup'    :  'Find duplicate files.',
+    'dfind'   :  'Filter files.',
+    'dreln'   :  'Update symlinks to point to a new path.',
+    'drm'     :  'Remove files.',
+    'dstripe' :  'Restripe files (Lustre).',
+    'dsync'   :  'Synchronize source and destination directories or files.',
+    'dtar'    :  'Create and extract tape archive files.',
+    'dwalk'   :  'List, sort, and profile files.',
+}
+        
+name = 'mpiFileUtils'
+version = '0.11.1'
+
+homepage = 'https://hpc.github.io/mpifileutils/'
+whatis = ['Description: mpiFileUtils is an MPI-based tools to perform basic tasks on large datasets']
+
+description = """
+
+ High-performance computing users generate large datasets using parallel
+ applications that can run with thousands of processes. However, users are often
+ stuck managing those datasets using traditional single-process tools like cp and
+ rm. This mismatch in scale makes it impractical for users to work with their
+ data.
+
+ The mpiFileUtils suite solves this problem by offering MPI-based tools for basic
+ tasks like copy, remove, and compare for such datasets, delivering orders of
+ magnitude in performance speedup over their single-process counterparts.
+ Furthermore, the libmfu library packages common functionality to simplify the
+ creation of new tools, and it can even be invoked directly from within HPC
+ applications.
+
+ The following utilities are included:
+
+%s
+""" % '\n'.join(['  - ' + local_util + ': ' + local_desc for local_util, local_desc in local_utilities.items()])
+
+docurls = ['https://mpifileutils.readthedocs.io/en/v%(version)s/']
+software_license_urls = ['https://github.com/hpc/mpifileutils/blob/main/LICENSE']
+
+toolchain = {'name': 'cpeAMD', 'version': '22.08'}
+toolchainopts = {'pic': True}
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+    ('libarchive', local_libarchive_version),
+]
+
+default_easyblock = 'ConfigureMake'
+
+# The guy that designed the MPI config part should be hanged in the public square
+local_craympi_preconfigopts  = 'sed -i \'s/lx_mpi_compile_line=.*/lx_mpi_compile_line=`which $CC`/\' configure && '
+local_craympi_preconfigopts += 'sed -i \'s/lx_mpi_link_line=.*/lx_mpi_link_line=`which $CC`/\' configure && '
+
+components = [
+    ('attr', local_attr_version, {
+        'source_urls' : [GNU_SAVANNAH_SOURCE],
+        'sources'     : [SOURCE_TAR_GZ],
+        'checksums'   : [local_attr_checksum],
+        # I observed possible bad interference with the system libattr
+        # favour static linking to avoid problem in certain situations
+        'configopts'  : '--disable-shared',
+        'start_dir'   : '%(name)s-%(version)s',
+    }),
+    ('libcircle', local_libcircle_version, {
+        'source_urls'   : ['https://github.com/hpc/%(name)s/releases/download/v0.3'],
+        'sources'       : ['%(name)s-%(version)s.tar.gz'],
+        'checksums'     : [local_libcircle_checksum],
+        'preconfigopts' : local_craympi_preconfigopts,
+        'start_dir'     : '%(name)s-%(version)s',
+    }),
+    ('lwgrp', local_lwgrp_version, {
+        'source_urls' : ['https://github.com/llnl/%(name)s/releases/download/v%(version)s'],
+        'sources'     : ['%(name)s-%(version)s.tar.gz'],
+        'checksums'   : [local_lwgrp_checksum],
+        'start_dir'   : '%(name)s-%(version)s',
+    }),
+    ('dtcmp', local_dtcmp_version, {
+        'source_urls'   : ['https://github.com/llnl/%(name)s/releases/download/v%(version)s'],
+        'sources'       : ['%(name)s-%(version)s.tar.gz'],
+        'checksums'     : [local_dtcmp_checksum],
+        'preconfigopts' : local_craympi_preconfigopts,
+        'configopts'    : '--with-lwgrp=%(installdir)s',
+        'start_dir'     : '%(name)s-%(version)s',
+    }),
+    (name, version, {
+        'easyblock'     : 'CMakeMake',
+        'source_urls'   : ['https://github.com/hpc/%(namelower)s/releases/download/v%(version)s/'],
+        'sources'       : ['%(namelower)s-v0.11.1.tgz'],
+        'checksums'     : [local_mpiFileUtils_checksum],
+        'configopts'    : '-DENABLE_LUSTRE=ON',
+        'start_dir'     : '%(namelower)s-v%(version)s',
+    }),
+]
+
+sanity_check_paths = {
+    'files': ['bin/%s' % local_util for local_util in local_utilities.keys()],
+    'dirs' : [],
+}
+
+moduleclass = 'tools'
