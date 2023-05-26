@@ -16,3 +16,7 @@
 ### Version 0.37.1 for CPE 22.08
 
 Created from scratch for LUMI.
+
+### Version 0.38.4 for CPE 22.12
+
+Created from scratch for LUMI.

@@ -1,0 +1,46 @@
+# Created for LUMI by Orian Louant
+
+easyblock = 'PythonPackage'
+
+local_craypython_version =  '3.9.13.1'
+local_craypython_maj_min = '.'.join( local_craypython_version.split('.')[:2] )
+
+name = 'wheel'
+version = '0.38.4'
+versionsuffix = '-cray-python%s' % local_craypython_maj_min
+
+homepage = 'https://pypi.python.org/pypi/wheel'
+
+whatis = ['Description: a package to build and manipulate Python wheels']
+
+description = """
+ The wheel library is the reference implementation of the Python wheel packaging
+ standard, as defined in PEP 427.
+
+ It has two different roles:
+
+  - a setuptools extension for building wheels that provides the bdist_wheel
+    setuptools command
+  - a command line tool for working with wheel files
+"""
+
+docurls = ['https://wheel.readthedocs.io/en/stable/']
+software_license_urls = ['https://github.com/pypa/wheel/blob/main/LICENSE.txt']
+
+toolchain = {'name': 'cpeAMD', 'version': '22.12'}
+
+sources = [SOURCE_TAR_GZ]
+checksums = ['965f5259b566725405b05e7cf774052044b1ed30119b5d586b2703aafe8719ac']
+
+use_pip = True
+
+dependencies = [
+    ('cray-python/%s' % local_craypython_version, EXTERNAL_MODULE)
+]
+
+sanity_check_paths = {
+    'files': ['bin/wheel'],
+    'dirs': ['lib/python%s/site-packages' % local_craypython_maj_min],
+}
+
+moduleclass = 'tools'
