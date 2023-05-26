@@ -20,3 +20,7 @@ Created from scratch for LUMI.
 ### Version 0.38.4 for CPE 22.12
 
 Created from scratch for LUMI.
+
+### Version 0.38.4 for cpeCray 23.03
+
+Created from scratch for LUMI.
