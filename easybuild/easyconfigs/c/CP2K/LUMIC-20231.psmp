@@ -1,0 +1,60 @@
+include $(EBROOTPLUMED)/lib/plumed/src/lib/Plumed.inc
+
+CC          = cc
+CXX         = CC
+AR          = ar -r
+FC          = ftn
+LD          = ftn
+#
+DFLAGS      = -D__LIBXSMM  -D__SCALAPACK -D__parallel -D__FFTW3  -D__LIBINT -D__LIBXC -D__COSMA -D__ELPA  -D__GSL -D__HDF5 -D__SPGLIB -D__LIBVORI -D__PLUMED2
+#
+WFLAGS      = -Werror=aliasing -Werror=ampersand -Werror=c-binding-type -Werror=intrinsic-shadow -Werror=intrinsics-std -Werror=line-truncation -Werror=tabs -Werror=target-lifetime -Werror=underflow -Werror=unused-but-set-variable -Werror=unused-variable -Werror=unused-dummy-argument -Werror=conversion -Werror=zerotrip -Wno-maybe-uninitialized -Wuninitialized -Wuse-without-only 
+#
+FCDEBFLAGS  = -fbacktrace -ffree-form -fimplicit-none -std=f2008 
+
+CFLAGS = -fno-omit-frame-pointer -fopenmp -g -mtune=native -O3 -funroll-loops -std=c11 -Wall -Wextra -Werror -Wno-vla-parameter -Wno-deprecated-declarations  $(DFLAGS)
+CLFAGS += -I($ROCM_PATH)/include
+CFLAGS += -I$(FFTW_INC)
+CFLAGS += -I$(EBROOTLIBINTMINCP2K)/include -I$(EBROOTLIBINTMINCP2K)/include/libint2
+CFLAGS += -I$(EBROOTLIBXC)/include
+CFLAGS += -I$(EBROOTLIBXSMM)/include
+CFLAGS += -I$(EBROOTCOSMA)/include
+CFLAGS += -I$(ELPA_OPENMP_INCLUDE_DIR)/elpa -I$(ELPA_OPENMP_INCLUDE_DIR)/modules 
+CFLAGS += -I$(EBROOTGSL)/include
+# HDF5?
+CFLAGS += -I$(EBROOTSPGLIB)/include
+#CFLAGS += -I$(EBROOTSPFFT)/include
+#CFLAGS += -I$(EBROOTSPLA)/include
+
+FCFLAGS     = -fno-omit-frame-pointer -fopenmp -g -mtune=native  -O3 -funroll-loops -fallow-argument-mismatch  $(FCDEBFLAGS) $(WFLAGS) $(DFLAGS)
+FCFLAGS += -I$(ROCM_PATH)/include
+FCFLAGS += -I$(FFTW_INC)
+FCFLAGS += -I$(EBROOTLIBINTMINCP2K)/include -I$(EBROOTLIBINTMINCP2K)/include/libint2
+FCFLAGS += -I$(EBROOTLIBXC)/include
+FCFLAGS += -I$(EBROOTLIBXSMM)/include
+FCFLAGS += -I$(EBROOTCOSMA)/include
+FCFLAGS += -I$(ELPA_OPENMP_INCLUDE_DIR)/elpa -I$(ELPA_OPENMP_INCLUDE_DIR)/modules 
+FCFLAGS += -I$(EBROOTGSL)/include
+# HDF5?
+FCFLAGS += -I$(EBROOTSPGLIB)/include
+#FCFLAGS += -I$(EBROOTSPFFT)/include
+#FCFLAGS += -I$(EBROOTSPLA)/include/spla
+
+CXXFLAGS    = -O2 -fPIC -fno-omit-frame-pointer -fopenmp -g -march=native -mtune=native --std=c++14 $(DFLAGS) -Wno-deprecated-declarations -fopenmp -Wall -Wextra -Werror -I$(ROCM_PATH)/include
+#
+LDFLAGS =  $(FCFLAGS) -Wl,--enable-new-dtags
+LDFLAGS += -I$(EBROOTGSL)/lib
+LDFLAGS += -L$(EBROOTFFTW)/lib
+LDFLAGS += -L$(EBROOTLIBINTMINCP2K)/lib
+LDFLAGS += -L$(EBROOTLIBXC)/lib
+LDFLAGS += -L$(EBROOTLIBXSMM)/lib
+LDFLAGS += -L$(EBROOTCOSMA)/lib
+LDFLAGS += -L$(EBROOTELPA)/lib
+LDFLAGS += -L$(EBROOTGSL)/lib
+LDFLAGS += -L$(EBROOTSPGLIB)/lib
+LDFLAGS += -L$(EBROOTLIBVORI)/lib
+LDFLAGS += -I$(EBROOTSPFFT)/lib
+LDFLAGS += -I$(EBROOTSPLA)/lib
+
+LIBS        = -lsymspg -lhdf5 -lhdf5_hl -lz -lgsl -lelpa -lcosma_prefixed_pxgemm -lcosma -lcosta -lxsmmf -lxsmm -ldl -lpthread -lxcf03 -lxc -lint2 -lfftw3_mpi -lfftw3 -lfftw3_omp -lplumed -lz -ldl -lvori -lstdc++ 
+#
