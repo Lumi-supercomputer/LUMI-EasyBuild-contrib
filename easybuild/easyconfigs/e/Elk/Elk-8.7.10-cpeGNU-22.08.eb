@@ -1,0 +1,69 @@
+# contributed by Johan Hellsvik (PDC) and Peter Larsson (LUMI)
+easyblock = 'MakeCp'
+
+name = 'Elk'
+version = '8.7.10'
+
+homepage = 'https://elk.sourceforge.io/'
+
+whatis = [
+    'The Elk all-electron full-potential linearised augmented-plane wave (LAPW) code with many advanced features.'
+]
+
+description = """
+The Elk all-electron full-potential linearised augmented-plane wave (LAPW) code with many advanced features.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '22.08'}
+toolchainopts = {'openmp': True, 'usempi': True}
+
+maxparallel=1
+
+source_urls = ['https://sourceforge.net/projects/%(namelower)s/files/']
+sources = [SOURCELOWER_TGZ]
+checksums = ['7be293b5265fbc74f0f910b4fdcd2773f3793ed096fad4ba44d125a2315d6d98'] #elk-8.7.10.tgz
+
+# Creating the make.inc file
+prebuildopts = 'echo "MAKE = make" > make.inc && '
+prebuildopts += 'echo "AR = ar" >> make.inc && '
+prebuildopts += 'echo "SRC_MKL = mkl_stub.f90" >> make.inc && '
+prebuildopts += 'echo "SRC_OBLAS = oblas_stub.f90" >> make.inc && '
+prebuildopts += 'echo "SRC_BLIS = blis_stub.f90" >> make.inc && '
+prebuildopts += 'echo "SRC_FFT = zfftifc_fftw.f90 cfftifc_fftw.f90" >> make.inc && '
+prebuildopts += 'echo "LIB_LIBXC = libxcf90.a libxc.a" >> make.inc && '
+prebuildopts += 'echo "SRC_LIBXC = libxcf90.f90 libxcifc.f90" >> make.inc && '
+prebuildopts += 'echo "LIB_W90 = libwannier.a" >> make.inc && '
+prebuildopts += 'echo "F90 = ftn" >> make.inc && '
+prebuildopts += 'echo "F90_OPTS = -Ofast -march=native -mtune=native -fomit-frame-pointer -fopenmp -ffpe-summary=none -fallow-argument-mismatch" >> make.inc && '
+
+# Copy the Libxc and Wannier90 libraries
+prebuildopts += 'cp $EBROOTLIBXC/lib/libxc.a src/ && '
+prebuildopts += 'cp $EBROOTLIBXC/lib/libxcf90.a src/ && '
+prebuildopts += 'cp $EBROOTWANNIER90//lib/libwannier.a src/ && '
+
+dependencies = [
+     ('cray-libsci/21.08.1.2', EXTERNAL_MODULE),
+     ('cray-fftw/3.3.10.1', EXTERNAL_MODULE),
+     ('libxc', '6.1.0'),
+     ('Wannier90', '3.1.0'),
+]
+
+files_to_copy = [
+    (['./src/elk'], './bin/'),
+    (['./src/eos/eos'], './bin/'),
+    (['./src/spacegroup/spacegroup'], './bin/'),
+    (['./species'], '.'),
+    (['./examples'], '.'),
+    (['./tests'], '.'),
+    (['./tests-libxc'], '.'),
+    (['utilities/elk-bands/elk-bands'], './bin/'),
+    (['utilities/elk-optics/elk-optics.py'], './bin/'),
+    (['utilities/wien2k-elk/se.pl'], './bin/'),
+]
+
+sanity_check_paths = {
+    'files': ['bin/elk','bin/eos','bin/spacegroup'],
+    'dirs': ['bin','species', 'examples', 'tests'],
+}
+
+moduleclass = 'phys'
