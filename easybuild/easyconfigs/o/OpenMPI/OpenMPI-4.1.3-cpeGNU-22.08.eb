@@ -28,7 +28,7 @@ sources = [SOURCELOWER_TAR_GZ]
 checksums = ['9c0fd1f78fc90ca9b69ae4ab704687d5544220005ccd7678bf58cc13135e67e0']
 
 dependencies = [
-    ('rocm/5.0.2', EXTERNAL_MODULE)
+    ('rocm', EXTERNAL_MODULE)
 ]
 
 configopts  = '--with-libfabric=/opt/cray/libfabric/$(pkg-config --modversion libfabric) '
