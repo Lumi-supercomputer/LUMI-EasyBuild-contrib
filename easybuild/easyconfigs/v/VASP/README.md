@@ -13,3 +13,13 @@
 The VASP EasyConfig files for LUMI are build upon those of the CSCS repository, with Makefiles 
 specifically for LUMI.
 
+### 6.4.1 
+
+-   build01
+
+    -   Some improvements to the Makefile, including stronger optimization and 
+        different HDF5 library compared to the 6.3.2 version
+
+-   build02
+
+    -   Same improvements as for build01.

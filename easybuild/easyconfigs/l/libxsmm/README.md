@@ -14,11 +14,11 @@
   * [libxsmm in the EasyBuilders repository](https://github.com/easybuilders/easybuild-easyconfigs/tree/develop/easybuild/easyconfigs/l/libxsmm)
 
 
-### libxsmm 1.17 for cpeGNU 21.08
+### libxsmm 1.17 for cpeGNU 21.08 and later
 
   * The EasyConfig is a direct port of the CSCS one.
 
-### libxsmm 29Dec22 for CPE 22.08
+### libxsmm 29Dec22 for CPE 22.08 and later
 
   * Created for PyFR as it requires a recent version of libxsmm but no release
     exists. Use the date of the commit as the version.

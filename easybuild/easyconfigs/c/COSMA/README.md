@@ -14,7 +14,7 @@
 -   [cosma support in Spack](https://spack.readthedocs.io/en/latest/package_list.html#cosma)
 
 
-### Version 2.6.2 for cpeGNU in 22.08 with GPU support
+### Version 2.6.2 for cpeGNU in 22.08 and 22.12 with GPU support
 
 -   The EasyConfig is a LUST development.
 

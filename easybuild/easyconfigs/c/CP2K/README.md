@@ -22,3 +22,5 @@
 -   `CP2K-2023.1-cpeGNU-22.08-GPU.eb`: CP2K 2023.1 release compiled with AMD GPU support enabled for CP2K 
     itself and several of the libraries (SpFFT, SpLA). Cray Programming Environment 22.08 used together with 
     the unsupported `rocm/5.3.3` module installed by the LUMI Support Team, as CP2K requires at ROCm 5.3.3.
+-   `CP2K-2023.1-cpeGNU-22.12-CPU.eb`: A CPU-only build of CP2K release 2023.1 compiled with the GNU compilers
+    and with support for PLUMED.
