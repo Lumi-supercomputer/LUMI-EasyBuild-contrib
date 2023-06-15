@@ -41,3 +41,5 @@ scalability in certain large runs on LUMI.
     addition to automatically detect the libfabric version so that it can
     still work after a system update that installs a new libfabric.
 
+  * Later on the ROCm dependency which should not even have been there 
+    was removed.
