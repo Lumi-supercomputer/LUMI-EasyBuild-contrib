@@ -1,0 +1,67 @@
+# Adapted from the EasyBuilders build recipe for LUMI by kurt Lust (kurt.lust@uantwerpen.be)
+name =    'OpenBLAS'
+version = '0.3.23'
+versionsuffix = '-ILP64'
+
+homepage = 'http://www.openblas.net/'
+
+whatis = [
+    "Description: OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version."
+]
+
+description = """
+OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
+
+Note that OpenBLAS will conflict with the Cray LibSci library, so when using
+this module you have to unload the cray-libsci module as otherwise the
+Cray compiler wrappers will add LibSci to the libraries used by the
+compiler.
+
+Cray LibSci already contains BLAS, LAPACK and ScaLAPACK functionality and
+should be your first choice. But this module may be useful if you run into
+problems with the Cray LibSci library. Note however that software in the
+LUMI stack is by default build with the Cray LibSci library, so your code
+that relies on BLIS may not link correctly to any of the other modules
+in the LUMI software stacks.
+"""
+
+docurls = [
+    'Web documentation in the OpenBLAS Wiki https://github.com/xianyi/OpenBLAS/wiki'
+]
+
+toolchain = {'name': 'cpeGNU', 'version': '22.12'}
+toolchainopts = {'openmp': True}
+
+source_urls = [
+    # order matters, trying to download the large.tgz/timing.tgz LAPACK tarballs from GitHub causes trouble
+    'https://www.netlib.org/lapack/timing/',
+    'https://github.com/xianyi/OpenBLAS/archive/',
+]
+sources = ['v%(version)s.tar.gz']
+patches = [
+    ('large.tgz', '.'),
+    ('timing.tgz', '.'),
+]
+checksums = [
+    '115634b39007de71eb7e75cf7591dfb2',
+    'f328d88b7fa97722f271d7d0cfea1c220e0f8e5ed5ff01d8ef1eb51d6f4243a1',  # large.tgz
+    '999c65f8ea8bd4eac7f1c7f3463d4946917afd20a997807300fe35d70122f3af',  # timing.tgz
+]
+
+preconfigopts = 'module unload cray-libsci && '
+
+pretestopts = 'module unload cray-libsci && '
+# extensive testing can be enabled by uncommenting the line below
+# The tests do not yet work on LUMI but the problem does seem to be with 
+# the commands used to compile the tests rather than the library.
+#runtest = 'PATH=.:$PATH lapack-timing'
+
+prebuildopts = 'module unload cray-libsci && '
+
+buildopts = 'BINARY=64 TARGET=ZEN INTERFACE64=1 USE_THREAD=1 CC=cc FC="ftn -default64 -fdefault-integer-8" CFLAGS=""'
+
+testopts = 'BINARY=64 TARGET=ZEN INTERFACE64=1 USE_THREAD=1 CC=cc FC="ftn -default64 -fdefault-integer-8"'
+
+preinstallopts = 'module unload cray-libsci && '
+
+moduleclass = 'numlib'
