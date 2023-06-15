@@ -1,0 +1,125 @@
+# Created for LUMI by Orian Louant
+easyblock = 'PythonBundle'
+
+name = 'jax'
+version = '0.3.20'
+versionsuffix= '-rocm5.2'
+
+local_craypython_version = '3.9.13.1'
+local_rocm_version       = '5.2.3' 
+local_wheel_version      = '0.38.4'
+
+local_craypython_maj_min = '.'.join( local_craypython_version.split('.')[:2] )
+
+homepage = 'https://pypi.python.org/pypi/jax'
+
+whatis = ['Description: JAX is Autograd and XLA, brought together for high-performance numerical computing.']
+
+description = """
+JAX is Autograd and XLA, brought together for high-performance numerical
+computing.
+
+JAX provides a familiar NumPy-style API for ease of adoption by researchers and
+engineers. It includes composable function transformations for compilation,
+batching, automatic differentiation, and parallelization. The same code executes
+on multiple backends, including CPU, GPU, & TPU.
+"""
+
+docurls = ['https://jax.readthedocs.io/en/latest/']
+software_license_urls = ['https://github.com/google/jax/blob/main/LICENSE']
+
+toolchain = {'name': 'cpeGNU', 'version': '22.12'}
+
+builddependencies = [
+    ('wheel', local_wheel_version, '-cray-python%s' % local_craypython_maj_min),
+]
+
+dependencies = [
+    ('cray-python/%s' % local_craypython_version, EXTERNAL_MODULE),
+    ('rocm/%s' % local_rocm_version,              EXTERNAL_MODULE),
+]
+
+# downloading TensorFlow tarball to avoid that Bazel downloads it during the build
+# note: while it's considered good to have the exact same commit as used in WORKSPACE
+#       in practice, we have to pick the commit of the AMD repo that synced the changes
+#       comming from the official TF repo (ususally synced after a few days)
+local_tf_commit = 'bda67b52b6f893e7fec33a4c09b15856180e1269'
+local_tf_dir = 'tensorflow-upstream-%s' % local_tf_commit
+local_tf_builddir = '%(builddir)s/' + local_tf_dir
+
+# replace remote TensorFlow repository with the local one from EB
+local_jax_prebuildopts = "sed -i -f jaxlib_local-tensorflow-repo.sed WORKSPACE && "
+local_jax_prebuildopts += "sed -i 's|EB_TF_REPOPATH|%s|' WORKSPACE && " % local_tf_builddir
+
+use_pip = True
+
+default_easyblock = 'PythonPackage'
+default_component_specs = {
+    'sources': [SOURCE_TAR_GZ],
+    'source_urls': [PYPI_SOURCE],
+    'start_dir': '%(name)s-%(version)s',
+    'use_pip': True,
+    'sanity_pip_check': True,
+    'download_dep_fail': True,
+}
+
+components = [
+    ('absl-py', '1.3.0', {
+        'options': {'modulename': 'absl'},
+        'checksums': ['463c38a08d2e4cef6c498b76ba5bd4858e4c6ef51da1a5a1f27139a022e20248'],
+    }),
+    ('jaxlib', version, {
+        'sources': [
+            '%(name)s-v%(version)s.tar.gz',
+            {
+                'download_filename': '%s.tar.gz' % local_tf_commit,
+                'filename': 'tensorflow-upstream-%s.tar.gz' % local_tf_commit,
+            }
+        ],
+        'source_urls': [
+            'https://github.com/google/jax/archive/',
+            'https://github.com/ROCmSoftwarePlatform/tensorflow-upstream/archive/'
+        ],
+        'patches': [
+            ('jaxlib_local-tensorflow-repo.sed', '.'),
+        ],
+        'checksums': [
+            # jaxlib-v0.3.20.tar.gz
+            'dc8f23df3853dfacd395752dc2e877221285cae7b9f5363a951856666e8b257e',
+            # tensorflow-upstream-bda67b52b6f893e7fec33a4c09b15856180e1269.tar.gz
+            '8afc8f11ad40a453c60eda105f67d288e11d46578696999609b14e0414123592',
+            # jaxlib_local-tensorflow-repo.sed
+            'abb5c3b97f4e317bce9f22ed3eeea3b9715365818d8b50720d937e2d41d5c4e5',
+        ],
+        'start_dir'      : 'jax-jaxlib-v%(version)s',
+        'prebuildopts'   : local_jax_prebuildopts,
+        'use_mkl_dnn'    : False,
+        'binutils_root'  : '/opt/cray/pe/cce/15.0.0/binutils/x86_64',
+    }),
+]
+
+exts_list = [
+    ('opt_einsum', '3.3.0', {
+        'checksums': ['59f6475f77bbc37dcf7cd748519c0ec60722e91e63ca114e68821c0c54a46549'],
+    }),
+    ('flit_core', '3.8.0', {
+        'checksum' : ['b305b30c99526df5e63d6022dd2310a0a941a187bd3884f4c8ef0418df6c39f3'],
+    }),
+    ('etils', '0.8.0', {
+        'checksums': ['d1d5af7bd9c784a273c4e1eccfaa8feaca5e0481a08717b5313fa231da22a903'],
+    }),
+    ('typing-extensions', '4.4.0', {
+       'sources'  : ['typing_extensions-4.4.0.tar.gz'],  
+       'checksums': ['1511434bb92bf8dd198c12b1cc812e800d4181cfcb867674e0f8279cc93087aa'],
+    }),
+    (name, version, {
+        'source_tmpl' : '%(name)s-v%(version)s.tar.gz',
+        'source_urls' : ['https://github.com/google/jax/archive/'],
+        'checksums'   : ['eac7b411fe48738d09801ca33429009d2d52c3146723c1906c620a865c998d30'],
+    }),
+]
+
+# Because of missing cloudpickle required by dask in cray install... 
+sanity_pip_check = False
+
+moduleclass = 'tools'
