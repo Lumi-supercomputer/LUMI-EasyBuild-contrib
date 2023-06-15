@@ -1,10 +1,20 @@
 # This easyconfig was created by the BEAR Software team at the University of Birmingham.
 easyblock = 'CMakeMake'
-name = 'yaml-cpp'
+
+name =    'yaml-cpp'
 version = '0.7.0'
 
 homepage = "https://github.com/jbeder/yaml-cpp"
+
+whatis = [
+    'Description: yaml-cpp is a YAML parser and emitter in C++ matching the YAML 1.2 spec'
+]
+
 description = """yaml-cpp is a YAML parser and emitter in C++ matching the YAML 1.2 spec"""
+
+docurls = [
+    'Web-based documentation in the GitHub Wiki at https://github.com/jbeder/yaml-cpp/wiki'
+]
 
 toolchain = {'name': 'cpeGNU', 'version': '22.12'}
 toolchainopts = {'pic': True}
@@ -23,7 +33,7 @@ builddependencies = [
 
 sanity_check_paths = {
     'files': ['lib/libyaml-cpp.a', 'include/yaml-cpp/yaml.h'],
-    'dirs': ['lib', 'include'],
+    'dirs':  ['lib', 'include'],
 }
 
 moduleclass = 'tools'
