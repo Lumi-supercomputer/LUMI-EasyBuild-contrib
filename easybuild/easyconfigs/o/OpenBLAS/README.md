@@ -41,3 +41,7 @@ in the LUMI software stacks.
     Note that it is best to unload cray-libsci to make sure that there is
     no interaction at all with that library. Otherwise, e.g., one might
     end up testing the Cray library rather than OpenBLAS.
+
+### Version 0.3.23 for cpeGNU 22.12
+
+  * Version provided with 64-bit integer support on user demand.
