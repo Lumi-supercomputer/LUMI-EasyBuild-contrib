@@ -1,0 +1,78 @@
+easyblock = 'Binary'
+
+name = 'OpenFOAM'
+version = 'v2106'
+
+whatis = [
+    'OpenFOAM is a free, open source CFD software package. OpenFOAM has an extensive range of features to solve anything from complex fluid flows involving chemical reactions, turbulence and heat transfer, to solid dynamics and electromagnetics.'
+]
+
+homepage = 'http://www.openfoam.com/'
+
+whatis = [
+    'Description: The OpenFOAM (CFD software) distribution from OpenCFD Ltd'
+]
+
+description = """
+OpenFOAM is the free, open source CFD software developed primarily by OpenCFD Ltd since 2004.
+
+OpenCFD Ltd, owner of the OpenFOAM Trademark, is a wholly owned subsidiary of ESI Group.
+
+ESI-OpenCFD produces the OpenFOAM® open source CFD toolbox and distributes freely
+via https://www.openfoam.com/. OpenCFD Ltd was established in 2004 to coincide with
+the release of its OpenFOAM software under general public licence.
+
+OpenFOAM is distributed under the GPL v3 licence.
+"""
+
+usage = """
+Initialize the OpenFOAM environment with following command:
+
+ source $EBROOTOPENFOAM/etc/bashrc WM_COMPILER=Cray WM_MPLIB=CRAY-MPICH
+
+To run OpenFOAM solvers on compute nodes use srun command:
+
+ srun foamSolverName -parallel
+
+in either job script for sbatch or directly within salloc session.
+
+Allrun scripts require some additional tweaking.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '22.12'}
+toolchainopts = {'cstd': 'c++11'}
+
+source_urls = ['https://dl.%(namelower)s.com/source/%(version)s']
+sources = [SOURCE_TGZ]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+    ('Boost',      '1.81.0', ''),
+]
+
+dependencies = [
+    ('cray-fftw', EXTERNAL_MODULE),
+    ('SCOTCH',    '7.0.3'),
+    ('CGAL',      '4.12.2',       '-OpenFOAM'),
+]
+
+unpack_options = '--strip-components=1'
+extract_sources = 'True'
+buildininstalldir = 'True'
+
+install_cmd  = "source etc/bashrc WM_COMPILER=Cray WM_MPLIB=CRAY-MPICH MPICH_DIR=${CRAY_MPICH_PREFIX} "
+install_cmd += "&& cp ./wmake/rules/General/cgal-no-mpfr ./wmake/rules/General/cgal "
+install_cmd += "&& export FOAM_EXTRA_CXXFLAGS='-D_GLIBCXX_USE_CXX11_ABI=0' "  # This has to be set after sourcing etc/bashrc!
+install_cmd += "&& ./bin/tools/foamConfigurePaths -boost boost-system -boost-path ${EBROOTBOOST} -fftw fftw-system -fftw-path ${FFTW_ROOT} -scotch scotch-system -scotch-path ${EBROOTSCOTCH} -cgal cgal-system -cgal-path ${EBROOTCGAL} "
+install_cmd += "&& ./Allwmake -j 1"
+
+sanity_check_paths = {
+    'files': [],
+    'dirs':  ['platforms/linux64CrayDPInt32Opt/bin', 'platforms/linux64CrayDPInt32Opt/lib'],
+}
+
+modextravars = {
+    'FOAM_BASH': '%(installdir)s/bashrc',
+}
+
+moduleclass = 'cae'
