@@ -7,7 +7,6 @@ easyblock = 'ConfigureMake'
 
 local_BCFtools_version =     '1.17'          # https://github.com/samtools/bcftools/releases
 
-
 # Dependencies from the main software stack
 local_GSL_version =          '2.7.1'         # https://ftp.gnu.org/gnu/gsl/
 
