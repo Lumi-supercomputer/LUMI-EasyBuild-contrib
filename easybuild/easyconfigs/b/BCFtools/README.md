@@ -3,6 +3,8 @@
   * [HTSlib/SAMtools/BCFtools home page](https://www.htslib.org)
 
   * [BCFtools development and home page on GitHub](https://samtools.github.io/bcftools/)
+  
+      * [BDFtools GitHub releases](https://github.com/samtools/bcftools)
 
   * [BCFtools installation guide](https://samtools.github.io/bcftools/howtos/install.html)
 
@@ -37,4 +39,12 @@
     added. 
     
   * Cleaned up dependencies as most are pulled in anyway through HTSlib.
+
+
+### Version 1.17 for cpeGNU 22.08
+
+  * Trivial port of the 1.15.1 EasyConfig.
+  
+  * Some restructuring to work with our version update scripts.
+
 

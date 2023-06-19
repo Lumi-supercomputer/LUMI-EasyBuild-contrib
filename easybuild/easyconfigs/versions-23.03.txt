@@ -2,6 +2,8 @@
 
 local_ANTLR_NCO_version =    '2.7.7'         # Looks like NCO requires an antique version.
 
+local_BCFtools_version =     '1.17'          # https://github.com/samtools/bcftools/releases
+
 local_CDO_version =          '2.2.0'         # https://code.mpimet.mpg.de/projects/cdo/files
 local_CMOR_version =         '3.7.2'         # https://github.com/PCMDI/cmor/releases
 
