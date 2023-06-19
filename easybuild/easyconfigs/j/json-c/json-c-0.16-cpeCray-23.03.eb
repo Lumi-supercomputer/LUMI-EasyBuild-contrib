@@ -20,6 +20,7 @@ JSON formatted strings back into the C representation of JSON objects.
 """
 
 toolchain = {'name': 'cpeCray', 'version': '23.03'}
+toolchainopts = {'extra_cflags': '-Wno-error=strict-prototypes'}
 
 # https://s3.amazonaws.com/json-c_releases/releases/json-c-0.16.tar.gz
 source_urls = ['https://s3.amazonaws.com/json-c_releases/releases']

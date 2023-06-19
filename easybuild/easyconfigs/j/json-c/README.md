@@ -27,5 +27,9 @@
   * Trivial version bump.
 
   * Added a simple sanity check testing if pkg-config can find the package.
+  
+  * For Clang 15 and later the error messages about strict prototypes need to
+    be turned off as the code is not compliant with C standards when it comes
+    to the use of prototypes.
 
  
