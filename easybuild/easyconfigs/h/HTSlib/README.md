@@ -2,6 +2,7 @@
 
 -   [HTSlib home page](http://www.htslib.org/)
 -   [Development on GitHub](https://github.com/samtools/htslib)
+    -   [HTSlib GitHub releases](https://github.com/samtools/htslib/releases)
 
 
 ## General information
@@ -48,3 +49,10 @@
     Cloud Integration were not tested, so it is not clear if this fully works or not.
 
     
+### Version 1.17 for cpeGNU 21.12
+
+-   Trivial port of the EasyConfig for 1.15.1.
+
+-   Some reworking for our system to update versions of dependencies.
+
+-   Some reworking to also copy the LICENSE and README files to the system.
