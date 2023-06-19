@@ -12,7 +12,7 @@ local_util_version =         '2.38.1'        # https://mirrors.edge.kernel.org/p
 local_CMOR_version =         '3.7.2'         # https://github.com/PCMDI/cmor/releases
 local_ecCodes_version =      '2.30.0'        # https://confluence.ecmwf.int/display/ECC/Releases
 
-local_CDO_version =          '2.1.1'         # https://code.mpimet.mpg.de/projects/cdo/files
+local_CDO_version =          '2.2.0'         # https://code.mpimet.mpg.de/projects/cdo/files
 
 name =    'CDO'
 version = local_CDO_version
@@ -29,7 +29,7 @@ and NWP model Data. Supported data formats are GRIB 1/2, netCDF 3/4, SERVICE,
 EXTRA and IEG. There are more than 600 operators available.
 """
 
-toolchain = {'name': 'cpeCray', 'version': '22.12'}
+toolchain = {'name': 'cpeGNU', 'version': '22.12'}
 toolchainopts = {'openmp': True, 'opt': True, 'pic': True, 'verbose': False}
 
 # download from https://code.mpimet.mpg.de/projects/cdo/files often fails
@@ -37,10 +37,10 @@ toolchainopts = {'openmp': True, 'opt': True, 'pic': True, 'verbose': False}
 #
 # Check sources on https://code.mpimet.mpg.de/projects/cdo/files using the download symbol
 # at the right of the screen.
-# https://code.mpimet.mpg.de/attachments/download/26823/cdo-2.1.1.tar.gz
-sources =     ['%(namelower)s-%(version)s.tar.gz']
-source_urls = ['https://code.mpimet.mpg.de/attachments/download/27654']
-checksums =   ['c29d084ccbda931d71198409fb2d14f99930db6e7a3654b3c0243ceb304755d9']
+# https://code.mpimet.mpg.de/attachments/download/28013/cdo-2.2.0.tar.gz
+sources =     [SOURCELOWER_TAR_GZ]
+source_urls = ['https://code.mpimet.mpg.de/attachments/download/28013']
+checksums =   ['679c8d105706caffcba0960ec5ddc4a1332c1b40c52f82c3937356999d8fadf2']
 
 # No MPI support, OpenMP support for compute intensive operators (https://code.mpimet.mpg.de/projects/cdo/wiki/OpenMP_support)
 builddependencies = [
@@ -65,7 +65,7 @@ dependencies = [
 ]
 
 preconfigopts = 'ln -fs $(which libtool) libcdi/libtool && LDFLAGS="$LDFLAGS -L$EBROOTJSONMINC/lib -ljson-c" '
-configopts  = '--disable-static --enable-cdi-lib --with-fftw3 '
+configopts  = '--disable-static --enable-cdi-lib --enable-openmp --with-fftw3 '
 configopts += '--with-hdf5=$HDF5_DIR  --with-netcdf=$EBROOTNETCDFMINFORTRAN '
 configopts += '--with-curl=$EBROOTCURL --with-eccodes=$EBROOTECCODES --with-proj=$EBROOTPROJ '
 configopts += '--with-szlib=$EBROOTLIBAEC  --with-udunits2=$EBROOTUDUNITS --with-util-linux-uuid=$EBROOTUTILMINLINUX '
