@@ -7,6 +7,8 @@ local_CMOR_version =         '3.7.2'         # https://github.com/PCMDI/cmor/rel
 
 local_ecCodes_version =      '2.30.0'        # https://confluence.ecmwf.int/display/ECC/Releases
 
+local_HTSlib_version =       '1.17'          # https://github.com/samtools/htslib/releases
+
 local_jsonc_version =        '0.16'          # https://github.com/json-c/json-c/tags
 
 local_libdap_version =       '3.20.11'       # https://www.opendap.org/pub/source/
