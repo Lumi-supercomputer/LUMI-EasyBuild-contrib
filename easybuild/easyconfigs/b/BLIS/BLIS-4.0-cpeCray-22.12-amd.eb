@@ -68,7 +68,7 @@ prebuildopts = 'module unload cray-libsci && '
 
 #buildopts = 'showconfig'
 
-pretestopts = 'module unload cray-libsci && '
+pretestopts = 'module unload cray-libsci && export OMP_NUM_THREADS=8 && '
 runtest = 'check'
 
 sanity_check_paths = {

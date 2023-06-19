@@ -41,7 +41,7 @@ depending on the options certain symbols in pthread.h may not be defined.
 docurls = [ 'https://github.com/amd/blis/blob/master/docs/BuildSystem.md',
 ]
 
-toolchain = {'name': 'cpeAOCC', 'version': '22.12'}
+toolchain = {'name': 'cpeCray', 'version': '23.03'}
 
 source_urls = ['https://github.com/amd/blis/archive/']
 sources =     ['%(version)s.tar.gz']
