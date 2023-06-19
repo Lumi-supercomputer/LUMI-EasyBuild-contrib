@@ -46,3 +46,9 @@
     HTSlib.
     
 -   Did another check of the configure options.
+
+
+### Version 1.17 for cpeGNU 22.12
+
+-   Trivial port of the 1.15.1 EasyConfig.
+
