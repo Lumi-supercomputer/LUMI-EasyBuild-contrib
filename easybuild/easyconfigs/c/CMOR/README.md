@@ -30,3 +30,13 @@ complete. Use at your own risk.
   
   * Python and cdat support are currently not enabled.
 
+
+### Version 3.7.2 for CPE 22.12, 23.03
+
+  * Trivial port of the 3.6.1 EasyConfig.
+
+  * Added a copy of the LICENSE file to the installation.
+
+  * Just as for 3.6.1, python and cdat support are not enabled.
+
+  * In the cpeCray version the Fortran interfaces are still disabled.

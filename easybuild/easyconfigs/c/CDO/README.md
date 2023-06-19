@@ -64,3 +64,11 @@
   * Compilation in cpeAOCC fails with link errors about a Fortran routine that is not
     found.
 
+### Version 2.2.0 for CPE 22.12 and later
+
+  * Straightforward port of the 2.0.5 EasyConfig, except for one element: we 
+    needed to explicitly add `--enable-openmp` as the options to compile with OpenMP
+    are passed via the toolchainopts.
+
+  * Added a copy of the LICENSE file to the installation directories.
+
