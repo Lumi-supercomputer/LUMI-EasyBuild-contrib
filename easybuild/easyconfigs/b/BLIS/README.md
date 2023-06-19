@@ -21,7 +21,16 @@
   * Some logic was added to select zen3 depending on the partition loaded to
     support cross-compiling.
 
+
 ### Version 3.2 for CPE 22.06 and 22.08
 
   * Trivial port of the EasyConfig file for 3.1.
+
+
+### Version 4.0 for CPE 22.12/23.03
+
+  * Trivial port of the EasyConfig file for 4.0
+  
+  * Did restrict the number of threads for the tests though as not doing so 
+    resulted in frequent errors when compiling on the login nodes.
 
