@@ -19,7 +19,7 @@ However, NCO needs the latter antique ANTLR2 versions.
   * [ANTLR support in the CSCS repository](https://github.com/eth-cscs/production/tree/master/easybuild/easyconfigs/a/ANTLR)
 
 
-### Version 2.7.7 for CPE 21.08, 21.12, 22.06, 22.08
+### Version 2.7.7 for CPE 21.08, 21.12, 22.06, 22.08, 22.12, 23.03
 
   * Note that 2.7.7 is a very old version. NCO however does seem to require
     this very old version rather than the current version 4.
@@ -28,3 +28,6 @@ However, NCO needs the latter antique ANTLR2 versions.
 
       * For now we did not include Java as a dependency (it is included in the
         EasyBuilders version).
+
+  * For 22.12 and later we switched to the new way of specifying multiple checksums
+    and added the license file to the installation.
