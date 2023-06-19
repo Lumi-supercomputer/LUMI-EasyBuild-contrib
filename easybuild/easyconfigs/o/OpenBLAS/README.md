@@ -45,3 +45,7 @@ in the LUMI software stacks.
 ### Version 0.3.23 for cpeGNU 22.12
 
   * Version provided with 64-bit integer support on user demand.
+
+### Issues with 0.3.23 and GCC 12.2.0
+
+  * Take caution on updating for GCC 12.2.0 https://gcc.gnu.org/bugzilla/show_bug.cgi?id=107254
