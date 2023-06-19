@@ -49,7 +49,7 @@ builddependencies = [
 
 dependencies = [
     # Cray PE
-    ('cray-hdf5', EXTERNAL_MODULE),
+    ('cray-hdf5',   EXTERNAL_MODULE),
     ('cray-netcdf', EXTERNAL_MODULE),
     ('cray-fftw',   EXTERNAL_MODULE),
     # LUMI software stack
