@@ -47,4 +47,5 @@
   
   * Some restructuring to work with our version update scripts.
 
+  * Some restructuring to also copy the LICENSE and README file to the system.
 

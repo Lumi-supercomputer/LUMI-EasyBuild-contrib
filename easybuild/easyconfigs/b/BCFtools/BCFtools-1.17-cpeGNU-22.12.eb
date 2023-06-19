@@ -58,6 +58,10 @@ dependencies = [
 # harm.
 configopts = "--with-htslib=$EBROOTHTSLIB --enable-libgsl --with-cblas=m "
 
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s ; cp LICENSE AUTHORS NEWS README %(installdir)s/share/licenses/%(name)s'    
+]
+
 sanity_check_paths = {
     'files': ['bin/%s' % x for x in ['bcftools', 'plot-vcfstats', 'vcfutils.pl']],
     'dirs':  ['libexec/bcftools']
