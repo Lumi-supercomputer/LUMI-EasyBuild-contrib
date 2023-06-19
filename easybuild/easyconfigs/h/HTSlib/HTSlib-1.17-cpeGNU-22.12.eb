@@ -71,6 +71,10 @@ preinstallopts = preconfigopts
 
 configopts = '--with-libdeflate --enable-libcurl --enable-s3 --enable-gcs '
 
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s ; cp LICENSE NEWS README %(installdir)s/share/licenses/%(name)s'    
+]
+
 sanity_check_paths = {
     'files': ['bin/bgzip', 'bin/tabix', 'lib/libhts.%s' % SHLIB_EXT],
     'dirs':  ['include'],

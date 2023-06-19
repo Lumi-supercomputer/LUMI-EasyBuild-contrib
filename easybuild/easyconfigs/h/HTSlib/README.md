@@ -55,4 +55,4 @@
 
 -   Some reworking for our system to update versions of dependencies.
 
-
+-   Some reworking to also copy the LICENSE and README files to the system.
