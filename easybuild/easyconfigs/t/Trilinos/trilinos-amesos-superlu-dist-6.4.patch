@@ -1,0 +1,22 @@
+Define API for SuperLU_DIST 6.3 and later, which "namespace" utilty
+functions for each precision.
+
+--- trilinos-12.18.1-Source/packages/amesos/src/Amesos_Superludist.cpp	2019-11-11 12:15:11.000000000 -0600
++++ trilinos-12.18.1-Source/packages/amesos/src/Amesos_Superludist.cpp	2021-01-04 16:16:42.000000000 -0600
+@@ -36,6 +36,16 @@
+ #include "Epetra_Util.h"
+ // #include "CrsMatrixTranspose.h"
+ #include "superlu_ddefs.h"
++#if SUPERLU_DIST_MAJOR_VERSION > 6 || (SUPERLU_DIST_MAJOR_VERSION >= 6 && SUPERLU_DIST_MINOR_VERSION >= 3)
++#define LUstructInit dLUstructInit
++#define ScalePermstructInit dScalePermstructInit
++#define ScalePermstructFree dScalePermstructFree
++#define LUstructFree dLUstructFree
++#define Destroy_LU dDestroy_LU
++#define ScalePermstruct_t dScalePermstruct_t
++#define LUstruct_t dLUstruct_t
++#define SOLVEstruct_t dSOLVEstruct_t
++#endif
+ #include "supermatrix.h"
+ //  SuperLU defines Reduce to be a macro in util.h, this conflicts with Reduce() in Epetra_MultiVector.h
+ #undef Reduce

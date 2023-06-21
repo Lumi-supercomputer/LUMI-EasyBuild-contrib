@@ -1,0 +1,20 @@
+* STK Platform loads some system headers based on which compiler is being
+  used, because the structs and functions it needs are in different places for
+  different compilers.  In the public release it doesn't have support for CCE.
+
+--- a/packages/stk/stk_util/stk_util/diag/Platform.cpp
++++ b/packages/stk/stk_util/stk_util/diag/Platform.cpp
+@@ -109,6 +109,13 @@
+ #include <sys/resource.h>
+ #include <netdb.h>
+ 
++#elif defined(_CRAYC)
++#include <sys/utsname.h>
++#include <sys/time.h>
++#include <sys/resource.h>
++#include <malloc.h>
++#include <netdb.h>
++
+ #else
+ #include <sys/utsname.h>
+ #include <sys/time.h>

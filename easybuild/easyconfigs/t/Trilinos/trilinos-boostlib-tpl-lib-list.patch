@@ -1,0 +1,13 @@
+Make sure that Trilinos knows about _all_ the boost libraries that are needed
+by Trilinos packages (namely STK)
+
+--- a/cmake/TPLs/FindTPLBoostLib.cmake
++++ b/cmake/TPLs/FindTPLBoostLib.cmake
+@@ -57,6 +57,6 @@
+ 
+ TRIBITS_TPL_DECLARE_LIBRARIES( BoostLib
+   REQUIRED_HEADERS boost/version.hpp boost/mpl/at.hpp
+-  REQUIRED_LIBS_NAMES boost_program_options boost_system
++  REQUIRED_LIBS_NAMES boost_regex boost_timer boost_chrono boost_system boost_program_options
+   )
+ 

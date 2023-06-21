@@ -1,0 +1,220 @@
+# This easyconfig is reflecting build scripts from https://github.com/Cray/pe-scripts/blob/master/sh/trilinos.sh
+easyblock = 'CMakeMake'
+
+name = 'Trilinos'
+version = '12.18.1'
+
+homepage = 'https://trilinos.org'
+description = """The Trilinos Project is an effort to develop algorithms and enabling technologies
+ within an object-oriented software framework for the solution of large-scale, complex multi-physics
+ engineering and scientific problems. A unique design feature of Trilinos is its focus on packages."""
+
+toolchain = {'name': 'cpeGNU', 'version': '22.12'}
+toolchainopts = {'usempi': True, 'pic': True, 'openmp': True, 'strict': True, 'extra_fflags': '-fallow-argument-mismatch', 'extra_cxxflags': '-std=c++11'}
+
+sources = [{
+    'filename': '%(name)s-%(version)s.tar.gz',
+    'git_config': {
+        'url': 'https://github.com/Trilinos',
+        'repo_name': '%(name)s',
+        'commit': '55a75997332636a28afc9db1aee4ae46fe8d93e7', # last commit for 12.18.1 branch
+    }
+}]
+
+patches = [
+    {'name': 'trilinos-amesos-superlu-dist-6.4.patch', 'level': 1},
+    {'name': 'trilinos-amesos2-adapters-cce.patch', 'level': 1},
+    {'name': 'trilinos-boostlib-tpl-lib-list.patch', 'level': 1},
+    {'name': 'trilinos-stk-platform.patch', 'level': 1},
+    {'name': 'trilinos-fei-test-utils.patch', 'level': 1},
+    {'name': 'trilinos-stk-util-env.patch', 'level': 1},
+]
+
+builddependencies = [
+    ('cray-python',   EXTERNAL_MODULE),
+    ('cray-hdf5-parallel',   EXTERNAL_MODULE),
+    ('cray-netcdf-hdf5parallel', EXTERNAL_MODULE),
+# Do not use buildtools module while this Trilinos version would not build with recent make/cmake!
+#    ('buildtools',   '%(toolchain_version)s',   '', True),
+# Recent Boost versions are also not compatibile
+    ('Boost', '1.72.0'),
+    ('SuperLU', '6.0.0', '-OpenMP'),
+    ('SuperLU_DIST', '8.1.2', '-OpenMP'),
+    ('ParMETIS', '4.0.3'),
+    ('SCOTCH', '7.0.3'),
+    ('MUMPS', '5.5.1'),
+    ('MATIO', '1.5.23'),
+]
+
+configopts =  '-D CMAKE_BUILD_TYPE:STRING=RELEASE '
+configopts +=  '-D Trilinos_ENABLE_CXX11=ON '
+configopts +=  '-D Trilinos_ENABLE_DEVELOPMENT_MODE:BOOL=OFF '
+configopts +=  '-D Trilinos_ASSERT_MISSING_PACKAGES:BOOL=OFF '
+configopts +=  '-D Trilinos_ENABLE_EXPLICIT_INSTANTIATION:BOOL=OFF '
+configopts +=  '-D Trilinos_ENABLE_TESTS:BOOL=OFF '
+configopts +=  '-D Trilinos_ENABLE_ALL_PACKAGES:BOOL=OFF '
+configopts +=  '-D Trilinos_ENABLE_ALL_OPTIONAL_PACKAGES:BOOL=OFF '
+configopts +=  '-D Trilinos_ENABLE_Fortran:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_OpenMP:BOOL=ON '
+configopts +=  '-D BUILD_SHARED_LIBS:BOOL=YES '
+configopts +=  '-D TPL_FIND_SHARED_LIBS:BOOL=YES '
+configopts +=  '-D Trilinos_LINK_SEARCH_START_STATIC:BOOL=YES '
+configopts +=  '-D CMAKE_SKIP_INSTALL_RPATH:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_EXPORT_MAKEFILES:BOOL=ON '
+configopts +=  '-D Trilinos_DEPS_XML_OUTPUT_FILE:FILEPATH="" '
+configopts +=  '-D CMAKE_C_SIZEOF_DATA_PTR=8 '
+configopts +=  '-D CMAKE_CXX_COMPILER:STRING=CC '
+configopts +=  '-D CMAKE_C_COMPILER:STRING=cc '
+configopts +=  '-D CMAKE_Fortran_COMPILER:STRING=ftn '
+configopts +=  '-D CMAKE_C_FLAGS:STRING=" -O3 -ffast-math   -O3 -ffast-math " '
+configopts +=  '-D CMAKE_CXX_FLAGS:STRING=" -O3 -ffast-math -std=c++11" '
+configopts +=  '-D CMAKE_Fortran_FLAGS:STRING=" -O3 -ffast-math   -O3 -ffast-math -fallow-argument-mismatch " '
+configopts +=  '-D CMAKE_EXE_LINKER_FLAGS:STRING="$LIBS $LDFLAGS" '
+configopts +=  '-D CMAKE_C_FLAGS_RELEASE_OVERRIDE=" -DNDEBUG" '
+configopts +=  '-D CMAKE_CXX_FLAGS_RELEASE_OVERRIDE=" -DNDEBUG" '
+configopts +=  '-D CMAKE_Fortran_FLAGS_RELEASE_OVERRIDE=" -DNDEBUG" '
+configopts +=  '-D CMAKE_SHARED_LINKER_FLAGS="-Wl,--allow-multiple-definition" '
+configopts +=  '-D Trilinos_EXTRA_LINK_FLAGS:STRING="$LIBS" '
+configopts +=  '-D OpenMP_C_FLAGS:STRING=-fopenmp '
+configopts +=  '-D OpenMP_CXX_FLAGS:STRING=-fopenmp '
+configopts +=  '-D OpenMP_Fortran_FLAGS:STRING=-fopenmp '
+configopts +=  '-D TPL_ENABLE_BLAS:BOOL=ON '
+configopts +=  '-D TPL_ENABLE_LAPACK:BOOL=ON '
+configopts +=  '-D TPL_ENABLE_SCALAPACK:BOOL=ON '
+configopts +=  '-D BLAS_LIBRARY_NAMES="" '
+configopts +=  '-D LAPACK_LIBRARY_NAMES="" '
+configopts +=  '-D SCALAPACK_LIBRARY_NAMES="" '
+configopts +=  '-D TPL_ENABLE_Scotch:BOOL=ON '
+configopts +=  '-D TPL_Scotch_INCLUDE_DIRS:FILEPATH="$EBROOTSCOTCH/include" '
+configopts +=  '-D Scotch_LIBRARY_DIRS:FILEPATH="$EBROOTSCOTCH/lib" '
+configopts +=  '-D TPL_ENABLE_SuperLU:BOOL=ON '
+configopts +=  '-D TPL_SuperLU_INCLUDE_DIRS:FILEPATH="$EBROOTSUPERLU/include" '
+configopts +=  '-D SuperLU_LIBRARY_DIRS:FILEPATH="$EBROOTSUPERLU/lib" '
+configopts +=  '-D HAVE_SUPERLU_GLOBALLU_T_ARG:BOOL=YES '
+configopts +=  '-D TPL_ENABLE_SuperLUDist:BOOL=ON '
+configopts +=  '-D TPL_SuperLUDist_INCLUDE_DIRS:FILEPATH="$EBROOTSUPERLUDIST/include" '
+configopts +=  '-D SuperLUDist_LIBRARY_DIRS:FILEPATH="$EBROOTSUPERLUDIST/lib" '
+configopts +=  '-D HAVE_SUPERLUDIST_ENUM_NAMESPACE:BOOL=YES '
+configopts +=  '-D HAVE_SUPERLUDIST_LUSTRUCTINIT_2ARG:BOOL=YES '
+configopts +=  '-D TPL_ENABLE_METIS:BOOL=ON '
+configopts +=  '-D TPL_METIS_INCLUDE_DIRS:FILEPATH="$EBROOTPARMETIS/include" '
+configopts +=  '-D METIS_LIBRARY_DIRS:FILEPATH="$EBROOTPARMETIS/lib" '
+configopts +=  '-D TPL_ENABLE_ParMETIS:BOOL=ON '
+configopts +=  '-D TPL_ParMETIS_INCLUDE_DIRS:FILEPATH="$EBROOTPARMETIS/include" '
+configopts +=  '-D ParMETIS_LIBRARY_DIRS:FILEPATH="$EBROOTPARMETIS/lib" '
+configopts +=  '-D ParMETIS_LIBRARY_NAMES:STRING="parmetis;metis" '
+configopts +=  '-D TPL_ENABLE_MUMPS:BOOL=ON '
+configopts +=  '-D TPL_MUMPS_INCLUDE_DIRS:FILEPATH="$EBROOTMUMPS/include" '
+configopts +=  '-D MUMPS_LIBRARY_DIRS:FILEPATH="$EBROOTMUMPS/lib" '
+configopts +=  '-D MUMPS_LIBRARY_NAMES:STRING="dmumps;zmumps;smumps;cmumps;mumps_common;esmumps;ptesmumps;parmetis;ptscotch;scotch;scotcherr;pord" '
+configopts +=  '-D TPL_ENABLE_Matio:BOOL=ON '
+configopts +=  '-D TPL_Matio_INCLUDE_DIRS:FILEPATH="$EBROOTMATIO/include" '
+configopts +=  '-D Matio_LIBRARY_DIRS:FILEPATH="$EBROOTMATIO/lib" '
+configopts +=  '-D TPL_ENABLE_GLM:BOOL=ON '
+configopts +=  '-D TPL_GLM_INCLUDE_DIRS:FILEPATH=/flash/project_462000008/maciszpin/_install/include '
+configopts +=  '-D TPL_ENABLE_HDF5:BOOL=ON '
+configopts +=  '-D TPL_HDF5_INCLUDE_DIRS:FILEPATH=$HDF5_DIR/include '
+configopts +=  '-D HDF5_LIBRARY_DIRS:FILEPATH="$HDF5_DIR/lib" '
+configopts +=  '-D HDF5_LIBRARY_NAMES:STRING="hdf5_hl_parallel;hdf5_parallel;z;dl" '
+configopts +=  '-D TPL_ENABLE_Netcdf:BOOL=ON '
+configopts +=  '-D TPL_Netcdf_INCLUDE_DIRS:FILEPATH=$NETCDF_DIR/include '
+configopts +=  '-D Netcdf_LIBRARY_DIRS:FILEPATH="$NETCDF_DIR/lib;$HDF5_DIR/lib" '
+configopts +=  '-D Netcdf_LIBRARY_NAMES:STRING="netcdf_parallel;hdf5_hl_parallel;hdf5_parallel;z;dl" '
+configopts +=  '-D TPL_ENABLE_Boost:BOOL=ON '
+configopts +=  '-D TPL_Boost_INCLUDE_DIRS:FILEPATH="$EBROOTBOOST/include" '
+configopts +=  '-D TPL_ENABLE_BoostLib:BOOL=ON '
+configopts +=  '-D TPL_BoostLib_INCLUDE_DIRS:FILEPATH="$EBROOTBOOST/include" '
+configopts +=  '-D BoostLib_LIBRARY_DIRS:FILEPATH="$EBROOTBOOST/lib" '
+configopts +=  '-D TPL_ENABLE_X11:BOOL=OFF '
+configopts +=  '-D TPL_ENABLE_MPI:BOOL=ON '
+configopts +=  '-D MPI_BASE_DIR:FILEPATH= '
+configopts +=  '-D MPI_EXEC:STRING="srun" '
+configopts +=  '-D MPI_EXEC_NUMPROCS_FLAG:STRING="-n" '
+configopts +=  '-D Trilinos_ENABLE_Amesos:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_Amesos2:BOOL=ON '
+configopts +=  '-D Amesos2_ENABLE_SuperLU:BOOL=OFF '
+configopts +=  '-D Amesos2_ENABLE_SuperLUDist:BOOL=OFF '
+configopts +=  '-D Amesos2_ENABLE_KLU2:BOOL=ON '
+configopts +=  '-D Amesos2_ENABLE_Basker:BOOL=ON '
+configopts +=  '-D Amesos2_ENABLE_MUMPS:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_Anasazi:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_AztecOO:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_Belos:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_Epetra:BOOL=ON '
+configopts +=  '-D Epetra_ENABLE_THREADS:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_EpetraExt:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_FEI:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_ForTrilinos:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_Galeri:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_GlobiPack:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_Ifpack:BOOL=ON '
+configopts +=  '-D Ifpack_ENABLE_METIS:BOOL=OFF '
+configopts +=  '-D Trilinos_ENABLE_Ifpack2:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_Intrepid:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_Isorropia:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_Kokkos:BOOL=ON '
+configopts +=  '-D Kokkos_ENABLE_Serial:BOOL=ON '
+configopts +=  '-D Kokkos_ENABLE_OpenMP:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_Komplex:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_Mesquite:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_ML:BOOL=ON '
+configopts +=  '-D ML_ENABLE_SuperLU:BOOL=OFF '
+configopts +=  '-D ML_ENABLE_METIS:BOOL=OFF '
+configopts +=  '-D Trilinos_ENABLE_Moertel:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_MOOCHO:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_MueLu:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_NOX:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_OptiPack:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_Pamgen:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_Phalanx:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_Piro:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_Pliris:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_ROL:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_RTOp:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_Rythmos:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_Sacado:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_Shards:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_ShyLU:BOOL=ON '
+configopts +=  '-D ShyLU_DDBDDC_ENABLE_SuperLU:BOOL=OFF '
+configopts +=  '-D Trilinos_ENABLE_STK:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_STKClassic:BOOL=OFF '
+configopts +=  '-D Trilinos_ENABLE_STKSearch:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_STKTopology:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_STKUtil:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_Stokhos:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_Stratimikos:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_Sundance:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_Teko:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_Teuchos:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_ThreadPool:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_Thyra:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_Tpetra:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_TrilinosCouplings:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_Triutils:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_Xpetra:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_Zoltan:BOOL=ON '
+configopts +=  '-D Zoltan_ENABLE_METIS:BOOL=OFF '
+configopts +=  '-D Zoltan_ENABLE_F90INTERFACE:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_Zoltan2:BOOL=ON '
+configopts +=  '-D Zoltan2_ENABLE_OpenMP:BOOL=OFF '
+configopts +=  '-D Zoltan2_ENABLE_Scotch:BOOL=OFF '
+configopts +=  '-D Trilinos_ENABLE_SEACAS:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_SEACASExo2mat:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_SEACASMat2exo:BOOL=ON '
+configopts +=  '-D HAVE_TEUCHOS_BLASFLOAT:BOOL=YES '
+configopts +=  '-D HAVE_TEUCHOS_LAPACKLARND:BOOL=YES '
+configopts +=  '-D Trilinos_ENABLE_Intrepid:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_ShyLU_NodeBasker:BOOL=ON '
+configopts +=  '-D Trilinos_ENABLE_ShyLU_NodeFastILU:BOOL=ON '
+
+
+prebuildopts = 'find . -name link.txt | xargs --no-run-if-empty sed --in-place=~ -e "s/-Wl,-B\(dynamic\|static\)//g" && find . -name link.txt -print | xargs --no-run-if-empty sed --in-place=~~~ -e ":a;s,\([^ ]*/libdl\.[^ ]*\)\(.*\1\),\2,;t a" -e "s,[^ ]*/libdl\.[^ ]*,-ldl,g" && '
+
+sanity_check_paths = {
+    'files': ['include/Trilinos_version.h'],
+    'dirs':  ['include', 'lib'],
+}
+
+maxparallel = 8
+
+moduleclass = 'numlib'
