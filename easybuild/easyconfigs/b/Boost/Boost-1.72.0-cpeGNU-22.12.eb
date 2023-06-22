@@ -1,0 +1,74 @@
+# contributed by Luca Marsella (CSCS)
+# Adapted by Kurt Lust (kurt.lust@uantwerpen.be) for the LUMI consortium
+easyblock = 'EB_BoostCPE'
+
+local_bzip2_version =        '1.0.8'         # http://www.bzip.org/downloads.html
+local_ICU_version =          '72.1'          # http://site.icu-project.org/home
+local_zlib_version =         '1.2.12'        # https://zlib.net/
+local_zstd_version =         '1.5.2'         # https://github.com/facebook/zstd/releases
+
+local_Boost_version =        '1.72.0'        # https://www.boost.org/
+
+name =    'Boost'
+version = local_Boost_version
+
+homepage = 'http://www.boost.org/'
+
+whatis = [
+    'Description: Boost provides free peer-reviewed portable C++ source libraries.'
+]
+
+description = """
+Boost provides free peer-reviewed portable C++ source libraries.
+
+We emphasize libraries that work well with the C++ Standard Library. Boost
+libraries are intended to be widely useful, and usable across a broad spectrum
+of applications. The Boost license encourages both commercial and non-commercial
+use.
+
+We aim to establish "existing practice" and provide reference implementations so
+that Boost libraries are suitable for eventual standardization. Ten Boost
+libraries are included in the C++ Standards Committee's Library Technical Report
+(TR1) and in the new C++11 Standard. C++11 also includes several more Boost
+libraries in addition to those from TR1. More Boost libraries are proposed for
+standardization in C++17.
+
+This module includes static and shared libraries, compiled with MPI support.
+The library boost_python is build for the system Python.
+
+This version of the module does not include support for Cray Python.
+The module does inlude single-threaded (suffix -x86) and multithreaded (suffix
+-mt-x86) versions of the libraries. The default names (without suffix) link
+to the multithreaded versions.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '22.12'}
+toolchainopts = {'usempi': True, 'pic': True, 'verbose': False}
+
+# https://boostorg.jfrog.io/native/main/release/1.77.0/source/boost_1_77_0.tar.bz2
+source_urls = ['https://boostorg.jfrog.io/artifactory/main/release/%(version)s/source']
+sources =     ['%(namelower)s_%(version_major)s_%(version_minor)s_0.tar.bz2']
+
+builddependencies = [ # Create a reproducible build environment.
+    ('buildtools',   '%(toolchain_version)s',   '', True),
+]
+
+dependencies = [
+    ('bzip2', local_bzip2_version),
+    ('zlib',  local_zlib_version),
+    ('zstd',  local_zstd_version),
+    ('ICU',   local_ICU_version),
+]
+
+configopts = '--without-libraries=python'
+
+# Also build boost_mpi - not needed as we already set use_mpi to True
+# boost_mpi = True
+
+# Toolsets - Not needed as the EasyBlock recognizes the toolchain.
+# toolset = 'gcc'
+# build_toolset = 'gcc'
+
+modextravars = {'BOOST_ROOT': '%(installdir)s'}
+
+moduleclass = 'devel'
