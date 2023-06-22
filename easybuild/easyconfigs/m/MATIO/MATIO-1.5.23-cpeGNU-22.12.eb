@@ -1,0 +1,44 @@
+##
+# This file is an EasyBuild reciPY as per https://github.com/easybuilders/easybuild
+#
+# Copyright:: Copyright 2014-2015 The Cyprus Institute
+# Authors:: Thekla Loizou <t.loizou@cyi.ac.cy>
+# License:: MIT/GPL
+#
+##
+easyblock = 'ConfigureMake'
+
+name =    'MATIO'
+version = '1.5.23'
+
+homepage = 'https://matio.sourceforge.io/'
+
+whatis = [
+    "Description: MATIO is a C library for reading and writing Matlab MAT files."
+]
+
+description = """
+matio is a C library for reading and writing Matlab MAT files.
+"""
+
+docurls = [
+    "PDF of the documentation available on https://sourceforge.net/projects/matio/files/matio/%(version)s/matio_user_guide.pdf/download",
+]
+
+toolchain = {'name': 'cpeGNU', 'version': '22.12'}
+
+source_urls = [SOURCEFORGE_SOURCE]
+sources =     [SOURCELOWER_ZIP]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s',   '', True)
+]
+
+preconfigopts = 'chmod +x configure && '
+
+sanity_check_paths = {
+    'files': ['include/matio.h', 'bin/matdump', 'lib/libmatio.a'],
+    'dirs':  [],
+}
+
+moduleclass = 'lib'
