@@ -24,14 +24,14 @@
 
 ### Known issues
 
-     -  Fails to build with recent versions of make and CMake, avoid using `buildtools` module, works with system's `make/4.2.1` and `cmake/3.20.4`; see [this issue](https://github.com/GEOS-DEV/thirdPartyLibs/issues/136).
-     -  Fails to build with recent versions of Boost (which requires C++14) overwriting compile options for C++11, works with `Boost/1.72.0`.
-     -  Includes Kokkos but no GPU support enabled in this version, target is LUMI-C.
+-  Fails to build with recent versions of make and CMake, avoid using `buildtools` module, works with system's `make/4.2.1` and `cmake/3.20.4`; see [this issue](https://github.com/GEOS-DEV/thirdPartyLibs/issues/136).
+-  Fails to build with recent versions of Boost (which requires C++14) overwriting compile options for C++11, works with `Boost/1.72.0`.
+-  Includes Kokkos but no GPU support enabled in this version, target is LUMI-C.
 
 ### Dependencies
 
-     -  Boost, SuperLU, SuperLU_DIST, ParMETIS, SCOTCH, MUMPS, MATIO.  ('cray-python',   EXTERNAL_MODULE),
-     -  Python3, HDF5 (parallel), NetCDF (parallel) from the Cray PE.
+-  Boost, SuperLU, SuperLU_DIST, ParMETIS, SCOTCH, MUMPS, MATIO.  
+-  Python3, HDF5 (parallel), NetCDF (parallel) from the Cray PE.
 
 ## Version 13.4.1 for cpeGNU
 
