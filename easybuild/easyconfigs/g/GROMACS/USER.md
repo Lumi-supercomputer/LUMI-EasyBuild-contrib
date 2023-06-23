@@ -22,6 +22,8 @@ which are available as modules. Batch script templates for different use cases a
 Expect the performance from one GCD to exceed that of a 128 core CPU node.
 Please, consult the
 [instructions on how to enable CSC installed module on LUMI](https://docs.lumi-supercomputer.eu/software/local/csc/).
+The CSC-compiled versions are supported by CSC rather than by the LUMI User Support 
+Team.
 
 
 ## A note about the CPU versions with PLUMED after the March/April 2023 system maintenance/update
@@ -32,7 +34,6 @@ of enabling support for the `cray-python` modules. Therefore the corresponding
 EasyConfigs of GROMACS have also been replaced.
 
 It is done this way because it is also unclear if the Python support is needed when
-used with GROMACS. Both versions with and without Python support for PLUMED bild.
-
+used with GROMACS. 
 
 See also the [page on PLUMED](../../p/PLUMED/).
