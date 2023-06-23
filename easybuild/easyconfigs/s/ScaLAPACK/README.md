@@ -50,8 +50,5 @@
 
   * Trivial port of the 3.2 EasyConfigs for cpeGNU and cpeAOCC.
   
-  * The Cray version is currently broken again with undefined symbols when linking.
-    It is possible that those symbols (`_idmin_` and `_ismin_`) come from the BLAS library
-    though there are some indications that some Fortran compilers have them in their runtime
-    library.
+  * The Cray version is still broken.
 
