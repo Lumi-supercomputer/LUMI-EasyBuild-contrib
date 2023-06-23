@@ -37,3 +37,11 @@
 
 -   The EasyConfig file is developed in LUST, with currently some fewer options as the
     one in the EasyBuilders repository, and without GPU support.
+
+## Version 12.18.1 for cpeGNU 22.12
+    
+-   A downgrade as a user required the version 12 API.
+
+-   Based more on the Cray scripts for installing the former TPSL and some other libraries.
+
+   
