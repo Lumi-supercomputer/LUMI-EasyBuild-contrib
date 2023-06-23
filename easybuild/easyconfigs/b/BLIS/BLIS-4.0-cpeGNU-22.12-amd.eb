@@ -51,17 +51,19 @@ builddependencies = [ # Create a reproducible build environment.
     ('buildtools', '%(toolchain_version)s', '', True),
 ]
 
-preconfigopts = 'module unload cray-libsci && '
+preconfigopts = 'module unload cray-libsci && export OMP_NUM_THREADS=8 && '
 
 import os
 local_partition = os.getenv('LUMI_STACK_PARTITION')
 
 local_config_registry = 'zen3' if local_partition in ['C', 'G'] else 'zen2'
 
+local_common_opts = '--enable-cblas --enable-shared CC=cc '
+
 # Build Serial and multithreaded library
 configopts = [
-    "--enable-cblas --enable-shared CC=cc " + local_config_registry,
-    "--enable-cblas --enable-threading=openmp --enable-shared CC=cc " + local_config_registry
+    local_common_opts + local_config_registry,
+    '--enable-threading=openmp ' + local_common_opts + local_config_registry
 ]
 
 prebuildopts = 'module unload cray-libsci && '
@@ -69,7 +71,14 @@ prebuildopts = 'module unload cray-libsci && '
 #buildopts = 'showconfig'
 
 pretestopts = 'module unload cray-libsci && export OMP_NUM_THREADS=8 && '
-runtest = 'check'
+runtest =     'check'
+
+installopts  = ' && mkdir -p %(installdir)s/easybuild-extra-logs'
+installopts += ' && cp output.testsuite %(installdir)s/easybuild-extra-logs/output.testsuite.$(date -Iseconds)'
+
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s && cp CHANGELOG CREDITS LICENSE README.md %(installdir)s/share/licenses/%(name)s',
+]
 
 sanity_check_paths = {
     'files': ['include/blis/cblas.h', 'include/blis/blis.h',
@@ -77,6 +86,10 @@ sanity_check_paths = {
               'lib/libblis-mt.a', 'lib/libblis-mt.%s' % SHLIB_EXT],
     'dirs':  [],
 }
+
+sanity_check_commands = [
+    'pkg-config --libs blis',    
+]
 
 modextrapaths = {'CPATH': 'include/blis'}
 

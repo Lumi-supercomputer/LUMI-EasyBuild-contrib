@@ -34,3 +34,6 @@
   * Did restrict the number of threads for the tests though as not doing so 
     resulted in frequent errors when compiling on the login nodes.
 
+  * Reworked the EasyConfig trying to save the test results in the installation
+    which does not yet fully work, and storing license information with the 
+    installation.
