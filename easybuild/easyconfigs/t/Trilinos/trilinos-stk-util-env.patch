@@ -1,0 +1,16 @@
+Make sure STKUtil knows where to find 'struct timezone',
+'gettimeofday', 'struct rusage', 'getrusage' when compiling with CCE.
+
+Upstreamed in release 12.14.1.
+
+--- a/packages/stk/stk_util/stk_util/environment/Env.cpp	2014-08-04 17:00:38.000000000 -0500
++++ b/packages/stk/stk_util/stk_util/environment/Env.cpp	2014-09-05 09:26:42.000021000 -0500
+@@ -31,7 +31,7 @@
+ #include "boost/program_options/variables_map.hpp"  // for variables_map, etc
+ #include "stk_util/environment/ReportHandler.hpp"  // for ThrowRequire
+ 
+-#if defined(__GNUC__)
++#if defined(__GNUC__) || defined(_CRAYC)
+ #include <cstdlib>
+ #include <sys/time.h>
+ #include <sys/resource.h>

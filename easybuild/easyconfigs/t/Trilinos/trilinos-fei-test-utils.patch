@@ -1,0 +1,15 @@
+Do not build test_utils library unless tests are requested.
+
+--- trilinos-12.2.1-Source/packages/fei/CMakeLists.txt
++++ trilinos-12.2.1-Source/packages/fei/CMakeLists.txt
+@@ -63,9 +63,9 @@
+ 
+ ADD_SUBDIRECTORY(base)
+ ADD_SUBDIRECTORY(support-Trilinos)
+-ADD_SUBDIRECTORY(test_utils)
+ 
+ 
++TRIBITS_ADD_TEST_DIRECTORIES(test_utils)
+ TRIBITS_ADD_TEST_DIRECTORIES(test)
+ TRIBITS_ADD_TEST_DIRECTORIES(unit_tests_base)
+ TRIBITS_ADD_TEST_DIRECTORIES(unit_tests)

@@ -1,0 +1,29 @@
+Use dynamic casts for Amesos2's abstract matrix adapters with CCE, as
+was the precedent with NVCC.
+
+--- trilinos-12.12.1-Source/packages/amesos2/src/Amesos2_EpetraRowMatrix_AbstractMatrixAdapter_def.hpp
++++ trilinos-12.12.1-Source/packages/amesos2/src/Amesos2_EpetraRowMatrix_AbstractMatrixAdapter_def.hpp
+@@ -293,8 +293,8 @@ namespace Amesos2 {
+   AbstractConcreteMatrixAdapter<Epetra_RowMatrix, DerivedMat>::get_impl(const Teuchos::Ptr<const Tpetra::Map<local_ordinal_t,global_ordinal_t,node_t> > map, EDistribution distribution) const
+   {
+     // Delegate implementation to subclass
+-#ifdef __CUDACC__
+-    // NVCC doesn't seem to like the static_cast, even though it is valid
++#if defined(__CUDACC__) || defined(_CRAYC)
++    // NVCC and Cray C++ don't seem to like the static_cast, even though it is 'valid'
+     return dynamic_cast<ConcreteMatrixAdapter<DerivedMat>*>(this)->get_impl(map, distribution);
+ #else
+     return static_cast<ConcreteMatrixAdapter<DerivedMat>*>(this)->get_impl(map);
+--- trilinos-12.12.1-Source/packages/amesos2/src/Amesos2_TpetraRowMatrix_AbstractMatrixAdapter_def.hpp
++++ trilinos-12.12.1-Source/packages/amesos2/src/Amesos2_TpetraRowMatrix_AbstractMatrixAdapter_def.hpp
+@@ -364,8 +364,8 @@ namespace Amesos2 {
+     Tpetra::RowMatrix<Scalar, LocalOrdinal, GlobalOrdinal, Node>, DerivedMat
+     >::get_impl(const Teuchos::Ptr<const Tpetra::Map<local_ordinal_t,global_ordinal_t,node_t> > map, EDistribution distribution) const
+   {
+-#ifdef __CUDACC__
+-    // NVCC doesn't seem to like the static_cast, even though it is valid
++#if defined(__CUDACC__) || defined(_CRAYC)
++    // NVCC and Cray C++ don't seem to like the static_cast, even though it is 'valid'
+     return dynamic_cast<ConcreteMatrixAdapter<DerivedMat>*>(this)->get_impl(map, distribution);
+ #else
+     return static_cast<ConcreteMatrixAdapter<DerivedMat>*>(this)->get_impl(map);
