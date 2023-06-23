@@ -1,20 +1,28 @@
 easyblock = "CMakeMake"
 
-name = 'SuperLU'
-version = '6.0.0'
+name =          'SuperLU'
+version =       '6.0.0'
 versionsuffix = '-OpenMP'
 
 homepage = 'https://crd-legacy.lbl.gov/~xiaoye/SuperLU/'
-description = """SuperLU is a general purpose library for the 
+
+whatis = [
+    'Description: SuperLU is a general purpose library for the direct solution of large, sparse, nonsymmetric systems of linear equations on high performance machines.'    
+]
+
+description = """
+SuperLU is a general purpose library for the 
 direct solution of large, sparse, nonsymmetric systems
- of linear equations on high performance machines."""
+of linear equations on high performance machines.
+The library is written in C and is callable from either C or Fortran program.
+"""
 
 toolchain = {'name': 'cpeGNU', 'version': '22.12'}
 toolchainopts = {'pic': True, 'openmp': True}
 
 github_account = 'xiaoyeli'
-source_urls = [GITHUB_LOWER_SOURCE]
-sources = ["v%(version)s.tar.gz"]
+source_urls =    [GITHUB_LOWER_SOURCE]
+sources =        ["v%(version)s.tar.gz"]
 
 builddependencies = [
     ('buildtools', '%(toolchain_version)s', '', True),
