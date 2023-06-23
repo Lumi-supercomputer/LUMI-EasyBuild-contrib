@@ -7,13 +7,21 @@ There exist two different versions of GROMACS for AMD GPUs.
 -   The authors of GROMACS use SYCL for an implementation for AMD GPUs. These versions
     are or will be part of the official GROMACS distribution channels.
 -   AMD has made a hip port of the CUDA version. It is not clear though to what extent
-    that branch will see further development as GROMACS evolves.
+    that branch will see further development as GROMACS evolves. GROMACS developers
+    don't provide support on using this version.
 
-When testing in early 2023, the HIP port offered significantly better performance than the
-SYCL port.
+According to tests in June 2023, the HIP port offered 15-25% more performance compared
+to SYCL port, but the GROMACS release has been more tested and is supported by the
+development team.
 
 Check the technical documentation of the EasyConfigs to find out on which branch of GROMACS
 the recipes are based. That documentation is more towards the bottom of the page.
+
+Alternatively, you can load one of the [CSC compiled versions](https://docs.csc.fi/apps/gromacs/#lumi)
+which are available as modules. Batch script templates for different use cases are also provided.
+Expect the performance from one GCD to exceed that of a 128 core CPU node.
+Please, consult the
+[instructions on how to enable CSC installed module on LUMI](https://docs.lumi-supercomputer.eu/software/local/csc/).
 
 
 ## A note about the CPU versions with PLUMED after the March/April 2023 system maintenance/update
