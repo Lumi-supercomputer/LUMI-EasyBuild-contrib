@@ -5,6 +5,12 @@
   * [ScaLAPACK on GitHub](https://github.com/Reference-ScaLAPACK/scalapack)
   
   * [AMD fork of ScaLAPACK in GitHub](https://github.com/amd/aocl-scalapack)
+  
+ 
+## Notes
+
+  * AMD ScaLAPACK 4.0 seems to be based on version 2.1 which does not yet contain
+    support for 64-bit integers in the routine interfaces.
 
 
 ## EasyBuild
