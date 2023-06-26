@@ -1,0 +1,63 @@
+easyblock = 'MakeCp'
+
+local_libaio_version = '0.3.113' # https://pagure.io/libaio/releases
+
+name =    'libaio'
+version = local_libaio_version
+
+local_libaio_libversion =    '1.0.2'         # Version for the .so file.
+
+homepage = 'https://pagure.io/libaio'
+
+whatis = [
+    'Description: Asynchronous input/output library that uses the kernels native interface.'    
+]
+description = """
+Linux native Asynchronous I/O interface library.
+
+AIO enables even a single application thread to overlap I/O operations
+with other processing, by providing an interface for submitting one or
+more I/O requests in one system call (io_submit()) without waiting for
+completion, and a separate interface (io_getevents()) to reap completed
+I/O operations associated with a given completion group.
+"""
+
+docurls = [
+    'man pages in section 3, start with "man io".',
+]
+
+toolchain = {'name': 'cpeCray', 'version': '22.12'}
+
+source_urls = ['https://pagure.io/%(name)s/archive/%(name)s-%(version)s/']
+sources =     ['%(name)s-%(version)s.tar.gz']
+checksums =   ['1c561c20670c5c09cc8437a622008c0693c6a7816c1f30332da3796953b2f454']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', SYSTEM),
+]
+
+local_soname = "libaio.%s.%s" % (SHLIB_EXT, local_libaio_libversion)
+
+files_to_copy = [
+    (["src/libaio.a", "src/%s" % local_soname], "lib"),
+    (["src/libaio.h"], "include"),
+    (["man/*"], "share/man/man3"),
+    (["COPYING"], "share/licenses/%(name)s"),
+]
+
+# links to the shared library with generic names
+local_solinks = [
+    "libaio.%s" % SHLIB_EXT,
+    "libaio.%s.1" % SHLIB_EXT,
+]
+
+postinstallcmds = [
+    "cd %%(installdir)s/lib && ln -s %s %s" % (local_soname, l) for l in local_solinks
+]
+
+sanity_check_paths = {
+    'files': ['lib/%s' % l for l in ['libaio.a', local_soname] + local_solinks] + ['include/libaio.h'],
+    'dirs':  ['share/man/man3'],
+}
+
+moduleclass = 'lib'
