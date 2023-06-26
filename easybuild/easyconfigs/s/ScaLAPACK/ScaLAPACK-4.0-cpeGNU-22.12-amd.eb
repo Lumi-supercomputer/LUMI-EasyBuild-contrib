@@ -55,6 +55,10 @@ configopts += '-DBUILD_SHARED_LIBS=ON -DBUILD_STATIC_LIBS=ON -DCMAKE_BUILD_TYPE=
 
 prebuildopts = 'module unload cray-libsci && '
 
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s && cd ../aocl-scalapack-%(version)s && cp LICENSE README README_ScaLAPACK_AMD %(installdir)s/share/licenses/%(name)s',
+]
+
 sanity_check_paths = {
     'files': ['lib/libscalapack.%s' % SHLIB_EXT],
     'dirs':  ['lib'],
