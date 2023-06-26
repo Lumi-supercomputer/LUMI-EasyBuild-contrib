@@ -7,6 +7,12 @@
   * [AMD's GitHub with the libFLAME fork](https://github.com/amd/libflame)
 
 
+## Notes
+
+  * The regular versions use 32-bit integers in the Lapack interfaces but we also created
+    versions with a 64-bit interface.
+
+
 ## EasyBuild
 
   * [Support in the EasyBuilders repository](https://github.com/easybuilders/easybuild-easyconfigs/tree/develop/easybuild/easyconfigs/l/libFLAME)

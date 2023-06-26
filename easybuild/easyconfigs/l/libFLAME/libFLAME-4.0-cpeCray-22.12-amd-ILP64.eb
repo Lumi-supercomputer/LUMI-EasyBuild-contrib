@@ -2,7 +2,7 @@ easyblock = 'ConfigureMake'
 
 name =          'libFLAME'
 version =       '4.0'
-versionsuffix = '-amd'
+versionsuffix = '-amd-ILP64'
 
 homepage = 'https://developer.amd.com/amd-cpu-libraries/blas-library/#libflame'
 
@@ -26,9 +26,12 @@ problems with the Cray LibSci library. Note however that software in the
 LUMI stack is by default build with the Cray LibSci library, so your code
 that relies on libFLAME and BLIS may not link correctly to any of the other
 modules in the LUMI software stacks.
+
+The ILP64 versions of the modules provide a LAPACK interface with 64-bit
+integers.
 """
 
-toolchain = {'name': 'cpeGNU', 'version': '22.12'}
+toolchain = {'name': 'cpeCray', 'version': '22.12'}
 
 source_urls = ['https://github.com/amd/libflame/archive/']
 sources =     ['%(version)s.tar.gz']
@@ -61,6 +64,7 @@ configopts += '--enable-static-build --enable-dynamic-build '
 configopts += '--enable-multithreading=openmp '
 configopts += '--enable-supermatrix '
 configopts += '--enable-amd-flags --enable-amd-opt '
+configopts += '--enable-ilp64 '
 
 prebuildopts = 'module unload cray-libsci && '
 

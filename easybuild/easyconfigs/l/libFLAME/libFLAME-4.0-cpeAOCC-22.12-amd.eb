@@ -61,8 +61,6 @@ configopts += '--enable-static-build --enable-dynamic-build '
 configopts += '--enable-multithreading=openmp '
 configopts += '--enable-supermatrix '
 configopts += '--enable-amd-aocc-flags --enable-amd-opt '
-# Uncomment the next one to make an ILP64 build, but this requires a similar build of BLIS!
-# configopts += '--enable-amd-flags --enable-amd-opt '
 
 prebuildopts = 'module unload cray-libsci && '
 
