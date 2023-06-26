@@ -67,6 +67,10 @@ prebuildopts = 'module unload cray-libsci && '
 # libFLAME C++ Template API tests
 # runtest = 'checkcpp LIBBLAS=$EBROOTBLIS/lib/libblis.a'
 
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s && cp AUTHORS CHANGELOG KNOWN-ISSUES LICENSE README.md README-AMD.md README-UT-SHPC.md %(installdir)s/share/licenses/%(name)s',
+]
+
 sanity_check_paths = {
     'files': ['include/FLAME.h', 'lib/libflame.a', 'lib/libflame.%s' % SHLIB_EXT],
     'dirs':  ['lib'],
