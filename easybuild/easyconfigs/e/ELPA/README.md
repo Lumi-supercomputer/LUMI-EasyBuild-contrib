@@ -61,3 +61,8 @@ multithread version or the singlethread version?
 ### 2022.11 for cpeGNU 22.08
 
   * Trivial port of older EasyConfigs.
+
+### 2023.05.001 GPU for 22.12
+
+  * Supports GNU toolchain with ROCm (version agnostic)
+  * No support for OpenMP (conficts with GPU stream implementation) 
