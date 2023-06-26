@@ -1,0 +1,180 @@
+easyblock = 'CMakeMake'
+
+name = 'ADIOS2'
+version = '2.8.3'
+
+local_zlib_version         =  '1.2.12'
+local_bzip2_version        =  '1.0.8'
+local_Szip_version         =  '2.1.1'
+local_SZ_version           =  '2.1.12'
+local_zfp_version          =  '0.5.5'
+local_Blosc_version        =  '1.21.2'
+local_libpng_version       =  '1.6.38'
+local_ZeroMQ_version       =  '4.3.4'
+local_nlohmannjson_version =  '3.11.2'
+
+local_pybind11_cmake_prefix = 'lib/python%(pyshortver)s/site-packages/pybind11/share/cmake'
+
+homepage = 'https://www.olcf.ornl.gov/center-projects/adios/'
+
+whatis = [
+    'Description: The Adaptable IO System (ADIOS) provides a simple, flexible' 
+    'way for scientists to describe the data in their code'
+]
+
+description = """
+ The Adaptable IO System (ADIOS) provides a simple, flexible way for scientists 
+ to describe the data in their code that may need to be written, read, or 
+ processed outside of the running simulation. ADIOS2 is
+ 
+  - A Unified High-performance I/O Framework: using the same abstraction API 
+    ADIOS2 can transport and transform groups of self-describing data variables
+    and attributes across different media (file, wide-area-network, in-memory 
+    staging, etc.) with performance an ease of use as the main goals.
+  - MPI-based: parallel MPI applications as well as serial codes can use it
+  - Streaming-oriented: ADIOS2 favors codes transferring a group of variables
+    asynchronously wherever possible. Moving one variable at a time, in
+    synchronous fashion, is the special case rather than normal.
+  - Step-based: to resemble actual production of data in “steps” of variable
+    groups, for either streaming or random-access (file) media
+  - Extreme scale I/O: ADIOS2 is being used in supercomputer applications that
+    write and read up to several petabytes in a single simulation run. ADIOS2 is
+    designed to provide scalable I/O on the largest supercomputers in the world.
+"""
+
+docurls = ['https://adios2.readthedocs.io/en/latest/index.html']
+software_license_urls = ['https://github.com/ornladios/ADIOS2/blob/master/LICENSE']
+
+toolchain = {'name': 'cpeGNU', 'version': '22.12'}
+toolchainopts = {'pic': True}
+
+github_account = 'ornladios'
+source_urls = [GITHUB_SOURCE]
+sources = ['v%(version)s.tar.gz']
+checksums = [
+    '4906ab1899721c41dd918dddb039ba2848a1fb0cf84f3a563a1179b9d6ee0d9f',
+]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+    ('cray-python',   EXTERNAL_MODULE),
+    ('cray-hdf5',     EXTERNAL_MODULE),
+    ('zlib',          local_zlib_version),
+    ('bzip2',         local_bzip2_version),
+    ('Szip',          local_Szip_version),
+    ('SZ',            local_SZ_version),
+    ('zfp',           local_zfp_version),
+    ('Blosc',         local_Blosc_version),
+    ('libpng',        local_libpng_version),
+    ('ZeroMQ',        local_ZeroMQ_version),
+    ('nlohmann-json', local_nlohmannjson_version),
+]
+
+preconfigopts  = 'export CMAKE_PREFIX_PATH=${EBROOTPYTHON}/%s:$CMAKE_PREFIX_PATH && ' % local_pybind11_cmake_prefix
+
+configopts  = "-DADIOS2_USE_Fortran=ON "
+configopts += "-DADIOS2_USE_MPI=ON "
+
+# Examples/Testing
+configopts += "-DADIOS2_BUILD_EXAMPLES=OFF "
+configopts += "-DADIOS2_BUILD_EXAMPLES_EXPERIMENTAL=OFF "
+
+# Compression
+configopts += "-DADIOS2_USE_BZip2=ON "
+configopts += "-DADIOS2_USE_PNG=ON "
+configopts += "-DADIOS2_USE_SZ=ON "
+configopts += "-DADIOS2_USE_ZFP=ON "
+configopts += "-DADIOS2_USE_Blosc=ON "
+
+# HDF5
+configopts += "-DADIOS2_USE_HDF5=ON "
+
+# ZeroMQ
+configopts += "-DADIOS2_USE_ZeroMQ=ON "
+
+# Python
+configopts += "-DADIOS2_USE_Python=ON "
+
+# System Virtual Shared Memory
+configopts += "-DADIOS2_USE_SysVShMem=ON "
+
+# Sustainable Staging Transport
+# https://adios2.readthedocs.io/en/latest/engines/engines.html#sst-sustainable-staging-transport
+configopts += "-DADIOS2_USE_SST=ON "
+configopts += "-DLIBFABRIC_ROOT=/opt/cray/libfabric/$(pkg-config --modversion libfabric) "
+
+# DataMan
+# https://adios2.readthedocs.io/en/latest/engines/engines.html#dataman-for-wide-area-network-data-staging
+configopts += "-DADIOS2_USE_DataMan=ON "
+
+# DataSpaces (mind. version 1.8)
+configopts += "-DADIOS2_USE_DataSpaces=OFF "
+
+# external libs
+configopts += "-DADIOS2_USE_EXTERNAL_PYBIND11=ON "
+configopts += "-DADIOS2_USE_EXTERNAL_NLOHMANN_JSON=ON "
+configopts += "-Dnlohmann_json_DIR=${EBROOTNLOHMANNMINJSON} "
+
+# more options
+configopts += "-DADIOS2_USE_IME=OFF "
+configopts += "-DADIOS2_USE_Profiling=OFF "
+
+runtest = False
+
+# create pkgconfig files
+postinstallcmds = [
+    'mkdir %(installdir)s/lib/pkgconfig',
+    """echo -e "Name: adios2
+Description: ADIOS2 I/O library
+Version: %(version)s
+Requires: bzip2, zfp, sz, libpng, blosc
+Libs: $(%(installdir)s/bin/adios2-config --c-libs)
+Cflags: $(%(installdir)s/bin/adios2-config --c-flags)" > %(installdir)s/lib/pkgconfig/adios2.pc""",
+    """echo -e "Name: adios2_cxx
+Description: ADIOS2 I/O library (C++)
+Version: %(version)s
+Libs: $(%(installdir)s/bin/adios2-config --cxx-libs)
+Cflags: $(%(installdir)s/bin/adios2-config --cxx-flags)" > %(installdir)s/lib/pkgconfig/adios2_cxx.pc""",
+    """echo -e "Name: adios2_f
+Description: ADIOS2 I/O library (Fortran)
+Version: %(version)s
+Libs: $(%(installdir)s/bin/adios2-config --fortran-libs)
+Cflags: $(%(installdir)s/bin/adios2-config --fortran-flags)" > %(installdir)s/lib/pkgconfig/adios2_f.pc""",
+]
+
+sanity_check_paths = {
+    'files': ['bin/adios2-config', 'bin/bpls', 'bin/bp4dbg'],
+    'files': ['include/adios2.h', 'include/adios2_c.h', 'include/adios2/fortran/adios2.mod'],
+    'files': [
+        'lib64/libadios2_core.so', 'lib64/libadios2_core_mpi.so', 'lib64/cmake/adios2/adios2-config.cmake',
+        'lib64/libadios2_c.so', 'lib64/libadios2_c_mpi.so', 'lib64/libadios2_cxx11.so',
+        'lib64/libadios2_cxx11_mpi.so', 'lib64/libadios2_fortran.so', 'lib64/libadios2_fortran_mpi.so'
+    ],
+    'dirs': ['lib/python%(pyshortver)s/site-packages']
+}
+
+sanity_check_paths = {
+    'files': ['bin/adios2-config', 'bin/bpls'],
+    'dirs': ['include/adios2', 'lib/python%(pyshortver)s'],
+}
+
+modextrapaths = {
+    'PYTHONPATH': 'lib/python%(pyshortver)s/site-packages',
+}
+
+modextravars = {
+    'ADIOS2_PKGCONFIG_LIBS':         'adios2',
+    'ADIOS2_CXX_PKGCONFIG_LIBS':     'adios2_cxx',
+    'ADIOS2_FORTRAN_PKGCONFIG_LIBS': 'adios2_f',
+}
+
+modluafooter = """
+prepend_path("PE_PKGCONFIG_LIBS",         "adios2")
+prepend_path("PE_CXX_PKGCONFIG_LIBS",     "adios2_cxx")
+prepend_path("PE_FORTRAN_PKGCONFIG_LIBS", "adios2_f")
+"""
+
+moduleclass = 'data'
