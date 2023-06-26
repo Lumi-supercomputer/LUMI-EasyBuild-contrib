@@ -12,7 +12,7 @@
 
   * [SZ support in the JSC repository](https://github.com/easybuilders/JSC/tree/2022/Golden_Repo/s/SZ)
 
-### Version 2.1.12 for CPE 22.08
+### Version 2.1.12 for CPE 22.08 and CPE 22.12
 
 - Based on the JSC easyconfig
 - Unload the cray-libsci module to prevent linking to the threaded version of
