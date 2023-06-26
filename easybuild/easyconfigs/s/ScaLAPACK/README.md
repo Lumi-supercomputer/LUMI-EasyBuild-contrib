@@ -5,6 +5,12 @@
   * [ScaLAPACK on GitHub](https://github.com/Reference-ScaLAPACK/scalapack)
   
   * [AMD fork of ScaLAPACK in GitHub](https://github.com/amd/aocl-scalapack)
+  
+ 
+## Notes
+
+  * AMD ScaLAPACK 4.0 seems to be based on version 2.1 which does not yet contain
+    support for 64-bit integers in the routine interfaces.
 
 
 ## EasyBuild
@@ -19,7 +25,7 @@
   * Own EasyConfig, only superficially based on the EasyBuilders one.
 
 
-### Version 3.2 for CPE 22.06
+### Version 3.2 for CPE 22.06 and 22.08
 
   * Straightforward port of the 3.1 EasyConfig.
 
@@ -44,4 +50,11 @@
         and there are also a lot of warnings. Those IDMIN and ISMIN functions should be
         in BLAS or an extension thereof so it is not clear why they are found in the
         GNU version but not in the Cray version.
+
+
+### Version 4.0 for CPE 22.12
+
+  * Trivial port of the 3.2 EasyConfigs for cpeGNU and cpeAOCC.
+  
+  * The Cray version is still broken.
 

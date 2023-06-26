@@ -7,6 +7,12 @@
   * [AMD's GitHub with the libFLAME fork](https://github.com/amd/libflame)
 
 
+## Notes
+
+  * The regular versions use 32-bit integers in the Lapack interfaces but we also created
+    versions with a 64-bit interface.
+
+
 ## EasyBuild
 
   * [Support in the EasyBuilders repository](https://github.com/easybuilders/easybuild-easyconfigs/tree/develop/easybuild/easyconfigs/l/libFLAME)
@@ -34,4 +40,17 @@
   * Fixed the setup for the Cray compilers.
   
   * Added a cpeAOCC variant in 22.08.
+  
+
+### Version 4.0 for CPE 22.12 and 22.03
+  
+  * EasyConfig started as a port but needed some work:
+  
+      * `-march` in configure is now `-mtune` so needed to adapt that line
+      
+      * Need to patch a python script that has the Python-interpreter hard-coded as 
+        `python` instead of `python3`. We do so with another `sed` in `preconfigopts`
+        as the edit is so simple a ptach isn't really needed.'
+  
+  
   

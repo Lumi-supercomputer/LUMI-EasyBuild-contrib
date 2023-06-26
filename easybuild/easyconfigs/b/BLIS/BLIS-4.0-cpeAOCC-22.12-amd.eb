@@ -1,0 +1,100 @@
+##
+# Author:    Robert Mijakovic <robert.mijakovic@lxp.lu>
+# Adapted for the LUMI consortium by Maciej Szpindler and Kurt Lust
+##
+easyblock = 'ConfigureMake'
+
+name =          'BLIS'
+version =       '4.0'
+versionsuffix = '-amd'
+
+homepage = 'https://www.amd.com/en/developer/aocl/blis.html'
+
+whatis = [
+    'Description: AMD\'s fork of BLIS. BLIS is a portable software framework for instantiating high-performance BLAS-like dense linear algebra libraries.'
+]
+
+description = """
+BLIS is a portable software framework for instantiating high-performance
+BLAS-like dense linear algebra libraries. This module provides AMD's fork
+of the BLIS library.
+
+Note that BLIS will conflict with the Cray LibSci library, so when using
+this module you have to unload the cray-libsci module as otherwise the
+Cray compiler wrappers will add LibSci to the libraries used by the
+compiler.
+
+Cray LibSci already contains BLAS, LAPACK and ScaLAPACK functionality and
+should be your first choice. But this module may be useful if you run into
+problems with the Cray LibSci library. Note however that software in the
+LUMI stack is by default build with the Cray LibSci library, so your code
+that relies on BLIS may not link correctly to any of the other modules
+in the LUMI software stacks.
+"""
+
+usage = """
+Note that using the C BLAS interface (by including <blis/cblas.h>) may
+lead to error messages in combination with certain -stc= options as 
+depending on the options certain symbols in pthread.h may not be defined.
+"""
+
+docurls = [ 'https://github.com/amd/blis/blob/master/docs/BuildSystem.md',
+]
+
+toolchain = {'name': 'cpeAOCC', 'version': '22.12'}
+
+source_urls = ['https://github.com/amd/blis/archive/']
+sources =     ['%(version)s.tar.gz']
+checksums =   ['cddd31176834a932753ac0fc4c76332868feab3e9ac607fa197d8b44c1e74a41']
+
+builddependencies = [ # Create a reproducible build environment.
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+preconfigopts = 'module unload cray-libsci && export OMP_NUM_THREADS=8 && '
+
+import os
+local_partition = os.getenv('LUMI_STACK_PARTITION')
+
+local_config_registry = 'zen3' if local_partition in ['C', 'G'] else 'zen2'
+
+local_common_opts = '--enable-cblas --enable-shared CC=cc '
+
+# Build Serial and multithreaded library
+configopts = [
+    local_common_opts + local_config_registry,
+    '--enable-threading=openmp ' + local_common_opts + local_config_registry
+]
+
+prebuildopts = 'module unload cray-libsci && '
+
+#buildopts = 'showconfig'
+
+pretestopts = 'module unload cray-libsci && export OMP_NUM_THREADS=8 && '
+runtest =     'check'
+
+installopts  = ' && mkdir -p %(installdir)s/easybuild-extra-logs'
+installopts += ' && cp output.testsuite %(installdir)s/easybuild-extra-logs/output.testsuite.$(date -Iseconds)'
+
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s && cp CHANGELOG CREDITS LICENSE README.md %(installdir)s/share/licenses/%(name)s',
+]
+
+sanity_check_paths = {
+    'files': ['include/blis/cblas.h', 'include/blis/blis.h',
+              'lib/libblis.a', 'lib/libblis.%s' % SHLIB_EXT,
+              'lib/libblis-mt.a', 'lib/libblis-mt.%s' % SHLIB_EXT],
+    'dirs':  [],
+}
+
+sanity_check_commands = [
+    'pkg-config --libs blis',    
+]
+
+modextrapaths = {'CPATH': 'include/blis'}
+
+#modluafooter = """
+#conflict("cray-libsci")
+#"""
+
+moduleclass = 'numlib'
