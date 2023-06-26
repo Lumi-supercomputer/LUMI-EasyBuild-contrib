@@ -19,3 +19,8 @@
 
 - Based on the JSC easyconfig
 
+### Version 2.8.3 for CPE 22.12
+
+- Based on the JSC easyconfig
+
+

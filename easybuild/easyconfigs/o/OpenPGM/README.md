@@ -10,7 +10,7 @@
 
   * [OpenPGM support in the JSC repository](https://github.com/easybuilders/JSC/tree/2022/Golden_Repo/o/OpenPGM)
 
-### Version 5.2.122 for CPE 22.08
+### Version 5.2.122 for CPE 22.08 and CPE 22.12
 
 - Based on the EasyBuilders easyconfig
 
