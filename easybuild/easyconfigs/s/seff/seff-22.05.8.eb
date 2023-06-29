@@ -1,0 +1,33 @@
+# Created for LUMI by Orian Louant
+
+easyblock = 'ConfigureMake'
+
+name = 'seff'
+version = '22.05.8'
+
+homepage = 'https://slurm.schedmd.com/'
+
+whatis = ['Description: seff is an utility that reports on job\'s CPU and memory utilization']
+
+description = """
+ seff is a small utility that takes a Slurm jobid and reports on the efficiency
+ of that job's CPU and memory utilization.
+"""
+
+software_license_urls = ['https://slurm.schedmd.com/disclaimer.html']
+
+toolchain = SYSTEM
+
+source_urls = ['https://github.com/SchedMD/slurm/archive/refs/tags']
+sources = ['slurm-22-05-8-1.tar.gz']
+checksums = ['8c8f6a26a5d51e6c63773f2e02653eb724540ee8b360125c8d7732314ce737d6']
+
+install_cmd  = 'cd contribs/perlapi && make -j%(parallel)s install && cd - && '
+install_cmd += 'cd contribs/seff && make install'
+
+sanity_check_paths = {
+    'files': ['bin/seff'],
+    'dirs': [],
+}
+
+moduleclass = 'tools'
