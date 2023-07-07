@@ -1,0 +1,75 @@
+easyblock = 'CMakeMake'
+
+local_craypython_version =   '3.9.13.1'
+local_Boost_version =        '1.81.0'        # https://www.boost.org/
+
+name =          'hipSYCL'
+version =       '0.9.4'
+versionsuffix = '-rocmclang'
+
+homepage = 'https://opensycl.github.io/'
+
+whatis = [
+    "Description: hipSYCL is a modern SYCL implementation targeting CPUs and GPUs, with a focus on leveraging existing toolchains such as CUDA or HIP"
+]
+
+description = """
+hipSYCL is a modern SYCL implementation targeting CPUs and
+GPUs, with a focus on leveraging existing toolchains such as CUDA or HIP.
+
+It targets any CPU via OpenMP, NVIDIA GPUs via CUDA, AMD GPUs via HIP/ROCm and 
+Intel GPUs via oneAPI Level Zero and SPIR-V (experimental). However, this 
+module is for LUMI and does not contain the NVIDIA and Intel GPU support.
+
+This module offers a hipSYCL binary that can work within the cpeCray 
+environment. The settings have been provided by a user, and it works for 
+that project but we cannot guarantee it will work for your project also.
+It integrates with the ROCm clang though instead of the Cray one so there
+may be problems when trying to link with Cray lang. Note that Cray clang
+in cpeCray/23.03 and the ROCm clang in rocm/5.3.3 are both based on 
+clang 15.
+"""
+
+toolchain = {'name': 'cpeCray', 'version': '23.03'}
+toolchainopts = {'verbose': False, 'openmp': True}
+
+source_urls = ["https://github.com/illuhad/hipSYCL/archive/refs/tags/"]
+sources =     ["v%(version)s.tar.gz"]
+checksums =   ['6262533191c812966e2f8b67e6ae510ae5ad2cf7e0caecc9957e8a69423e51c4']
+
+dependencies = [
+    ('Boost',                                   local_Boost_version),
+    (f'cray-python/{local_craypython_version}', EXTERNAL_MODULE),
+    ('rocm',                                    '5.3.3',             '', SYSTEM),
+]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+configopts  = '-DROCM_PATH=$ROCM_PATH '
+#configopts += '-DWITH_SSCP_COMPILER=OFF '  # This is key to get it working with cpeCray according to the user.
+configopts += '-DWITH_ACCELERATED_CPU=ON '
+configopts += '-DWITH_CPU_BACKEND=ON '
+configopts += '-DWITH_CUDA_BACKEND=OFF '
+configopts += '-DWITH_ROCM_BACKEND=ON '
+configopts += '-DDEFAULT_GPU_ARCH=gfx90a '
+
+sanity_check_paths = {
+    'files': ['bin/syclcc-clang', 'include/sycl/sycl.hpp',
+              'lib/hipSYCL/librt-backend-omp.%s' % SHLIB_EXT,
+              'lib/hipSYCL/librt-backend-hip.%s' % SHLIB_EXT,
+              'lib/libhipSYCL_clang.%s' % SHLIB_EXT,
+              'lib/libhipSYCL-rt.%s' % SHLIB_EXT],
+    'dirs':  ['include/CL', 'include/hipSYCL', 'include/SYCL'],
+}
+sanity_check_commands = [
+    'syclcc --version',
+    'syclcc --hipsycl-version',
+]
+
+modextravars = {
+    'HIPSYCL_TARGETS': 'hip:gfx90a',
+}
+
+moduleclass = 'compiler'
