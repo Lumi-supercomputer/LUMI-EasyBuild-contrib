@@ -1,6 +1,6 @@
 # seff user instructions
 
-This is the `seff` command to try to extract efficiency data from Flurm.
+This is the `seff` command to try to extract efficiency data from Slurm.
 
 It is provided "as is". We know it is broken on LUMI and cannot deal properly
 with all hyperthreading scenarios so the numbers reported may actually be wrong
