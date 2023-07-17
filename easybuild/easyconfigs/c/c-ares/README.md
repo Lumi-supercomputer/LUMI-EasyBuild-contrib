@@ -10,9 +10,6 @@
 -   There is no support in the CSCS repository.
 
 
-### Version 1.16.1 for CPE 21.12 and later
+### Version 1.18.1 for CPE 21.12 and later
 
 -   Direct port of the EasyBuilders build recipe.
-
-
-    
