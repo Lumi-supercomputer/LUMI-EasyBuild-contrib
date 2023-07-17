@@ -24,3 +24,9 @@
     minutes or more.
 
 -   Some extensions to the sanity checks.
+
+-   As of July 2023, the testing step fails. There is one error in the log 
+    where it is not clear if it is the result of one of the other errors or not.
+    But the log file also contains errors in `LpdMessageDispatcherTest.cc` and
+    `LpdMessageReceiverTest.cc`, and inspection of the code indicates that those
+    routines try to communicate with an external service that may no longer exist.
