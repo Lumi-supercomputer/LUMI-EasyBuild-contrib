@@ -30,4 +30,9 @@ norm-conserving and ultrasoft).
 ### Version 7.1 for cpeGNU 22.06, 22.08
 
   * The EasyConfig is a port of the 7.0 one. 
+  
+
+### Version 7.1 for cpeGNU 22.12
+
+  * The EasyConfig is a port of the 7.1 one. 
 
