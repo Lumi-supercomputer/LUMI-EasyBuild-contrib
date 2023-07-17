@@ -14,7 +14,7 @@
 -   [Support for arpack-ng in Spack](https://spack.readthedocs.io/en/latest/package_list.html#arpack-ng)
 
 
-### Version 3.9.0 for cpeGNU in 22.08
+### Version 3.9.0 for cpeGNU in 22.08 and 22.12
 
 -   The EasyConfig is developed in LUST and already switched to the 
     CMake build process while those for older versions in the EasyBuilders
