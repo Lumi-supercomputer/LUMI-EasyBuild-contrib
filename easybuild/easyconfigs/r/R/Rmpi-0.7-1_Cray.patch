@@ -1,0 +1,11 @@
+--- Rmpi/configure.orig	2022-08-10 12:04:09.178493481 +0300
++++ Rmpi/configure	2022-08-10 12:04:30.678222051 +0300
+@@ -3797,7 +3797,7 @@
+     PKG_LIBS="-Wl,-rpath,${MPI_LIBPATH} -L${MPI_LIBPATH} -lmpich -lmpigf -lmpigi ${MPI_LIBS}"
+     ;;
+   CRAY)
+-    PKG_LIBS="-L${MPI_LIBPATH} -lmpich_cray_default64 -lmpl -lopa ${MPI_LIBS}"
++    PKG_LIBS="${MPI_LIBS}"
+     ;;
+   *)
+     as_fn_error $? "Unknown type of mpi: use --with-Rmpi-type or RMPI_TYPE to specify it" "$LINENO" 5
