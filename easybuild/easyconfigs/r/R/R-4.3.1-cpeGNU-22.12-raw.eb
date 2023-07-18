@@ -1,5 +1,5 @@
 name =          'R'
-version =       '4.2.3'
+version =       '4.3.1'
 versionsuffix = '-raw'
 
 local_bzip2_version =        '1.0.8'         # http://www.bzip.org/downloads.html
@@ -43,7 +43,7 @@ toolchainopts = {'openmp': True}
 source_urls = ['https://cloud.r-project.org/src/base/R-%(version_major)s']
 sources =     [SOURCE_TAR_GZ]
 checksums = [
-    '55e4a9a6d43be314e2c03d0266a6fa5444afdce50b303bfc3b82b3979516e074',  # R-4.2.3.tar.gz
+    '8dd0bf24f1023c6f618c3b317383d291b4a494f40d73b983ac22ffea99e4ba99',  # R-4.3.1.tar.gz
 ]
 # Note: R will not be able to tell which BLAS library was used as it is linked
 # in automatically and does not appear in BLAS_LIBS so that the code in the
@@ -51,9 +51,7 @@ checksums = [
 # r_blas properly.
 
 builddependencies = [
-    ('buildtools', '%(toolchain_version)s', '', True),
-#    ('pkg-config', '0.29.2'),
-#    ('Xvfb', '1.20.13'),
+    ('buildtools', '%(toolchain_version)s', '', SYSTEM),
 ]
 
 dependencies = [
@@ -75,27 +73,6 @@ dependencies = [
     ('LibTIFF',       local_libtiff_version),
     ('cairo',         local_cairo_version),
     ('Pango',         local_Pango_version),
-    # Extensions
-#    ('Mesa', '21.1.7'),
-#    ('libGLU', '9.0.2'),
-#    ('SQLite', '3.36'),
-#    ('Java', '11', '', True),
-#    ('libxml2', '2.9.10'),  # for XML
-#    ('GMP', '6.2.1'),  # for igraph
-#    ('NLopt', '2.7.0'),  # for nloptr
-#    ('FFTW', '3.3.10'),  # for fftw
-#    ('libsndfile', '1.0.31'),  # for seewave
-#    ('ICU', '69.1'),  # for rJava & gdsfmt
-#    ('HDF5', '1.12.1'),  # for hdf5r
-#    ('UDUNITS', '2.2.28'),  # for units
-#    ('GSL', '2.7'),  # for RcppGSL
-#    ('ImageMagick', '7.1.0-4'),  # for animation
-#    ('GLPK', '5.0'),  # for Rglpk
-#    ('nodejs', '14.17.6'),  # for V8 (required by rstan)
-#    ('GDAL', '3.3.2'),  # for sf
-#    ('MPFR', '4.1.0'),  # for Rmpfr
-#    ('libgit2', '1.1.1'),
-#    ('OpenSSL', '1.1', '', True),
 ]
 
 # Some R extensions (mclust, quantreg, waveslim for example) require the math library (-lm) to avoid undefined symbols.
