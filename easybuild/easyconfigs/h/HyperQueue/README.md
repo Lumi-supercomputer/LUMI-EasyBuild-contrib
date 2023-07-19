@@ -74,4 +74,9 @@ We build our own EasyConfig. Two big warnings are needed though:
   * This is a trivial edit of the 0.4.0 one.
 
 
+### 0.16.0 for use with Rust/1.70.0
+
+  * Trivial modification of the 0.5.0 one, but we do take extra care to avoid picking up 
+    toolchain components.
+
 
