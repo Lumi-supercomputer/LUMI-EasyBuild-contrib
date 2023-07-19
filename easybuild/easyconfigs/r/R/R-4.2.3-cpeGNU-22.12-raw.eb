@@ -1,0 +1,160 @@
+name =          'R'
+version =       '4.2.3'
+versionsuffix = '-raw'
+
+local_bzip2_version =        '1.0.8'         # http://www.bzip.org/downloads.html
+local_cairo_version =        '1.17.4'        # https://www.cairographics.org/
+local_cURL_version =         '7.86.0'        # https://curl.haxx.se/download/
+local_gzip_version =         '1.12'          # https://ftp.gnu.org/gnu/gzip/
+local_libjpegturbo_version = '2.1.4'         # https://github.com/libjpeg-turbo/libjpeg-turbo/releases
+local_libpng_version =       '1.6.38'        # http://www.libpng.org/pub/png/libpng.html
+local_libreadline_version =  '8.2'           # https://ftp.gnu.org/pub/gnu/readline/
+local_libtiff_version =      '4.4.0'         # https://download.osgeo.org/libtiff/
+local_ncurses_version =      '6.4'           # https://ftp.gnu.org/pub/gnu/ncurses/
+local_Pango_version =        '1.50.12'       # http://ftp.gnome.org/pub/GNOME/sources/pango/
+local_PCRE2_version =        '10.40'         # https://ftp.pcre.org/pub/pcre/
+local_Tk_version =           '8.6.12'        # https://tcl.tk/
+local_XZ_version =           '5.4.2'         # https://tukaani.org/xz/
+local_zlib_version =         '1.2.12'        # https://zlib.net/
+
+homepage = 'https://www.r-project.org/'
+
+whatis = [
+    "Description: R is a free software environment for statistical computing and graphics."
+]
+
+description = """
+This module provides a base R package, without many bells and whistles. 
+A fully-featured R has many dependencies that do not all make sense on
+the compute nodes of LUMI, in particular when it comes to graphics.
+
+Similarly, the build process as-is will not find a web browser nor
+PDF viewer as these are not currently available on regular compute
+nodes of LUMI.
+
+This version of R links with the multithreaded version of 
+Cray LibSci, so its linear algebra routines support multithreading
+by settingh OMP_NUM_THREADS.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '22.12'}
+toolchainopts = {'openmp': True}
+
+source_urls = ['https://cloud.r-project.org/src/base/R-%(version_major)s']
+sources =     [SOURCE_TAR_GZ]
+checksums = [
+    '55e4a9a6d43be314e2c03d0266a6fa5444afdce50b303bfc3b82b3979516e074',  # R-4.2.3.tar.gz
+]
+# Note: R will not be able to tell which BLAS library was used as it is linked
+# in automatically and does not appear in BLAS_LIBS so that the code in the
+# configure script cannot figure out which BLAS is being used and set
+# r_blas properly.
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+#    ('pkg-config', '0.29.2'),
+#    ('Xvfb', '1.20.13'),
+]
+
+dependencies = [
+    # Base R
+    ('ncurses',       local_ncurses_version),
+    ('libreadline',   local_libreadline_version),
+    ('zlib',          local_zlib_version),
+    ('bzip2',         local_bzip2_version),
+    ('gzip',          local_gzip_version),
+    ('XZ',            local_XZ_version),
+    ('Info-ZIP',      '3.0-6.0'),  # Not really needed as anything in this module is also in the system-installed versions.
+    # TODO: Add a zip/unzip command, though the system one might be OK as it only uses the commands.
+    ('PCRE2',         local_PCRE2_version),    
+    ('cURL',          local_cURL_version),  # for RCurl but also used by the base R package
+    ('X11',           '%(toolchain_version)s'),
+    ('Tk',            local_Tk_version),  # for tcltk (base package)
+    ('libpng',        local_libpng_version),  # for plotting in R
+    ('libjpeg-turbo', local_libjpegturbo_version),  # for plottting in R
+    ('LibTIFF',       local_libtiff_version),
+    ('cairo',         local_cairo_version),
+    ('Pango',         local_Pango_version),
+    # Extensions
+#    ('Mesa', '21.1.7'),
+#    ('libGLU', '9.0.2'),
+#    ('SQLite', '3.36'),
+#    ('Java', '11', '', True),
+#    ('libxml2', '2.9.10'),  # for XML
+#    ('GMP', '6.2.1'),  # for igraph
+#    ('NLopt', '2.7.0'),  # for nloptr
+#    ('FFTW', '3.3.10'),  # for fftw
+#    ('libsndfile', '1.0.31'),  # for seewave
+#    ('ICU', '69.1'),  # for rJava & gdsfmt
+#    ('HDF5', '1.12.1'),  # for hdf5r
+#    ('UDUNITS', '2.2.28'),  # for units
+#    ('GSL', '2.7'),  # for RcppGSL
+#    ('ImageMagick', '7.1.0-4'),  # for animation
+#    ('GLPK', '5.0'),  # for Rglpk
+#    ('nodejs', '14.17.6'),  # for V8 (required by rstan)
+#    ('GDAL', '3.3.2'),  # for sf
+#    ('MPFR', '4.1.0'),  # for Rmpfr
+#    ('libgit2', '1.1.1'),
+#    ('OpenSSL', '1.1', '', True),
+]
+
+# Some R extensions (mclust, quantreg, waveslim for example) require the math library (-lm) to avoid undefined symbols.
+# Adding it to FLIBS makes sure it is present when needed.
+preconfigopts  = 'export FLIBS="$FLIBS -lm" && '
+# We also need to ensure a single Cray LibSci library is used. It looks like R compiles
+# some files with OpenMP if it figures out that the compiler supports OpenMP, but does
+# not add the flag to the link options, resulting in problems with Cray LibSci. Hence
+# we enforce OpenMP and manually add it to the linker flags as that is not done by
+# the build process.
+preconfigopts += 'export LDFLAGS="-fopenmp $LDFLAGS" && '
+
+configopts = "--with-pic --enable-threads --enable-R-shlib"
+# some recommended packages may fail in a parallel build (e.g. Matrix), and
+# we're installing them anyway below
+configopts += " --with-recommended-packages=no"
+
+# specify that at least EasyBuild v3.5.0 is required,
+# since we rely on the updated easyblock for R to configure correctly w.r.t. BLAS/LAPACK
+easybuild_version = '3.5.0'
+
+exts_default_options = {
+    'source_urls': [
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s',  # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz',
+}
+
+# !! order of packages is important !!
+# packages updated on 1st November 2021
+exts_list = [
+    # include packages that are part of the base installation of R,
+    # both to make sure they are available (via sanity check),
+    # and to be able to pass the check for required dependencies when installing extensions in parallel
+    'base',
+    'compiler',
+    'datasets',
+    'graphics',
+    'grDevices',
+    'grid',
+    'methods',
+    'parallel',
+    'splines',
+    'stats',
+    'stats4',
+    'tcltk',
+    'tools',
+    'utils',
+    #
+    # Do firsts because of potential problems
+    #
+    ('Rmpi', '0.7-1', {
+        'easyblock':   'RPackage',
+        'patches':     ['Rmpi-%(version)s_Cray.patch'],
+        'installopts': '--configure-args="--with-Rmpi-type=CRAY --with-Rmpi-include=$CRAY_MPICH_DIR/include --with-Rmpi-libpath=$CRAY_MPICH_DIR/lib" ',
+        'checksums':   ['17dae27dea9317aacabc2255dfcf2538fb3195472cedd521256ced9a20dd2dc1'],
+    }),
+]
+
+moduleclass = 'lang'

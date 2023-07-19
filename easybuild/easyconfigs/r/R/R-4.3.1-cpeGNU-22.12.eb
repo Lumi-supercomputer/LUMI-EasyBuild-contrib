@@ -1,0 +1,253 @@
+name =          'R'
+version =       '4.3.1'
+
+local_bzip2_version =        '1.0.8'         # http://www.bzip.org/downloads.html
+local_cairo_version =        '1.17.4'        # https://www.cairographics.org/
+local_cURL_version =         '7.86.0'        # https://curl.haxx.se/download/
+local_gzip_version =         '1.12'          # https://ftp.gnu.org/gnu/gzip/
+local_libjpegturbo_version = '2.1.4'         # https://github.com/libjpeg-turbo/libjpeg-turbo/releases
+local_libpng_version =       '1.6.38'        # http://www.libpng.org/pub/png/libpng.html
+local_libreadline_version =  '8.2'           # https://ftp.gnu.org/pub/gnu/readline/
+local_libtiff_version =      '4.4.0'         # https://download.osgeo.org/libtiff/
+local_ncurses_version =      '6.4'           # https://ftp.gnu.org/pub/gnu/ncurses/
+local_Pango_version =        '1.50.12'       # http://ftp.gnome.org/pub/GNOME/sources/pango/
+local_PCRE2_version =        '10.40'         # https://ftp.pcre.org/pub/pcre/
+local_Tk_version =           '8.6.12'        # https://tcl.tk/
+local_XZ_version =           '5.4.2'         # https://tukaani.org/xz/
+local_zlib_version =         '1.2.12'        # https://zlib.net/
+
+homepage = 'https://www.r-project.org/'
+
+whatis = [
+    "Description: R is a free software environment for statistical computing and graphics."
+]
+
+description = """
+This module provides a base R package, without many bells and whistles. 
+A fully-featured R has many dependencies that do not all make sense on
+the compute nodes of LUMI, in particular when it comes to graphics.
+
+Similarly, the build process as-is will not find a web browser nor
+PDF viewer as these are not currently available on regular compute
+nodes of LUMI.
+
+This version of R links with the multithreaded version of 
+Cray LibSci, so its linear algebra routines support multithreading
+by settingh OMP_NUM_THREADS.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '22.12'}
+toolchainopts = {'openmp': True}
+
+source_urls = ['https://cloud.r-project.org/src/base/R-%(version_major)s']
+sources =     [SOURCE_TAR_GZ]
+checksums = [
+    '8dd0bf24f1023c6f618c3b317383d291b4a494f40d73b983ac22ffea99e4ba99',  # R-4.3.1.tar.gz
+]
+# Note: R will not be able to tell which BLAS library was used as it is linked
+# in automatically and does not appear in BLAS_LIBS so that the code in the
+# configure script cannot figure out which BLAS is being used and set
+# r_blas properly.
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', SYSTEM),
+]
+
+dependencies = [
+    # Base R
+    ('ncurses',       local_ncurses_version),
+    ('libreadline',   local_libreadline_version),
+    ('zlib',          local_zlib_version),
+    ('bzip2',         local_bzip2_version),
+    ('gzip',          local_gzip_version),
+    ('XZ',            local_XZ_version),
+    ('Info-ZIP',      '3.0-6.0'),  # Not really needed as anything in this module is also in the system-installed versions.
+    # TODO: Add a zip/unzip command, though the system one might be OK as it only uses the commands.
+    ('PCRE2',         local_PCRE2_version),    
+    ('cURL',          local_cURL_version),  # for RCurl but also used by the base R package
+    ('X11',           '%(toolchain_version)s'),
+    ('Tk',            local_Tk_version),  # for tcltk (base package)
+    ('libpng',        local_libpng_version),  # for plotting in R
+    ('libjpeg-turbo', local_libjpegturbo_version),  # for plottting in R
+    ('LibTIFF',       local_libtiff_version),
+    ('cairo',         local_cairo_version),
+    ('Pango',         local_Pango_version),
+]
+
+# Some R extensions (mclust, quantreg, waveslim for example) require the math library (-lm) to avoid undefined symbols.
+# Adding it to FLIBS makes sure it is present when needed.
+preconfigopts  = 'export FLIBS="$FLIBS -lm" && '
+# We also need to ensure a single Cray LibSci library is used. It looks like R compiles
+# some files with OpenMP if it figures out that the compiler supports OpenMP, but does
+# not add the flag to the link options, resulting in problems with Cray LibSci. Hence
+# we enforce OpenMP and manually add it to the linker flags as that is not done by
+# the build process.
+preconfigopts += 'export LDFLAGS="-fopenmp $LDFLAGS" && '
+
+configopts = "--with-pic --enable-threads --enable-R-shlib"
+# some recommended packages may fail in a parallel build (e.g. Matrix), and
+# we're installing them anyway below
+configopts += " --with-recommended-packages=no"
+
+# specify that at least EasyBuild v3.5.0 is required,
+# since we rely on the updated easyblock for R to configure correctly w.r.t. BLAS/LAPACK
+easybuild_version = '3.5.0'
+
+exts_default_options = {
+    'source_urls': [
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s',  # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz',
+}
+
+# !! order of packages is important !!
+# packages updated on 1st November 2021
+exts_list = [
+    # include packages that are part of the base installation of R,
+    # both to make sure they are available (via sanity check),
+    # and to be able to pass the check for required dependencies when installing extensions in parallel
+    'base',
+    'compiler',
+    'datasets',
+    'graphics',
+    'grDevices',
+    'grid',
+    'methods',
+    'parallel',
+    'splines',
+    'stats',
+    'stats4',
+    'tcltk',
+    'tools',
+    'utils',
+    #
+    # Do firsts because of potential problems
+    #
+    ('Rmpi', '0.7-1', {
+        'easyblock':   'RPackage',
+        'patches':     ['Rmpi-%(version)s_Cray.patch'],
+        'installopts': '--configure-args="--with-Rmpi-type=CRAY --with-Rmpi-include=$CRAY_MPICH_DIR/include --with-Rmpi-libpath=$CRAY_MPICH_DIR/lib" ',
+        'checksums':   ['17dae27dea9317aacabc2255dfcf2538fb3195472cedd521256ced9a20dd2dc1'],
+    }),
+    ('Rcpp', '1.0.11', {
+        'checksums': ['df757c3068599c6c05367900bcad93547ba3422d59802dbaca20fd74d4d2fa5f'],
+    }),
+    ('codetools', '0.2-19', {
+        'checksums': ['c4b7e567c87f33dad85de92f79641e5e5b5deede6d19a9dfa47133d191782dab'],
+    }),
+    ('RUnit', '0.4.32', {
+        'checksums': ['23a393059989000734898685d0d5509ece219879713eb09083f7707f167f81f1'],
+    }),
+    ('tinytest', '1.4.1', {
+        'checksums': ['f6fc13887d096ba444fb722ef34cc88e079fc18be9668ffead1ba586a30b1c74'],
+    }),
+    ('backports', '1.4.1', {
+        'checksums': ['845c3c59fbb05e5a892c4231b955a0afdd331d82b7cc815bcff0672023242474'],
+    }),
+    ('rlang', '1.1.1', {
+        'checksums': ['5e5ec9a7796977216c39d94b1e342e08f0681746657067ba30de11b8fa8ada99'],
+    }),
+    ('parallelly', '1.36.0', {
+        'checksums': ['b9c0a29155944aae8fdb4cab00c521c7ed16af250450dd2a3dd69d5661427c88'],
+    }),
+    ('iterators', '1.0.14', {
+        'checksums': ['cef3075a0930e1408c764e4da56bbadd4f7d14315809df8f38dd51f80ccc677b'],
+    }),
+    ('foreach', '1.5.2', {
+        'checksums': ['56338d8753f9f68f262cf532fd8a6d0fe25a71a2ff0107f3ce378feb926bafe4'],
+    }),
+    ('doParallel', '1.0.17', {
+        'checksums': ['b96a25ad105a654d70c7b4ca27290dc9967bc47f4668b2763927a886b178abd7'],
+    }),
+    ('doMPI', '0.2.2', {
+        'checksums': ['68a45715690f50ebb121ee868634ff269e8f9636599b8dd8f601bf714fa81c2a'],
+    }),
+    ('snow', '0.4-4', {
+        'checksums': ['84587f46f222a96f3e2fde10ad6ec6ddbd878f4e917cd926d632f61a87db13c9'],
+    }),
+    ('snowfall', '1.84-6.2', {
+        'checksums': ['9b467ab2b992455c6e1aeabe375c5694761fa1cf8aaf4f003ca47102b656353b'],
+    }),
+    ('doSNOW', '1.0.20', {
+        'checksums': ['917cabed166aa2d1ec291691c17e1e3d344e858543e1682e3a442cc0c504bbb8'],
+    }),
+    ('base64url', '1.4', {
+        'checksums': ['1d058f138660e9155ebb331d7a2561e2541ee3321b8da90f6c41fd8dcc122c58'],
+    }),
+    ('brew', '1.0-8', {
+        'checksums': ['11652d5a7042d645cc5be5f9f97ff4d46083cea7d3ad2dd6ad1570b52c097826'],
+    }),
+    ('checkmate', '2.2.0', {
+        'checksums': ['96ec14b057e875465f8ef194f35b8e124cd5b5919697692fb392706201359118'],
+    }),
+    ('data.table', '1.14.8', {
+        'checksums': ['14b2ce5367df9c9bb58f373555066f5dcb629c156149b5565de36d69557139fd'],
+    }),
+    ('fs', '1.6.2', {
+        'checksums': ['548b7c0ed5ab26dc4fbd88707ae12987bcaef834dbc6de4e17d453846dc436b2'],
+    }),
+    ('cli', '3.6.1', {
+        'checksums': ['be3006cec7e67f9ae25e21b4658c4bec680038c2ef7467df5f14da3311a05e36'],
+    }),
+    ('glue', '1.6.2', {
+        'checksums': ['9da518f12be584c90e75fe8e07f711ee3f6fc0d03d817f72c25dc0f66499fdbf'],
+    }),
+    ('lifecycle', '1.0.3', {
+        'checksums': ['6459fdc3211585c0cdf120427579c12149b02161efe273a64b825c05e9aa69c2'],
+    }),
+    ('pkgconfig', '2.0.3', {
+        'checksums': ['330fef440ffeb842a7dcfffc8303743f1feae83e8d6131078b5a44ff11bc3850'],
+    }),
+    ('vctrs', '0.6.3', {
+        'checksums': ['93dc220dcde8b440586b2260460ef354e827a17dfec1ea6a9815585a10cfa5c2'],
+    }),
+    ('hms', '1.1.3', {
+        'checksums': ['e626f4c60af46efd53ea631b316a103e089470d8fd63c0e0c0efb99364990282'],
+    }),
+    ('prettyunits', '1.1.1', {
+        'checksums': ['9a199aa80c6d5e50fa977bc724d6e39dae1fc597a96413053609156ee7fb75c5'],
+    }),
+    ('R6', '2.5.1', {
+        'checksums': ['8d92bd29c2ed7bf15f2778618ffe4a95556193d21d8431a7f75e7e5fc102bf48'],
+    }),
+    ('crayon', '1.5.2', {
+        'checksums': ['70a9a505b5b3c0ee6682ad8b965e28b7e24d9f942160d0a2bad18eec22b45a7a'],
+    }),
+    ('progress', '1.2.2', {
+        'checksums': ['b4a4d8ed55db99394b036a29a0fb20b5dd2a91c211a1d651c52a1023cc58ff35'],
+    }),
+    ('rappdirs', '0.3.3', {
+        'checksums': ['49959f65b45b0b189a2792d6c1339bef59674ecae92f8c2ed9f26ff9e488c184'],
+    }),
+    ('stringi', '1.7.12', {
+        'checksums': ['efe8ac2900001f986a75db5641fbb24587a6d23de274a6a85c39dfa58921e009'],
+    }),
+    ('withr', '2.5.0', {
+        'checksums': ['37317b3ed790a08407072993a05ab255f6305f95a12a16e0e28aa6aa80fc8bc0'],
+    }),
+    ('digest', '0.6.33', {
+        'checksums': ['be702c886b1639be7eda4ea25a4261b30ce418c580f79bd78ec8d6cb4d327819'],
+    }),
+    ('batchtools', '0.9.17', {
+        'checksums': ['b6e1dd54e8b70c2bf38d2ad1884f6b60fc74c1100f910f46724aa723c0749be6'],
+    }),
+    ('globals', '0.16.2', {
+        'checksums': ['682c26a95fa6c4e76a3a875be1a3192fc5b88e036c80dfa3b256add0336d770a'],
+    }),
+    ('listenv', '0.9.0', {
+        'checksums': ['352841e04f0725d361b78cfdc75e00511f740d97237dd651ea86aa5484674887'],
+    }),
+    ('future', '1.33.0', {
+        'checksums': ['4228eb9b35ce4b56bf4168977661fed4f83bb36131b2dc7120b2898d8747935b'],
+    }),
+    ('future.apply', '1.11.0', {
+        'checksums': ['317b30ceb9b5b03eabaf367d52b8fbcbfeabce1da2ee1000ca1eec5adb4b01e8'],
+    }),
+    ('future.batchtools', '0.12.0', {
+        'checksums': ['0a90eb21f04fbebf87f7f9318a9fceba8f04ce2eb827796967a153fd19e124bb'],
+    }),
+]
+
+moduleclass = 'lang'
