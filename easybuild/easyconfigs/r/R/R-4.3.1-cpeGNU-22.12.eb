@@ -161,6 +161,9 @@ exts_list = [
     ('doParallel', '1.0.17', {
         'checksums': ['b96a25ad105a654d70c7b4ca27290dc9967bc47f4668b2763927a886b178abd7'],
     }),
+    ('doMPI', '0.2.2', {
+        'checksums': ['68a45715690f50ebb121ee868634ff269e8f9636599b8dd8f601bf714fa81c2a'],
+    }),
     ('snow', '0.4-4', {
         'checksums': ['84587f46f222a96f3e2fde10ad6ec6ddbd878f4e917cd926d632f61a87db13c9'],
     }),
