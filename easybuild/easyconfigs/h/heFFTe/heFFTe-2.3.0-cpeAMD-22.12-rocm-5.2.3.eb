@@ -2,7 +2,7 @@ easyblock = 'CMakeMake'
 
 name = 'HeFFTe'
 version = '2.3.0'
-versionsuffix = '-ROCm'
+versionsuffix = '-rocm-5.2.3'
 
 homepage = 'https://icl.utk.edu/fft'
 description = "Highly Efficient FFT for Exascale (HeFFTe) library"
@@ -21,7 +21,7 @@ builddependencies = [
 
 dependencies = [
     ('cray-python', EXTERNAL_MODULE),
-    ('rocm', EXTERNAL_MODULE),
+    ('rocm/5.2.3', EXTERNAL_MODULE),
 ]
 
 build_shared_libs = True
