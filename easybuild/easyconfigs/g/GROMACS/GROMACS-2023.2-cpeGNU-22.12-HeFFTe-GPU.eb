@@ -4,7 +4,7 @@ easyblock = 'CMakeMake'
 
 name =          'GROMACS'
 version =       '2023.2'
-versionsuffix = '-hipSYCL-GPU' 
+versionsuffix = '-HeFFTe-GPU' 
 
 homepage = 'http://www.gromacs.org'
 
@@ -18,7 +18,7 @@ Newtonian equations of motion for systems with hundreds to millions of
 particles.
 
 Binaries included:
-* gmx_mpi: Compiled with MPI and hipSYCL (GPU) support
+* gmx_mpi: Compiled with MPI, hipSYCL and heFFTe support for multiple GPU compute nodes
 
 The module sets the environment variables that would otherwise be set by running
 the script $EBROOTGROMACS/bin/GMXRC. So running this script snould not be
@@ -43,9 +43,10 @@ builddependencies = [
 
 dependencies = [
     ('hipSYCL', '0.9.4', ''), 
+    ('HeFFTe', '2.3.0', '-rocm-5.2.3'),
     ('cray-fftw', EXTERNAL_MODULE),
     ('cray-python', EXTERNAL_MODULE),
-    ('cray-libsci', EXTERNAL_MODULE),
+    ('cray-libsci/22.12.1.1', EXTERNAL_MODULE),
     ('rocm/5.2.3', EXTERNAL_MODULE),
 ]
 
@@ -60,9 +61,13 @@ configopts += '-D GMX_GPU=SYCL '
 configopts += '-D GMX_MPI=ON '
 configopts += '-D GMX_OPENMP=ON '
 configopts += '-D GMX_SYCL_HIPSYCL=ON '
+configopts += '-D GMX_USE_HEFFTE=ON '
+configopts += '-D GMX_GPU_FFT_LIBRARY=rocFFT '
+configopts += '-D GMX_BUILD_OWN_FFTW=ON '
 configopts += '-D GMX_BLAS_USER=${CRAY_LIBSCI_PREFIX_DIR}/lib/libsci_gnu.so '
 configopts += '-D GMX_LAPACK_USER=${CRAY_LIBSCI_PREFIX_DIR}/lib/libsci_gnu.so '
 configopts += '-D HIPSYCL_TARGETS="hip:gfx90a" '
+configopts += '-D Heffte_ROOT=${EBROOTHEFFTE} '
 
 skipsteps = ['test']
 
