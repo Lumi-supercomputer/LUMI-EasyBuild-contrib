@@ -29,11 +29,9 @@ dependencies = [
     ('Hypre', '2.26.0'),
     ('SuperLU', '6.0.0', '-OpenMP'),
     ('SuperLU_DIST', '8.1.2', '-OpenMP'),
-#    ('STRUMPACK', '6.3.1', '-OpenMP'),
 ]
 
-#configopts = '--PETSC_ARCH="$CRAY_CPU_TARGET" '
-configopts = ' '
+configopts = '--PETSC_ARCH="$CRAY_CPU_TARGET" '
 configopts += '--known-has-attribute-aligned=1 '
 configopts += '--known-mpi-int64_t=0 '
 configopts += '--known-bits-per-byte=8 '
@@ -98,11 +96,6 @@ configopts += '--CFLAGS="-O3 -ffast-math -fopenmp" '
 configopts += '--FFLAGS="-O3 -ffast-math -fopenmp -fallow-argument-mismatch" '
 configopts += '--LDFLAGS="-fopenmp -Wl,--allow-multiple-definition" '
 configopts += '--LIBS="-lgfortran -lgcc -lstdc++" '
-#configopts += '--with-strumpack=1 ' # Differs from EPCC version
-#configopts += '--with-strumpack-dir="$EBROOTSTRUMPACK" '
-
-prebuildopts = 'MAKEFLAGS="" '
-buildopts = 'MAKEFLAGS="" '
 
 # This is for checking if linking against the library is correct
 runtest = 'check_build MPIEXEC=exec V=1'
