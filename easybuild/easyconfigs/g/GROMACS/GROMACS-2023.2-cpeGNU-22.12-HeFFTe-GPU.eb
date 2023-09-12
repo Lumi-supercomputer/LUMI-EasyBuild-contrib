@@ -37,6 +37,10 @@ toolchainopts = {'opt': True, 'usempi': True, 'verbose': False, 'pic': True, 'op
 source_urls = ['https://ftp.gromacs.org/pub/gromacs/']
 sources =     [SOURCELOWER_TAR_GZ]
 
+patches = [
+    'gromacs_cmake_manage_sycl.patch',
+]
+
 builddependencies = [
     ('buildtools', '%(toolchain_version)s', '', True), 
 ]
@@ -44,7 +48,7 @@ builddependencies = [
 dependencies = [
     ('hipSYCL', '0.9.4', ''), 
     ('HeFFTe', '2.3.0', '-rocm-5.2.3'),
-    ('Boost', '1.81.0')
+    ('Boost', '1.81.0'),
     ('cray-fftw', EXTERNAL_MODULE),
     ('cray-python', EXTERNAL_MODULE),
     ('cray-libsci/22.12.1.1', EXTERNAL_MODULE),
@@ -79,7 +83,6 @@ modextravars = {
     'GMXMAN':          '%(installdir)s/share/man',
     'GMXDATA':         '%(installdir)s/share/data',
     'GMXTOOLCHAINDIR': '%(installdir)s/share/cmake', # Defined in the standard script but not exported.
-    'LD_LIBRARY_PATH': '${ROCM_PATH}/llvm/lib',
 }
 
 local_bash_completion = """
@@ -112,6 +115,8 @@ local_bash_completion = """
 local_csh_completion = '"echo \'Not implemented\'"'
 
 modluafooter = """
+prepend_path("LD_LIBRARY_PATH", pathJoin(os.getenv("ROCM_PATH"), "llvm/lib"))
+
 set_shell_function( 'gromacs-completion', %(bash_completion)s, %(csh_completion)s )
 """ % {
     'bash_completion': local_bash_completion,
