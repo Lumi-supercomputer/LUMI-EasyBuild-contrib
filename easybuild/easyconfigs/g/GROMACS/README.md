@@ -32,6 +32,10 @@ engines.
 | 2.6.1   | 2019.6 | 2020.2 |        |        |
 | 2.6.0   | 2019.4 |        |        |        |
 
+## GROMACS and GPU
+
+  * [GROMACS 2023.2 support for AMD GPUs](https://manual.gromacs.org/2023.2/install-guide/index.html#sycl-gpu-acceleration-for-amd-gpus)
+  * [CSC page with example job scripts for GPU](https://docs.csc.fi/apps/gromacs/#example-batch-script-for-lumi-full-gpu-node)
 
 ## EasyBuild
 
@@ -104,11 +108,20 @@ engines.
     of enabling support for the `cray-python` modules. Therefore the corresponding 
     EasyConfigs of GROMACS have also been replaced.**
 
+### GROMACS 2023.2 with AMD GPU support for CPE 22.12
+
+  * There are multiple easyconfig files for running GROMACS with AMD GPU acceleration, that follows [installation guide](https://manual.gromacs.org/2023.2/install-guide/index.html#sycl-gpu-acceleration-for-amd-gpus).
+
+    * [VkFFT enabled](https://manual.gromacs.org/2023.2/install-guide/index.html#using-vkfft) version targetting single node execution with tMPI and multi GPU offloading
+    * [HeFFTe enabled](https://manual.gromacs.org/2023.2/install-guide/index.html#using-heffte) version targetting multinode, multi GPU execution with MPI and hipSYCL
+    * Generic hipSYCL version with GPU support enabled
+ 
+  * Both MPI versions have support for [GPU aware MPI](https://manual.gromacs.org/2023.2/install-guide/index.html#gpu-aware-mpi-support) enabled 
+  * All GPU enabled version use hipSYCL as GPU backend, compiled with ROCm 5.2.3
 
 ### GROMACS-2023-dev-cpeGNU-22.08-MPI-GPU
 
-  * This is an EasyConfig for AMD's own HIP-port of GROMACS which is a version
+  * This is an EasyConfig for AMD's own, _unofficial_ HIP-port of GROMACS which is a version
     that is not supported by the main GROMACS developers, who prefer to work with
     SYCL for support for AMD GPUs. It is derived from the container recipes of AMD.
-
 
