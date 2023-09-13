@@ -1,0 +1,11 @@
+--- cmake/gmxManageSYCL.cmake.orig	2023-09-11 17:55:43.000000000 +0300
++++ cmake/gmxManageSYCL.cmake	2023-09-11 17:55:57.000000000 +0300
+@@ -280,7 +280,7 @@
+                 if(HIPSYCL_SYCLCC_ROCM_PATH)
+                     # Teach the rocFFT find package how to find the necessary components
+                     # from the ROCm distribution used by hipSYCL.
+-                    set(hip_DIR ${HIPSYCL_SYCLCC_ROCM_PATH}/hip/lib/cmake/hip)
++                    set(hip_DIR ${HIPSYCL_SYCLCC_ROCM_PATH}/lib/cmake/hip)
+                     set(AMDDeviceLibs_DIR ${HIPSYCL_SYCLCC_ROCM_PATH}/lib/cmake/AMDDeviceLibs)
+                     set(amd_comgr_DIR ${HIPSYCL_SYCLCC_ROCM_PATH}/lib/cmake/amd_comgr)
+                     set(hsa-runtime64_DIR ${HIPSYCL_SYCLCC_ROCM_PATH}/lib/cmake/hsa-runtime64)
