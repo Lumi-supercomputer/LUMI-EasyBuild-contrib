@@ -108,6 +108,8 @@ local_bash_completion = """
 local_csh_completion = '"echo \'Not implemented\'"'
 
 modluafooter = """
+prepend_path("LD_LIBRARY_PATH", pathJoin(os.getenv("ROCM_PATH"), "llvm/lib"))
+
 set_shell_function( 'gromacs-completion', %(bash_completion)s, %(csh_completion)s )
 """ % {
     'bash_completion': local_bash_completion,
