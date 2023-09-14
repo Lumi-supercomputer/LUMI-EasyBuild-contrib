@@ -29,9 +29,7 @@ the LUMI software stack.
 
 toolchain = {'name': 'cpeAOCC', 'version': '22.08'}
 
-# Download from fossies.org:
-# https://fossies.org/linux/misc/ncview-2.1.8.tar.gz
-source_urls = ['https://fossies.org/linux/misc']
+source_urls = ['ftp://cirrus.ucsd.edu/pub/ncview']
 sources =     [SOURCELOWER_TAR_GZ]
 checksums =   ['e8badc507b9b774801288d1c2d59eb79ab31b004df4858d0674ed0d87dfc91be']
 
