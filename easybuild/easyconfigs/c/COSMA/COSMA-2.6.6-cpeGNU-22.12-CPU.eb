@@ -1,0 +1,57 @@
+# contributed by Peter Larsson (LUST)
+
+easyblock = 'CMakeMake'
+
+name =    'COSMA'
+version = '2.6.6'
+versionsuffix = '-CPU'
+
+homepage = 'https://github.com/eth-cscs/COSMA'
+
+whatis = [
+    "Description: COSMA is a parallel, high-performance, GPU-accelerated, matrix-matrix multiplication algorithm that is communication-optimal."
+]
+
+description = """
+COSMA is a parallel, high-performance, GPU-accelerated, matrix-matrix 
+multiplication algorithm that is communication-optimal for all combinations 
+of matrix dimensions, number of processors and memory sizes, without the 
+need for any parameter tuning. The key idea behind COSMA is to first derive 
+a tight optimal sequential schedule and only then parallelize it, preserving 
+I/O optimality between processes. 
+"""
+
+docurls = [
+    'Manual: https://github.com/eth-cscs/COSMA'
+]
+
+toolchain = {'name': 'cpeGNU', 'version': '22.12'}
+toolchainopts = {'opt': True}
+
+sources =     [{
+    'filename': SOURCELOWER_TAR_GZ,
+    'git_config': {
+        'url': 'https://github.com/eth-cscs',
+        'repo_name':'%(name)s',
+        'tag' :'v2.6.6',
+        'recursive': True,
+        'keep_git_dir' : True, },
+}]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True), # For CMake
+    ('bzip2',      '1.0.8'),
+]
+
+parallel = 16
+
+configopts = [
+    " -DCOSMA_BLAS=CRAY_LIBSCI -DCOSMA_SCALAPACK=CRAY_LIBSCI -DCOSMA_WITH_TESTS=NO -DCOSMA_WITH_BENCHMARKS=NO -DCMAKE_CXX_COMPILER=CC -DCOSMA_WITH_APPS=NO -DCOSMA_WITH_PROFILING=NO -DBUILD_SHARED_LIBS=NO ",
+]
+
+sanity_check_paths = {
+    'files': ['lib64/libcosma.a', 'lib64/libcosta.a'],
+    'dirs':  ['lib64'],
+}
+
+moduleclass = 'math'
