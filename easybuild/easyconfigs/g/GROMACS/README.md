@@ -112,9 +112,9 @@ engines.
 
   * There are multiple easyconfig files for running GROMACS with AMD GPU acceleration, that follows [installation guide](https://manual.gromacs.org/2023.2/install-guide/index.html#sycl-gpu-acceleration-for-amd-gpus).
 
-    * [VkFFT enabled](https://manual.gromacs.org/2023.2/install-guide/index.html#using-vkfft) version targetting single node execution with tMPI and multi GPU offloading
-    * [HeFFTe enabled](https://manual.gromacs.org/2023.2/install-guide/index.html#using-heffte) version targetting multinode, multi GPU execution with MPI and hipSYCL
-    * Generic hipSYCL version with GPU support enabled
+    * [HeFFTe enabled](https://manual.gromacs.org/2023.2/install-guide/index.html#using-heffte) version for multi-node, multi-GPU execution with MPI and hipSYCL
+    * Generic hipSYCL version with MPI and GPU support enabled
+    * [VkFFT enabled](https://manual.gromacs.org/2023.2/install-guide/index.html#using-vkfft) version for single-node execution with thread-MPI and single GPU offloading
  
   * Both MPI versions have support for [GPU aware MPI](https://manual.gromacs.org/2023.2/install-guide/index.html#gpu-aware-mpi-support) enabled 
   * All GPU enabled version use hipSYCL as GPU backend, compiled with ROCm 5.2.3
