@@ -1,0 +1,59 @@
+# Contributed by Johan Hellsvik (PDC)
+# Adapted for LUMI by Kurt Lust (LUST)
+easyblock = 'MakeCp'
+
+name =    'UppASD'
+version = '6.0.2'
+
+homepage = 'http://physics.uu.se/uppasd'
+
+whatis = [
+    'Description: Uppsala Atomistic Spin Dynamics software'
+]
+
+description = """
+The UppASD software package is a simulation suite to study magnetization dynamics
+by means of the atomistic version of the Landau-Lifshitz-Gilbert (LLG) equation.
+
+The code is compiled with OpenMP support.
+
+Note that the module does contain the Python ASD_GUI and ASD_Tools code 
+(in $EBROOTUPPASD/ASD_GUI and $EBROOTUPPASD/ASD_Tools) but does not build a Python
+environment with all dependencies of those packages. Given that several of the
+dependencies link to graphics UI libraries which are notoriously hard to run on
+LUMI, it may be better to either build a conda container using lumi-container-wrapper
+or cotainr, or simply run the Python code on a workstation.
+"""
+
+docurls = [
+    'Web-based HTML documentation: https://uppasd.github.io/UppASD-manual/',
+    'Web-based user guide (PDF): https://github.com/UppASD/UppASD/blob/master/docs/Multiscale/MuASDmanual.pdf',    
+]
+
+toolchain = {'name': 'cpeAOCC', 'version': '22.12'}
+toolchainopts = {'openmp': True, 'usempi': True}
+
+source_urls = ['https://github.com/%(name)s/%(name)s/archive/refs/tags/v%(version)s']
+sources =     [SOURCELOWER_TAR_GZ]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', SYSTEM),
+]
+
+build_cmd = "make deps && make aocc-ftn"
+
+files_to_copy = [
+    (['./source/sd'], './bin/'),
+    (['./ASD_GUI'], '.'),
+    (['./ASD_Tools'], '.'),
+    (['./examples'], '.'),
+    (['LICENSE'], 'share/licenses/%(name)s'),
+    (['requirements.txt'], '.')
+]
+
+sanity_check_paths = {
+    'files': ['bin/sd','ASD_GUI/ASD_GUI/ASD_GUI.py'],
+    'dirs':  ['bin','ASD_GUI','ASD_Tools','examples'],
+}
+
+moduleclass = 'phys'
