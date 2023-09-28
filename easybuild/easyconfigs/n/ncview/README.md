@@ -30,7 +30,8 @@ libraries that it uses.
     added.
 
 
-### Version 2.1.8 for CPE 21.12, 22.06, 22.08
+### Version 2.1.8 for CPE 21.12, 22.06, 22.08, 22.12
 
    * Switched the download location to [fossies.org](https://fossies.org/linux/misc/ncview-2.1.8.tar.gz/)
      to avoid having to use FTP.
+   * (2023-09-14): Switched back to FTP as the fossie URL is not longer valid 

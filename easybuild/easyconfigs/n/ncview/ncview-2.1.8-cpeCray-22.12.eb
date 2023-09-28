@@ -4,7 +4,7 @@
 #
 easyblock = 'ConfigureMake'
 
-local_libpng_version =       '1.6.37'        # http://www.libpng.org/pub/png/libpng.html
+local_libpng_version =       '1.6.38'        # http://www.libpng.org/pub/png/libpng.html
 local_UDUNITS_version =      '2.2.28'        # ftp://ftp.unidata.ucar.edu/pub/udunits
 
 name =    'ncview'
@@ -27,7 +27,7 @@ the LUMI consortium cannot make any promises about compatibiliy with future vers
 the LUMI software stack.
 """
 
-toolchain = {'name': 'cpeGNU', 'version': '22.08'}
+toolchain = {'name': 'cpeCray', 'version': '22.12'}
 
 source_urls = ['ftp://cirrus.ucsd.edu/pub/ncview']
 sources =     [SOURCELOWER_TAR_GZ]
