@@ -24,3 +24,6 @@
     the unsupported `rocm/5.3.3` module installed by the LUMI Support Team, as CP2K requires at ROCm 5.3.3.
 -   `CP2K-2023.1-cpeGNU-22.12-CPU.eb`: A CPU-only build of CP2K release 2023.1 compiled with the GNU compilers
     and with support for PLUMED.
+-   `CP2K-2023.2-cpeGNU-22.12-CPU.eb`: A CPU-only build of CP2K release 2023.2 compiled with the GNU compilers
+    and with support for PLUMED.
+

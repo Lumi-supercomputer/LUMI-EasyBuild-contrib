@@ -71,7 +71,7 @@ module load CP2K/2022.1-cpeGNU-22.08
 srun cp2k.psmp -i H2O-256.inp -o H2O-256.out
 ```
 
-Running on LUMI-G requires careful process bindning to CPU and GPUs. Here, we run a batch job on 4 LUMI-G compute nodes with 8 MPI ranks (1 per GPU) and 7 OpenMP threads per rank.
+Running on LUMI-G requires careful process bindning to CPU and GPUs. Here, we run a batch job on 4 LUMI-G compute nodes with 8 MPI ranks (1 per GPU) and 6 OpenMP threads per rank.
 
 ```bash
 #!/bin/bash
@@ -83,7 +83,7 @@ Running on LUMI-G requires careful process bindning to CPU and GPUs. Here, we ru
 #SBATCH --gres=gpu:8
 #SBATCH --exclusive
 #SBATCH --ntasks-per-node=8
-#SBATCH --cpus-per-task=7
+#SBATCH --cpus-per-task=6
 
 export OMP_PLACES=cores
 export OMP_PROC_BIND=close
@@ -100,7 +100,7 @@ module load partition/G
 module load CP2K/2023.1-cpeGNU-22.08-GPU
 module load rocm/5.3.3
 
-srun --cpu-bind=mask_cpu:0xfe,0xfe00,0xfe0000,0xfe000000,0xfe00000000,0xfe0000000000,0xfe000000000000,0xfe00000000000000 ./select_gpu.sh cp2k.psmp -i H2O-dft-ls.inp -o H2O-dft-ls.out
+srun --cpu-bind=mask_cpu:7e000000000000,7e00000000000000,7e0000,7e000000,7e,7e00,7e00000000,7e0000000000 ./select_gpu.sh cp2k.psmp -i H2O-dft-ls.inp -o H2O-dft-ls.out
 ```
 
 The `select_gpu.sh` helper script is useful to get the GPU to CPU binding correct on LUMI.
@@ -109,41 +109,6 @@ The `select_gpu.sh` helper script is useful to get the GPU to CPU binding correc
     #!/bin/bash
 
     export ROCR_VISIBLE_DEVICES=$SLURM_LOCALID
-    #export ROCR_VISIBLE_DEVICES=0,1
-
-    if [[ "$SLURM_LOCALID" == "0" ]]; then
-    ROCR_VISIBLE_DEVICES=4
-    fi
-
-    if [[ "$SLURM_LOCALID" == "1" ]]; then
-    ROCR_VISIBLE_DEVICES=5
-    fi
-
-    if [[ "$SLURM_LOCALID" == "2" ]]; then
-    ROCR_VISIBLE_DEVICES=2
-    fi
-
-    if [[ "$SLURM_LOCALID" == "3" ]]; then
-    ROCR_VISIBLE_DEVICES=3
-    fi
-
-    if [[ "$SLURM_LOCALID" == "4" ]]; then
-    ROCR_VISIBLE_DEVICES=6
-    fi
-
-    if [[ "$SLURM_LOCALID" == "5" ]]; then
-    ROCR_VISIBLE_DEVICES=7
-    fi
-
-    if [[ "$SLURM_LOCALID" == "6" ]]; then
-    ROCR_VISIBLE_DEVICES=0
-    fi
-
-    if [[ "$SLURM_LOCALID" == "7" ]]; then
-    ROCR_VISIBLE_DEVICES=1
-    fi
-    
-    echo "Node: " $SLURM_NODEID "Local task id:" $SLURM_LOCALID "ROCR_VISIBLE_DEVICES" $ROCR_VISIBLE_DEVICES
     exec $*
 
 This script is useful for many applications using GPU on LUMI, not only CP2K.
@@ -151,4 +116,4 @@ This script is useful for many applications using GPU on LUMI, not only CP2K.
 ## Tuning recommendations
 
 * In general, try to use parallelization using both MPI and OpenMP. Use at least `OMP_NUM_THREADS=2`, and when running larger jobs (say more than 16 compute nodes), it often faster with `OMP_NUM_THREADS=4/8`.
-* When running on LUMI-G, run using 8 MPI ranks per compute node, where each rank has access to 1 GPU in the same NUMA zone. This also means that you have to `OMP_NUM_THREADS=6-7` to utilize all CPU cores. Please note that using all 64 cores will not work as the first core is reserved for the operating system, so that only 63 cores are available.
+* When running on LUMI-G, run using 8 MPI ranks per compute node, where each rank has access to 1 GPU in the same NUMA zone. This also means that you have to `OMP_NUM_THREADS=6-7` to utilize all CPU cores. Please note that using all 64 cores will not work as the first core in each CCD is reserved for the operating system, so that only 56 cores are available.
