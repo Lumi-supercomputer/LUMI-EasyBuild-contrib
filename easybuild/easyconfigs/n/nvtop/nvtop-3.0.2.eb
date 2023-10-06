@@ -1,0 +1,58 @@
+# Created for LUMI by Orian Louant
+
+easyblock = 'CMakeMake'
+
+name = 'nvtop'
+version = '3.0.2'
+
+homepage = 'https://github.com/Syllo/nvtop'
+
+whatis = [
+    'Description: a (h)top like task monitor for AMD, Intel and NVIDIA GPUs'
+]
+
+description = """
+ NVTOP stands for Neat Videocard TOP, a (h)top like task monitor for AMD, Intel
+ and NVIDIA GPUs. It can handle multiple GPUs and print information about them
+ in a htop-familiar way.
+"""
+
+software_license_urls = ['https://github.com/Syllo/nvtop/blob/master/COPYING']
+
+import os
+local_LUMI_version  = os.getenv('LUMI_STACK_VERSION')
+local_libudev_commit = '5d125aae0cc9be0ac5abb8ab8e5081d27e1377a4'
+
+toolchain = SYSTEM
+
+source_urls = ['https://github.com/Syllo/nvtop/archive/refs/tags/']
+sources = ['%(version)s.tar.gz']
+
+patches = [
+    ('libudev.h', '%(builddir)s')
+]
+
+checksums = [
+    '63fa45a2d675fe5320704850c216da6a6bb2edaf09821c26b3800fa7744bae00', # 3.0.2.tar.gz
+    '52f5b345625535c8708cbf46fc9c95e163e1f3455bc964ab426e94c2c54b5a83', # libudev.h
+]
+
+builddependencies = [
+    ('buildtools', local_LUMI_version),
+    ('syslibs',    local_LUMI_version, '-static'),
+]
+
+configopts  = ' -DUDEV_LIBRARY=/usr/lib64/libudev.so.1'
+configopts += ' -DUDEV_INCLUDE_DIR=%(builddir)s'
+configopts += ' -DCURSES_INCLUDE_PATH=$EBROOTSYSLIBS/include/ncurses'
+
+sanity_check_paths = {
+    'files': ['bin/nvtop'],
+    'dirs':  []
+}
+
+sanity_check_commands = [
+  'nvtop --version',
+]
+
+moduleclass = 'tools'
