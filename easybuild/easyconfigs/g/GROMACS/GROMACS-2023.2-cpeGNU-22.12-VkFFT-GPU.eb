@@ -9,16 +9,19 @@ versionsuffix = '-VkFFT-GPU'
 homepage = 'http://www.gromacs.org'
 
 whatis = [
-    'Description: GROMACS is a versatile package to perform molecular dynamics, i.e. simulate the Newtonian equations of motion for systems with hundreds to millions of particles.',
+    'Description: Single-node (thread-MPI), GPU accelerated version of GROMACS, a versatile package to perform molecular dynamics, i.e. simulate the Newtonian equations of motion for systems with hundreds to millions of particles.',
 ]
 
 description = """
 GROMACS is a versatile package to perform molecular dynamics, i.e. simulate the
 Newtonian equations of motion for systems with hundreds to millions of
-particles.
+particles. This version is for a single-node usage only (supports thread-MPI) and
+recommended for a single GPU usage (supports ROCm via hipSYCL but without a direct
+GPU-to-GPU communication).
 
 Binaries included:
-* gmx: Compiled with tMPI, hipSYCL and VkFFT support for single GPU node  
+* gmx: Compiled with thread-MPI, single-node version with GPU acceleration, recommended for a single GPU usage; 
+       without support for MPI (multi-node), without support for a direct GPU-to-GPU communication.  
 
 
 The module sets the environment variables that would otherwise be set by running
