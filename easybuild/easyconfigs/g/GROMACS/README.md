@@ -114,7 +114,10 @@ engines.
 
     * MPI version for multi-node use, with [HeFFTe](https://manual.gromacs.org/2023.2/install-guide/index.html#using-heffte) supporting offload to multiple GPUs 
     ([GPU aware MPI](https://manual.gromacs.org/2023.2/install-guide/index.html#gpu-aware-mpi-support) enabled, support for PME decomposition)
-    * Both MPI and thread-MPI version with [VkFFT](https://manual.gromacs.org/2023.2/install-guide/index.html#using-vkfft) recommended for a single GPU use (no support for a direct GPU communication, without PME decomposition)
+    * MPI and thread-MPI version with [VkFFT](https://manual.gromacs.org/2023.2/install-guide/index.html#using-vkfft), recommended for a single node use (no support for PME decomposition)
+
+      * MPI version supports multi-GPU execution but no PME decomposition
+      * thread-MPI is for a single GPU use (no support for a direct GPU communication)
  
   * All GPU enabled version use hipSYCL as GPU backend, compiled with ROCm 5.2.3
 

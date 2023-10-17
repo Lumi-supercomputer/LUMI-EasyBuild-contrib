@@ -20,7 +20,7 @@ without distribution across multiple GPUs (no PME decomposition);
 
 Binaries included:
 * gmx: Single-node, thread-MPI version, recommended for a single GPU use (no support for a direct GPU-to-GPU communication); 
-* gmx_mpi: MPI version without support for a multi-GPU decomposition.
+* gmx_mpi: MPI version for multi-GPU use but without support for PME decomposition.
 
 Both binaries use default, GPU-accelerated VkFFT library, which is not supported with PME decomposition. 
 
@@ -70,7 +70,7 @@ local_configopts += '-D GMX_LAPACK_USER=${CRAY_LIBSCI_PREFIX_DIR}/lib/libsci_gnu
 local_configopts += '-D HIPSYCL_TARGETS="hip:gfx90a" '
 
 configopts = [
-    local_configopts + '-D GMX_MPI=OFF ',
+    local_configopts + '-D GMX_MPI=ON ',
     local_configopts + '-D GMX_MPI=OFF '
 ]
 
