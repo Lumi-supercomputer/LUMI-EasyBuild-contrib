@@ -9,17 +9,17 @@ versionsuffix = '-HeFFTe-GPU'
 homepage = 'http://www.gromacs.org'
 
 whatis = [
-    'Description: Multi-node and multi-GPU version of GROMACS, a versatile package to perform molecular dynamics, i.e. simulate the Newtonian equations of motion for systems with hundreds to millions of particles.',
+    'Description: GROMACS (with multi-GPU acceleration), a versatile package to perform molecular dynamics, i.e. simulate the Newtonian equations of motion for systems with hundreds to millions of particles.',
 ]
 
 description = """
 GROMACS is a versatile package to perform molecular dynamics, i.e. simulate the
 Newtonian equations of motion for systems with hundreds to millions of
-particles. This version supports PME decomposition feature allowing distribution 
-across multiple nodes and GPUs (supports ROCm via hipSYCL).
+particles. This version enables GPU acceleration with PME decomposition feature 
+allowing distribution across multiple nodes and GPUs (supports ROCm via hipSYCL).
 
 Binaries included:
-* gmx_mpi: Compiled with MPI, hipSYCL and HeFFTe support for multiple GPU compute nodes
+* gmx_mpi: Multi-node MPI version with HeFFTe for a multi-GPU decomposition.
 
 The module sets the environment variables that would otherwise be set by running
 the script $EBROOTGROMACS/bin/GMXRC. So running this script snould not be
