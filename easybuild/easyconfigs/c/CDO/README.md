@@ -72,3 +72,8 @@
 
   * Added a copy of the LICENSE file to the installation directories.
 
+
+### Version 2.3.0 for CPE 23.09 and later
+
+  * A straightforward port of the 2.2.0 EasyConfig.
+
