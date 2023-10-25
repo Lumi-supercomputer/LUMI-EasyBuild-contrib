@@ -17,5 +17,5 @@ Packages marked with (M) are packages that pull in the others as dependencies.
 | [OPARI2](https://www.vi-hps.org/tools/opari2.html) | [EB OPARI2](https://github.com/easybuilders/easybuild-easyconfigs/tree/develop/easybuild/easyconfigs/o/OPARI2) | [CSCS OPARI2](https://github.com/eth-cscs/production/tree/master/easybuild/easyconfigs/o/OPARI2) |
 | [OTF2](https://www.vi-hps.org/projects/score-p/) | [EB OTF2](https://github.com/easybuilders/easybuild-easyconfigs/tree/develop/easybuild/easyconfigs/o/OTF2) | [CSCS OTF2](https://github.com/eth-cscs/production/tree/master/easybuild/easyconfigs/o/OTF2) | 
 | [SAMtools](http://www.htslib.org/) (M) | [EB SAMtools](https://github.com/easybuilders/easybuild-easyconfigs/tree/develop/easybuild/easyconfigs/s/SAMtools) | / | [Use .tar.bz2](https://github.com/samtools/samtools/releases) |
-
-
+| [Info-ZIP](https://infozip.sourceforge.net/Zip.html) | [EB Zip](https://github.com/easybuilders/easybuild-easyconfigs/tree/develop/easybuild/easyconfigs/z/Zip) | / | / |
+| with [UnZip](https://infozip.sourceforge.net/UnZip.html) | [EB UnZip](https://github.com/easybuilders/easybuild-easyconfigs/tree/develop/easybuild/easyconfigs/u/UnZip) | / | / |
