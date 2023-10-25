@@ -49,3 +49,9 @@
 
   * Some restructuring to also copy the LICENSE and README file to the system.
 
+
+### Version 1.18 from CPE 23.09 on
+
+  * Trivial port of the 1.17 EasyConfig
+
+

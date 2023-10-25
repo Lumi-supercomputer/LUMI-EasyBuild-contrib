@@ -2,14 +2,14 @@
 
 local_ANTLR_NCO_version =    '2.7.7'         # Looks like NCO requires an antique version.
 
-local_BCFtools_version =     '1.17'          # https://github.com/samtools/bcftools/releases
+local_BCFtools_version =     '1.18'          # https://github.com/samtools/bcftools/releases
 
 local_CDO_version =          '2.3.0'         # https://code.mpimet.mpg.de/projects/cdo/files
 local_CMOR_version =         '3.7.3'         # https://github.com/PCMDI/cmor/releases
 
 local_ecCodes_version =      '2.32.0'        # https://confluence.ecmwf.int/display/ECC/Releases
 
-local_HTSlib_version =       '1.17'          # https://github.com/samtools/htslib/releases
+local_HTSlib_version =       '1.18'          # https://github.com/samtools/htslib/releases
 
 local_jsonc_version =        '0.16'          # https://github.com/json-c/json-c/tags
 
@@ -20,5 +20,5 @@ local_libdap_version =       '3.20.11'       # https://www.opendap.org/pub/sourc
 local_NCO_version =          '5.1.8'         # https://github.com/nco/nco/releases
 local_ncview_version =       '2.1.9'         # https://cirrus.ucsd.edu/~pierce/ncview/
 
-local_SAMtools_version =     '1.17'          # https://github.com/samtools/samtools/releases
+local_SAMtools_version =     '1.18'          # https://github.com/samtools/samtools/releases
 

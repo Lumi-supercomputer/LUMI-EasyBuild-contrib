@@ -52,3 +52,8 @@
 
 -   Trivial port of the 1.15.1 EasyConfig.
 
+
+### Version 1.18 from CPE 23.09 on
+
+-   Trivial port of the 1.18 EasyConfig.
+
