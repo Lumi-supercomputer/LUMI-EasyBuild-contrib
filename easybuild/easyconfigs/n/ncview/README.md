@@ -35,3 +35,8 @@ libraries that it uses.
    * Switched the download location to [fossies.org](https://fossies.org/linux/misc/ncview-2.1.8.tar.gz/)
      to avoid having to use FTP.
    * (2023-09-14): Switched back to FTP as the fossie URL is not longer valid 
+
+
+### Version 2.1.9 from 23.09 on
+
+  * Trivial port of the EasyConfig except that the download link has changed again.
