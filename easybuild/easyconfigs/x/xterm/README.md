@@ -1,5 +1,7 @@
 # xterm instructions
 
+**Note that in newer toolchains xterm is now part of the pre-installed X11 modules.**
+
 This EasyConfig provides an xterm for those users who want to run xterm outside
 the container of lumi-vnc. 
 
