@@ -41,10 +41,15 @@
   * This is a trivial port of the 5.0.6 one.
 
 
-### Version 5.1.5 for CPE 22.121 and 23.03
+### Version 5.1.5 for CPE 22.12 and 23.03
 
   * This is a trivial port of the 5.1.5 one.
   
   * Added license and citation information files to the installation.
+
+
+### Version 5.1.8 from CPE 23.09 on
+
+   * Trivial version bump of the EasyConfig for version 5.1.5
 
 

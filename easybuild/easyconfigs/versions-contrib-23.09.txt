@@ -17,7 +17,7 @@ local_libaio_version =       '0.3.113'       # https://pagure.io/libaio/releases
 local_libaio_libversion =    '1.0.2'         # Version for the .so file.
 local_libdap_version =       '3.20.11'       # https://www.opendap.org/pub/source/
 
-local_NCO_version =          '5.1.5'         # https://github.com/nco/nco/releases
+local_NCO_version =          '5.1.8'         # https://github.com/nco/nco/releases
 
 local_SAMtools_version =     '1.17'          # https://github.com/samtools/samtools/releases
 
