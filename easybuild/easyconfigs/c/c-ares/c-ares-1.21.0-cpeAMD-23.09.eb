@@ -1,0 +1,40 @@
+easyblock = 'ConfigureMake'
+
+local_cares_version =        '1.21.0'        # https://github.com/c-ares/c-ares/releases
+
+name =    'c-ares'
+version = local_cares_version
+
+homepage = 'https://c-ares.org/'
+
+whatis = [
+    'Description: c-ares is a C library for asynchronous DNS requests (including name resolves)'
+]
+
+description = "c-ares is a C library for asynchronous DNS requests (including name resolves)"
+
+toolchain = {'name': 'cpeAMD', 'version': '23.09'}
+toolchainopts = {'pic': True}
+
+github_account = 'c-ares'
+source_urls =    [GITHUB_SOURCE]
+sources =        ['%s-%s.tar.gz' % (name.replace('-', ''), version.replace('.', '_'))]
+checksums =      ['ca92c84b3df3dc78ed0a5f32de5589e06469ca1c1af7b5a6d8e5e970b53ab5fd']
+
+builddependencies = [
+    ('buildtools',   '%(toolchain_version)s',   '', True),
+]
+
+preconfigopts = 'autoreconf -i -f &&'
+
+sanity_check_paths = {
+    'files': ['lib/libcares.a', 'lib/libcares.%s' % SHLIB_EXT, 'lib/pkgconfig/libcares.pc'],
+    'dirs':  ['include', 'share/man'],
+}
+
+sanity_check_commands = [
+    # Check if pkg-config can read the cppunit.pc file
+    'pkg-config --libs libcares | grep -q "%(installdir)s"',
+]
+
+moduleclass = 'lib'
