@@ -21,4 +21,10 @@
     binaries to avoid having to install Go which is also not a good
     fit in our current software stacks.
 
- 
+
+### Version 3.4.0
+
+-   The EasyConfig is a straightforward port of our EasyConfig for 3.3.0,
+    so with an installation from binaries to avoid having to install Go.
+
+    This version already supports some features of git 2.41.
