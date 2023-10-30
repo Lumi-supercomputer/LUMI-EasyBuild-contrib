@@ -24,4 +24,4 @@ local_NCO_version =          '5.1.8'         # https://github.com/nco/nco/releas
 local_ncview_version =       '2.1.9'         # https://cirrus.ucsd.edu/~pierce/ncview/
 
 local_SAMtools_version =     '1.18'          # https://github.com/samtools/samtools/releases
-
+local_SZ =                   '2.1.12.5'      # https://github.com/szcompressor/SZ/releases
