@@ -3,10 +3,10 @@
 
 easyblock = 'CMakeMake'
 
-local_SZ =                   '2.1.12.5'      # https://github.com/szcompressor/SZ/releases
+local_SZ_version =           '2.1.12.5'      # https://github.com/szcompressor/SZ/releases
 
 name =    'SZ'
-version = local_SZ
+version = local_SZ_version
 
 homepage = 'https://szcompressor.org'
 
@@ -42,7 +42,7 @@ builddependencies = [
 ]
 
 dependencies = [
-    ('cray-hdf5', EXTERNAL_MODULE),
+    ('cray-hdf5',   EXTERNAL_MODULE),
     ('cray-netcdf', EXTERNAL_MODULE),
 ]
 
