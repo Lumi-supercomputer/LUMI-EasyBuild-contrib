@@ -112,3 +112,19 @@ engines.
     SYCL for support for AMD GPUs. It is derived from the container recipes of AMD.
 
 
+### Version 2021.7 for CPE 23.09
+
+-   Trivial version bump of our EasyConfigs for 2021.5 and 2021.6.
+
+
+### Version 2022.6 for CPE 23.09
+
+-   For now a trivial version bump of the 2021.5/2021.6 series.
+
+
+### Version 2023.3 for CPE 23.09
+
+-   For now a trivial version bump of the 2021.5/2021.6 series.
+
+
+
