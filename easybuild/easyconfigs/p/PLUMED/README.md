@@ -76,6 +76,7 @@ used with. E.g., every GROMACS version requires a very specific version of PLUME
   * Did not go exclusively for 2.8.0 as this version is very new and hence may still 
     have problems.
     
+
 ### 2.7.4 and 2.8.0 for CPE 22.06
 
   * Had a look at the BLAS problem. It turns out that whatever version of GSL one uses,
@@ -103,6 +104,7 @@ version of GSL that is linked into PLUMED. It looks like a problem in the PLUMED
 process itself causes it to link to multiple libsci libraries if `--enable-external-blas`
 and `--enable-external-lapack` are used.
 
+
 ### 2.7.4 and 2.8.0 for CPE 22.08 (after update of April 2023)
 
   * There was a problem with the EasyConfig of PLUMED as there was an interaction between
@@ -120,4 +122,8 @@ and `--enable-external-lapack` are used.
       * `-noPython`: Simply disables Python; build PLUMED without Python support.
 
 
+### 2.9.0 for CPE 23.09
+
+-   Version bump from 2.8.3 but switched to the downloads that EasyBuild also uses
+    so that we can copy checksums from there.
 
