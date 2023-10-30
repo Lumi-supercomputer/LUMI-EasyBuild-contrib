@@ -1,0 +1,47 @@
+# Adapted for LUMI by Orian Louant
+
+easyblock = 'ConfigureMake'
+
+local_libsodium_version =    '1.0.19'        # https://download.libsodium.org/libsodium/releases/
+
+name =    'libsodium'
+version = local_libsodium_version
+
+homepage = 'https://doc.libsodium.org/'
+
+whatis = [
+    'Description: Sodium is a modern, easy-to-use software library for '
+    'encryption, decryption, signatures and password hashing.'
+]
+
+description = """
+Sodium is a new, easy-to-use software library for encryption, decryption, 
+signatures, password hashing and more.
+ 
+It is a portable, cross-compilable, installable, packageable fork of NaCl, with
+a compatible API, and an extended API to improve usability even further.
+ 
+Its goal is to provide all of the core operations needed to build higher-level
+cryptographic tools.
+"""
+
+docurls = ['https://doc.libsodium.org/']
+software_license_urls = ['https://github.com/jedisct1/libsodium/blob/master/LICENSE']
+
+toolchain = {'name': 'cpeGNU', 'version': '23.09'}
+toolchainopts = {'pic': True}
+
+source_urls = [
+    'https://download.libsodium.org/libsodium/releases/',
+    'https://download.libsodium.org/libsodium/releases/old/',
+    'https://download.libsodium.org/libsodium/releases/old/unsupported/',
+]
+sources =   [SOURCE_TAR_GZ]
+checksums = ['018d79fe0a045cca07331d37bd0cb57b2e838c51bc48fd837a1472e50068bbea']
+
+sanity_check_paths = {
+    'files': ['include/sodium.h', 'lib/libsodium.so', 'lib/libsodium.a'],
+    'dirs':  ['include/sodium', 'lib/pkgconfig'],
+}
+
+moduleclass = 'lib'
