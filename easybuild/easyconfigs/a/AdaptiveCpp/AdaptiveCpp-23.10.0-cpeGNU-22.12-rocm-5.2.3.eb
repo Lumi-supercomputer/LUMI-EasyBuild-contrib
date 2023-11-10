@@ -1,6 +1,6 @@
 easyblock = 'CMakeMake'
 
-name =    'AdaptiveCPP'
+name =    'AdaptiveCpp'
 version = '23.10.0'
 versionsuffix = '-rocm-5.2.3'
 
