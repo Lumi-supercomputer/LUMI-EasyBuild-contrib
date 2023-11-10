@@ -38,11 +38,11 @@ sources = [{
 dependencies = [
     ('cray-python/3.9.13.1', EXTERNAL_MODULE),
     ('rocm/5.2.3', EXTERNAL_MODULE),
+    ('Boost', '1.81.0'),
 ]
 
 builddependencies = [
     ('buildtools', '%(toolchain_version)s', '', True),
-    ('Boost', '1.81.0'),
     ('libxml2', '2.9.14'),
 ]
 
