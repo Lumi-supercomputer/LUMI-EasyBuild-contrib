@@ -34,7 +34,15 @@ package.
 
   * Trivial port of the 3.20.9 EasyConfig file.
 
+  * **Note:** EasyConfig changed in November 2023 to download from GitHub
+    with a slightly different installation procedure as the original download
+    location was not available.
+
+
 ### Version 3.20.11 for CPE 22.12, 23.03
 
   * Trivial version bump of the 3.20.10 EasyConfig.
 
+  * **Note:** EasyConfig changed in November 2023 to download from GitHub
+    with a slightly different installation procedure as the original download
+    location was not available.

@@ -24,9 +24,15 @@ DAP4.0. This includes both Client- and Server-side support classes.
 
 toolchain = {'name': 'cpeGNU', 'version': '22.08'}
 
-source_urls = ['https://www.opendap.org/pub/source/']
-sources =     [SOURCE_TAR_GZ]
-checksums =   ['d68c8a95916fa6057a5218c79a0f06e4bb2b24c2adff01ccd7e23e1678cabd90']
+# https://github.com/OPENDAP/libdap4/archive/refs/tags/3.20.11.tar.gz
+sources = [
+    {
+        'download_filename': '%(version)s.tar.gz',
+        'filename':          SOURCE_TAR_GZ,
+        'source_urls':       ['https://github.com/OPENDAP/libdap4/archive/refs/tags/']
+    }
+]
+checksums =   ['9bbb35bdaee87fad2b264447a265c4b8a78e32a8aade7abc9d0133c245abfca1']
 
 builddependencies = [ # Create a reproducible build environment.
     ('buildtools',   '%(toolchain_version)s',   '', True),  # Bison, flex
@@ -40,6 +46,7 @@ dependencies = [
     ('util-linux', local_util_version),
 ]
 
+preconfigopts = 'autoreconf --force --install --verbose && '
 configopts = 'TIRPC_LIBS="-ltirpc"'
 
 sanity_check_paths = {
