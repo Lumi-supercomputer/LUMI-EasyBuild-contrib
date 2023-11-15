@@ -15,7 +15,7 @@
 #
 easyblock = 'CMakeMake'
 
-local_PLUMED2_9_version =    '2.8.3'         # https://github.com/plumed/plumed2/releases
+local_PLUMED2_9_version =    '2.9.0'         # https://github.com/plumed/plumed2/releases
 
 name =          'GROMACS'
 version =       '2021.7'
