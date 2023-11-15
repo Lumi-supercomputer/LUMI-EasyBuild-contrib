@@ -2,7 +2,7 @@
 easyblock = 'ConfigureMake'
 
 local_UDUNITS_version =      '2.2.28'        # https://artifacts.unidata.ucar.edu/service/rest/repository/browse/downloads-udunits/
-local_util_version =         '2.39'          # https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/
+local_util_version =         '2.38.1'        # https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/
 
 local_jsonc_version =        '0.16'          # https://github.com/json-c/json-c/tags
 

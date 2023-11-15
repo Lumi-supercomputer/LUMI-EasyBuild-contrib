@@ -7,7 +7,7 @@ local_libaec_version =       '1.0.6'         # https://gitlab.dkrz.de/k202009/li
 local_libxml2_version =      '2.11.4'        # http://xmlsoft.org/sources/
 local_PROJ_version =         '9.2.0'         # https://proj.org/download.html
 local_UDUNITS_version =      '2.2.28'        # https://artifacts.unidata.ucar.edu/service/rest/repository/browse/downloads-udunits/
-local_util_version =         '2.39'          # https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/
+local_util_version =         '2.38.1'        # https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/
 
 local_CMOR_version =         '3.7.3'         # https://github.com/PCMDI/cmor/releases
 local_ecCodes_version =      '2.32.0'        # https://confluence.ecmwf.int/display/ECC/Releases
@@ -37,9 +37,9 @@ toolchainopts = {'openmp': True, 'opt': True, 'pic': True, 'verbose': False}
 #
 # Check sources on https://code.mpimet.mpg.de/projects/cdo/files using the download symbol
 # at the right of the screen.
-# https://code.mpimet.mpg.de/attachments/download/28013/cdo-2.2.0.tar.gz
+# https://code.mpimet.mpg.de/attachments/download/29019/cdo-2.3.0.tar.gz
 sources =     [SOURCELOWER_TAR_GZ]
-source_urls = ['https://code.mpimet.mpg.de/attachments/download/28013']
+source_urls = ['https://code.mpimet.mpg.de/attachments/download/29019']
 checksums =   ['10c878227baf718a6917837527d4426c2d0022cfac4457c65155b9c57f091f6b']
 
 # No MPI support, OpenMP support for compute intensive operators (https://code.mpimet.mpg.de/projects/cdo/wiki/OpenMP_support)
@@ -49,7 +49,7 @@ builddependencies = [
 
 dependencies = [
     # Cray PE
-    ('cray-hdf5', EXTERNAL_MODULE),
+    ('cray-hdf5',   EXTERNAL_MODULE),
     ('cray-netcdf', EXTERNAL_MODULE),
     ('cray-fftw',   EXTERNAL_MODULE),
     # LUMI software stack

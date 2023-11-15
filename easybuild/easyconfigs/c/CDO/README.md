@@ -2,6 +2,8 @@
 
   * [CDO home page](https://code.mpimet.mpg.de/projects/cdo)
 
+      * [CDO downloads page](https://code.mpimet.mpg.de/projects/cdo/files)
+
       * [Installation documentation in the full HTML documentation](https://code.mpimet.mpg.de/projects/cdo/embedded/index.html)
 
 
