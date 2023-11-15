@@ -7,8 +7,10 @@ easyblock = 'ConfigureMake'
 local_libpng_version =       '1.6.39'        # http://www.libpng.org/pub/png/libpng.html
 local_UDUNITS_version =      '2.2.28'        # https://artifacts.unidata.ucar.edu/service/rest/repository/browse/downloads-udunits/
 
+local_ncview_version =       '2.1.9'         # https://cirrus.ucsd.edu/~pierce/ncview/
+
 name =    'ncview'
-version = '2.1.8'
+version = local_ncview_version
 
 homepage = 'http://meteora.ucsd.edu/~pierce/ncview_home_page.html'
 
@@ -39,7 +41,7 @@ builddependencies = [ # Create a reproducible build environment.
 ]
 
 dependencies = [
-    ('cray-hdf5', EXTERNAL_MODULE),
+    ('cray-hdf5',   EXTERNAL_MODULE),
     ('cray-netcdf', EXTERNAL_MODULE),
     ('UDUNITS',     local_UDUNITS_version), # This will also add zlib as a dependency
     ('libpng',      local_libpng_version),
