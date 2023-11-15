@@ -6,7 +6,7 @@ local_Szip_version =         '2.1.1'         # https://support.hdfgroup.org/ftp/
 local_Blosc_version =        '1.21.5'        # https://github.com/Blosc/c-blosc/releases
 local_libpng_version =       '1.6.39'        # http://www.libpng.org/pub/png/libpng.html
 
-local_SZ_version =           '2.1.12.5'      # https://github.com/szcompressor/SZ/releases
+local_SZ_version =           '2.1.12'        # https://github.com/szcompressor/SZ/releases
 local_zfp_version =          '1.0.0'         # https://github.com/LLNL/zfp/releases
 local_ZeroMQ_version =       '4.3.5'         # https://github.com/zeromq/libzmq/releases/
 local_nlohmannjson_version = '3.11.2'        # https://github.com/nlohmann/json/releases

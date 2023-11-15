@@ -62,7 +62,7 @@ configopts += '-DZFP_WITH_OPENMP:BOOL=ON '
 configopts += '-DZFP_WITH_CUDA:BOOL=OFF '
 
 configopts += '-DBUILD_CFP:BOOL=ON '
-configopts += '-DBUILD_ZFPY:BOOL=ON '
+configopts += '-DBUILD_ZFPY:BOOL=OFF '
 configopts += '-DBUILD_ZFORP:BOOL=ON '
 
 configopts += '-DBUILD_UTILITIES:BOOL=ON '

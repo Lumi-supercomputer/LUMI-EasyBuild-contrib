@@ -23,7 +23,7 @@
     application that actually need libsci
 
 
-### Version 2.1.12.5 for CPE 23.09
+### Trying 2.1.12.5 for CPE 23.09
 
--   Trivial port of the 2.1.12 EasyConfig as it is just a bugfix release.
+-   Did not work: the bin/sz binary was not built, so reverted to plain 2.1.12.
 

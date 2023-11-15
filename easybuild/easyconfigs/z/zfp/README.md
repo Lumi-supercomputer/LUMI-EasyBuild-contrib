@@ -28,3 +28,7 @@
 ### Version 1.0.0 for CPE 23.09
 
 -   Trivial port but adapted the source lines from the EasyBuild EasyConfig.
+
+-   And build without the Python interfaces as those require cython which is
+    not part of the Cray Python version used for 23.09.
+

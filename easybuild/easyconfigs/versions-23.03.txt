@@ -20,4 +20,5 @@ local_libdap_version =       '3.20.11'       # https://www.opendap.org/pub/sourc
 local_NCO_version =          '5.1.5'         # https://github.com/nco/nco/releases
 
 local_SAMtools_version =     '1.17'          # https://github.com/samtools/samtools/releases
+local_SZ_version =           '2.1.12'        # https://github.com/szcompressor/SZ/releases, 2.1.12.5 did not build the bin/sz binary.
 
