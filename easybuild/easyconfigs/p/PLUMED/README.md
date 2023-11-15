@@ -122,8 +122,21 @@ and `--enable-external-lapack` are used.
       * `-noPython`: Simply disables Python; build PLUMED without Python support.
 
 
+### 2.8.3 for CPE 23.09
+
+-   Trivial version bump of 2.8.0.
+
+-   But at least initially no support for cpeCray/23.09 as Boost fails to build.
+
+
 ### 2.9.0 for CPE 23.09
+
+-   Fails to build on the login nodes if you build for `partition/C`.
 
 -   Version bump from 2.8.3 but switched to the downloads that EasyBuild also uses
     so that we can copy checksums from there.
+    
+-   Initially no support for cpeCray as we cannot build Boost for cpeCray.
+
+
 

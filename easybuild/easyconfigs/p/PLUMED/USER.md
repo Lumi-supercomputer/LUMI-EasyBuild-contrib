@@ -1,5 +1,8 @@
 # PLUMED user information
 
+**Note: Recent versions of PLUMED need to be build on the compute nodes if you want
+to optimise for them (and hence use `partition/C` or `partition/G`).**
+
 **After the March-April 2023 system update the EasyConfigs of PLUMED were replaced with 
 two versions due to build problems on the updated system.**
 
