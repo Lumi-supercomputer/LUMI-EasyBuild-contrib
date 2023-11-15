@@ -16,6 +16,7 @@ CppUnit is the C++ port of the famous JUnit framework for unit testing.
 """
 
 toolchain = {'name': 'cpeAMD', 'version': '23.09'}
+toolchainopts = {'extra_cxxflags': '-Qunused-arguments'}
 
 source_urls = ['https://dev-www.libreoffice.org/src']
 sources =     [SOURCELOWER_TAR_GZ]
