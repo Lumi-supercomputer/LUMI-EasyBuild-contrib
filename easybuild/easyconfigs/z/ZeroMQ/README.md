@@ -15,10 +15,16 @@
 
   * [ZeroMQ support in the JSC repository](https://github.com/easybuilders/JSC/tree/2022/Golden_Repo/z/ZeroMQ)
 
+
 ### Version 4.3.4 for CPE 22.08 and CPE 22.12
 
-- Based on the JSC easyconfig
-- Unload the cray-libsci module to prevent linking to the threaded version of
-  libsci which is not needed. It avoid the double linking problem with 
-  application that actually need libsci
+-   Based on the JSC easyconfig
 
+-   Unload the cray-libsci module to prevent linking to the threaded version of
+    libsci which is not needed. It avoid the double linking problem with 
+    application that actually need libsci
+
+
+### Version 4.3.5 from CPE 23.09 on
+
+-   Trivial version bump from 4.3.4.

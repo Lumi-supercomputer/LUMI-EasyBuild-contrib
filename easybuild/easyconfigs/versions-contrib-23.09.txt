@@ -1,5 +1,6 @@
 # Versions of some packages in LUMI-EasyBuild-contrib.
 
+local_ADIOS2_version =       '2.9.1'         # https://github.com/ornladios/ADIOS2/releases
 local_ANTLR_NCO_version =    '2.7.7'         # Looks like NCO requires an antique version.
 local_aria2_version =        '1.36.0'        # https://github.com/aria2/aria2/releases
 
@@ -19,10 +20,18 @@ local_jsonc_version =        '0.16'          # https://github.com/json-c/json-c/
 local_libaio_version =       '0.3.113'       # https://pagure.io/libaio/releases
 local_libaio_libversion =    '1.0.2'         # Version for the .so file.
 local_libdap_version =       '3.20.11'       # https://www.opendap.org/pub/source/
+local_libsodium_version =    '1.0.19'        # https://download.libsodium.org/libsodium/releases/
 
 local_NCO_version =          '5.1.8'         # https://github.com/nco/nco/releases
 local_ncview_version =       '2.1.9'         # https://cirrus.ucsd.edu/~pierce/ncview/
+local_nlohmannjson_version = '3.11.2'        # https://github.com/nlohmann/json/releases
+
+local_OpenPGM_version =      '5.2.122'       # https://code.google.com/archive/p/openpgm/downloads
 
 local_SAMtools_version =     '1.18'          # https://github.com/samtools/samtools/releases
+local_SZ_version =           '2.1.12.5'      # https://github.com/szcompressor/SZ/releases
 
 local_VCFtools_version =     '0.1.16'        # https://github.com/vcftools/vcftools/releases
+
+local_ZeroMQ_version =       '4.3.5'         # https://github.com/zeromq/libzmq/releases/
+local_zfp_version =          '1.0.0'         # https://github.com/LLNL/zfp/releases
