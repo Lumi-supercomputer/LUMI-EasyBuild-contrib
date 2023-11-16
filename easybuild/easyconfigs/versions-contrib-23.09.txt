@@ -1,0 +1,27 @@
+# Versions of some packages in LUMI-EasyBuild-contrib.
+
+local_ANTLR_NCO_version =    '2.7.7'         # Looks like NCO requires an antique version.
+local_aria2_version =        '1.36.0'        # https://github.com/aria2/aria2/releases
+
+local_BCFtools_version =     '1.18'          # https://github.com/samtools/bcftools/releases
+
+local_cares_version =        '1.21.0'        # https://github.com/c-ares/c-ares/releases
+local_CDO_version =          '2.3.0'         # https://code.mpimet.mpg.de/projects/cdo/files
+local_CMOR_version =         '3.7.3'         # https://github.com/PCMDI/cmor/releases
+local_CppUnit =              '1.15.1'        # https://dev-www.libreoffice.org/src/
+
+local_ecCodes_version =      '2.32.0'        # https://confluence.ecmwf.int/display/ECC/Releases
+
+local_HTSlib_version =       '1.18'          # https://github.com/samtools/htslib/releases
+
+local_jsonc_version =        '0.16'          # https://github.com/json-c/json-c/tags
+
+local_libaio_version =       '0.3.113'       # https://pagure.io/libaio/releases
+local_libaio_libversion =    '1.0.2'         # Version for the .so file.
+local_libdap_version =       '3.20.11'       # https://www.opendap.org/pub/source/
+
+local_NCO_version =          '5.1.8'         # https://github.com/nco/nco/releases
+local_ncview_version =       '2.1.9'         # https://cirrus.ucsd.edu/~pierce/ncview/
+
+local_SAMtools_version =     '1.18'          # https://github.com/samtools/samtools/releases
+

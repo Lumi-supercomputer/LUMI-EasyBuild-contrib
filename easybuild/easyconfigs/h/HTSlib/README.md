@@ -49,10 +49,16 @@
     Cloud Integration were not tested, so it is not clear if this fully works or not.
 
     
-### Version 1.17 for cpeGNU 21.12
+### Version 1.17 for cpeGNU 22.12
 
 -   Trivial port of the EasyConfig for 1.15.1.
 
 -   Some reworking for our system to update versions of dependencies.
 
 -   Some reworking to also copy the LICENSE and README files to the system.
+
+
+### Version 1.18 from 23.09 on
+
+-   Trivial port of the 1.17 EasyConfig
+

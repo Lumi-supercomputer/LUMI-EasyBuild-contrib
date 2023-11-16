@@ -40,3 +40,11 @@ complete. Use at your own risk.
   * Just as for 3.6.1, python and cdat support are not enabled.
 
   * In the cpeCray version the Fortran interfaces are still disabled.
+
+
+### Version 3.7.3 from CPE 23.09 on
+
+  * Trivial port of the 3.7.3 EasyConfig, though according to the release notes
+    several bugs have been fixed.
+
+

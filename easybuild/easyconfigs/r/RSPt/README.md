@@ -3,7 +3,7 @@
   * [RSPt home page](https://www.physics.uu.se/research/materials-theory/ongoing-research/code-development/rspt-main/)
   
 Note that getting access to the sources requires registration, so
-a fully autmated install is not possible. One needs to get the
+a fully automated install is not possible. One needs to get the
 sources by hand and put them in a place where EasyBuild can find
 them.
 
