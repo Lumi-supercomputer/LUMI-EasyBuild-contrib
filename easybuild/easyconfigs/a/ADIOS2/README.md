@@ -15,12 +15,21 @@
 
   * [ADIOS2 support in the JSC repository](https://github.com/easybuilders/JSC/tree/2022/Golden_Repo/a/ADIOS2)
 
+
 ### Version 2.7.1 for CPE 22.08
 
 - Based on the JSC easyconfig
+
 
 ### Version 2.8.3 for CPE 22.12
 
 - Based on the JSC easyconfig
 
+
+### Version 2.9.1 fro CPE 23.09
+
+-   Trivial port of the 1.8.3 EasyConfig.
+
+-   But switched the homepage to the page on readthedocs as the old home page doesn't seem to
+    be updated anymore.
 

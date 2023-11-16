@@ -15,10 +15,20 @@
 
   * [ZFP support in the JSC repository](https://github.com/easybuilders/JSC/tree/2022/Golden_Repo/z/zfp)
 
+
 ### Version 0.5.5 for CPE 22.08
 
-- Based on the JSC easyconfig
-- Unload the cray-libsci module to prevent linking to the threaded version of
-  libsci which is not needed. It avoid the double linking problem with 
-  application that actually need libsci
+-   Based on the JSC easyconfig
+ 
+-   Unload the cray-libsci module to prevent linking to the threaded version of
+    libsci which is not needed. It avoid the double linking problem with 
+    applications that actually need libsci.
+
+
+### Version 1.0.0 for CPE 23.09
+
+-   Trivial port but adapted the source lines from the EasyBuild EasyConfig.
+
+-   And build without the Python interfaces as those require cython which is
+    not part of the Cray Python version used for 23.09.
 

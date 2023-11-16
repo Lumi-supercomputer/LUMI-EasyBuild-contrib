@@ -13,11 +13,13 @@
 
   * [nlohmann-json support in the JSC repository](https://github.com/easybuilders/JSC/tree/2022/Golden_Repo/n/nlohmann-json)
 
+
 ### Version 3.10.4 for CPE 22.08
 
-- Based on the JSC easyconfig
+-   Based on the JSC easyconfig
 
-### Version 3.11.2 for CPE 22.12
 
-- Based on the JSC easyconfig
+### Version 3.11.2 for CPE 22.12 and 23.09
+
+-   Based on the JSC easyconfig
 
