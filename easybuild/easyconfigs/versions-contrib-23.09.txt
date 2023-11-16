@@ -25,3 +25,4 @@ local_ncview_version =       '2.1.9'         # https://cirrus.ucsd.edu/~pierce/n
 
 local_SAMtools_version =     '1.18'          # https://github.com/samtools/samtools/releases
 
+local_VCFtools_version =     '0.1.16'        # https://github.com/vcftools/vcftools/releases
