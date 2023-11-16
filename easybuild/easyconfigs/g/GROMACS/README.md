@@ -18,19 +18,21 @@ Another way to find out which versions of GROMACS are supported is to load the
 PLUMED module and then run ``plumed-patch -l`` to get a list of the included
 engines.
 
-| PLUMED  | 2019   | 2020   | 2021   | 2022   |
-|:--------|:-------|:-------|:-------|:-------|
-| 2.8.0   | 2019.6 | 2020.6 | 2021.4 |        |
-| 2.7.4   | 2019.6 | 2020.6 | 2021.4 |        |
-| 2.7.3   | 2019.6 | 2020.6 | 2021.4 |        |
-| 2.7.2   | 2019.6 | 2020.6 | 2021   |        |
-| 2.7.1   | 2019.6 | 2020.5 | 2021   |        |
-| 2.7.0   | 2019.6 | 2020.4 |        |        |
-| 2.6.4   | 2019.6 | 2020.4 |        |        |
-| 2.6.3   | 2019.6 | 2020.4 |        |        |
-| 2.6.2   | 2019.6 | 2020.4 |        |        |
-| 2.6.1   | 2019.6 | 2020.2 |        |        |
-| 2.6.0   | 2019.4 |        |        |        |
+| PLUMED  | 2019   | 2020   | 2021   | 2022   | 2023   |
+|:--------|:-------|:-------|:-------|:-------|:-------| 
+| 2.9.0   |        | 2020.7 | 2021.7 | 2022.5 | 2023   |
+| 2.8.3   | 2019.6 | 2020.7 | 2021.7 | 2022.5 |        |
+| 2.8.0   | 2019.6 | 2020.6 | 2021.4 |        |        |
+| 2.7.4   | 2019.6 | 2020.6 | 2021.4 |        |        |
+| 2.7.3   | 2019.6 | 2020.6 | 2021.4 |        |        |
+| 2.7.2   | 2019.6 | 2020.6 | 2021   |        |        |
+| 2.7.1   | 2019.6 | 2020.5 | 2021   |        |        |
+| 2.7.0   | 2019.6 | 2020.4 |        |        |        |
+| 2.6.4   | 2019.6 | 2020.4 |        |        |        |
+| 2.6.3   | 2019.6 | 2020.4 |        |        |        |
+| 2.6.2   | 2019.6 | 2020.4 |        |        |        |
+| 2.6.1   | 2019.6 | 2020.2 |        |        |        |
+| 2.6.0   | 2019.4 |        |        |        |        |
 
 
 ## EasyBuild
@@ -110,5 +112,21 @@ engines.
   * This is an EasyConfig for AMD's own HIP-port of GROMACS which is a version
     that is not supported by the main GROMACS developers, who prefer to work with
     SYCL for support for AMD GPUs. It is derived from the container recipes of AMD.
+
+
+### Version 2021.7 for CPE 23.09
+
+-   Trivial version bump of our EasyConfigs for 2021.5 and 2021.6.
+
+
+### Version 2022.6 for CPE 23.09
+
+-   For now a trivial version bump of the 2021.5/2021.6 series.
+
+
+### Version 2023.3 for CPE 23.09
+
+-   For now a trivial version bump of the 2021.5/2021.6 series.
+
 
 
