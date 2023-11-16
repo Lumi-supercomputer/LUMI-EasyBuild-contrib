@@ -31,5 +31,7 @@ local_OpenPGM_version =      '5.2.122'       # https://code.google.com/archive/p
 local_SAMtools_version =     '1.18'          # https://github.com/samtools/samtools/releases
 local_SZ_version =           '2.1.12.5'      # https://github.com/szcompressor/SZ/releases
 
+local_VCFtools_version =     '0.1.16'        # https://github.com/vcftools/vcftools/releases
+
 local_ZeroMQ_version =       '4.3.5'         # https://github.com/zeromq/libzmq/releases/
 local_zfp_version =          '1.0.0'         # https://github.com/LLNL/zfp/releases
