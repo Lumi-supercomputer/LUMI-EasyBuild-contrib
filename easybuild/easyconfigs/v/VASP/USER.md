@@ -44,7 +44,7 @@ $ module load VASP/6.4.2-cpeGNU-23.09
 
 The usual VASP binaries, `vasp_std`, `vasp_gam` etc. will now be in your
 `PATH`. Launch VASP via the [Slurm scheduler][slurm-quickstart], e.g. `srun
-vasp_std`. Please note that you must do `module load LUMI/22.12 partition/C` to
+vasp_std`. Please note that you must do `module load LUMI/23.09 partition/C` to
 see the VASP module in the module system. The same applies to the Slurm batch
 scripts which you send to the compute nodes.
 
@@ -93,8 +93,8 @@ A typical VASP [batch job][batch-job] using 4 compute nodes and MPI only:
 
 export OMP_NUM_THREADS=1
 
-module load LUMI/22.12 partition/C
-module load VASP/6.4.1-cpeGNU-22.12-build02
+module load LUMI/23.09 partition/C
+module load VASP/6.4.2-cpeGNU-23.09
 srun vasp_std
 ```
 
@@ -117,8 +117,8 @@ export OMP_PLACES=cores
 export OMP_PROC_BIND=close
 export OMP_STACKSIZE=512m
 
-module load LUMI/22.12 partition/C
-module load VASP/6.4.1-cpeGNU-22.12-build02
+module load LUMI/23.09 partition/C
+module load VASP/6.4.2-cpeGNU-23.09
 srun vasp_std
 ```
 
