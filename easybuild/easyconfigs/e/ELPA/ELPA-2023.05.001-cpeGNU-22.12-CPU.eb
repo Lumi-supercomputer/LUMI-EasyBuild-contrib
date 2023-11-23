@@ -1,0 +1,71 @@
+# Contributed by Luca Marsella (CSCS)
+# Some adaptations by Kurt Lust (University of Antwerpen and LUMI consortium)
+easyblock = 'ConfigureMake'
+
+local_ELPA_version =           '2023.05.001'     # Synchronized with CSCS but also the version in EB 2021b
+
+name =    'ELPA'
+version = local_ELPA_version
+versionsuffix = '-CPU'
+
+homepage = 'http://elpa.mpcdf.mpg.de'
+
+whatis = [
+    "Description: ELPA - Eigenvalue SoLvers for Petaflop-Applications",
+]
+
+description = """
+The publicly available ELPA library provides highly efficient and highly
+scalable direct eigensolvers for symmetric matrices. Though especially designed
+for use for PetaFlop/s applications solving large problem sizes on massively
+parallel supercomputers, ELPA eigensolvers have proven to be also very efficient
+for smaller matrices. All major architectures are supported.
+
+ELPA provides static and shared libraries with and without OpenMP support
+and with and without MPI. GPU kernels are not included in this module.
+"""
+
+docurls = [
+    'Manual pages in section 1 and 3'
+]
+
+toolchain = {'name': 'cpeGNU', 'version': '22.12'}
+toolchainopts = {'usempi': True, 'openmp': False}
+
+source_urls = ['https://gitlab.mpcdf.mpg.de/elpa/elpa/-/archive/new_release_%(version)s/']
+sources =     ['elpa-new_release_%(version)s.tar.gz']
+
+patches = [
+    {'name': 'elpa-2023.05.01.patch', 'level': 1},
+]
+
+builddependencies = [ # We use the system Python and Perl.
+    ('buildtools', '%(toolchain_version)s', '', True), # For Autotools and others.
+#    ('cray-libsci', EXTERNAL_MODULE),
+]
+
+preconfigopts  = './autogen.sh && '
+preconfigopts += " CC=cc CXX=CC FC=ftn CPP=cpp && "
+
+local_commonopts = ' FCFLAGS="$FCFLAGS" CPP=cpp --disable-generic --disable-sse --disable-avx --enable-avx2 --disable-avx512 --enable-static '
+local_commonopts += '--with-mpi=yes --disable-openmp'
+
+configopts = local_commonopts
+
+prebuildopts = " make clean && "
+
+sanity_check_paths = {
+    'files': ['lib/libelpa.a', 'lib/libelpa.so'],
+    'dirs':  ['bin', 'lib/pkgconfig',
+              'include/%(namelower)s-%(version)s/%(namelower)s', 'include/%(namelower)s-%(version)s/modules',]
+}
+
+modextrapaths = {
+    'CPATH': ['include/elpa-%(version)s']
+}
+
+modextravars = {
+    'ELPA_INCLUDE_DIR': '%(installdir)s/include/elpa-%(version)s',
+}
+
+moduleclass = 'math'
