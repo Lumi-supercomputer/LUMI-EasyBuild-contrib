@@ -30,7 +30,7 @@ docurls = [
 ]
 
 toolchain = {'name': 'cpeGNU', 'version': '22.12'}
-toolchainopts = {'usempi': True, 'openmp': False}
+toolchainopts = {'usempi': True, 'openmp': True}
 
 source_urls = ['https://gitlab.mpcdf.mpg.de/elpa/elpa/-/archive/new_release_%(version)s/']
 sources =     ['elpa-new_release_%(version)s.tar.gz']
@@ -41,31 +41,36 @@ patches = [
 
 builddependencies = [ # We use the system Python and Perl.
     ('buildtools', '%(toolchain_version)s', '', True), # For Autotools and others.
-#    ('cray-libsci', EXTERNAL_MODULE),
+    ('cray-libsci', EXTERNAL_MODULE),
 ]
 
 preconfigopts  = './autogen.sh && '
 preconfigopts += " CC=cc CXX=CC FC=ftn CPP=cpp && "
 
 local_commonopts = ' FCFLAGS="$FCFLAGS" CPP=cpp --disable-generic --disable-sse --disable-avx --enable-avx2 --disable-avx512 --enable-static '
-local_commonopts += '--with-mpi=yes --disable-openmp'
+local_commonopts += '--with-mpi=yes '
 
-configopts = local_commonopts
+configopts = [
+    local_commonopts + ' --disable-openmp ',
+    local_commonopts + ' --enable-openmp '
+]
 
 prebuildopts = " make clean && "
 
 sanity_check_paths = {
-    'files': ['lib/libelpa.a', 'lib/libelpa.so'],
+    'files': ['lib/libelpa.a', 'lib/libelpa.so', 'lib/libelpa_openmp.a', 'lib/libelpa_openmp.so'],
     'dirs':  ['bin', 'lib/pkgconfig',
-              'include/%(namelower)s-%(version)s/%(namelower)s', 'include/%(namelower)s-%(version)s/modules',]
+              'include/%(namelower)s-%(version)s/%(namelower)s', 'include/%(namelower)s-%(version)s/modules',
+              'include/%(namelower)s_openmp-%(version)s/%(namelower)s', 'include/%(namelower)s_openmp-%(version)s/modules']
 }
 
 modextrapaths = {
-    'CPATH': ['include/elpa-%(version)s']
+    'CPATH': ['include/elpa_openmp-%(version)s', 'include/elpa-%(version)s']
 }
 
 modextravars = {
     'ELPA_INCLUDE_DIR': '%(installdir)s/include/elpa-%(version)s',
+    'ELPA_OPENMP_INCLUDE_DIR': '%(installdir)s/include/elpa_openmp-%(version)s'
 }
 
 moduleclass = 'math'

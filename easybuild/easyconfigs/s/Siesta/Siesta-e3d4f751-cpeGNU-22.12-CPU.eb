@@ -9,7 +9,7 @@ description = """SIESTA is both a method and its computer program implementation
  structure calculations and ab initio molecular dynamics simulations of molecules and solids."""
 
 toolchain = {'name': 'cpeGNU', 'version': '22.12'}
-toolchainopts = {'usempi': True, 'openmp': False ,'precise': True}
+toolchainopts = {'usempi': True, 'openmp': True ,'precise': True}
 
 sources = [{
     'filename':   'siesta-%(version)s.tar.gz',
@@ -34,6 +34,10 @@ dependencies = [
     ('ELPA', '2023.05.001', '-CPU'),
 ]
 
-configopts = '-DSIESTA_TOOLCHAIN="none" -DSCALAPACK_LIBRARY="-lsci_gnu_mpi" -DWITH_OPENMP=OFF -DWITH_ELPA=ON '
+configopts = '-DSIESTA_TOOLCHAIN="none" -DSCALAPACK_LIBRARY="-lsci_gnu_mpi_mp" -DWITH_OPENMP=ON -DCMAKE_EXE_LINKER_FLAGS="-fopenmp" '
+configopts+= '-DWITH_ELPA=ON '
+configopts+= '-DCMAKE_FIND_USE_PACKAGE_REGISTRY=ON '
+configopts+= '-DCMAKE_PREFIX_PATH=${EBROOTELPA} '
+#configopts+= '-DELPA_LIBDIR=${EBROOTELPA}/lib -DELPA_LIBRARIES="-lelpa" -DELPA_INCLUDEDIR=${EBROOTELPA}/include/elpa-2023.05.001/elpa -DELPA_INCLUDE_DIRS=${EBROOTELPA}/include/elpa-2023.05.001/elpa '
 
 moduleclass = 'phys'
