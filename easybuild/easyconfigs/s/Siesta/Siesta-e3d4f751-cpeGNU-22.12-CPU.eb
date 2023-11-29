@@ -38,6 +38,5 @@ configopts = '-DSIESTA_TOOLCHAIN="none" -DSCALAPACK_LIBRARY="-lsci_gnu_mpi_mp" -
 configopts+= '-DWITH_ELPA=ON '
 configopts+= '-DCMAKE_FIND_USE_PACKAGE_REGISTRY=ON '
 configopts+= '-DCMAKE_PREFIX_PATH=${EBROOTELPA} '
-#configopts+= '-DELPA_LIBDIR=${EBROOTELPA}/lib -DELPA_LIBRARIES="-lelpa" -DELPA_INCLUDEDIR=${EBROOTELPA}/include/elpa-2023.05.001/elpa -DELPA_INCLUDE_DIRS=${EBROOTELPA}/include/elpa-2023.05.001/elpa '
 
 moduleclass = 'phys'

@@ -2,6 +2,7 @@ easyblock = 'CMakeMake'
 
 name = 'Siesta'
 version = 'e3d4f751'
+versionsuffix = '-GPU'
 
 homepage = 'https://siesta-project.org/siesta'
 description = """SIESTA is both a method and its computer program implementation, to perform efficient electronic
