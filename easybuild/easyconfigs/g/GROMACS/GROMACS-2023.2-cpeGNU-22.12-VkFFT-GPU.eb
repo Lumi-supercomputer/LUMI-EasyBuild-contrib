@@ -15,11 +15,11 @@ whatis = [
 description = """
 GROMACS is a versatile package to perform molecular dynamics, i.e. simulate the
 Newtonian equations of motion for systems with hundreds to millions of
-particles. This version enables GPU acceleration (ROCm support via hipSYCL) but 
-without distribution across multiple GPUs (no PME decomposition); 
+particles. This version enables GPU acceleration without distribution across 
+multiple GPUs (no PME decomposition); 
 
 Binaries included:
-* gmx: Single-node, thread-MPI version, recommended for a single GPU use (no support for a direct GPU-to-GPU communication); 
+* gmx: thread-MPI version for single node use only, recommended for a single GPU use (no support for direct GPU communication); 
 * gmx_mpi: MPI version for multi-GPU use but without support for PME decomposition.
 
 Both binaries use default, GPU-accelerated VkFFT library, which is not supported with PME decomposition. 

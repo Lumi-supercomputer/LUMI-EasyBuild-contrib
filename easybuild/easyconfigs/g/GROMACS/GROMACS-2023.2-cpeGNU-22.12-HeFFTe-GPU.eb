@@ -16,10 +16,12 @@ description = """
 GROMACS is a versatile package to perform molecular dynamics, i.e. simulate the
 Newtonian equations of motion for systems with hundreds to millions of
 particles. This version enables GPU acceleration with PME decomposition feature 
-allowing distribution across multiple nodes and GPUs (supports ROCm via hipSYCL).
+allowing distribution across multiple nodes and GPUs.
 
 Binaries included:
-* gmx_mpi: Multi-node MPI version with HeFFTe for a multi-GPU decomposition.
+* gmx_mpi: MPI version with HeFFTe for a multi-node execution with multi-GPU decomposition.
+
+HeFFTe library uses rocFFT from ROCm environment.
 
 The module sets the environment variables that would otherwise be set by running
 the script $EBROOTGROMACS/bin/GMXRC. So running this script snould not be

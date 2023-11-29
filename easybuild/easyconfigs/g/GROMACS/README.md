@@ -108,19 +108,15 @@ engines.
     of enabling support for the `cray-python` modules. Therefore the corresponding 
     EasyConfigs of GROMACS have also been replaced.**
 
-### GROMACS 2023.2 with AMD GPU support for CPE 22.12
+### GROMACS 2023.2 and 2023.3 with AMD GPU support for CPE 22.12
 
-  * There are two easyconfig files for running GROMACS with AMD GPU acceleration (ROCm support via hipSYCL), that follows [installation guide](https://manual.gromacs.org/2023.2/install-guide/index.html#sycl-gpu-acceleration-for-amd-gpus):
-
-    * MPI version for multi-node use, with [HeFFTe](https://manual.gromacs.org/2023.2/install-guide/index.html#using-heffte) supporting offload to multiple GPUs 
-    ([GPU aware MPI](https://manual.gromacs.org/2023.2/install-guide/index.html#gpu-aware-mpi-support) enabled, support for PME decomposition)
-    * MPI and thread-MPI version with [VkFFT](https://manual.gromacs.org/2023.2/install-guide/index.html#using-vkfft), recommended for a single node use (no support for PME decomposition)
-
-      * MPI version supports multi-GPU execution but no PME decomposition
-      * thread-MPI is for a single GPU use (no support for a direct GPU communication)
+  * There are different choices for building GROMACS with AMD GPU acceleration on LUMI, that follows [installation guide](https://manual.gromacs.org/2023.2/install-guide/index.html#sycl-gpu-acceleration-for-amd-gpus):
+    * Easyconfig files for the 2023.2 release use hipSYCL GPU backend with ROCm v5.2.3
+    * MPI versions are recommended to use on LUMI
+       * [HeFFTe](https://manual.gromacs.org/2023.2/install-guide/index.html#using-heffte) variant allows offload to multiple GPUs (relies on rocFFT)
+       * [VkFFT](https://manual.gromacs.org/2023.2/install-guide/index.html#using-vkfft) variant is faster but does not support PME decomposition, recommended for single GPU runs (standalone or ensemble) or in multi GPU runs with exactly one separate PME rank (i.e. `-npme 1` runtime option).
+    * thread-MPI is for single node use only and does not support direct GPU communication, recommended only for single GPU use.
  
-  * All GPU enabled version use hipSYCL as GPU backend, compiled with ROCm 5.2.3
-
 ### GROMACS-2023-dev-cpeGNU-22.08-MPI-GPU
 
   * This is an EasyConfig for AMD's own, _unofficial_ HIP-port of GROMACS which is a version
