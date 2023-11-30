@@ -27,9 +27,15 @@ software_license_urls = ['https://github.com/OPENDAP/libdap4/blob/master/COPYING
 
 toolchain = {'name': 'cpeGNU', 'version': '22.12'}
 
-source_urls = ['https://www.opendap.org/pub/source/']
-sources =     [SOURCE_TAR_GZ]
-checksums =   ['850debf6ee6991350bf31051308093bee35ddd2121e4002be7e130a319de1415']
+# https://github.com/OPENDAP/libdap4/archive/refs/tags/3.20.11.tar.gz
+sources = [
+    {
+        'download_filename': '%(version)s.tar.gz',
+        'filename':          SOURCE_TAR_GZ,
+        'source_urls':       ['https://github.com/OPENDAP/libdap4/archive/refs/tags/']
+    }
+]
+checksums =   ['319e9771d037b6c796f04e6a96bb27db1706bc5931ca149c78347c623a747771']
 
 builddependencies = [ # Create a reproducible build environment.
     ('buildtools',   '%(toolchain_version)s',   '', True),  # Bison, flex
@@ -43,6 +49,7 @@ dependencies = [
     ('util-linux', local_util_version),
 ]
 
+preconfigopts = 'autoreconf --force --install --verbose && '
 configopts = 'TIRPC_LIBS="-ltirpc"'
 
 postinstallcmds = [

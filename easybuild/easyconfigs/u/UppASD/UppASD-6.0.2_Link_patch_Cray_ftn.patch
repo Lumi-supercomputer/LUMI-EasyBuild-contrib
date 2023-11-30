@@ -1,0 +1,18 @@
+Patch created by Kurt Lust.
+Patch removes the $(PREPROC) from the Fortran link options as the Cray compiler doesn't
+like -cpp when linking.
+diff -ru UppASD-6.0.2/source/make/makefile.template.orig UppASD-6.0.2/source/make/makefile.template
+--- UppASD-6.0.2/source/make/makefile.template.orig	2023-09-28 12:53:17.000000000 +0300
++++ UppASD-6.0.2/source/make/makefile.template	2023-09-28 13:26:00.000000000 +0300
+@@ -270,8 +270,9 @@
+ ################################################################################
+ # Fortran link and compiler flags
+ ################################################################################
+-FFLAGS     := $(FCFLAGS) $(FCDEBUG) $(FCMODFLAG) $(MDIR) $(FCOMPFLAGS) $(PREPROC) $(CUDAPP) $(VSLPP) $(FFTLIBFLAGS) $(VERFLAGS) #$(OVFLIBFLAGS)
+-FLINKFLAGS := $(FCOMPFLAG) $(FFLAGS) $(FLIBFLAGS)
++FFLAGS_OBJ := $(FCFLAGS) $(FCDEBUG) $(FCMODFLAG) $(MDIR) $(FCOMPFLAGS) $(CUDAPP) $(VSLPP) $(FFTLIBFLAGS) $(VERFLAGS) #$(OVFLIBFLAGS)
++FFLAGS     := $(PREPROC) $(FFLAGS_OBJ)
++FLINKFLAGS := $(FFLAGS_OBJ) $(FLIBFLAGS)
+ 
+ ################################################################################
+ # Link flags

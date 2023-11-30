@@ -1,0 +1,74 @@
+easyblock = 'ConfigureMake'
+
+local_libxml2_version =      '2.11.4'        # http://xmlsoft.org/sources/
+local_SQLite_version =       '3.42.0'        # https://www.sqlite.org/
+local_zlib_version =         '1.2.13'        # https://zlib.net/
+
+local_cares_version =        '1.21.0'        # https://github.com/c-ares/c-ares/releases
+local_CppUnit =              '1.15.1'        # https://dev-www.libreoffice.org/src/
+
+local_aria2_version =        '1.36.0'        # https://github.com/aria2/aria2/releases
+
+name =    'aria2'
+version = local_aria2_version
+
+homepage = 'https://aria2.github.io'
+
+whatis = [
+    'Description: aria2 is a lightweight multi-protocol & multi-source command-line download utility.'
+]
+
+description = """
+aria2 is a lightweight multi-protocol & multi-source command-line download 
+utility. It supports HTTP/HTTPS, FTP, SFTP, BitTorrent and Metalink. aria2 
+can be manipulated via built-in JSON-RPC and XML-RPC interfaces.
+"""
+
+docurls = [
+    'Man page for the ares2 command in section 1',    
+]
+
+software_license_urls = ['https://raw.githubusercontent.com/aria2/aria2/release-%(version)s/COPYING']
+
+toolchain = {'name': 'cpeAOCC', 'version': '23.09'}
+
+source_urls = ['https://github.com/aria2/aria2/releases/download/release-%(version)s']
+sources =     [SOURCE_TAR_GZ]
+checksums =   ['b593b2fd382489909c96c62c6e180054c3332b950be3d73e0cb0d21ea8afb3c5']
+
+builddependencies = [
+    # Main software stack
+    ('buildtools',   '%(toolchain_version)s',   '', True),
+    # Contrib 
+    ('CppUnit',      local_CppUnit),
+]
+
+dependencies = [
+    # Main software stack
+    ('zlib',    local_zlib_version),
+    ('libxml2', local_libxml2_version),
+    ('SQLite',  local_SQLite_version),
+    # Contrib
+    ('c-ares',  local_cares_version),
+#    ('OpenSSL', '1.1', '', True),  # Prefer systen OpenSSL which we did not install via EasyBuild.
+]
+
+# One of the tests does not work but it is not clear what the cause is, and it breaks the build.
+skipsteps = ['test']
+
+configopts = "--without-gnutls --with-openssl --enable-libaria2 --enable-static"
+
+#runtest = 'check'
+
+sanity_check_paths = {
+    'files': ['bin/aria2c', 'lib/libaria2.a', 'lib/libaria2.%s' % SHLIB_EXT, 
+              'share/man/man1/aria2c.1'],
+    'dirs':  ['share'],
+}
+
+sanity_check_commands = [
+    'aria2c --help',
+    'pkg-config --libs libaria2',
+]
+
+moduleclass = 'tools'

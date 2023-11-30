@@ -1,0 +1,52 @@
+easyblock = 'PythonPackage'
+
+name = 'CuPy'
+version = '12.2.0'
+
+homepage = 'https://cupy.dev'
+
+whatis = [
+    'Description: CuPy is an open-source array library for GPU-accelerated computing with Python'
+]
+
+description = """"
+CuPy is an open-source array library for GPU-accelerated computing with Python.
+CuPy acts as a drop-in replacement to run existing NumPy/SciPy code on NVIDIA CUDA
+or AMD ROCm platforms.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '22.12'}
+
+source_urls = [PYPI_LOWER_SOURCE]
+sources = [SOURCELOWER_TAR_GZ]
+
+dependencies = [
+    ('cray-python/3.9.13.1', EXTERNAL_MODULE),
+    ('rocm/5.2.3', EXTERNAL_MODULE)
+]
+
+use_pip = True
+
+preinstallopts = ('export ROCM_HOME=$(readlink -f $ROCM_PATH) && '
+                  'export CUPY_INSTALL_USE_HIP=1 && '
+                  'export HCC_AMDGPU_TARGET=gfx90a && '
+                  )
+
+skipsteps = ['build']
+
+exts_defaultclass = 'PythonPackage'
+exts_default_options = {
+    'source_urls': [PYPI_SOURCE],
+    'use_pip': True
+}
+exts_list = [
+    ('fastrlock', '0.8.2')
+]
+
+sanity_check_paths = {
+    'files': ['lib/python%(pyshortver)s/site-packages/cupyx/cusolver.cpython-39-x86_64-linux-gnu.so',
+              'lib/python%(pyshortver)s/site-packages/fastrlock/rlock.cpython-39-x86_64-linux-gnu.so'],
+    'dirs': ['lib/python%(pyshortver)s/site-packages'],
+}
+
+moduleclass = 'devel'

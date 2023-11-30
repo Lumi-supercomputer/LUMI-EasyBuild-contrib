@@ -18,7 +18,7 @@ and response on issues raised seems to be slow also.
 
 ## EasyBuild
 
--   [Support for VCFtools in the EasyBuilders repository]()
+-   [Support for VCFtools in the EasyBuilders repository](https://github.com/easybuilders/easybuild-easyconfigs/tree/develop/easybuild/easyconfigs/v/VCFtools)
 
 -   There is no support for VCFtools in the CSCS repository
 

@@ -49,6 +49,11 @@
   * Trivial port from 2.26.0, with all remarks still valid.
 
 
+### Version 2.32.0 from CPE 23.09 on
+
+  * Trivial port from 2.30.0, with all remarks still valid.
+
+
 
 TODO: ecCodes comes with samples. Can we figure out how to use them and build some quick
 sanity checks with them?

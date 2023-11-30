@@ -2,6 +2,8 @@
 
   * [CDO home page](https://code.mpimet.mpg.de/projects/cdo)
 
+      * [CDO downloads page](https://code.mpimet.mpg.de/projects/cdo/files)
+
       * [Installation documentation in the full HTML documentation](https://code.mpimet.mpg.de/projects/cdo/embedded/index.html)
 
 
@@ -71,4 +73,9 @@
     are passed via the toolchainopts.
 
   * Added a copy of the LICENSE file to the installation directories.
+
+
+### Version 2.3.0 for CPE 23.09 and later
+
+  * A straightforward port of the 2.2.0 EasyConfig.
 
