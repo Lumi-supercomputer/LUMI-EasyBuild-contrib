@@ -114,8 +114,8 @@ engines.
     * Easyconfig files for the 2023.2 release use hipSYCL GPU backend with ROCm v5.2.3
     * MPI versions are recommended to use on LUMI
        * [HeFFTe](https://manual.gromacs.org/2023.2/install-guide/index.html#using-heffte) variant allows offload to multiple GPUs (relies on rocFFT)
-       * [VkFFT](https://manual.gromacs.org/2023.2/install-guide/index.html#using-vkfft) variant is faster but does not support PME decomposition, recommended for single GPU runs (standalone or ensemble) or in multi GPU runs with exactly one separate PME rank (i.e. `-npme 1` runtime option).
-    * thread-MPI is for single node use only and does not support direct GPU communication, recommended only for single GPU use.
+       * [VkFFT](https://manual.gromacs.org/2023.2/install-guide/index.html#using-vkfft) variant is faster but does not support PME decomposition, recommended for a single GPU runs (standalone or ensemble) or in multi GPU runs with exactly one separate PME rank (i.e. `-npme 1` runtime option).
+    * thread-MPI is for a single node use only and does not support direct GPU communication, recommended only for a single GPU use.
  
 ### GROMACS-2023-dev-cpeGNU-22.08-MPI-GPU
 
