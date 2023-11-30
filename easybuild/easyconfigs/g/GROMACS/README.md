@@ -112,8 +112,9 @@ engines.
 
   * There are different choices for building GROMACS with AMD GPU acceleration on LUMI, that follows [installation guide](https://manual.gromacs.org/2023.2/install-guide/index.html#sycl-gpu-acceleration-for-amd-gpus):
     * Easyconfig files for the 2023.2 release use hipSYCL GPU backend with ROCm v5.2.3
+    * These versions should be only built against AMD easybuild toolchain
     * MPI versions are recommended to use on LUMI
-       * [HeFFTe](https://manual.gromacs.org/2023.2/install-guide/index.html#using-heffte) variant allows offload to multiple GPUs (relies on rocFFT)
+       * [HeFFTe](https://manual.gromacs.org/2023.2/install-guide/index.html#using-heffte) variant allows offload to multiple GPUs (relies on rocFFT) with direct GPU communication and PME decomposition across multiple GPUs
        * [VkFFT](https://manual.gromacs.org/2023.2/install-guide/index.html#using-vkfft) variant is faster but does not support PME decomposition, recommended for a single GPU runs (standalone or ensemble) or in multi GPU runs with exactly one separate PME rank (i.e. `-npme 1` runtime option).
     * thread-MPI is for a single node use only and does not support direct GPU communication, recommended only for a single GPU use.
  

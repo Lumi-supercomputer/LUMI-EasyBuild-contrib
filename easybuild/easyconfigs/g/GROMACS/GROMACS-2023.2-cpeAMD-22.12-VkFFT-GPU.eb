@@ -44,10 +44,10 @@ builddependencies = [
 ]
 
 dependencies = [
-    ('hipSYCL', '0.9.4', '-rocm-5.2.3'), 
+    ('hipSYCL', '0.9.4', '-rocm-5.2.3'),
     ('Boost', '1.81.0'),
-    ('cray-fftw', EXTERNAL_MODULE),
-    ('cray-python', EXTERNAL_MODULE),
+    ('cray-fftw/3.3.10.3', EXTERNAL_MODULE),
+    ('cray-python/3.10.10', EXTERNAL_MODULE),
     ('cray-libsci/22.12.1.1', EXTERNAL_MODULE),
     ('rocm/5.2.3', EXTERNAL_MODULE),
 ]
@@ -64,7 +64,7 @@ configopts += '-D GMX_MPI=OFF '
 configopts += '-D GMX_OPENMP=ON '
 configopts += '-D GMX_SYCL_HIPSYCL=ON '
 configopts += '-D GMX_GPU_FFT_LIBRARY=VKFFT '
-configopts += '-D GMX_BUILD_OWN_FFTW=ON '
+configopts += '-D GMX_BUILD_OWN_FFTW=OFF '
 configopts += '-D GMX_BLAS_USER=${CRAY_LIBSCI_PREFIX_DIR}/lib/libsci_amd.so '
 configopts += '-D GMX_LAPACK_USER=${CRAY_LIBSCI_PREFIX_DIR}/lib/libsci_amd.so '
 configopts += '-D HIPSYCL_TARGETS="hip:gfx90a" '

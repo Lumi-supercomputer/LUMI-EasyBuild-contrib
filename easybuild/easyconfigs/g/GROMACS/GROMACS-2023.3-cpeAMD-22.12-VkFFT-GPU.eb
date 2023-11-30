@@ -3,8 +3,8 @@
 easyblock = 'CMakeMake'
 
 name =          'GROMACS'
-version =       '2023.2'
-versionsuffix = '-HeFFTe-GPU' 
+version =       '2023.3'
+versionsuffix = '-VkFFT-GPU' 
 
 homepage = 'http://www.gromacs.org'
 
@@ -18,7 +18,8 @@ Newtonian equations of motion for systems with hundreds to millions of
 particles.
 
 Binaries included:
-* gmx_mpi: Compiled with MPI, hipSYCL and heFFTe support for multiple GPU compute nodes
+* gmx: Compiled with tMPI, hipSYCL and VkFFT support for single GPU node  
+
 
 The module sets the environment variables that would otherwise be set by running
 the script $EBROOTGROMACS/bin/GMXRC. So running this script snould not be
@@ -37,17 +38,13 @@ toolchainopts = {'opt': True, 'usempi': True, 'verbose': False, 'pic': True, 'op
 source_urls = ['https://ftp.gromacs.org/pub/gromacs/']
 sources =     [SOURCELOWER_TAR_GZ]
 
-patches = [
-    'gromacs_cmake_manage_sycl.patch',
-]
-
 builddependencies = [
     ('buildtools', '%(toolchain_version)s', '', True), 
+    ('gcc-mixed/11.2.0', EXTERNAL_MODULE),
 ]
 
 dependencies = [
     ('hipSYCL', '0.9.4', '-rocm-5.2.3'),
-    ('HeFFTe', '2.3.0', '-rocm-5.2.3'),
     ('Boost', '1.81.0'),
     ('cray-fftw/3.3.10.3', EXTERNAL_MODULE),
     ('cray-python/3.10.10', EXTERNAL_MODULE),
@@ -55,26 +52,22 @@ dependencies = [
     ('rocm/5.2.3', EXTERNAL_MODULE),
 ]
 
-# These options are taken from CSC installation developed by Rasmus adapted for AMD toolchain 
+# These options are taken from CSC installation developed by Rasmus 
 
-
-configopts  = '--fresh '
-configopts += '-D CMAKE_BUILD_TYPE=Release '
+configopts =  '-D CMAKE_BUILD_TYPE=Release '
 configopts += '-D CMAKE_C_COMPILER=${ROCM_PATH}/llvm/bin/clang '
 configopts += '-D CMAKE_CXX_COMPILER=${ROCM_PATH}/llvm/bin/clang++ '
 configopts += '-D CMAKE_PREFIX_PATH=${CRAY_MPICH_PREFIX} '
 configopts += '-D CMAKE_CXX_FLAGS="--gcc-toolchain=/opt/cray/pe/gcc/11.2.0/snos/" '
 configopts += '-D GMX_GPU=SYCL '
-configopts += '-D GMX_MPI=ON '
+configopts += '-D GMX_MPI=OFF '
 configopts += '-D GMX_OPENMP=ON '
 configopts += '-D GMX_SYCL_HIPSYCL=ON '
-configopts += '-D GMX_USE_HEFFTE=ON '
-configopts += '-D GMX_GPU_FFT_LIBRARY=rocFFT '
+configopts += '-D GMX_GPU_FFT_LIBRARY=VKFFT '
 configopts += '-D GMX_BUILD_OWN_FFTW=OFF '
 configopts += '-D GMX_BLAS_USER=${CRAY_LIBSCI_PREFIX_DIR}/lib/libsci_amd.so '
 configopts += '-D GMX_LAPACK_USER=${CRAY_LIBSCI_PREFIX_DIR}/lib/libsci_amd.so '
 configopts += '-D HIPSYCL_TARGETS="hip:gfx90a" '
-configopts += '-D Heffte_ROOT=${EBROOTHEFFTE} '
 
 skipsteps = ['test']
 
@@ -117,8 +110,6 @@ local_bash_completion = """
 local_csh_completion = '"echo \'Not implemented\'"'
 
 modluafooter = """
-prepend_path("LD_LIBRARY_PATH", pathJoin(os.getenv("ROCM_PATH"), "llvm/lib"))
-
 set_shell_function( 'gromacs-completion', %(bash_completion)s, %(csh_completion)s )
 """ % {
     'bash_completion': local_bash_completion,
