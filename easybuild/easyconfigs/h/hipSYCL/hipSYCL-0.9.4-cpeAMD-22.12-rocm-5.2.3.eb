@@ -26,21 +26,19 @@ source_urls = ["https://github.com/illuhad/hipSYCL/archive/refs/tags/"]
 sources =     ["v%(version)s.tar.gz"]
 
 dependencies = [
-    ('cray-python/3.9.12.1', EXTERNAL_MODULE),
+    ('cray-python/3.10.10', EXTERNAL_MODULE),
     ('rocm/5.2.3', EXTERNAL_MODULE),
+    ('gcc-mixed/12.2.0', EXTERNAL_MODULE),
 ]
 
 builddependencies = [
     ('buildtools', '%(toolchain_version)s', '', True),
-    ('gcc-mixed/11.2.0', EXTERNAL_MODULE),
     ('Boost', '1.81.0'),
 ]
 
-preconfigopts = 'export PATH=${ROCM_PATH}/llvm/bin:$PATH && '
-
 configopts  = '-DROCM_PATH=$ROCM_PATH '
-configopts += '-DCMAKE_C_COMPILER=cc '
-configopts += '-DCMAKE_CXX_COMPILER=CC '
+configopts += '-DCMAKE_C_COMPILER=${ROCM_PATH}/llvm/bin/clang '
+configopts += '-DCMAKE_CXX_COMPILER=${ROCM_PATH}/llvm/bin/clang++ '
 configopts += '-DWITH_ACCELERATED_CPU=OFF '
 configopts += '-DWITH_CPU_BACKEND=OFF '
 configopts += '-DWITH_CUDA_BACKEND=OFF '
@@ -53,7 +51,6 @@ configopts += '-DBoost_NO_SYSTEM_PATHS=TRUE '
 configopts += '-DWITH_SSCP_COMPILER=OFF ' 
 configopts += '-DROCM_CXX_FLAGS="--gcc-toolchain=$GCC_PATH/snos/" '
 configopts += '-DLLVM_DIR=${ROCM_PATH}/llvm/lib/cmake/llvm/ '
-
 
 sanity_check_paths = {
     'files': ['bin/syclcc-clang', 'include/sycl/sycl.hpp',
