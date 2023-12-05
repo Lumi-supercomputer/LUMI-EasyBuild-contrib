@@ -1,0 +1,95 @@
+easyblock = 'ConfigureMake'
+
+local_lumi_CPEtools_version = '1.1'
+
+name =          'OSU-Micro-Benchmarks'
+version =       '7.3'
+versionsuffix = ''
+
+homepage = 'https://mvapich.cse.ohio-state.edu/benchmarks/'
+
+whatis = [
+    "Description: OSU Micro-Benchmarks"    
+]
+
+description = """
+OSU Micro-Benchmarks from the MVAPICH project.
+
+This module only includes the full suite of C MPI benchmarks.
+
+Its main use is as a testing tool for our MPI installation, to detect changes
+after updates and to compare with EasyConfigs developed for Open MPI.
+"""
+
+usage = f"""
+Some example job scripts for testing are available after loading the module in
+$OSU_EXAMPLES. Note that these test scripts also use the
+lumi-CPEtools/{local_lumi_CPEtools_version}-%(toolchain_name)s-%(toolchain_version)s module installed
+in the central software stack. 
+
+You'll have to add an account via the `sbatch` command line, and may want to
+overwrite other #SBATCH parameters also.
+"""
+
+usage = """
+Some example job scripts for testing are available after loading the module in
+$OSU_EXAMPLES.
+
+You'll have to add an account via the `sbatch` command line, and may want to
+overwrite other #SBATCH parameters also.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '23.09'}
+toolchainopts = {'usempi': True}
+
+sources = [
+    {
+        'filename':    SOURCELOWER_TAR_GZ,
+        'source_urls': ['https://mvapich.cse.ohio-state.edu/download/mvapich/']
+    },
+    {   'filename':    'OSU-p2p-template.sh' },
+    {   'filename':    'OSU-coll-template.sh' },
+    {   'filename':    'OSU-1sided-template.sh' },
+]
+checksums =   [
+    '8fa25b8aaa34e4b07ab3a4f30b7690ab46b038b08d204a853a9b6aa7bdb02f2f'
+]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', SYSTEM), # For make
+]
+
+local_cleanup = ''
+local_sed_args  = '-e \'s/%toolchainversion%/%(toolchain_version)s/\' '
+local_sed_args += '-e \'s/%toolchain%/%(toolchain_name)s/\' '
+local_sed_args += f'-e \'s/%suffix%/{versionsuffix}/\' '
+local_sed_args += f'-e \'s/%OSUversion%/{version}/\' '
+local_sed_args += f'-e \'s/%CPEtoolsversion%/{local_lumi_CPEtools_version}/\' '
+local_sed_args += f'-e\'s/%cleanup%/{local_cleanup}/\''
+
+postinstallcmds = [
+    'mkdir -p %(installdir)s/examples',
+    f'sed {local_sed_args} ../OSU-p2p-template.sh >%(installdir)s/examples/OSU-p2p-slurm.sh',
+    f'sed {local_sed_args} ../OSU-coll-template.sh >%(installdir)s/examples/OSU-coll-slurm.sh',
+    f'sed {local_sed_args} ../OSU-1sided-template.sh >%(installdir)s/examples/OSU-1sided-slurm.sh',
+    'mkdir -p %(installdir)s/share/licenses/%(name)s && cp COPYRIGHT README CHANGES %(installdir)s/share/licenses/%(name)s'
+]
+
+local_benchmark_dirs = [
+    'libexec/osu-micro-benchmarks/mpi/%s' % x for x in ['collective', 'one-sided', 'pt2pt', 'startup']
+]
+
+modextrapaths = {
+    'PATH': local_benchmark_dirs
+}
+
+modextravars = {
+    'OSU_EXAMPLES': '%(installdir)s/examples',
+}
+
+sanity_check_paths = {
+    'files': [],
+    'dirs':  local_benchmark_dirs,
+}
+
+moduleclass = 'perf'
