@@ -1,0 +1,91 @@
+easyblock = 'ConfigureMake'
+
+name =    'OpenMPI'
+version = '4.1.6'
+
+homepage = 'https://www.open-mpi.org/'
+
+whatis = [
+    "Description: The Open MPI Project is an open source MPI-3 implementation."    
+]
+
+description = """
+The Open MPI Project is an open source MPI-3 implementation.
+
+Note that the MPI as provided by this module is not GPU-aware. That would
+require a non-released branch of OpenMPI 5 and some components that are 
+currently not supported on LUMI.
+
+Both srun and mpirun can be used as process starters. It looks like
+srun does a much better job of process placement though.
+
+When running on a single node, there will be an error message about
+failing on an OFI Librabric library call (fi_domain). It doesn't
+seem to influence the running program though.
+
+The MPI compiler wrappers from OpenMPI call the Cray compiler wrappers.
+
+Note that the HPE Cray libfabric implementation with cxi provider for 
+Slingshot is not feature-complete so not all MPI routines may work as 
+expected. This module is offered as-is without any support or promise
+that it would be suitable for your code.
+
+The primary MPI application which users should use as much as possible on LUMI
+is cray-mpich. This module is only to solve very specific problems and may in
+fact cause other ones.
+"""
+
+usage = """
+After loading this module, please unload the cray-libsci and cray-mpich modules
+(the latter essential):
+
+module unload cray-libsci cray-mpich
+"""
+
+docurls = [
+    'Web-based manual pages on https://www.open-mpi.org/doc/v4.1/',
+]
+
+toolchain = {'name': 'cpeGNU', 'version': '23.09'}
+
+source_urls = ['http://www.open-mpi.org/software/ompi/v%(version_major_minor)s/downloads']
+sources =     [SOURCELOWER_TAR_BZ2]
+checksums =   ['f740994485516deb63b5311af122c265179f5328a0d857a567b85db00b11e415']
+
+preconfigopts = "module unload cray-libsci cray-mpich && "
+
+# I was hoping to save configuration time by not testing for things that will
+# not work on LUMI, but it doesn't turn out to be the case.
+configopts  = '--without-ucx --without-verbs --without-usnic --without-verbs-usnic --without-portals4 --without-cuda '
+configopts += '--without-ugni --without-psm --without-psm2 --without-mxm '
+configopts += '--without-knem '
+#configopts += '--without-pmix ' # Causes an error message even though in the end it is not built?
+configopts += '--without-lsf --without-tm --without-sge --without-moab '
+configopts += '--without-fca --without-hcoll --without-gpfs '
+# The next ones are more important, certainly --with-ofi and --with-pmi.
+configopts += '--with-cray-xpmem '
+configopts += '--with-slurm '
+configopts += '--with-ofi=/opt/cray/libfabric/$(pkg-config --modversion libfabric) '
+configopts += '--with-pmi=/usr '
+
+prebuildopts = "module unload cray-libsci cray-mpich && "
+
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s && cp LICENSE README NEWS %(installdir)s/share/licenses/%(name)s'
+]
+
+sanity_check_paths = {
+    'files': ['bin/ompi_info', 'bin/opal_wrapper', 'bin/orterun', 'lib/libmpi.so'],
+    'dirs':  ['bin', 'lib', 'include'],
+}
+
+# Trying to unload cray-mpich in the LUA footer failes unless cpeGNU/23.09
+# is loaded before in a separate module load.
+#modluafooter = """
+#-- family( "mpi" ) -- Cannot be used as the module first itself loads cray-mpich at the moment.
+#if not ( isloaded("EasyBuild") ) then
+#    unload( "cray-mpich" )
+#end
+#"""
+
+moduleclass = 'mpi'
