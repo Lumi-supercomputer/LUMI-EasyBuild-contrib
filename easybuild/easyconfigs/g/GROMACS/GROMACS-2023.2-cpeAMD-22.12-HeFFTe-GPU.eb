@@ -37,10 +37,6 @@ toolchainopts = {'opt': True, 'usempi': True, 'verbose': False, 'pic': True, 'op
 source_urls = ['https://ftp.gromacs.org/pub/gromacs/']
 sources =     [SOURCELOWER_TAR_GZ]
 
-patches = [
-    'gromacs_cmake_manage_sycl.patch',
-]
-
 builddependencies = [
     ('buildtools', '%(toolchain_version)s', '', True), 
 ]
