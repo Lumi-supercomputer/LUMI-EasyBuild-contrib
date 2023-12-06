@@ -18,7 +18,8 @@ Newtonian equations of motion for systems with hundreds to millions of
 particles.
 
 Binaries included:
-* gmx: Compiled with tMPI, hipSYCL and VkFFT support for single GPU node  
+* gmx: Compiled with tMPI, hipSYCL and VkFFT, recommended only for a single GPU use (no support for a direct GPU communication) 
+* gmx_mpi: Compiled with MPI, hipSYCL and VkFFT, recommended for a single GPU use or multi GPU runs with exactly one separate PME rank (no support for PME decomposition)
 
 
 The module sets the environment variables that would otherwise be set by running
@@ -54,20 +55,25 @@ dependencies = [
 
 # These options are taken from CSC installation developed by Rasmus 
 
-configopts =  '-D CMAKE_BUILD_TYPE=Release '
-configopts += '-D CMAKE_C_COMPILER=${ROCM_PATH}/llvm/bin/clang '
-configopts += '-D CMAKE_CXX_COMPILER=${ROCM_PATH}/llvm/bin/clang++ '
-configopts += '-D CMAKE_PREFIX_PATH=${CRAY_MPICH_PREFIX} '
-configopts += '-D CMAKE_CXX_FLAGS="--gcc-toolchain=/opt/cray/pe/gcc/11.2.0/snos/" '
-configopts += '-D GMX_GPU=SYCL '
-configopts += '-D GMX_MPI=OFF '
-configopts += '-D GMX_OPENMP=ON '
-configopts += '-D GMX_SYCL_HIPSYCL=ON '
-configopts += '-D GMX_GPU_FFT_LIBRARY=VKFFT '
-configopts += '-D GMX_BUILD_OWN_FFTW=OFF '
-configopts += '-D GMX_BLAS_USER=${CRAY_LIBSCI_PREFIX_DIR}/lib/libsci_amd.so '
-configopts += '-D GMX_LAPACK_USER=${CRAY_LIBSCI_PREFIX_DIR}/lib/libsci_amd.so '
-configopts += '-D HIPSYCL_TARGETS="hip:gfx90a" '
+local_configopts =  '-D CMAKE_BUILD_TYPE=Release '
+local_configopts += '-D CMAKE_C_COMPILER=${ROCM_PATH}/llvm/bin/clang '
+local_configopts += '-D CMAKE_CXX_COMPILER=${ROCM_PATH}/llvm/bin/clang++ '
+local_configopts += '-D CMAKE_PREFIX_PATH=${CRAY_MPICH_PREFIX} '
+local_configopts += '-D CMAKE_CXX_FLAGS="--gcc-toolchain=/opt/cray/pe/gcc/11.2.0/snos/" '
+local_configopts += '-D GMX_GPU=SYCL '
+local_configopts += '-D GMX_MPI=OFF '
+local_configopts += '-D GMX_OPENMP=ON '
+local_configopts += '-D GMX_SYCL_HIPSYCL=ON '
+local_configopts += '-D GMX_GPU_FFT_LIBRARY=VKFFT '
+local_configopts += '-D GMX_BUILD_OWN_FFTW=OFF '
+local_configopts += '-D GMX_BLAS_USER=${CRAY_LIBSCI_PREFIX_DIR}/lib/libsci_amd.so '
+local_configopts += '-D GMX_LAPACK_USER=${CRAY_LIBSCI_PREFIX_DIR}/lib/libsci_amd.so '
+local_configopts += '-D HIPSYCL_TARGETS="hip:gfx90a" '
+
+configopts = [
+    local_configopts + '-DGMX_MPI=OFF',
+    local_configopts + '-DGMX_MPI=ON',
+]
 
 skipsteps = ['test']
 
