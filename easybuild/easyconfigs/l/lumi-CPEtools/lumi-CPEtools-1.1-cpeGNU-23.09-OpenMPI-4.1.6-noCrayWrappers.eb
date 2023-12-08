@@ -1,0 +1,79 @@
+easyblock = 'MakeCp'
+
+name =          'lumi-CPEtools'
+version =       '1.1'
+versionsuffix = '-OpenMPI-4.1.6-noCrayWrappers'
+
+homepage = 'https://www.lumi-supercomputer.eu'
+
+whatis = [
+    'Description: Various programs to experiment with starting processes and core affinity and analyse executables.',
+]
+
+description = """
+The LUMI-CPEtools module provides various programs to experiment with starting
+applications of various types and with core affinity and to show which Cray PE
+libraries are used by an executable. It may be enhanced with additional 
+features in the future.
+
+Sources can be accessed after loading the module in the directory
+$EBROOTLUMIMINCPETOOLS/src.
+"""
+
+docurls = [
+    "Man pages, start with man lumi-CPEtools",
+]
+
+toolchain = {'name': 'cpeGNU', 'version': '23.09'}
+# Note: The Makefile is designed to work with the compiler variables as defined
+# when usempi and openmp are both false, as the module contains code with and
+# without MPI or OpenMP support, though it would probably still work if these
+# are set to true as usually it does no harm to compile with the MPI wrappers
+# or OpenMP options enabled even if the sources don't use these.
+toolchainopts = {'usempi': False,'openmp': False}
+
+# Downloading from GitHub releases..
+# https://github.com/Lumi-supercomputer/lumi-CPEtools/archive/refs/tags/1.1.tar.gz
+sources = [{
+    'download_filename': '%(version)s.tar.gz',
+    'filename':          '%(name)s-%(version)s.tar.gz',
+    'source_urls':       ['https://github.com/Lumi-supercomputer/%(name)s/archive/refs/tags']
+}]
+checksums = ['ffc3bea3a7842fc2be48beefce900caa7c74fbe14989330b82c55c7bc99a4ada']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', SYSTEM), # For make
+]
+
+dependencies = [
+    ('OpenMPI', '4.1.6', '-noCrayWrappers'),    
+]
+
+prebuildopts = 'cd src ; module unload cray-libsci cray-mpich craype ; '
+buildopts  = 'CC=gcc MPICC=mpicc CFLAGS="-O2 -march=native" OMPFLAG="-fopenmp" '
+buildopts += 'CXX=g++ MPICXX=mpicxx CXXFLAGS="-O2 -march=native" '
+buildopts += 'DEFINES="" '
+buildopts += 'LIBS="" '
+buildopts += 'exe_cpu'
+
+files_to_copy = [
+    'bin',
+    'man',
+    'src',
+    'README.md',
+]
+
+sanity_check_paths = {
+    'files': [ 'bin/%s' % x for x in [ 'serial_check', 'omp_check', 'mpi_check', 'hybrid_check', 'xldd' ] ],
+    'dirs':  [ 'man/man1', 'src' ]
+}
+
+sanity_check_commands = [
+    'xldd --help',
+    'serial_check',
+    'OMP_NUM_THREADS=4 omp_check',
+    'mpi_check',
+    'OMP_NUM_THREADS=4 hybrid_check',
+]
+
+moduleclass = 'devel'

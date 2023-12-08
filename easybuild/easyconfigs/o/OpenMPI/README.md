@@ -43,3 +43,35 @@ scalability in certain large runs on LUMI.
 
   * Later on the ROCm dependency which should not even have been there 
     was removed.
+
+
+### Version 4.1.5 for cpeGNU 22.12
+
+  * A straightforward port of the 4.1.3 EasyConfig.
+  
+  
+### Version 4.1.6 for 23.09
+
+  * The EasyConfig is heavily reworked, now also building a module that provides
+    more help information.
+    
+    Two approaches were chosen:
+    
+      * The `-noCrayWrappers` modules provide MPI compiler wrappers that directly call
+        the underlying compiler.
+        
+      * The regular modules provide MPI compiler wrappers that in turn call the 
+        HPE Cray compiler wrappers so, e.g., adding target architecture options 
+        should still work via the target modules.
+        
+    It doesn't really make sense to use the cpe\* toolchains, as cray-mpich and
+    the MPI support in cray-libsci cannot be used. In fact, it is even better to
+    unload cray-mpich (and required for the HPE Cray compile wrapper version) to 
+    avoid that the wrong libraries are picked up.
+    
+  * Also added the license information to the installation.
+
+  * We tried to extend the module to unload the Cray PE components that are 
+    irrelevant or even damaging, but that didn't work as doing a load and unload of
+    the same module in the same call to the module command does not work. This happens
+    if the cpe* module is not yet loaded when loading the OpenMPI module.

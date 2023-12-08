@@ -1,0 +1,42 @@
+easyblock = 'ConfigureMake'
+
+name =    'OpenMPI'
+version = '4.1.5'
+
+homepage = 'https://www.open-mpi.org/'
+
+whatis = [
+    "Description: The Open MPI Project is an open source MPI-3 implementation."    
+]
+
+description = """
+The Open MPI Project is an open source MPI-3 implementation.
+
+Note that despite the inclusion of the rocm module this MPI module
+is actually not GPU-aware as the interconnect of LUMI does not support
+UCX, which is currently a requirement for Open MPI on AMD GPUs.
+
+The primary MPI application which users should use as much as possible
+on LUMI is cray-mpich. This module is only to solve very specific problems
+and may in fact cause other ones.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '22.12'}
+
+source_urls = ['http://www.open-mpi.org/software/ompi/v%(version_major_minor)s/downloads']
+sources =     [SOURCELOWER_TAR_GZ]
+checksums =   ['c018b127619d2a2a30c1931f316fc8a245926d0f5b4ebed4711f9695e7f70925']
+
+#dependencies = [
+#    ('rocm/5.0.2', EXTERNAL_MODULE)
+#]
+
+configopts  = '--with-libfabric=/opt/cray/libfabric/$(pkg-config --modversion libfabric) '
+configopts += '--with-pmi=/usr '
+
+sanity_check_paths = {
+    'files': ['bin/ompi_info', 'bin/opal_wrapper', 'bin/orterun', 'lib/libmpi.so'],
+    'dirs':  ['bin', 'lib', 'include'],
+}
+
+moduleclass = 'mpi'
