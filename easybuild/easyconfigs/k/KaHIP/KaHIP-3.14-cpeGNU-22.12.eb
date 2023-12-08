@@ -1,0 +1,27 @@
+easyblock = 'CMakeMake'
+
+name = 'KaHIP'
+version = '3.14'
+
+homepage = 'https://kahip.github.io/'
+description = """The graph partitioning framework KaHIP -- Karlsruhe High Quality Partitioning."""
+
+toolchain = {'name': 'cpeGNU', 'version': '22.12'}
+toolchainopts = {'pic': True}
+
+source_urls = ['https://github.com/KaHIP/KaHIP/archive/refs/tags']
+sources = ['v%(version)s.tar.gz']
+checksums = ['9da04f3b0ea53b50eae670d6014ff54c0df2cb40f6679b2f6a96840c1217f242']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+sanity_check_paths = {
+    'files': ["lib/libkahip_static.a", "lib/libkahip.so"] +
+             ["lib/libparhip_interface_static.a", "lib/libparhip_interface.so"] +
+             ["include/%s" % x for x in ["kaHIP_interface.h", "parhip_interface.h"]],
+    'dirs': [],
+}
+
+moduleclass = 'math'
