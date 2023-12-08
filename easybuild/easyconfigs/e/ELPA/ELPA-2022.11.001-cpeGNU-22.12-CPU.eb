@@ -31,7 +31,7 @@ docurls = [
 ]
 
 toolchain = {'name': 'cpeGNU', 'version': '22.12'}
-toolchainopts = {'usempi': True, 'openmp': True}
+toolchainopts = {'usempi': True, 'openmp': False}
 
 source_urls = ['https://elpa.mpcdf.mpg.de/software/tarball-archive/Releases/%(version)s/']
 sources =     ['elpa-%(version)s.tar.gz']
@@ -44,11 +44,11 @@ builddependencies = [ # We use the system Python and Perl.
 #preconfigopts  = './autogen.sh && '
 preconfigopts = " CC=cc CXX=CC FC=ftn CPP=cpp && "
 
-local_commonopts = ' FCFLAGS="$FCFLAGS" CPP=cpp --disable-generic --disable-sse --disable-avx --enable-avx2 --disable-avx512 --enable-static '
+local_commonopts = ' CPP=cpp --disable-generic --disable-sse --disable-avx --enable-avx2 --disable-avx512 --enable-static '
 #local_libs = 'LIBS="-lsci_gnu" '
 configopts = [
-    local_commonopts + ' --enable-openmp ',
-    local_commonopts + ' --disable-openmp '
+    local_commonopts + ' --enable-openmp FCFLAGS="$FCFLAGS -fopenmp"',
+    local_commonopts + ' --disable-openmp FCFLAGS="$FCFLAGS"'
 ]
 
 prebuildopts = " make clean && "
