@@ -34,6 +34,10 @@ engines.
 | 2.6.1   | 2019.6 | 2020.2 |        |        |        |
 | 2.6.0   | 2019.4 |        |        |        |        |
 
+## GROMACS and GPU
+
+  * [GROMACS 2023.2 support for AMD GPUs](https://manual.gromacs.org/2023.2/install-guide/index.html#sycl-gpu-acceleration-for-amd-gpus)
+  * [CSC page with example job scripts for GPU](https://docs.csc.fi/apps/gromacs/#example-batch-script-for-lumi-full-gpu-node)
 
 ## EasyBuild
 
@@ -106,13 +110,21 @@ engines.
     of enabling support for the `cray-python` modules. Therefore the corresponding 
     EasyConfigs of GROMACS have also been replaced.**
 
+### GROMACS 2023.2 and 2023.3 with AMD GPU support for CPE 22.12
 
+  * There are different choices for building GROMACS with AMD GPU acceleration on LUMI, that follows [installation guide](https://manual.gromacs.org/2023.2/install-guide/index.html#sycl-gpu-acceleration-for-amd-gpus):
+    * Easyconfig files for the 2023.2 release use hipSYCL GPU backend with ROCm v5.2.3
+    * These versions should be only built against AMD easybuild toolchain
+    * MPI versions are recommended to use on LUMI
+       * [HeFFTe](https://manual.gromacs.org/2023.2/install-guide/index.html#using-heffte) variant allows offload to multiple GPUs (relies on rocFFT) with direct GPU communication and PME decomposition across multiple GPUs
+       * [VkFFT](https://manual.gromacs.org/2023.2/install-guide/index.html#using-vkfft) variant is faster but does not support PME decomposition, recommended for a single GPU runs (standalone or ensemble) or in multi GPU runs with exactly one separate PME rank (i.e. `-npme 1` runtime option).
+    * thread-MPI is for a single node use only and does not support direct GPU communication, recommended only for a single GPU use.
+ 
 ### GROMACS-2023-dev-cpeGNU-22.08-MPI-GPU
 
-  * This is an EasyConfig for AMD's own HIP-port of GROMACS which is a version
+  * This is an EasyConfig for AMD's own, _unofficial_ HIP-port of GROMACS which is a version
     that is not supported by the main GROMACS developers, who prefer to work with
     SYCL for support for AMD GPUs. It is derived from the container recipes of AMD.
-
 
 ### Version 2021.7 for CPE 23.09
 
@@ -127,6 +139,3 @@ engines.
 ### Version 2023.3 for CPE 23.09
 
 -   For now a trivial version bump of the 2021.5/2021.6 series.
-
-
-
