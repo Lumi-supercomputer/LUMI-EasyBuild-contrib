@@ -50,3 +50,11 @@ it multiple times in the same `LUMI` stack.
 -   Note that the list of binaries is different from Java/11 so the sanity checks are
     also reworked.
     
+-   Update to 17.0.9 made in-house following the standard EasyConfigs.
+    
+    
+### Java 21 (LTS release)
+
+-   Straightforward port of the EasyConfigs for 17, did not wait for an update in the
+    EasyBuilders repository.
+

@@ -1,7 +1,7 @@
 easyblock = 'ModuleRC'
 
 name =    'Java'
-version = '17'
+version = '21'
 
 homepage = 'https://java.com/'
 
@@ -17,7 +17,7 @@ Java applications on desktops and servers.
 toolchain = SYSTEM
 
 dependencies = [
-    ('Java', '%(version)s.0.9')
+    ('Java', '%(version)s.0.1')
 ]
 
 moduleclass = 'lang'
