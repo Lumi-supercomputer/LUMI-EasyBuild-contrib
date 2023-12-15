@@ -1,0 +1,84 @@
+easyblock = 'EB_Java'
+
+name =        'Java'
+version =     '11.0.21'
+local_build = '9'
+
+homepage = 'http://openjdk.java.net'
+
+whatis = [
+    'Description: Java Platform, Standard Edition (Java SE) lets you develop and deploy Java applications on desktops and servers'    
+]
+
+description = """
+Java Platform, Standard Edition (Java SE) lets you develop and deploy
+Java applications on desktops and servers.
+"""
+
+docurls = [
+    'Man pages in section 1 (after loading the module)',    
+]
+
+toolchain = SYSTEM
+
+local_tarball_tmpl = 'OpenJDK%%(version_major)sU-jdk_%s_linux_hotspot_%%(version)s_%s.tar.gz'
+
+# Using the Adoptium Eclipse Temurin builds, recommended by https://whichjdk.com/#distributions
+
+source_urls = ['https://github.com/adoptium/temurin%%(version_major)s-binaries/releases/download/jdk-%%(version)s+%s/'
+               % local_build]
+sources = [local_tarball_tmpl % ('%(jdkarch)s', local_build)]
+
+checksums = [
+    {
+        local_tarball_tmpl % ('x64', local_build):
+            '60ea98daa09834fdd3162ca91ddc8d92a155ab3121204f6f643176ee0c2d0d5e',
+        local_tarball_tmpl % ('aarch64', local_build):
+            '8c3146035b99c55ab26a2982f4b9abd2bf600582361cf9c732539f713d271faf',
+        local_tarball_tmpl % ('ppc64le', local_build):
+            '262ff98d6d88a7c7cc522cb4ec4129491a0eb04f5b17dcca0da57cfcdcf3830d',
+    }
+]
+
+modextravars = {
+    'JAVA_ROOT':   '%(installdir)s',
+    'JAVA_BINDIR': '%(installdir)s/bin',
+}
+
+sanity_check_commands = [
+    'jaotc --version',
+    'jar --version',
+    'jarsigner --help',
+    'java --version',
+    'javac --version',
+    'javadoc --version',
+    'javap --help',
+    'jcmd --help',
+    # Cannot test for jconsole, likely because it may need some graphics library?
+    'jdb --help',
+    'jdeprscan --help', # Does also have a --version but that returns exit code 1.
+    'jdeps --version',
+    'jfr --version',
+    'jhsdb --help',
+    'jimage --version',
+    'jinfo --help',
+    # No test for jjs, or we could check for the exit code wich it 100 for jjs --help?
+    'jlink --version',
+    'jmap --help',
+    'jmod --version',
+    'jps --help',
+    'jrunscript --help',
+    'jshell --version',
+    'jstack --help',
+    'jstat --help',
+    'jstatd --help',
+    'keytool --help',
+    'pack200 --version',
+    # No easy test for rmic, or we'd have to check the error output to see if the application has loaded properly.
+    # No easy test for rmid, or we'd have to check the error output to see if the application has loaded properly.
+    # No easy test for rmiregistry, or we'd have to check the error output to see if the application has loaded properly.
+    # No easy test for serialver, or we'd have to check the error output to see if the application has loaded properly.
+    'unpack200 --version',
+]
+
+moduleclass = 'lang'
