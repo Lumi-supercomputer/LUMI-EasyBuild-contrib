@@ -23,7 +23,6 @@ sources = [{
         'url': 'https://github.com/AdaptiveCpp',
         'repo_name': '%(name)s',
         'commit': 'v%(version)s',
-        #'keep_git_dir': True,
     }
 }]
 

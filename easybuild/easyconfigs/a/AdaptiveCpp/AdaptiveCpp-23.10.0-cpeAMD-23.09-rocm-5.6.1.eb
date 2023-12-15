@@ -23,14 +23,13 @@ sources = [{
         'url': 'https://github.com/AdaptiveCpp',
         'repo_name': '%(name)s',
         'commit': 'v%(version)s',
-        #'keep_git_dir': True,
     }
 }]
 
 dependencies = [
     ('cray-python/3.10.10', EXTERNAL_MODULE),
     ('gcc-mixed/12.2.0', EXTERNAL_MODULE),
-    ('rocm/5.6.1', EXTERNAL_MODULE)
+    ('rocm', '5.6.1', '', SYSTEM),
 ]
 
 builddependencies = [
