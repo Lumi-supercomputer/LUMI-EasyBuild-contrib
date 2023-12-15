@@ -7,23 +7,15 @@ versionsuffix = '-rocm-5.2.3'
 homepage = 'https://adaptivecpp.github.io/'
 
 whatis = [
-    "Description: AdaptiveCPP is a modern SYCL implementation targeting CPUs and GPUs, with a focus on leveraging existing toolchains such as CUDA or HIP"
+    "Description: Implementation of SYCL and C++ standard parallelism for CPUs and GPUs from all vendors: The independent, community-driven compiler for C++-based heterogeneous programming models."
 ]
 
 description = """
-hipSYCL is a modern SYCL implementation targeting CPUs and
-GPUs, with a focus on leveraging existing toolchains such as CUDA or HIP.
-
-It targets any CPU via OpenMP, NVIDIA GPUs via CUDA, AMD GPUs via HIP/ROCm and 
-Intel GPUs via oneAPI Level Zero and SPIR-V (experimental). However, this 
-module is for LUMI and does not contain the NVIDIA and Intel GPU support.
+AdaptiveCpp is the independent, community-driven modern platform for C++-based heterogeneous programming models targeting CPUs and GPUs from all major vendors. 
 """
 
 toolchain = {'name': 'cpeAMD', 'version': '23.09'}
 toolchainopts = {'verbose': False, 'openmp': True}
-
-#source_urls = ["https://github.com/AdaptiveCpp/AdaptiveCpp/archive/refs/tags/"]
-#sources =     ["v%(version)s.tar.gz"]
 
 sources = [{
     'filename': '%(name)s-%(version)s.tar.gz',
@@ -31,7 +23,7 @@ sources = [{
         'url': 'https://github.com/AdaptiveCpp',
         'repo_name': '%(name)s',
         'commit': 'v%(version)s',
-        'keep_git_dir': True,
+        #'keep_git_dir': True,
     }
 }]
 
@@ -43,13 +35,13 @@ dependencies = [
 
 builddependencies = [
     ('buildtools', '%(toolchain_version)s', '', True),
-#    ('libxml2', '2.9.14'),
     ('Boost', '1.82.0'),
 ]
 
 preconfigopts = 'export PATH=${ROCM_PATH}/llvm/bin:$PATH && '
 
-configopts  = '-DROCM_PATH=$ROCM_PATH '
+configopts =  '-DACPP_VERSION_SUFFIX={} '.format(versionsuffix)
+configopts += '-DROCM_PATH=$ROCM_PATH '
 configopts += '-DCMAKE_C_COMPILER=${ROCM_PATH}/llvm/bin/clang '
 configopts += '-DCMAKE_CXX_COMPILER=${ROCM_PATH}/llvm/bin/clang++ '
 configopts += '-DWITH_ACCELERATED_CPU=ON '
@@ -81,7 +73,8 @@ sanity_check_commands = [
 ]
 
 modextravars = {
-    'HIPSYCL_TARGETS': 'hip:gfx90a',
+    'ACPP_TARGETS': 'hip:gfx90a',
 }
 
 moduleclass = 'compiler'
+
