@@ -24,10 +24,8 @@ builddependencies = [('buildtools', '%(toolchain_version)s', '', True)]
 dependencies = [
     ('cray-python/3.10.10', EXTERNAL_MODULE),
     ('cray-hdf5-parallel/1.12.2.7', EXTERNAL_MODULE),
-    #('gcc/12.2.0', EXTERNAL_MODULE),
-    #('rocm/5.6.1', EXTERNAL_MODULE),
+    ('gcc/12.2.0', EXTERNAL_MODULE),
     ('rocm', '5.6.1', '', SYSTEM),
-    ('amd-mixed', EXTERNAL_MODULE),
     ('Boost', '1.82.0'),
     ('METIS', '5.1.0'),
     ('ParMETIS','4.0.3'),
@@ -105,7 +103,9 @@ configopts += '--LDFLAGS="-fopenmp -Wl,--allow-multiple-definition" '
 configopts += '--with-hip '
 configopts += '--with-hipc=hipcc '
 configopts += '--with-hip-arch=gfx90a '
-configopts += '--HIPFLAGS="--gcc-toolchain=$GCC_PATH/snos/ -I$MPICH_DIR/include" '
+configopts += '--with-hip-include="${MPICH_DIR}/include" '
+configopts += '--with-hip-lib="-L${MPICH_DIR}/lib -lmpi ${PE_MPICH_GTL_DIR_amd_gfx90a} ${PE_MPICH_GTL_LIBS_amd_gfx90a}" '
+configopts += '--HIPFLAGS="--gcc-toolchain=$GCC_PATH/snos/" '
 configopts += '--download-kokkos '
 configopts += '--download-kokkos-kernels '
 configopts += '--LIBS="-lgfortran -lgcc -lstdc++ $PE_MPICH_GTL_DIR_amd_gfx90a $PE_MPICH_GTL_LIBS_amd_gfx90a" '
