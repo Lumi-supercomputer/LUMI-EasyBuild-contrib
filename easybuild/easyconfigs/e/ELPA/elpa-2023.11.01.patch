@@ -1,0 +1,32 @@
+From 73cd34a2b9f2d3708812438092adb1b41f194841 Mon Sep 17 00:00:00 2001
+From: Maciej Szpindler <m.szpindler@uw.edu.pl>
+Date: Thu, 22 Jun 2023 13:27:16 +0300
+Subject: Minor code fixes
+
+---
+ src/GPU/ROCm/rocmFunctions_template.h | 4 ++--
+ src/GPU/check_for_gpu.F90             | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/src/GPU/ROCm/rocmFunctions_template.h b/src/GPU/ROCm/rocmFunctions_template.h
+index 8bc69bb4..2eb4ac1a 100644
+--- a/src/GPU/ROCm/rocmFunctions_template.h
++++ b/src/GPU/ROCm/rocmFunctions_template.h
+@@ -1562,7 +1562,7 @@ extern "C" {
+ 
+   void rocblasZscal_elpa_wrapper (BLAS_handle rocblasHandle, int n, double _Complex alpha, double _Complex *X, int incx){
+ 
+-#ifndef HIPBLAS
++#ifdef HIPBLAS
+     const BLAS_double_complex* X_casted = (const BLAS_double_complex*) X;
+ #else
+           BLAS_double_complex* X_casted = (      BLAS_double_complex*) X;
+@@ -1577,7 +1577,7 @@ extern "C" {
+ 
+   void rocblasCscal_elpa_wrapper (BLAS_handle rocblasHandle, int n, float _Complex alpha, float _Complex *X, int incx){
+ 
+-#ifndef HIPBLAS
++#ifdef HIPBLAS
+     const BLAS_float_complex* X_casted = (const BLAS_float_complex*) X;
+ #else
+           BLAS_float_complex* X_casted = (      BLAS_float_complex*) X;
