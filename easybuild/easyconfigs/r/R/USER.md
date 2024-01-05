@@ -128,7 +128,7 @@ Example submit script to store in `submit.slurm`:
 #SBATCH --output=%x_%j.txt
 #SBATCH --account=project_46YXXXXXX
 
-module load LUMI/22.12 partition/C R/4.3.1-cpeGNU-22.12
+module load LUMI/23.09 partition/C R/4.3.2-cpeGNU-23.09
 
 echo -e "Running Rscript from $(which Rscript).'\n"
 
@@ -183,8 +183,8 @@ Example submit script `submit.slurm`:
 #SBATCH --output=%x_%j.txt
 #SBATCH --account=project_46YXXXXXX
 
-module load LUMI/22.12 partition/C
-module load R/4.3.1-cpeGNU-22.12
+module load LUMI/23.09 partition/C
+module load R/4.3.2-cpeGNU-23.09
 
 echo -e "\\n# Running on 2 task\n\n"
 srun -W 10 -n 2 $EBROOTR/lib/R/library/snow/RMPISNOW <script_snow.R
@@ -255,8 +255,7 @@ The corresponding job script `submit.slurm` is
 #SBATCH --output=%x_%j.txt
 #SBATCH --account=project_46YXXXXXX
  
-module load LUMI/22.12 partition/C R/4.3.1-cpeGNU-22.12
-#module load CrayEnv cray-R/4.2.1.1
+module load LUMI/23.09 partition/C R/4.3.2-cpeGNU-23.09
 
 echo -e "Running Rscript from $(which Rscript).'\n"
 
@@ -307,8 +306,8 @@ The script is started with the jobscript `submit.slurm`:
 #SBATCH --output=%x_%j.txt
 #SBATCH --account=project_46YXXXXXX
 
-module load LUMI/22.12 partition/C
-module load R/4.3.1-cpeGNU-22.12
+module load LUMI/23.09 partition/C
+module load R/4.3.2-cpeGNU-23.09
 
 echo -e "\\n# Running on 2 task\n\n"
 srun -W 10 -n 2 $EBROOTR/lib/R/library/snow/RMPISNOW <script_foreach_SNOW.R
@@ -363,8 +362,8 @@ The script is started with the jobscript `submit.slurm`:
 #SBATCH --output=%x_%j.txt
 #SBATCH --account=project_46YXXXXXX
 
-module load LUMI/22.12 partition/C
-module load R/4.3.1-cpeGNU-22.12
+module load LUMI/23.09 partition/C
+module load R/4.3.2-cpeGNU-23.09
 
 echo -e "\\n# Running on 2 task\n\n"
 srun -n 2 Rscript script_foreach_MPI.R
