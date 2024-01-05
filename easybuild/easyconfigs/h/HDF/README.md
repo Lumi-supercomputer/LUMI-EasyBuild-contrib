@@ -19,3 +19,8 @@ using it.
 
 -   The EasyConfig is a mix of the CSCS and EasyBuilder ones.
 
+
+### Version 4.2.16-2 for cpeGNU 23.09 and later
+
+-   Trivial port of the EasyConfig for 4.2.15
+
