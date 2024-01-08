@@ -19,7 +19,7 @@ to sometimes fail so the build process has to be entirely sequential and can tak
 -   [GDAL support in the CSCS repository](https://github.com/eth-cscs/production/tree/master/easybuild/easyconfigs/g/GDAL)
     
     
-### GDAL 3.5.2 for cpeGNU 3.5.2
+### GDAL 3.5.2 for cpeGNU 22.08
 
 -   The EasyConfig file is derived from the EasyBuilders recipes, and with some
     adaptations copied from the CSCS EasyConfigs.
@@ -31,3 +31,11 @@ to sometimes fail so the build process has to be entirely sequential and can tak
 -   GDAL has way more optional features than are enabled in this EasyConfig, so feel free
     to further extend.
 
+
+### GDAL 3.5.3 for cpeGNU 23.09
+
+-   3.5 is the last version of GDAL that can be built using autoconf, and this is the
+    most recent bugfix release as of now.
+    
+-   The EasyConfig is a trivial port of the 3.5.2 one, with the usual version updates 
+    and aligning the structure a bit more to other recent LUMI easyconfigs.
