@@ -73,6 +73,21 @@ the other EasyConfigs offer examples of how to add packages.
                 not be needed when using the Cray wrappers.
                 
                 
+## Version 4.3.1 for 22.12
+
+-   Based on the 4.2.1 work but now focused on adding packages for parallel
+    computing (and developed the USER.md page explaining options for parallel
+    computing).
+  
+-   One way to figure out how to do this is to install the `-raw` version and
+    then add the desired packages by hand and see what other packages R pulls in
+    and when it does so.
+    
+
+## Version 4.3.2 for 23.09
+
+-   Quick port with minor version updates of the 22.12 one.
+  
             
             
 
