@@ -16,6 +16,6 @@
 -   [libgeotiff in the CSCS repository](https://github.com/easybuilders/easybuild-easyconfigs/tree/develop/easybuild/easyconfigs/l/libgeotiff)
     
     
-### Version 1.7.1 for cpeGNU/22.08
+### Version 1.7.1 for cpeGNU/22.08 and cpeGNU/23.09
 
 -   The EasyConfig is derived from the EasyBuilders one.

@@ -23,3 +23,7 @@
     to transform this EasyConfig into a bundle component where it is important that all
     components use the same directory.
 
+
+### Version 3.12.1 for cpeGNU 23.09
+
+-   The EasyConfig is a trivial version update of the 23.09 one.
