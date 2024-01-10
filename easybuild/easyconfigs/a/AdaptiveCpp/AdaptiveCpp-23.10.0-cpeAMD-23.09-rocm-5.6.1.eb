@@ -27,19 +27,22 @@ sources = [{
 }]
 
 dependencies = [
-    ('cray-python/3.10.10', EXTERNAL_MODULE),
-    ('gcc-mixed/12.2.0', EXTERNAL_MODULE),
+    ('amd', '5.6.1', '', SYSTEM),
     ('rocm', '5.6.1', '', SYSTEM),
+    ('gcc-mixed/12.2.0', EXTERNAL_MODULE),
+    ('Boost', '1.82.0'),
 ]
 
 builddependencies = [
     ('buildtools', '%(toolchain_version)s', '', True),
-    ('Boost', '1.82.0'),
 ]
 
-preconfigopts = 'export PATH=${ROCM_PATH}/llvm/bin:$PATH && '
+preconfigopts  = 'export PATH=${ROCM_PATH}/llvm/bin:$PATH && '
+preconfigopts += 'export C_INCLUDE_PATH=$ROCM_PATH/llvm/include && '
+preconfigopts += 'export CPLUS_INCLUDE_PATH=$ROCM_PATH/llvm/include && '
+preconfigopts += 'export LIBRARY_PATH=${EBROOTBOOST}/lib:${EBROOTBUILDTOOLS}/lib:${ROCM_PATH}/lib && '
 
-configopts =  '-DACPP_VERSION_SUFFIX={} '.format(versionsuffix)
+configopts  = '-DACPP_VERSION_SUFFIX={} '.format(versionsuffix)
 configopts += '-DROCM_PATH=$ROCM_PATH '
 configopts += '-DCMAKE_C_COMPILER=${ROCM_PATH}/llvm/bin/clang '
 configopts += '-DCMAKE_CXX_COMPILER=${ROCM_PATH}/llvm/bin/clang++ '
