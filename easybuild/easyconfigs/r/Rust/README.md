@@ -45,3 +45,11 @@
     that we appeared to have with the 1.60.0 version.
     
   * Checked with what the EasyBlock for Rust in an upcoming version of EasyBuild does.
+
+  
+### Rust 1.75.0, developed for LUMI/23.09
+
+  * A port of the 1.70.0 EasyConfig, but now using gcc/12.2.0.
+  
+  * Adapted the code a little bit so that in principle it could also work in other 
+    versions of the LUMI stack than the intended one.
