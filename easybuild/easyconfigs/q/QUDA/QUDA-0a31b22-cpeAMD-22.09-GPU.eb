@@ -1,7 +1,7 @@
 easyblock = 'CMakeMake'
 
 name = 'QUDA'
-version = '25102022'
+version = '0a31b22'
 versionsuffix = "-GPU"
 
 homepage = 'https://lattice.github.io/quda/'
@@ -9,7 +9,7 @@ homepage = 'https://lattice.github.io/quda/'
 description = """QUDA is a library for performing calculations in lattice QCD on GPUs."""
 
 
-toolchain = {'name': 'cpeAMD', 'version': '22.08'}
+toolchain = {'name': 'cpeAMD', 'version': '23.09'}
 toolchainopts = {'usempi': True, 'openmp': True, 'pic': True, 'strict': True}
 
 sources = [{
@@ -21,22 +21,30 @@ sources = [{
     }
 }]
 
-builddependencies = [
-    ('rocm',   EXTERNAL_MODULE),
-    ('buildtools',   '%(toolchain_version)s',   '', True),
-    ('cray-libsci',   EXTERNAL_MODULE),
+dependencies = [
+    ('amd', '5.6.1', '', SYSTEM),
+    ('rocm', '5.6.1', '', SYSTEM),
+    ('gcc-mixed/12.2.0', EXTERNAL_MODULE),
+    ('cray-libsci/23.09.1.1',   EXTERNAL_MODULE),
 ]
 
-#dependencies = [
-#    ('rocm',   EXTERNAL_MODULE),
-#]
+builddependencies = [
+    ('buildtools',   '%(toolchain_version)s',   '', True),
+]
 
-preconfigopts = 'unset MPICXX && unset MPICC && '
+preconfigopts  = 'unset MPICXX && unset MPICC && '
+preconfigopts += 'export C_INCLUDE_PATH=$ROCM_PATH/llvm/include && '
+preconfigopts += 'export CPLUS_INCLUDE_PATH=$ROCM_PATH/llvm/include && '
+preconfigopts += 'export LIBRARY_PATH=${EBROOTBOOST}/lib:${EBROOTBUILDTOOLS}/lib:${ROCM_PATH}/lib && '
 
 configopts =  '-D CMAKE_BUILD_TYPE=Release '
-configopts += '-D CMAKE_C_COMPILER=cc '
-configopts += '-D CMAKE_CXX_COMPILER=CC '
-configopts += '-D CMAKE_HIP_COMPILER=$ROCM_PATH/llvm/bin/amdclang++ '
+configopts += '-D CMAKE_C_COMPILER=${ROCM_PATH}/llvm/bin/clang '
+configopts += '-D CMAKE_C_FLAGS="--gcc-toolchain=$GCC_PATH/snos/" '
+configopts += '-D CMAKE_CXX_COMPILER=${ROCM_PATH}/llvm/bin/clang++ '
+configopts += '-D CMAKE_CXX_FLAGS="--gcc-toolchain=$GCC_PATH/snos/" '
+configopts += '-D ROCM_PATH=${ROCM_PATH} '
+configopts += '-D ROCM_CXX_FLAGS="--gcc-toolchain=$GCC_PATH/snos/" '
+configopts += '-D CMAKE_HIP_COMPILER=${ROCM_PATH}/llvm/bin/clang++ '
 configopts += '-D QUDA_TARGET_TYPE=HIP '
 configopts += '-D QUDA_BUILD_ALL_TESTS=ON '
 configopts += '-D QUDA_MPI=ON '
