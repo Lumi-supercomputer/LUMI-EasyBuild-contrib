@@ -1,0 +1,55 @@
+# Adapted from the easybuilders EasyConfigs for LUMI by Kurt Lust (LUST)
+#
+easyblock = 'CMakeMake'
+
+name =    'DL_POLY_4'
+version = '5.1.0-pre'
+
+homepage = 'https://www.scd.stfc.ac.uk/Pages/DL_POLY.aspx'
+
+whatis = [
+    'Description: DL_POLY is a general purpose classical molecular dynamics (MD) simulation software'
+]
+
+description = """
+DL_POLY is a general purpose classical molecular dynamics (MD) simulation software.
+
+This module provides the "vanilla" version of DL_POLY, without support for
+KIM, PLUMED or the FORD APIs. It is built with both MPI and OpenMP
+support enabled though.
+"""
+
+docurls = [
+    'Web-based documentation on https://ccp5.gitlab.io/dl-poly/'
+]
+
+toolchain = {'name': 'cpeCray', 'version': '23.09'}
+toolchainopts = {'openmp': True}
+
+source_urls = ['https://gitlab.com/ccp5/dl-poly/-/archive/%(version)s/']
+sources =     ['dl_poly_%(version)s.tar.bz2']
+checksums =   ['2865e8eb7609c8be93525259d8de59e400097b01367cd65763aef4a20cf154e3']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', SYSTEM),   # For CMake   
+]
+
+configopts  = '-DWITH_MPI=ON -DWITH_OPENMP=ON '
+
+buildopts = 'V=1'
+#maxparallel = 32
+
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s && ' +
+    'cd ../dl-poly-%(version)s-* && pwd',
+    'mkdir -p %(installdir)s/share/licenses/%(name)s && ' +
+    'cd ../dl-poly-%(version)s-* && pwd && '
+    'cp LICENCE Release.md %(installdir)s/share/licenses/%(name)s',
+]
+
+sanity_check_paths = {
+    'files': ['bin/DLPOLY.Z'],
+    'dirs':  []
+}
+
+moduleclass = 'chem'
