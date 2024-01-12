@@ -108,6 +108,7 @@ configopts += '--with-hip-lib="-L${MPICH_DIR}/lib -lmpi ${PE_MPICH_GTL_DIR_amd_g
 configopts += '--HIPFLAGS="--gcc-toolchain=$GCC_PATH/snos/" '
 configopts += '--download-kokkos '
 configopts += '--download-kokkos-kernels '
+configopts += '--download-kokkos-kernels-cmake-arguments="-DKokkosKernels_ROCBLAS_ROOT=${ROCM_PATH}/rocblas -DKokkosKernels_ROCSPARSE_ROOT=${ROCM_PATH}/rocsparse" '
 configopts += '--LIBS="-lgfortran -lgcc -lstdc++ $PE_MPICH_GTL_DIR_amd_gfx90a $PE_MPICH_GTL_LIBS_amd_gfx90a" '
 
 # This is for checking if linking against the library is correct
