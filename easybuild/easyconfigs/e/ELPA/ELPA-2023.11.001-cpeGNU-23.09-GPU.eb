@@ -1,5 +1,6 @@
 # Contributed by Luca Marsella (CSCS)
 # Some adaptations by Kurt Lust (University of Antwerpen and LUMI consortium)
+# GPU version adapted for LUMI
 easyblock = 'ConfigureMake'
 
 local_ELPA_version = '2023.11.001'
@@ -39,8 +40,8 @@ patches = [
     {'name': 'elpa-2023.11.01.patch', 'level': 1},
 ]
 
-builddependencies = [ # We use the system Python and Perl.
-    ('buildtools', '%(toolchain_version)s', '', True), # For Autotools and others.
+builddependencies = [ 
+    ('buildtools', '%(toolchain_version)s', '', True), 
 ]
 
 dependencies = [
@@ -61,6 +62,8 @@ local_commonopts += '--with-mpi=yes '
 configopts = local_commonopts
 
 prebuildopts = " make clean && "
+
+maxparallel = 16
 
 sanity_check_paths = {
     'files': ['lib/libelpa.a', 'lib/libelpa.so'],
