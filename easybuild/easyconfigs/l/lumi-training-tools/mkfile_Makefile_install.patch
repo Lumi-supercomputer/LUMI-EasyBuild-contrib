@@ -1,0 +1,14 @@
+# Patch: First create $(BINDIR) in the install target to ensure that the
+# mkfile binary can actually be written to the directory.
+# Created by Kurt Lust
+# Command: diff -Nru Makefile.orig Makefile >mkfile_Makefile_install.patch
+--- Makefile.orig	2024-01-15 12:50:48.357159779 +0200
++++ Makefile	2024-01-15 12:51:22.368895030 +0200
+@@ -15,6 +15,7 @@
+ 	rm -f *~ *.o mkfile
+ 
+ install : mkfile
++	install -d -m755 $(BINDIR)
+ 	install -m755 mkfile $(BINDIR)/mkfile
+ 	install -d -m755 $(MANDIR)
+ 	install -m644 mkfile.1 $(MANDIR)/mkfile.1

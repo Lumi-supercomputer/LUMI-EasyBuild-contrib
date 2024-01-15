@@ -1,0 +1,67 @@
+# Written by Kurt Lust for the LUMI consortium.
+#
+easyblock = 'Bundle'
+
+import os as local_os
+
+local_LUMI_version =        '23.09'
+
+name =    'lumi-training-tools'
+version = '0.1'
+
+homepage = '()'
+
+whatis = [
+    "Description: Useful tools for exercises etc. during LUMI trainings."
+]
+
+description = """
+This module provides tools that are used to demo other commands on LUMI or to
+be used for exercises.
+
+-   mkfile: Generate a file of given size.
+"""
+
+docurls = [
+    'mkfile: man page `man 1 mkfile`'
+]
+
+toolchain = SYSTEM
+
+builddependencies = [
+    ('buildtools', local_LUMI_version),
+]
+
+default_easyblock = 'ConfigureMake'
+
+components = [
+    ('mkfile', '4f417f6', { 
+        'sources': [ {
+                        'filename': '%(name)s-%(version)s.tar.gz',
+                        'git_config': { 
+                            'url': 'https://github.com/vogelchr',
+                            'repo_name': 'mkfile',
+                            'commit': '%(version)s',
+                            'clone_into': '%(name)s-%(version)s',
+                        },
+                   } ],
+        'patches': ['mkfile_Makefile_install.patch'],
+        'checksums': [
+            {'%(name)s-%(version)s.tar.gz':   '01629e3df68e41daec6f1abd2465a41379d75f2616fe7f58cd85e9aa6f245557'},
+            {'mkfile_Makefile_install.patch': 'ba32c1f028cd2661538dc94f00711cf3cb5c418d8ce35f049847dbfe66274533'}
+        ],
+        'start_dir': '%(name)s-%(version)s',
+        'skipsteps': ['configure'],
+        'buildopts': 'CC=gcc CFLAGS="-O2 -march=znver1 -Wall -g"',
+        'installopts': 'PREFIX="%(installdir)s"',
+    }),
+]
+
+sanity_check_paths = {
+    'files': # mkfile
+             ['bin/mkfile'],
+    'dirs':  # mkfile
+             ['share/man/man1'],
+}
+
+moduleclass = 'tools'
