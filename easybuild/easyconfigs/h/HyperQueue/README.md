@@ -5,6 +5,8 @@
   * [HyperQueue GitHub](https://github.com/It4innovations/hyperqueue)
 
       * [GitHub releases](https://github.com/It4innovations/hyperqueue/releases)
+      
+      *  Check the [change log on GitHub](https://github.com/It4innovations/hyperqueue/blob/main/CHANGELOG.md)
 
   * [Guide for Cargo, the package manager used to install HyperQueue](https://doc.rust-lang.org/cargo/guide/)
 
@@ -79,4 +81,10 @@ We build our own EasyConfig. Two big warnings are needed though:
   * Trivial modification of the 0.5.0 one, but we do take extra care to avoid picking up 
     toolchain components.
 
+
+### 0.17.0 for use with Rust/1.75.0
+
+  * Trivial modification of the 0.16.0. However, we now also copy the LICENSE and CHANGELOG.md
+    files to the software installation and took care to warn for a breaking change in the help
+    information of the module.
 
