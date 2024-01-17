@@ -41,6 +41,10 @@ builddependencies = [
     ('buildtools', '%(toolchain_version)s', '', True), 
 ]
 
+patches = [
+    'gromacs_cmake_manage_sycl.patch',
+]
+
 local_rocm_version = '5.6.1'
 
 dependencies = [
