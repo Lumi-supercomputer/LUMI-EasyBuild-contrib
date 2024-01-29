@@ -63,7 +63,14 @@ https://develop.openfoam.com/Development/openfoam/-/wikis/building#easybuild
    variable to avoid accidentally using settings from a previous compile in the 
    same shell. 
 
+
+### OpenFoam v2212 
  
- 
- 
-    
+  * Trivial port of the EasyConfig
+
+
+### OpenFOAM v2312
+
+  * For now a trivial port of the 2212 EasyConfig
+
+
