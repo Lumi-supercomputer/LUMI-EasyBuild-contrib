@@ -1,0 +1,71 @@
+--- magma-2.7.2.old/CMakeLists.txt	2023-08-25 15:15:37.000000000 +0200
++++ magma-2.7.2/CMakeLists.txt	2024-01-26 11:20:51.000000000 +0100
+@@ -322,9 +322,9 @@
+ endif()
+ 
+ if (MAGMA_ENABLE_HIP)
+-  set( GPU_TARGET "gfx900" CACHE STRING "HIP architectures to compile for" )
+-  list(APPEND CMAKE_PREFIX_PATH /opt/rocm /opt/rocm/hip)
++  enable_language( HIP )
+   find_package( HIP )
++
+   if (HIP_FOUND)
+     message( STATUS "Found HIP ${HIP_VERSION}" )
+     message( STATUS "    HIP_INCLUDE_DIRS:   ${HIP_INCLUDE_DIRS}"   )
+@@ -384,18 +384,12 @@
+ 
+     set( DEVCCFLAGS  "" )
+     set(VALID_GFXS "700;701;702;703;704;705;801;802;803;805;810;900;902;904;906;908;909;90c;1010;1011;1012;1030;1031;1032;1033")
+-    foreach( GFX ${VALID_GFXS} )
+-      if ( GPU_TARGET MATCHES gfx${GFX} )
+-	set( DEVCCFLAGS ${DEVCCFLAGS} --amdgpu-target=gfx${GFX} )
+-      endif()
+-    endforeach()
+ 
+     set( DEVCCFLAGS ${DEVCCFLAGS} -fPIC ${FORTRAN_CONVENTION} )
+     set(MAGMA_HAVE_HIP "1")
+     message( STATUS "Define -DMAGMA_HAVE_HIP" )
+ 
+     set_property(TARGET hip::device APPEND PROPERTY COMPATIBLE_INTERFACE_BOOL INTERFACE_HIP_DEVICE_COMPILE)
+-    set_property(TARGET hip::device PROPERTY INTERFACE_HIP_DEVICE_COMPILE ON)
+     set(GPU_ARCH_FLAGS ${DEVCCFLAGS})
+     
+     #add_compile_options(${GPU_ARCH_FLAGS})
+@@ -607,9 +601,16 @@
+       if (hipSPARSE_FOUND)
+ 	message( STATUS "Found rocSPARSE ${rocSPARSE_VERSION}" )
+       endif()
++      foreach (filename ${libmagma_all} )
++        if (filename MATCHES "\\.hip.cpp$")
++          set_source_files_properties(${filename} PROPERTIES LANGUAGE HIP) 
++        endif()
++      endforeach()
++
+       add_library( magma ${libmagma_all} )
++      set_target_properties(magma PROPERTIES LINKER_LANGUAGE CXX)
+       target_link_libraries( magma
+-	hip::host
++        hip::host
+         ${blas_fix}
+         ${LAPACK_LIBRARIES}
+ 	roc::hipblas
+@@ -694,12 +695,18 @@
+     magma_nvcc_flags
+     )
+ else()
++  foreach (filename ${libsparse_all} )
++    if (filename MATCHES "\\.hip.cpp$")
++      set_source_files_properties(${filename} PROPERTIES LANGUAGE HIP) 
++    endif()
++  endforeach()
++
+   add_library( magma_sparse ${libsparse_all} )
++  set_target_properties(magma_sparse PROPERTIES LINKER_LANGUAGE CXX)
+   target_link_libraries( magma_sparse
+     magma
+     ${blas_fix}
+     ${LAPACK_LIBRARIES}
+-    hip::device
+     roc::hipblas
+     roc::hipsparse
+     )

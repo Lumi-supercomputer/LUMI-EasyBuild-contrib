@@ -1,0 +1,12 @@
+--- magma-2.7.2.old/CMakeLists.txt	2024-01-26 13:51:04.000000000 +0100
++++ magma-2.7.2/CMakeLists.txt	2024-01-26 13:53:19.000000000 +0100
+@@ -624,7 +624,8 @@
+             if (filename MATCHES "\\.(f90|F90)$")
+                 # mod files seem to wind up in root build directory
+                 get_filename_component( fmod ${filename} NAME_WE )
+-                list( APPEND modules "${CMAKE_BINARY_DIR}/${fmod}.mod" )
++                string(TOUPPER ${fmod} fmod_upper)
++                list( APPEND modules "${CMAKE_BINARY_DIR}/${fmod_upper}.mod" )
+             endif()
+         endforeach()
+     endif()
