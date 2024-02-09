@@ -53,3 +53,9 @@ all partitions of the LUMI/23.09 stack.
 
 Installation of HyperQueue 0.17.0 or later may work in other versions of the
 LUMI stack also but this has not been tested neither do we support it.
+
+
+## Training materials
+
+-   HyperQueue was discussed during the
+    [January 31, 2024 LUMI User Coffee Break](https://lumi-supercomputer.github.io/LUMI-training-materials/User-Coffee-Breaks/20240131-user-coffee-break-HyperQueue/).
