@@ -16,7 +16,7 @@ page](https://docs.lumi-supercomputer.eu/software/installing/easybuild/). For ex
 Then you can run the install command
 
 ```bash
-$ eb CP2K-2023.1-cpeGNU-22.08-GPU.eb
+$ eb CP2K-2023.1-cpeGNU-22.08-GPU.eb -r
 ```
 
 The installation process is quite slow. It can take up to 1 hour to compile everything, but afterwards, you will have a module called "CP2K/2023.1-cpeGNU-22.08-GPU" installed in your home directory. Load the module to use it:
