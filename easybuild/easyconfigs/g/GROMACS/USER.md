@@ -37,3 +37,9 @@ It is done this way because it is also unclear if the Python support is needed w
 used with GROMACS. 
 
 See also the [page on PLUMED](../../p/PLUMED/).
+
+
+## Training materials
+
+-   [Workshop: How to run GROMACS efficiently on LUMI (January 24-25, 2024, BioExcel/CSC Finland/KTH Sweden)](https://zenodo.org/records/10610643)
+
