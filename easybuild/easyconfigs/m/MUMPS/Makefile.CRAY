@@ -1,0 +1,67 @@
+# Begin orderings
+# Gets actual LSCOTCHDIR from environment 
+# LSCOTCHDIR = $(EBROOTSCOTCH)
+ISCOTCH   = -I$(LSCOTCHDIR)/include
+LSCOTCH   = -L$(LSCOTCHDIR)/lib -lesmumps -lscotch -lscotcherr
+
+LPORDDIR = $(topdir)/PORD/lib/
+IPORD    = -I$(topdir)/PORD/include/
+LPORD    = -L$(LPORDDIR) -lpord
+
+# Gets actual LMETISDIR from environment 
+# LMETISDIR = $(EBROOTMETIS)
+IMETIS    = -I$(LMETISDIR)/include
+LMETIS    = -L$(LMETISDIR) -lmetis
+
+# Corresponding variables reused later
+ORDERINGSF = -Dpord -Dscotch -Dmetis 
+ORDERINGSC = -Dpord -Dscotch -Dmetis 
+
+LORDERINGS = $(LMETIS) $(LPORD) $(LSCOTCH)
+IORDERINGSF = $(ISCOTCH)
+IORDERINGSC = $(IMETIS) $(IPORD) $(ISCOTCH)
+# End orderings
+################################################################################
+
+PLAT    = #
+LIBEXT_SHARED  = .so
+FPIC_OPT = -fPIC
+# Adapt/uncomment RPATH_OPT to avoid modifying
+# LD_LIBRARY_PATH in case of shared libraries
+# RPATH_OPT = -Wl,-rpath,/path/to/MUMPS_x.y.z/lib/
+LIBEXT  = .a
+OUTC    = -o 
+OUTF    = -o 
+RM = /bin/rm -f
+CC = cc
+FC = ftn
+FL = ftn
+AR = ar cr 
+RANLIB = ranlib
+LAPACK = -llapack
+SCALAP  = #
+
+INCPAR = # 
+
+LIBPAR = $(SCALAP) 
+
+INCSEQ = -I$(topdir)/libseq
+LIBSEQ  = $(LAPACK) -L$(topdir)/libseq -lmpiseq
+
+LIBBLAS = #
+LIBOTHERS = -lpthread
+
+#Preprocessor defs for calling Fortran from C (-DAdd_ or -DAdd__ or -DUPPER)
+CDEFS   = -DAdd_
+
+#Begin Optimized options
+OPTF    = -O -fopenmp
+# Use the line below if your version of gfortran is >= 10
+OPTF    = -O -fopenmp -fallow-argument-mismatch
+OPTL    = -O -fopenmp
+OPTC    = -O -fopenmp -fPIC
+#End Optimized options
+ 
+INCS = $(INCPAR)
+LIBS = $(LIBPAR)
+LIBSEQNEEDED =
