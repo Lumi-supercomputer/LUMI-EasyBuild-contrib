@@ -1,0 +1,24 @@
+diff -Naur siesta-4.1.5-orig/Src/parallel.F siesta-4.1.5/Src/parallel.F
+--- siesta-4.1.5-orig/Src/parallel.F	2021-01-27 13:36:19.000000000 +0200
++++ siesta-4.1.5/Src/parallel.F	2024-01-30 16:38:16.000000000 +0200
+@@ -36,7 +36,7 @@
+       integer, save :: Node = 0
+       integer, save :: Nodes = 1
+       integer, save :: PEXSINodes = 1
+-      integer, save :: BlockSize  = 24
++      integer, save :: BlockSize  = 32
+       integer, save :: ProcessorY = 1
+       
+       logical, save :: IOnode = .true.
+diff -Naur siesta-4.1.5-orig/Src/parallelsubs.F siesta-4.1.5/Src/parallelsubs.F
+--- siesta-4.1.5-orig/Src/parallelsubs.F	2021-01-27 13:36:19.000000000 +0200
++++ siesta-4.1.5/Src/parallelsubs.F	2024-01-30 16:51:21.000000000 +0200
+@@ -801,7 +801,7 @@
+ ! Note that this number could be optimized...
+ 
+       if (nuotot.gt.24*Nodes) then
+-        bs = 24
++        bs = 32
+       else if (nuotot.lt.Nodes) then
+         bs = 1
+       else

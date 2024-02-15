@@ -32,6 +32,7 @@ checksums =   ['518df31aa6213af5e24cc73abb537b2c89a925b487171f5339d743d0c7140b3f
 patches = [
     ('arch_make.patch', 1),
     ('siesta-4.1.5-amd-gpu.patch', 1),
+    ('siesta-4.1.5-block-size.patch', 1),
 ]
 
 dependencies = [
