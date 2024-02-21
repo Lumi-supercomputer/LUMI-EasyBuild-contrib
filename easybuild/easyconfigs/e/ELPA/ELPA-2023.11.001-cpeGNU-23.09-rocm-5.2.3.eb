@@ -36,6 +36,10 @@ toolchainopts = {'usempi': True, 'openmp': False}
 source_urls = ['https://elpa.mpcdf.mpg.de/software/tarball-archive/Releases/%(version)s/']
 sources =     ['elpa-%(version)s-patched.tar.gz']
 
+patches = [
+    {'name': 'elpa-2023.11.01-hiputils.patch', 'level': 1},
+]
+
 builddependencies = [ 
     ('buildtools', '%(toolchain_version)s', '', True), 
 ]
@@ -54,7 +58,7 @@ local_commonopts += '--enable-avx2 '
 local_commonopts += '--disable-avx512 ' 
 local_commonopts += '--enable-amd-gpu-kernels '
 local_commonopts += '--with-AMD-gpu-support-only ' 
-local_commonopts += '--disable-gpu-streams ' 
+local_commonopts += '--enable-gpu-streams=amd '
 local_commonopts += '--enable-hipcub '
 local_commonopts += '--enable-single-precision '
 local_commonopts += '--disable-openmp '
