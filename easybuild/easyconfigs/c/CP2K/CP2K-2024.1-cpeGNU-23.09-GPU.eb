@@ -1,0 +1,74 @@
+# contributed by Luca Marsella (CSCS)
+# modified for LUMI-G by Peter Larsson
+# Bump to the latest version and CPE version by Radim Janalik (CSCS)
+easyblock = 'MakeCp'
+
+name = 'CP2K'
+version = '2024.1'
+versionsuffix = '-GPU'
+
+homepage = 'http://www.cp2k.org/'
+
+whatis = [
+    'Description: CP2K is a program to perform atomistic and molecular simulations of solid state, liquid, molecular and biological systems.'
+]
+
+description = """
+CP2K is a freely available (GPL) program, written in Fortran 95, to
+perform atomistic and molecular simulations of solid state, liquid,
+molecular and biological systems. It provides a general framework for
+different methods such as e.g. density functional theory (DFT) using a
+mixed Gaussian and plane waves approach (GPW), and classical pair and
+many-body potentials.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '23.09'}
+toolchainopts = {'openmp': True, 'usempi': True}
+
+source_urls = ['https://github.com/%(namelower)s/%(namelower)s/releases/download/v%(version)s']
+sources = [SOURCELOWER_TAR_BZ2]
+patches = [
+    ('LUMIG-20231.psmp', '%(builddir)s/%(namelower)s-%(version)s/arch')
+]
+
+builddependencies = [('buildtools', '%(toolchain_version)s', '', True)]
+
+dependencies = [
+    ('ELPA', '2023.11.001','-GPU'),
+    ('Libint-CP2K', '2.6.0'),
+    ('libvori', '220621'),
+    ('libxc', '6.2.2'),
+    ('libxsmm', '1.17'),
+    ('spglib', '2.3.1'),
+    ('cray-fftw', EXTERNAL_MODULE),
+    ('cray-hdf5', EXTERNAL_MODULE),
+    ('COSMA','2.6.6'),
+    ('SPLA','1.5.5','-GPU'),
+    ('SpFFT','1.0.6','-GPU'),
+    ('GSL','2.7.1','-OpenMP')
+]
+
+# build type
+prebuildopts = 'module load craype-accel-amd-gfx90a && module load rocm/5.3.3 && '
+buildopts = "ARCH=LUMIG-20231 VERSION=psmp"
+
+files_to_copy = [
+    (['./arch/LUMIG-20231.psmp'], 'arch'),
+    (['./exe/LUMIG-20231/*'], 'bin'),
+    (['./data'], '.'),
+    (['./tests'], '.'),
+    (['./tools'], '.')
+]
+
+sanity_check_paths = {
+    'files': ['arch/LUMIG-20231.psmp', 'bin/%(namelower)s.psmp'],
+    'dirs': ['data', 'tests'],
+}
+
+parallel = 16
+
+# set custom CP2K_DATA_DIR
+modextravars = {'CP2K_DATA_DIR': '%(installdir)s/data'}
+
+moduleclass = 'chem'
+
