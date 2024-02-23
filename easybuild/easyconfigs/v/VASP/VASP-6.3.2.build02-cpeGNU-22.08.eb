@@ -1,5 +1,8 @@
 # Based on CSCS VASP easyconfig by Luca Marsella
 # Adapted for LUMI by Peter Larsson
+#DOC This VASP has I/O patches to behave more nicely towards the parallel file system. 
+#DOC We recommend that you use this version, especially if you work with HDF5 files in VASP. 
+#DOC Passes the VASP test.
 
 easyblock = 'MakeCp'
 
