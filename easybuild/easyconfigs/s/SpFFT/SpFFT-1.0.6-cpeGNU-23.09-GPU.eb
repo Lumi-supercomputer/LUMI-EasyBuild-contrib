@@ -53,7 +53,7 @@ builddependencies = [
 ]
 
 # PL not enabling SPFFT_GPU_DIRECT for GPU aware MPI because I think it is only tested with Nvidia?
-preconfigopts = "CXX=CC CC=cc FC=ftn && module load craype-accel-amd-gfx90a && module load rocm/5.3.3 &&" 
+preconfigopts = "CXX=CC CC=cc FC=ftn && module load craype-accel-amd-gfx90a && module load rocm/5.2.3 &&"
 configopts  = ' -DCMAKE_BUILD_TYPE=RELEASE -DSPFFT_FFTW_LIB=FFTW -DSPFFT_GPU_BACKEND=ROCM'
 configopts += ' -DSPFFT_SINGLE_PRECISION=ON  -DSPFFT_MPI=ON -DSPFFT_OMP=ON -DHIP_HCC_FLAGS=\"--amdgpu-target=gfx90a\"'
 

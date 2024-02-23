@@ -28,15 +28,22 @@ docurls = [
 toolchain = {'name': 'cpeGNU', 'version': '23.09'}
 toolchainopts = {'opt': True}
 
-source_urls = ['https://github.com/eth-cscs/%(name)s/releases/download/v%(version)s/']
-sources =     ['cosma.tar.gz']
+sources =     [{
+    'filename': SOURCELOWER_TAR_GZ,
+    'git_config': {
+        'url': 'https://github.com/eth-cscs',
+        'repo_name':'%(name)s',
+        'tag' :'v2.6.6',
+        'recursive': True,
+        'keep_git_dir' : True, },
+}]
 
 builddependencies = [
     ('buildtools', '%(toolchain_version)s', '', True), # For CMake
     ('bzip2',      '1.0.8'),
 ]
 
-prebuildopts = 'module load craype-accel-amd-gfx90a && module load rocm/5.3.3 &&'
+prebuildopts = 'module load craype-accel-amd-gfx90a && module load rocm/5.6.1 &&'
 parallel = 16
 
 configopts = [

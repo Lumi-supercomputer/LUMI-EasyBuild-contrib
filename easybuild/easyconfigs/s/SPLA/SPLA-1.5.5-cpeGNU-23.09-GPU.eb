@@ -37,7 +37,7 @@ builddependencies = [
     ('buildtools', '%(toolchain_version)s', '', True),
 ]
 
-preconfigopts = 'CXX=CC CC=cc FC=ftn && module load rocm/5.3.3 && '
+preconfigopts = 'CXX=CC CC=cc FC=ftn && module load rocm/5.6.1 && '
 configopts = "-DCMAKE_BUILD_TYPE=RELEASE -DSPLA_OMP=OFF -DSPLA_FORTRAN=ON -DSPLA_GPU_BACKEND=ROCM"
 
 sanity_check_paths = {
