@@ -1,18 +1,17 @@
 # contributed by Luca Marsella (CSCS)
 # adapated for LUMI by Peter Larsson
-#DOC Special version of libxc with enforcement of Fermi hole curvature disabled for VASP.
 
-local_bzip2_version = '1.0.8'
+local_bzip2_version =        '1.0.8'         # http://www.bzip.org/downloads.html
 
 easyblock = 'CMakeMake'
 
 name =    'libxc'
-version = '6.1.0'
-versionsuffix = '-nofhc'
+version =  '6.2.2'
+
 homepage = 'https://www.tddft.org/programs/libxc/'
 
 whatis = [
-    "Description: Libxc is a library of exchange-correlation and kinetic energy functionals " 
+    "Description: Libxc is a library of exchange-correlation and kinetic energy functionals " +
     "for density-functional theory."
 ]
 
@@ -36,11 +35,11 @@ docurls = [
     'Available functionals: https://www.tddft.org/programs/libxc/functionals/'
 ]
 
-toolchain = {'name': 'cpeGNU', 'version': '22.12'}
+toolchain = {'name': 'cpeGNU', 'version': '23.09'}
 toolchainopts = {'opt': True}
 
 source_urls = ['https://gitlab.com/%(name)s/%(name)s/-/archive/%(version)s']
-sources = [SOURCE_TAR_BZ2]
+sources =     [SOURCE_TAR_BZ2]
 
 builddependencies = [
     ('buildtools', '%(toolchain_version)s', '', True), # For CMake
@@ -48,7 +47,12 @@ builddependencies = [
 ]
 
 configopts = [
-    " -DENABLE_FORTRAN=ON -DCMAKE_INSTALL_LIBDIR=lib  -DBUILD_SHARED_LIBS=ON -DDISABLE_FHC=ON ",
+    " -DENABLE_FORTRAN=ON -DCMAKE_INSTALL_LIBDIR=lib  -DBUILD_SHARED_LIBS=ON ",
+]
+
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cd ../%(name)s-%(version)s && cp AUTHORS CITATION COPYING NEWS README.md %(installdir)s/share/licenses/%(name)s',
 ]
 
 sanity_check_paths = {
