@@ -1,6 +1,9 @@
-# QuantumESPRESSO
+# Quantum ESPRESSO
 
-  * [QuantumESPRESSO website](https://www.quantum-espresso.org/)
+  * [Quantum ESPRESSO website](https://www.quantum-espresso.org/)
+  
+  * [Quantum ESPRESSO GitLab](https://gitlab.com/QEF/q-e)
+    with direct downloads that don't require registration.
 
 
 ## General information
@@ -32,7 +35,12 @@ norm-conserving and ultrasoft).
   * The EasyConfig is a port of the 7.0 one. 
   
 
-### Version 7.1 for cpeGNU 22.12
+### Version 7.2 for cpeGNU 22.12 and 23.09
 
   * The EasyConfig is a port of the 7.1 one. 
 
+  * Added copying of the license information in 23.09
+  
+### Version 7.3 for cpeGNU 23.09
+
+  * Trivial port of the 7.3 EasyConfig file.
