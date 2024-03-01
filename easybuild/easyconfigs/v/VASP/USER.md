@@ -21,26 +21,26 @@ Early Access Platform][eap] or [LUMI-G][lumi-g].**
 We provide automatic installation scripts for several versions of VASP. In
 general, the installation procedure is described on the [EasyBuild
 page][EasyBuild]. The step by step procedure to install VASP
-6.4.1 is:
+6.4.2 is:
 
-1. Download the VASP source code "vasp.6.4.1.tgz" from the [VASP portal][vasp].
+1. Download the VASP source code "vasp.6.4.2.tgz" from the [VASP portal][vasp].
 2. Upload the file somewhere to your home directory on LUMI.
-3. Load the LUMI software environment: `module load LUMI/22.12`.
+3. Load the LUMI software environment: `module load LUMI/23.09`.
 4. Select the LUMI-C partition: `module load partition/C`.
 5. Load the EasyBuild module: `module load EasyBuild-user`.
 
 Then, you can run the install command:
 
 ```bash
-$ eb --sourcepath=<directory-where-the-VASP-source-is-stored> VASP-6.4.1-cpeGNU-22.12-build02.eb -r
+$ eb --sourcepath=<directory-where-the-VASP-source-is-stored> VASP-6.4.2-cpeGNU-23.09-build02.eb -r
 ```
 
 The installation process is quite slow. It will take about 20 minutes, but
-afterwards, you will have a module called "VASP/6.4.1-cpeGNU-22.12" installed
+afterwards, you will have a module called "VASP/6.4.2-cpeGNU-23.09" installed
 in your home directory. Load the module to use it
 
 ```bash
-$ module load VASP/6.4.1-cpeGNU-22.12-build02
+$ module load VASP/6.4.2-cpeGNU-23.09-build02
 ```
 
 The usual VASP binaries, `vasp_std`, `vasp_gam` etc. will now be in your
@@ -73,6 +73,8 @@ There might be several installations of the same VASP version to choose from: `b
 * `VASP-6.3.2.build02-cpeGNU-22.08.eb`. VASP 6.3.2 with similar I/O patches to behave more nicely towards the parallel file system. We recommend that you use this version, especially if you work with HDF5 files in VASP. Passes the VASP test
 * `VASP-6.4.1-cpeGNU-22.12-build01.eb`. VASP 6.4.1 release version built without any modifications. Passes the VASP test suite
 * `VASP-6.4.1-cpeGNU-22.12-build02.eb`. VASP 6.4.1 with POTCAR and HDF5 I/O patches. Passes the VASP test suite
+* `VASP-6.4.2-cpeGNU-23.09-build01.eb`. VASP 6.4.2 release version built without any modifications. Passes the VASP test suite
+* `VASP-6.4.2-cpeGNU-23.09-build02.eb`. VASP 6.4.2 with POTCAR and HDF5 I/O patches. Passes the VASP test suite
 
 ## Example batch scripts
 
@@ -92,8 +94,8 @@ A typical VASP [batch job][batch-job] using 4 compute nodes and MPI only:
 
 export OMP_NUM_THREADS=1
 
-module load LUMI/22.12 partition/C
-module load VASP/6.4.1-cpeGNU-22.12-build02
+module load LUMI/23.09 partition/C
+module load VASP/6.4.2-cpeGNU-23.09-build02
 srun vasp_std
 ```
 
@@ -116,8 +118,8 @@ export OMP_PLACES=cores
 export OMP_PROC_BIND=close
 export OMP_STACKSIZE=512m
 
-module load LUMI/22.12 partition/C
-module load VASP/6.4.1-cpeGNU-22.12-build02
+module load LUMI/23.09 partition/C
+module load VASP/6.4.2-cpeGNU-23.09-build02
 srun vasp_std
 ```
 
