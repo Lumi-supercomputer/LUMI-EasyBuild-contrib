@@ -5,4 +5,4 @@ The UNICORE UFTP client is covered by a
 
 After installation of the package and loading of the module, the license
 is available as the file `LICENSE` in
-`$EBROOTUNICOREMINUFTP/share/licenses/unicore-uftp'.
+`$EBROOTUNICOREMINUFTP/share/licenses/unicore-uftp`.

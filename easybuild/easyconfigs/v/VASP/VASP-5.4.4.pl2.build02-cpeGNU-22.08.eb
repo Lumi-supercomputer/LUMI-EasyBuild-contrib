@@ -1,5 +1,7 @@
 # Based on CSCS VASP easyconfig by Luca Marsella
 # Adapted for LUMI by Peter Larsson
+#DOC This VASP has patches to read POTCAR files in read-only mode, which lessens the load on the LUMI parallel file systems. 
+#DOC In some cases, VASP 5 could stall for 10 minutes at startup just reading input files.
 
 easyblock = 'MakeCp'
 
