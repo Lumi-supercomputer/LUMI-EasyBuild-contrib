@@ -1,0 +1,64 @@
+# created by Luca Marsella (CSCS)
+# adapted for LUMI by the LUMI User Support Team
+#DOC Contains the regular tools, EPW extension and the postprocessing tools.
+#DOC Built with MPI and OpenMP support, and ScaLAPACK.
+
+easyblock = 'CMakeMake'
+
+name =    'QuantumESPRESSO'
+version = '7.2.0'
+
+homepage = 'http://www.quantum-espresso.org/'
+
+whatis = [
+    'Description: Quantum ESPRESSO is an integrated suite of computer codes for ' +
+    'electronic-structure calculations and materials modeling at the nanoscale'
+]
+
+description = """
+Quantum ESPRESSO is an integrated suite of computer codes for 
+electronic-structure calculations and materials modeling at the nanoscale. It is
+based on density-functional theory, plane waves, and pseudopotentials (both 
+norm-conserving and ultrasoft).
+"""
+
+docurls = [
+    'User guide: https://www.quantum-espresso.org/Doc/user_guide/',
+]
+
+toolchain = {'name': 'cpeGNU', 'version': '23.09'}
+toolchainopts = {'openmp': True, 'opt': True, 'pic': True, 'usempi': True, 'veryloose': True}
+
+#sources = ['https://github.com/QEF/q-e/archive/qe-%(version_major)s.%(version_minor)s.tar.gz']
+sources = ['https://gitlab.com/QEF/q-e/-/archive/qe-%(version_major)s.%(version_minor)s/q-e-qe-%(version_major)s.%(version_minor)s.tar.gz']
+
+checksums = ['b348a4a7348b66a73545d9ca317a2645755c98d343c1cfe8def475ad030808c0']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True)
+]
+
+dependencies = [
+    ('libxc',     '6.2.2'),
+    ('cray-fftw', EXTERNAL_MODULE),
+]
+
+configopts  = ' -DQE_ENABLE_LIBXC=1 -DQE_ENABLE_OPENMP=1 -DQE_ENABLE_SCALAPACK=1'
+configopts += ' -DBLAS_LIBRARIES="-L${CRAY_LIBSCI_PREFIX_DIR}/lib -lsci_gnu_mp"'
+configopts += ' -DLAPACK_LIBRARIES="-L${CRAY_LIBSCI_PREFIX_DIR}/lib -lsci_gnu_mp"'
+configopts += ' -DSCALAPACK_LIBRARIES="-L${CRAY_LIBSCI_PREFIX_DIR}/lib -lsci_gnu_mp"'
+configopts += ' -DFFTW3_INCLUDE_DIRS="${FFTW_INC}"'
+
+buildopts = "all epw pp"
+
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cd %(start_dir)s && cp License README.md %(installdir)s/share/licenses/%(name)s',
+]
+
+sanity_check_paths = {
+    'files': ['bin/pw.x'],
+    'dirs':  [''],
+}
+
+moduleclass = 'chem'
