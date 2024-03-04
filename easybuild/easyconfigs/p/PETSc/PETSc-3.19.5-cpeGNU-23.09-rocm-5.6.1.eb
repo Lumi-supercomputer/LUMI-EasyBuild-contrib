@@ -4,13 +4,13 @@ easyblock = 'ConfigureMake'
 
 name = 'PETSc'
 version = '3.19.5'
-versionsuffix = '-GPU'
+versionsuffix = '-rocm-5.6.1'
 
 homepage = 'https://www.mcs.anl.gov/petsc'
 description = """PETSc, pronounced PET-see (the S is silent), is a suite of data structures and routines for the
  scalable (parallel) solution of scientific applications modeled by partial differential equations."""
 
-toolchain = {'name': 'cpeCray', 'version': '23.09'}
+toolchain = {'name': 'cpeGNU', 'version': '23.09'}
 toolchainopts = {'openmp': True, 'usempi': True, 'pic': True}
 
 source_urls = [
@@ -19,27 +19,22 @@ source_urls = [
 
 sources = [SOURCELOWER_TAR_GZ]
 
-#builddependencies = [('buildtools', '%(toolchain_version)s', '', True)]
+builddependencies = [('buildtools', '%(toolchain_version)s', '', True)]
 
 dependencies = [
     ('cray-python/3.10.10', EXTERNAL_MODULE),
     ('cray-hdf5-parallel/1.12.2.7', EXTERNAL_MODULE),
-#    ('gcc-mixed/12.2.0', EXTERNAL_MODULE),
+    ('gcc/12.2.0', EXTERNAL_MODULE),
     ('rocm', '5.6.1', '', SYSTEM),
-#    ('rocm', EXTERNAL_MODULE),
-    ('buildtools', '%(toolchain_version)s', '', True),
     ('Boost', '1.82.0'),
     ('METIS', '5.1.0'),
     ('ParMETIS','4.0.3'),
-    ('SCOTCH', '6.1.3'),
+    ('SCOTCH', '7.0.3'),
     ('MUMPS', '5.5.1',),
-#    ('Hypre', '2.26.0'),
+    ('Hypre', '2.26.0'),
     ('SuperLU', '6.0.0', '-OpenMP'),
     ('SuperLU_DIST', '8.1.2', '-OpenMP'),
 ]
-
-preconfigopts =  'export CRAY_LD_LIBRARY_PATH=$GCC_PATH/snos/lib64:$CRAY_LD_LIBRARY_PATH && export LD_LIBRARY_PATH=$GCC_PATH/snos/lib64:$LD_LIBRARY_PATH && '
-#export GCC_X86_64=$GCC_PATH/snos && '
 
 configopts = '--PETSC_ARCH="$CRAY_CPU_TARGET-$CRAY_ACCEL_TARGET" '
 configopts += '--known-has-attribute-aligned=1 '
@@ -85,39 +80,36 @@ configopts += '--with-mpi-lib=[] '
 configopts += '--with-mpi-include=[] '
 configopts += '--with-mpiexec=srun '
 configopts += '--with-blas-lapack=1 '
-#configopts += '--with-superlu=1 '
-#configopts += '--with-superlu-dir="$EBROOTSUPERLU" '
-#configopts += '--with-superlu_dist=1 '
-#configopts += '--with-superlu_dist-dir="$EBROOTSUPERLU_DIST" '
-#configopts += '--with-parmetis=1 '
-#configopts += '--with-parmetis-dir="$EBROOTPARMETIS" '
-#configopts += '--with-metis=1 '
-#configopts += '--with-metis-dir="$EBROOTMETIS" '
-#configopts += '--with-hypre=1 '
+configopts += '--with-superlu=1 '
+configopts += '--with-superlu-dir="$EBROOTSUPERLU" '
+configopts += '--with-superlu_dist=1 '
+configopts += '--with-superlu_dist-dir="$EBROOTSUPERLU_DIST" '
+configopts += '--with-parmetis=1 '
+configopts += '--with-parmetis-dir="$EBROOTPARMETIS" '
+configopts += '--with-metis=1 '
+configopts += '--with-metis-dir="$EBROOTMETIS" '
+configopts += '--with-hypre=1 '
 configopts += '--with-scalapack=1 '
 configopts += '--with-ptscotch=1 '
-configopts += '--with-ptscotch-dir="$EBROOTSCOTCH" '
-#configopts += '--with-mumps=1 '
-#configopts += '--with-mumps-include="$EBROOTMUMPS/include" '
-#configopts += '--with-mumps-lib="-L$EBROOTMUMPS/lib -lcmumps -ldmumps -lesmumps -lsmumps -lzmumps -lmumps_common -lptesmumps -lesmumps -lpord -lmpifort" '
+configopts += '--with-ptscotch-der="$EBROOTSCOTCH" '
+configopts += '--with-mumps=1 '
+configopts += '--with-mumps-include="$EBROOTMUMPS/include" '
+configopts += '--with-mumps-lib="-L$EBROOTMUMPS/lib -lcmumps -ldmumps -lesmumps -lsmumps -lzmumps -lmumps_common -lptesmumps -lesmumps -lpord -lmpifort" '
 configopts += '--with-hdf5=1 '
 configopts += '--with-cxx-dialect=C++17 '
-#configopts += '--CFLAGS="-O3 -fopenmp --gcc-toolchain=$GCC_PATH/snos" '
-#configopts += '--FFLAGS="-O3 -fopenmp --gcc-toolchain=$GCC_PATH/snos" '
-configopts += '--LDFLAGS="-fopenmp" '
+configopts += '--CFLAGS="-O3 -ffast-math -fopenmp" '
+configopts += '--FFLAGS="-O3 -ffast-math -fopenmp -fallow-argument-mismatch" '
+configopts += '--LDFLAGS="-fopenmp -Wl,--allow-multiple-definition" '
 configopts += '--with-hip '
 configopts += '--with-hipc=hipcc '
 configopts += '--with-hip-arch=gfx90a '
 configopts += '--with-hip-include="${MPICH_DIR}/include" '
 configopts += '--with-hip-lib="-L${MPICH_DIR}/lib -lmpi ${PE_MPICH_GTL_DIR_amd_gfx90a} ${PE_MPICH_GTL_LIBS_amd_gfx90a}" '
-#configopts += '--HIPFLAGS="--gcc-toolchain=$GCC_PATH/snos/" '
+configopts += '--HIPFLAGS="--gcc-toolchain=$GCC_PATH/snos/" '
 configopts += '--download-kokkos '
 configopts += '--download-kokkos-kernels '
 configopts += '--download-kokkos-kernels-cmake-arguments="-DKokkosKernels_ROCBLAS_ROOT=${ROCM_PATH}/rocblas -DKokkosKernels_ROCSPARSE_ROOT=${ROCM_PATH}/rocsparse" '
 configopts += '--LIBS="-lgfortran -lgcc -lstdc++ $PE_MPICH_GTL_DIR_amd_gfx90a $PE_MPICH_GTL_LIBS_amd_gfx90a" '
-
-
-prebuildopts = 'export LD_LIBRARY_PATH=$GCC_PATH/snos/lib64:$LD_LIBRARY_PATH && '
 
 # This is for checking if linking against the library is correct
 runtest = 'check_build MPIEXEC=exec V=1'
