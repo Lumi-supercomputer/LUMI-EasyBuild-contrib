@@ -5,8 +5,8 @@
 easyblock = 'MakeCp'
 
 name =          'NAMD'
-version =       '3.0b4'
-versionsuffix = '-resident-GPU'
+version =       '3.0b6'
+versionsuffix = '-rocm-5.6.1'
 
 homepage = 'http://www.ks.uiuc.edu/Research/namd/'
 
@@ -71,29 +71,40 @@ upstream_contacts = [
 
 docpaths = [ 'notes.txt' ]
 
-toolchain = {'name': 'cpeGNU', 'version': '22.12'}
+toolchain = {'name': 'cpeAMD', 'version': '23.09'}
 toolchainopts = {'openmp': True}
 
 sources = ['NAMD_%(version)s_Source.tar.gz']
 
+patches = [
+    'namd3-arch-rocm-clang.patch'
+]
+
 builddependencies = [
-    ('cray-fftw',    EXTERNAL_MODULE),
-    ('rocm', EXTERNAL_MODULE),
+    ('buildtools',   '%(toolchain_version)s',   '', True),
 ]
 
 dependencies = [
+    ('cray-fftw/3.3.10.5',    EXTERNAL_MODULE),
+    ('amd', '5.6.1', '', SYSTEM),
+    ('rocm', '5.6.1', '', SYSTEM),
     ('Charm++', '7.0.0', '-multicore'),
+    ('Tcl', '8.6.13'),
 ]
 
-local_namd_arch = 'Linux-x86_64-g++'
+local_namd_arch = 'Linux-x86_64-clang++'
 
 prebuildopts  = f'./config {local_namd_arch} '
-prebuildopts += '--charm-arch $EBTYPECHARMPLUSPLUS --charm-base $EBROOTCHARMPLUSPLUS '
-prebuildopts += '--with-single-node-hip --with-hip --rocm-prefix $ROCM_PATH '
-prebuildopts += '--without-tcl '
+prebuildopts += '--charm-arch $EBTYPECHARMPLUSPLUS '
+prebuildopts += '--charm-base $EBROOTCHARMPLUSPLUS '
+prebuildopts += '--with-single-node-hip ' 
+prebuildopts += '--with-hip '
+prebuildopts += '--rocm-prefix $ROCM_PATH '
 prebuildopts += '--with-fftw3 --fftw-prefix $FFTW_ROOT '
 prebuildopts += '--charm-opts "-fopenmp" '
 prebuildopts += f'&& cd {local_namd_arch} && ' 
+
+build_cmd_targets = 'ROCM_DIR=$ROCM_PATH HIP_PLATFORM=amd'
 
 files_to_copy = [
     ([f'./{local_namd_arch}/namd3'], 'bin')

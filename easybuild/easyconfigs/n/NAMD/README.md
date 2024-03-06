@@ -19,3 +19,9 @@ file-compatible with AMBER, CHARMM, and X-PLOR.
 ### Version 2.14 for CPE GNU 21.08
 
   * The EasyConfig is derived from the CSCS one
+
+### Version 3.0b6 GPU resident for CPE AMD 23.09
+
+  * Works with a single node runs only - uses multicore Charm++ runtime (no MPI)
+  * Beta release of the code
+  * Uses ROCm 5.6.1 not fully supported with CPE 23.09 
