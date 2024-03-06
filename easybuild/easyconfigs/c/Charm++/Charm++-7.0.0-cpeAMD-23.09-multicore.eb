@@ -20,7 +20,7 @@ written using this system will run unchanged on MIMD machines with or
 without a shared memory.
 """
 
-toolchain = {'name': 'cpeGNU', 'version': '22.12'}
+toolchain = {'name': 'cpeAMD', 'version': '23.09'}
 toolchainopts = {'dynamic': False}
 
 source_urls = ['http://charm.cs.illinois.edu/distrib/']
