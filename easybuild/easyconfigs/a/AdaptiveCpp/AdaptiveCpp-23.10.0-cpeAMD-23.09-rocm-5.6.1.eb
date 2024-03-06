@@ -26,6 +26,10 @@ sources = [{
     }
 }]
 
+patches = [
+    'acpp-23.10-hip-allocator.patch',
+]
+
 dependencies = [
     ('amd', '5.6.1', '', SYSTEM),
     ('rocm', '5.6.1', '', SYSTEM),
@@ -60,6 +64,7 @@ configopts += '-DBoost_NO_SYSTEM_PATHS=TRUE '
 configopts += '-DWITH_SSCP_COMPILER=OFF ' 
 configopts += '-DROCM_CXX_FLAGS="--gcc-toolchain=$GCC_PATH/snos/" '
 configopts += '-DLLVM_DIR=${ROCM_PATH}/llvm/lib/cmake/llvm/ '
+configopts += '-DHIPSYCL_ALLOW_INSTANT_SUBMISSION=1 '
 
 
 sanity_check_paths = {
