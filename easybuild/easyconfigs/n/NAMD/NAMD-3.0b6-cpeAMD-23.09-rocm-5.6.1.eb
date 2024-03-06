@@ -1,6 +1,9 @@
 # Contributed by Guilherme Peretti Pezzi, Luca Marsella and Christopher Bignamini (CSCS)
 # Adapted by Kurt Lust (kurt.lust@uantwerpen.be) for the LUMI consortium
 # Adapted by Pierre Beaujean (pierre.beaujean@unamur.be) for 22.08
+# Adapted by Maceij Szpindler for the GPU version
+#DOC Note that this is a beta version of NAMD 3 for GPU. As it is a beta version
+#DOC problems are to be expected and LUST may not be able to solve them.
 
 easyblock = 'MakeCp'
 
