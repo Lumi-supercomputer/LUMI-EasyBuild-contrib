@@ -1,0 +1,48 @@
+easyblock = "CMakeMake"
+
+name =          'SuperLU'
+version =       '6.0.0'
+versionsuffix = '-OpenMP'
+
+homepage = 'https://crd-legacy.lbl.gov/~xiaoye/SuperLU/'
+
+whatis = [
+    'Description: SuperLU is a general purpose library for the direct solution of large, sparse, nonsymmetric systems of linear equations on high performance machines.'    
+]
+
+description = """
+SuperLU is a general purpose library for the 
+direct solution of large, sparse, nonsymmetric systems
+of linear equations on high performance machines.
+The library is written in C and is callable from either C or Fortran program.
+"""
+
+toolchain = {'name': 'cpeCray', 'version': '23.09'}
+toolchainopts = {'pic': True, 'openmp': True}
+
+github_account = 'xiaoyeli'
+source_urls =    [GITHUB_LOWER_SOURCE]
+sources =        ["v%(version)s.tar.gz"]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+    ('ParMETIS', '4.0.3'),
+]
+
+configopts  = '-DTPL_ENABLE_METISLIB=ON '
+configopts += '-DTPL_METIS_INCLUDE_DIRS="${EBROOTPARMETIS}/include" '
+configopts += '-DTPL_METIS_LIBRARIES="${EBROOTPARMETIS}/lib/libparmetis.a;${EBROOTPARMETIS}/lib/libmetis.a" '
+configopts += '-DTPL_ENABLE_INTERNAL_BLASLIB=OFF '
+configopts += '-Denable_openmp:BOOL=TRUE '
+
+runtest = " test"
+
+sanity_check_paths = {
+    'files': ['lib64/libsuperlu.a'],
+    'dirs':  ['include']
+}
+
+moduleclass = 'numlib'

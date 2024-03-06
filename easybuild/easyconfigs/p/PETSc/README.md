@@ -17,3 +17,8 @@
   * OpenMP enabled; Hypre, METIS, ParMETIS, SCOTCH, MUMPS, SuperLU_Dist, STRUMPACK; dependencies: python (Cray), HDF5 (Cray), Boost
   * `-minimal`: no OpenMP, dependencies: python (Cray), HDF5 (Cray), Boost, METIS, SCOTCH
 
+### Version 3.19 for CPE 23.09 
+
+  * GPU enabled versions with Kokkos enabled and build against ROCm 5.6.1
+  * cpeGNU recipe follows old TPSL config with most external linear algebra libraries enabled
+  * cpeCray recipe excludes most of external linear algebra libraries because of linking problems
