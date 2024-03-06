@@ -1,0 +1,199 @@
+diff -Naur namd-release-3-0-beta-6/Make.depends namd-release-3-0-beta-6-lumi/Make.depends
+--- namd-release-3-0-beta-6/Make.depends	2024-01-20 18:21:50.000000000 +0200
++++ namd-release-3-0-beta-6-lumi/Make.depends	2024-03-05 17:35:03.000000000 +0200
+@@ -9445,7 +9445,7 @@
+ 	src/Tensor.h \
+ 	src/ComputeBondedCUDAKernel.h \
+ 	src/CudaNonbondedTables.h
+-	$(CUDACC) $(CUDACCOPTS) -Xptxas -v $(COPTO)obj/MigrationBondedCUDAKernel.o $(COPTC) `$(NATIVEPATH) src/`MigrationBondedCUDAKernel.cu
++	$(CUDACC) $(CUDACCOPTS)  -v $(COPTO)obj/MigrationBondedCUDAKernel.o $(COPTC) `$(NATIVEPATH) src/`MigrationBondedCUDAKernel.cu
+ obj/MigrationCUDAKernel.o: \
+ 	obj/.exists \
+ 	src/MigrationCUDAKernel.cu \
+@@ -9465,7 +9465,7 @@
+ 	src/CudaNonbondedTables.h \
+ 	src/CudaComputeNonbondedKernel.hip.h \
+ 	src/CudaTileListKernel.hip.h
+-	$(CUDACC) $(CUDACCOPTS) -Xptxas -v $(COPTO)obj/MigrationCUDAKernel.o $(COPTC) `$(NATIVEPATH) src/`MigrationCUDAKernel.cu
++	$(CUDACC) $(CUDACCOPTS)  -v $(COPTO)obj/MigrationCUDAKernel.o $(COPTC) `$(NATIVEPATH) src/`MigrationCUDAKernel.cu
+ obj/SequencerCUDAKernel.o: \
+ 	obj/.exists \
+ 	src/SequencerCUDAKernel.cu \
+@@ -9483,7 +9483,7 @@
+ 	src/CudaTileListKernel.hip.h \
+ 	src/Lattice.h \
+ 	src/Tensor.h
+-	$(CUDACC) $(CUDACCOPTS) -Xptxas -v $(COPTO)obj/SequencerCUDAKernel.o $(COPTC) `$(NATIVEPATH) src/`SequencerCUDAKernel.cu
++	$(CUDACC) $(CUDACCOPTS)  -v $(COPTO)obj/SequencerCUDAKernel.o $(COPTC) `$(NATIVEPATH) src/`SequencerCUDAKernel.cu
+ obj/ComputeBondedCUDAKernel.o: \
+ 	obj/.exists \
+ 	src/ComputeBondedCUDAKernel.cu \
+@@ -9500,14 +9500,14 @@
+ 	src/CudaNonbondedTables.h \
+ 	src/CudaComputeNonbondedInteractions.h \
+ 	src/DeviceCUDA.h
+-	$(CUDACC) $(CUDACCOPTS) -Xptxas -v $(COPTO)obj/ComputeBondedCUDAKernel.o $(COPTC) `$(NATIVEPATH) src/`ComputeBondedCUDAKernel.cu
++	$(CUDACC) $(CUDACCOPTS)  -v $(COPTO)obj/ComputeBondedCUDAKernel.o $(COPTC) `$(NATIVEPATH) src/`ComputeBondedCUDAKernel.cu
+ obj/ComputePmeCUDAKernel.o: \
+ 	obj/.exists \
+ 	src/ComputePmeCUDAKernel.cu \
+ 	src/ComputePmeCUDAKernel.h \
+ 	src/HipDefines.h \
+ 	src/CudaUtils.h
+-	$(CUDACC) $(CUDACCOPTS) -Xptxas -v $(COPTO)obj/ComputePmeCUDAKernel.o $(COPTC) `$(NATIVEPATH) src/`ComputePmeCUDAKernel.cu
++	$(CUDACC) $(CUDACCOPTS)  -v $(COPTO)obj/ComputePmeCUDAKernel.o $(COPTC) `$(NATIVEPATH) src/`ComputePmeCUDAKernel.cu
+ obj/ComputeRestraintsCUDAKernel.o: \
+ 	obj/.exists \
+ 	src/ComputeRestraintsCUDAKernel.cu \
+@@ -9522,7 +9522,7 @@
+ 	src/ResizeArrayRaw.h \
+ 	src/Tensor.h \
+ 	src/CudaUtils.h
+-	$(CUDACC) $(CUDACCOPTS) -Xptxas -v $(COPTO)obj/ComputeRestraintsCUDAKernel.o $(COPTC) `$(NATIVEPATH) src/`ComputeRestraintsCUDAKernel.cu
++	$(CUDACC) $(CUDACCOPTS)  -v $(COPTO)obj/ComputeRestraintsCUDAKernel.o $(COPTC) `$(NATIVEPATH) src/`ComputeRestraintsCUDAKernel.cu
+ obj/ComputeSMDCUDAKernel.o: \
+ 	obj/.exists \
+ 	src/ComputeSMDCUDAKernel.cu \
+@@ -9538,7 +9538,7 @@
+ 	src/Tensor.h \
+ 	src/CudaUtils.h \
+ 	src/ComputeCOMCudaKernel.h
+-	$(CUDACC) $(CUDACCOPTS) -Xptxas -v $(COPTO)obj/ComputeSMDCUDAKernel.o $(COPTC) `$(NATIVEPATH) src/`ComputeSMDCUDAKernel.cu
++	$(CUDACC) $(CUDACCOPTS)  -v $(COPTO)obj/ComputeSMDCUDAKernel.o $(COPTC) `$(NATIVEPATH) src/`ComputeSMDCUDAKernel.cu
+ obj/ComputeGroupRes1GroupCUDAKernel.o: \
+ 	obj/.exists \
+ 	src/ComputeGroupRes1GroupCUDAKernel.cu \
+@@ -9554,7 +9554,7 @@
+ 	src/Tensor.h \
+ 	src/CudaUtils.h \
+ 	src/ComputeCOMCudaKernel.h
+-	$(CUDACC) $(CUDACCOPTS) -Xptxas -v $(COPTO)obj/ComputeGroupRes1GroupCUDAKernel.o $(COPTC) `$(NATIVEPATH) src/`ComputeGroupRes1GroupCUDAKernel.cu
++	$(CUDACC) $(CUDACCOPTS)  -v $(COPTO)obj/ComputeGroupRes1GroupCUDAKernel.o $(COPTC) `$(NATIVEPATH) src/`ComputeGroupRes1GroupCUDAKernel.cu
+ obj/ComputeGroupRes2GroupCUDAKernel.o: \
+ 	obj/.exists \
+ 	src/ComputeGroupRes2GroupCUDAKernel.cu \
+@@ -9570,7 +9570,7 @@
+ 	src/Tensor.h \
+ 	src/CudaUtils.h \
+ 	src/ComputeCOMCudaKernel.h
+-	$(CUDACC) $(CUDACCOPTS) -Xptxas -v $(COPTO)obj/ComputeGroupRes2GroupCUDAKernel.o $(COPTC) `$(NATIVEPATH) src/`ComputeGroupRes2GroupCUDAKernel.cu
++	$(CUDACC) $(CUDACCOPTS)  -v $(COPTO)obj/ComputeGroupRes2GroupCUDAKernel.o $(COPTC) `$(NATIVEPATH) src/`ComputeGroupRes2GroupCUDAKernel.cu
+ obj/CudaComputeGBISKernel.o: \
+ 	obj/.exists \
+ 	src/CudaComputeGBISKernel.cu \
+@@ -9581,7 +9581,7 @@
+ 	src/CudaTileListKernel.hip.h \
+ 	src/DeviceCUDA.h \
+ 	src/ComputeGBIS.inl
+-	$(CUDACC) $(CUDACCOPTS) -Xptxas -v $(COPTO)obj/CudaComputeGBISKernel.o $(COPTC) `$(NATIVEPATH) src/`CudaComputeGBISKernel.cu
++	$(CUDACC) $(CUDACCOPTS)  -v $(COPTO)obj/CudaComputeGBISKernel.o $(COPTC) `$(NATIVEPATH) src/`CudaComputeGBISKernel.cu
+ obj/CudaComputeNonbondedKernel.o: \
+ 	obj/.exists \
+ 	src/CudaComputeNonbondedKernel.cu \
+@@ -9593,7 +9593,7 @@
+ 	src/CudaNonbondedTables.h \
+ 	src/DeviceCUDA.h \
+ 	src/CudaComputeNonbondedInteractions.h
+-	$(CUDACC) $(CUDACCOPTS) -Xptxas -v $(COPTO)obj/CudaComputeNonbondedKernel.o $(COPTC) `$(NATIVEPATH) src/`CudaComputeNonbondedKernel.cu
++	$(CUDACC) $(CUDACCOPTS)  -v $(COPTO)obj/CudaComputeNonbondedKernel.o $(COPTC) `$(NATIVEPATH) src/`CudaComputeNonbondedKernel.cu
+ obj/CudaComputeNonbondedKernelHip.o: \
+ 	obj/.exists \
+ 	src/CudaComputeNonbondedKernelHip.cu \
+@@ -9604,14 +9604,14 @@
+ 	src/CudaTileListKernel.hip.h \
+ 	src/CudaNonbondedTables.h \
+ 	src/DeviceCUDA.h
+-	$(CUDACC) $(CUDACCOPTS) -Xptxas -v $(COPTO)obj/CudaComputeNonbondedKernelHip.o $(COPTC) `$(NATIVEPATH) src/`CudaComputeNonbondedKernelHip.cu
++	$(CUDACC) $(CUDACCOPTS)  -v $(COPTO)obj/CudaComputeNonbondedKernelHip.o $(COPTC) `$(NATIVEPATH) src/`CudaComputeNonbondedKernelHip.cu
+ obj/CudaPmeSolverUtilKernel.o: \
+ 	obj/.exists \
+ 	src/CudaPmeSolverUtilKernel.cu \
+ 	src/HipDefines.h \
+ 	src/CudaUtils.h \
+ 	src/CudaPmeSolverUtilKernel.h
+-	$(CUDACC) $(CUDACCOPTS) -Xptxas -v $(COPTO)obj/CudaPmeSolverUtilKernel.o $(COPTC) `$(NATIVEPATH) src/`CudaPmeSolverUtilKernel.cu
++	$(CUDACC) $(CUDACCOPTS)  -v $(COPTO)obj/CudaPmeSolverUtilKernel.o $(COPTC) `$(NATIVEPATH) src/`CudaPmeSolverUtilKernel.cu
+ obj/CudaTileListKernel.o: \
+ 	obj/.exists \
+ 	src/CudaTileListKernel.cu \
+@@ -9622,7 +9622,7 @@
+ 	src/CudaRecord.h \
+ 	src/CudaNonbondedTables.h \
+ 	src/DeviceCUDA.h
+-	$(CUDACC) $(CUDACCOPTS) -Xptxas -v $(COPTO)obj/CudaTileListKernel.o $(COPTC) `$(NATIVEPATH) src/`CudaTileListKernel.cu
++	$(CUDACC) $(CUDACCOPTS)  -v $(COPTO)obj/CudaTileListKernel.o $(COPTC) `$(NATIVEPATH) src/`CudaTileListKernel.cu
+ obj/CudaTileListKernelHip.o: \
+ 	obj/.exists \
+ 	src/CudaTileListKernelHip.cu \
+@@ -9630,13 +9630,13 @@
+ 	src/HipDefines.h \
+ 	src/CudaTileListKernel.hip.h \
+ 	src/DeviceCUDA.h
+-	$(CUDACC) $(CUDACCOPTS) -Xptxas -v $(COPTO)obj/CudaTileListKernelHip.o $(COPTC) `$(NATIVEPATH) src/`CudaTileListKernelHip.cu
++	$(CUDACC) $(CUDACCOPTS)  -v $(COPTO)obj/CudaTileListKernelHip.o $(COPTC) `$(NATIVEPATH) src/`CudaTileListKernelHip.cu
+ obj/DeviceCUDAkernel.o: \
+ 	obj/.exists \
+ 	src/DeviceCUDAkernel.cu \
+ 	src/CudaUtils.h \
+ 	src/HipDefines.h
+-	$(CUDACC) $(CUDACCOPTS) -Xptxas -v $(COPTO)obj/DeviceCUDAkernel.o $(COPTC) `$(NATIVEPATH) src/`DeviceCUDAkernel.cu
++	$(CUDACC) $(CUDACCOPTS)  -v $(COPTO)obj/DeviceCUDAkernel.o $(COPTC) `$(NATIVEPATH) src/`DeviceCUDAkernel.cu
+ obj/MShakeKernel.o: \
+ 	obj/.exists \
+ 	src/MShakeKernel.cu \
+@@ -9644,7 +9644,7 @@
+ 	src/MShakeKernel.h \
+ 	src/CudaUtils.h \
+ 	src/HipDefines.h
+-	$(CUDACC) $(CUDACCOPTS) -Xptxas -v $(COPTO)obj/MShakeKernel.o $(COPTC) `$(NATIVEPATH) src/`MShakeKernel.cu
++	$(CUDACC) $(CUDACCOPTS)  -v $(COPTO)obj/MShakeKernel.o $(COPTC) `$(NATIVEPATH) src/`MShakeKernel.cu
+ obj/dcdplugin.o: \
+ 	obj/.exists \
+ 	plugins/molfile_plugin/src/dcdplugin.c \
+diff -Naur namd-release-3-0-beta-6/arch/Linux-x86_64-clang++.arch namd-release-3-0-beta-6-lumi/arch/Linux-x86_64-clang++.arch
+--- namd-release-3-0-beta-6/arch/Linux-x86_64-clang++.arch	1970-01-01 02:00:00.000000000 +0200
++++ namd-release-3-0-beta-6-lumi/arch/Linux-x86_64-clang++.arch	2024-03-05 17:30:00.000000000 +0200
+@@ -0,0 +1,8 @@
++NAMD_ARCH = Linux-x86_64
++CHARMARCH = multicore-linux-x86_64
++
++CXX = amdclang++ -m64 -std=c++0x
++CXXOPTS = -O3 -fexpensive-optimizations -ffast-math 
++CC = amdclang -m64
++COPTS = -O3 -fexpensive-optimizations -ffast-math
++
+diff -Naur namd-release-3-0-beta-6/arch/Linux-x86_64.hip namd-release-3-0-beta-6-lumi/arch/Linux-x86_64.hip
+--- namd-release-3-0-beta-6/arch/Linux-x86_64.hip	2024-01-20 18:21:50.000000000 +0200
++++ namd-release-3-0-beta-6-lumi/arch/Linux-x86_64.hip	2024-03-05 17:32:54.000000000 +0200
+@@ -25,7 +25,7 @@
+     #The (optional) --amdgpu-target directives are useful for cross-compiling to different AMD architectures.
+     HIPCCOPTS += -march=native -ffast-math -fno-gpu-rdc -fcuda-flush-denormals-to-zero -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -Wno-invalid-constexpr -Wno-ignored-optimization-argument
+     HIPCCOPTS += -Wno-unused-private-field
+-    HIPCCOPTS += -fdenormal-fp-math=ieee -munsafe-fp-atomics --offload-arch=gfx906,gfx908,gfx90a,gfx1030 -fno-slp-vectorize
++    HIPCCOPTS += -fdenormal-fp-math=ieee -munsafe-fp-atomics --offload-arch=gfx90a -fno-slp-vectorize
+ 
+ else
+     # include CUB
+@@ -41,9 +41,9 @@
+ ifneq ($(PLATFORM),nvcc)
+     #ROCM version 3.3 was the last one to use the old hcc compiler.
+     ifeq ($(ROCMV),3.3)
+-    	CUDALIB = -L$(HIPDIR)/lib -lhip_hcc -lhipfft -lhiprand -lroctx64 -lroctracer64
++    	CUDALIB = -L$(HIPDIR)/lib -lhip_hcc -lhipfft -lhiprand -lrocm_smi64 -lroctx64 $(PE_MPICH_GTL_DIR_amd_gfx90a) $(PE_MPICH_GTL_LIBS_amd_gfx90a) -lroctracer64
+     else
+-    	CUDALIB = -L$(HIPDIR)/lib -lamdhip64 -lhipfft -lrocfft -lhiprand -lroctx64 -lroctracer64
++    	CUDALIB = -L$(HIPDIR)/lib -lamdhip64 -lhipfft -lrocfft -lhiprand -lrocm_smi64 -lroctx64 $(PE_MPICH_GTL_DIR_amd_gfx90a) $(PE_MPICH_GTL_LIBS_amd_gfx90a) -lroctracer64
+     endif
+     # CHARMLD = -ld++ $(HIPCC)
+     CUDAFLAGS += -I$(HIPDIR)/include -I$(HIPDIR)/include/hipfft -I$(HIPDIR)/include/rocfft -I$(HIPDIR)/include/hiprand -I$(HIPDIR)/include/rocrand -I$(HIPDIR)/include/roctracer #-DDISABLE_P2P
+diff -Naur namd-release-3-0-beta-6/arch/Linux-x86_64.tcl namd-release-3-0-beta-6-lumi/arch/Linux-x86_64.tcl
+--- namd-release-3-0-beta-6/arch/Linux-x86_64.tcl	2024-01-20 18:21:50.000000000 +0200
++++ namd-release-3-0-beta-6-lumi/arch/Linux-x86_64.tcl	2024-03-05 17:33:38.000000000 +0200
+@@ -1,6 +1,6 @@
+ 
+ #TCLDIR=/Projects/namd2/tcl/tcl8.5.9-linux-x86_64
+-TCLDIR=/Projects/namd2/tcl/tcl8.6.13-linux-x86_64-threaded
++TCLDIR=$(EBROOTTCL)
+ TCLINCL=-I$(TCLDIR)/include
+ #TCLLIB=-L$(TCLDIR)/lib -ltcl8.5 -ldl
+ TCLLIB=-L$(TCLDIR)/lib -ltcl8.6 -ldl -lpthread
