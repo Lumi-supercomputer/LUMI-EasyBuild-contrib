@@ -15,7 +15,8 @@
 
 -   [PyTorch in the CSCS repository](https://github.com/eth-cscs/production/tree/master/easybuild/easyconfigs/p/PyTorch)
 
-### Version 1.12.1
+
+### Version 1.12.1 (archived)
 
 -   The EasyConfig is a LUST development and based on wheels rather than compiling
     ourselves due to the difficulties of compiling PyTorch correctly. We do however
