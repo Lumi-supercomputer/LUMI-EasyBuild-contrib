@@ -1,5 +1,7 @@
 # Based on EPCC recipe from https://github.com/ARCHER2-HPC/pe-scripts/blob/modules-2022-12/sh/petsc.sh
 # and https://gitlab.com/petsc/petsc/-/blob/main/config/examples/arch-olcf-frontier-opt.py
+#DOC Due to linking problems for which we have no solution, fewer external libraries are included
+#DOC than in the cpeGNU version.
 easyblock = 'ConfigureMake'
 
 name = 'PETSc'
