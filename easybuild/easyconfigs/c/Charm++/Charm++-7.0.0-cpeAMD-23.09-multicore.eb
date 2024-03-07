@@ -1,6 +1,7 @@
 # contributed by Luca Marsella and Jean-Guillaume Piccinali (CSCS)
 # Adapted by Kurt Lust (kurt.lust@uantwerpen.be) for the LUMI consortium
 # Adapted by Pierre Beaujean (pierre.beaujean@unamur.be) for 22.08
+# Adapted by Maceij Szpindler for 23.09
 
 easyblock = 'CmdCp'
 
