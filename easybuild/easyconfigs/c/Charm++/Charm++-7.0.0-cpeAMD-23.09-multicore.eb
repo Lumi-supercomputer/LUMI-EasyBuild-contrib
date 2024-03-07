@@ -1,0 +1,63 @@
+# contributed by Luca Marsella and Jean-Guillaume Piccinali (CSCS)
+# Adapted by Kurt Lust (kurt.lust@uantwerpen.be) for the LUMI consortium
+# Adapted by Pierre Beaujean (pierre.beaujean@unamur.be) for 22.08
+
+easyblock = 'CmdCp'
+
+name =          'Charm++'
+version =       '7.0.0'
+versionsuffix = '-multicore'
+
+homepage = 'http://charm.cs.illinois.edu/research/charm/'
+
+whatis = [
+    'Charm++ is a machine independent parallel programming system.'
+]
+
+description = """
+Charm++ is a machine independent parallel programming system. Programs
+written using this system will run unchanged on MIMD machines with or
+without a shared memory.
+"""
+
+toolchain = {'name': 'cpeAMD', 'version': '23.09'}
+toolchainopts = {'dynamic': False}
+
+source_urls = ['http://charm.cs.illinois.edu/distrib/']
+sources = ['charm-%(version)s.tar.gz']
+
+builddependencies = [
+    ('buildtools',   '%(toolchain_version)s', '', True),
+]
+
+local_charmpp_arch = 'multicore-linux-x86_64'
+
+local_config_and_build  = f' CXX=CC CC=cc ./buildold charm++ {local_charmpp_arch}'
+local_config_and_build += ' --build-shared'
+local_config_and_build += ' --with-production'
+local_config_and_build += ' -j12'
+
+cmds_map = [
+    ('charm-%(version)s.tar.gz', local_config_and_build),
+]
+
+files_to_copy = [local_charmpp_arch]
+
+sanity_check_paths = {
+    'files': [f'{local_charmpp_arch}/bin/charmc'],
+    'dirs':  [
+      f'{local_charmpp_arch}/bin', 
+      f'{local_charmpp_arch}/lib', 
+      f'{local_charmpp_arch}/include'
+    ],
+}
+
+modextrapaths = {
+    'PATH': f'{local_charmpp_arch}/bin'
+}
+
+modextravars = {
+    'EBTYPECHARMPLUSPLUS': f'{local_charmpp_arch}'
+}
+
+moduleclass = 'lib'
