@@ -31,7 +31,7 @@ docurls = [
 ]
 
 toolchain = {'name': 'cpeGNU', 'version': '23.09'}
-toolchainopts = {'usempi': True, 'openmp': False}
+toolchainopts = {'usempi': True, 'openmp': True}
 
 source_urls = ['https://elpa.mpcdf.mpg.de/software/tarball-archive/Releases/%(version)s/']
 sources =     ['elpa-%(version)s-patched.tar.gz']
@@ -49,7 +49,7 @@ dependencies = [
     ('rocm/5.2.3', EXTERNAL_MODULE),
 ]
 
-local_commonopts  = 'CPP=cpp CC=cc CXX=hipcc FC=ftn CFLAGS="-g $CFLAGS" FCFLAGS="-g $FCFLAGS" CXXFLAGS="-g --offload-arch=gfx90a --gcc-toolchain=$GCC_PATH/snos -std=c++17 -I$ROCM_PATH/include/hip -I$ROCM_PATH/include/rocblas -I$CRAY_MPICH_DIR/include" '
+local_commonopts  = 'CPP=cpp CC=cc CXX=hipcc FC=ftn CFLAGS="-fopenmp -g $CFLAGS" FCFLAGS="-fopenmp -g $FCFLAGS" CXXFLAGS="-fopenmp -g --offload-arch=gfx90a --gcc-toolchain=$GCC_PATH/snos -std=c++17 -I$ROCM_PATH/include/hip -I$ROCM_PATH/include/rocblas -I$CRAY_MPICH_DIR/include" '
 local_commonopts += '--enable-static '
 local_commonopts += '--disable-generic '
 local_commonopts += '--disable-sse '
@@ -61,7 +61,7 @@ local_commonopts += '--with-AMD-gpu-support-only '
 local_commonopts += '--enable-gpu-streams=amd '
 local_commonopts += '--enable-hipcub '
 local_commonopts += '--enable-single-precision '
-local_commonopts += '--disable-openmp '
+local_commonopts += '--enable-openmp '
 local_commonopts += '--with-mpi=yes '
 local_commonopts += '--enable-cuda-aware-mpi '
 local_commonopts += '--enable-marshalling-hipblas-library '

@@ -26,9 +26,9 @@ diff -Naur siesta/Obj/arch.make siesta-4.1.5/Obj/arch.make
 +FC = ftn
 +FC_SERIAL = gfortran
 +
-+FFLAGS = -g -O2 -fPIC -ftree-vectorize -mno-recip -fallow-argument-mismatch
++FFLAGS = -g -O2 -fopenmp -fPIC -ftree-vectorize -mno-recip -fallow-argument-mismatch
 +
-+CFLAGS = -g -O2 -fPIC
++CFLAGS = -g -O2 -fopenmp -fPIC
 +
 +AR = ar
 +RANLIB = ranlib
@@ -39,7 +39,7 @@ diff -Naur siesta/Obj/arch.make siesta-4.1.5/Obj/arch.make
 +DP_KIND = 8
 +KINDS = $(SP_KIND) $(DP_KIND)
 +
-+LDFLAGS = -g
++LDFLAGS = -g -fopenmp
 +
 +COMP_LIBS = libncdf.a libfdict.a libwxml.a libncdf.a libfdict.a 
 +
