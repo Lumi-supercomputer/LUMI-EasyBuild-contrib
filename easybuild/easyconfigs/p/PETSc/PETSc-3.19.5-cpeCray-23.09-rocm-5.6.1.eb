@@ -21,13 +21,12 @@ source_urls = [
 
 sources = [SOURCELOWER_TAR_GZ]
 
-# Fails to build with newer make versions (!?)
-#builddependencies = [('buildtools', '%(toolchain_version)s', '', True)]
 
 dependencies = [
+    ('rocm', '5.6.1', '', SYSTEM),
+    ('gcc-mixed/12.2.0', EXTERNAL_MODULE),
     ('cray-python/3.10.10', EXTERNAL_MODULE),
     ('cray-hdf5-parallel/1.12.2.7', EXTERNAL_MODULE),
-    ('rocm', '5.6.1', '', SYSTEM),
     ('buildtools', '%(toolchain_version)s', '', True),
     ('Boost', '1.82.0'),
 #    ('METIS', '5.1.0'),
@@ -39,7 +38,9 @@ dependencies = [
 #    ('SuperLU_DIST', '8.1.2', '-OpenMP'),
 ]
 
-preconfigopts =  'export CRAY_LD_LIBRARY_PATH=$GCC_PATH/snos/lib64:$CRAY_LD_LIBRARY_PATH && export LD_LIBRARY_PATH=$GCC_PATH/snos/lib64:$LD_LIBRARY_PATH && '
+# cc wrapper needs clean LD_LIBRARY_PATH to work with rocm/5.6.1
+preconfigopts =  'export LD_LIBRARY_PATH=$ROCM_PATH/lib && '
+preconfigopts += 'export LD_LIBRARY_PATH=$GCC_PATH/snos/lib64:$LD_LIBRARY_PATH && '
 
 configopts = '--PETSC_ARCH="$CRAY_CPU_TARGET-$CRAY_ACCEL_TARGET" '
 configopts += '--known-has-attribute-aligned=1 '
@@ -114,7 +115,9 @@ configopts += '--download-kokkos-kernels-cmake-arguments="-DKokkosKernels_ROCBLA
 configopts += '--LIBS="-lgfortran -lgcc -lstdc++ $PE_MPICH_GTL_DIR_amd_gfx90a $PE_MPICH_GTL_LIBS_amd_gfx90a" '
 
 
-prebuildopts = 'export LD_LIBRARY_PATH=$GCC_PATH/snos/lib64:$LD_LIBRARY_PATH && '
+# CC wrapper needs clean LD_LIBRARY_PATH to work with rocm/5.6.1
+prebuildopts =  'export LD_LIBRARY_PATH=$ROCM_PATH/lib && '
+prebuildopts += 'export LD_LIBRARY_PATH=$GCC_PATH/snos/lib64:$LD_LIBRARY_PATH && '
 
 # This is for checking if linking against the library is correct
 runtest = 'check_build MPIEXEC=exec V=1'
