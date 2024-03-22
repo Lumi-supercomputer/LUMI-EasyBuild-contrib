@@ -23,7 +23,7 @@ in space domain and pencil decomposition in frequency domain
   * The EasyConfig is derived from the CSCS one
   
  
-### Version 1.0.6 for 22.08 with GPU support
+### Version 1.0.6 for 22.08 and 23.09 with GPU support
 
   * The EasyConfig is an adaptation of the 1.0.5 one but now with GPU support
     enabled.

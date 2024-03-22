@@ -18,3 +18,8 @@
 
 -   The EasyConfig is a LUST development.
 
+
+### Version 2.6.6 for cpeGNU in 23.09 with GPU support
+
+-   Trivial port of the 2.6.2 EasyConfig with GPU support.
+

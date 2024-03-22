@@ -24,17 +24,20 @@
     the Python interpreter using a shebang that calls the ``python``
     executable.
 
+
 ## TODOs
 
 It is not clear from the documentation which linear algebra libraries
 should be used for the OpenMP versions of the code: Should we use the
 multithread version or the singlethread version?
 
+
 ## EasyBuild
 
   * [ELPA in the EasyBuilders repository](https://github.com/easybuilders/easybuild-easyconfigs/tree/develop/easybuild/easyconfigs/e/ELPA)
 
   * [ELPA in the CSCS repository](https://github.com/eth-cscs/production/tree/master/easybuild/easyconfigs/e/ELPA)
+
 
 ### 2021.05.002 for CPE 21.08 - Was in the central software stack
 
@@ -54,15 +57,27 @@ multithread version or the singlethread version?
 
   * the cpeCray version is without OpenMP support
 
+
 ### 2022.11.rc1 for cpeGNU 22.08
 
   * Trivial port of older EasyConfigs
+
 
 ### 2022.11 for cpeGNU 22.08
 
   * Trivial port of older EasyConfigs.
 
+
 ### 2023.05.001 GPU for 22.12
 
   * Supports GNU toolchain with ROCm (version agnostic)
+
   * No support for OpenMP (conficts with GPU stream implementation) 
+
+  
+### 2023.05.001 CPU for 23.09
+
+  * Based on previous EasyConfigs for the CPU version but with some refinements in 
+    the compiler options.
+  
+  

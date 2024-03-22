@@ -1,6 +1,10 @@
 # contributed by Luca Marsella (CSCS)
 # modified for LUMI-G by Peter Larsson
 # Bump to the latest version and CPE version by Radim Janalik (CSCS)
+#
+#DOC CP2K 2024.1 release compiled with AMD GPU support enabled for CP2K 
+#DOC itself and several of the libraries (SpFFT, SpLA). Cray Programming Environment 23.09 used together with 
+#DOC the unsupported `rocm/5.6.1` module installed by the LUMI Support Team.
 easyblock = 'MakeCp'
 
 name = 'CP2K'
@@ -42,7 +46,7 @@ dependencies = [
     ('spglib', '1.16.3'),
     ('cray-fftw', EXTERNAL_MODULE),
     ('cray-hdf5', EXTERNAL_MODULE),
-    ('COSMA','2.6.6'),
+    ('COSMA','2.6.6', '-GPU'),
     ('SPLA','1.5.5','-GPU'),
     ('SpFFT','1.0.6','-GPU'),
     ('GSL','2.7.1','-OpenMP')

@@ -5,6 +5,7 @@ easyblock = 'CMakeMake'
 
 name =    'COSMA'
 version = '2.6.6'
+versionsuffix = '-GPU'
 
 homepage = 'https://github.com/eth-cscs/COSMA'
 
