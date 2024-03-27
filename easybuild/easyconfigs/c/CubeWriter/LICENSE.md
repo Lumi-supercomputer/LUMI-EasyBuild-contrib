@@ -1,0 +1,1 @@
+The CubeWriter license agreement can be found [here](https://scalasca.org/scalasca/front_content.php?idart=1094).
