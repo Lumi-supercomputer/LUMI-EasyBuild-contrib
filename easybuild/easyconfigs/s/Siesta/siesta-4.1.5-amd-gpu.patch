@@ -1,0 +1,29 @@
+diff -Naur siesta-4.1.5-orig/Src/diag.F90 siesta-4.1.5/Src/diag.F90
+--- siesta-4.1.5-orig/Src/diag.F90	2021-01-27 13:36:19.000000000 +0200
++++ siesta-4.1.5/Src/diag.F90	2024-01-30 15:48:07.000000000 +0200
+@@ -542,10 +542,10 @@
+           call elpa_check(info, 'setup')
+ 
+           if (elpa_use_gpu) then
+-             call ELPAt%set('gpu', 1, info)
++             call ELPAt%set('amd-gpu', 1, info)
+              call elpa_check(info, 'gpu set')
+              if ( algorithm == ELPA_2stage ) then
+-                call ELPAt%set("complex_kernel",ELPA_2STAGE_COMPLEX_GPU,info) 
++                call ELPAt%set("complex_kernel",ELPA_2STAGE_COMPLEX_AMD_GPU,info) 
+                 call elpa_check(info, 'complex kernel gpu')
+              endif
+           endif
+@@ -1541,10 +1541,10 @@
+           call elpa_check(info, 'setup')
+ 
+           if (elpa_use_gpu) then
+-             call ELPAt%set('gpu', 1, info)
++             call ELPAt%set('amd-gpu', 1, info)
+              call elpa_check(info, 'gpu set')
+              if ( algorithm == ELPA_2stage ) then
+-                call ELPAt%set("real_kernel",ELPA_2STAGE_REAL_GPU,info) 
++                call ELPAt%set("real_kernel",ELPA_2STAGE_REAL_AMD_GPU,info) 
+                 call elpa_check(info, 'real kernel gpu')
+              endif
+           endif
