@@ -1,0 +1,79 @@
+# Created for LUMI by Orian Louant, adapted by Jan André Reuter (JSC, FZJ)
+easyblock = 'ConfigureMake'
+
+name = 'libbfd'
+version = '2.42'
+
+local_zlib_version = '1.2.13'
+
+homepage = 'https://directory.fsf.org/project/binutils/'
+
+whatis = [
+    'Description: The Binary File Descriptor library (libbfd) allows the '
+    'portable manipulation of object files'
+]
+
+description = """
+ BFD is a package which allows applications to use the same routines to operate
+ on object files whatever the object file format. A new object file format can
+ be supported simply by creating a new BFD back end and adding it to the library.
+
+ BFD is split into two parts: the front end, and the back ends (one for each
+ object file format).
+
+  - The front end of BFD provides the interface to the user. It manages memory
+    and various canonical data structures. The front end also decides which back
+    end to use and when to call back end routines.
+  - The back ends provide BFD its view of the real world. Each back end provides
+    a set of calls which the BFD front end can use to maintain its canonical
+    form. The back ends also may keep around information for their own use, for
+    greater efficiency.
+
+  This package also include libiberty as most tools requiring libbfd also
+  requires it.
+"""
+
+docurls = ['https://sourceware.org/binutils/docs-2.42/bfd.html']
+software_license_urls = ['https://www.gnu.org/licenses/gpl-3.0.html']
+
+toolchain = {'name': 'cpeAOCC', 'version': '23.09'}
+toolchainopts = {'pic': True}
+
+source_urls = ['https://ftpmirror.gnu.org/gnu/binutils']
+sources = ['binutils-%(version)s.tar.gz']
+checksums = ['5d2a6c1d49686a557869caae08b6c2e83699775efd27505e01b2f4db1a024ffc']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+    ('zlib', local_zlib_version),
+]
+
+configopts  = '--enable-shared --disable-static'
+buildopts   = 'all-bfd'
+install_cmd = 'make install-bfd'
+
+postinstallcmds = [
+    'rm -f %(installdir)s/lib/libbfd.la',
+    'cd libiberty; cc -fPIC -shared *.o -o libiberty.so',
+    'mkdir -p %(installdir)s/lib; cp libiberty/libiberty.{a,so} %(installdir)s/lib/',
+    'mkdir -p %(installdir)s/include; cp -a include/libiberty.h %(installdir)s/include/',
+    'mkdir -p %(installdir)s/include/libiberty; cp -a include/libiberty.h %(installdir)s/include/libiberty',
+]
+
+sanity_check_paths = {
+    'files': ['lib/libbfd.%s' % SHLIB_EXT],
+    'dirs': [],
+}
+
+modluafooter = """
+extensions( "libiberty/%(version)s")
+"""
+
+modextravars = {
+    'EBROOTLIBIBERTY': '%(installdir)s',
+}
+
+moduleclass = 'tools'
