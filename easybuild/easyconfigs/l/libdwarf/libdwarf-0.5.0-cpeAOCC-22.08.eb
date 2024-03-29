@@ -1,0 +1,48 @@
+# Created for LUMI by Orian Louant
+easyblock = 'ConfigureMake'
+
+name = 'libdwarf'
+version = '0.5.0'
+
+local_zlib_version = '1.2.12'
+
+homepage = 'https://www.prevanders.net/dwarf.html'
+
+whatis = [
+    'Description: libdwarf is a library to manipulate information '
+    'in the DWARF Debugging Information Format'
+]
+
+description = """
+ The DWARF Debugging Information Format is of interest to programmers working
+ on compilers and debuggers (and anyone interested in reading or writing DWARF
+ information)
+"""
+
+toolchain = {'name': 'cpeAOCC', 'version': '22.08'}
+toolchainopts = {'pic': True}
+
+source_urls = ['https://www.prevanders.net']
+sources = [SOURCE_TAR_XZ]
+checksums = ['11fa822c60317fa00e1a01a2ac9e8388f6693e8662ab72d352c5f50c7e0112a9']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+    ('zlib', local_zlib_version),
+]
+
+configopts  = '--enable-shared'
+
+postinstallcmds = [
+    'cp -a %(installdir)s/include/libdwarf*/*.h %(installdir)s/include/',
+]
+
+sanity_check_paths = {
+    'files': ['lib/libdwarf.%s' % SHLIB_EXT],
+    'dirs': ['include'],
+}
+
+moduleclass = 'tools'
