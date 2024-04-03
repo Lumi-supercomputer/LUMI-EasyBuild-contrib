@@ -1,0 +1,127 @@
+# Based on recipe from Rasmus Kronberg (CSC) 
+#
+easyblock = 'CMakeMake'
+
+name =          'GROMACS'
+version =       '2023.amd'
+versionsuffix = '-rocm-5.4.6'
+
+homepage = 'https://github.com/ROCmSoftwarePlatform/Gromacs'
+
+description = "GROMACS ROCm fork based on GROMACS 2023-dev (develop_2023_amd_sprint_rocm6 branch, https://github.com/amd/InfinityHub-CI/tree/main/gromacs/docker)"
+
+whatis = [
+    'Description: GROMACS is a versatile package to perform molecular dynamics, i.e. simulate the Newtonian equations of motion for systems with hundreds to millions of particles.',
+]
+
+toolchain = {'name': 'cpeAMD', 'version': '23.09'}
+toolchainopts = {'opt': True, 'usempi': True, 'verbose': False, 'pic': True, 'openmp': True}
+
+sources = [{
+    'filename': 'gromacs-amd.tar.gz',
+    'git_config': {
+        'url': 'https://github.com/ROCmSoftwarePlatform',
+        'repo_name': 'Gromacs',
+        'commit': '9f01a09a4356984d92aa034f871178e57ce03de5', # develop_2023_amd_sprint_rocm6
+    }
+}]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True), 
+]
+
+local_rocm_version = '5.4.6'
+
+dependencies = [
+    #('HeFFTe', '2.4.0', f'-rocm-{local_rocm_version}'),
+    #('Boost', '1.82.0'),
+    ('gcc-mixed/12.2.0', EXTERNAL_MODULE),
+    ('cray-fftw/3.3.10.5', EXTERNAL_MODULE),
+    ('cray-python/3.10.10', EXTERNAL_MODULE),
+    ('cray-libsci/23.09.1.1', EXTERNAL_MODULE),
+]
+
+# These options are taken from CSC installation developed by Rasmus adapted for AMD toolchain 
+
+configopts  = '-D CMAKE_BUILD_TYPE=Release '
+configopts += '-D ROCM_PATH=${ROCM_PATH} '
+#configopts += '-D CMAKE_C_COMPILER=${ROCM_PATH}/llvm/bin/clang '
+#configopts += '-D CMAKE_CXX_COMPILER=${ROCM_PATH}/llvm/bin/clang++ '
+configopts += '-D CMAKE_C_COMPILER=cc '
+configopts += '-D CMAKE_CXX_COMPILER=CC '
+#configopts += '-D CMAKE_PREFIX_PATH=${CRAY_MPICH_PREFIX}:${ROCM_PATH}/lib '
+configopts += '-D CMAKE_C_FLAGS="--gcc-toolchain=${GCC_PATH}/snos/" '
+configopts += '-D CMAKE_CXX_FLAGS="--gcc-toolchain=${GCC_PATH}/snos/" '
+configopts += '-D GMX_GPU=HIP '
+configopts += '-D GMX_MPI=ON '
+configopts += '-D GMX_OPENMP=ON '
+configopts += '-D GMX_USE_HEFFTE=OFF '
+configopts += '-D GMX_GPU_FFT_LIBRARY=VKFFT '
+configopts += '-D GMX_BUILD_OWN_FFTW=OFF '
+configopts += '-D GMX_BLAS_USER=${CRAY_LIBSCI_PREFIX_DIR}/lib/libsci_amd.so '
+configopts += '-D GMX_LAPACK_USER=${CRAY_LIBSCI_PREFIX_DIR}/lib/libsci_amd.so '
+configopts += '-D GMX_SIMD=AVX2_256 '
+configopts += '-D GMXAPI=OFF '
+configopts += '-D HIP_HIPCC_FLAGS="-O3 --amdgpu-target=gfx90a --save-temps --gcc-toolchain=${GCC_PATH}/snos/ -I${CRAY_MPICH_PREFIX}/include" '
+#configopts += '-D CMAKE_CXX_LINK_FLAGS="${PE_MPICH_GTL_DIR_amd_gfx90a}" '
+#configopts += '-D CMAKE_CXX_LINK_FLAGS=-L${MPICH_DIR}/lib '
+configopts += '-D MPI_CXX_LINK_FLAGS="${PE_MPICH_GTL_DIR_amd_gfx90a} -L${MPICH_DIR}/lib" '
+#configopts += '-D CMAKE_EXE_LINKER_FLAGS=-L${MPICH_DIR}/lib '
+#configopts += '-D HIP_CLANG_PARALLEL_BUILD_LINK_OPTIONS="-I$CRAY_MPICH_PREFIX/include --gcc-toolchain=${GCC_PATH}/snos/" '
+configopts += '-D CMAKE_HIP_ARCHITECTURES=gfx90a '
+configopts += '-D AMDGPU_TARGETS=gfx90a '
+configopts += '-D GPU_TARGETS=gfx90a '
+#configopts += '-D Heffte_ROOT=${EBROOTHEFFTE} '
+#configopts += '-D BUILD_SHARED_LIBS=OFF '
+configopts += '-D BUILD_TESTING=OFF '
+
+skipsteps = ['test']
+
+# This does what GMXRC.bash does except that it does not enable the command completion.
+modextravars = {
+    'GROMACS_DIR':     '%(installdir)s',
+    'GMXBIN':          '%(installdir)s/bin',
+    'GMXMAN':          '%(installdir)s/share/man',
+    'GMXDATA':         '%(installdir)s/share/data',
+    'GMXTOOLCHAINDIR': '%(installdir)s/share/cmake', # Defined in the standard script but not exported.
+}
+
+local_bash_completion = """
+[==[
+  if test -n "${BASH_VERSION+set}" && (complete) > /dev/null 2>&1; then
+    if (shopt -s extglob) > /dev/null 2>&1; then
+      shopt -s extglob ;
+      if [ -f $GMXBIN/gmx-completion.bash ]; then
+        source $GMXBIN/gmx-completion.bash ;
+        for cfile in $GMXBIN/gmx-completion-*.bash ; do
+          source $cfile ;
+        done ;
+      fi ;
+    fi ;
+  elif test -n "${ZSH_VERSION+set}" > /dev/null 2>&1 ; then
+    autoload bashcompinit ;
+    if (bashcompinit) > /dev/null 2>&1; then
+      bashcompinit ;
+      if [ -f $GMXBIN/gmx-completion.bash ]; then
+        source $GMXBIN/gmx-completion.bash ;
+        for cfile in $GMXBIN/gmx-completion-*.bash ; do
+          source $cfile ;
+        done ;
+      fi ;
+    fi ;
+  fi
+]==]
+"""
+
+local_csh_completion = '"echo \'Not implemented\'"'
+
+modluafooter = """
+prepend_path("LD_LIBRARY_PATH", pathJoin(os.getenv("ROCM_PATH"), "llvm/lib"))
+
+set_shell_function( 'gromacs-completion', %(bash_completion)s, %(csh_completion)s )
+""" % {
+    'bash_completion': local_bash_completion,
+    'csh_completion':  local_csh_completion,
+}
+
+moduleclass = 'bio'
