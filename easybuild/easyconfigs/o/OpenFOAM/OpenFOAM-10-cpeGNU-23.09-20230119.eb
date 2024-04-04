@@ -1,0 +1,86 @@
+# Version 9, based on instructions from Esko Järvinen, CSC
+# Updated to version 10 by Orian Louant
+
+easyblock = 'Binary'
+
+local_SCOTCH_version = '6.1.3'
+local_CGAL_version   = '4.12.2'
+
+local_version_tag = '20230119'
+
+name          = 'OpenFOAM'
+version       = '10'
+versionsuffix = f'-{local_version_tag}'
+
+homepage = 'http://www.openfoam.org/'
+
+whatis = [
+    'Description: The OpenFOAM (CFD software) distribution from the OpenFOAM Foundation'
+]
+
+description = """
+OpenFOAM is the leading free, open source software for computational fluid dynamics (CFD),
+owned by the OpenFOAM Foundation and distributed exclusively under the General Public Licence (GPL).
+The GPL gives users the freedom to modify and redistribute the software and a guarantee of continued
+free use, within the terms of the licence.
+"""
+
+usage = """
+To run OpenFOAM solvers on compute nodes use srun command:
+
+ srun foamSolverName -parallel
+
+in either job script for sbatch or directly within salloc session.
+
+Allrun scripts require some additional tweaking.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '23.09'}
+
+source_urls = ['https://github.com/OpenFOAM/OpenFOAM-%(version_major)s/archive/refs/tags']
+sources     = [f'{local_version_tag}.tar.gz']
+checksums   = ['86f8cb18d4f59812b129ce7d669e8ff498da442fbdb46705492fbba3cbda82ab']
+
+patches = [
+    ('wmake-rules-linux64Cray.patch', 1),
+]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+    ('cray-fftw', EXTERNAL_MODULE),
+    ('SCOTCH',    local_SCOTCH_version),
+    ('CGAL',      local_CGAL_version, '-OpenFOAM'),
+]
+
+unpack_options    = '--strip-components=1'
+extract_sources   = True
+buildininstalldir = True
+
+local_project_name = '%(version_major)s-%(toolchain_name)s-%(toolchain_version)s'
+
+install_cmd  = ' && '.join([
+    './bin/tools/foamConfigurePaths --scotchArchPath ${EBROOTSCOTCH} --projectName %s-%s' % (local_project_name, local_version_tag),
+    'sed -i \'136i    *cpeGNU*) version=%(version_major)s ;;\' ./bin/foamEtcFile',
+    'source ./etc/bashrc WM_COMPILER=Cray WM_MPLIB=CRAY-MPICH MPICH_DIR=${CRAY_MPICH_PREFIX}',
+    './Allwmake -j%(parallel)s',
+])
+
+sanity_check_paths = {
+    'files': [],
+    'dirs':  ['platforms/linux64CrayDPInt32Opt/bin', 'platforms/linux64CrayDPInt32Opt/lib'],
+}
+
+modextravars = {
+    'FOAM_BASH'       : '%(installdir)s/bashrc',
+    'MPI_BUFFER_SIZE' : '2000000000',
+}
+
+# source_sh fails, use execute as workaround
+modluafooter = """
+execute {cmd="source " .. pathJoin(root, "etc/bashrc") .. " WM_COMPILER=Cray WM_MPLIB=CRAY-MPICH", modeA={"load"}}
+"""
+
+moduleclass = 'cae'
