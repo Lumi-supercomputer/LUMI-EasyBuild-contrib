@@ -63,7 +63,9 @@ local_project_name = '%(version_major)s-%(toolchain_name)s-%(toolchain_version)s
 
 install_cmd  = ' && '.join([
     './bin/tools/foamConfigurePaths --scotchArchPath ${EBROOTSCOTCH} --projectName %s-%s' % (local_project_name, local_version_tag),
-    'sed -i \'136i    *cpeGNU*) version=%(version_major)s ;;\' ./bin/foamEtcFile',
+    # https://bugs.openfoam.org/view.php?id=3898
+    'sed -i \'159s/typeName/typeName_()/\' src/OpenFOAM/db/dictionary/entry/entryIO.C',
+    'sed -i \'136i    *cpeGNU*) version=%(version_major)s ;;\' ./bin/foamEtcFile',    
     'source ./etc/bashrc WM_COMPILER=Cray WM_MPLIB=CRAY-MPICH MPICH_DIR=${CRAY_MPICH_PREFIX}',
     './Allwmake -j%(parallel)s',
 ])
