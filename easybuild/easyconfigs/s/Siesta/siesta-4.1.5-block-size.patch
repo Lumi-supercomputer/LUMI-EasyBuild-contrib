@@ -6,7 +6,7 @@ diff -Naur siesta-4.1.5-orig/Src/parallel.F siesta-4.1.5/Src/parallel.F
        integer, save :: Nodes = 1
        integer, save :: PEXSINodes = 1
 -      integer, save :: BlockSize  = 24
-+      integer, save :: BlockSize  = 32
++      integer, save :: BlockSize  = 16
        integer, save :: ProcessorY = 1
        
        logical, save :: IOnode = .true.
@@ -18,7 +18,7 @@ diff -Naur siesta-4.1.5-orig/Src/parallelsubs.F siesta-4.1.5/Src/parallelsubs.F
  
        if (nuotot.gt.24*Nodes) then
 -        bs = 24
-+        bs = 32
++        bs = 16
        else if (nuotot.lt.Nodes) then
          bs = 1
        else
