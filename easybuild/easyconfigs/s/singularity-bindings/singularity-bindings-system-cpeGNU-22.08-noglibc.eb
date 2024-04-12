@@ -1,3 +1,5 @@
+#DOC Bindings to be used while 22.08 is the default version of the programming environment.
+
 easyblock = 'Bundle'
 
 local_craympich_version = '8.1.25'
