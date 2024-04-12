@@ -7,6 +7,6 @@ in modules that are useful outside trainings also such as
 
 Content of the newest versions:
 
--   mkfile: A simple tool to generate a file of given size.
+-   `mkfile`: A simple tool to generate a file of given size.
 
 
