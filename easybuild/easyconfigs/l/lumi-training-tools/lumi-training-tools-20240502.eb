@@ -1,5 +1,9 @@
 # Written by Kurt Lust for the LUMI consortium.
 #
+#DOC Tools used in the training notes and exercises of the 2-day training
+#DOC given by LUST in Amsterdam on May 2-3, 2024.
+#DOC Only includes mkfile, compiled with the system compiler and usable without CPE.
+#
 easyblock = 'Bundle'
 
 import os as local_os
@@ -7,7 +11,7 @@ import os as local_os
 local_LUMI_version =        '23.09'
 
 name =    'lumi-training-tools'
-version = '0.1'
+version = '20240502'
 
 homepage = '()'
 

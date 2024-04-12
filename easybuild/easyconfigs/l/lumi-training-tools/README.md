@@ -11,7 +11,7 @@
 
 ## EasyConfigs
 
-### Version 0.1
+### Version 20240502 - Amsterdam 2-day LUST training in May 2024
 
 -   Only includes the mkfile tool, but already uses a bundle for future
     extensions.
