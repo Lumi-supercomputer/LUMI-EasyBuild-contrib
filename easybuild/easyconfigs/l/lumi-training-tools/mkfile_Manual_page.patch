@@ -1,0 +1,25 @@
+# Patch: Re-edit the manual page to make it suitable for lumi-training-tools
+# Created by Kurt Lust
+# Command: diff -Nru mkfile.8.orig mkfile.8 >mkfile_Manual_page.patch
+--- mkfile.8.orig	2024-01-16 18:08:39.000000000 +0200
++++ mkfile.8	2024-01-16 18:09:46.000000000 +0200
+@@ -25,7 +25,7 @@
+ .\" $Id: mkfile.8,v 1.1 2013-06-22 08:49:54+09 hatanou Exp $
+ .\"
+ .Dd January 21, 2004
+-.Dt MKFILE 8
++.Dt MKFILE 1
+ .Os
+ .Sh NAME
+ .Nm mkfile
+@@ -55,10 +55,6 @@
+ Verbose.
+ Report the names and sizes of created files.
+ .El
+-.Sh SEE ALSO
+-.Xr swapon 2 ,
+-.Xr swapon 8 ,
+-.Xr mdconfig 8
+ .Sh HISTORY
+ A
+ .Nm
