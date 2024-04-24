@@ -15,7 +15,7 @@ AdaptiveCpp is the independent, community-driven modern platform for C++-based h
 """
 
 toolchain = {'name': 'cpeAMD', 'version': '23.09'}
-toolchainopts = {'verbose': False, 'openmp': True}
+toolchainopts = {'verbose': False, 'openmp': False}
 
 sources = [{
     'filename': '%(name)s-%(version)s.tar.gz',
