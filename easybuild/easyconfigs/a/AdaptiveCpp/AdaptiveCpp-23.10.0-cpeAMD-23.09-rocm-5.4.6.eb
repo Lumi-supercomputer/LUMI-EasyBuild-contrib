@@ -36,17 +36,6 @@ builddependencies = [
     ('Boost', '1.82.0'),
 ]
 
-# This is dirty fix for PrgEnv and custom rocm version
-preconfigopts  = 'module unload amd && '
-preconfigopts += 'module load rocm/5.4.6 && '
-preconfigopts += 'export PATH=${ROCM_PATH}/llvm/bin:$PATH && '
-preconfigopts += 'export C_INCLUDE_PATH=$ROCM_PATH/llvm/include && '
-preconfigopts += 'export CPLUS_INCLUDE_PATH=$ROCM_PATH/llvm/include && '
-preconfigopts += 'export CMAKE_LIBRARY_PATH=${ROCM_PATH}/llvm/lib:${ROCM_PATH}/lib:$CMAKE_LIBRARY_PATH && '
-preconfigopts += 'export CMAKE_PREFIX_PATH=${ROCM_PATH}/hip:${ROCM_PATH}:$CMAKE_PREFIX_PATH && '
-preconfigopts += 'export LIBRARY_PATH=${ROCM_PATH}/llvm/lib:${EBROOTBOOST}/lib:${EBROOTBUILDTOOLS}/lib:${ROCM_PATH}/lib && '
-preconfigopts += 'export LD_LIBRARY_PATH=${ROCM_PATH}/hsa/lib:${ROCM_PATH}/lib64:${ROCM_PATH}/lib:${ROCM_PATH}/llvm/lib:$LD_LIBRARY_PATH && '
-preconfigopts += 'export CRAY_LD_LIBRARY_PATH=${ROCM_PATH}/hsa/lib:${ROCM_PATH}/lib64:${ROCM_PATH}/lib:${ROCM_PATH}/llvm/lib:$CRAY_LD_LIBRARY_PATH && '
 
 
 configopts  = '-D ACPP_VERSION_SUFFIX={} '.format(versionsuffix)
