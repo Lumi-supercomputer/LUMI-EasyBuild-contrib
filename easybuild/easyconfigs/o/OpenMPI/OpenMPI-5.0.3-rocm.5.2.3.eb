@@ -1,3 +1,4 @@
+# Originally contributed by Luca Marsella (CSCS)
 # Contributed by Maciej Czuchry (Cyfronet)
 # Adapted by Maciej Szpindler for the LUMI toolchain
 easyblock = 'ConfigureMake'
