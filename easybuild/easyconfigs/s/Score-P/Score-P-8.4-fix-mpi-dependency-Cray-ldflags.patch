@@ -1,0 +1,19 @@
+Fixes make installcheck failing due to libraries incorrectly being parsed when
+generating library dependencies. This also caused any instrumentation with MPI
+to fail. This issue is only noticed with Crays ftn compiler.
+--- a/build-config/common/generate-library-dependencies.sh
++++ b/build-config/common/generate-library-dependencies.sh
+@@ -148,7 +148,12 @@ parse_la ()
+     done
+ 
+     for i in ${ldflags}; do
+-        printf '    ldflags.push_back( "%s" );\n' "${i}"
++        case ${i} in
++            -L*)
++                printf '    ldflags.push_back( "%s" );\n' "${i}" ;;
++            *)
++                printf '    ldflags.push_back( "-L%s" );\n' "${i}" ;;
++        esac
+     done
+ 
+     for i in ${rpath}; do
