@@ -74,3 +74,6 @@ https://develop.openfoam.com/Development/openfoam/-/wikis/building#easybuild
   * For now a trivial port of the 2212 EasyConfig
 
 
+### OpenFOAM.org 10
+
+  * Needed some patching compared to the very old version 9 EasyConfigs.
