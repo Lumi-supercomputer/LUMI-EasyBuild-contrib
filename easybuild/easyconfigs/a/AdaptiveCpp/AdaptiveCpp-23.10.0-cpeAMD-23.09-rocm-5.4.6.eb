@@ -1,0 +1,91 @@
+easyblock = 'CMakeMake'
+
+name =    'AdaptiveCpp'
+version = '23.10.0'
+versionsuffix = '-rocm-5.4.6'
+
+homepage = 'https://adaptivecpp.github.io/'
+
+whatis = [
+    "Description: Implementation of SYCL and C++ standard parallelism for CPUs and GPUs from all vendors: The independent, community-driven compiler for C++-based heterogeneous programming models."
+]
+
+description = """
+AdaptiveCpp is the independent, community-driven modern platform for C++-based heterogeneous programming models targeting CPUs and GPUs from all major vendors. 
+"""
+
+toolchain = {'name': 'cpeAMD', 'version': '23.09'}
+toolchainopts = {'verbose': False, 'openmp': False}
+
+sources = [{
+    'filename': '%(name)s-%(version)s.tar.gz',
+    'git_config': {
+        'url': 'https://github.com/AdaptiveCpp',
+        'repo_name': '%(name)s',
+        'commit': 'v%(version)s',
+    }
+}]
+
+dependencies = [
+    ('rocm/5.4.6', EXTERNAL_MODULE),
+    ('gcc-mixed/12.2.0', EXTERNAL_MODULE),
+]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+    ('Boost', '1.82.0'),
+]
+
+
+
+configopts  = '-D ACPP_VERSION_SUFFIX={} '.format(versionsuffix)
+configopts += '-D ROCM_PATH=$ROCM_PATH '
+configopts += '-D CMAKE_C_COMPILER=${ROCM_PATH}/llvm/bin/clang '
+configopts += '-D CMAKE_CXX_COMPILER=${ROCM_PATH}/llvm/bin/clang++ '
+configopts += '-D CMAKE_LIBRARY_PATH=${ROCM_PATH}/llvm/lib:${ROCM_PATH}/lib '
+configopts += '-D WITH_ACCELERATED_CPU=ON '
+configopts += '-D WITH_CPU_BACKEND=ON '
+configopts += '-D WITH_CUDA_BACKEND=OFF '
+configopts += '-D WITH_ROCM_BACKEND=ON '
+configopts += '-D WITH_OPENCL_BACKEND=OFF '
+configopts += '-D WITH_LEVEL_ZERO_BACKEND=OFF '
+configopts += '-D DEFAULT_GPU_ARCH=gfx90a '
+configopts += '-D AMDGPU_TARGETS="gfx90a" '
+configopts += '-D GPU_TARGETS="gfx90a" ' 
+configopts += '-D Boost_NO_BOOST_CMAKE=TRUE '
+configopts += '-D Boost_NO_SYSTEM_PATHS=TRUE '
+configopts += '-D WITH_SSCP_COMPILER=OFF ' 
+configopts += '-D ROCM_CXX_FLAGS="--gcc-toolchain=$GCC_PATH/snos/" '
+configopts += '-D LLVM_DIR=${ROCM_PATH}/llvm/lib/cmake/llvm/ '
+
+# This is dirty fix for PrgEnv and custom rocm version
+prebuildopts  = 'module unload amd && '
+prebuildopts += 'module load rocm/5.4.6 && '
+prebuildopts += 'export PATH=${ROCM_PATH}/llvm/bin:$PATH && '
+prebuildopts += 'export C_INCLUDE_PATH=$ROCM_PATH/llvm/include && '
+prebuildopts += 'export CPLUS_INCLUDE_PATH=$ROCM_PATH/llvm/include && '
+prebuildopts += 'export CMAKE_LIBRARY_PATH=${ROCM_PATH}/llvm/lib:${ROCM_PATH}/lib:$CMAKE_LIBRARY_PATH && '
+prebuildopts += 'export CMAKE_PREFIX_PATH=${ROCM_PATH}/hip:${ROCM_PATH}:$CMAKE_PREFIX_PATH && '
+prebuildopts += 'export LIBRARY_PATH=${ROCM_PATH}/llvm/lib:${EBROOTBOOST}/lib:${EBROOTBUILDTOOLS}/lib:${ROCM_PATH}/lib && '
+prebuildopts += 'export LD_LIBRARY_PATH=${ROCM_PATH}/hsa/lib:${ROCM_PATH}/lib64:${ROCM_PATH}/lib:${ROCM_PATH}/llvm/lib:$LD_LIBRARY_PATH && '
+prebuildopts += 'export CRAY_LD_LIBRARY_PATH=${ROCM_PATH}/hsa/lib:${ROCM_PATH}/lib64:${ROCM_PATH}/lib:${ROCM_PATH}/llvm/lib:$CRAY_LD_LIBRARY_PATH && '
+
+
+sanity_check_paths = {
+    'files': ['bin/acpp', 'include/AdaptiveCpp/sycl/sycl.hpp',
+              'lib/hipSYCL/librt-backend-omp.%s' % SHLIB_EXT,
+              'lib/hipSYCL/librt-backend-hip.%s' % SHLIB_EXT,
+              'lib/libacpp-clang.%s' % SHLIB_EXT,
+              'lib/libacpp-rt.%s' % SHLIB_EXT],
+    'dirs': ['include/AdaptiveCpp/CL', 'include/AdaptiveCpp/SYCL'],
+}
+sanity_check_commands = [
+    'acpp --help'
+]
+
+modextravars = {
+    'ACPP_TARGETS': 'hip:gfx90a',
+}
+
+moduleclass = 'compiler'
+
