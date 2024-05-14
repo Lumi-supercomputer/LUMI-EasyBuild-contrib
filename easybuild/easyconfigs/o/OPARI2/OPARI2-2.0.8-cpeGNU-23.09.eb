@@ -17,6 +17,11 @@ name = 'OPARI2'
 version = '2.0.8'
 
 homepage = 'https://www.score-p.org'
+
+whatis = [
+   'Description: OPARI2 is a source-to-source instrumentation tool for OpenMP and hybrid codes.'
+]
+
 description = """
 OPARI2, the successor of Forschungszentrum Juelich's OPARI, is a
 source-to-source instrumentation tool for OpenMP and hybrid codes.
