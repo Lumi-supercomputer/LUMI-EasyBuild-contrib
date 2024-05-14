@@ -6,7 +6,7 @@ version = '2.42'
 
 local_zlib_version = '1.2.13'
 
-homepage = 'https://directory.fsf.org/project/binutils/'
+homepage = 'https://www.gnu.org/software/binutils/'
 
 whatis = [
     'Description: The Binary File Descriptor library (libbfd) allows the '
