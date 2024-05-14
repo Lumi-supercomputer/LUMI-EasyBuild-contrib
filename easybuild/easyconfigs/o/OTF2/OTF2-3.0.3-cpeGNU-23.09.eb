@@ -17,6 +17,11 @@ name = 'OTF2'
 version = '3.0.3'
 
 homepage = 'https://www.score-p.org'
+
+whatis = [
+    'Description: OTF2 or Open Trace Format 2 is a highly scalable, memory efficient event trace data format plus support library.'
+]
+
 description = """
 The Open Trace Format 2 is a highly scalable, memory efficient event trace
 data format plus support library. It is the new standard trace format for
