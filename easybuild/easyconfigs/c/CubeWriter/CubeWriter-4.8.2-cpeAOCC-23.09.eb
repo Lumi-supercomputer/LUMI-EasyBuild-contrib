@@ -4,7 +4,7 @@
 # Copyright:: Copyright 2018-2024 Juelich Supercomputing Centre, Germany
 # Authors::   Markus Geimer <m.geimer@fz-juelich.de>
 #             Christian Feld <c.feld@fz-juelich.de>
-              Jan André Reuter <j.reuter@fz-juelich.de>
+#             Jan André Reuter <j.reuter@fz-juelich.de>
 # License::   3-clause BSD
 #
 # This work is based on experiences from the UNITE project
@@ -19,6 +19,11 @@ version = '4.8.2'
 local_zlib_version = '1.2.13'
 
 homepage = 'https://www.scalasca.org/software/cube-4.x/download.html'
+
+whatis = [
+    'Description: Cube is a performance report explorer, and CubeWriter its high-performance C Writer library',
+]
+
 description = """
 Cube, which is used as performance report explorer for Scalasca and Score-P,
 is a generic tool for displaying a multi-dimensional performance space
