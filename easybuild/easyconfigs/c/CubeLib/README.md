@@ -1,5 +1,4 @@
-CubeLib
-===
+# ubeLib
 
 - [CubeLib web site](https://www.scalasca.org/scalasca/software/cube-4.x/download.html)
 
@@ -11,3 +10,5 @@ The Cube 4.x series report explorer and the associated Cube4 data format is prov
 
 - [CubeLib support in the EasyBuilders repository](https://github.com/easybuilders/easybuild-easyconfigs/tree/develop/easybuild/easyconfigs/c/CubeLib)
 - [CubeLib support in the CSCS repository](https://github.com/easybuilders/CSCS/tree/master/easybuild/easyconfigs/c/CubeLib)
+
+

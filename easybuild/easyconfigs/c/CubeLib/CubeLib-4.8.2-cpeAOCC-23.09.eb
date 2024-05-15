@@ -19,6 +19,11 @@ version = '4.8.2'
 local_zlib_version = '1.2.13'
 
 homepage = 'https://www.scalasca.org/software/cube-4.x/download.html'
+
+whatis = [
+    'Description: Cube is a performance report explorer, and CubeLib its general purpose C++ library component and command-line tools'
+]
+
 description = """
 Cube, which is used as performance report explorer for Scalasca and Score-P,
 is a generic tool for displaying a multi-dimensional performance space
