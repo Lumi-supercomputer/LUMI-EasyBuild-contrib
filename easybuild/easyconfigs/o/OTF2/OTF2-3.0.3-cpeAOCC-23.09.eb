@@ -11,10 +11,12 @@
 # http://apps.fz-juelich.de/unite/
 ##
 
-easyblock = 'EB_Score_minus_P'
+easyblock = 'EB_Score_minus_P_minus_CPE'
 
-name = 'OTF2'
-version = '3.0.3'
+local_OTF2_version =         '3.0.3'         # https://www.vi-hps.org/projects/score-p/
+
+name =    'OTF2'
+version = local_OTF2_version
 
 homepage = 'https://www.score-p.org'
 
