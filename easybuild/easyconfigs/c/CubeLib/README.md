@@ -9,8 +9,11 @@ The Cube 4.x series report explorer and the associated Cube4 data format is prov
 
 ## EasyBuild support
 
-- [CubeLib support in the EasyBuilders repository](https://github.com/easybuilders/easybuild-easyconfigs/tree/develop/easybuild/easyconfigs/c/CubeLib)
-- [CubeLib support in the CSCS repository](https://github.com/easybuilders/CSCS/tree/master/easybuild/easyconfigs/c/CubeLib)
+-   [CubeLib support in the EasyBuilders repository](https://github.com/easybuilders/easybuild-easyconfigs/tree/develop/easybuild/easyconfigs/c/CubeLib)
+ 
+-   [CubeLib support in the CSCS repository](https://github.com/easybuilders/CSCS/tree/master/easybuild/easyconfigs/c/CubeLib)
+
+-   [CubeLib support in the JSC repository](https://github.com/easybuilders/JSC/tree/2024/Golden_Repo/c/CubeLib)
 
 
 ### Version 4.8.2 for CPE 23.09

@@ -15,8 +15,11 @@ it will avoid copying during unification of parallel event streams.
 
 ## EasyBuild support
 
-- [OTF2 support in the EasyBuilders repository](https://github.com/easybuilders/easybuild-easyconfigs/tree/develop/easybuild/easyconfigs/o/OTF2)
-- [OTF2 support in the CSCS repository](https://github.com/easybuilders/CSCS/tree/master/easybuild/easyconfigs/o/OTF2)
+-   [OTF2 support in the EasyBuilders repository](https://github.com/easybuilders/easybuild-easyconfigs/tree/develop/easybuild/easyconfigs/o/OTF2)
+
+-   [OTF2 support in the CSCS repository](https://github.com/easybuilders/CSCS/tree/master/easybuild/easyconfigs/o/OTF2)
+
+-   [OTF2 support in the JSC repository](https://github.com/easybuilders/JSC/tree/2024/Golden_Repo/o/OTF2)
 
 
 ### Version 3.0.3 for CPE 23.09
