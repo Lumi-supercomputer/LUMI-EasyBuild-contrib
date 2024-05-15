@@ -1,10 +1,12 @@
 # Created for LUMI by Orian Louant, adapted by Jan André Reuter (JSC, FZJ)
 easyblock = 'ConfigureMake'
 
-name = 'libbfd'
-version = '2.42'
+local_libbfd_version =       '2.42'          # https://ftp.gnu.org/gnu/binutils/
 
-local_zlib_version = '1.2.13'
+local_zlib_version =         '1.2.13'        # https://zlib.net/
+
+name =    'libbfd'
+version = local_libbfd_version
 
 homepage = 'https://www.gnu.org/software/binutils/'
 
