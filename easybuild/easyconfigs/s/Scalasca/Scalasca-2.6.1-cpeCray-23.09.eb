@@ -22,9 +22,14 @@ local_otf2_version = '3.0.3'
 local_scorep_version = '8.4'
 
 homepage = 'https://www.scalasca.org/'
+
+whatis = [
+    'Description: Scalasca is a tool to measure and analyse program runtime behaviour'
+]
+
 description = """
 Scalasca is a software tool that supports the performance optimization of
-parallel programs by measuring and analyzing their runtime behavior. The
+parallel programs by measuring and analysing their runtime behaviour. The
 analysis identifies potential performance bottlenecks -- in particular
 those concerning communication and synchronization -- and offers guidance
 in exploring their causes.
@@ -42,6 +47,7 @@ checksums = [
     'a0dbc3de82a6c0fe598de9e340513cff2882c199410a632d3a7f073ba921c7e7',  # scalasca-2.6.1.tar.gz
     '53fd1305f75b7552208ff5375d0d754eb97d3eec45f67e506e9b55d2b16361ac',  # Scalasca-2.6.1_nowarn_omp_pragmas.patch
 ]
+
 builddependencies = [
     ('CubeWriter', local_cubewriter_version),
 ]
@@ -69,7 +75,7 @@ modextravars = {
     # suitable file systems for tracing. If set, the file system of
     # trace measurements has to match at least one of the specified
     # file systems.
-    'SCAN_TRACE_FILESYS': '/scratch:/projappl:/flash'
+    'SCAN_TRACE_FILESYS': '/scratch:/projappl:/project:/flash'
 }
 
 moduleclass = 'perf'
