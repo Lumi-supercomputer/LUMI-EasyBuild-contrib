@@ -24,6 +24,11 @@ local_opari_version = '2.0.8'
 local_otf_version = '3.0.3'
 
 homepage = 'https://www.score-p.org'
+
+whatis = [
+    'Description: Score-P is a scalable performance measurement infrastructure for parallel codes',
+]
+
 description = """
 The Score-P measurement infrastructure is a highly scalable and easy-to-use
 tool suite for profiling, event tracing, and online analysis of HPC
