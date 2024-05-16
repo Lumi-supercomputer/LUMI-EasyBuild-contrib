@@ -39,6 +39,11 @@ tool suite for profiling, event tracing, and online analysis of HPC
 applications.
 """
 
+docurls = [
+    'Web-based documentation of the latest version at https://perftools.pages.jsc.fz-juelich.de/cicd/scorep/tags/latest/html/',
+    'On-system documentation in $EBROOTSCOREMINP/share/doc/scorep (after loading the module)',  
+]
+
 toolchain = {'name': 'cpeGNU', 'version': '23.09'}
 toolchainopts = {'pic': True, 'usempi': True, 'openmp': True}
 
