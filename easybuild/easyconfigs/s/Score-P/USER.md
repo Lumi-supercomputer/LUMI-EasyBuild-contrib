@@ -20,8 +20,9 @@ which builds up a graphical overview highlighting the role of several packages.
 
 Note that there are a few things to note on LUMI:
 
--   cpeGNU does not offer support for our HIP adapter, as we require a Clang based compiler. 
-    It is available for the others.
+-   We cannot yet support Score-P on the GPU nodes as there are ongoing compilation problems. 
+    It will also be impossible to offer the HIP adapter in the cpeGNU versions, 
+    as it requires a Clang based compiler.
 
 -   cpeAOCC offers support for the OpenMP Tools Interface and enables it by default. 
     This is an alternative to OPARI2 and provides support for a wider range of OpenMP. 
