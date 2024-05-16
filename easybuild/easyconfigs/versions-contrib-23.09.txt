@@ -10,6 +10,8 @@ local_cares_version =        '1.21.0'        # https://github.com/c-ares/c-ares/
 local_CDO_version =          '2.3.0'         # https://code.mpimet.mpg.de/projects/cdo/files
 local_CMOR_version =         '3.7.3'         # https://github.com/PCMDI/cmor/releases
 local_CppUnit =              '1.15.1'        # https://dev-www.libreoffice.org/src/
+local_CubeLib_version =      '4.8.2'         # https://www.scalasca.org/scalasca/software/cube-4.x/download.html
+local_CubeWriter_version =   '4.8.2'         # https://www.scalasca.org/scalasca/software/cube-4.x/download.html
 
 local_ecCodes_version =      '2.12.0'        # https://confluence.ecmwf.int/display/ECC/Releases
 
@@ -23,6 +25,7 @@ local_jsonc_version =        '0.16'          # https://github.com/json-c/json-c/
 
 local_libaio_version =       '0.3.113'       # https://pagure.io/libaio/releases
 local_libaio_libversion =    '1.0.2'         # Version for the .so file.
+local_libbfd_version =       '2.42'          # https://ftp.gnu.org/gnu/binutils/
 local_libdap_version =       '3.20.11'       # https://www.opendap.org/pub/source/
 local_libgeotiff_version =   '1.7.1'         # https://github.com/OSGeo/libgeotiff/releases
 local_libsodium_version =    '1.0.19'        # https://download.libsodium.org/libsodium/releases/
@@ -31,12 +34,16 @@ local_NCO_version =          '5.1.8'         # https://github.com/nco/nco/releas
 local_ncview_version =       '2.1.9'         # https://cirrus.ucsd.edu/~pierce/ncview/
 local_nlohmannjson_version = '3.11.2'        # https://github.com/nlohmann/json/releases
 
+local_OPARI2_version =       '2.0.8'         # https://www.vi-hps.org/projects/score-p/
 local_OpenPGM_version =      '5.2.122'       # https://code.google.com/archive/p/openpgm/downloads
+local_OTF2_version =         '3.0.3'         # https://www.vi-hps.org/projects/score-p/
 
 local_PLUMED2_8_version =    '2.8.3'         # https://github.com/plumed/plumed2/releases
 local_PLUMED2_9_version =    '2.9.0'         # https://github.com/plumed/plumed2/releases
 
 local_SAMtools_version =     '1.18'          # https://github.com/samtools/samtools/releases
+local_Scalasca_version =     '2.6.1'         # https://www.scalasca.org/scalasca/software/scalasca-2.x/download.html
+local_ScoreP_version =       '8.4'           # https://www.vi-hps.org/projects/score-p/
 local_SZ_version =           '2.1.12.5'      # https://github.com/szcompressor/SZ/releases
 
 local_VCFtools_version =     '0.1.16'        # https://github.com/vcftools/vcftools/releases
@@ -45,3 +52,5 @@ local_Xerces_version =       '3.2.5'         # https://xerces.apache.org/xerces-
 
 local_ZeroMQ_version =       '4.3.5'         # https://github.com/zeromq/libzmq/releases/
 local_zfp_version =          '1.0.0'         # https://github.com/LLNL/zfp/releases
+
+
