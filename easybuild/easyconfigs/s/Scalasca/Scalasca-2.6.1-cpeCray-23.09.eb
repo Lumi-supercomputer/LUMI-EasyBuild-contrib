@@ -13,13 +13,15 @@
 
 easyblock = 'ConfigureMake'
 
-name = 'Scalasca'
-version = '2.6.1'
+local_Scalasca_version =     '2.6.1'         # https://www.scalasca.org/scalasca/software/scalasca-2.x/download.html
 
-local_cubewriter_version = '4.8.2'
-local_cubelib_version = '4.8.2'
-local_otf2_version = '3.0.3'
-local_scorep_version = '8.4'
+local_CubeLib_version =      '4.8.2'         # https://www.scalasca.org/scalasca/software/cube-4.x/download.html
+local_CubeWriter_version =   '4.8.2'         # https://www.scalasca.org/scalasca/software/cube-4.x/download.html
+local_OTF2_version =         '3.0.3'         # https://www.vi-hps.org/projects/score-p/
+local_ScoreP_version =       '8.4'           # https://www.vi-hps.org/projects/score-p/
+
+name =    'Scalasca'
+version = local_Scalasca_version
 
 homepage = 'https://www.scalasca.org/'
 
@@ -49,13 +51,13 @@ checksums = [
 ]
 
 builddependencies = [
-    ('CubeWriter', local_cubewriter_version),
+    ('CubeWriter', local_CubeWriter_version),
 ]
 
 dependencies = [
-    ('CubeLib', local_cubelib_version),
-    ('OTF2', local_otf2_version),
-    ('Score-P', local_scorep_version),
+    ('CubeLib', local_CubeLib_version),
+    ('OTF2',    local_OTF2_version),
+    ('Score-P', local_ScoreP_version),
 ]
 
 sanity_check_paths = {

@@ -10,18 +10,22 @@
 # This work is based on experiences from the UNITE project
 # http://apps.fz-juelich.de/unite/
 ##
+#DOC Score-P without the HIP-adapter for the regular compute nodes.
+#DOC The build process takes a while (up to 1 hour) due to lengthy configure and postprocessing steps.
 
-easyblock = 'EB_Score_minus_P'
+easyblock = 'EB_Score_minus_P_minus_CPE'
 
-name = 'Score-P'
-version = '8.4'
+local_ScoreP_version =       '8.4'           # https://www.vi-hps.org/projects/score-p/
 
-local_cubelib_version = '4.8.2'
-local_cubewriter_version = '4.8.2'
-local_libunwind_version = '1.6.2'
-local_libbfd_version = '2.42'
-local_opari_version = '2.0.8'
-local_otf_version = '3.0.3'
+local_CubeLib_version =      '4.8.2'         # https://www.scalasca.org/scalasca/software/cube-4.x/download.html
+local_CubeWriter_version =   '4.8.2'         # https://www.scalasca.org/scalasca/software/cube-4.x/download.html
+local_libunwind_version  =   '1.6.2'         # http://download.savannah.nongnu.org/releases/libunwind/
+local_libbfd_version =       '2.42'          # https://ftp.gnu.org/gnu/binutils/
+local_OPARI2_version =       '2.0.8'         # https://www.vi-hps.org/projects/score-p/
+local_OTF2_version =         '3.0.3'         # https://www.vi-hps.org/projects/score-p/
+
+name =    'Score-P'
+version = local_ScoreP_version
 
 homepage = 'https://www.score-p.org'
 
@@ -47,23 +51,23 @@ checksums = [
 ]
 
 builddependencies = [
-    ('CubeLib', local_cubelib_version),
-    ('CubeWriter', local_cubewriter_version),
+    ('CubeLib',    local_CubeLib_version),
+    ('CubeWriter', local_CubeWriter_version),
     # Unwinding/sampling support (optional):
-    ('libunwind', local_libunwind_version),
+    ('libunwind',  local_libunwind_version),
 ]
 
 dependencies = [
-    ('OPARI2', local_opari_version),
-    ('OTF2',   local_otf_version),
+    ('OPARI2',          local_OPARI2_version),
+    ('OTF2',            local_OTF2_version),
     # Support for SHMEM
     ('cray-openshmemx', EXTERNAL_MODULE),
-    ('libbfd', local_libbfd_version),
+    ('libbfd',          local_libbfd_version),
     # Hardware counter support (optional):
-    ('papi', EXTERNAL_MODULE),
+    ('papi',            EXTERNAL_MODULE),
 ]
 
-configopts = '--enable-shared --disable-static --with-machine-name=LUMI '
+configopts  = '--enable-shared --disable-static --with-machine-name=LUMI '
 configopts += '--with-libpmi=/opt/cray/pe/pmi/default '
 configopts += '--with-papi-header=$CRAY_PAPI_PREFIX/include --with-papi-lib=$CRAY_PAPI_PREFIX/lib '
 # Make OMPT default, if available
