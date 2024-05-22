@@ -42,19 +42,20 @@ toolchain = {'name': 'cpeAMD', 'version': '23.09'}
 toolchainopts = {'pic': True}
 
 source_urls = ['https://ftpmirror.gnu.org/gnu/binutils']
-sources = ['binutils-%(version)s.tar.gz']
-checksums = ['5d2a6c1d49686a557869caae08b6c2e83699775efd27505e01b2f4db1a024ffc']
+sources =     ['binutils-%(version)s.tar.gz']
+checksums =   ['5d2a6c1d49686a557869caae08b6c2e83699775efd27505e01b2f4db1a024ffc']
 
 builddependencies = [
-    ('buildtools', '%(toolchain_version)s', '', True),
+    ('buildtools',    '%(toolchain_version)s', '', True),
+    #('craype/2.7.20', EXTERNAL_MODULE),  # Loading an older version of craype seems to solve some problems...
 ]
 
 dependencies = [
     ('zlib', local_zlib_version),
 ]
 
-configopts  = '--enable-shared --disable-static'
-buildopts   = 'all-bfd'
+configopts  = '--enable-shared --disable-static CPPFLAGS=""'
+buildopts   = 'all-bfd CPPFLAGS=""'
 install_cmd = 'make install-bfd'
 
 postinstallcmds = [
@@ -67,11 +68,11 @@ postinstallcmds = [
 
 sanity_check_paths = {
     'files': ['lib/libbfd.%s' % SHLIB_EXT],
-    'dirs': [],
+    'dirs':  [],
 }
 
 modluafooter = """
-extensions( "libiberty/%(version)s")
+extensions( 'libiberty/%(version)s' )
 """
 
 modextravars = {
