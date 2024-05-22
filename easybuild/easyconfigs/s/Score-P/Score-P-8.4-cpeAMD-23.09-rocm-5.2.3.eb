@@ -10,7 +10,6 @@
 # This work is based on experiences from the UNITE project
 # http://apps.fz-juelich.de/unite/
 ##
-#DOC This version has the HIP adapter and is the recommended cpeCray version for LUMI-G.
 
 easyblock = 'EB_Score_minus_P_minus_CPE'
 
@@ -43,13 +42,12 @@ docurls = [
     'Web-based documentation of the latest version at https://perftools.pages.jsc.fz-juelich.de/cicd/scorep/tags/latest/html/',
     'On-system documentation in $EBROOTSCOREMINP/share/doc/scorep (after loading the module)',  
 ]
-
-toolchain = {'name': 'cpeCray', 'version': '23.09'}
+toolchain = {'name': 'cpeAMD', 'version': '23.09'}
 toolchainopts = {'pic': True, 'usempi': True, 'openmp': True}
 
 source_urls = ['http://perftools.pages.jsc.fz-juelich.de/cicd/scorep/tags/scorep-%(version)s']
-sources = ['scorep-%(version)s.tar.gz']
-patches = ['Score-P-8.4-fix-mpi-dependency-Cray-ldflags.patch']
+sources =     ['scorep-%(version)s.tar.gz']
+patches =     ['Score-P-8.4-fix-mpi-dependency-Cray-ldflags.patch']
 checksums = [
     '7bbde9a0721d27cc6205baf13c1626833bcfbabb1f33b325a2d67976290f7f8a',  # scorep-8.4.tar.gz
     '5ad42c8c21334c55feb7fb7e25461ef91f063b2c49b33ed3fc0ea3b5ce109e8d'   # Score-P-8.4-fix-mpi-dependency-Cray-ldflags.patch
@@ -60,6 +58,7 @@ builddependencies = [
     ('CubeWriter', local_CubeWriter_version),
     # Unwinding/sampling support (optional):
     ('libunwind',  local_libunwind_version),
+    #('craype/2.7.20', EXTERNAL_MODULE),
 ]
 
 dependencies = [
@@ -70,14 +69,15 @@ dependencies = [
     ('libbfd',          local_libbfd_version),
     # Hardware counter support (optional):
     ('papi',            EXTERNAL_MODULE),
-    # Support for HIP adapter
-    ('rocm/5.2.3',      EXTERNAL_MODULE),
+    # Support for HIP adapter somehow is not provided if amd/5.2.3 is used.
+    ('rocm', EXTERNAL_MODULE),
 ]
 
 configopts  = '--enable-shared --disable-static --with-machine-name=LUMI '
 configopts += '--with-libpmi=/opt/cray/pe/pmi/default '
 configopts += '--with-papi-header=$CRAY_PAPI_PREFIX/include --with-papi-lib=$CRAY_PAPI_PREFIX/lib '
-configopts += '--with-rocm=$ROCM_PATH '
+# Add CFLAGS to prevent error of roctracer check due to path issues
+configopts += '--with-rocm=$ROCM_PATH CFLAGS="-isystem ${ROCM_PATH}/include/roctracer" '
 # Make OMPT default, if available
 configopts += '--enable-default=ompt '
 

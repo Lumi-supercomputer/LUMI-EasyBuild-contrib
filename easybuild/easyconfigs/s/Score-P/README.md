@@ -24,3 +24,10 @@ Score-P offers the user a maximum of convenience by supporting a number of analy
 
 -   The EasyConfig was contributed by Jan André Reuter from JSC as a direct 
     contribution of the developers.
+
+-   For now, the `make installcheck` cannot be used on `partition/G` due to some
+    problems when processing the include files. This problem will also play when
+    users try to use the package though...
+    
+-   For some reason, we still need to load the `rocm` module for the `cpeAMD` version
+    as otherwise `roctracer` is not correctly detected.
