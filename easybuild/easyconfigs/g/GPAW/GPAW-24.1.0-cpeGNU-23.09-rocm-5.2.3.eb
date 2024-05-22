@@ -1,0 +1,60 @@
+# This follows instructions from https://gitlab.com/trossi/gpaw/-/tree/update-lumi-docs
+easyblock = "PythonPackage"
+
+name = 'GPAW'
+version = '24.1.0'
+versionsuffix = '-rocm-5.2.3'
+
+homepage = 'https://wiki.fysik.dtu.dk/gpaw/'
+description = """GPAW is a density-functional theory (DFT) Python code based on the projector-augmented wave (PAW)
+ method and the atomic simulation environment (ASE). It uses real-space uniform grids and multigrid methods or
+ atom-centered basis-functions."""
+
+toolchain = {'name': 'cpeGNU', 'version': '23.09'}
+toolchainopts = {'usempi': True, 'openmp': False}
+
+sources = [{
+    'filename': '%(name)s-%(version)s.tar.gz',
+    'git_config': {
+        'url': 'https://gitlab.com/gpaw',
+        'repo_name': 'gpaw',
+        'commit': '%(version)s',
+    }
+}]
+
+patches = [
+   {'name': 'gpaw-gpu-disable-openmp.patch', 'level': 1},
+]
+
+dependencies = [
+    ('cray-python/3.10.10', EXTERNAL_MODULE),
+    ('cray-libsci/23.09.1.1', EXTERNAL_MODULE),
+    ('cray-fftw/3.3.10.5', EXTERNAL_MODULE),
+    ('rocm/5.2.3', EXTERNAL_MODULE),
+    ('CuPy', '12.2.0', '-rocm-5.2.3'),
+    ('libxc', '6.2.2'),
+    ('ELPA', '2023.11.001', '-rocm-5.2.3'),
+]
+
+prebuildopts = 'GPAW_CONFIG=doc/platforms/Cray/siteconfig-lumi-gpu.py '
+preinstallopts = prebuildopts
+
+download_dep_fail = False
+use_pip = True
+use_pip_for_deps = True
+pip_verbose = True
+pip_ignore_installed = False
+pip_no_index = False
+sanity_pip_check = True
+
+postinstallcmds = ['export PYTHONPATH=%(installdir)s/lib/python%(pyshortver)s/site-packages:$PYTHONPATH && %(installdir)s/bin/gpaw install-data --no-register %(installdir)s']
+
+sanity_check_paths = {
+    'files': ['bin/gpaw%s' % x for x in ['', '-analyse-basis', '-basis', '-plot-parallel-timings',
+                                         '-runscript', '-setup', '-upfplot']],
+    'dirs': ['lib/python%(pyshortver)s/site-packages']
+}
+
+modextravars = {'GPAW_SETUP_PATH': '%(installdir)s/gpaw-setups-%(version)s'}
+
+moduleclass = 'chem'
