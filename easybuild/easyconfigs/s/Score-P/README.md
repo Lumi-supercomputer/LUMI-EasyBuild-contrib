@@ -25,9 +25,14 @@ Score-P offers the user a maximum of convenience by supporting a number of analy
 -   The EasyConfig was contributed by Jan André Reuter from JSC as a direct 
     contribution of the developers.
 
--   For now, the `make installcheck` cannot be used on `partition/G` due to some
-    problems when processing the include files. This problem will also play when
-    users try to use the package though...
+-   For now, the package is not fully functional on LUMI-G. Basically, OpenMP
+    instrumentation via OPARI2 does not work if OpenMP offload is also enabled,
+    which happens if the `craype-accel-amd-gfx90a` module is loaded and the compiler
+    wrappers are used. This is likely due to some bad ordering of the include files
+    in that case.
     
 -   For some reason, we still need to load the `rocm` module for the `cpeAMD` version
-    as otherwise `roctracer` is not correctly detected.
+    as otherwise `roctracer` is not correctly detected. The `rocm` module does a few
+    initialisations of environment variables that the `amd` module does not do.
+    
+ 

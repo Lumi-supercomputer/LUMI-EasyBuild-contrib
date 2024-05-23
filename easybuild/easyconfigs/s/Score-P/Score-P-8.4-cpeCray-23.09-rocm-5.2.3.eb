@@ -81,8 +81,11 @@ configopts += '--with-rocm=$ROCM_PATH '
 # Make OMPT default, if available
 configopts += '--enable-default=ompt '
 
-# Disable installcheck to prevent failure when OPARI2 is used with Cray compiler wrappers
-# postinstallcmds = ['make installcheck']
+# The "make installcheck" fails OPARI2 is used with Cray compiler wrappers and a GPU target module
+# loaded, as some incompatible order of include files is used in those cases. Yet we want to
+# do whatever testing possible so we unload the craype-accel module (as this disabled the automatic
+# enablement of GPU offload).
+postinstallcmds = ['module unload craype-accel-amd-gfx90a && make installcheck V=1 VERBOSE=1']
 
 sanity_check_paths = {
     'files': ['bin/scorep', 'include/scorep/SCOREP_User.h',
