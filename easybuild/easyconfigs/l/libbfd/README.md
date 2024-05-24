@@ -35,3 +35,7 @@ requires it.
 
 -   Created for LUMI, contributed by Jan André Reuter of JSC.
   
+-   The cpeAMD version needed special care as preprocessor flags needed to be disabled.
+  
+    The older version of the `craype` module which Jan André Reuter used when contributing, doesn't seem 
+    to be needed though.

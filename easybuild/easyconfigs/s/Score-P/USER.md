@@ -20,9 +20,10 @@ which builds up a graphical overview highlighting the role of several packages.
 
 Note that there are a few things to note on LUMI:
 
--   We cannot yet support Score-P on the GPU nodes as there are ongoing compilation problems. 
-    It will also be impossible to offer the HIP adapter in the cpeGNU versions, 
-    as it requires a Clang based compiler.
+
+
+-   cpeGNU does not offer support for our HIP adapter, as we require a Clang based compiler. 
+    It is available for the others.
 
 -   cpeAOCC offers support for the OpenMP Tools Interface and enables it by default. 
     This is an alternative to OPARI2 and provides support for a wider range of OpenMP. 
@@ -31,3 +32,13 @@ Note that there are a few things to note on LUMI:
 
 -   We cannot yet provide CubeGui due to the complexity of the installation, and the AppImage
     provided by the developers also cannot be used on LUMI.
+
+-   On the LUMI-G nodes, the use of Score-P is currently limited unless you are an 
+    expert in figuring out compiler options and rewriting Makefiles. Not only is OpenMP
+    offload not supported with instrumentation, but enabling it by loading the GPU 
+    target module (loaded by default by `cpeCray` and `cpeAMD`) and using `-fopenmp`
+    causes problems with OPARI2 shown as errors about some include files. This is because
+    the wrappers load paths to include files in an order that the OPARI2-instrumented code
+    does not like and steers it to the wrong include files. If your code does not use 
+    OpenMP or you can compile without the GPU target module, or you use the OpenMP tools 
+    interface with the ROCm compilers from `cpeAMD`/`PrgEnv-amd`, it might work.
