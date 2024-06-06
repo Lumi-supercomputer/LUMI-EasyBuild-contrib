@@ -20,7 +20,13 @@ sources = [{
         'repo_name': 'gpaw',
         'commit': '%(version)s',
     }
-}]
+},
+{
+     'source_urls': ['https://wiki.fysik.dtu.dk/gpaw-files/'],
+     'filename': 'gpaw-setups-%(version)s.tar.gz',
+     'extract_cmd': 'mkdir -p %(installdir)s/gpaw-setups-%(version)s && tar xfvz %s -C %(installdir)s/gpaw-setups-%(version)s',
+}
+]
 
 patches = [
    {'name': 'gpaw-gpu-disable-openmp.patch', 'level': 1},
@@ -36,8 +42,7 @@ dependencies = [
     ('ELPA', '2023.11.001', '-rocm-5.2.3'),
 ]
 
-prebuildopts = 'GPAW_CONFIG=doc/platforms/Cray/siteconfig-lumi-gpu.py '
-preinstallopts = prebuildopts
+preinstallopts = 'GPAW_CONFIG=doc/platforms/Cray/siteconfig-lumi-gpu.py '
 
 download_dep_fail = False
 use_pip = True
@@ -47,7 +52,8 @@ pip_ignore_installed = False
 pip_no_index = False
 sanity_pip_check = True
 
-postinstallcmds = ['export PYTHONPATH=%(installdir)s/lib/python%(pyshortver)s/site-packages:$PYTHONPATH && %(installdir)s/bin/gpaw install-data --no-register %(installdir)s']
+#postinstallcmds = ['export PYTHONPATH=%(installdir)s/lib/python%(pyshortver)s/site-packages:$PYTHONPATH && %(installdir)s/bin/gpaw install-data --no-register %(installdir)s']
+#postinstallcmds = ['mkdir %(installdir)s/gpaw-setups-%(version)s && ']
 
 sanity_check_paths = {
     'files': ['bin/gpaw%s' % x for x in ['', '-analyse-basis', '-basis', '-plot-parallel-timings',
