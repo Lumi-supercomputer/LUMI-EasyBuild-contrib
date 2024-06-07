@@ -1,7 +1,7 @@
 diff -Naur siesta/Obj/arch.make siesta-4.1.5/Obj/arch.make
 --- siesta/Obj/arch.make	1970-01-01 02:00:00.000000000 +0200
 +++ siesta-4.1.5/Obj/arch.make	2023-12-08 16:36:17.000000000 +0200
-@@ -0,0 +1,75 @@
+@@ -0,0 +1,77 @@
 +# 
 +# Copyright (C) 1996-2016	The SIESTA group
 +#  This file is distributed under the terms of the
@@ -26,7 +26,9 @@ diff -Naur siesta/Obj/arch.make siesta-4.1.5/Obj/arch.make
 +FC = ftn
 +FC_SERIAL = gfortran
 +
-+FFLAGS = -O2 -fPIC -ftree-vectorize -mno-recip -fallow-argument-mismatch
++FFLAGS = -g -O2 -fPIC -ftree-vectorize -mno-recip -fallow-argument-mismatch
++
++CFLAGS = -g -O2 -fPIC
 +
 +AR = ar
 +RANLIB = ranlib
@@ -37,11 +39,11 @@ diff -Naur siesta/Obj/arch.make siesta-4.1.5/Obj/arch.make
 +DP_KIND = 8
 +KINDS = $(SP_KIND) $(DP_KIND)
 +
-+LDFLAGS =
++LDFLAGS = -g
 +
 +COMP_LIBS = libncdf.a libfdict.a libwxml.a libncdf.a libfdict.a 
 +
-+FPPFLAGS = $(DEFS_PREFIX)-DFC_HAVE_ABORT -DF2003 -DMPI -DCDF -DNCDF -DNCDF_4 -DNCDF_PARALLEL -DSIESTA__ELPA -I${EBROOTELPA}/include/elpa-2022.11.001/modules/ -DSIESTA__METIS
++FPPFLAGS = $(DEFS_PREFIX)-DFC_HAVE_ABORT -DF2003 -DMPI -DCDF -DNCDF -DNCDF_4 -DNCDF_PARALLEL -DSIESTA__ELPA -I${EBROOTELPA}/include/elpa-${EBVERSIONELPA}/modules/ -DSIESTA__METIS
 +
 +NETCDF_ROOT =
 +NETCDF_INCFLAGS =
