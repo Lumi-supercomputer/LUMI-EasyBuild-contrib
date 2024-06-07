@@ -1,0 +1,320 @@
+diff --git a/doc/platforms/Cray/lumi.rst b/doc/platforms/Cray/lumi.rst
+index 512da442a89339df6fca803e33eccbad62a16e67..6dea4da0b890e6c116f5cfa6cc11c56a526c0450 100644
+--- a/doc/platforms/Cray/lumi.rst
++++ b/doc/platforms/Cray/lumi.rst
+@@ -5,58 +5,173 @@ The ``lumi.csc.fi`` supercomputer
+ =================================
+ 
+ .. note::
+-   These instructions are up-to-date as of September 2023.
++   These instructions are up-to-date as of February 2024.
+ 
+-It is recommended to perform installation under the
+-``/projappl/project_...`` directory (see `LUMI user documentation
+-<https://docs.lumi-supercomputer.eu/storage/>`_). A separate installation
+-is needed for LUMI-C and LUMI-G.
++It is recommended to perform the installations under
++the ``/projappl/project_...`` directory
++(see `LUMI user documentation <https://docs.lumi-supercomputer.eu/storage/>`_).
++A separate installation is needed for LUMI-C and LUMI-G.
+ 
+ 
+ GPAW for LUMI-G
+ ===============
+ 
+-Load the following modules:
++First, install required libraries as EasyBuild modules
++(see `LUMI user documentation <https://docs.lumi-supercomputer.eu/software/installing/easybuild/>`_
++for detailed description):
+ 
+ .. code-block:: bash
+ 
+-  export EBU_USER_PREFIX=/scratch/project_465000538/GPAW/EasyBuild
++  # Setup environment
++  # TODO: use correct project_...
++  export EBU_USER_PREFIX=/projappl/project_.../EasyBuild
++  module load LUMI/22.12 partition/G
++  module load cpeGNU/22.12
++  module load rocm/5.2.3
++  module load EasyBuild-user
++
++  # Install CuPy
++  eb CuPy-12.2.0-cpeGNU-22.12.eb -r
++
++  # Install libxc
++  eb libxc-6.2.2-cpeGNU-22.12.eb -r
++
++The above EasyBuild setup is needed only once.
++
++Then, the following steps build GPAW in a Python virtual environment:
++
++.. code-block:: bash
++
++  # Create virtual environment
++  module load cray-python/3.9.13.1
++  python3 -m venv --system-site-packages venv-gpaw-gpu
++
++  # The following will insert environment setup to the beginning of venv/bin/activate
++  # TODO: use correct project_...
++  cp venv-gpaw-gpu/bin/activate venv-gpaw-gpu/bin/activate.old
++  cat << EOF > venv-gpaw-gpu/bin/activate
++  export EBU_USER_PREFIX=/projappl/project_.../EasyBuild
++  export GPAW_SETUP_PATH=/projappl/project_.../gpaw-setups-0.9.20000
+   module load LUMI/22.12 partition/G
+   module load cpeGNU/22.12
+-  module load craype-accel-amd-gfx90a
+   module load rocm/5.2.3
+   module load cray-python/3.9.13.1
+   module load cray-fftw/3.3.10.1
+-  module load ASE/3.22.1-cpeGNU-22.12
+-  module load CuPy/12.2.0-cpeGNU-22.12
+-  module load ELPA/2023.05.001-cpeGNU-22.12-GPU
+-  module load libxc/6.2.2-cpeGNU-22.12
++  module load CuPy/12.2.0-cpeGNU-22.12  # from EBU_USER_PREFIX
++  module load libxc/6.2.2-cpeGNU-22.12  # from EBU_USER_PREFIX
++  EOF
++  cat venv-gpaw-gpu/bin/activate.old >> venv-gpaw-gpu/bin/activate
++
++  # Activate venv
++  source venv-gpaw-gpu/bin/activate
++
++  # Install GPAW development version
++  git clone git@gitlab.com:gpaw/gpaw.git
++  export GPAW_CONFIG=$(readlink -f gpaw/doc/platforms/Cray/siteconfig-lumi-gpu.py)
++  cd gpaw
++  rm -rf build _gpaw.*.so gpaw.egg-info
++  pip install -v --log build-gpu.log .
++
++  # Install gpaw setups
++  # TODO: use correct project_...
++  gpaw install-data --no-register /projappl/project_...
++
++Note that above the siteconfig file is taken from the git clone.
++If you are not using installation through git, use the siteconfig file from here:
++:git:`~doc/platforms/Cray/siteconfig-lumi-gpu.py`.
++
++Interactive jobs can be run like this::
++
++  srun -A project_... -p small-g --nodes=1 --ntasks-per-node=1 --gpus-per-node=1 -t 0:30:00 --pty bash
++
++One-liner to run GPU tests::
++
++  n=1; sbatch -p small-g --nodes=1 --ntasks-per-node=$n --gpus-per-node=$n -t 00:30:00 -J pytest-gpu-$n -o %x.out --wrap="srun gpaw python -m pytest --pyargs gpaw -v -m gpu"
++
+ 
+-Create a virtual environment and activate it::
++Omnitrace
++---------
+ 
+-  python3 -m venv venv
+-  source venv/bin/activate
++To install `Omnitrace <https://github.com/AMDResearch/omnitrace>`_
++(if using custon ROCm, use the correct ROCm version of the installer)::
+ 
+-Clone the GPAW source code::
++  cd /projappl/project_...
++  wget https://github.com/AMDResearch/omnitrace/releases/download/v1.10.4/omnitrace-1.10.4-opensuse-15.4-ROCm-50200-PAPI-OMPT-Python3.sh
++  bash omnitrace-1.10.4-opensuse-15.4-ROCm-50200-PAPI-OMPT-Python3.sh
++
++To activate Omnitrace, source the env file (after activating GPAW venv)::
++
++  source /projappl/project_.../omnitrace-1.10.4-opensuse-15.4-ROCm-50200-PAPI-OMPT-Python3/share/omnitrace/setup-env.sh
++
++
++GPAW for LUMI-C
++===============
++
++First, install required libraries as EasyBuild modules
++(see `LUMI user documentation <https://docs.lumi-supercomputer.eu/software/installing/easybuild/>`_
++for detailed description):
++
++.. code-block:: bash
++
++  # Setup environment
++  # TODO: use correct project_...
++  export EBU_USER_PREFIX=/projappl/project_.../EasyBuild
++  module load LUMI/22.12 partition/C
++  module load cpeGNU/22.12
++  module load EasyBuild-user
++
++  # Install libxc
++  eb libxc-6.2.2-cpeGNU-22.12.eb -r
++
++The above EasyBuild setup is needed only once.
++
++Then, the following steps build GPAW in a Python virtual environment:
++
++.. code-block:: bash
++
++  # Create virtual environment
++  module load cray-python/3.9.13.1
++  python3 -m venv --system-site-packages venv-gpaw-cpu
++
++  # The following will insert environment setup to the beginning of venv/bin/activate
++  # TODO: use correct project_...
++  cp venv-gpaw-cpu/bin/activate venv-gpaw-cpu/bin/activate.old
++  cat << EOF > venv-gpaw-cpu/bin/activate
++  export EBU_USER_PREFIX=/projappl/project_.../EasyBuild
++  export GPAW_SETUP_PATH=/projappl/project_.../gpaw-setups-0.9.20000
++  module load LUMI/22.12 partition/C
++  module load cpeGNU/22.12
++  module load cray-python/3.9.13.1
++  module load cray-fftw/3.3.10.1
++  module load libxc/6.2.2-cpeGNU-22.12  # from EBU_USER_PREFIX
++  EOF
++  cat venv-gpaw-cpu/bin/activate.old >> venv-gpaw-cpu/bin/activate
+ 
+-  git clone git@gitlab.com:gpaw/gpaw
++  # Activate venv
++  source venv-gpaw-cpu/bin/activate
+ 
+-Copy this :git:`~doc/platforms/Cray/siteconfig-lumi-gpu.py` to
+-``gpaw/siteconfig.py`` and compile the C-code and the GPU kernels with::
++  # Install GPAW development version
++  git clone git@gitlab.com:gpaw/gpaw.git
++  export GPAW_CONFIG=$(readlink -f gpaw/doc/platforms/Cray/siteconfig-lumi-cpu.py)
++  cd gpaw
++  rm -rf build _gpaw.*.so gpaw.egg-info
++  pip install -v --log build-cpu.log .
+ 
+-  pip install -v -e gpaw/
++  # Install gpaw setups
++  # TODO: use correct project_...
++  gpaw install-data --no-register /projappl/project_...
+ 
+-Now insert the ``export EBU_USER_PREFIX=...`` line and all the ``module load``
+-lines from above into the start of your ``venv/bin/activate`` script so that
+-the modules are always loaded when you activate your new environment.
++Note that above the siteconfig file is taken from the git clone.
++If you are not using installation through git, use the siteconfig file from here:
++:git:`~doc/platforms/Cray/siteconfig-lumi-cpu.py`.
+ 
+ Interactive jobs can be run like this::
+ 
+-  srun -A project_465000538 -p small-g --nodes=1 --ntasks-per-node=2 --gpus-per-node=1 -t 0:30:00 --pty bash
++  srun -A project_... -p small --nodes=1 --ntasks-per-node=2 -t 0:30:00 --pty bash
+ 
+-To use Omnitrace, source this file???::
++One-liner to run tests::
+ 
+-  source /scratch/project_465000538/GPAW/omnitrace-1.10.2-opensuse-15.4-ROCm-50200-PAPI-OMPT-Python3/share/omnitrace/setup-env.sh
++  for n in 1 2 4 8; do sbatch -p small --nodes=1 --ntasks-per-node=$n -t 04:00:00 -J pytest-cpu-$n -o %x.out --wrap="srun gpaw python -m pytest --pyargs gpaw -v"; done
+ 
+ 
+ Configuring MyQueue
+diff --git a/doc/platforms/Cray/siteconfig-lumi-cpu.py b/doc/platforms/Cray/siteconfig-lumi-cpu.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..eb9d8841bf1bd4c0292680146abb1982201e8e47
+--- /dev/null
++++ b/doc/platforms/Cray/siteconfig-lumi-cpu.py
+@@ -0,0 +1,33 @@
++"""Custom GPAW siteconfig for LUMI-C."""
++
++parallel_python_interpreter = True
++
++mpi = True
++compiler = 'cc'
++compiler_args = []  # remove all default args
++libraries = []
++library_dirs = []
++include_dirs = []
++extra_compile_args = [
++    '-g',
++    '-O3',
++    '-fopenmp',
++    '-fPIC',
++    '-Wall',
++    '-Wno-stringop-overflow',  # suppress warnings from MPI_STATUSES_IGNORE
++    '-Werror',
++    ]
++extra_link_args = ['-fopenmp']
++
++# FFTW
++fftw = True
++libraries += ['fftw3']
++
++# ScaLAPACK
++# Note: required libraries are linked by compiler wrappers
++scalapack = True
++
++# Libxc
++libraries += ['xc']
++
++define_macros += [('GPAW_ASYNC', 1)]
+diff --git a/doc/platforms/Cray/siteconfig-lumi-gpu.py b/doc/platforms/Cray/siteconfig-lumi-gpu.py
+index 2ea30348f26b2bd9ce9e6a1e01297256fc22d044..3236fc0a5dcac2395bbbb2e0cb897d151e2ec24d 100644
+--- a/doc/platforms/Cray/siteconfig-lumi-gpu.py
++++ b/doc/platforms/Cray/siteconfig-lumi-gpu.py
+@@ -1,36 +1,24 @@
+ """Custom GPAW siteconfig for LUMI-G."""
+ 
++parallel_python_interpreter = True
++
+ mpi = True
+ compiler = 'cc'
++compiler_args = []  # remove all default args
+ libraries = []
+ library_dirs = []
+ include_dirs = []
+ extra_compile_args = [
++    '-g',
+     '-O3',
+-    '-march=native',
+-    '-mtune=native',
+-    '-mavx2',
+     '-fopenmp',
+     '-fPIC',
+     '-Wall',
+     '-Wno-stringop-overflow',  # suppress warnings from MPI_STATUSES_IGNORE
+-    '-DNDEBUG',
+-    '-g']
++    '-Werror',
++    ]
+ extra_link_args = ['-fopenmp']
+ 
+-# hip
+-gpu = True
+-gpu_target = 'hip-amd'
+-gpu_compiler = 'hipcc'
+-gpu_include_dirs = []
+-gpu_compile_args = ['--offload-arch=gfx90a', '-O3', '-g']
+-libraries += ['amdhip64', 'hipblas']
+-# define_macros += [('GPAW_GPU_AWARE_MPI', None)]
+-
+-# ELPA
+-elpa = True
+-libraries += ['elpa']
+-
+ # FFTW
+ fftw = True
+ libraries += ['fftw3']
+@@ -43,3 +31,15 @@ scalapack = True
+ libraries += ['xc']
+ 
+ define_macros += [('GPAW_ASYNC', 1)]
++
++# hip
++gpu = True
++gpu_target = 'hip-amd'
++gpu_compiler = 'hipcc'
++gpu_include_dirs = []
++gpu_compile_args = [
++    '-g',
++    '-O3',
++    '--offload-arch=gfx90a',
++    ]
++libraries += ['amdhip64', 'hipblas']
+diff --git a/gpaw/test/lcaotddft/test_molecule.py b/gpaw/test/lcaotddft/test_molecule.py
+index 3735564dc0c8a8fe06ef79a7b93831bee66c3d4a..cf66abf0f4e42ec895df0c1deac9ed19a05afcf4 100644
+--- a/gpaw/test/lcaotddft/test_molecule.py
++++ b/gpaw/test/lcaotddft/test_molecule.py
+@@ -277,7 +277,7 @@ def test_spinpol_dipole_moment(initialize_system, initialize_system_spinpol,
+     # so spin-paired and spin-polarized calculation should give same result
+     check_txt_data(module_tmp_path / 'dm.dat',
+                    module_tmp_path / 'spinpol' / 'dm.dat',
+-                   atol=1e-12)
++                   atol=1.0001e-12)
+ 
+ 
+ @pytest.mark.rttddft
+

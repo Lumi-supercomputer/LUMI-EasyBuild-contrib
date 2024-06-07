@@ -1,0 +1,17 @@
+diff -Naur gpaw/doc/platforms/Cray/siteconfig-lumi-gpu.py gpaw-update-lumi-docs/doc/platforms/Cray/siteconfig-lumi-gpu.py
+--- gpaw/doc/platforms/Cray/siteconfig-lumi-gpu.py	2024-05-22 15:22:29.000000000 +0300
++++ gpaw-update-lumi-docs/doc/platforms/Cray/siteconfig-lumi-gpu.py	2024-05-22 15:27:43.000000000 +0300
+@@ -10,13 +10,11 @@
+     '-march=native',
+     '-mtune=native',
+     '-mavx2',
+-    '-fopenmp',
+     '-fPIC',
+     '-Wall',
+     '-Wno-stringop-overflow',  # suppress warnings from MPI_STATUSES_IGNORE
+     '-DNDEBUG',
+     '-g']
+-extra_link_args = ['-fopenmp']
+ 
+ # hip
+ gpu = True
