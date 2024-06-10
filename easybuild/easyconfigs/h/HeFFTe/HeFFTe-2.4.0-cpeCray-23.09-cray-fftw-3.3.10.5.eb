@@ -1,0 +1,58 @@
+easyblock = 'CMakeMake'
+
+local_craypython_version = '3.10.10'
+local_crayfftw_version = '3.3.10.5'
+
+name = 'HeFFTe'
+version = '2.4.0'
+versionsuffix = f'-cray-fftw-{local_crayfftw_version}'
+
+homepage = 'https://icl.utk.edu/fft'
+description = "Highly Efficient FFT for Exascale (HeFFTe) library"
+
+toolchain = {'name': 'cpeCray', 'version': '23.09'}
+
+sources = {
+        'download_filename': 'v%(version)s.tar.gz',
+        'filename':          SOURCELOWER_TAR_GZ,
+        'source_urls':       ['https://github.com/icl-utk-edu/heffte/archive/refs/tags/']
+}
+
+patches = [
+    ('0001-switch-to-using-openmp-target-in-cmake-47.patch', 1)
+]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True), 
+]
+
+dependencies = [
+    (f'cray-python/{local_craypython_version}', EXTERNAL_MODULE),
+    (f'cray-fftw/{local_crayfftw_version}', EXTERNAL_MODULE),
+    ('gcc-mixed/12.2.0', EXTERNAL_MODULE),
+]
+
+build_shared_libs = True
+
+configopts  = '-D CMAKE_BUILD_TYPE=Release '
+configopts += '-D Heffte_ENABLE_AVX=ON '
+configopts += '-D Heffte_ENABLE_FFTW=ON '
+configopts += '-D Heffte_ENABLE_PYTHON=ON '
+configopts += '-D CMAKE_CXX_COMPILER=CC '
+configopts += '-D MPI_CXX_COMPILER=CC '
+configopts += '-D CMAKE_CXX_FLAGS="--gcc-toolchain=${GCC_PATH}/snos/" '
+
+sanity_check_paths = {
+    'files': ['lib/libheffte.%s' % SHLIB_EXT],
+    'dirs': ['include', 'lib/cmake/Heffte', 'share/heffte/examples'],
+}
+
+moduleclass = 'lib'
+
+# Define the post-install commands to copy the benchmark binaries
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/heffte/benchmarks',
+    'cp benchmarks/speed3d_c2c %(installdir)s/share/heffte/benchmarks/',
+    'cp benchmarks/speed3d_r2c %(installdir)s/share/heffte/benchmarks/',
+    'cp benchmarks/speed3d_r2r %(installdir)s/share/heffte/benchmarks/',
+]
