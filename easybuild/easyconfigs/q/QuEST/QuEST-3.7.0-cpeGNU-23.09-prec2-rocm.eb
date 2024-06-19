@@ -86,11 +86,11 @@ EOF
 # for the intended LUMI partition. The second one just produces a bit more information
 # in the log files for debugging.
 configopts  = '-DOVERWRITE_DEFAULT_COMPILER_OPTS=OFF -DCMAKE_VERBOSE_MAKEFILE=ON '
-# Turn multithreading via OpenMP ON or OFF.
+# Turn multithreading via OpenMP OFF (not compatible with GPU).
 configopts += '-DMULTITHREADED=OFF '
-# Turn MPI support ON or OFF.
+# Turn MPI support OFF (not compatible with GPU).
 configopts += '-DDISTRIBUTED=OFF '
-# QuEST GPU compuring is not supported on LUMI since it is CUDA-based.
+# GPU options
 configopts += '-DGPUACCELERATED=ON '
 configopts += '-DUSE_HIP=ON '
 configopts += '-DGPU_ARCH=gfx90a '
