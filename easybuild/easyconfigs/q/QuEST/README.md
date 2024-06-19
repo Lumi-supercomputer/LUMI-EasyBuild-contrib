@@ -61,3 +61,12 @@ LUMI GPU partition.
 
   * Not updated yet as it is not clear if this is being used and as the previous
     fixes need to be modified as the CMake build process has changed.
+
+
+### Version 3.7.0 for cpeGNU 23.09
+
+  * Patch step for the `CMakeLists.txt` is now done as a preconfig step.
+
+  * The CPU variant `hybrid-prec2` is a simple version bump from 3.3.0 to 3.7.0
+
+  * QuEST now supports HIP therefore a new GPU variant is provided (`prec2-rocm`)
