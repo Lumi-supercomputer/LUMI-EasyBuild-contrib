@@ -71,6 +71,8 @@ There might be several installations of the same VASP version to choose from: `b
 
 * `VASP-5.4.4.pl2.build02-cpeGNU-22.08.eb`. This VASP has patches to read POTCAR files in read-only mode, which lessens the load on the LUMI parallel file systems. In some cases, VASP 5 could stall for 10 minutes at startup just reading input files.
 * `VASP-6.3.2.build02-cpeGNU-22.08.eb`. VASP 6.3.2 with similar I/O patches to behave more nicely towards the parallel file system. We recommend that you use this version, especially if you work with HDF5 files in VASP. Passes the VASP test
+* `VASP-6.3.2.build02-cpeGNU-23.09.eb`. Update of above to 23.09. It does not pass the VASP test suite. Do not use unless you have verified the results.
+* `VASP-6.3.2.build03-cpeGNU-23.09.eb`. Recompiled with CPE 23.09 using gcc 11 and -O2 optimization. Now it passes the VASP test suite.
 * `VASP-6.4.1-cpeGNU-22.12-build01.eb`. VASP 6.4.1 release version built without any modifications. Passes the VASP test suite
 * `VASP-6.4.1-cpeGNU-22.12-build02.eb`. VASP 6.4.1 with POTCAR and HDF5 I/O patches. Passes the VASP test suite
 * `VASP-6.4.2-cpeGNU-23.09-build01.eb`. VASP 6.4.2 release version built without any modifications. Passes the VASP test suite
