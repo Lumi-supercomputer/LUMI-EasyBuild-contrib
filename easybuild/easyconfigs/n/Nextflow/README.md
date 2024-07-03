@@ -9,3 +9,17 @@
 * Nextflow can deploy workflows on a variety of execution platforms, including your local machine, HPC schedulers, AWS Batch, Azure Batch, Google cloud Batch, and Kubernetes.
 * It also supports many ways to manage your software dependencies, including Conda, Spack, Docker, Podman, Singularity, and more.
 
+## EasyBuild
+
+* No Nextflow support in the EasyBuilders repository
+
+## Installation
+
+* Install Nextflow
+
+  ```bash
+
+  curl -s https://get.nextflow.io | bash
+
+  ```
+
