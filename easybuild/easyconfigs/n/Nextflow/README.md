@@ -46,3 +46,8 @@ export PATH=/projappl/project-<>/software:$PATH
 nextflow info
 ```
 
+## Citation
+
+If you use Nextflow in your work, please cite
+
+* P. Di Tommaso, et al. Nextflow enables reproducible computational workflows. Nature Biotechnology 35, 316-319 (2017) doi:[10.1038/nbt.3820](https://www.nature.com/articles/nbt.3820)
