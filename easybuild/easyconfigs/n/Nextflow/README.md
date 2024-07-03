@@ -15,11 +15,32 @@
 
 ## Installation
 
+**Note:** It is highly recommeded to install software in the `/projappl/project-<>` folder (where `project-<>` refers to your own project account e.g., `project-46xxxxxxx`). It is also a good practice to create a separate `software` directory where you can install your own software.
+
 * Install Nextflow
 
-  ```bash
-
+```bash
   curl -s https://get.nextflow.io | bash
+```
+This will create the `nextflow` executable in the current directory
 
-  ```
+* Make Nextflow executable
+
+```bash
+chomd +x nextflow
+```
+
+* Set the executable path for using Nextflow.
+
+*Note: You will also need to set the path in the bash script that you use to submit the job*
+
+```bash
+export PATH=/projappl/project-<>/software:$PATH
+```
+
+* Confirm that Nextflow is installed correctly
+
+```bash
+nextflow info
+```
 
