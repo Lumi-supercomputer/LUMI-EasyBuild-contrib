@@ -21,6 +21,7 @@
 
 ```bash
 cd /projappl/project-<>/software
+
 curl -s https://get.nextflow.io | bash
 ```
 This will create the `nextflow` executable in the current directory
