@@ -1,0 +1,28 @@
+--- elpa-2023.11.001/src/GPU/ROCm/rocmFunctions_template_orig.h	2024-02-15 15:29:33.000000000 +0200
++++ elpa-2023.11.001/src/GPU/ROCm/rocmFunctions_template.h	2024-02-15 15:30:19.000000000 +0200
+@@ -291,14 +291,9 @@
+ 
+ #ifdef WITH_AMD_GPU_VERSION
+ extern "C" {
+-  int hipStreamCreateFromC(hipStream_t *rocblasStream) {
+-    //*stream = (intptr_t) malloc(sizeof(hipStream_t));
+-
+-    if (sizeof(intptr_t) != sizeof(hipStream_t)) {
+-      printf("Stream sizes do not match \n");
+-    }
+-
+-    hipError_t status = hipStreamCreate(rocblasStream);
++  int hipStreamCreateFromC(intptr_t *stream) {
++    *stream = (intptr_t) malloc(sizeof(hipStream_t));
++    hipError_t status = hipStreamCreate((hipStream_t*) *stream);
+     if (status == hipSuccess) {
+ //       printf("all OK\n");
+       return 1;
+@@ -310,6 +305,7 @@
+ 
+   }
+ 
++
+   int hipStreamDestroyFromC(hipStream_t rocblasStream){
+     hipError_t status = hipStreamDestroy(rocblasStream);
+     //*stream = (intptr_t) NULL;
