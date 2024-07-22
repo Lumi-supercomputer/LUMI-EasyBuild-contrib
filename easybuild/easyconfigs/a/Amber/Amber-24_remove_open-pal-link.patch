@@ -1,0 +1,10 @@
+--- amber24_src/src/pmemd/src/cuda/CMakeLists.txt	2024-04-29 20:47:47.000000000 +0300
++++ amber24_src_patched/src/pmemd/src/cuda/CMakeLists.txt	2024-06-27 22:26:47.000000000 +0300
+@@ -81,7 +81,6 @@
+ 		if(HIP AND HIP_RDC)
+ 			set_property(TARGET pmemd_cuda_${PRECISION}_mpi PROPERTY LINKER_LANGUAGE HIP)
+ 			install(TARGETS pmemd_cuda_${PRECISION}_mpi DESTINATION ${LIBDIR} COMPONENT pmemd_CUDA)
+-            target_link_libraries(pmemd_cuda_${PRECISION}_mpi open-pal)
+ 		endif()
+ 
+ 		#pass the precision define to the non-CUDA sources
