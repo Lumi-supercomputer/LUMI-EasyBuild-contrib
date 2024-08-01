@@ -26,8 +26,6 @@ dependencies = [
     ('PETSc', '3.19.5'),
 ]
 
-with_configure = True
-
 preconfigopts = 'sed -i "s/-ansi/-traditional/" configure && sed -i "s/\*ftn\* |//" configure && '
 
 configopts = 'FC=ftn CC=cc MPIFC=ftn MPICC=cc FCFLAGS="-O2 -ftree-vectorize -fno-math-errno -fopenmp -fallow-argument-mismatch" CPP="cpp -P" FPP="cpp -P -traditional" --enable-hdf5-par-io '
