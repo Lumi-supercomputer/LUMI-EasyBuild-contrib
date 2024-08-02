@@ -43,13 +43,13 @@ configopts += '--with-libxc-libs="-L$EBROOTLIBXC/lib64 -lxcf90 -lxcf03 -lxc" '
 configopts += '--with-libxc-libdir="$EBROOTLIBXC/lib64" '
 configopts += '--with-libxc-includedir="$EBROOTLIBXC/include" '
 configopts += '--with-petsc-path="$EBROOTPETSC" '
-#configopts += '--enable-slepc-linalg '
 
 prebuildopts = 'unset LIBS && '
 
 buildopts = 'all'
-#buildopts = 'core'
 
+# This is to avoid removing binaries that `make all` puts in the install dir
+# instead of `make install` which is not implemented
 install_cmd = 'echo'
 keeppreviousinstall = True
 
