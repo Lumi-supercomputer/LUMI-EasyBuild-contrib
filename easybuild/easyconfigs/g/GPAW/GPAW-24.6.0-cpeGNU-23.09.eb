@@ -1,9 +1,7 @@
-# This follows instructions from https://gitlab.com/trossi/gpaw/-/tree/update-lumi-docs
 easyblock = "PythonPackage"
 
 name = 'GPAW'
-version = '24.1.0'
-versionsuffix = '-rocm-5.2.3'
+version = '24.6.0'
 
 homepage = 'https://wiki.fysik.dtu.dk/gpaw/'
 description = """GPAW is a density-functional theory (DFT) Python code based on the projector-augmented wave (PAW)
@@ -11,43 +9,36 @@ description = """GPAW is a density-functional theory (DFT) Python code based on 
  atom-centered basis-functions."""
 
 toolchain = {'name': 'cpeGNU', 'version': '23.09'}
-toolchainopts = {'usempi': True, 'openmp': False}
+toolchainopts = {'usempi': True, 'openmp': True}
 
 sources = [{
-    'filename': '%(name)s-%(version)s.tar.gz',
-    'git_config': {
-        'url': 'https://gitlab.com/gpaw',
-        'repo_name': 'gpaw',
-        'commit': '%(version)s',
-    }
+     'filename': SOURCELOWER_TAR_GZ,
+     'source_urls': [PYPI_LOWER_SOURCE],
 },
 {
-     'filename': 'gpaw-setups-%(version)s.tar.gz',
+     'filename': 'gpaw-setups-24.1.0.tar.gz',
      'source_urls': ['https://wiki.fysik.dtu.dk/gpaw-files/'],
 }
 ]
-
 patches = [
-   {'name': 'gpaw-gpu-disable-openmp.patch', 'level': 1},
+   {'name': 'GPAW-24.1.0-siteconfig-cpu.patch', 'level': 1},
+   {'name': 'GPAW-24.6.0-fix-ase-version.patch', 'level': 1},
 ]
-
 checksums = [
-    '38d2f53cf00dd9b2f21fcf032d17f783d640105ee8544e897d260b429ea7ed07',
-    '314d43168f7b57a2d942855d3d5ad21da9ef74e772d37343d416305113a95c23',
-    '152648015971fc9ddc33a16769bb17acb90eacfa38d4b9c49aa91c4c2a99da2a',
+    {'gpaw-24.6.0.tar.gz': 'fb48ef0db48c0e321ce5967126a47900bba20c7efb420d6e7b5459983bd8f6f6'},
+    {'gpaw-setups-24.1.0.tar.gz': '314d43168f7b57a2d942855d3d5ad21da9ef74e772d37343d416305113a95c23'},
+    {'GPAW-24.1.0-siteconfig-cpu.patch': '456bef91d3ed7fb40d0e136c6a39810d4e68f818c8e177541ee64dda06408bf6'},
+    {'GPAW-24.6.0-fix-ase-version.patch': 'df4d2611daadcb509ca65964cfccfbbd9a4f6244807a1025bd9054080ca5b5ff'},
 ]
 
 dependencies = [
     ('cray-python/3.10.10', EXTERNAL_MODULE),
     ('cray-libsci/23.09.1.1', EXTERNAL_MODULE),
     ('cray-fftw/3.3.10.5', EXTERNAL_MODULE),
-    ('rocm/5.2.3', EXTERNAL_MODULE),
-    ('CuPy', '12.2.0', '-rocm-5.2.3'),
     ('libxc', '6.2.2'),
-    ('ELPA', '2023.11.001', '-rocm-5.2.3'),
 ]
 
-preinstallopts = 'GPAW_CONFIG=doc/platforms/Cray/siteconfig-lumi-gpu.py '
+preinstallopts = 'GPAW_CONFIG=siteconfig-lumi-cpu.py '
 
 download_dep_fail = False
 use_pip = True
@@ -57,7 +48,7 @@ pip_ignore_installed = False
 pip_no_index = False
 sanity_pip_check = True
 
-postinstallcmds = ['cp -rp ../gpaw-setups-%(version)s %(installdir)s/']
+postinstallcmds = ['cp -rp ../gpaw-setups-24.1.0 %(installdir)s/']
 
 sanity_check_paths = {
     'files': ['bin/gpaw%s' % x for x in ['', '-analyse-basis', '-basis', '-plot-parallel-timings',
@@ -65,6 +56,6 @@ sanity_check_paths = {
     'dirs': ['lib/python%(pyshortver)s/site-packages']
 }
 
-modextravars = {'GPAW_SETUP_PATH': '%(installdir)s/gpaw-setups-%(version)s'}
+modextravars = {'GPAW_SETUP_PATH': '%(installdir)s/gpaw-setups-24.1.0'}
 
 moduleclass = 'chem'

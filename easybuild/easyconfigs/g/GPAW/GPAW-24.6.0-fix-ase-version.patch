@@ -1,0 +1,11 @@
+--- a/setup.py
++++ b/setup.py
+@@ -395,7 +395,7 @@ setup(name='gpaw',
+           'console_scripts': ['gpaw = gpaw.cli.main:main']},
+       setup_requires=['numpy<2'],
+       python_requires=python_requires,
+-      install_requires=[f'ase>={ase_version_required}',
++      install_requires=[f'ase=={ase_version_required}',
+                         'numpy<2',
+                         'scipy>=1.6.0'],
+       extras_require={'docs': ['sphinx-rtd-theme',

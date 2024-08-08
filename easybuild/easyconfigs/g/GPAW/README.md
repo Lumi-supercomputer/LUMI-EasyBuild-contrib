@@ -22,6 +22,16 @@
 -   OpenMP is now turned off while ELPA does not support it with AMD GPUs 
     (linking GPAW w/OMP against ELPA w/o OMP casuses LibSci version mismatch)
 
+-   GPU device selection is patched compared to the upstream code version
+
 -   It installs ASE as a Python module without an independent easyconfig for it
 
 -   It also downloads gpaw-setups which comes as a separate easyconfig in the easybuilders repo
+
+-   Note that the GPU version is under continuous development
+    and [has some limitations](https://wiki.fysik.dtu.dk/gpaw/documentation/gpu.html)
+
+
+### 24.6.0 for GPU and for CPU
+
+-   Setup is similar to that of 24.1.0
