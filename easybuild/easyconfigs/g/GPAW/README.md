@@ -28,6 +28,9 @@
 
 -   It also downloads gpaw-setups which comes as a separate easyconfig in the easybuilders repo
 
+-   Note that the GPU version is under continuous development
+    and [has some limitations](https://wiki.fysik.dtu.dk/gpaw/documentation/gpu.html)
+
 
 ### 24.6.0 for GPU and for CPU
 
