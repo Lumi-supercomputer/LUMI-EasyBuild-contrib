@@ -1,0 +1,101 @@
+easyblock = 'Binary'
+
+local_rocm_version     = '5.4.6'
+local_gcc_version      = '12.2.0'
+local_compiler_version = '2024.2'
+local_tbb_version      = '2021.13'
+
+name = 'oneAPI-DPCPP-compiler'
+version = '2024.2.0'
+
+homepage = 'https://software.intel.com/content/www/us/en/develop/tools/oneapi/hpc-toolkit.html'
+
+whatis = ['Description: the Intel DPC++/C++ Compiler whith Codeplay plugin for AMD GPUs']
+
+description = """
+The Intel oneAPI DPC++/C++ Compiler provides support for the latest C, C++, and SYCL
+language standards.
+"""
+
+toolchain = SYSTEM
+
+local_installer_file = 'l_dpcpp-cpp-compiler_p_%(version)s.495_offline.sh'
+local_codeplay_installer_file = 'oneapi-for-amd-gpus-2024.2.0-rocm-5.4.3-linux.sh'
+
+# see https://software.intel.com/content/www/us/en/develop/articles/oneapi-standalone-components.html
+sources = [
+    {
+        'source_urls' : ['https://registrationcenter-download.intel.com/akdlm/IRC_NAS/6780ac84-6256-4b59-a647-330eb65f32b6/'],
+        'filename'    : local_installer_file,
+    },
+    {
+        'source_urls'       : ['https://developer.codeplay.com/api/v1/products'],
+        'download_filename' : 'download?product=oneapi&variant=amd&version=%(version)s&filters[]=5.4.3&filters[]=linux',
+        'filename'          : local_codeplay_installer_file,
+    }
+]
+
+patches = [('craype_driver', '%(builddir)s/driver')]
+
+checksums = [
+    {local_installer_file          : '9463aa979314d2acc51472d414ffcee032e9869ca85ac6ff4c71d39500e5173d'},
+    {local_codeplay_installer_file : '4956ac22b116939632736b2f0d4c48df479919560cbd5db798edea9a52e5cda4'},
+    {'craype_driver'               : '3e396a71c923fee1766c8f70396a4e523d9340323f8c14e8cffa06a16094c15c'},
+]
+
+builddependencies = [
+    (f'gcc/{local_gcc_version}', EXTERNAL_MODULE),
+]
+
+local_compiler_installcmd = 'HOME=%(builddir)s ./' + local_installer_file + ' -a -s --eula accept --install-dir %(installdir)s'
+local_codeplay_installcmd = './' + local_codeplay_installer_file + ' -y --install-dir %(installdir)s'
+
+local_compiler_path = 'compiler/' + local_compiler_version
+local_compiler_bin = '%(installdir)s/' + local_compiler_path + '/bin'
+
+install_cmds = [
+  local_compiler_installcmd,
+  local_codeplay_installcmd,
+  ' && '.join([
+   'cd ' + local_compiler_bin,
+   'echo "--gcc-toolchain=$GCC_PATH/snos" > icx.cfg',
+   'echo "-frtlib-add-rpath" >> icx.cfg',
+   'echo "-Wl,-rpath=<CFGDIR>/../lib" >> icx.cfg',
+   'cp icx.cfg icpx.cfg',
+  ]),
+  ' && '.join([
+    'cd ' + local_compiler_bin,
+    'cp %(builddir)s/driver driver',
+    'chmod +x driver',
+    'for exe in icpx icx icx-cc dpcpp; do mv ${exe} ${exe}_real; ln -s driver ${exe}; done'
+  ]),
+]
+
+sanity_check_paths = {
+    'files': [local_compiler_path + '/' + f for f in ['bin/icx', 'bin/icpx', 'lib/libpi_hip.so']],
+    'dirs': [],
+}
+
+modluafooter = """
+try_load("rocm/%(rocm_version)s")
+
+prepend_path("CMAKE_PREFIX_PATH", "%(root)s/compiler/%(compiler_version)s")
+prepend_path("CMAKE_PREFIX_PATH", "%(root)s/tbb/%(tbb_version)s")
+prepend_path("CPATH" ,            "%(root)s/tbb/%(tbb_version)s/include")
+prepend_path("LD_LIBRARY_PATH",   "%(root)s/compiler/%(compiler_version)s/lib")
+prepend_path("LD_LIBRARY_PATH",   "%(root)s/tbb/%(tbb_version)s/lib/intel64/gcc4.8")
+prepend_path("LIBRARY_PATH",      "%(root)s/compiler/%(compiler_version)s/lib")
+prepend_path("LIBRARY_PATH",      "%(root)s/tbb/%(tbb_version)s/lib/")
+prepend_path("MANPATH",           "%(root)s/compiler/%(compiler_version)s/share/man/")
+prepend_path("OCL_ICD_FILENAMES", "%(root)s/compiler/%(compiler_version)s/lib/libintelocl.so")
+prepend_path("PATH",              "%(root)s/compiler/%(compiler_version)s/bin")
+prepend_path("TBBROOT",           "%(root)s/tbb/%(tbb_version)s")
+
+""" % {
+    'root'             : '%(installdir)s',
+    'rocm_version'     : local_rocm_version,
+    'compiler_version' : local_compiler_version,
+    'tbb_version'      : local_tbb_version,
+}
+
+moduleclass = 'compiler'
