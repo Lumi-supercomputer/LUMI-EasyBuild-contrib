@@ -25,12 +25,14 @@ sources = [{
 patches = [
    {'name': 'GPAW-24.1.0-siteconfig-gpu.patch', 'level': 1},
    {'name': 'GPAW-24.1.0-fix-ase-version.patch', 'level': 1},
+   {'name': 'GPAW-24.6.0-fix-gpu-select.patch', 'level': 1},
 ]
 checksums = [
     {'gpaw-24.1.0.tar.gz': '14150bdc4b098060164b569699577ff57769a42783d79d37c9eb6cfe9cd506ea'},
     {'gpaw-setups-24.1.0.tar.gz': '314d43168f7b57a2d942855d3d5ad21da9ef74e772d37343d416305113a95c23'},
     {'GPAW-24.1.0-siteconfig-gpu.patch': '06cd78ba7c03fb8496abcf7c56dc434545f8af59a6a5dcfe5f3687bb549d1fe2'},
     {'GPAW-24.1.0-fix-ase-version.patch': 'b33f4c4c5f9956669ef5e6da359a63ba733fe5fc4b0e2bd3ad06386f202c6eac'},
+    {'GPAW-24.6.0-fix-gpu-select.patch': '311a545c5a6b720faf6aa51f3aff0e76fa729b196ebae99a8da28113bb17e042'},
 ]
 
 dependencies = [
