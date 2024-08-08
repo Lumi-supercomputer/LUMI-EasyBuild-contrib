@@ -1,0 +1,129 @@
+#!/bin/bash
+
+compile=false
+sycl_targets_set=false
+cpu_target_set=false
+sycl_enabled=false
+
+mpich_flags=""
+sycl_flags=""
+march=""
+
+if [[ ! -z ${LUMI_DPCPP_VERBOSE_WRAPPER+x} ]]; then
+  verbose() {
+    >&2 echo "DPCPP WRAPPER -- $1"
+  }
+else
+  verbose() { 
+    return 
+  }
+fi
+
+function set_mpich_flags() {
+  if [[ -z ${CRAY_MPICH_PREFIX+x} || "x$CRAYPE_NETWORK_TARGET" == xnone ]]; then
+    verbose "CRAY_MPICH_PREFIX undefined or network target set to none: skipping MPI flags"
+    return
+  fi
+
+  local cflags=""
+  local ldflags=""
+  local gtldir=""
+  local gtllib=""
+
+  local mpich_pkgconfig_dir="$CRAY_MPICH_PREFIX/lib/pkgconfig"
+  local mpich_pkgconfig_file="$CRAY_MPICH_PREFIX/lib/pkgconfig/mpich.pc"
+
+  if [[ ! -d ${mpich_pkgconfig_dir} || ! -f ${mpich_pkgconfig_file} ]]; then
+     verbose "MPICH pkgconfig not found: skipping MPI flags"
+     return
+  fi
+
+  cflags=$(PKG_CONFIG_PATH=$mpich_pkgconfig_dir pkg-config --cflags mpich)
+  verbose "MPI CFLAGS: $cflags"
+  
+  if [[ "x$compile" == "xfalse" ]]; then
+    ldflags="$(PKG_CONFIG_PATH=$mpich_pkgconfig_dir pkg-config --libs mpich) -Wl,-rpath=/opt/cray/pe/lib64"
+    verbose "MPI LDFLAGS: $ldflags"
+
+    if [[ ! -z ${CRAY_ACCEL_TARGET+x} && "x$CRAY_ACCEL_TARGET" != "xhost" ]]; then
+      gtldir=$(eval "echo \$PE_MPICH_GTL_DIR_$CRAY_ACCEL_TARGET")
+      gtllib=$(eval "echo \$PE_MPICH_GTL_LIBS_$CRAY_ACCEL_TARGET")
+
+      verbose "GTL library LDFLAGS: $gtldir $gtllib"
+    else
+      verbose "GPU target module not loaded or set to host: skipping GTL flags"
+      return
+    fi
+  fi
+
+  mpich_flags="$cflags $ldflags $gtldir $gtllib"
+}
+
+set_sycl_target() {
+  if [[ "x$sycl_enabled" == "xfalse" ]]; then
+    verbose "SyCL not enabled: skipping target flags"
+    return
+  fi
+
+  if [[ -z ${CRAY_ACCEL_TARGET+x} || "x$CRAY_ACCEL_TARGET" == "xhost" ]]; then
+    verbose "No accelerator module loaded or set to host: skipping target flags"
+    return
+  fi
+
+  if [[ "x$sycl_targets_set" == "xtrue" ]]; then
+    verbose "SyCL target(s) already set: skipping target flags"
+    return
+  fi
+  
+  local gpu_arch=${CRAY_ACCEL_TARGET#amd_}
+
+  sycl_flags="$sycl_flags -fsycl-targets=amdgcn-amd-amdhsa"
+  sycl_flags="$sycl_flags -Xsycl-target-backend=amdgcn-amd-amdhsa --offload-arch=$gpu_arch"
+
+  verbose "SyCL target flags: $sycl_flags"
+}
+
+real_exec="$BASH_SOURCE"_real
+flags="$@"
+
+if [[ ! -z ${LUMI_DPCPP_BYBASS_WRAPPER+x} ]]; then
+  exec $real_exec $flags
+fi
+
+while test $# -gt 0
+do
+  case "$1" in
+           -c|-E|-S) compile=true          ;;
+    -fsycl-targets*) sycl_targets_set=true ;;
+            -march*) cpu_target_set=true   ;;
+             -fsycl) sycl_enabled=true     ;;
+                  *) ;;
+  esac
+  shift
+done
+
+verbose "Compile only: $compile"
+verbose "CPU target already set: $cpu_target_set"
+verbose "SyCL enabled: $sycl_enabled"
+verbose "SyCL target already set: $sycl_targets_set"
+
+set_mpich_flags
+set_sycl_target
+
+if [[ ! -z ${CRAY_CPU_TARGET+x} && "x${cpu_target_set}" == "xfalse" ]]; then
+  march="-march"
+  case "$CRAY_CPU_TARGET" in
+    x86-trento) march="${march}=znver3" ;;
+    x86-milan) march="${march}=znver3"  ;;
+    x86-rome) march="${march}=znver2"   ;;
+    *) march="${march}=znver2"          ;;
+  esac
+
+  verbose "CPU target flag: $march"
+fi
+
+flags="$march $flags $sycl_flags $mpich_flags"
+
+verbose "Running command: $(basename $real_exec) $flags"
+
+exec $real_exec $flags
