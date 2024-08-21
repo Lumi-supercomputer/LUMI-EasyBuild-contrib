@@ -58,3 +58,13 @@
   
   * The Cray version is still broken.
 
+### Version 4.2 for CPE 23.12 and 24.03
+
+  * Mostly a trivial port to 4.2.
+  
+  * The problem with the Cray Fortran Compiler is now resolved. After 
+    investigation, it turns out the Cray compiler optimize some part of the code
+    into a BLAS call, causing the undefined symbols error as cray-libsci was
+    unloaded. To work around this issue, we now use `-hnopattern` when compiling
+    with `cpeCray`.
+

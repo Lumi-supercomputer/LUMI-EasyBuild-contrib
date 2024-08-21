@@ -20,13 +20,13 @@
   * No support in the CSCS repository.
 
 
-### Version 3.1 for CPE 21.08
+### Version 3.1 for CPE 21.08 (archived)
 
   * Build from the AMD branch of libFLAME but starting from the EasyBuilders
     EasyConfig.
 
 
-### Version 3.2 for CPE 22.06 and 22.08
+### Version 3.2 for CPE 22.06 and 22.08 (archived)
 
   * Almost straightforwared port of the 3.1 one but with a different
     edit of the configure script that might be more robust across
@@ -42,8 +42,8 @@
   * Added a cpeAOCC variant in 22.08.
   
 
-### Version 4.0 for CPE 22.12 and 22.03
-  
+### Version 4.0 for CPE 22.12 (archived) and 23.03
+
   * EasyConfig started as a port but needed some work:
   
       * `-march` in configure is now `-mtune` so needed to adapt that line
@@ -52,5 +52,8 @@
         `python` instead of `python3`. We do so with another `sed` in `preconfigopts`
         as the edit is so simple a ptach isn't really needed.'
   
+### Version 4.2 for CPE 23.12 and 24.03
+
+  * Trivial port of the EasyConfig file for 4.2
   
   
