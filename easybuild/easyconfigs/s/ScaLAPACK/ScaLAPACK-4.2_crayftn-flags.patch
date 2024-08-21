@@ -1,0 +1,22 @@
+diff -ruN aocl-scalapack-4.2.orig/CMakeLists.txt aocl-scalapack-4.2/CMakeLists.txt
+--- aocl-scalapack-4.2.orig/CMakeLists.txt	2024-02-26 19:49:57.000000000 +0200
++++ aocl-scalapack-4.2/CMakeLists.txt	2024-08-21 15:04:31.000000000 +0300
+@@ -62,7 +62,7 @@
+ endif()
+ 
+ set(CMAKE_ICC_FLAGS " ")
+-set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -cpp" )
++set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -eT" )
+ 
+ # set compile flags to enable address sanitizer (ASAN) tests
+ if(ENABLE_ASAN_TESTS)
+@@ -95,6 +95,9 @@
+    if ("${CMAKE_Fortran_COMPILER_ID}" STREQUAL "Flang")
+       set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -ffixed-line-length-132 -I ${SL_FRAMEWORK_INCLUDE_PATH}/" )
+    endif ()
++   if ("${CMAKE_Fortran_COMPILER_ID}" STREQUAL "Cray")
++      set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -hnopattern -N 132 -I ${SL_FRAMEWORK_INCLUDE_PATH}/" )
++   endif ()
+    if ("${CMAKE_Fortran_COMPILER_ID}" STREQUAL "Intel")
+       set( CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -fltconsistency -fp-port -no-vec -I ${SL_FRAMEWORK_INCLUDE_PATH}/" )
+    elseif ("${CMAKE_Fortran_COMPILER}" MATCHES "ifort" )
