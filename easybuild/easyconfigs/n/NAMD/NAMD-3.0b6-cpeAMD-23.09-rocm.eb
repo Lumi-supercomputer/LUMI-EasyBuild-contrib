@@ -7,9 +7,12 @@
 
 easyblock = 'MakeCp'
 
+local_Charmpp_version = '7.0.0'
+local_Tcl_version     = '8.6.13'
+
 name =          'NAMD'
 version =       '3.0b6'
-versionsuffix = '-rocm-5.6.1'
+versionsuffix = '-rocm'
 
 homepage = 'http://www.ks.uiuc.edu/Research/namd/'
 
@@ -84,28 +87,30 @@ patches = [
 ]
 
 builddependencies = [
-    ('buildtools',   '%(toolchain_version)s',   '', True),
+    ('buildtools',   '%(toolchain_version)s', '', True),
 ]
 
 dependencies = [
-    ('cray-fftw/3.3.10.5',    EXTERNAL_MODULE),
-    ('amd', '5.6.1', '', SYSTEM),
-    ('rocm', '5.6.1', '', SYSTEM),
-    ('Charm++', '7.0.0', '-multicore'),
-    ('Tcl', '8.6.13'),
+    ('cray-fftw', EXTERNAL_MODULE),
+    ('rocm',      EXTERNAL_MODULE),
+    ('Tcl',       local_Tcl_version),
+    ('Charm++',   local_Charmpp_version, '-multicore'),
 ]
 
 local_namd_arch = 'Linux-x86_64-clang++'
 
-prebuildopts  = f'./config {local_namd_arch} '
-prebuildopts += '--charm-arch $EBTYPECHARMPLUSPLUS '
-prebuildopts += '--charm-base $EBROOTCHARMPLUSPLUS '
-prebuildopts += '--with-single-node-hip ' 
-prebuildopts += '--with-hip '
-prebuildopts += '--rocm-prefix $ROCM_PATH '
-prebuildopts += '--with-fftw3 --fftw-prefix $FFTW_ROOT '
-prebuildopts += '--charm-opts "-fopenmp" '
-prebuildopts += f'&& cd {local_namd_arch} && ' 
+prebuildopts = ' '.join([
+    './config ' + local_namd_arch,
+    '--charm-arch $EBTYPECHARMPLUSPLUS',
+    '--charm-base $EBROOTCHARMPLUSPLUS',
+    '--with-single-node-hip',
+    '--with-hip',
+    '--rocm-prefix $ROCM_PATH',
+    '--with-fftw3 --fftw-prefix $FFTW_ROOT',
+    '--charm-opts "-fopenmp"',
+])
+
+prebuildopts += f' && cd {local_namd_arch} && ' 
 
 build_cmd_targets = 'ROCM_DIR=$ROCM_PATH HIP_PLATFORM=amd'
 
