@@ -1,0 +1,106 @@
+diff -ruN cupy-12.2.0.orig/cupy_backends/cuda/api/_runtime_typedef.pxi cupy-12.2.0/cupy_backends/cuda/api/_runtime_typedef.pxi
+--- cupy-12.2.0.orig/cupy_backends/cuda/api/_runtime_typedef.pxi	2023-08-07 12:22:00.000000000 +0300
++++ cupy-12.2.0/cupy_backends/cuda/api/_runtime_typedef.pxi	2024-08-21 21:05:47.000000000 +0300
+@@ -137,12 +137,18 @@
+             int device
+             void* devicePointer
+             void* hostPointer
+-    ELIF CUPY_HIP_VERSION > 0:
++    ELIF 0 < CUPY_HIP_VERSION < 600:
+         ctypedef struct _PointerAttributes 'cudaPointerAttributes':
+             int memoryType
+             int device
+             void* devicePointer
+             void* hostPointer
++    ELIF CUPY_HIP_VERSION >= 600:
++        ctypedef struct _PointerAttributes 'cudaPointerAttributes':
++            int type
++            int device
++            void* devicePointer
++            void* hostPointer
+     ELSE:
+         ctypedef struct _PointerAttributes 'cudaPointerAttributes':
+             pass  # for RTD
+diff -ruN cupy-12.2.0.orig/cupy_backends/cuda/api/runtime.pyx cupy-12.2.0/cupy_backends/cuda/api/runtime.pyx
+--- cupy-12.2.0.orig/cupy_backends/cuda/api/runtime.pyx	2023-08-07 12:22:00.000000000 +0300
++++ cupy-12.2.0/cupy_backends/cuda/api/runtime.pyx	2024-08-21 21:08:04.000000000 +0300
+@@ -295,7 +295,6 @@
+         properties['clockInstructionRate'] = props.clockInstructionRate
+         properties['maxSharedMemoryPerMultiProcessor'] = (
+             props.maxSharedMemoryPerMultiProcessor)
+-        properties['gcnArch'] = props.gcnArch
+         properties['hdpMemFlushCntl'] = <intptr_t>(props.hdpMemFlushCntl)
+         properties['hdpRegFlushCntl'] = <intptr_t>(props.hdpRegFlushCntl)
+         properties['memPitch'] = props.memPitch
+@@ -328,6 +327,8 @@
+         arch['has3dGrid'] = props.arch.has3dGrid
+         arch['hasDynamicParallelism'] = props.arch.hasDynamicParallelism
+         properties['arch'] = arch
++    IF CUPY_HIP_VERSION < 600: # removed in HIP 6.0.0
++        properties['gcnArch'] = props.gcnArch
+     IF CUPY_HIP_VERSION >= 310:
+         properties['gcnArchName'] = props.gcnArchName
+         properties['asicRevision'] = props.asicRevision
+@@ -703,12 +704,18 @@
+             <intptr_t>attrs.devicePointer,
+             <intptr_t>attrs.hostPointer,
+             attrs.type)
+-    ELIF CUPY_HIP_VERSION > 0:
++    ELIF 0 < CUPY_HIP_VERSION < 600:
+         return PointerAttributes(
+             attrs.device,
+             <intptr_t>attrs.devicePointer,
+             <intptr_t>attrs.hostPointer,
+             attrs.memoryType)
++    ELIF CUPY_HIP_VERSION >= 600:
++        return PointerAttributes(
++            attrs.device,
++            <intptr_t>attrs.devicePointer,
++            <intptr_t>attrs.hostPointer,
++            attrs.type)
+     ELSE:  # for RTD
+         return None
+ 
+diff -ruN cupy-12.2.0.orig/cupy_backends/hip/cupy_hip_runtime.h cupy-12.2.0/cupy_backends/hip/cupy_hip_runtime.h
+--- cupy-12.2.0.orig/cupy_backends/hip/cupy_hip_runtime.h	2023-08-07 12:22:00.000000000 +0300
++++ cupy-12.2.0/cupy_backends/hip/cupy_hip_runtime.h	2024-08-21 21:10:00.000000000 +0300
+@@ -270,13 +270,23 @@
+                                      const void* ptr) {
+     cudaError_t status = hipPointerGetAttributes(attributes, ptr);
+     if (status == cudaSuccess) {
+-        switch (attributes->memoryType) {
++#if HIP_VERSION >= 600
++        switch (attributes->type) {
++            case 0 /* hipMemoryTypeHost */:
++                attributes->type = (hipMemoryType)1; /* cudaMemoryTypeHost */
++                return status;
++            case 1 /* hipMemoryTypeDevice */:
++                attributes->type = (hipMemoryType)2; /* cudaMemoryTypeDevice */
++                return status;
++#else
++       switch (attributes->memoryType) {
+             case 0 /* hipMemoryTypeHost */:
+                 attributes->memoryType = (hipMemoryType)1; /* cudaMemoryTypeHost */
+                 return status;
+             case 1 /* hipMemoryTypeDevice */:
+                 attributes->memoryType = (hipMemoryType)2; /* cudaMemoryTypeDevice */
+                 return status;
++#endif
+             default:
+                 /* we don't care the rest of possibilities */
+                 return status;
+diff -ruN cupy-12.2.0.orig/install/cupy_builder/install_build.py cupy-12.2.0/install/cupy_builder/install_build.py
+--- cupy-12.2.0.orig/install/cupy_builder/install_build.py	2023-08-07 12:22:00.000000000 +0300
++++ cupy-12.2.0/install/cupy_builder/install_build.py	2024-08-21 21:10:24.000000000 +0300
+@@ -155,6 +155,11 @@
+         include_dirs.append(os.path.join(rocm_path, 'include', 'rocrand'))
+         include_dirs.append(os.path.join(rocm_path, 'include', 'hiprand'))
+         include_dirs.append(os.path.join(rocm_path, 'include', 'roctracer'))
++        include_dirs.append(os.path.join(rocm_path, 'include', 'hipblas'))
++        include_dirs.append(os.path.join(rocm_path, 'include', 'hipsparse'))
++        include_dirs.append(os.path.join(rocm_path, 'include', 'hipfft'))
++        include_dirs.append(os.path.join(rocm_path, 'include', 'rocsolver'))
++        include_dirs.append(os.path.join(rocm_path, 'include', 'rccl'))
+         library_dirs.append(os.path.join(rocm_path, 'lib'))
+ 
+     if use_hip:
