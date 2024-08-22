@@ -5,8 +5,8 @@
 easyblock = 'CMakeMake'
 
 name = 'SPLA'
-version = '1.5.5'
-versionsuffix = '-GPU'
+version = '1.6.1'
+versionsuffix = '-rocm'
 
 homepage = 'https://github.com/eth-cscs/spla'
 
@@ -27,18 +27,24 @@ docurls = [
     'Documentation: https://spla.readthedocs.io/en/latest/',
 ]
 
-toolchain = {'name': 'cpeGNU', 'version': '23.09'}
+toolchain = {'name': 'cpeGNU', 'version': '23.12'}
 toolchainopts = {'openmp': False, 'opt': True, 'pic': True, 'usempi': True}
 
 source_urls = ['https://github.com/eth-cscs/%(namelower)s/archive']
 sources = ['v%(version)s.tar.gz']
+checksums = ['62b51e6ce05c41cfc1c6f6600410f9549a209c50f0331e1db41047f94493e02f']
 
 builddependencies = [
     ('buildtools', '%(toolchain_version)s', '', True),
 ]
 
-preconfigopts = 'CXX=CC CC=cc FC=ftn && module load rocm/5.6.1 && '
+dependencies = [
+    ('rocm', EXTERNAL_MODULE),
+]
+
 configopts = "-DCMAKE_BUILD_TYPE=RELEASE -DSPLA_OMP=OFF -DSPLA_FORTRAN=ON -DSPLA_GPU_BACKEND=ROCM"
+
+#prebuildopts = 'export CPATH="$ROCM_PATH/include/rocblas:$CPATH" && '
 
 sanity_check_paths = {
     'files': [
