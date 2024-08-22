@@ -1,0 +1,58 @@
+# contributed by Luca Marsella (CSCS)
+# adapted for LUMI-G by Peter Larsson
+# Bump to the latest version and CPE version by Radim Janalik (CSCS)
+
+easyblock = 'CMakeMake'
+
+name = 'SPLA'
+version = '1.6.1'
+versionsuffix = '-rocm'
+
+homepage = 'https://github.com/eth-cscs/spla'
+
+whatis = [
+    "Specialized Parallel Linear Algebra, providing distributed GEMM "
+    "functionality for specific matrix distributions"
+]
+
+description = """
+SPLA provides specialized functions for linear algebra computations with a C++
+and C interface, which are inspired by requirements in computational material
+science codes.
+SPLA provides functions for distributed matrix multiplications with specific
+matrix distributions, which cannot be used directly with a ScaLAPACK interface. 
+"""
+
+docurls = [
+    'Documentation: https://spla.readthedocs.io/en/latest/',
+]
+
+toolchain = {'name': 'cpeGNU', 'version': '24.03'}
+toolchainopts = {'openmp': False, 'opt': True, 'pic': True, 'usempi': True}
+
+source_urls = ['https://github.com/eth-cscs/%(namelower)s/archive']
+sources = ['v%(version)s.tar.gz']
+checksums = ['62b51e6ce05c41cfc1c6f6600410f9549a209c50f0331e1db41047f94493e02f']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+    ('rocm', EXTERNAL_MODULE),
+]
+
+configopts = "-DCMAKE_BUILD_TYPE=RELEASE -DSPLA_OMP=OFF -DSPLA_FORTRAN=ON -DSPLA_GPU_BACKEND=ROCM"
+
+#prebuildopts = 'export CPATH="$ROCM_PATH/include/rocblas:$CPATH" && '
+
+sanity_check_paths = {
+    'files': [
+      'lib/libspla.so', 
+      'include/%(namelower)s/config.h', 
+      'include/%(namelower)s/%(namelower)s.hpp'
+    ],
+    'dirs': [],
+}
+
+moduleclass = 'lib'
