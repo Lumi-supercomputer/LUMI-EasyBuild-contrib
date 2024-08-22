@@ -1,0 +1,28 @@
+diff -ruN SpFFT-1.0.6/cmake/modules/FindHIP.cmake SpFFT-1.0.6.new/cmake/modules/FindHIP.cmake
+--- SpFFT-1.0.6/cmake/modules/FindHIP.cmake	2022-02-17 21:15:56.000000000 +0200
++++ SpFFT-1.0.6.new/cmake/modules/FindHIP.cmake	2024-08-22 20:00:19.000000000 +0300
+@@ -61,10 +61,10 @@
+             HIP_ROOT_DIR
+             NAMES bin/hipconfig
+             PATHS
+-            "$ENV{ROCM_PATH}/hip"
++            "$ENV{ROCM_PATH}"
+             ENV HIP_PATH
+             ${_IMPORT_PREFIX}
+-            /opt/rocm/hip
++            /opt/rocm/
+             DOC "HIP installed location"
+             NO_DEFAULT_PATH
+             )
+diff -ruN SpFFT-1.0.6/src/gpu_util/gpu_pointer_translation.hpp SpFFT-1.0.6.new/src/gpu_util/gpu_pointer_translation.hpp
+--- SpFFT-1.0.6/src/gpu_util/gpu_pointer_translation.hpp	2022-02-17 21:15:56.000000000 +0200
++++ SpFFT-1.0.6.new/src/gpu_util/gpu_pointer_translation.hpp	2024-08-22 20:06:28.000000000 +0300
+@@ -54,7 +54,7 @@
+   std::pair<const T*, const T*> ptrPair{nullptr, nullptr};
+ 
+   // get memory type - cuda 10 changed attribute name
+-#if defined(SPFFT_CUDA) && (CUDART_VERSION >= 10000)
++#if (defined(SPFFT_CUDA) && (CUDART_VERSION >= 10000)) || (defined(SPFFT_ROCM) && (HIP_VERSION_MAJOR >= 6))
+   auto memoryType = attr.type;
+ #else
+   auto memoryType = attr.memoryType;
