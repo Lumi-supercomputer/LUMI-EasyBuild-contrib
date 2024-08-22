@@ -1,12 +1,12 @@
 # contributed by Luca Marsella (CSCS)
 # adapted for LUMI-G by Peter Larsson
-# Bump to the latest version and CPE version by Radim Janalik (CSCS)
+# Updated to version 1.0.6 by Radim Janalik (CSCS)
 
 easyblock = 'CMakeMake'
 
 name = 'SpFFT'
-version = '1.0.6'
-versionsuffix = '-GPU'
+version = '1.1.0'
+versionsuffix = '-rocm'
 
 homepage = 'https://github.com/eth-cscs/SpFFT'
 
@@ -41,21 +41,30 @@ docurls = [
     'Documentation: https://spfft.readthedocs.io/en/latest/',
 ]
 
-toolchain = {'name': 'cpeGNU', 'version': '23.09'}
+toolchain = {'name': 'cpeGNU', 'version': '23.12'}
 toolchainopts = {'openmp': True, 'opt': True, 'pic': True}
 
 source_urls = ['https://github.com/eth-cscs/%(name)s/archive']
-sources = ['v1.0.6.tar.gz']
+sources = ['v%(version)s.tar.gz']
+checksums = ['d4673b3135aebfa1c440723226fe976d518ff881285b3d4787f1aa8210eac81e']
 
 builddependencies = [
     ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+    ('rocm',      EXTERNAL_MODULE),
     ('cray-fftw', EXTERNAL_MODULE),
 ]
 
-# PL not enabling SPFFT_GPU_DIRECT for GPU aware MPI because I think it is only tested with Nvidia?
-preconfigopts = "CXX=CC CC=cc FC=ftn && module load craype-accel-amd-gfx90a && module load rocm/5.2.3 &&"
-configopts  = ' -DCMAKE_BUILD_TYPE=RELEASE -DSPFFT_FFTW_LIB=FFTW -DSPFFT_GPU_BACKEND=ROCM'
-configopts += ' -DSPFFT_SINGLE_PRECISION=ON  -DSPFFT_MPI=ON -DSPFFT_OMP=ON -DHIP_HCC_FLAGS=\"--amdgpu-target=gfx90a\"'
+configopts = ' '.join([
+    '-DSPFFT_FFTW_LIB=FFTW',
+    '-DSPFFT_GPU_BACKEND=ROCM',
+    '-DSPFFT_SINGLE_PRECISION=ON',
+    '-DSPFFT_MPI=ON',
+    '-DSPFFT_OMP=ON',
+    '-DHIP_HCC_FLAGS="--offload-arch=gfx90a"',
+])
 
 sanity_check_paths = {
     'files': [
