@@ -4,7 +4,7 @@ AR          = ar -r
 FC          = ftn
 LD          = ftn
 #
-DFLAGS      = -D__LIBXSMM  -D__SCALAPACK -D__parallel -D__FFTW3  -D__LIBINT -D__LIBXC -D__COSMA -D__ELPA  -D__GSL -D__HDF5 -D__SPGLIB -D__LIBVORI -D__OFFLOAD_GEMM   -D__SPLA -D__HIP_PLATFORM_AMD__ -D__OFFLOAD_HIP  -D__DBCSR_ACC
+DFLAGS      = -D__LIBXSMM  -D__SCALAPACK -D__parallel -D__FFTW3  -D__LIBINT -D__LIBXC -D__COSMA -D__ELPA  -D__GSL -D__HDF5 -D__SPGLIB -D__LIBVORI -D__OFFLOAD_GEMM  -D__SPLA -D__HIP_PLATFORM_AMD__ -D__OFFLOAD_HIP  -D__DBCSR_ACC -D__MPI_F08
 #
 WFLAGS      = -Werror=aliasing -Werror=ampersand -Werror=c-binding-type -Werror=intrinsic-shadow -Werror=intrinsics-std -Werror=line-truncation -Werror=tabs -Werror=target-lifetime -Werror=underflow -Werror=unused-dummy-argument -Werror=conversion -Werror=zerotrip -Wno-maybe-uninitialized -Wuninitialized -Wuse-without-only
 #
@@ -57,6 +57,6 @@ LDFLAGS += -I$(EBROOTSPLA)/lib
 LIBS        = -lspla -lspfft -lsymspg -lhdf5 -lhdf5_hl -lz -lgsl -lelpa -lcosma_prefixed_pxgemm -lcosma -lcosta  -lTiled-MM -lxsmmf -lxsmm -ldl -lpthread -lxcf03 -lxc -lint2 -lfftw3_mpi -lfftw3 -lfftw3_omp   -lz -ldl -lvori -lstdc++ -lstdc++ -lamdhip64 -lhipfft -lhipblas -lrocblas 
 #
 GPUVER        = Mi250
-OFFLOAD_CC    = $(HIP_PATH)/bin/hipcc
+OFFLOAD_CC    = $(ROCM_PATH)/bin/hipcc
 OFFLOAD_FLAGS = -fPIE -D__HIP_PLATFORM_AMD__ -g --offload-arch=gfx90a -O3 --std=c++11 -Wall -Wextra $(DFLAGS) -I$(ROCM_PATH)/include
 OFFLOAD_TARGET = hip
