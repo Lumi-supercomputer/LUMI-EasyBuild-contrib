@@ -1,8 +1,11 @@
 easyblock = 'MakeCp'
 
+local_METIS_version = '5.1.0'
+local_ELPA_version  = '2023.11.001'
+
 name =          'Siesta'
 version =       '4.1.5'
-versionsuffix = '-GPU'
+versionsuffix = '-rocm'
 
 homepage = 'https://siesta-project.org/siesta/'
 
@@ -26,8 +29,7 @@ toolchain = {'name': 'cpeGNU', 'version': '23.09'}
 toolchainopts = {'usempi': True, 'precise': True, 'openmp': False}
 
 source_urls = ['https://gitlab.com/siesta-project/siesta/-/releases/v%(version)s/downloads']
-sources =     [SOURCELOWER_TAR_GZ]
-checksums =   ['518df31aa6213af5e24cc73abb537b2c89a925b487171f5339d743d0c7140b3f']
+sources = [SOURCELOWER_TAR_GZ]
 
 patches = [
     ('arch_make.patch', 1),
@@ -35,13 +37,20 @@ patches = [
     ('siesta-4.1.5-block-size.patch', 1),
 ]
 
+checksums = [
+    '518df31aa6213af5e24cc73abb537b2c89a925b487171f5339d743d0c7140b3f',
+    'ad462e3191978faca88623ae53d13673ec0d547c16f3eedb2580d32f863f6001', # arch_make.patch
+    '407f0450d044012f6bd15f9cb393ab888c86b24107033ced46d8ba33b01daccc', # siesta-4.1.5-amd-gpu.patch
+    '9e3bfd7c4e578d74ca109a226e5b349802e9e409f519089df85051f02967d08e', # siesta-4.1.5-block-size.patch
+]
+
 dependencies = [
-    ('cray-hdf5/1.12.2.7', EXTERNAL_MODULE),
-    ('cray-netcdf/4.9.0.7', EXTERNAL_MODULE),
-    ('cray-parallel-netcdf/1.12.3.7', EXTERNAL_MODULE),
-    ('cray-fftw/3.3.10.5', EXTERNAL_MODULE),
-    ('METIS', '5.1.0', ''),
-    ('ELPA', '2023.11.001', '-rocm-5.2.3'),
+    ('cray-hdf5',            EXTERNAL_MODULE),
+    ('cray-netcdf',          EXTERNAL_MODULE),
+    ('cray-parallel-netcdf', EXTERNAL_MODULE),
+    ('cray-fftw',            EXTERNAL_MODULE),
+    ('METIS', local_METIS_version),
+    ('ELPA',  local_ELPA_version, versionsuffix),
 ]
 
 prebuildopts = 'cd Obj && ../Src/obj_setup.sh && '
