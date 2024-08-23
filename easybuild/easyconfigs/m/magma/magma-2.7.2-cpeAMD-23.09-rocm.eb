@@ -1,11 +1,9 @@
 # Created for LUMI by Orian Louant
 easyblock = "CMakeMake"
 
-local_rocm_version = '5.2.3'
-
 name = 'magma'
 version = '2.7.2'
-versionsuffix = '-rocm5.2'
+versionsuffix = '-rocm'
 
 homepage = 'https://icl.cs.utk.edu/magma/'
 
@@ -52,18 +50,26 @@ toolchainopts = {'pic': True, 'openmp': True}
 
 source_urls = ['https://icl.cs.utk.edu/projectsfiles/magma/downloads/']
 sources = [SOURCE_TAR_GZ]
-patches = ['magma-2.7.2_separate-cxx-and-hip-compilation.patch']
+
+patches = [
+    'magma-2.7.2_separate-cxx-and-hip-compilation.patch',
+    'magma-2.7.2_rocm6.patch',
+]
+
 checksums = [
     '729bc1a70e518a7422fe7a3a54537a4741035a77be3349f66eac5c362576d560', # magma-2.7.2.tar.gz
     '45f1fbfdd4a81a5d739967ee8586fda3004a6ddafc415a99ad48eea67e0cddb2', # magma-2.7.2_separate-cxx-and-hip-compilation.patch
+    '39b22b1769b4322772c2c408772816ef5ae7f0e6757290d66dbaf914bd657a44', # magma-2.7.2_rocm6.patch
 ]
 
 builddependencies = [
     ('buildtools', '%(toolchain_version)s', '', True),
+    ('craype-network-none', EXTERNAL_MODULE),
+    ('craype-accel-host', EXTERNAL_MODULE),
 ]
 
 dependencies = [
-    (f'rocm/{local_rocm_version}', EXTERNAL_MODULE),
+    ('rocm', EXTERNAL_MODULE),
 ]
 
 local_configopts_base = ' '.join([
@@ -77,9 +83,6 @@ configopts = [
     local_configopts_base,
     local_configopts_base + ' -DBUILD_SHARED_LIBS=OFF',
 ]
-
-preconfigopts = 'module load craype-network-none craype-accel-host && '
-prebuildopts = 'module load craype-network-none craype-accel-host && '
 
 postinstallcmds = [
     'cd %(installdir)s/lib/pkgconfig/; rm -f magma.pc',
