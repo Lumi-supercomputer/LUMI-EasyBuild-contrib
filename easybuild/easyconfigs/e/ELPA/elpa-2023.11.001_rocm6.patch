@@ -1,0 +1,98 @@
+diff -ruN elpa-2023.11.001/src/GPU/ROCm/elpa_explicit_name_amd_gpu.cpp elpa-2023.11.001.new/src/GPU/ROCm/elpa_explicit_name_amd_gpu.cpp
+--- elpa-2023.11.001/src/GPU/ROCm/elpa_explicit_name_amd_gpu.cpp	2023-11-02 12:43:16.000000000 +0200
++++ elpa-2023.11.001.new/src/GPU/ROCm/elpa_explicit_name_amd_gpu.cpp	2024-08-23 11:38:58.000000000 +0300
+@@ -61,7 +61,7 @@
+         return 0;
+ 		  }
+     
+-    if (attributes.memoryType==hipMemoryTypeDevice) return 1;
++    if (attributes.type==hipMemoryTypeDevice) return 1;
+     else return 0;
+   }
+   
+diff -ruN elpa-2023.11.001/src/GPU/ROCm/rocmFunctions_template.h elpa-2023.11.001.new/src/GPU/ROCm/rocmFunctions_template.h
+--- elpa-2023.11.001/src/GPU/ROCm/rocmFunctions_template.h	2023-11-02 12:43:16.000000000 +0200
++++ elpa-2023.11.001.new/src/GPU/ROCm/rocmFunctions_template.h	2024-08-23 11:04:34.000000000 +0300
+@@ -1353,16 +1353,15 @@
+   void rocblasDtrmm_elpa_wrapper (BLAS_handle rocblasHandle, char side, char uplo, char transa, char diag,
+                                int m, int n, double alpha, const double *A,
+                                int lda, double *B, int ldb){
+-
+     BLAS_status status = BLAS_dtrmm(rocblasHandle, hip_side_mode(side), hip_fill_mode(uplo), hip_operation(transa),
+-                hip_diag_type(diag), m, n, &alpha, A, lda, B, ldb);
++                hip_diag_type(diag), m, n, &alpha, A, lda, B, ldb, B, ldb);
+   }
+ 
+   void rocblasStrmm_elpa_wrapper (BLAS_handle rocblasHandle, char side, char uplo, char transa, char diag,
+                                int m, int n, float alpha, const float *A,
+                                int lda, float *B, int ldb){
+     BLAS_status status = BLAS_strmm(rocblasHandle, hip_side_mode(side), hip_fill_mode(uplo), hip_operation(transa),
+-                hip_diag_type(diag), m, n, &alpha, A, lda, B, ldb);
++                hip_diag_type(diag), m, n, &alpha, A, lda, B, ldb, B, ldb);
+   }
+ 
+   void rocblasZtrmm_elpa_wrapper (BLAS_handle rocblasHandle, char side, char uplo, char transa, char diag,
+@@ -1378,7 +1377,7 @@
+ #endif
+     BLAS_double_complex* B_casted = (BLAS_double_complex*) B;
+     BLAS_status status = BLAS_ztrmm(rocblasHandle, hip_side_mode(side), hip_fill_mode(uplo), hip_operation(transa),
+-                hip_diag_type(diag), m, n, &alpha_casted, A_casted, lda, B_casted, ldb);
++                hip_diag_type(diag), m, n, &alpha_casted, A_casted, lda, B_casted, ldb, B_casted, ldb);
+   }
+ 
+   void rocblasCtrmm_elpa_wrapper (BLAS_handle rocblasHandle, char side, char uplo, char transa, char diag,
+@@ -1394,7 +1393,7 @@
+ #endif
+     BLAS_float_complex* B_casted = (BLAS_float_complex*) B;
+     BLAS_status status = BLAS_ctrmm(rocblasHandle, hip_side_mode(side), hip_fill_mode(uplo), hip_operation(transa),
+-                hip_diag_type(diag), m, n, &alpha_casted, A_casted, lda, B_casted, ldb);
++                hip_diag_type(diag), m, n, &alpha_casted, A_casted, lda, B_casted, ldb, B_casted, ldb);
+   }
+ 
+ 
+diff -ruN elpa-2023.11.001/src/elpa1/GPU/ROCm/elpa1_hip.cpp elpa-2023.11.001.new/src/elpa1/GPU/ROCm/elpa1_hip.cpp
+--- elpa-2023.11.001/src/elpa1/GPU/ROCm/elpa1_hip.cpp	2024-01-26 21:40:16.000000000 +0200
++++ elpa-2023.11.001.new/src/elpa1/GPU/ROCm/elpa1_hip.cpp	2024-08-23 11:32:36.000000000 +0300
+@@ -527,7 +527,7 @@
+ 
+   if (error == hipSuccess) 
+     {
+-    if (attributes.memoryType == hipMemoryTypeHost) 
++    if (attributes.type == hipMemoryTypeHost) 
+       {
+       T xf_host_value = *xf_host_or_dev;
+ #ifdef WITH_GPU_STREAMS
+@@ -543,7 +543,7 @@
+         if (hiperr != hipSuccess) printf("Error in executing hip_set_e_vec_scale_set_one_store_v_row_kernel: %s\n",hipGetErrorString(hiperr));
+         }
+       }
+-    else if (attributes.memoryType == hipMemoryTypeDevice) 
++    else if (attributes.type == hipMemoryTypeDevice) 
+       {
+ #ifdef WITH_GPU_STREAMS
+       hip_set_e_vec_scale_set_one_store_v_row_kernel<<<blocks,threadsPerBlock,0,my_stream>>>(e_vec_dev, vrl_dev, a_dev, v_row_dev, tau_dev, xf_host_or_dev,
+@@ -696,7 +696,7 @@
+ 
+   if (error == hipSuccess) 
+     {
+-    if (attributes.memoryType == hipMemoryTypeHost) 
++    if (attributes.type == hipMemoryTypeHost) 
+       {
+       T vav_host_value = *vav_host_or_dev;
+       T tau_host_value = *tau_host_or_dev;
+@@ -716,7 +716,7 @@
+         }
+       } 
+     
+-    else if (attributes.memoryType == hipMemoryTypeDevice) 
++    else if (attributes.type == hipMemoryTypeDevice) 
+       {
+ #ifdef WITH_GPU_STREAMS
+       hip_store_u_v_in_uv_vu_kernel<<<blocks,threadsPerBlock,0,my_stream>>>(vu_stored_rows_dev, uv_stored_cols_dev, v_row_dev, u_row_dev, 
+@@ -1201,4 +1201,4 @@
+   hip_transpose_reduceadd_vectors_copy_block_FromC(aux_transpose_dev, vmat_st_dev, nvc_in, nvr_in, n_block_in, nblks_skip_in, nblks_tot_in, lcm_s_t_in, nblk_in, auxstride_in, np_st_in, ld_st_in, direction_in, isSkewsymmetric_in, isReduceadd_in, wantDebug_in, my_stream);
+ }
+ 
+-//________________________________________________________________
+\ No newline at end of file
++//________________________________________________________________

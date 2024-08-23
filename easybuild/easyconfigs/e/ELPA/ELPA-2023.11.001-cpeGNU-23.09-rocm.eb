@@ -7,7 +7,7 @@ local_ELPA_version = '2023.11.001'
 
 name =    'ELPA'
 version = local_ELPA_version
-versionsuffix = '-rocm-5.2.3'
+versionsuffix = '-rocm'
 
 homepage = 'http://elpa.mpcdf.mpg.de'
 
@@ -34,41 +34,51 @@ toolchain = {'name': 'cpeGNU', 'version': '23.09'}
 toolchainopts = {'usempi': True, 'openmp': False}
 
 source_urls = ['https://elpa.mpcdf.mpg.de/software/tarball-archive/Releases/%(version)s/']
-sources =     ['elpa-%(version)s-patched.tar.gz']
+sources =  ['elpa-%(version)s-patched.tar.gz']
 
 patches = [
-    {'name': 'elpa-2023.11.01-hiputils.patch', 'level': 1},
+    'elpa-2023.11.01-hiputils.patch',
+    'elpa-2023.11.001_rocm6.patch',
+]
+
+checksums = [
+    '62ee109afc06539507f459c08b958dc4db65b757dbd77f927678c77f7687415e', # elpa-2023.11.001-patched.tar.gz
+    '4404753bca381f472334cf9f879702092084a2cdadeeeab938b84524b5136be8', # elpa-2023.11.01-hiputils.patch
+    '210b548c9a272327b9dc16765a62ecd72ec7fd0e1af50594250918d22f6a52ac', # elpa-2023.11.001_rocm6.patch
 ]
 
 builddependencies = [ 
-    ('buildtools', '%(toolchain_version)s', '', True), 
+    ('buildtools', '%(toolchain_version)s', '', True),
 ]
 
 dependencies = [
-    ('cray-libsci/23.09.1.1', EXTERNAL_MODULE),
-    ('rocm/5.2.3', EXTERNAL_MODULE),
+    ('cray-libsci', EXTERNAL_MODULE),
+    ('rocm',        EXTERNAL_MODULE),
 ]
 
-local_commonopts  = 'CPP=cpp CC=cc CXX=hipcc FC=ftn CFLAGS="-g $CFLAGS" FCFLAGS="-g $FCFLAGS" CXXFLAGS="-g --offload-arch=gfx90a --gcc-toolchain=$GCC_PATH/snos -std=c++17 -I$ROCM_PATH/include/hip -I$ROCM_PATH/include/rocblas -I$CRAY_MPICH_DIR/include" '
-local_commonopts += '--enable-static '
-local_commonopts += '--disable-generic '
-local_commonopts += '--disable-sse '
-local_commonopts += '--disable-avx '
-local_commonopts += '--enable-avx2 '
-local_commonopts += '--disable-avx512 ' 
-local_commonopts += '--enable-amd-gpu-kernels '
-local_commonopts += '--with-AMD-gpu-support-only ' 
-local_commonopts += '--enable-gpu-streams=amd '
-local_commonopts += '--enable-hipcub '
-local_commonopts += '--enable-single-precision '
-local_commonopts += '--disable-openmp '
-local_commonopts += '--with-mpi=yes '
-local_commonopts += '--enable-cuda-aware-mpi '
-local_commonopts += '--enable-marshalling-hipblas-library '
+configopts = ' '.join([
+    'CPP=cpp CC=cc CXX=hipcc FC=ftn',
+    'CFLAGS="-g $CFLAGS"',
+    'FCFLAGS="-g $FCFLAGS"',
+    'CXXFLAGS="-g --offload-arch=gfx90a --gcc-toolchain=$GCC_PATH/snos -std=c++17 -I$ROCM_PATH/include/hip -I$ROCM_PATH/include/rocblas -I$CRAY_MPICH_DIR/include"',
+    '--enable-static',
+    '--disable-generic',
+    '--disable-sse',
+    '--disable-avx',
+    '--enable-avx2',
+    '--disable-avx512',
+    '--enable-amd-gpu-kernels',
+    '--with-AMD-gpu-support-only',
+    '--enable-gpu-streams=amd',
+    '--enable-hipcub',
+    '--enable-single-precision ',
+    '--disable-openmp',
+    '--with-mpi=yes',
+    '--enable-cuda-aware-mpi',
+    '--enable-marshalling-hipblas-library',
+])
 
-configopts = local_commonopts
-
-prebuildopts = " make clean && "
+prebuildopts = 'export CPATH=$ROCM_PATH/include/hipblas && make clean && '
 
 maxparallel = 16
 
