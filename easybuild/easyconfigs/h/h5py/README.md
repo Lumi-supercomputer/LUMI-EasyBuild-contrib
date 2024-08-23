@@ -22,3 +22,7 @@
 ### Version 3.7.0 for CPE 22.08
 
   * Based on CSCS version with additional information added
+
+### Version 3.11.0 for CPE 24.03
+
+  * Based on previous easyconfigs
