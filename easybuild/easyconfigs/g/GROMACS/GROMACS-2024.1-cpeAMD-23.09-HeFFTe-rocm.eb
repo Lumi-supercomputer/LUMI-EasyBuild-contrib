@@ -2,9 +2,13 @@
 #
 easyblock = 'CMakeMake'
 
-name =          'GROMACS'
-version =       '2024.1'
-versionsuffix = '-HeFFTe-rocm-5.2.3' 
+local_AdaptiveCpp_version = '23.10.0'
+local_HeFFTe_version      = '2.4.0'
+local_Boost_version       = '1.82.0'
+
+name = 'GROMACS'
+version = '2024.1'
+versionsuffix = '-HeFFTe-rocm' 
 
 homepage = 'http://www.gromacs.org'
 
@@ -22,13 +26,12 @@ Binaries included:
 
 The module sets the environment variables that would otherwise be set by running
 the script $EBROOTGROMACS/bin/GMXRC. So running this script snould not be
-}necessary in most cases.
+necessary in most cases.
 
 The module also defines the shell function gromacs-completion that can be used to
 turn bash command completion on for GROMACS. Note that unloading the module will
 not turn this off, so it may have consequences for things you do later on or
 conflict with the command completion of a different version of GROMACS.
-
 """
 
 toolchain = {'name': 'cpeAMD', 'version': '23.09'}
@@ -41,15 +44,13 @@ builddependencies = [
     ('buildtools', '%(toolchain_version)s', '', True), 
 ]
 
-local_rocm_version = '5.2.3'
-
 dependencies = [
-    ('AdaptiveCpp', '23.10.0', f'-rocm-{local_rocm_version}'),
-    ('HeFFTe', '2.4.0', f'-rocm-{local_rocm_version}'),
-    ('Boost', '1.82.0'),
-    ('cray-fftw/3.3.10.5', EXTERNAL_MODULE),
-    ('cray-python/3.10.10', EXTERNAL_MODULE),
-    ('cray-libsci/23.09.1.1', EXTERNAL_MODULE),
+    ('cray-fftw',   EXTERNAL_MODULE),
+    ('cray-python', EXTERNAL_MODULE),
+    ('cray-libsci', EXTERNAL_MODULE),
+    ('AdaptiveCpp', local_AdaptiveCpp_version, '-rocm'),
+    ('HeFFTe',      local_HeFFTe_version,      '-rocm'),
+    ('Boost',       local_Boost_version),
 ]
 
 # These options are taken from CSC installation developed by Rasmus adapted for AMD toolchain 
@@ -59,7 +60,6 @@ configopts += '-D ROCM_PATH=${ROCM_PATH} '
 configopts += '-D CMAKE_C_COMPILER=${ROCM_PATH}/llvm/bin/clang '
 configopts += '-D CMAKE_CXX_COMPILER=${ROCM_PATH}/llvm/bin/clang++ '
 configopts += '-D CMAKE_PREFIX_PATH=${CRAY_MPICH_PREFIX}:${ROCM_PATH}/lib '
-configopts += '-D CMAKE_CXX_FLAGS="--gcc-toolchain=${GCC_PATH}/snos/" '
 configopts += '-D GMX_GPU=SYCL '
 configopts += '-D GMX_MPI=ON '
 configopts += '-D GMX_OPENMP=ON '
@@ -73,6 +73,8 @@ configopts += '-D ACPP_TARGETS="hip:gfx90a" '
 configopts += '-D HIPSYCL_ROCM_PATH=${ROCM_PATH} '
 configopts += '-D HIPSYCL_TARGETS="hip:gfx90a" '
 configopts += '-D Heffte_ROOT=${EBROOTHEFFTE} '
+
+prebuildopts = 'export CPATH="$ROCM_PATH/include/rocfft:$CPATH" && '
 
 skipsteps = ['test']
 
@@ -115,8 +117,6 @@ local_bash_completion = """
 local_csh_completion = '"echo \'Not implemented\'"'
 
 modluafooter = """
-prepend_path("LD_LIBRARY_PATH", pathJoin(os.getenv("ROCM_PATH"), "llvm/lib"))
-
 set_shell_function( 'gromacs-completion', %(bash_completion)s, %(csh_completion)s )
 """ % {
     'bash_completion': local_bash_completion,
