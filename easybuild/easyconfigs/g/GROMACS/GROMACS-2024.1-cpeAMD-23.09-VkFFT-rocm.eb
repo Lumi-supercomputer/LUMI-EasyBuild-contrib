@@ -2,9 +2,12 @@
 #
 easyblock = 'CMakeMake'
 
+local_AdaptiveCpp_version = '23.10.0'
+local_Boost_version       = '1.82.0'
+
 name =          'GROMACS'
 version =       '2024.1'
-versionsuffix = '-VkFFT-rocm-5.6.1' 
+versionsuffix = '-VkFFT-rocm' 
 
 homepage = 'http://www.gromacs.org'
 
@@ -41,14 +44,12 @@ builddependencies = [
     ('buildtools', '%(toolchain_version)s', '', True), 
 ]
 
-local_rocm_version = '5.6.1'
-
 dependencies = [
-    ('AdaptiveCpp', '23.10.0', f'-rocm-{local_rocm_version}'),
-    ('Boost', '1.82.0'),
-    ('cray-fftw/3.3.10.5', EXTERNAL_MODULE),
-    ('cray-python/3.10.10', EXTERNAL_MODULE),
-    ('cray-libsci/23.09.1.1', EXTERNAL_MODULE),
+    ('cray-fftw',   EXTERNAL_MODULE),
+    ('cray-python', EXTERNAL_MODULE),
+    ('cray-libsci', EXTERNAL_MODULE),
+    ('AdaptiveCpp', local_AdaptiveCpp_version, '-rocm'),
+    ('Boost',       local_Boost_version),
 ]
 
 # These options are taken from CSC installation developed by Rasmus adapted for AMD toolchain 
@@ -58,7 +59,6 @@ configopts += '-D ROCM_PATH=${ROCM_PATH} '
 configopts += '-D CMAKE_C_COMPILER=${ROCM_PATH}/llvm/bin/clang '
 configopts += '-D CMAKE_CXX_COMPILER=${ROCM_PATH}/llvm/bin/clang++ '
 configopts += '-D CMAKE_PREFIX_PATH=${CRAY_MPICH_PREFIX}:${ROCM_PATH}/lib '
-configopts += '-D CMAKE_CXX_FLAGS="--gcc-toolchain=${GCC_PATH}/snos/" '
 configopts += '-D GMX_GPU=SYCL '
 configopts += '-D GMX_MPI=ON '
 configopts += '-D GMX_OPENMP=ON '
@@ -70,6 +70,8 @@ configopts += '-D GMX_LAPACK_USER=${CRAY_LIBSCI_PREFIX_DIR}/lib/libsci_amd.so '
 configopts += '-D ACPP_TARGETS="hip:gfx90a" '
 configopts += '-D HIPSYCL_ROCM_PATH=${ROCM_PATH} '
 configopts += '-D HIPSYCL_TARGETS="hip:gfx90a" '
+
+prebuildopts = 'export CPATH="$ROCM_PATH/include/rocfft:$CPATH" && '
 
 skipsteps = ['test']
 
@@ -112,8 +114,6 @@ local_bash_completion = """
 local_csh_completion = '"echo \'Not implemented\'"'
 
 modluafooter = """
-prepend_path("LD_LIBRARY_PATH", pathJoin(os.getenv("ROCM_PATH"), "llvm/lib"))
-
 set_shell_function( 'gromacs-completion', %(bash_completion)s, %(csh_completion)s )
 """ % {
     'bash_completion': local_bash_completion,
