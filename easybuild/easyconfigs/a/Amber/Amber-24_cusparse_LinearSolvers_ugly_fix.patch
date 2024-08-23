@@ -1,0 +1,13 @@
+--- /users/maciszpin/project_8/amber24_src/AmberTools/src/pbsa/cusparse_LinearSolvers.cu	2024-04-29 20:47:47.000000000 +0300
++++ /run/user/10012235/easybuild/build/Amber/24.0/cpeGNU-23.09-AmberTools-24.0-GPU/amber24_src/AmberTools/src/pbsa/cusparse_LinearSolvers.cu	2024-07-11 12:04:35.275707492 +0300
+@@ -22,6 +22,10 @@
+ #endif
+ #include "helper_cuda.h" // For error handling and device pickup
+ 
++#if defined(AMBER_PLATFORM_AMD)
++#define cusparseErrorCheck(err) { }
++#endif
++
+ //
+ // Standard conjugate gradient method without preconditioner
+ // Matrix in the CSR format. Coded with the CUSPARSE library
