@@ -23,3 +23,8 @@ not meant to be a replacement for the HPE Cray or AMD compilers on LUMI.
 
 -   This EasyConfig is a direct port of the EasyBuilders one.
 
+### Version 17.0.6 for cpeGNU 24.03
+
+-   Based on previous easyconfigs with some changes coming from the EasyBuilders
+    repository: building LLVM now requires three source archives while the
+    previous version only required one.
