@@ -18,7 +18,7 @@ that use LibSci but are compiled without OpenMP support as otherwise a conflict 
 LibSci libraries will occur. 
 """
 
-toolchain = {'name': 'cpeGNU', 'version': '23.09'}
+toolchain = {'name': 'cpeGNU', 'version': '24.03'}
 toolchainopts = {'pic': True, 'usempi': True, 'openmp': True}
 
 github_account = 'opencollab'
