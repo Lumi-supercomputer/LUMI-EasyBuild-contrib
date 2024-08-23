@@ -27,3 +27,7 @@
 
 -   Created from scratch for LUMI as the LUMI Python setup is different from the
     EasyBuilders and CSCS ones. Created independently from the 1.1.6 one.
+
+### Version 1.3.5 for CPE 24.03
+
+-   Based on previous easyconfigs
