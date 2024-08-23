@@ -73,7 +73,8 @@ dependencies = [
     ('rocm', EXTERNAL_MODULE),
 ]
 
-preconfigopts = """cat >>%(builddir)s/QuEST-%(version)s/QuEST/CMakeLists.txt<<EOF
+preconfigopts  = 'sed -i \'s#${HIP_PATH}/cmake#${HIP_PATH}/lib/cmake/hip#\' %(builddir)s/QuEST-%(version)s/QuEST/CMakeLists.txt && '
+preconfigopts += """cat >>%(builddir)s/QuEST-%(version)s/QuEST/CMakeLists.txt<<EOF
 install(TARGETS QuEST DESTINATION lib)
 install(FILES include/QuEST_complex.h DESTINATION include)
 install(FILES include/QuEST.h DESTINATION include)
@@ -96,6 +97,7 @@ configopts += '-DUSE_HIP=ON '
 configopts += '-DGPU_ARCH=gfx90a '
 # PRecision: 1, 2 or 4 (the latter not supported in all configurations)
 configopts += '-DPRECISION=2 '
+configopts += '-DHIP_PATH=$ROCM_PATH '
 
 # Only build the library through CMake
 srcdir = 'QuEST'
