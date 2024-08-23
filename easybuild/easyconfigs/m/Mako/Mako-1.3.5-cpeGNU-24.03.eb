@@ -1,0 +1,57 @@
+# Created for LUMI by Orian Louant
+
+easyblock = 'PythonBundle'
+
+name = 'Mako'
+version = '1.3.5'
+
+homepage = 'https://www.makotemplates.org'
+
+whatis = ['Description: Mako is a template library written in Python']
+
+description = """
+Mako is a template library written in Python. It provides a familiar, non-XML
+syntax which compiles into Python modules for maximum performance. Mako's syntax
+and API borrows from the best ideas of many others, including Django and Jinja2
+templates, Cheetah, Myghty, and Genshi. Conceptually, Mako is an embedded
+Python (i.e. Python Server Page) language, which refines the familiar ideas of
+componentized layout and inheritance to produce one of the most straightforward
+and flexible models available, while also maintaining close ties to Python
+calling and scoping semantics.
+"""
+
+docurls = ['https://docs.makotemplates.org/']
+software_license_urls = ['https://github.com/sqlalchemy/mako/blob/main/LICENSE']
+
+toolchain = {'name': 'cpeGNU', 'version': '24.03'}
+
+use_pip = True
+sanity_pip_check = False
+
+builddependencies = [
+  ('buildtools-python', '%(toolchain_version)s', '-cray-python%(pyshortver)s', True)
+]
+
+dependencies = [
+    ('cray-python', EXTERNAL_MODULE),
+]
+
+exts_list = [
+    ('MarkupSafe', '2.1.5', {
+        'source_urls': ['https://pypi.python.org/packages/source/m/markupsafe'],
+        'checksums': ['d283d37a890ba4c1ae73ffadf8046435c76e7bc2247bbb63c00bd1a709c6544b'],
+    }),
+    (name, version, {
+        'source_urls': ['https://pypi.python.org/packages/source/m/mako'],
+        'checksums': ['48dbc20568c1d276a2698b36d968fa76161bf127194907ea6fc594fa81f943bc'],
+    }),
+]
+
+sanity_check_paths = {
+    'files': ['bin/mako-render'],
+    'dirs': ['lib/python%(pyshortver)s/site-packages/%(namelower)s'],
+}
+
+sanity_check_commands = ['mako-render --help']
+
+moduleclass = 'devel'
