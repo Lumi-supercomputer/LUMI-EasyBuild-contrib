@@ -14,7 +14,13 @@ MATIO is used by Trilinos.
 -   There is no support for MATIO in the CSCS repository
 
 
-### Version 1.5.23 for cpeGNU 22.08 and 22.12
+### Version 1.5.23 for cpeGNU 22.08 and 22.12 (archived)
 
 -   The EasyConfig is adapted from the EasyBuilder ones.
 
+### Version 1.5.27 for cpeGNU 24.03
+
+-   The EasyConfig is adapted from the previous one but with a
+    switch to use CMake as the build system. Enabled shared library and
+    HDF5. HDF5 parallel is used as MATIO is a Trilinos dependency and we
+    use the parallel version to build Trilinos.
