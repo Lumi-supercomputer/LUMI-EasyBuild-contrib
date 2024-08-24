@@ -25,3 +25,7 @@
 
 -   But **note that OpenMP is disabled in this version**.
 
+### Version 9.0.0 for cpeGNU 24.03
+
+-   Update based on previous easyconfigs
+
