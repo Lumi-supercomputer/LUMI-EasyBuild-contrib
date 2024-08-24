@@ -34,7 +34,7 @@ in the LUMI software stacks.
     which is really for the EasyBuild common toolchains and not for the Cray PE.
 
 
-### Version 0.3.20 for cpeGNU/22.06, cpeGNU/22.08
+### Version 0.3.20 for cpeGNU/22.06, cpeGNU/22.08 (archived)
 
   * The EasyConfig is an adaptation of the standard EasyBuilders one.
   
@@ -42,10 +42,14 @@ in the LUMI software stacks.
     no interaction at all with that library. Otherwise, e.g., one might
     end up testing the Cray library rather than OpenBLAS.
 
-### Version 0.3.23 for cpeGNU 22.12
+### Version 0.3.23 for cpeGNU 22.12 (archived)
 
   * Version provided with 64-bit integer support on user demand.
 
-### Issues with 0.3.23 and GCC 12.2.0
+### Issues with 0.3.23 and GCC 12.2.0 (archived)
 
   * Take caution on updating for GCC 12.2.0 https://gcc.gnu.org/bugzilla/show_bug.cgi?id=107254
+
+### Version 0.3.24 for cpeGNU 23.12 and 24.03
+
+  * The easyconfig is an adaptation of the standard EasyBuilders one.
