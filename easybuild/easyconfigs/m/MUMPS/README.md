@@ -16,3 +16,7 @@
 
 -   The EasyConfig is derived from the EasyBuilders one with an additional patch
     for the Cray PE.
+
+### Version 5.6.1. for cpeGNU 24.03
+
+-   The EasyConfig is derived from the EasyBuilders one
