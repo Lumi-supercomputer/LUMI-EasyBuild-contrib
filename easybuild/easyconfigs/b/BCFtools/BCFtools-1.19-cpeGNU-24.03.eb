@@ -1,0 +1,87 @@
+# This file is an EasyBuild reciPY as per https://github.com/easybuilders/easybuild
+# 
+# Author: Jonas Demeulemeester
+# The Francis Crick Insitute, London, UK
+
+easyblock = 'ConfigureMake'
+
+local_BCFtools_version =     '1.19'     # https://github.com/samtools/bcftools/releases
+
+# Dependencies from the main software stack
+local_GSL_version        = '2.7.1'      # https://ftp.gnu.org/gnu/gsl/
+local_zlib_version       = '1.3.1'
+local_libdeflate_version = '1.19'
+local_bzip2_version      = '1.0.8'
+local_XZ_version         = '5.4.4'
+
+# Dependencies from the contributed applications
+local_HTSlib_version = '1.19.1'          # https://github.com/samtools/htslib/releases
+
+name =    'BCFtools'
+version = local_BCFtools_version
+
+homepage = 'https://www.htslib.org/'
+whatis = [
+ 	"Description: BCFtools - Reading/writing BCF2/VCF/gVCF files and calling/filtering/summarising SNP and short indel sequence variants",
+]
+
+description = """i
+BCFtools is a set of utilities that manipulate variant calls in the Variant Call Format (
+VCF) and its binary counterpart BCF. All commands work transparently with both VCFs and BCFs, 
+both uncompressed and BGZF-compressed.
+
+It used to be part of SAMtools, a suite of programs for interacting with high-throughput 
+sequencing data.
+
+This version is compiled using GSL without OpenMP support, so no parallel BLAS etc.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '24.03'}
+toolchainopts = {'pic': True}
+
+source_urls = ['https://github.com/samtools/%(namelower)s/releases/download/%(version)s']
+sources =     [SOURCELOWER_TAR_BZ2]
+checksums =   ['782b5f1bc690415192231e82213b3493b047f45e630dc8ef6f154d6126ab3e68']
+
+builddependencies = [
+    ('buildtools',          '%(toolchain_version)s', '', True),
+    ('craype-network-none', EXTERNAL_MODULE),
+    ('craype-accel-host',   EXTERNAL_MODULE),
+]
+
+dependencies = [
+    ('zlib',       local_zlib_version),
+    ('libdeflate', local_libdeflate_version),
+    ('bzip2',      local_bzip2_version),
+    ('XZ',         local_XZ_version),
+    ('GSL',        local_GSL_version,    '-sequential'),
+    ('HTSlib',     local_HTSlib_version),
+]
+
+# As linking with BLAS is automatic on Cray systems, the configure script goes wrong and
+# then tries to generate some invalid arguments to link/. As a workaround, we tell to
+# use libm as the cblas library. It will add -lm twice to the link line but that does no
+# harm.
+configopts = '--with-htslib=$EBROOTHTSLIB --enable-libgsl --with-cblas=m '
+
+preconfigopts = 'module unload rocm && '
+prebuildopts = preconfigopts
+
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s ; cp LICENSE AUTHORS NEWS README %(installdir)s/share/licenses/%(name)s'    
+]
+
+sanity_check_paths = {
+    'files': ['bin/%s' % x for x in ['bcftools', 'plot-vcfstats', 'vcfutils.pl']],
+    'dirs':  ['libexec/bcftools']
+}
+
+sanity_check_commands = [
+    'bcftools -v', 
+    'bcftools plugin -lv',
+]
+
+# Needed to use BCFtools plugins
+modextravars = {'BCFTOOLS_PLUGINS': '%(installdir)s/libexec/bcftools'}
+
+moduleclass = 'bio'
