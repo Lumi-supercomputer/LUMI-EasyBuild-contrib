@@ -10,9 +10,6 @@ local_BCFtools_version =     '1.19'     # https://github.com/samtools/bcftools/r
 # Dependencies from the main software stack
 local_GSL_version        = '2.7.1'      # https://ftp.gnu.org/gnu/gsl/
 local_zlib_version       = '1.3.1'
-local_libdeflate_version = '1.19'
-local_bzip2_version      = '1.0.8'
-local_XZ_version         = '5.4.4'
 
 # Dependencies from the contributed applications
 local_HTSlib_version = '1.19.1'          # https://github.com/samtools/htslib/releases
@@ -51,9 +48,6 @@ builddependencies = [
 
 dependencies = [
     ('zlib',       local_zlib_version),
-    ('libdeflate', local_libdeflate_version),
-    ('bzip2',      local_bzip2_version),
-    ('XZ',         local_XZ_version),
     ('GSL',        local_GSL_version,    '-sequential'),
     ('HTSlib',     local_HTSlib_version),
 ]
