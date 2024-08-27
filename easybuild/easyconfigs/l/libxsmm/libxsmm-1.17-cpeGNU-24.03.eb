@@ -1,0 +1,58 @@
+# contributed by Luca Marsella (CSCS)
+# Modified by Peter Larsson for LUMI
+# Bump to the latest version and CPE version by Radim Janalik (CSCS)
+easyblock = 'ConfigureMake'
+
+name =    'libxsmm'
+version = '1.17'
+
+homepage = 'https://readthedocs.org/projects/libxsmm'
+
+whatis = [
+    'Description: Library targeting Intel Architecture for specialized dense and sparse matrix operations, and deep learning primitives'
+]
+
+description = """
+Library targeting Intel Architecture for specialized dense and sparse matrix
+operations, and deep learning primitives.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '24.03'}
+toolchainopts = {'usempi': True, 'openmp': True}
+
+source_urls = ['https://github.com/hfp/%(name)s/archive/']
+sources = ['%(version)s.tar.gz']
+checksums = ['8b642127880e92e8a75400125307724635ecdf4020ca4481e5efe7640451bb92']
+
+builddependencies = [
+    ('buildtools',          '%(toolchain_version)s', '', True),
+    ('craype-network-none', EXTERNAL_MODULE),
+    ('craype-accel-host',   EXTERNAL_MODULE),
+]
+
+local_common_installopts = 'PREFIX=%(installdir)s AVX=2 DBG=0 JIT=1 MALLOC=0 MIC=0 OPT=3 OMP=1 PREFETCH=1'
+
+installopts = [
+    local_common_installopts, 
+    local_common_installopts + ' STATIC=0',
+]
+
+preinstallopts = 'module unload rocm && '
+
+skipsteps = ['configure', 'build']
+maxparallel = 1
+
+postinstallcmds = [
+    'cd %(installdir)s/lib; mkdir -p pkgconfig; mv *.pc pkgconfig',
+]
+
+sanity_check_paths = {
+    'files': [
+        'bin/libxsmm_gemm_generator', 'include/libxsmm.h', 
+        'lib/libxsmm.a', 'lib/libxsmm.%s' % SHLIB_EXT
+    ],
+    'dirs': ['share']
+}
+
+moduleclass = 'chem'
+
