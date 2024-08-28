@@ -2,7 +2,7 @@ easyblock = "PythonPackage"
 
 name = 'GPAW'
 version = '24.6.0'
-versionsuffix = '-rocm-5.2.3'
+versionsuffix = '-rocm'
 
 homepage = 'https://wiki.fysik.dtu.dk/gpaw/'
 description = """GPAW is a density-functional theory (DFT) Python code based on the projector-augmented wave (PAW)
@@ -38,10 +38,10 @@ dependencies = [
     ('cray-python/3.10.10', EXTERNAL_MODULE),
     ('cray-libsci/23.09.1.1', EXTERNAL_MODULE),
     ('cray-fftw/3.3.10.5', EXTERNAL_MODULE),
-    ('rocm/5.2.3', EXTERNAL_MODULE),
-    ('CuPy', '12.2.0', '-rocm-5.2.3'),
+    ('rocm', EXTERNAL_MODULE),
+    ('CuPy', '12.2.0', '-rocm'),
     ('libxc', '6.2.2'),
-    ('ELPA', '2023.11.001', '-rocm-5.2.3'),
+    ('ELPA', '2023.11.001', '-rocm'),
 ]
 
 preinstallopts = 'GPAW_CONFIG=siteconfig-lumi-gpu.py '
