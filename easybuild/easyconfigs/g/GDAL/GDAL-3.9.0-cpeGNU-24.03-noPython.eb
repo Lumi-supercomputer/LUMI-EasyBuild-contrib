@@ -1,0 +1,132 @@
+easyblock = 'CMakeMake'
+
+local_Blosc_version =        '1.21.5'        # https://github.com/Blosc/c-blosc/releases
+local_cURL_version =         '8.3.0'         # https://curl.haxx.se/download/
+local_expat_version =        '2.6.2'         # https://github.com/libexpat/libexpat/releases
+local_JasPer_version =       '4.0.0'         # https://github.com/jasper-software/jasper/releases
+local_SQLite_version =       '3.43.1'        # https://www.sqlite.org/
+local_libdeflate_version =   '1.19'          # https://github.com/ebiggers/libdeflate/releases
+local_giflib_version =       '5.2.1'         # https://sourceforge.net/projects/giflib/files/
+local_libjpegturbo_version = '3.0.1'        # https://github.com/libjpeg-turbo/libjpeg-turbo/releases
+local_libxml2_version =      '2.11.5'        # http://xmlsoft.org/sources/
+local_libpng_version =       '1.6.40'        # http://www.libpng.org/pub/png/libpng.html
+local_libtiff_version =      '4.6.0'         # https://download.osgeo.org/libtiff/
+local_libwebp_version =      '1.3.2'         # https://github.com/webmproject/libwebp/releases
+local_lz4_version =          '1.9.4'         # https://github.com/lz4/lz4/releases
+local_PCRE2_version =        '10.42'         # https://ftp.pcre.org/pub/pcre/
+local_PROJ_version =         '9.3.1'         # https://proj.org/download.html
+local_XZ_version =           '5.4.4'         # https://tukaani.org/xz/
+local_zlib_version =         '1.3.1'         # https://zlib.net/
+local_zstd_version =         '1.5.5'         # https://github.com/facebook/zstd/releases
+
+local_Xerces_version =       '3.2.5'         # https://xerces.apache.org/xerces-c/releases.html
+local_GEOS_version =         '3.12.1'        # https://github.com/libgeos/geos/releases
+local_HDF_version =          '4.2.16-2'      # https://support.hdfgroup.org/ftp/HDF/releases/
+local_libgeotiff_version =   '1.7.3'         # https://github.com/OSGeo/libgeotiff/releases
+local_jsonc_version =        '0.17'          # https://github.com/json-c/json-c/tags
+
+name =          'GDAL'
+version =       '3.9.0'
+versionsuffix = '-noPython'
+
+homepage = 'https://www.gdal.org'
+
+whatis = [
+    'Description: translator library for raster geospatial data formats',
+    'This module provides the command line utilities and shared libraries',
+]
+
+description = """
+GDAL is a translator library for raster geospatial data formats that is released
+under an X/MIT style Open Source license by the Open Source Geospatial
+Foundation. As a library, it presents a single abstract data model to the 
+alling application for all supported formats. It also comes with a variety of
+useful commandline utilities for data translation and processing.
+
+This module contains a number of command line tools and shared libraries.
+It is built with support for Python This module was installed through
+EasyBuild, so users experienced with EasyBuild may further extend the
+build recipe to enable additional options in GDAL.
+"""
+
+docurls = [
+   'Web-based documentation on the package home page http://www.gdal.org/',
+]
+
+toolchain = {'name': 'cpeGNU', 'version': '24.03'}
+toolchainopts = {'usempi': True}
+
+source_urls = ['https://download.osgeo.org/gdal/%(version)s/']
+sources = [SOURCELOWER_TAR_XZ]
+patches = ['GDAL-3.9.0_cmake-hdf5-target.patch']
+
+checksums = [
+    '577f80e9d14ff7c90b6bfbc34201652b4546700c01543efb4f4c3050e0b3fda2',  # gdal-3.9.0.tar.xz
+    '0eba6bb2cd8e91240cb95aac7efce3a32e88134073bbaa3c5792feff8c137c11',  # GDAL-3.9.0_cmake-hdf5-target.patch
+]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+    ('cray-hdf5',     EXTERNAL_MODULE),
+    ('cray-netcdf',   EXTERNAL_MODULE),
+    # Packages from the central software stack
+    ('cURL',          local_cURL_version),
+    ('expat',         local_expat_version),
+    ('PCRE2',         local_PCRE2_version),
+    ('SQLite',        local_SQLite_version),
+    ('libxml2',       local_libxml2_version),
+    ('giflib',        local_giflib_version),
+    ('libpng',        local_libpng_version),
+    ('libjpeg-turbo', local_libjpegturbo_version),
+    ('JasPer',        local_JasPer_version),
+    ('libwebp',       local_libwebp_version),
+    ('LibTIFF',       local_libtiff_version),
+    ('Blosc',         local_Blosc_version),
+    ('lz4',           local_lz4_version),
+    ('libdeflate',    local_libdeflate_version),
+    ('zlib',          local_zlib_version),
+    ('zstd',          local_zstd_version),
+    ('PROJ',          local_PROJ_version),
+    # Packages from the contributed repository
+    ('HDF',           local_HDF_version),
+    ('GEOS',          local_GEOS_version),
+    ('libgeotiff',    local_libgeotiff_version),
+    ('Xerces-C++',    local_Xerces_version),
+    ('json-c',        local_jsonc_version),
+]
+
+local_configopts_common = ' '.join([
+    '-DGDAL_USE_INTERNAL_LIBS=OFF',
+    '-DBUILD_PYTHON_BINDINGS=OFF',
+    '-DGDAL_USE_MYSQL=OFF',
+    '-DGEOTIFF_INCLUDE_DIR=$EBROOTLIBGEOTIFF/include',
+    '-DPython_ROOT=$EBROOTPYTHON',
+])
+
+configopts = [
+    local_configopts_common + ' -DBUILD_SHARED_LIBS=OFF',
+    local_configopts_common
+]
+
+local_license_files = ['../%%(namelower)s-%%(version)s/%s' % file for file in ['LICENSE.TXT', 'PROVENANCE.TXT', 'NEWS.md']]
+
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s && ' +
+    'cp ' + ' '.join(local_license_files) + ' %(installdir)s/share/licenses/%(name)s',
+]
+
+sanity_check_paths = {
+    'files': ['lib/libgdal.a', 'lib/libgdal.%s' % SHLIB_EXT],
+    'dirs': ['bin', 'include'],
+}
+
+sanity_check_commands = [ # Few commands to really test as almost all return error codes when no data file is given.
+    'pkg-config --libs gdal',
+    'gdal-config --version',
+]
+
+moduleclass = 'data'
+

@@ -1,0 +1,11 @@
+--- gdal-3.9.0/frmts/hdf5/CMakeLists.txt        2024-05-07 15:53:28.000000000 +0300
++++ gdal-3.9.0.new/frmts/hdf5/CMakeLists.txt    2024-08-27 22:21:06.846347021 +0300
+@@ -92,8 +92,6 @@
+ if (WIN32)
+   target_compile_definitions(gdal_HDF5 PRIVATE -DWIN32)
+ endif ()
+-target_include_directories(gdal_HDF5 SYSTEM PRIVATE ${HDF5_INCLUDE_DIRS})
+-gdal_target_link_libraries(gdal_HDF5 PRIVATE ${HDF5_C_LIBRARIES})
+
+ if (HDF5_BUILD_SHARED_LIBS)
+   target_compile_definitions(gdal_HDF5 PRIVATE -DH5_BUILT_AS_DYNAMIC_LIB)
