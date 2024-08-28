@@ -43,7 +43,7 @@ toolchainopts = {'openmp': True, 'usempi': True}
 
 source_urls = ['https://github.com/%(namelower)s/%(namelower)s/releases/download/v%(version)s']
 sources = [SOURCELOWER_TAR_BZ2]
-checksums = []
+checksums = ['a7abf149a278dfd5283dc592a2c4ae803b37d040df25d62a5e35af5c4557668f']
 patches = [
     ('LUMIG-20241.psmp', '%(builddir)s/%(namelower)s-%(version)s/arch')
 ]
