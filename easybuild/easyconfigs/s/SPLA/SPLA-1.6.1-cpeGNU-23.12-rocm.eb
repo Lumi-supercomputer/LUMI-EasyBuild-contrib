@@ -28,7 +28,7 @@ docurls = [
 ]
 
 toolchain = {'name': 'cpeGNU', 'version': '23.12'}
-toolchainopts = {'openmp': False, 'opt': True, 'pic': True, 'usempi': True}
+toolchainopts = {'openmp': True, 'opt': True, 'pic': True, 'usempi': True}
 
 source_urls = ['https://github.com/eth-cscs/%(namelower)s/archive']
 sources = ['v%(version)s.tar.gz']
@@ -42,7 +42,7 @@ dependencies = [
     ('rocm', EXTERNAL_MODULE),
 ]
 
-configopts = "-DCMAKE_BUILD_TYPE=RELEASE -DSPLA_OMP=OFF -DSPLA_FORTRAN=ON -DSPLA_GPU_BACKEND=ROCM"
+configopts = "-DCMAKE_BUILD_TYPE=RELEASE -DSPLA_OMP=ON -DSPLA_FORTRAN=ON -DSPLA_GPU_BACKEND=ROCM"
 
 #prebuildopts = 'export CPATH="$ROCM_PATH/include/rocblas:$CPATH" && '
 
