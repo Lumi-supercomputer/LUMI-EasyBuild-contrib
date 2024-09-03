@@ -1,0 +1,142 @@
+# Based on EPCC recipe from https://github.com/ARCHER2-HPC/pe-scripts/blob/modules-2022-12/sh/petsc.sh
+# and https://gitlab.com/petsc/petsc/-/blob/main/config/examples/arch-olcf-frontier-opt.py
+easyblock = 'ConfigureMake'
+
+local_Boost_version        = '1.83.0'
+local_METIS_version        = '5.1.0'
+local_ParMETIS_version     = '4.0.3'
+local_SCOTCH_version       = '7.0.4'
+local_MUMPS_version        = '5.6.1'
+local_Hypre_version        = '2.31.0'
+local_SuperLU_version      = '6.0.1'
+local_SuperLU_DIST_version = '9.0.0'
+
+local_PETSc_version = '3.21.5'
+
+name = 'PETSc'
+version = local_PETSc_version
+
+homepage = 'https://www.mcs.anl.gov/petsc'
+description = """PETSc, pronounced PET-see (the S is silent), is a suite of data structures and routines for the
+ scalable (parallel) solution of scientific applications modeled by partial differential equations."""
+
+toolchain = {'name': 'cpeGNU', 'version': '24.03'}
+toolchainopts = {'openmp': True, 'usempi': True, 'pic': True}
+
+source_urls = ['https://web.cels.anl.gov/projects/petsc/download/release-snapshots']
+sources = [SOURCELOWER_TAR_GZ]
+patches = ['PETSc-3.21.5_rocm6.patch']
+
+checksums = [
+    '4eb1ec04c1a8988bd524f71f8d7d980dc1853d5be8791c0f19f3c09eef71fdd2', # petsc-3.21.5.tar.gz
+    'b3978ee8f0a16d9aea8153dd844b4f1c8b8de4acd5b8d1e625019483a98d6bad', # PETSc-3.21.5_rocm6.patch
+]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True)
+]
+
+dependencies = [
+    ('rocm',               EXTERNAL_MODULE),
+    ('cray-python',        EXTERNAL_MODULE),
+    ('cray-hdf5-parallel', EXTERNAL_MODULE),
+    ('Boost',              local_Boost_version),
+    ('METIS',              local_METIS_version),
+    ('ParMETIS',           local_ParMETIS_version),
+    ('SCOTCH',             local_SCOTCH_version),
+    ('MUMPS',              local_MUMPS_version),
+    ('Hypre',              local_Hypre_version),
+    ('SuperLU',            local_SuperLU_version, '-OpenMP'),
+    ('SuperLU_DIST',       local_SuperLU_DIST_version, '-OpenMP'),
+]
+
+preconfigopts = ' && '.join([
+    'export HIPCC_COMPILE_FLAGS_APPEND="$(CC --cray-print-opts=cflags)"',
+    'export HIPCC_LINK_FLAGS_APPEND=$(CC --cray-print-opts=libs)',
+    'export CPATH=$ROCM_PATH/include/rocm-core:$CPATH',
+]) + ' && '
+
+prebuildopts = preconfigopts
+
+configopts = ' '.join([
+    '--PETSC_ARCH="$CRAY_CPU_TARGET-$CRAY_ACCEL_TARGET"',
+    '--known-has-attribute-aligned=1',
+    '--known-mpi-int64_t=0',
+    '--known-bits-per-byte=8',
+    '--known-64-bit-blas-indices=0',
+    '--known-sdot-returns-double=0',
+    '--known-snrm2-returns-double=0',
+    '--known-memcmp-ok=1',
+    '--known-mpi-c-double-complex=1',
+    '--known-mpi-long-double=1',
+    '--known-mpi-shared-libraries=0',
+    '--known-sizeof-MPI_Comm=4',
+    '--known-sizeof-MPI_Fint=4',
+    '--known-sizeof-char=1',
+    '--known-sizeof-double=8',
+    '--known-sizeof-float=4',
+    '--known-sizeof-int=4',
+    '--known-sizeof-long-long=8',
+    '--known-sizeof-long=8',
+    '--known-sizeof-short=2',
+    '--known-sizeof-size_t=8',
+    '--known-sizeof-void-p=8',
+    '--with-ar=ar',
+    '--with-batch=0',
+    '--with-cc="$CC"',
+    '--with-clib-autodetect=0',
+    '--with-cxx="$CXX"',
+    '--with-cxxlib-autodetect=0',
+    '--with-fc="$FC"',
+    '--with-fortran-datatypes=1',
+    '--with-fortran-interfaces=1',
+    '--with-fortran-bindings=1',
+    '--with-fortranlib-autodetect=0',
+    '--with-ranlib=ranlib',
+    '--with-scalar-type=real',
+    '--with-shared-ld=ar',
+    '--with-etags=0',
+    '--with-x=0',
+    '--with-ssl=0',
+    '--with-shared-libraries=1',
+    '--with-mpi-lib=[]',
+    '--with-mpi-include=[]',
+    '--with-mpiexec=srun',
+    '--with-blas-lapack=1',
+    '--with-superlu=1',
+    '--with-superlu-dir="$EBROOTSUPERLU"',
+    '--with-superlu_dist=1',
+    '--with-superlu_dist-dir="$EBROOTSUPERLU_DIST"',
+    '--with-parmetis=1',
+    '--with-parmetis-dir="$EBROOTPARMETIS"',
+    '--with-metis=1',
+    '--with-metis-dir="$EBROOTMETIS"',
+    '--with-hypre=1',
+    '--with-scalapack=1',
+    '--with-ptscotch=1',
+    '--with-ptscotch-der="$EBROOTSCOTCH"',
+    '--with-mumps=1',
+    '--with-mumps-include="$EBROOTMUMPS/include"',
+    '--with-mumps-lib="-L$EBROOTMUMPS/lib -lcmumps -ldmumps -lesmumps -lsmumps -lzmumps -lmumps_common -lptesmumps -lesmumps -lpord -lmpifort"',
+    '--with-hdf5=1',
+    '--with-cxx-dialect=C++17',
+    '--CFLAGS="-O3 -ffast-math -fopenmp"',
+    '--FFLAGS="-O3 -ffast-math -fopenmp -fallow-argument-mismatch"',
+    '--LDFLAGS="-fopenmp -Wl,--allow-multiple-definition"',
+    '--with-hip',
+    '--with-hipc=hipcc',
+    '--with-hip-arch=gfx90a',
+    '--download-kokkos',
+    '--download-kokkos-kernels',
+    '--LIBS="-lgfortran -lgcc -lstdc++"',
+])
+
+# This is for checking if linking against the library is correct
+runtest = 'check_build MPIEXEC=exec V=1'
+
+sanity_check_paths = {
+    'files': ['lib/libpetsc.%s' % SHLIB_EXT],
+    'dirs': ['lib/pkgconfig', 'lib/petsc/bin'],
+}
+
+moduleclass = 'numlib'
