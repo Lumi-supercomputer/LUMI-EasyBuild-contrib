@@ -15,7 +15,7 @@ modeling at the nanoscale. It is based on density-functional theory, plane
 waves, and pseudopotentials.". In general, it runs well on [LUMI-C][lumi-c].
 
 **There is currently no version of Quantum Espresso that can use the AMD GPUs
-in the [GPU Early Access Platform][eap] or [LUMI-G][lumi-g].**
+in the [LUMI-G][lumi-g].**
 
 ## Installing Quantum ESPRESSO
 
@@ -24,18 +24,18 @@ general, the installation procedure is described on the [EasyBuild
 page][EasyBuild]. The step by step procedure to install QE 7.1
 is:
 
-1. Load the LUMI software environment: `module load LUMI/22.08`.
+1. Load the LUMI software environment: `module load LUMI/24.03`.
 2. Select the LUMI-C partition: `module load partition/C`.
 3. Load the EasyBuild module: `module load EasyBuild-user`.
 
 Then, you can run the install command
 
 ```bash
-$ eb QuantumESPRESSO-7.1-cpeGNU-22.08.eb -r
+$ eb -r QuantumESPRESSO-7.3.1-cpeGNU-24.03.eb
 ```
 
 The installation takes about 3 minutes. Afterwards, you will have a module
-called "QuantumESPRESSO/7.1.0-cpeGNU-22.08" installed in your home directory.
+called "QuantumESPRESSO/7.3.1-cpeGNU-24.03" installed in your home directory.
 Load the module to use it
 
 ```bash
@@ -44,7 +44,7 @@ $ module load QuantumESPRESSO/7.1.0-cpeGNU-22.0
 
 The usual QE binaries, `pw.x`, `ph.x` etc. will now be in your `PATH`. Launch
 QE via the [Slurm scheduler][slurm-quickstart], e.g. `srun pw.x`. Please note
-that you must do `module load LUMI/22.08 partition/C` to see your Quantum
+that you must do `module load LUMI/24.03 partition/C` to see your Quantum
 Espresso module in the module system. The same applies to the Slurm batch
 scripts which you send to the compute nodes.
 
@@ -82,7 +82,10 @@ A typical [batch job][batch-job] using 2 compute nodes and MPI only:
 
 export OMP_NUM_THREADS=1
 
-module load LUMI/22.08 partition/C QuantumESPRESSO/7.1.0-cpeGNU-22.08
+module load LUMI/24.03 
+module load partition/C 
+module load QuantumESPRESSO/7.3.1-cpeGNU-24.03
+
 srun pw.x -nk 4 -i gab128.in > gab128.out
 ```
 
@@ -104,7 +107,10 @@ export OMP_NUM_THREADS=4
 export OMP_PLACES=cores
 export OMP_PROC_BIND=close
 
-module load LUMI/22.08 partition/C QuantumESPRESSO/7.1.0-cpeGNU-22.08
+module load LUMI/24.03 
+module load partition/C 
+module load QuantumESPRESSO/7.3.1-cpeGNU-24.03
+
 srun pw.x -nk 4 -i gab128.in > gab128.out
 ```
 
