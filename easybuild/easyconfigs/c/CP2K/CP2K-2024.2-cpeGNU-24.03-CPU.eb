@@ -1,0 +1,91 @@
+# contributed by Luca Marsella (CSCS)
+# modified for LUMI-G by Peter Larsson
+# Updated to version 2024.1 by Radim Janalik (CSCS)
+#
+#DOC CP2K 2024.1 release compiled with AMD GPU support enabled for CP2K 
+#DOC itself and several of the libraries (SpFFT, SpLA). Cray Programming 
+#DOC Environment 23.09.
+easyblock = 'MakeCp'
+
+local_ELPA_version         = '2024.05.001'
+local_Libint_CP2K_version  = '2.7.2'
+local_libvori_version      = '220621'
+local_libxc_version        = '6.2.2'
+local_libxsmm_version      = '1.17'
+local_spglib_version       = '2.5.0'
+local_COSMA_version        = '2.6.6'
+local_GSL_version          = '2.7.1'
+local_PLUMED_version       = '2.9.1'
+
+name = 'CP2K'
+version = '2024.2'
+versionsuffix = '-CPU'
+
+homepage = 'http://www.cp2k.org/'
+
+whatis = [
+    'Description: CP2K is a program to perform atomistic and molecular '
+    'simulations of solid state, liquid, molecular and biological systems.'
+]
+
+description = """
+CP2K is a freely available (GPL) program, written in Fortran 95, to
+perform atomistic and molecular simulations of solid state, liquid,
+molecular and biological systems. It provides a general framework for
+different methods such as e.g. density functional theory (DFT) using a
+mixed Gaussian and plane waves approach (GPW), and classical pair and
+many-body potentials.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '24.03'}
+toolchainopts = {'openmp': True, 'usempi': True}
+
+source_urls = ['https://github.com/%(namelower)s/%(namelower)s/releases/download/v%(version)s']
+sources = [SOURCELOWER_TAR_BZ2]
+checksums = ['cc3e56c971dee9e89b705a1103765aba57bf41ad39a11c89d3de04c8b8cdf473']
+
+patches = [
+    ('LUMIC-20242.psmp', '%(builddir)s/%(namelower)s-%(version)s/arch')
+]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+    ('cray-fftw',   EXTERNAL_MODULE),
+    ('cray-hdf5',   EXTERNAL_MODULE),
+    ('rocm',        EXTERNAL_MODULE),
+    ('ELPA',        local_ELPA_version,  versionsuffix),
+    ('COSMA',       local_COSMA_version, versionsuffix),
+    ('GSL',         local_GSL_version,   '-OpenMP'),
+    ('Libint-CP2K', local_Libint_CP2K_version),
+    ('libvori',     local_libvori_version),
+    ('libxc',       local_libxc_version),
+    ('libxsmm',     local_libxsmm_version),
+    ('spglib',      local_spglib_version),
+    ('PLUMED',      local_PLUMED_version, '-noPython'),
+]
+
+buildopts = "ARCH=LUMIC-20242 VERSION=psmp"
+
+files_to_copy = [
+    (['./arch/LUMIC-20242.psmp'], 'arch'),
+    (['./exe/LUMIC-20242/*'], 'bin'),
+    (['./data'], '.'),
+    (['./tests'], '.'),
+    (['./tools'], '.')
+]
+
+sanity_check_paths = {
+    'files': ['arch/LUMIC-20242.psmp', 'bin/%(namelower)s.psmp'],
+    'dirs': ['data', 'tests'],
+}
+
+# set custom CP2K_DATA_DIR
+modextravars = {
+    'CP2K_DATA_DIR': '%(installdir)s/data'
+}
+
+moduleclass = 'chem'
+
