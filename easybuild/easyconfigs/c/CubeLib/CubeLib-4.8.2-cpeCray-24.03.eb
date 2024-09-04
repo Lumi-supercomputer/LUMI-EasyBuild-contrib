@@ -1,0 +1,72 @@
+##
+# This is an easyconfig file for EasyBuild, see https://github.com/easybuilders/easybuild
+#
+# Copyright:: Copyright 2018-2024 Juelich Supercomputing Centre, Germany
+# Authors::   Markus Geimer <m.geimer@fz-juelich.de>
+#             Christian Feld <c.feld@fz-juelich.de>
+#             Jan André Reuter <j.reuter@fz-juelich.de>
+# License::   3-clause BSD
+#
+# This work is based on experiences from the UNITE project
+# http://apps.fz-juelich.de/unite/
+##
+
+easyblock = 'EB_Score_minus_P_minus_CPE'
+
+local_CubeLib_version =      '4.8.2'         # https://www.scalasca.org/scalasca/software/cube-4.x/download.html
+
+local_zlib_version =         '1.3.1'         # https://zlib.net/
+
+name =    'CubeLib'
+version = local_CubeLib_version
+
+homepage = 'https://www.scalasca.org/software/cube-4.x/download.html'
+
+whatis = [
+    'Description: Cube is a performance report explorer, and CubeLib its general purpose C++ library component and command-line tools'
+]
+
+description = """
+Cube, which is used as performance report explorer for Scalasca and Score-P,
+is a generic tool for displaying a multi-dimensional performance space
+consisting of the dimensions (i) performance metric, (ii) call path, and
+(iii) system resource. Each dimension can be represented as a tree, where
+non-leaf nodes of the tree can be collapsed or expanded to achieve the
+desired level of granularity.
+
+This module provides the Cube general purpose C++ library component and
+command-line tools.
+"""
+
+toolchain = {'name': 'cpeCray', 'version': '24.03'}
+toolchainopts = {'pic': True}
+
+source_urls = ['http://perftools.pages.jsc.fz-juelich.de/cicd/cubelib/tags/cubelib-%(version)s']
+sources = [SOURCELOWER_TAR_GZ]
+checksums = [
+    'd6fdef57b1bc9594f1450ba46cf08f431dd0d4ae595c47e2f3454e17e4ae74f4',  
+]
+
+builddependencies = [
+    ('buildtools',         '%(toolchain_version)s', '', True),
+    ('craype-network-none', EXTERNAL_MODULE),
+    ('craype-accel-host',   EXTERNAL_MODULE),
+]
+
+dependencies = [
+    ('zlib', local_zlib_version),
+]
+
+preconfigopts = 'module unload rocm xpmem && '
+prebuildopts = preconfigopts
+
+configopts = '--enable-shared'
+
+sanity_check_paths = {
+    'files': ['bin/cubelib-config',
+              ('lib/libcube4.a', 'lib64/libcube4.a'),
+              ('lib/libcube4.%s' % SHLIB_EXT, 'lib64/libcube4.%s' % SHLIB_EXT)],
+    'dirs': ['include/cubelib'],
+}
+
+moduleclass = 'perf'
