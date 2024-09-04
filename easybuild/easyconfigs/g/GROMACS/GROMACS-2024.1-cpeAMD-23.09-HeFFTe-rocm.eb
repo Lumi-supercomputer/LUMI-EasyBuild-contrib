@@ -73,6 +73,7 @@ configopts += '-D ACPP_TARGETS="hip:gfx90a" '
 configopts += '-D HIPSYCL_ROCM_PATH=${ROCM_PATH} '
 configopts += '-D HIPSYCL_TARGETS="hip:gfx90a" '
 configopts += '-D Heffte_ROOT=${EBROOTHEFFTE} '
+configopts += '-D SYCL_CXX_FLAGS_EXTRA=-DHIPSYCL_ALLOW_INSTANT_SUBMISSION=1 '
 
 prebuildopts = 'export CPATH="$ROCM_PATH/include/rocfft:$CPATH" && '
 
