@@ -24,7 +24,7 @@ diff -Naur siesta/Obj/arch.make siesta-4.1.5/Obj/arch.make
 +CC = cc
 +FPP = $(FC) -E -P -x c
 +FC = ftn
-+FC_SERIAL = gfortran
++FC_SERIAL = ftn
 +
 +FFLAGS = -g -O2 -fPIC -ftree-vectorize -mno-recip -fallow-argument-mismatch
 +

@@ -1,7 +1,7 @@
 easyblock = 'MakeCp'
 
 local_METIS_version = '5.1.0'
-local_ELPA_version  = '2023.11.001'
+local_ELPA_version  = '2024.05.001'
 
 name =          'Siesta'
 version =       '4.1.5'
@@ -25,7 +25,7 @@ docurls = [
     'Web-based documentation on https://docs.siesta-project.org/'
 ]
 
-toolchain = {'name': 'cpeGNU', 'version': '23.09'}
+toolchain = {'name': 'cpeGNU', 'version': '24.03'}
 toolchainopts = {'usempi': True, 'precise': True, 'openmp': False}
 
 source_urls = ['https://gitlab.com/siesta-project/siesta/-/releases/v%(version)s/downloads']
@@ -49,8 +49,8 @@ dependencies = [
     ('cray-netcdf',          EXTERNAL_MODULE),
     ('cray-parallel-netcdf', EXTERNAL_MODULE),
     ('cray-fftw',            EXTERNAL_MODULE),
-    ('METIS', local_METIS_version),
-    ('ELPA',  local_ELPA_version, versionsuffix),
+    ('METIS',                local_METIS_version),
+    ('ELPA',                 local_ELPA_version, versionsuffix),
 ]
 
 prebuildopts = 'cd Obj && ../Src/obj_setup.sh && '
