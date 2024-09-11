@@ -23,7 +23,7 @@ toolchainopts = {'gfortran9-compat': True}
 
 source_urls = ['https://gitlab.com/ccp5/dl-poly/-/archive/%(version)s/']
 sources =     ['dl_poly_%(version)s.tar.bz2']
-checksums =   ['7388378514dc17d3c6ce6ab9d8fbc2aedbfaf6a0122efc0d3474770135a39213']
+checksums =   ['867e0ab876cd459c918b2a95c9d980dc8b637a7a1e54e42d338490863b13b898']
 
 builddependencies = [
     ('buildtools', '%(toolchain_version)s', '', SYSTEM),   # For CMake   
@@ -36,7 +36,7 @@ configopts  = '-DWITH_MPI=ON '
 postinstallcmds = [
     'mkdir -p %(installdir)s/share/licenses/%(name)s && ' +
     'cd ../dl-poly-%(version)s-* && pwd && '
-    'cp LICENCE.md Release.md %(installdir)s/share/licenses/%(name)s',
+    'cp LICENCE.rst Release.md %(installdir)s/share/licenses/%(name)s',
 ]
 
 sanity_check_paths = {
