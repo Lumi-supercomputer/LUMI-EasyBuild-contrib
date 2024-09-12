@@ -74,7 +74,9 @@ configopts += '--with-cmor=$EBROOTCMOR '
 configopts += '--with-magics=no '
 
 postinstallcmds = [
-    'mkdir -p %(installdir)s/share/licenses/%(name)s && cp LICENSE %(installdir)s/share/licenses/%(name)s'
+    'mkdir -p %(installdir)s/share/licenses/%(name)s && cp LICENSE %(installdir)s/share/licenses/%(name)s',
+    # Solve an issue since 08/24 maintenance
+    'patchelf --remove-rpath %(installdir)s/bin/*',
 ]
 
 sanity_check_paths = {

@@ -38,7 +38,9 @@ sources = [
 checksums =   ['319e9771d037b6c796f04e6a96bb27db1706bc5931ca149c78347c623a747771']
 
 builddependencies = [ # Create a reproducible build environment.
-    ('buildtools',   '%(toolchain_version)s',   '', True),  # Bison, flex
+    ('buildtools',          '%(toolchain_version)s',   '', True),  # Bison, flex
+    ('craype-network-none', EXTERNAL_MODULE),
+    ('craype-accel-host',   EXTERNAL_MODULE),
 ]
 
 dependencies = [
@@ -49,11 +51,16 @@ dependencies = [
     ('util-linux', local_util_version),
 ]
 
-preconfigopts = 'autoreconf --force --install --verbose && '
+preconfigopts = 'module unload rocm cray-libsci && '
+prebuildopts = preconfigopts
+
+preconfigopts += 'autoreconf --force --install --verbose && '
 configopts = 'TIRPC_LIBS="-ltirpc"'
 
 postinstallcmds = [
-    'mkdir -p %(installdir)s/share/licenses/%(name)s && cp COPYING COPYRIGHT_URI COPYRIGHT_W3C %(installdir)s/share/licenses/%(name)s'
+    'mkdir -p %(installdir)s/share/licenses/%(name)s && cp COPYING COPYRIGHT_URI COPYRIGHT_W3C %(installdir)s/share/licenses/%(name)s',
+    # Solve an issue since 08/24 maintenance
+    'patchelf --remove-rpath %(installdir)s/bin/getdap* %(installdir)s/lib/lib*.so',
 ]
 
 sanity_check_paths = {
