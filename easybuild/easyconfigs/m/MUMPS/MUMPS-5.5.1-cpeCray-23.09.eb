@@ -28,7 +28,7 @@ sources = ['%(name)s_%(version)s.tar.gz']
 patches = [
     '%(name)s-%(version)s_shared-pord.patch',    # builds the shared libs of PORD
     '%(name)s-%(version)s_shared-mumps.patch',   # builds shared libs of MUMPS
-    ('Makefile.CRAY.patch_cpeCray', 1),       		 # adds specific options for Cray to Make.inc dir
+    ('Makefile.CRAY.patch', 1),       	         # adds specific options for Cray to Make.inc dir
 ]
 checksums = [
     '1abff294fa47ee4cfd50dfd5c595942b72ebfcedce08142a75a99ab35014fa15',  # MUMPS_5.5.1.tar.gz
@@ -41,9 +41,12 @@ dependencies = [
     ('METIS',  '5.1.0'),
 ]
 
-prebuildopts = 'cp Make.inc/Makefile.CRAY Makefile.inc && '
+prebuildopts  = 'cp Make.inc/Makefile.CRAY Makefile.inc && '
+prebuildopts += 'sed -i "s/-fallow-argument-mismatch//" Makefile.inc && '
 
-buildopts = '-j 1 SONAME_VERSION="gnu" LSCOTCHDIR=$EBROOTSCOTCH LMETISDIR=$EBROOTMETIS'
+buildopts = 'SONAME_VERSION="%(version)s"'
+
+parallel = 1
 
 build_cmd_targets = "all"
 
