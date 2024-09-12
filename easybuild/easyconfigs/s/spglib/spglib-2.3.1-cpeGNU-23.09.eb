@@ -37,7 +37,7 @@ postinstallcmds = [
 ]
 
 sanity_check_paths = {
-    'files': ['lib/libsymspg.a', 'lib/libsymspg.so'],
+    'files': ['lib/libsymspg.%s' % SHLIB_EXT],
     'dirs': ['include', 'lib', 'include/%(name)s'],
 }
 
