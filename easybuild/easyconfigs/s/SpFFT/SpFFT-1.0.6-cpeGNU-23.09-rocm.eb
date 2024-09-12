@@ -72,6 +72,7 @@ configopts = ' '.join([
 ])
 
 prebuildopts = 'export CPATH=$ROCM_PATH/include/hipfft:$CPATH && '
+preinstallopts = prebuildopts
 
 sanity_check_paths = {
     'files': [
