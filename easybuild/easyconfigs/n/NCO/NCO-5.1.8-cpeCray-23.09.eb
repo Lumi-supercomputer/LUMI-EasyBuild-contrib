@@ -81,6 +81,7 @@ prebuildopts = 'module unload cray-libsci ; '
 postinstallcmds = [
     'mkdir -p %(installdir)s/share/licenses/%(name)s && ' +
     'cp COPYING COPYRIGHT CITATION %(installdir)s/share/licenses/%(name)s',
+    'for f in %(installdir)s/bin/* %(installdir)s/lib/*; do file $f | grep "dynamically linked" >/dev/null && patchelf --remove-rpath $f || true; done',
 ]
 
 sanity_check_paths = {
