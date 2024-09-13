@@ -73,7 +73,7 @@ CMK_LINK_BINARY='-dynamic'
 postinstallcmds = [
     'sed -E -i \'s#(/.*)+(/conv-.*.sh)#%(installdir)s/include\\2#g\' %(installdir)s/include/conv-*.sh',
     'ln -s %(installdir)s %(installdir)s/' + local_charm_network + '-linux-x86_64',
-    'cat >%(installdir)s/include/cc-gcc.sh <<EOF\n' + local_cc_gcc_sh_file_content.replace('$', '\$') + '\nEOF\n','
+    'cat >%(installdir)s/include/cc-gcc.sh <<EOF\n' + local_cc_gcc_sh_file_content.replace('$', '\$') + '\nEOF\n',
 ]
 
 sanity_check_paths = {
