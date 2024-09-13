@@ -25,7 +25,7 @@ has their own mechanism to identify CPU and provide necessary features such as
 mechanism to update/validate and provide information to the users of this library.
 """
 
-toolchain = {'name': 'cpeGNU', 'version': '23.12'}
+toolchain = {'name': 'cpeGNU', 'version': '24.03'}
 
 source_urls = ['https://github.com/amd/aocl-utils/archive/']
 sources =     ['%(version)s.tar.gz']
