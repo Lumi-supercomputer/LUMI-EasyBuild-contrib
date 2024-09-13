@@ -25,7 +25,7 @@ local_OTF2_version =         '3.0.3'         # https://www.vi-hps.org/projects/s
 
 name =          'Score-P'
 version =       local_ScoreP_version
-versionsuffix = '-rocm-5.2.3'
+versionsuffix = '-rocm'
 
 homepage = 'https://www.score-p.org'
 
@@ -56,22 +56,23 @@ checksums = [
 ]
 
 builddependencies = [
-    ('CubeLib',    local_CubeLib_version),
-    ('CubeWriter', local_CubeWriter_version),
-    # Unwinding/sampling support (optional):
-    ('libunwind',  local_libunwind_version),
+    ('buildtools', '%(toolchain_version)s', '', True),
 ]
 
 dependencies = [
     ('OPARI2',          local_OPARI2_version),
     ('OTF2',            local_OTF2_version),
+    ('CubeLib',         local_CubeLib_version),
+    ('CubeWriter',      local_CubeWriter_version),
+    # Unwinding/sampling support (optional):
+    ('libunwind',       local_libunwind_version),
     # Support for SHMEM
     ('cray-openshmemx', EXTERNAL_MODULE),
     ('libbfd',          local_libbfd_version),
     # Hardware counter support (optional):
     ('papi',            EXTERNAL_MODULE),
     # Support for HIP adapter
-    ('rocm/5.2.3',      EXTERNAL_MODULE),
+    ('rocm',            EXTERNAL_MODULE),
 ]
 
 configopts  = '--enable-shared --disable-static --with-machine-name=LUMI '
@@ -85,7 +86,10 @@ configopts += '--enable-default=ompt '
 # loaded, as some incompatible order of include files is used in those cases. Yet we want to
 # do whatever testing possible so we unload the craype-accel module (as this disabled the automatic
 # enablement of GPU offload).
-postinstallcmds = ['module unload craype-accel-amd-gfx90a && make installcheck V=1 VERBOSE=1']
+postinstallcmds = [
+    'for f in %(installdir)s/bin/* %(installdir)s/lib/*; do file $f | grep "dynamically linked" >/dev/null && patchelf --remove-rpath $f || true; done',
+    'module unload craype-accel-amd-gfx90a && make installcheck V=1 VERBOSE=1',
+]
 
 sanity_check_paths = {
     'files': ['bin/scorep', 'include/scorep/SCOREP_User.h',
