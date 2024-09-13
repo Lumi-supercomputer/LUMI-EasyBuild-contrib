@@ -118,8 +118,8 @@ local_plugins = [
 ]
 
 preconfigopts = ''
-for submod in local_submodules:
-    preconfigopts += f'mv %(builddir)s/{submod} %(builddir)s/qe-{version}/external && '
+for local_submod in local_submodules:
+    preconfigopts += f'mv %(builddir)s/{local_submod} %(builddir)s/qe-{version}/external && '
 
 configopts = ' '.join([
     '-DQE_ENABLE_MPI=ON',
