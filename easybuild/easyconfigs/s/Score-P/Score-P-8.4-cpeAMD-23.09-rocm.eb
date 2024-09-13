@@ -24,7 +24,7 @@ local_OTF2_version =         '3.0.3'         # https://www.vi-hps.org/projects/s
 
 name =          'Score-P'
 version =       local_ScoreP_version
-versionsuffix = '-rocm-5.2.3'
+versionsuffix = '-rocm'
 
 homepage = 'https://www.score-p.org'
 
@@ -58,7 +58,6 @@ builddependencies = [
     ('CubeWriter', local_CubeWriter_version),
     # Unwinding/sampling support (optional):
     ('libunwind',  local_libunwind_version),
-    #('craype/2.7.20', EXTERNAL_MODULE),
 ]
 
 dependencies = [
@@ -70,7 +69,7 @@ dependencies = [
     # Hardware counter support (optional):
     ('papi',            EXTERNAL_MODULE),
     # Support for HIP adapter somehow is not provided if amd/5.2.3 is used.
-    ('rocm', EXTERNAL_MODULE),
+    ('rocm',            EXTERNAL_MODULE),
 ]
 
 configopts  = '--enable-shared --disable-static --with-machine-name=LUMI '
