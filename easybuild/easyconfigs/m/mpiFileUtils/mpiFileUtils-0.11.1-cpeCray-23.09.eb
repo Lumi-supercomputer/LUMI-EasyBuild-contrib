@@ -62,7 +62,7 @@ docurls = ['https://mpifileutils.readthedocs.io/en/v%(version)s/']
 software_license_urls = ['https://github.com/hpc/mpifileutils/blob/main/LICENSE']
 
 toolchain = {'name': 'cpeCray', 'version': '23.09'}
-toolchainopts = {'pic': True}
+toolchainopts = {'pic': True, 'extra_cflags': '-Wno-error=implicit-function-declaration -Wno-int-conversion'}
 
 builddependencies = [
     ('buildtools',      '%(toolchain_version)s',      '', True),
