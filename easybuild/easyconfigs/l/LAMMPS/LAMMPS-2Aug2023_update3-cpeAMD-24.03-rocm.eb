@@ -58,7 +58,10 @@ sources = ['stable_%(version)s.tar.gz']
 checksums = ['6666e28cb90d3ff01cbbda6c81bdb85cf436bbb41604a87f2ab2fa559caa8510']
 
 builddependencies = [
-    ('buildtools', '%(toolchain_version)s', '', True),
+    ('buildtools',        '%(toolchain_version)s', '', True),
+    # It's impossible to compile with OpenMP enabled with the gfx90a target
+    # module is loaded
+    ('craype-accel-host', EXTERNAL_MODULE),
 ]
 
 dependencies = [
@@ -172,6 +175,7 @@ local_disabled_packages = [
 configopts = ' '.join([
     '-DCMAKE_CXX_COMPILER="$CXX"',
     '-DMPICXX="$CXX"',
+    '-DCMAKE_EXE_LINKER_FLAGS="$PE_MPICH_GTL_DIR_amd_gfx90a $PE_MPICH_GTL_LIBS_amd_gfx90a"',
     '-DBUILD_MPI=ON',
     '-DBUILD_OMP=ON',
     '-DWITH_JPEG=ON',
