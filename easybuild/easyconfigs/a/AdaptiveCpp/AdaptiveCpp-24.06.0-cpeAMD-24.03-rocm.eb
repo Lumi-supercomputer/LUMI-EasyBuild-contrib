@@ -28,16 +28,14 @@ sources = [{
     }
 }]
 
-dependencies = [
-    ('cray-python', EXTERNAL_MODULE),
-    ('amd/6.0.3', EXTERNAL_MODULE),
-    ('rocm/6.0.3', EXTERNAL_MODULE),
-    ('gcc-native-mixed/13.2', EXTERNAL_MODULE),
-]
-
 builddependencies = [
     ('buildtools', '%(toolchain_version)s', '', True),
     ('Boost',      local_Boost_version),
+]
+
+dependencies = [
+    ('cray-python', EXTERNAL_MODULE),
+    ('rocm',        EXTERNAL_MODULE),
 ]
 
 preconfigopts  = 'export PATH=${ROCM_PATH}/llvm/bin:$PATH && '
