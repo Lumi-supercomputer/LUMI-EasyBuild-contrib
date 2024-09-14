@@ -1,9 +1,13 @@
 # This follows instructions from https://gitlab.com/trossi/gpaw/-/tree/update-lumi-docs
 easyblock = "PythonPackage"
 
+local_CuPy_version  = '12.2.0'
+local_libxc_version = '6.2.2'
+local_ELPA_version  = '2023.11.001'
+
 name = 'GPAW'
 version = '24.1.0'
-versionsuffix = '-rocm-5.2.3'
+versionsuffix = '-rocm'
 
 homepage = 'https://wiki.fysik.dtu.dk/gpaw/'
 description = """GPAW is a density-functional theory (DFT) Python code based on the projector-augmented wave (PAW)
@@ -32,19 +36,19 @@ patches = [
 ]
 
 checksums = [
-    '38d2f53cf00dd9b2f21fcf032d17f783d640105ee8544e897d260b429ea7ed07',
-    '314d43168f7b57a2d942855d3d5ad21da9ef74e772d37343d416305113a95c23',
-    '152648015971fc9ddc33a16769bb17acb90eacfa38d4b9c49aa91c4c2a99da2a',
+    '09cb56be449ccbef701a02989e551d3df587c7edff8795463ea0d618d6f59523', # GPAW-24.1.0.tar.gz
+    '314d43168f7b57a2d942855d3d5ad21da9ef74e772d37343d416305113a95c23', # gpaw-setups-24.1.0.tar.gz
+    '152648015971fc9ddc33a16769bb17acb90eacfa38d4b9c49aa91c4c2a99da2a', # gpaw-gpu-disable-openmp.patch
 ]
 
 dependencies = [
-    ('cray-python/3.10.10', EXTERNAL_MODULE),
-    ('cray-libsci/23.09.1.1', EXTERNAL_MODULE),
-    ('cray-fftw/3.3.10.5', EXTERNAL_MODULE),
-    ('rocm/5.2.3', EXTERNAL_MODULE),
-    ('CuPy', '12.2.0', '-rocm-5.2.3'),
-    ('libxc', '6.2.2'),
-    ('ELPA', '2023.11.001', '-rocm-5.2.3'),
+    ('cray-python', EXTERNAL_MODULE),
+    ('cray-libsci', EXTERNAL_MODULE),
+    ('cray-fftw',   EXTERNAL_MODULE),
+    ('rocm',        EXTERNAL_MODULE),
+    ('libxc',       local_libxc_version),
+    ('CuPy',        local_CuPy_version, versionsuffix),
+    ('ELPA',        local_ELPA_version, versionsuffix),
 ]
 
 preinstallopts = 'GPAW_CONFIG=doc/platforms/Cray/siteconfig-lumi-gpu.py '
@@ -52,7 +56,6 @@ preinstallopts = 'GPAW_CONFIG=doc/platforms/Cray/siteconfig-lumi-gpu.py '
 download_dep_fail = False
 use_pip = True
 use_pip_for_deps = True
-pip_verbose = True
 pip_ignore_installed = False
 pip_no_index = False
 sanity_pip_check = True
