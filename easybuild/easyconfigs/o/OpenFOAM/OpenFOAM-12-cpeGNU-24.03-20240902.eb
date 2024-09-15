@@ -1,0 +1,44 @@
+local_ncurses_version = '6.4'
+local_METIS_version   = '5.1.0'
+local_SCOTCH_version  = '7.0.4'
+local_CGAL_version    = '5.6.1'
+local_gnuplot_version = '5.4.10'
+local_Zoltan_version  = '3.901'
+
+name = 'OpenFOAM'
+version = '12'
+versionsuffix = '-20240902'
+
+homepage = 'https://www.openfoam.org/'
+description = """OpenFOAM is a free, open source CFD software package.
+ OpenFOAM has an extensive range of features to solve anything from complex fluid flows
+ involving chemical reactions, turbulence and heat transfer,
+ to solid dynamics and electromagnetics."""
+
+toolchain = {'name': 'cpeGNU', 'version': '24.03'}
+toolchainopts = {'vectorize': False}
+
+source_urls = ['https://github.com/OpenFOAM/OpenFOAM-%(version_major)s/archive']
+sources = ['%s.tar.gz' % versionsuffix[1:]]
+patches = ['OpenFOAM-12-ThirdParty.patch']
+
+checksums = [
+    {versionsuffix[1:] + '.tar.gz'  : '8fbbd4ebb09614a3ef1553bb03dda519f0b0f7ee568a914a44609a2822ccfdcd'},
+    {'OpenFOAM-12-ThirdParty.patch' : 'b95bdb00e33b5823e0ceda4f77161dbeb7cc150fd7d16305292109f9af6c3ca3'},
+]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+    ('ncurses', local_ncurses_version),
+    # OpenFOAM requires 64 bit METIS using 32 bit indexes (array indexes)
+    ('METIS',   local_METIS_version),
+    ('SCOTCH',  local_SCOTCH_version),
+    ('CGAL',    local_CGAL_version),
+    ('gnuplot', local_gnuplot_version),
+    ('Zoltan',  local_Zoltan_version),
+]
+
+moduleclass = 'cae'
