@@ -525,7 +525,7 @@ class EB_OpenFOAM(EasyBlock):
 
         # run motorBike tutorial case to ensure the installation is functional (if it's available);
         # only for recent (>= v6.0) versions of openfoam.org variant
-        """
+        
         if self.is_dot_org and self.looseversion >= LooseVersion('6'):
             openfoamdir_path = os.path.join(self.installdir, self.openfoamdir)
             if self.looseversion <= LooseVersion('10'):
@@ -557,10 +557,10 @@ class EB_OpenFOAM(EasyBlock):
                         "runApplication surfaceFeatures",
                         "runApplication blockMesh",
                         "runApplication decomposePar -copyZero",
-                        "runParallel snappyHexMesh -overwrite",
-                        "runParallel patchSummary",
-                        "runParallel potentialFoam",
-                        "runParallel simpleFoam",
+                        "runApplication snappyHexMesh -overwrite",
+                        "runApplication patchSummary",
+                        "runApplication potentialFoam",
+                        "runApplication simpleFoam",
                         "runApplication reconstructParMesh -constant",
                         "runApplication reconstructPar -latestTime",
                         "cd %s" % self.builddir,
@@ -579,16 +579,16 @@ class EB_OpenFOAM(EasyBlock):
                         "runApplication blockMesh",
                         "runApplication decomposePar -copyZero",
                         "find . -type f -iname '*level*' -exec rm {} \\;",
-                        "runParallel renumberMesh -overwrite",
-                        "runParallel potentialFoam -initialiseUBCs",
-                        "runParallel simpleFoam",
+                        "runApplication renumberMesh -overwrite",
+                        "runApplication potentialFoam -initialiseUBCs",
+                        "runApplication simpleFoam",
                         "cd %s" % self.builddir,
                         "rm -r %s" % test_dir,
                 ]
             # all commands need to be run in a single shell command,
             # because sourcing $FOAM_BASH sets up environment
             custom_commands.append(' && '.join(cmds))
-        """
+
         super(EB_OpenFOAM, self).sanity_check_step(custom_paths=custom_paths, custom_commands=custom_commands)
 
     def make_module_extra(self, altroot=None, altversion=None):
