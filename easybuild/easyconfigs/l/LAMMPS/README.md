@@ -39,4 +39,9 @@
 ### 23Jun22_update2-*-minimal for cpeGNU 22.08
 
   * Fairly trivial update of the one for the 29Oct20 version.
-  
+
+### 2Aug2023_update3 for cpeGNU 24.03
+
+  * Based on previous easyconfigs but adapted to make it closer to the 
+    EasyBuilders one. We enable packages which requires no extra dependency
+    or with dependency already present in the central software stack.

@@ -1,0 +1,105 @@
+# Created for LUMI by Orian Louant
+easyblock = "CMakeMake"
+
+name = 'magma'
+version = '2.7.2'
+versionsuffix = '-rocm'
+
+homepage = 'https://icl.cs.utk.edu/magma/'
+
+whatis = ['Description: MAGMA, Matrix Algebra on GPU and Multi-core Architectures']
+
+description = """
+Matrix Algebra on GPU and Multi-core Architectures (MAGMA) is a collection of
+next-generation linear algebra libraries for heterogeneous computing. The MAGMA
+package supports interfaces for current linear algebra packages and standards
+(e.g., LAPACK and BLAS) to enable computational scientists to easily port any
+linear algebra–reliant software components to heterogeneous computing systems.
+MAGMA enables applications to fully exploit the power of current hybrid systems
+of many-core CPUs and multi-GPUs/coprocessors to deliver the fastest possible
+time to accurate solutions within given energy constraints.
+
+MAGMA features LAPACK-compliant routines for multi-core CPUs enhanced with
+NVIDIA or AMD GPUs. MAGMA includes more than 400 routines that cover one-sided
+dense matrix factorizations and solvers, two-sided factorizations, and
+eigen/singular-value problem solvers, as well as a subset of highly optimized
+BLAS for GPUs.
+"""
+
+docurls = [
+    'Magma documentation available here https://icl.utk.edu/projectsfiles/magma/doxygen/index.html'
+]
+
+local_pkgconfig_file = """
+prefix=%(installdir)s
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: magma
+Description: Matrix Algebra on GPU and Multicore Architectures
+Version: 2.7.2
+Cflags: -I${includedir}
+Libs: -L${libdir} -lmagma_sparse -lmagma
+Libs.private:
+Requires:
+Requires.private:
+"""
+
+toolchain = {'name': 'cpeCray', 'version': '23.09'}
+toolchainopts = {'pic': True, 'openmp': True}
+
+source_urls = ['https://icl.cs.utk.edu/projectsfiles/magma/downloads/']
+sources = [SOURCE_TAR_GZ]
+
+patches = [
+    'magma-2.7.2_separate-cxx-and-hip-compilation.patch',
+    'magma-2.7.2_crayftn-uppercase-module.patch',
+    'magma-2.7.2_rocm6.patch',
+]
+
+checksums = [
+    '729bc1a70e518a7422fe7a3a54537a4741035a77be3349f66eac5c362576d560', # magma-2.7.2.tar.gz
+    '45f1fbfdd4a81a5d739967ee8586fda3004a6ddafc415a99ad48eea67e0cddb2', # magma-2.7.2_separate-cxx-and-hip-compilation.patch
+    'ee498e6048a527dfc3e31ce79976c19d5c8d36cea7303f3d001775c0e00ebcea', # magma-2.7.2_crayftn-uppercase-module.patch
+    '39b22b1769b4322772c2c408772816ef5ae7f0e6757290d66dbaf914bd657a44', # magma-2.7.2_rocm6.patch
+]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+    ('craype-network-none', EXTERNAL_MODULE),
+    ('craype-accel-host', EXTERNAL_MODULE),
+]
+
+dependencies = [
+    ('rocm', EXTERNAL_MODULE),
+]
+
+configopts = ' '.join([
+    '-DCMAKE_HIP_COMPILER=$(dirname ${CRAY_PE_USE_CLANG}/clang++)', 
+    '-DMAGMA_ENABLE_HIP=ON',
+    '-DCMAKE_HIP_ARCHITECTURES=gfx90a',
+    '-DCMAKE_HIP_FLAGS=-O3',
+])
+
+# Static library build failed with CPE Cray. Keeping this as a remainder
+#configopts = [
+#    local_configopts_base,
+#    local_configopts_base + ' -DBUILD_SHARED_LIBS=OFF',
+#]
+
+# avoid incorrect linking to libsci_mpi and OpenMP target offload runtime
+preconfigopts = 'module load craype-network-none craype-accel-host&& '
+prebuildopts = 'module load craype-network-none craype-accel-host && '
+
+postinstallcmds = [
+    'cd %(installdir)s/lib/pkgconfig/; rm -f magma.pc',
+    'cd %(installdir)s/lib/pkgconfig/; cat >magma.pc <<EOF\n' + local_pkgconfig_file.replace('$', '\$') + '\nEOF\n'
+    'cd %(installdir)s/lib/pkgconfig/; chmod a+r magma.pc'
+]
+
+sanity_check_paths = {
+    'files': ['lib/libmagma.so'],
+    'dirs': ['include'],
+}
+
+moduleclass = 'math'

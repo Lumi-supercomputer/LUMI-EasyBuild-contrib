@@ -35,12 +35,12 @@
     support cross-compiling.
 
 
-### Version 3.2 for CPE 22.06 and 22.08
+### Version 3.2 for CPE 22.06 and 22.08 (archived)
 
   * Trivial port of the EasyConfig file for 3.1.
 
 
-### Version 4.0 for CPE 22.12/23.03
+### Version 4.0 for CPE 22.12 (archived) and 23.03
 
   * Trivial port of the EasyConfig file for 4.0
   
@@ -53,3 +53,7 @@
     They are located in the `easybuild-extra-logs` subdirectory instead.
     
   * Created ILP64 versions.
+
+### Version 4.2 for CPE 23.12/and 24.03
+
+  * Trivial port of the EasyConfig file for 4.2

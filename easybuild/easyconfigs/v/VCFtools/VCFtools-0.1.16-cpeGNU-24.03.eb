@@ -1,0 +1,64 @@
+easyblock = 'ConfigureMake'
+
+local_Perl_version =         '5.38.0'       # https://www.perl.org/get.html
+local_zlib_version =         '1.3.1'        # https://zlib.net/
+
+local_HTSlib_version =       '1.19.1'       # https://github.com/samtools/htslib/releases
+
+local_VCFtools_version =     '0.1.16'       # https://github.com/vcftools/vcftools/releases
+
+name =    'VCFtools'
+version = local_VCFtools_version
+
+homepage = "https://vcftools.github.io"
+
+whatis = [
+    'Description: VCFtools provides methods for working with VCF files'
+]
+
+description = """
+The aim of VCFtools is to provide  easily accessible methods for working with
+complex genetic variation data in the form of VCF files.
+"""
+
+docurls = [
+   'man page vcftools in section 1'
+]
+
+toolchain = {'name': 'cpeGNU', 'version': '24.03'}
+
+source_urls = ['https://github.com/%(namelower)s/%(namelower)s/releases/download/v%(version)s/']
+sources =     ['%(namelower)s-%(version)s.tar.gz']
+patches =     ['VCFtools-0.1.16_gzip_regexp.patch']
+checksums =   ['dbfc774383c106b85043daa2c42568816aa6a7b4e6abc965eeea6c47dde914e3']
+
+builddependencies = [
+    ('buildtools',          '%(toolchain_version)s', '', True),
+    ('craype-network-none', EXTERNAL_MODULE),
+    ('craype-accel-host',   EXTERNAL_MODULE),
+]
+
+dependencies = [
+    ('Perl',   local_Perl_version),
+    ('HTSlib', local_HTSlib_version),
+    ('zlib',   local_zlib_version),
+]
+
+preconfigopts = 'module unload rocm cray-libsci && '
+prebuildopts = preconfigopts
+
+modextrapaths = {
+    'PERL5LIB': 'lib/perl5/site_perl'
+}
+
+# Note that the test lists only a small subset of the commands.
+sanity_check_paths = {
+    'files': ['bin/%s' % x for x in ['%(namelower)s', 'vcf-sort', 'vcf-stats']],
+    'dirs':  [],
+}
+
+sanity_check_commands = [ # Cannot easily try the commands as most return error codes for --help.
+    'vcftools --version',
+]
+
+moduleclass = 'bio'

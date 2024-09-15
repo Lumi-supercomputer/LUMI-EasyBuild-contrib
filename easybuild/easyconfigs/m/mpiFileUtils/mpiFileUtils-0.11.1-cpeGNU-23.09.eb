@@ -1,12 +1,13 @@
 # Created for LUMI by Orian Louant
 easyblock = 'Bundle'
 
-local_libarchive_version =   '3.6.2'         # https://github.com/libarchive/libarchive/releases
+local_libarchive_version     = '3.6.2'         # https://github.com/libarchive/libarchive/releases
+local_lustreincludes_version = '2.15.1'
 
-local_libcircle_version  = '0.3.0'
-local_lwgrp_version      = '1.0.4'
-local_dtcmp_version      = '1.1.4'
-local_attr_version       = '2.5.1'
+local_libcircle_version      = '0.3.0'
+local_lwgrp_version          = '1.0.4'
+local_dtcmp_version          = '1.1.4'
+local_attr_version           = '2.5.1'
 
 local_dtcmp_checksum        = 'dd83d8cecd68e13b78b68e88675cc5847cde06742b7740e140b98f4a08127dd3'
 local_libcircle_checksum    = '5ce38eb5b3c2b394bca1316310758f276c893dd3f4c15d7bc14ea05d3110ce58'
@@ -64,7 +65,8 @@ toolchain = {'name': 'cpeGNU', 'version': '23.09'}
 toolchainopts = {'pic': True}
 
 builddependencies = [
-    ('buildtools', '%(toolchain_version)s', '', True),
+    ('buildtools',      '%(toolchain_version)s',      '', True),
+    ('lustre-includes', local_lustreincludes_version, '', True),
 ]
 
 dependencies = [

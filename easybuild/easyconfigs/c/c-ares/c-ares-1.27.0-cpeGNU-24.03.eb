@@ -1,0 +1,43 @@
+easyblock = 'ConfigureMake'
+
+local_cares_version =        '1.27.0'        # https://github.com/c-ares/c-ares/releases
+
+name =    'c-ares'
+version = local_cares_version
+
+homepage = 'https://c-ares.org/'
+
+whatis = [
+    'Description: c-ares is a C library for asynchronous DNS requests (including name resolves)'
+]
+
+description = "c-ares is a C library for asynchronous DNS requests (including name resolves)"
+
+toolchain = {'name': 'cpeGNU', 'version': '24.03'}
+toolchainopts = {'pic': True}
+
+github_account = 'c-ares'
+source_urls =    [GITHUB_SOURCE]
+sources =        ['%s-%s.tar.gz' % (name.replace('-', ''), version.replace('.', '_'))]
+checksums =      ['de6a839d47b93174ba260187a084027ea681a91ffe12f2d5f20645652eae246c']
+
+builddependencies = [
+    ('buildtools',         '%(toolchain_version)s',   '', True),
+    ('craype-network-none', EXTERNAL_MODULE),
+    ('craype-accel-host',   EXTERNAL_MODULE),
+]
+
+preconfigopts = 'autoreconf -i -f && module unload rocm cray-libsci && '
+prebuildopts = 'module unload rocm cray-libsci && '
+
+sanity_check_paths = {
+    'files': ['lib/libcares.a', 'lib/libcares.%s' % SHLIB_EXT, 'lib/pkgconfig/libcares.pc'],
+    'dirs':  ['include', 'share/man'],
+}
+
+sanity_check_commands = [
+    # Check if pkg-config can read the cppunit.pc file
+    'pkg-config --libs libcares | grep -q "%(installdir)s"',
+]
+
+moduleclass = 'lib'

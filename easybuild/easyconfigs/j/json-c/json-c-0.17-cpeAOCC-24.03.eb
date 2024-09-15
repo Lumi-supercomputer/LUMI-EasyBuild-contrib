@@ -1,0 +1,57 @@
+# Adapted from the recipe in the EasyBuilders repository by Kurt Lust
+# (kurt.lust@uantwerpen.be) for the LUMI consortium.
+easyblock = 'CMakeMake'
+
+local_jsonc_version =        '0.17'          # https://github.com/json-c/json-c/tags
+
+local_source_suffix = '-20230812'
+
+name =    'json-c'
+version = local_jsonc_version
+
+homepage = 'https://github.com/json-c/json-c'
+
+whatis = [
+    'Description: JSON-C implements a reference counting object model'
+]
+
+description = """
+JSON-C implements a reference counting object model that allows you to easily
+construct JSON objects  in C, output them as JSON formatted strings and parse
+JSON formatted strings back into the C representation of JSON objects.
+"""
+
+toolchain = {'name': 'cpeAOCC', 'version': '24.03'}
+toolchainopts = {'extra_cflags': '-Wno-error=implicit-function-declaration'}
+
+source_urls = ['https://github.com/json-c/json-c/archive/']
+sources = ['json-c-%%(version)s%s.tar.gz' % local_source_suffix]
+checksums = ['024d302a3aadcbf9f78735320a6d5aedf8b77876c8ac8bbb95081ca55054c7eb']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+configopts = '-DCMAKE_INSTALL_LIBDIR=lib '
+
+# disable using Valgrind during the tests to avoid failures caused by using an OS Valgrind
+pretestopts = 'USE_VALGRIND=0 '
+runtest = 'test'
+
+local_source_dir = '../%(name)s-%(name)s-%(version)s' + local_source_suffix
+
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s && ' + 
+    'cp %s/COPYING %s/AUTHORS  %%(installdir)s/share/licenses/%%(name)s' % (local_source_dir, local_source_dir)
+]
+
+sanity_check_paths = {
+    'files': ['lib/libjson-c.a', 'lib/libjson-c.%s' % SHLIB_EXT, 'lib/pkgconfig/json-c.pc'],
+    'dirs':  ['include/json-c', 'lib/cmake/json-c'],
+}
+
+sanity_check_commands = [
+    'pkg-config --libs json-c',
+]
+
+moduleclass = 'lib'

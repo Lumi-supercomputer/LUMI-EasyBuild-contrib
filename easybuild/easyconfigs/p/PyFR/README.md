@@ -17,3 +17,8 @@
 ### Version 1.15.0 for CPE GNU 22.08
 
   * Created from scratch for LUMI
+
+### Version 2.0.3 for CPE GNU 24.03
+
+  * Based on previous easyconfigs with addition of an extra dependency, 
+    libspatialindex required by the Rtree python package

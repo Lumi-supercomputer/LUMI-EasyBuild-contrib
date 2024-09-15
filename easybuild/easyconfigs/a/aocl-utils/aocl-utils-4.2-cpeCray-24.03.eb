@@ -1,0 +1,47 @@
+easyblock = 'CMakeMake'
+
+name = 'aocl-utils'
+version = '4.2'
+
+homepage = 'https://www.amd.com/en/developer/aocl/utils.html'
+
+whatis = [
+    'Description: AOCL-Utils is an uniform interface to all AOCL libraries to access CPU features'
+]
+
+description = """
+The library AOCL-Utils is intended to provide a uniform interface to all AOCL
+libraries to access CPU features, especially for AMD CPUs. The library provides 
+the following features:
+
+ - Core details
+ - Flags available/usable
+ - ISA available/usable
+ - Topology about L1/L2/L3
+
+AOCL-Utils is designed to be integrated into other AOCL libraries. Each project
+has their own mechanism to identify CPU and provide necessary features such as
+"dynamic dispatch". The main purpose of this library is to provide a centralized
+mechanism to update/validate and provide information to the users of this library.
+"""
+
+toolchain = {'name': 'cpeCray', 'version': '24.03'}
+
+source_urls = ['https://github.com/amd/aocl-utils/archive/']
+sources =     ['%(version)s.tar.gz']
+checksums =   ['1294cdf275de44d3a22fea6fc4cd5bf66260d0a19abb2e488b898aaf632486bd']
+
+builddependencies = [ # Create a reproducible build environment.
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+postinstallcmds = [
+    'rm -f %(installdir)s/lib/libaoclutils.a'
+]
+
+sanity_check_paths = {
+    'files': ['lib/libaoclutils.%s' % SHLIB_EXT],
+    'dirs':  ['lib', 'include/alci'],
+}
+
+moduleclass = 'numlib'

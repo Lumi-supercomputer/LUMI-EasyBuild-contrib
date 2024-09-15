@@ -14,7 +14,11 @@
 -   There is no support for SuperLU in the CSCS repository.
 
 
-### Version 6.0.0
+### Version 6.0.0 for CPE 23.09
 
 -   The EasyConfig is a LUST development.
+
+### Version 6.0.0 for cpeGNU 24.03
+
+-   Update based on previous easyconfigs
 

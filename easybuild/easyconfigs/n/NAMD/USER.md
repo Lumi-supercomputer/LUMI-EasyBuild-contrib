@@ -33,6 +33,6 @@ To download and install NAMD:
     NAMD with the `NAMD-2.14-cpeGNU-22.08-MPI.eb` recipe, execute:
     
     ```
-    eb NAMD-2.14-cpeGNU-22.08-MPI.eb -r .
+    eb NAMD-2.14-cpeGNU-23.09-MPI.eb -r .
     ```
 

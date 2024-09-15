@@ -1,0 +1,75 @@
+easyblock = 'PythonPackage'
+
+local_CuPy_version      = '12.2.0'
+local_fastrlock_version = '0.8.2'
+
+name = 'CuPy'
+version = local_CuPy_version
+versionsuffix = '-rocm'
+
+homepage = 'https://cupy.dev'
+
+whatis = [
+    'Description: CuPy is an open-source array library for GPU-accelerated computing with Python'
+]
+
+description = """"
+CuPy is an open-source array library for GPU-accelerated computing with Python.
+CuPy acts as a drop-in replacement to run existing NumPy/SciPy code on NVIDIA CUDA
+or AMD ROCm platforms.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '24.03'}
+
+source_urls = [PYPI_LOWER_SOURCE]
+sources = [SOURCELOWER_TAR_GZ]
+patches = ['CuPy-12.2.0_rocm-6.patch']
+
+checksums = [
+    'f95ffd0afeacb617b048fe028ede07b97dc9e95aca1610a022b1f3d20a9a027e', # cupy-12.2.0.tar.gz
+    '25c13502ac1097015fa0fc40ac54ee9bd080e6ed87c401b0d6d9aa6f442ec693', # CuPy-12.2.0_rocm-6.patch
+]
+
+builddependencies = [
+    # Provides wheel
+    ('buildtools-python', '%(toolchain_version)s', '-cray-python%(pyshortver)s', True),
+]
+
+dependencies = [
+    ('cray-python', EXTERNAL_MODULE),
+    ('rocm',        EXTERNAL_MODULE)
+]
+
+use_pip = True
+
+local_include_dirs = ['hipblas', 'hipsparse', 'hipfft', 'rocsolver', 'rccl']
+
+preinstallopts = ' && '.join([
+    'export ROCM_HOME=$(readlink -f $ROCM_PATH)',
+    'export CUPY_INSTALL_USE_HIP=1',
+    'export HCC_AMDGPU_TARGET=gfx90a',
+    'export CFLAGS="-w $CFLAGS"', 
+]) + ' && '
+
+skipsteps = ['build']
+
+exts_defaultclass = 'PythonPackage'
+
+exts_default_options = {
+    'source_urls': [PYPI_SOURCE],
+    'use_pip': True
+}
+
+exts_list = [
+    ('fastrlock', local_fastrlock_version)
+]
+
+sanity_check_paths = {
+    'files': [
+        'lib/python%(pyshortver)s/site-packages/cupyx/cusolver.cpython-311-x86_64-linux-gnu.so',
+        'lib/python%(pyshortver)s/site-packages/fastrlock/rlock.cpython-311-x86_64-linux-gnu.so'
+    ],
+    'dirs': ['lib/python%(pyshortver)s/site-packages'],
+}
+
+moduleclass = 'devel'

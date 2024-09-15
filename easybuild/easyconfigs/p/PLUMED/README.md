@@ -138,5 +138,7 @@ and `--enable-external-lapack` are used.
     
 -   Initially no support for cpeCray as we cannot build Boost for cpeCray.
 
+### 2.9.0 for CPE 24.03
 
-
+-   Re-enabled external BLAS/LAPACK. Doesn't seems to be a problem anymore.
+-   Small workaround applied to make sure linking against libsci is correct

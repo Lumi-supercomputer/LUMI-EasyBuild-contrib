@@ -1,0 +1,128 @@
+# This version of the Rust EasyConfig was developed with buildtools/23.09
+# so should be installed in LUMI/24.03. It may work in other versions of 
+# the LUMI stacks also.
+#
+# Rust doesn't seem to like the old gcc compiler on the system.
+# I wonder if some problems are due to a too old linker or so.
+easyblock = "ConfigureMake"
+
+name =    'Rust'
+version = '1.80.1'
+
+local_LUMI_version = '24.03'
+
+import os 
+local_LUMI_version = os.getenv( "LUMI_STACK_VERSION" )
+if local_LUMI_version == None :
+    local_LUMI_version = '23.09'
+
+homepage = 'https://www.rust-lang.org'
+
+whatis = [
+    "Description: Rust is a systems programming language that runs blazingly fast, prevents segfaults, and guarantees thread safety"
+]
+
+description = """
+Rust is blazingly fast and memory-efficient: with no runtime or garbage collector,
+it can power performance-critical services, run on embedded devices, and easily
+integrate with other languages. Rust’s rich type system and ownership model
+guarantee memory-safety and thread-safety — enabling you to eliminate many
+classes of bugs at compile-time.
+"""
+
+toolchain = SYSTEM
+
+source_urls = ['https://static.rust-lang.org/dist/']
+sources =     ['rustc-%(version)s-src.tar.gz']
+checksums = ['2c0b8f643942dcb810cbcc50f292564b1b6e44db5d5f45091153996df95d2dc4']
+
+builddependencies = [
+    ('buildtools', local_LUMI_version),
+]
+
+osdependencies = [
+    ('openssl-devel', 'libssl-dev', 'libopenssl-devel'),
+]
+
+#
+# Configure phase
+#
+
+local_unwanted_modules = [
+    'cce', 'gcc', 'aocc', 'amd', 'PrgEnv-gnu', 'PrgEnv-cray', 'PrgEnv-aocc', 
+    'PrgEnv-amd', 'craype', 'perftools-base',
+]
+
+from distutils.version import LooseVersion as local_LooseVersion
+if local_LooseVersion(local_LUMI_version) > local_LooseVersion('23.09'):
+    local_wanted_modules = ['gcc-native']
+else:
+    local_wanted_modules = ['gcc']
+
+local_module_conf = ' ; '.join([
+    'module unload ' + ' '.join(local_unwanted_modules),
+    'module load ' + ' '.join(local_wanted_modules),
+    'module list',
+]) + ' && '
+
+# TODO: Double-check if it makes sense to set CFLAGS, figure out how to see the compiler flags
+# in the log file which may not be trivial as we do not directly call Make.
+preconfigopts  = local_module_conf
+
+if local_LooseVersion(local_LUMI_version) > local_LooseVersion('23.09'):
+    preconfigopts += 'export CC="gcc-$PE_GCC_LEVEL" && export CXX="g++-$PE_GCC_LEVEL" && '
+else:
+    preconfigopts += 'export CC="gcc" && export CXX="g++" && '
+
+configopts = ' '.join([
+    '--enable-extended',                # Used in the new EasyBlock for EasyBuild 4.8
+    '--sysconfdir=%(installdir)s/etc',  # Used in the new EasyBlock for EasyBuild 4.8
+    '--set=llvm.ninja=false',           # In case you would want to avoid the use of ninja.
+    '--enable-full-tools',
+    '--enable-lld',
+])
+
+#
+# Build phase
+#
+
+prebuildopts  = local_module_conf
+prebuildopts += 'export CARGO_HOME=%(builddir)s/cargo && ' # Also extracted from the EasyBlock in 4.8.
+
+if local_LooseVersion(local_LUMI_version) > local_LooseVersion('23.09'):
+    prebuildopts += 'export CC="gcc-$PE_GCC_LEVEL" && export CXX="g++-$PE_GCC_LEVEL" && '
+else:
+    prebuildopts += 'export CC="gcc" && export CXX="g++" && '
+
+build_cmd = "./x.py build"
+
+#
+# Install phase
+#
+
+preinstallopts  = local_module_conf
+preinstallopts += 'export CARGO_HOME=%(builddir)s/cargo && ' # Also extracted from the EasyBlock in 4.8.
+
+if local_LooseVersion(local_LUMI_version) > local_LooseVersion('23.09'):
+    preinstallopts += 'export CC="gcc-$PE_GCC_LEVEL" && export CXX="g++-$PE_GCC_LEVEL" && '
+else:
+    preinstallopts += 'export CC="gcc" && export CXX="g++" && '
+
+install_cmd = "./x.py install -j %(parallel)s"
+
+sanity_check_paths = {
+    'files': ['bin/cargo', 'bin/rustc', 'bin/rustdoc'],
+    'dirs':  ['lib/rustlib', 'share/doc', 'share/man'],
+}
+
+sanity_check_commands = [
+    "cargo --version",
+    "rustc --version",
+]
+
+modextravars = {
+    'EB_RUST_MODULES_PREOPTS' : local_module_conf
+}
+
+moduleclass = 'lang'
+

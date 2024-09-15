@@ -1,0 +1,85 @@
+diff -ruN petsc-3.21.5/include/petsc/private/cupminterface.hpp petsc-3.21.5.new/include/petsc/private/cupminterface.hpp
+--- petsc-3.21.5/include/petsc/private/cupminterface.hpp	2024-07-30 19:45:24.000000000 +0300
++++ petsc-3.21.5.new/include/petsc/private/cupminterface.hpp	2024-09-03 16:08:07.000000000 +0300
+@@ -569,7 +569,7 @@
+     cerr = cupmPointerGetAttributes(&attr, data);
+     cerr = cupmGetLastError();
+     // HIP seems to always have used memoryType though
+-#if (defined(CUDART_VERSION) && (CUDART_VERSION < 10000)) || defined(__HIP_PLATFORM_HCC__)
++#if (defined(CUDART_VERSION) && (CUDART_VERSION < 10000)) || (defined(__HIP_PLATFORM_HCC__) && (HIP_VERSION_MAJOR < 6))
+     const auto mtype = attr.memoryType;
+     if (managed) *managed = static_cast<PetscBool>((cerr == cupmSuccess) && attr.isManaged);
+ #else
+diff -ruN petsc-3.21.5/src/mat/impls/aij/seq/seqhipsparse/aijhipsparse.hip.cpp petsc-3.21.5.new/src/mat/impls/aij/seq/seqhipsparse/aijhipsparse.hip.cpp
+--- petsc-3.21.5/src/mat/impls/aij/seq/seqhipsparse/aijhipsparse.hip.cpp	2024-07-30 19:45:24.000000000 +0300
++++ petsc-3.21.5.new/src/mat/impls/aij/seq/seqhipsparse/aijhipsparse.hip.cpp	2024-09-03 16:07:43.000000000 +0300
+@@ -1258,7 +1258,7 @@
+   /* Solve L*y = b */
+   PetscCallHIPSPARSE(hipsparseDnVecSetValues(fs->dnVecDescr_X, (void *)barray));
+   PetscCallHIPSPARSE(hipsparseDnVecSetValues(fs->dnVecDescr_Y, fs->Y));
+-  #if PETSC_PKG_HIP_VERSION_EQ(5, 6, 0)
++  #if PETSC_PKG_HIP_VERSION_EQ(5, 6, 0) || PETSC_PKG_HIP_VERSION_GE(6, 0, 0)
+   PetscCallHIPSPARSE(hipsparseSpSV_solve(fs->handle, HIPSPARSE_OPERATION_NON_TRANSPOSE, &PETSC_HIPSPARSE_ONE, fs->spMatDescr_L,                   /* L Y = X */
+                                          fs->dnVecDescr_X, fs->dnVecDescr_Y, hipsparse_scalartype, HIPSPARSE_SPSV_ALG_DEFAULT, fs->spsvDescr_L)); // hipsparseSpSV_solve() secretely uses the external buffer used in hipsparseSpSV_analysis()!
+   #else
+@@ -1267,7 +1267,7 @@
+   #endif
+   /* Solve U*x = y */
+   PetscCallHIPSPARSE(hipsparseDnVecSetValues(fs->dnVecDescr_X, xarray));
+-  #if PETSC_PKG_HIP_VERSION_EQ(5, 6, 0)
++  #if PETSC_PKG_HIP_VERSION_EQ(5, 6, 0) || PETSC_PKG_HIP_VERSION_GE(6, 0, 0)
+   PetscCallHIPSPARSE(hipsparseSpSV_solve(fs->handle, HIPSPARSE_OPERATION_NON_TRANSPOSE, &PETSC_HIPSPARSE_ONE, fs->spMatDescr_U, /* U X = Y */
+                                          fs->dnVecDescr_Y, fs->dnVecDescr_X, hipsparse_scalartype, HIPSPARSE_SPSV_ALG_DEFAULT, fs->spsvDescr_U));
+   #else
+@@ -1316,7 +1316,7 @@
+   /* Solve Ut*y = b */
+   PetscCallHIPSPARSE(hipsparseDnVecSetValues(fs->dnVecDescr_X, (void *)barray));
+   PetscCallHIPSPARSE(hipsparseDnVecSetValues(fs->dnVecDescr_Y, fs->Y));
+-  #if PETSC_PKG_HIP_VERSION_EQ(5, 6, 0)
++  #if PETSC_PKG_HIP_VERSION_EQ(5, 6, 0) || PETSC_PKG_HIP_VERSION_GE(6, 0, 0)
+   PetscCallHIPSPARSE(hipsparseSpSV_solve(fs->handle, HIPSPARSE_OPERATION_TRANSPOSE, &PETSC_HIPSPARSE_ONE, fs->spMatDescr_U, /* Ut Y = X */
+                                          fs->dnVecDescr_X, fs->dnVecDescr_Y, hipsparse_scalartype, HIPSPARSE_SPSV_ALG_DEFAULT, fs->spsvDescr_Ut));
+   #else
+@@ -1325,7 +1325,7 @@
+   #endif
+   /* Solve Lt*x = y */
+   PetscCallHIPSPARSE(hipsparseDnVecSetValues(fs->dnVecDescr_X, xarray));
+-  #if PETSC_PKG_HIP_VERSION_EQ(5, 6, 0)
++  #if PETSC_PKG_HIP_VERSION_EQ(5, 6, 0) || PETSC_PKG_HIP_VERSION_GE(6, 0, 0)
+   PetscCallHIPSPARSE(hipsparseSpSV_solve(fs->handle, HIPSPARSE_OPERATION_TRANSPOSE, &PETSC_HIPSPARSE_ONE, fs->spMatDescr_L, /* Lt X = Y */
+                                          fs->dnVecDescr_Y, fs->dnVecDescr_X, hipsparse_scalartype, HIPSPARSE_SPSV_ALG_DEFAULT, fs->spsvDescr_Lt));
+   #else
+@@ -1559,7 +1559,7 @@
+   /* Solve L*y = b */
+   PetscCallHIPSPARSE(hipsparseDnVecSetValues(fs->dnVecDescr_X, (void *)barray));
+   PetscCallHIPSPARSE(hipsparseDnVecSetValues(fs->dnVecDescr_Y, fs->Y));
+-  #if PETSC_PKG_HIP_VERSION_EQ(5, 6, 0)
++  #if PETSC_PKG_HIP_VERSION_EQ(5, 6, 0) || PETSC_PKG_HIP_VERSION_GE(6, 0, 0)
+   PetscCallHIPSPARSE(hipsparseSpSV_solve(fs->handle, HIPSPARSE_OPERATION_NON_TRANSPOSE, &PETSC_HIPSPARSE_ONE, fs->spMatDescr_L, /* L Y = X */
+                                          fs->dnVecDescr_X, fs->dnVecDescr_Y, hipsparse_scalartype, HIPSPARSE_SPSV_ALG_DEFAULT, fs->spsvDescr_L));
+   #else
+@@ -1568,7 +1568,7 @@
+   #endif
+   /* Solve Lt*x = y */
+   PetscCallHIPSPARSE(hipsparseDnVecSetValues(fs->dnVecDescr_X, xarray));
+-  #if PETSC_PKG_HIP_VERSION_EQ(5, 6, 0)
++  #if PETSC_PKG_HIP_VERSION_EQ(5, 6, 0) || PETSC_PKG_HIP_VERSION_GE(6, 0, 0)
+   PetscCallHIPSPARSE(hipsparseSpSV_solve(fs->handle, HIPSPARSE_OPERATION_TRANSPOSE, &PETSC_HIPSPARSE_ONE, fs->spMatDescr_L, /* Lt X = Y */
+                                          fs->dnVecDescr_Y, fs->dnVecDescr_X, hipsparse_scalartype, HIPSPARSE_SPSV_ALG_DEFAULT, fs->spsvDescr_Lt));
+   #else
+diff -ruN petsc-3.21.5/src/sys/objects/device/util/memory.c petsc-3.21.5.new/src/sys/objects/device/util/memory.c
+--- petsc-3.21.5/src/sys/objects/device/util/memory.c	2024-07-30 19:45:24.000000000 +0300
++++ petsc-3.21.5.new/src/sys/objects/device/util/memory.c	2024-09-03 16:08:07.000000000 +0300
+@@ -52,7 +52,11 @@
+     enum hipMemoryType           mtype;
+     cerr = hipPointerGetAttributes(&attr, ptr);
+     if (cerr) cerr = hipGetLastError();
+-    mtype = attr.memoryType;
++    #if (HIP_VERSION_MAJOR < 6)
++      mtype = attr.memoryType;
++    #else
++      mtype = attr.type;
++    #endif
+     if (cerr == hipSuccess && mtype == hipMemoryTypeDevice) *type = PETSC_MEMTYPE_DEVICE;
+   }
+ #endif

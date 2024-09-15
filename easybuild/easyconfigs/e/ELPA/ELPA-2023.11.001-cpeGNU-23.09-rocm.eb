@@ -1,0 +1,99 @@
+# Contributed by Luca Marsella (CSCS)
+# Some adaptations by Kurt Lust (University of Antwerpen and LUMI consortium)
+# GPU version adapted for LUMI
+easyblock = 'ConfigureMake'
+
+local_ELPA_version = '2023.11.001'
+
+name =    'ELPA'
+version = local_ELPA_version
+versionsuffix = '-rocm'
+
+homepage = 'http://elpa.mpcdf.mpg.de'
+
+whatis = [
+    "Description: ELPA - Eigenvalue SoLvers for Petaflop-Applications",
+]
+
+description = """
+The publicly available ELPA library provides highly efficient and highly
+scalable direct eigensolvers for symmetric matrices. Though especially designed
+for use for PetaFlop/s applications solving large problem sizes on massively
+parallel supercomputers, ELPA eigensolvers have proven to be also very efficient
+for smaller matrices. All major architectures are supported.
+
+ELPA provides static and shared libraries with and without OpenMP support
+and with and without MPI. GPU kernels are not included in this module.
+"""
+
+docurls = [
+    'Manual pages in section 1 and 3'
+]
+
+toolchain = {'name': 'cpeGNU', 'version': '23.09'}
+toolchainopts = {'usempi': True, 'openmp': False}
+
+source_urls = ['https://elpa.mpcdf.mpg.de/software/tarball-archive/Releases/%(version)s/']
+sources =  ['elpa-%(version)s-patched.tar.gz']
+
+patches = [
+    'elpa-2023.11.01-hiputils.patch',
+    'elpa-2023.11.001_rocm6.patch',
+]
+
+checksums = [
+    '62ee109afc06539507f459c08b958dc4db65b757dbd77f927678c77f7687415e', # elpa-2023.11.001-patched.tar.gz
+    '4404753bca381f472334cf9f879702092084a2cdadeeeab938b84524b5136be8', # elpa-2023.11.01-hiputils.patch
+    '210b548c9a272327b9dc16765a62ecd72ec7fd0e1af50594250918d22f6a52ac', # elpa-2023.11.001_rocm6.patch
+]
+
+builddependencies = [ 
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+    ('cray-libsci', EXTERNAL_MODULE),
+    ('rocm',        EXTERNAL_MODULE),
+]
+
+configopts = ' '.join([
+    'CPP=cpp CC=cc CXX=hipcc FC=ftn',
+    'CFLAGS="-g $CFLAGS"',
+    'FCFLAGS="-g $FCFLAGS"',
+    'CXXFLAGS="-g --offload-arch=gfx90a --gcc-toolchain=$GCC_PATH/snos -std=c++17 -I$ROCM_PATH/include/hip -I$ROCM_PATH/include/rocblas -I$CRAY_MPICH_DIR/include"',
+    '--enable-static',
+    '--disable-generic',
+    '--disable-sse',
+    '--disable-avx',
+    '--enable-avx2',
+    '--disable-avx512',
+    '--enable-amd-gpu-kernels',
+    '--with-AMD-gpu-support-only',
+    '--enable-gpu-streams=amd',
+    '--enable-hipcub',
+    '--enable-single-precision ',
+    '--disable-openmp',
+    '--with-mpi=yes',
+    '--enable-cuda-aware-mpi',
+    '--enable-marshalling-hipblas-library',
+])
+
+prebuildopts = 'export CPATH=$ROCM_PATH/include/hipblas && make clean && '
+
+maxparallel = 16
+
+sanity_check_paths = {
+    'files': ['lib/libelpa.a', 'lib/libelpa.so'],
+    'dirs':  ['bin', 'lib/pkgconfig',
+              'include/%(namelower)s-%(version)s/%(namelower)s', 'include/%(namelower)s-%(version)s/modules',]
+}
+
+modextrapaths = {
+    'CPATH': ['include/elpa-%(version)s']
+}
+
+modextravars = {
+    'ELPA_INCLUDE_DIR': '%(installdir)s/include/elpa-%(version)s',
+}
+
+moduleclass = 'math'

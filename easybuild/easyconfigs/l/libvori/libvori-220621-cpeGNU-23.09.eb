@@ -28,8 +28,11 @@ toolchainopts = {'usempi': False, 'openmp': False}
 
 source_urls = ['https://brehm-research.de/files']
 sources = [SOURCE_TAR_GZ]
+checksums = ['1cfa98c564814bddacf1c0e7f11582137d758668f6307e6eb392c72317984c14']
 
-builddependencies = [('buildtools', '%(toolchain_version)s', '', True)]
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True)
+]
 
 sanity_check_paths = {
     'files': ['lib/%(name)s.a'],

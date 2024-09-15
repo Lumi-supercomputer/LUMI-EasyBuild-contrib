@@ -1,0 +1,80 @@
+# Created for LUMI by Orian Louant
+
+easyblock = 'CMakeMake'
+
+local_rocm_version = '6.0.2'
+
+name = 'hipfort'
+version = '0.4-0'
+
+homepage = 'https://rocmdocs.amd.com/projects/hipfort/en/latest/'
+
+whatis = ['Description: FORTRAN interface library for accessing AMD GPU Kernels.']
+
+description = """
+ hipfort is a FORTRAN interface library for accessing AMD GPU Kernels. It
+ provides interfaces to the following HIP and ROCm libraries:
+
+  - HIP: HIP runtime, hipBLAS, hipSPARSE, hipFFT, hipRAND, hipSOLVER
+  - ROCm: rocBLAS, rocSPARSE, rocFFT, rocRAND, rocSOLVER
+
+ The role of this package is to replace the default hipfort installation that
+ only support gfortran. This package provide Fortran modules compatible
+ with the Cray Fortran compiler as well as direct use of hipfort with the
+ Fortran Cray Compiler wrapper (ftn).
+
+ The main use case is for Fortran code using a mix of OpenACC and HIP kernels as
+ only the Cray compiler supports OpenACC on LUMI.
+"""
+
+usage = """
+ This module can be used in two ways. The first option is to use the AMD
+ provided 'hipfc' compiler script:
+
+  $ hipfc -o out.exe --offload-arch=gfx90a hip_kernels.cpp fortran_code.f90
+
+ With this method, the fortran code and
+ The second option is use the Cray 'ftn' compiler wrapper as you would do to
+ compile any fortran code. The appropriate module and library search paths as
+ well as library linking flags will be automatically added by the compiler
+ wrappper:
+
+  $ ftn -c fortran_code.f90
+  $ CC -xhip -c hip_kernels.cpp
+  $ ftn -o out.exe fortran_code.o hip_kernels.o
+"""
+
+docurls = ['https://rocmdocs.amd.com/projects/hipfort/en/latest/']
+software_license_urls = ['https://github.com/ROCmSoftwarePlatform/hipfort/blob/develop/LICENSE']
+
+toolchain = {'name': 'cpeCray', 'version': '24.03'}
+
+source_urls = ['https://github.com/ROCmSoftwarePlatform/hipfort/archive/refs/tags/']
+sources = ['rocm-%s.tar.gz' % local_rocm_version]
+patches = ['hipfort-0.4-0_remove-outofplace.patch']
+
+checksums = [
+    'b60ada7474b71c1d82c700b0159bc0756dbb2808375054903710280b1677f199', # rocm-6.0.2.tar.gz
+    'c3c1f63dd41e30ef3471c2ac7929bafdabe1d7d81775ff8ce0c9f3728cc74e93', # hipfort-0.4-0_remove-outofplace.patch
+]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+    ('rocm', EXTERNAL_MODULE),
+]
+
+configopts  = ' -DHIPFORT_COMPILER=ftn'
+configopts += ' -DHIPFORT_COMPILER_FLAGS="-ffree -eT"'
+configopts += ' -DHIPFORT_INSTALL_DIR=%(installdir)s'
+configopts += ' -DHIPFORT_AR=${CRAY_BINUTILS_BIN_X86_64}/ar'
+configopts += ' -DHIPFORT_RANLIB=${CRAY_BINUTILS_BIN_X86_64}/ranlib'
+
+sanity_check_paths = {
+    'files': ['bin/hipfc'],
+    'dirs': [],
+}
+
+moduleclass = 'compiler'

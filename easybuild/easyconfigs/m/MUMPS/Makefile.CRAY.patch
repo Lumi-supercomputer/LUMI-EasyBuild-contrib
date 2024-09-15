@@ -4,7 +4,7 @@ diff -Naur MUMPS_5.5.1_orig/Make.inc/Makefile.CRAY MUMPS_5.5.1/Make.inc/Makefile
 @@ -0,0 +1,67 @@
 +# Begin orderings
 +# Gets actual LSCOTCHDIR from environment 
-+# LSCOTCHDIR = $(EBROOTSCOTCH)
++LSCOTCHDIR = $(EBROOTSCOTCH)
 +ISCOTCH   = -I$(LSCOTCHDIR)/include
 +LSCOTCH   = -L$(LSCOTCHDIR)/lib -lesmumps -lscotch -lscotcherr
 +
@@ -13,9 +13,9 @@ diff -Naur MUMPS_5.5.1_orig/Make.inc/Makefile.CRAY MUMPS_5.5.1/Make.inc/Makefile
 +LPORD    = -L$(LPORDDIR) -lpord
 +
 +# Gets actual LMETISDIR from environment 
-+# LMETISDIR = $(EBROOTMETIS)
++LMETISDIR = $(EBROOTMETIS)
 +IMETIS    = -I$(LMETISDIR)/include
-+LMETIS    = -L$(LMETISDIR) -lmetis
++LMETIS    = -L$(LMETISDIR)/lib -lmetis
 +
 +# Corresponding variables reused later
 +ORDERINGSF = -Dpord -Dscotch -Dmetis 
