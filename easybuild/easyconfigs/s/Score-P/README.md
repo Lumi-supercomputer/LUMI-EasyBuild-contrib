@@ -35,4 +35,9 @@ Score-P offers the user a maximum of convenience by supporting a number of analy
     as otherwise `roctracer` is not correctly detected. The `rocm` module does a few
     initialisations of environment variables that the `amd` module does not do.
     
- 
+ ### Version 8.4 for CPE 24.03
+
+-   Conversion of the easyconfigs for 23.09 with some build dependencies moved
+    to runtime dependencies as we don't want to rely on RPATH.
+
+-   The AOCC version is not provided: some tests fail.
