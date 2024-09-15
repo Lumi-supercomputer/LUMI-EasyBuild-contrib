@@ -56,13 +56,14 @@ checksums = [
 ]
 
 builddependencies = [
-    ('CubeLib',    local_CubeLib_version),
-    ('CubeWriter', local_CubeWriter_version),
-    # Unwinding/sampling support (optional):
-    ('libunwind',  local_libunwind_version),
+    ('buildtools', '%(toolchain_version)s', '', True),
 ]
 
 dependencies = [
+    ('CubeLib',         local_CubeLib_version),
+    ('CubeWriter',      local_CubeWriter_version),
+    # Unwinding/sampling support (optional):
+    ('libunwind',       local_libunwind_version),
     ('OPARI2',          local_OPARI2_version),
     ('OTF2',            local_OTF2_version),
     # Support for SHMEM
