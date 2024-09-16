@@ -1,0 +1,40 @@
+easyblock = 'CMakeMake'
+
+name = 'KaHIP'
+version = '3.16'
+
+homepage = 'https://kahip.github.io/'
+
+whatis = ['Description: KaHIP is a family of graph partitioning programs']
+
+description = """
+KaHIP - Karlsruhe High Quality Partitioning - is a family of graph partitioning
+programs. It includes KaFFPa (Karlsruhe Fast Flow Partitioner), which is a
+multilevel graph partitioning algorithm, in its variants Strong, Eco and Fast,
+KaFFPaE (KaFFPaEvolutionary) which is a parallel evolutionary algorithm that
+uses KaFFPa to provide combine and mutation operations, as well as KaBaPE which
+extends the evolutionary algorithm. Moreover, specialized techniques are
+included to partition road networks (Buffoon), to output a vertex separator from
+a given partition or techniques geared towards efficient partitioning of social
+networks.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '24.03'}
+toolchainopts = {'pic': True}
+
+source_urls = ['https://github.com/KaHIP/KaHIP/archive/refs/tags']
+sources = ['v%(version)s.tar.gz']
+checksums = ['b0ef72a26968d37d9baa1304f7a113b61e925966a15e86578d44e26786e76c75']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+sanity_check_paths = {
+    'files': ["lib/libkahip_static.a", "lib/libkahip.%s" % SHLIB_EXT] +
+             ["lib/libparhip_interface_static.a", "lib/libparhip_interface.%s" % SHLIB_EXT] +
+             ["include/%s" % x for x in ["kaHIP_interface.h", "parhip_interface.h"]],
+    'dirs': [],
+}
+
+moduleclass = 'math'
