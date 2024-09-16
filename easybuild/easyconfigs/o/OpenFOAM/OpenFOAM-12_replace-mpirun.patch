@@ -1,0 +1,43 @@
+diff -ruN OpenFOAM-12-20240902.orig/bin/foamJob OpenFOAM-12-20240902/bin/foamJob
+--- OpenFOAM-12-20240902.orig/bin/foamJob       2024-08-13 15:21:32.000000000 +0200
++++ OpenFOAM-12-20240902/bin/foamJob    2024-09-15 20:56:08.000000000 +0200
+@@ -192,11 +192,7 @@
+         fi
+     fi
+
+-    #
+-    # Find mpirun
+-    #
+-    mpirun=$(findExec mpirun) || error "'mpirun' not found"
+-    mpiopts="-np $NPROCS"
++    mpirun=srun
+
+     #
+     # Check if the machine ready to run parallel
+@@ -234,8 +230,8 @@
+     if [ "$screenOpt" = true ]
+     then
+         [ "$appendOpt" = true ] && teeOpts=" -a"
+-        echo "Executing: $mpirun $mpiopts $APPLICATION $(echoArgs "$@") -parallel | tee $teeOpts log"
+-        $mpirun $mpiopts $APPLICATION "$@" -parallel | tee $teeOpts log
++        echo "Executing: $mpirun $APPLICATION $(echoArgs "$@") -parallel | tee $teeOpts log"
++        $mpirun $APPLICATION "$@" -parallel | tee $teeOpts log
+     else
+         if [ "$appendOpt" = true ]
+         then
+diff -ruN OpenFOAM-12-20240902.orig/bin/tools/RunFunctions OpenFOAM-12-20240902/bin/tools/RunFunctions
+--- OpenFOAM-12-20240902.orig/bin/tools/RunFunctions    2024-08-13 15:21:32.000000000 +0200
++++ OpenFOAM-12-20240902/bin/tools/RunFunctions 2024-09-15 20:57:56.000000000 +0200
+@@ -156,9 +156,9 @@
+     else
+         echo "Running $APP_RUN in parallel on $PWD using $nProcs processes"
+         if [ "$LOG_APPEND" = "true" ]; then
+-            ( mpirun -np $nProcs $APP_RUN -parallel "$@" < /dev/null >> log.$LOG_SUFFIX 2>&1 )
++            ( srun -n $nProcs $APP_RUN -parallel "$@" < /dev/null >> log.$LOG_SUFFIX 2>&1 )
+         else
+-            ( mpirun -np $nProcs $APP_RUN -parallel "$@" < /dev/null > log.$LOG_SUFFIX 2>&1 )
++            ( srun -n $nProcs $APP_RUN -parallel "$@" < /dev/null > log.$LOG_SUFFIX 2>&1 )
+         fi
+     fi
+ }
+ 

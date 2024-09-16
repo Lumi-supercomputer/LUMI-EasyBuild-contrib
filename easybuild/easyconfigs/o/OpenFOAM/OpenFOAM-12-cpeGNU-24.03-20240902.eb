@@ -20,11 +20,16 @@ toolchainopts = {'vectorize': False}
 
 source_urls = ['https://github.com/OpenFOAM/OpenFOAM-%(version_major)s/archive']
 sources = ['%s.tar.gz' % versionsuffix[1:]]
-patches = ['OpenFOAM-12-ThirdParty.patch']
+
+patches = [
+    'OpenFOAM-12-ThirdParty.patch',
+    'OpenFOAM-12_replace-mpirun.patch',
+]
 
 checksums = [
-    {versionsuffix[1:] + '.tar.gz'  : '8fbbd4ebb09614a3ef1553bb03dda519f0b0f7ee568a914a44609a2822ccfdcd'},
-    {'OpenFOAM-12-ThirdParty.patch' : 'b95bdb00e33b5823e0ceda4f77161dbeb7cc150fd7d16305292109f9af6c3ca3'},
+    {versionsuffix[1:] + '.tar.gz'      : '8fbbd4ebb09614a3ef1553bb03dda519f0b0f7ee568a914a44609a2822ccfdcd'},
+    {'OpenFOAM-12-ThirdParty.patch'     : 'b95bdb00e33b5823e0ceda4f77161dbeb7cc150fd7d16305292109f9af6c3ca3'},
+    {'OpenFOAM-12_replace-mpirun.patch' : 'd50bc767cbdb8929cf5b77926e2a450fabf624ce0819d4d0f60d1c7cabf0ad44'},
 ]
 
 builddependencies = [
