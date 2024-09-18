@@ -8,6 +8,12 @@ the other EasyConfigs offer examples of how to add packages.
   * [R web site](http://www.r-project.org)
   
   
+## Some notes
+
+*   `bin/R` is really only a script that starts R. The relevant executable
+    is in `lib64/R/bin/exec`.
+  
+  
 ## EasyBuild
 
   * [Support in the EasyBuilders repository](https://github.com/easybuilders/easybuild-easyconfigs/tree/develop/easybuild/easyconfigs/r/R)
@@ -15,6 +21,50 @@ the other EasyConfigs offer examples of how to add packages.
     R uses an [application-specific EasyBlock](https://github.com/easybuilders/easybuild-easyblocks/blob/develop/easybuild/easyblocks/r/r.py)
   
   * [Support in the CSCS repository](https://github.com/eth-cscs/production/tree/master/easybuild/easyconfigs/r/R)
+  
+  
+### R packages considered for inclusion
+
+-   [Rmpi](https://cran.r-project.org/web/packages/Rmpi/)
+-   [Rcpp](https://cran.r-project.org/web/packages/Rcpp)
+-   [codetools](https://cran.r-project.org/web/packages/codetools/)
+-   [Runit](https://cran.r-project.org/web/packages/RUnit)
+-   [tinytest](https://cran.r-project.org/web/packages/tinytest)
+-   [backports](https://cran.r-project.org/web/packages/backports)
+-   [rlang](https://cran.r-project.org/web/packages/rlang)
+-   [parallelly](https://cran.r-project.org/web/packages/parallelly)
+-   [iterators](https://cran.r-project.org/web/packages/iterators)
+-   [foreach](https://cran.r-project.org/web/packages/foreach)
+-   [doParallel](https://cran.r-project.org/web/packages/doParallel)
+-   [doMPI](https://cran.r-project.org/web/packages/doMPI)
+-   [snow](https://cran.r-project.org/web/packages/snow)
+-   [snowfall](https://cran.r-project.org/web/packages/snowfall)
+-   [doSNOW](https://cran.r-project.org/web/packages/doSNOW)
+-   [base64url](https://cran.r-project.org/web/packages/base64url)
+-   [brew](https://cran.r-project.org/web/packages/brew)
+-   [checkmate](https://cran.r-project.org/web/packages/checkmate)
+-   [data.table](https://cran.r-project.org/web/packages/data.table)
+-   [fs](https://cran.r-project.org/web/packages/fs)
+-   [cli](https://cran.r-project.org/web/packages/cli)
+-   [glue](https://cran.r-project.org/web/packages/glue)
+-   [lifecycle](https://cran.r-project.org/web/packages/lifecycle)
+-   [pkgconfig](https://cran.r-project.org/web/packages/pkgconfig)
+-   [vctrs](https://cran.r-project.org/web/packages/vctrs)
+-   [hms](https://cran.r-project.org/web/packages/hms)
+-   [prettyunits](https://cran.r-project.org/web/packages/prettyunits)
+-   [R6](https://cran.r-project.org/web/packages/R6)
+-   [crayon](https://cran.r-project.org/web/packages/crayon)
+-   [progress](https://cran.r-project.org/web/packages/progress)
+-   [rappdirs](https://cran.r-project.org/web/packages/rappdirs)
+-   [stringi](https://cran.r-project.org/web/packages/stringi)
+-   [withr](https://cran.r-project.org/web/packages/withr)
+-   [digest](https://cran.r-project.org/web/packages/digest)
+-   [batchtools](https://cran.r-project.org/web/packages/batchtools)
+-   [globals](https://cran.r-project.org/web/packages/globals)
+-   [listenv](https://cran.r-project.org/web/packages/listenv)
+-   [future](https://cran.r-project.org/web/packages/future)
+-   [future.apply](https://cran.r-project.org/web/packages/future.apply)
+-   [future.batchtools](https://cran.r-project.org/web/packages/future.batchtools)
   
   
 ### Version 4.2.1 for cpeGNU 22.06, 22.08
@@ -87,7 +137,14 @@ the other EasyConfigs offer examples of how to add packages.
 ## Version 4.3.2 for 23.09
 
 -   Quick port with minor version updates of the 22.12 one.
-  
+
+
+## VErsion 4.4.1 for 24.03
+
+-   Quick port with version updates of the 23.09 EasyConfigs.
+
+-   Changed the naming to stress that we link with the multithreaded BLAS libraries.
+
             
             
 
