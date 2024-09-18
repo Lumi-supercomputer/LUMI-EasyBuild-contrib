@@ -1,0 +1,46 @@
+easyblock = 'CMakeMake'
+
+name = 'rocFFT'
+version = '07c2fd3'
+versionsuffix = '-mpi'
+
+toolchain = {'name': 'cpeAMD', 'version': '24.03'}
+toolchainopts = {'opt': True, 'usempi': True, 'verbose': False, 'pic': True, 'openmp': True}
+
+homepage = 'https://rocm.docs.amd.com/projects/rocFFT/'
+
+description = """
+This is to test https://rocmdocs.amd.com/projects/rocFFT/en/develop/how-to/distributed-transforms.html
+"""
+
+sources = [{
+    'filename': '%(name)s-%(version)s.tar.gz',
+    'git_config': {
+        'url': 'https://github.com/ROCm',
+        'repo_name': '%(name)s',
+        'commit': '07c2fd31aa2961ea60c278e3926a9388c5f33736',
+    }
+}]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True), 
+]
+
+dependencies = [
+    ('rocm', EXTERNAL_MODULE),
+]
+
+configopts  = '-DROCFFT_MPI_ENABLE=1 '
+configopts += '-DCMAKE_CXX_COMPILER=amdclang++ '
+configopts += '-DCMAKE_C_COMPILER=amdclang '
+configopts += '-DMPI_C=cc '
+configopts += '-DMPI_CXX=CC '
+configopts += '-DGPU_TARGETS=gfx90a '
+configopts += '-DAMDGPU_TARGETS=gfx90a '
+
+sanity_check_paths = {
+    'files': ['lib/librocfft.so'],
+    'dirs': ['include', 'lib'],
+}
+
+moduleclass = 'lib'
