@@ -40,4 +40,3 @@ Score-P offers the user a maximum of convenience by supporting a number of analy
 -   Conversion of the easyconfigs for 23.09 with some build dependencies moved
     to runtime dependencies as we don't want to rely on RPATH.
 
--   The AOCC version is not provided: some tests fail.

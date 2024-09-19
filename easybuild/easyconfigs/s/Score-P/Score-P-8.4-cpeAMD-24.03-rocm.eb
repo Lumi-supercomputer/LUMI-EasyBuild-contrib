@@ -69,11 +69,11 @@ dependencies = [
     ('libbfd',          local_libbfd_version),
     # Hardware counter support (optional):
     ('papi',            EXTERNAL_MODULE),
-    # Support for HIP adapter somehow is not provided if amd/5.2.3 is used.
+    # Support for HIP adapter.
     ('rocm',            EXTERNAL_MODULE),
 ]
 
-configopts  = '--enable-shared --disable-static --with-machine-name=LUMI '
+configopts  = '--enable-shared --disable-static --with-machine-name=LUMI-cpeAMD-24.03-rocm '
 configopts += '--with-libpmi=/opt/cray/pe/pmi/default '
 configopts += '--with-papi-header=$CRAY_PAPI_PREFIX/include --with-papi-lib=$CRAY_PAPI_PREFIX/lib '
 # Add CFLAGS to prevent error of roctracer check due to path issues
