@@ -1,3 +1,6 @@
+#DOC This EasyConfig provides R compiled with the multithreaded LibSci libraries (hence the -OpenMP suffix)
+#DOC and with packages for parallel computing and other packages offered by Cray-R already installed.
+#DOC It also contains some packages for benchmarking.
 name =          'R'
 version =       '4.4.1'
 versionsuffix = '-OpenMP'
@@ -16,6 +19,8 @@ local_PCRE2_version =        '10.42'         # https://ftp.pcre.org/pub/pcre/
 local_Tk_version =           '8.6.13'        # https://tcl.tk/
 local_XZ_version =           '5.4.4'         # https://tukaani.org/xz/
 local_zlib_version =         '1.3.1'         # https://zlib.net/
+
+local_cURL_version =         '8.3.0'         # https://curl.haxx.se/download/
 
 local_Zip_version =   '3.0'
 local_UnZip_version = '6.0'
@@ -76,6 +81,8 @@ dependencies = [
     ('LibTIFF',       local_libtiff_version),
     ('cairo',         local_cairo_version),
     ('Pango',         local_Pango_version),
+    # For extra packages
+    ('cURL',           local_cURL_version),
 ]
 
 # Some R extensions (mclust, quantreg, waveslim for example) require the math library (-lm) to avoid undefined symbols.
@@ -127,7 +134,10 @@ exts_list = [
     'tools',
     'utils',
     #
-    # Do firsts because of potential problems
+    # Do Rmpi first because of potential problems
+    #
+    #
+    # Parallel compputing packages
     #
     ('Rmpi', '0.7-2', {
         'easyblock':   'RPackage',
@@ -251,6 +261,114 @@ exts_list = [
     }),
     ('future.batchtools', '0.12.1', {
         'checksums': ['db71ea7f239adad3a34d692f1e8b01a6b52653344bc8db30a83b74d08c27d931'],
+    }),
+    #
+    # Some other popular packages available in Cray-R
+    #
+    ('lattice', '0.22-6', { # Dependency for Matrix and others
+        'checksums': ['4b377211e472ece7872b9d6759f9b9c660b09594500462eb6146312a1d4d00f7'],
+    }),
+    ('Matrix', '1.7-0', { # Also dependency for survival
+        'checksums': ['fb97bba0df370222eb4f7e2da2e94dd01053b5e054b1c51829ff9a6efc08ad37'],
+    }),
+    ('MASS', '7.3-61', { # Dependency for class
+        'checksums': ['3144c8bf579dd7b7c47c259728c27f53f53e294e7ed307da434dfd144e800a90'],
+    }),
+    ('class', '7.3-22', { 
+        'checksums': ['b6994164e93843fcc7e08dfdc8c8b4af6a5a10ef7153d2e72a6855342508d15c'],
+    }),
+    ('foreign', '0.8-87', { 
+        'checksums': ['1a24acf4c8e87acc740599e950388b88e5beab7e54f699a015366fbd86db2856'],
+    }),
+    ('KernSmooth', '2.23-24', { 
+        'checksums': ['d0b3ec39547ffd92565e91b0c3bb637f3b30e7a46afe416d8790b8c4f528ac5f'],
+    }),
+    ('nlme', '3.1-166', { # Dependency for mgcv
+        'checksums': ['237a14ee8d78755b11a7efe234b95be40b46fbdd1b4aaf463f6d532be1909762'],
+    }),
+    ('mgcv', '1.9-1', { # Needs nlme
+        'checksums': ['700fbc37bedd3a49505b9bc4949faee156d9cfb4f669d797d06a10a15a5bdb32'],
+    }),  
+    ('nnet', '7.3-19', {
+        'checksums': ['a9241f469270d3b03bbab7dc0d3c6a06a84010af16ba82fd3bd6660b35382ce7'],
+    }),  
+    ('rpart', '4.1.23', {
+        'checksums': ['f9b89aed6aa6cea656a2dcb271574e969ce2b1c98beb07bd91e17339f6daabaf'],
+    }),  
+    ('spatial', '7.3-17', {
+        'checksums': ['f1003ed8cff2a47169a4787c8be46e8c2c501cc06c8b1e5f97bf62507e5f5dd7'],
+    }),  
+    ('survival', '3.7-0', { # Needs Matrix
+        'checksums': ['cd96b08ec928b0028f69c942cc788e190b4543c8518d71deb6d8a712de44feef'],
+    }),
+    #
+    # Some benchmarking packages and their dependencies not yet included above.
+    #
+    ('fansi', '1.0.6', { # Dependency for bench
+        'checksums': ['ea9dc690dfe50a7fad7c5eb863c157d70385512173574c56f4253b6dfe431863'],
+    }),
+    ('utf8', '1.2.4', { # Dependency for bench
+        'checksums': ['418f824bbd9cd868d2d8a0d4345545c62151d321224cdffca8b1ffd98a167b7d'],
+    }),
+    ('pillar', '1.9.0', { # Dependency for bench
+        'checksums': ['f23eb486c087f864c2b4072d5cba01d5bebf2f554118bcba6886d8dbceb87acc'],
+    }),
+    ('profmem', '0.6.0', { # Dependency for bench
+        'checksums': ['745ca9b22a8de3cda4374be6e2454e549742a3b72ff02c8894c972178192e63d'],
+    }),
+    ('magrittr', '2.0.3', { # Dependency for bench
+        'checksums': ['a2bff83f792a1acb801bfe6330bb62724c74d5308832f2cb6a6178336ace55d2'],
+    }),
+    ('tibble', '3.2.1', { # Dependency for bench, benchmarkme
+        'checksums': ['65a72d0c557fd6e7c510d150c935ed6ced5db7d05fc20236b370f11428372131'],
+    }),
+    ('bench', '1.1.3', {
+        'checksums': ['bfae6320ad8c0c84fa6832519fac0e783e8d3ac5e3019ff6526f8060e8f1f317'],
+    }),
+    ('microbenchmark', '1.5.0', {
+        'checksums': ['3d1e92a9206811ad128b28795d20a0d31da5f0c29ea7f1caaf1194ed3e49765f'],
+    }),
+    ('SuppDists', '1.1-9.8', { # Random number generators used by the commonly used R-benchmark-25.R script
+        'checksums': ['6502e2113c4bd68351bc7c8daacd48170b5217b2f987ac2f757f557c78d3681e'],
+    }),
+    ('generics', '0.1.3', { # Dependency for bemchmarkme via dplyr
+        'checksums': ['75046163bfa8b8a4f4214c1b689e796207f6447182f2e5062cf570302387d053'],
+    }),
+    ('tidyselect', '1.2.1', { # Dependency for bemchmarkme via dplyr
+        'checksums': ['169e97ba0bbfbcdf4a80534322751f87a04370310c40e27f04aac6525d45903c'],
+    }),
+    ('dplyr', '1.1.4', { # Dependency for bemchmarkme
+        'checksums': ['cf730414d5d4ab387b4e9890a4b1df9d17a3903488e8da8df1cf2e11e44558cb'],
+    }),
+    ('curl', '5.2.2', { # Dependency for bemchmarkme via httr
+        'checksums': ['a658530f7d89e3ab6e7842ace2c79098a1a979bf9249a76599799f6e38ea11ff'],
+    }),
+    ('jsonlite', '1.8.8', { # Dependency for bemchmarkme via httr
+        'checksums': ['7de21316984c3ba3d7423d12f43d1c30c716007c5e39bf07e11885e0ceb0caa4'],
+    }),
+    ('mime', '0.12', { # Dependency for bemchmarkme via httr
+        'checksums': ['a9001051d6c1e556e881910b1816b42872a1ee41ab76d0040ce66a27135e3849'],
+    }),
+    ('sys', '3.4.2', { # Dependency for bemchmarkme via askpass via openssl via httr
+        'checksums': ['b7bdce66f0fb681830ea6fb77b5a2c6babb43920abb1eddc733f95c0a63ce5b3'],
+    }),
+    ('askpass', '1.2.0', { # Dependency for bemchmarkme via openssl via httr
+        'checksums': ['b922369781934d0ffc8d0c0177e8ace56796c2e6a726f65e460c16f792592cef'],
+    }),
+    ('openssl', '2.2.1', { # Dependency for bemchmarkme via httr
+        'checksums': ['25a12328d584212d8d4c095b3d2a71152c5d2bc4adda7a9addb25da01136f78d'],
+    }),
+    ('httr', '1.4.7', { # Dependency for bemchmarkme
+        'checksums': ['1555e6c2fb67bd38ff11b479f74aa287b2d93f4add487aec53b836ff07de3a3a'],
+    }),
+    ('stringr', '1.5.1', { # Dependency for bemchmarkme
+        'checksums': ['a4adec51bb3f04214b1d8ef40d3a58949f21b1497cbeaf2ba552e0891eef45de'],
+    }),
+    ('benchmarkmeData', '1.0.4', { # Dependency for bemchmarkme
+        'checksums': ['6e0768db1c783d2fa84d5214f3d8024dc9c69c7cc4d108059fa652fcd4949bd8'],
+    }),
+    ('benchmarkme', '1.0.8', {
+        'checksums': ['1d7100e001a355afc83815b1b698466135f4512c53528c324d13013b3c475f61'],
     }),
 ]
 
