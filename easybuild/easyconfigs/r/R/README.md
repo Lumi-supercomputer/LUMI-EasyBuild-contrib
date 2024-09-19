@@ -103,7 +103,7 @@ the other EasyConfigs offer examples of how to add packages.
     -   [askpass](https://cran.r-project.org/web/packages/askpass)
     -   [openssl](https://cran.r-project.org/web/packages/openssl)
     -   [httr](https://cran.r-project.org/web/packages/httr)
-    -   [sringi](https://cran.r-project.org/web/packages/stringi)
+    -   [stringi](https://cran.r-project.org/web/packages/stringi)
     -   [benchmarkmeData](https://cran.r-project.org/web/packages/benchmarkmeData)
     -   [benchmarkme](https://cran.r-project.org/web/packages/benchmarkme).
         For the ["Crowd sourced benchmarks" page at CRAN](https://cran.r-project.org/web/packages/benchmarkme/vignettes/a_introduction.html).
