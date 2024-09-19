@@ -6,7 +6,7 @@ local_Zip_version =   '3.0'
 local_UnZip_version = '6.0'
 
 name =    'Info-ZIP'
-version = local_Zip_version + '-' + local_UnZip_version
+version = f'{local_Zip_version}-{local_UnZip_version}'
 
 homepage = 'http://www.info-zip.org/Zip.html'
 
@@ -57,14 +57,21 @@ local_common_installopts = '-f unix/Makefile prefix=%(installdir)s '
 
 default_easyblock = 'ConfigureMake'
 
+default_component_specs = {
+    'start_dir':      '%(namelower)s%(version_major)s%(version_minor)s',
+    'skipsteps':      ['configure'],
+    'preconfigopts':  'module unload cray-libsci cray-mpich rocm xpmem && ',
+    'prebuildopts':   'module unload cray-libsci cray-mpich rocm xpmem && ',
+    'pretestopts':    'module unload cray-libsci cray-mpich rocm xpmem && ',
+    'preinstallopts': 'module unload cray-libsci cray-mpich rocm xpmem && ',
+}
+
 components = [
     ('Zip', local_Zip_version, {
         'sources':     [ {
                           'filename':    '%(namelower)s%(version_major)s%(version_minor)s.tar.gz',
                           'source_urls': ['https://download.sourceforge.net/infozip']
                        } ],
-        'start_dir':   '%(namelower)s%(version_major)s%(version_minor)s',
-        'skipsteps':   ['configure'],
         'buildopts':   local_zip_buildopts,
         'installopts': local_common_installopts,
     }),
@@ -74,8 +81,6 @@ components = [
                           'source_urls': ['https://download.sourceforge.net/infozip']
                        } ],
         'patches':     ['UnZip-%(version)s_various-security-and-other-fixes-from-Ubuntu.patch',], 
-        'start_dir':   '%(namelower)s%(version_major)s%(version_minor)s',
-        'skipsteps':   ['configure'],
         'buildopts':   local_unzip_buildopts,
         'installopts': local_common_installopts,
     }),
