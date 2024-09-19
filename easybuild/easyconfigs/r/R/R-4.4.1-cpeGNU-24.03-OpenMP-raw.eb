@@ -1,3 +1,5 @@
+#DOC This EasyConfig offers R with only the base R packages and - because it is hard to install properly
+#DOC with Rcmd - Rmpi already pre-installed.
 name =          'R'
 version =       '4.4.1'
 versionsuffix = '-OpenMP-raw'
