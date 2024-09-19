@@ -14,6 +14,7 @@
 easyblock = 'EB_Score_minus_P_minus_CPE'
 
 local_OTF2_version =         '3.0.3'         # https://www.vi-hps.org/projects/score-p/
+local_Python_shortversion =  '3.11'
 
 name =    'OTF2'
 version = local_OTF2_version
@@ -43,6 +44,7 @@ builddependencies = [
     ('buildtools',         '%(toolchain_version)s', '', True),
     ('craype-network-none', EXTERNAL_MODULE),
     ('craype-accel-host',   EXTERNAL_MODULE),
+    ('cray-python',         EXTERNAL_MODULE),
 ]
 
 preconfigopts = 'module unload rocm xpmem && '
@@ -50,11 +52,15 @@ prebuildopts = preconfigopts
 
 configopts = '--enable-shared'
 
+modextrapaths = {'PYTHONPATH': ['lib64/python%s/site-packages' % local_Python_shortversion]}
+
 sanity_check_paths = {
     'files': ['bin/otf2-config', 'include/otf2/otf2.h',
               ('lib/libotf2.a', 'lib64/libotf2.a'),
               ('lib/libotf2.%s' % SHLIB_EXT, 'lib64/libotf2.%s' % SHLIB_EXT)],
     'dirs': [],
 }
+sanity_check_commands = ['%(namelower)s-config --help',
+                         'python3 -s -c "import %(namelower)s"']
 
 moduleclass = 'perf'

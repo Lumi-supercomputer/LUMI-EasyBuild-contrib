@@ -27,3 +27,8 @@ it will avoid copying during unification of parallel event streams.
 -   EasyConfig prepared by Jan André Reuter of JSC based on the EasyConfigs in use at JSC.
 
     Compilation is done via the custom EasyBlock for Score-P.
+
+### Version 3.0.3 for CPE 24.03
+
+-   Reuse of EasyConfigs of CPE 23.09 with the inclusion of Python to build the Python bindings.
+
