@@ -14,7 +14,11 @@ parallel programs
 -   [Scalasca support in the JSC repository](https://github.com/easybuilders/JSC/tree/2024/Golden_Repo/s/Scalasca)
 
 
-### Version 2.6 for CPE 23.09
+### Version 2.6.1 for CPE 23.09
 
 -   The EasyConfig was contributed by Jan André Reuter of JSC and based on their
     EasyConfigs.
+
+### Version 2.6.1 for CPE 24.03
+
+-   Reuse of EasyConfig for CPE 23.09.
