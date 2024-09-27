@@ -1,13 +1,17 @@
 # by Ward Poelmans <wpoely86@gmail.com>
 # Modified by Luca Marsella (CSCS)
 # Adapted by Kurt Lust (kurt.lust@uantwerpen.be) for the LUMI consortium
+#
+# Instructions to run regression tests at the bottom of this file.
 easyblock = 'ConfigureMake'
+
+local_crayfftw_version =    '3.3.10.1'
 
 local_Boost_version =        '1.83.0'        # https://www.boost.org/
 local_GSL_version =          '2.7.1'         # https://ftp.gnu.org/gnu/gsl/
 local_zlib_version =         '1.3.1'         # https://zlib.net/
 
-local_PLUMED2_9_version =    '2.9.1'         # https://github.com/plumed/plumed2/releases
+local_PLUMED2_9_version =    '2.9.2'         # https://github.com/plumed/plumed2/releases
 
 name =          'PLUMED'
 version =       local_PLUMED2_9_version
@@ -16,8 +20,9 @@ versionsuffix = '-noPython'
 homepage = 'https://www.plumed.org'
 
 whatis = [
-    'Description: PLUMED - LUgin for MolEcular Dynamics'
+    'Description: PLUMED - PLUgin for MolEcular Dynamics'
 ]
+
 description = """
 PLUMED is an open source library for free energy calculations in molecular
 systems which works together with some of the most popular molecular dynamics
@@ -36,26 +41,41 @@ NOTES:
   * The module provides the bash function plumed-completion to enable command
     line completion. Note that unloading the module will not disable command
     completion again.
+
+This module is compiled with support for huge pages via the cray-hugepages modules.
+Using those can significantly lower the cost of memory access. However, to benefit
+from this you will have to load a suitable cray-hugepages module, e.g.,
+$ module load cray-hugepages8M
+However, if the size is too large, you may get out-of-memory messages due to memory
+fragmentation. Hence it may require some experimenting to find the optimal page
+size.
 """
 
-toolchain = {'name': 'cpeAMD', 'version': '24.03'}
-toolchainopts = {'usempi': 'True', 'openmp': True}
+toolchain = {'name': 'cpeGNU', 'version': '24.03'}
+toolchainopts = {'usempi': 'True', 'openmp': True, 'strict': True}
 
+# https://github.com/plumed/plumed2/releases/download/v2.9.2/plumed-2.9.2.tgz
 source_urls = ['https://github.com/plumed/plumed2/releases/download/v%(version)s/']
 sources =     [SOURCE_TGZ]
-checksums =   ['d14603f382cc6308ca911a0fd75242b5d67e2ba18254acc03430996912131d48']
+checksums =   ['6fc23fe31074ad6b7a0eb9e2441fce5b3d92514d0d87206594c59c75e4c83d6e']
 
 builddependencies = [
     ('buildtools',         '%(toolchain_version)s', '', True), # For CMake
-    ('craype-accel-host',  EXTERNAL_MODULE),
+    ('craype-hugepages8M', EXTERNAL_MODULE),
+    ('craype-accel-host',  EXTERNAL_MODULE),  # Avoid enabling OpenMP offload
 ]
 
 dependencies = [
-    ('cray-fftw', EXTERNAL_MODULE),
+    (f'cray-fftw/{local_crayfftw_version}', EXTERNAL_MODULE),
     ('Boost',     local_Boost_version),
     ('zlib',      local_zlib_version),
-    ('GSL',       local_GSL_version,   '-OpenMP'),
+    ('GSL',       local_GSL_version,        '-OpenMP'),
 ]
+
+preconfigopts = prebuildopts = 'module rm rocm && '
+
+# This is a trick to avoid multiple LibSci linking problem
+preconfigopts += 'export LDSHARED="CC -fopenmp -shared" && '
 
 configopts = ' '.join([
     '--enable-modules=all',
@@ -71,13 +91,17 @@ configopts = ' '.join([
     '--disable-xdrfile',
 ])
 
-preconfigopts = prebuildopts = 'module rm rocm && '
-
-# This is a trick to avoid multiple LibSci linking problem
-preconfigopts += 'export LDSHARED="CC -fopenmp -shared" && '
+postinstallcmds = [
+    # Uncomment the next two lines if you want to install the regression tests with PLUMED,
+    # but see the bottom of this file for a better approach
+    #'sed -e "s|-mpirun|-srun|" -e "s| -np | -n |" -i regtest/scripts/run',
+    #'cp -r regtest %(installdir)s',
+    'mkdir -p %(installdir)s/share/licenses/%(name)s && cp COPYING.LESSER PEOPLE README.md %(installdir)s/share/licenses/%(name)s',   
+]
 
 sanity_check_paths = {
-    'files': ['bin/%(namelower)s', 'lib/libplumedKernel.so', 'lib/libplumed.so'],
+    'files': ['bin/%(namelower)s', 'lib/libplumedKernel.so', 'lib/libplumed.so',
+              'share/licenses/%(name)s/COPYING.LESSER'],
     'dirs':  ['lib/%(namelower)s'],
 }
 
@@ -94,9 +118,10 @@ sanity_check_commands = [
     'plumed --no-mpi config has asmjit',
 ]
 
-modextrapaths = {
-    'PLUMED_KERNEL': 'lib/libplumedKernel.so',
-    'PLUMED_ROOT':   'lib/%(namelower)s',
+modextravars = {
+    'PLUMED_KERNEL': '%(installdir)s/lib/libplumedKernel.so',
+    'PLUMED_ROOT':   '%(installdir)s/lib/%(namelower)s',    
+    'PLUMED_VIM':    '%(installdir)s/lib/%(namelower)s/vim',    
 }
 
 local_bash_completion = """
@@ -121,11 +146,11 @@ moduleclass = 'chem'
 # RUN REGRESSION TESTS
 # --------------------
 #
-# tar xf $EBU_USER_PREFIX/sources/p/PLUMED/PLUMED-2.9.1.tgz
-# cd plumed-2.9.1/regtest/
+# tar xf $EBU_USER_PREFIX/sources/p/PLUMED/PLUMED-2.9.2.tgz
+# cd plumed-2.9.2/regtest/
 # sed -i 's/$mpi -np/$mpi -n/' scripts/run
 # salloc -n6 -c4 -psmall -t30:00 -A <project>
-# module load PLUMED/2.9.1-cpeGNU-24.03-noPython
+# module load PLUMED/2.9.2-cpeGNU-24.03-noPython
 # export PLUMED_MPIRUN=srun
 # make
 # exit
