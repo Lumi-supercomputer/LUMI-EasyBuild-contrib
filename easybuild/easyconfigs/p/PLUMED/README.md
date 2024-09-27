@@ -138,7 +138,21 @@ and `--enable-external-lapack` are used.
     
 -   Initially no support for cpeCray as we cannot build Boost for cpeCray.
 
-### 2.9.0 for CPE 24.03
+### 2.9.2 for CPE 24.03
 
+-   Some improvements inspired by the current EasyBuilders versions.
+    
 -   Re-enabled external BLAS/LAPACK. Doesn't seems to be a problem anymore.
--   Small workaround applied to make sure linking against libsci is correct
+
+-   Small workaround applied to make sure linking against libsci is correct.
+    
+-   Some improvements to the way environment variables are set.
+
+-   cpeGNU version also with the Python plugin and extra sanity checks to
+    test the Python integration.
+
+-   Include information in the comments on how to run the regression tests.
+
+    According to the manual, it is normal that some tests fail due to numerical
+    differences when using different compilers with more aggressive optimisations,
+    so interpret with care.
