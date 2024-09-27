@@ -69,7 +69,7 @@ configopts = ' '.join([
     '--disable-openmp',
     '--with-mpi=yes',
     '--enable-cuda-aware-mpi',
-    '--enable-rocsolver',
+    '--with-rocsolver',
 ])
 
 prebuildopts = 'export CPATH=$ROCM_PATH/include/hipblas && make clean && '
