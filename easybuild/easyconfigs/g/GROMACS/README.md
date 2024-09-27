@@ -18,27 +18,29 @@ Another way to find out which versions of GROMACS are supported is to load the
 PLUMED module and then run ``plumed-patch -l`` to get a list of the included
 engines.
 
-| PLUMED  | 2019   | 2020   | 2021   | 2022   | 2023   |
-|:--------|:-------|:-------|:-------|:-------|:-------| 
-| 2.9.0   |        | 2020.7 | 2021.7 | 2022.5 | 2023   |
-| 2.8.3   | 2019.6 | 2020.7 | 2021.7 | 2022.5 |        |
-| 2.8.0   | 2019.6 | 2020.6 | 2021.4 |        |        |
-| 2.7.4   | 2019.6 | 2020.6 | 2021.4 |        |        |
-| 2.7.3   | 2019.6 | 2020.6 | 2021.4 |        |        |
-| 2.7.2   | 2019.6 | 2020.6 | 2021   |        |        |
-| 2.7.1   | 2019.6 | 2020.5 | 2021   |        |        |
-| 2.7.0   | 2019.6 | 2020.4 |        |        |        |
-| 2.6.4   | 2019.6 | 2020.4 |        |        |        |
-| 2.6.3   | 2019.6 | 2020.4 |        |        |        |
-| 2.6.2   | 2019.6 | 2020.4 |        |        |        |
-| 2.6.1   | 2019.6 | 2020.2 |        |        |        |
-| 2.6.0   | 2019.4 |        |        |        |        |
+| PLUMED  | 2019   | 2020   | 2021   | 2022   | 2023   | 2024   |
+|:--------|:-------|:-------|:-------|:-------|:-------|:-------| 
+| 2.9.2   |        |        |        | 2022.5 | 2023.5 | 2024.3 |
+| 2.9.0   |        | 2020.7 | 2021.7 | 2022.5 | 2023   |        |
+| 2.8.3   | 2019.6 | 2020.7 | 2021.7 | 2022.5 |        |        |
+| 2.8.0   | 2019.6 | 2020.6 | 2021.4 |        |        |        |
+| 2.7.4   | 2019.6 | 2020.6 | 2021.4 |        |        |        |
+| 2.7.3   | 2019.6 | 2020.6 | 2021.4 |        |        |        |
+| 2.7.2   | 2019.6 | 2020.6 | 2021   |        |        |        |
+| 2.7.1   | 2019.6 | 2020.5 | 2021   |        |        |        |
+| 2.7.0   | 2019.6 | 2020.4 |        |        |        |        |
+| 2.6.4   | 2019.6 | 2020.4 |        |        |        |        |
+| 2.6.3   | 2019.6 | 2020.4 |        |        |        |        |
+| 2.6.2   | 2019.6 | 2020.4 |        |        |        |        |
+| 2.6.1   | 2019.6 | 2020.2 |        |        |        |        |
+| 2.6.0   | 2019.4 |        |        |        |        |        |
 
 ## GROMACS and GPU
 
-  * Latest available realease with AMD GPU support is 2024.1
+  * Latest available realease with AMD GPU support is 2024.3
   * [GROMACS 2023.2 support for AMD GPUs](https://manual.gromacs.org/2023.2/install-guide/index.html#sycl-gpu-acceleration-for-amd-gpus)
   * [CSC page with example job scripts for GPU](https://docs.csc.fi/apps/gromacs/#example-batch-script-for-lumi-full-gpu-node)
+
 
 ## EasyBuild
 
@@ -141,8 +143,18 @@ engines.
 
 -   For now a trivial version bump of the 2021.5/2021.6 series.
 
+
 ### Release 2024.1 for CPE 23.09
 
 -   For running on AMD GPUs recommended variants are:
 
    * Multiple GPUs: AdaptiveCpp 23.10.0 with ROCm 5.4.6 and instant submission (enabled by default)
+   
+  
+### Release 2024.3 for CPE 24.03
+
+-   Ports of the previous versions.
+
+-   Found in the PLUMED manual that it is incompatible with Thread-MPI so Thread-MPI has been
+    explicitly turned off in the modules with PLUMED support.
+
