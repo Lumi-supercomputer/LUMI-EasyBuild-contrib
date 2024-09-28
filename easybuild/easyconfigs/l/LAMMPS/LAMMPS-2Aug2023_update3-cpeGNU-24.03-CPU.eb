@@ -15,7 +15,7 @@ local_cURL_version         = '8.3.0'    # https://curl.se/download/
 local_PCRE2_version        = '10.42'    # https://github.com/PCRE2Project/pcre2/releases
 local_libxml2_version      = '2.11.5'   # https://gitlab.gnome.org/GNOME/libxml2/-/releases
 local_Eigen_version        = '3.4.0'    # https://gitlab.com/libeigen/eigen/-/releases
-local_PLUMED_version       = '2.9.1'    # https://github.com/plumed/plumed2/releases
+local_PLUMED_version       = '2.9.2'    # https://github.com/plumed/plumed2/releases
 
 name = 'LAMMPS'
 version = '2Aug2023_update3'
