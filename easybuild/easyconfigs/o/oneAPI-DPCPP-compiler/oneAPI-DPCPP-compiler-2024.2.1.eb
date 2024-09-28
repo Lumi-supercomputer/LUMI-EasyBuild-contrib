@@ -1,0 +1,101 @@
+easyblock = 'Binary'
+
+local_rocm_version        = '6.0.3'
+local_plugin_rocm_version = '6.0.2'
+local_compiler_version    = '2024.2'
+local_tbb_version         = '2021.13'
+
+name = 'oneAPI-DPCPP-compiler'
+version = '2024.2.1'
+
+homepage = 'https://software.intel.com/content/www/us/en/develop/tools/oneapi/hpc-toolkit.html'
+
+whatis = ['Description: the Intel DPC++/C++ Compiler whith Codeplay plugin for AMD GPUs']
+
+description = """
+The Intel oneAPI DPC++/C++ Compiler provides support for the latest C, C++, and
+SYCL language standards.
+
+This package include the Intel DPC++/C++ compiler and the Codeplay plugin for
+AMD GPUs. This package is not a replacement for the Intel compiler suite. It
+doesn't include the Fortran compiler nor Intel MPI. It's intended usage is to
+compile and run SyCL code on LUMI.
+"""
+
+toolchain = SYSTEM
+
+local_installer_file = f'l_dpcpp-cpp-compiler_p_{version}.79_offline.sh'
+local_codeplay_installer_file = f'oneapi-for-amd-gpus-{version}-rocm-{local_plugin_rocm_version}-linux.sh'
+
+# see https://software.intel.com/content/www/us/en/develop/articles/oneapi-standalone-components.html
+sources = [
+    {
+        'source_urls' : ['https://registrationcenter-download.intel.com/akdlm/IRC_NAS/74587994-3c83-48fd-b963-b707521a63f4'],
+        'filename'    : local_installer_file,
+    },
+    {
+        'source_urls'       : ['https://developer.codeplay.com/api/v1/products/'],
+        'download_filename' : f'download?product=oneapi&variant=amd&version={version}&filters[]={local_plugin_rocm_version}&filters[]=linux',
+        'filename'          : local_codeplay_installer_file,
+    }
+]
+
+patches = [('craype_driver', '%(builddir)s/driver')]
+
+checksums = [
+    {local_installer_file          : 'af0243f80640afa94c7f9c8151da91d7ab17f448f542fa76d785230dec712048'},
+    {local_codeplay_installer_file : '8bf76e6d7d4058df5e8edbbea060e669802a31cc3d6daca51b3163d859f8c24c'},
+    {'craype_driver'               : '3e396a71c923fee1766c8f70396a4e523d9340323f8c14e8cffa06a16094c15c'},
+]
+
+local_compiler_installcmd = 'HOME=%(builddir)s ./' + local_installer_file + ' -a -s --eula accept --install-dir %(installdir)s'
+local_codeplay_installcmd = './' + local_codeplay_installer_file + ' -y --install-dir %(installdir)s'
+
+local_compiler_path = 'compiler/' + local_compiler_version
+local_compiler_bin = '%(installdir)s/' + local_compiler_path + '/bin'
+
+install_cmds = [
+  local_compiler_installcmd,
+  local_codeplay_installcmd,
+  ' && '.join([
+   'cd ' + local_compiler_bin,
+   'echo "-frtlib-add-rpath" >> icx.cfg',
+   'echo "-Wl,-rpath=<CFGDIR>/../lib" >> icx.cfg',
+   'cp icx.cfg icpx.cfg',
+  ]),
+  ' && '.join([
+    'cd ' + local_compiler_bin,
+    'cp %(builddir)s/driver driver',
+    'chmod +x driver',
+    'for exe in icpx icx icx-cc dpcpp; do mv ${exe} ${exe}_real; ln -s driver ${exe}; done'
+  ]),
+]
+
+sanity_check_paths = {
+    'files': [local_compiler_path + '/' + f for f in ['bin/icx', 'bin/icpx', 'lib/libpi_hip.so']],
+    'dirs': [],
+}
+
+modluafooter = """
+try_load("rocm/%(rocm_version)s")
+
+prepend_path("CMAKE_PREFIX_PATH", "%(root)s/compiler/%(compiler_version)s")
+prepend_path("CMAKE_PREFIX_PATH", "%(root)s/tbb/%(tbb_version)s")
+prepend_path("CPATH" ,            "%(root)s/tbb/%(tbb_version)s/include")
+prepend_path("LD_LIBRARY_PATH",   "%(root)s/compiler/%(compiler_version)s/lib")
+prepend_path("LD_LIBRARY_PATH",   "%(root)s/tbb/%(tbb_version)s/lib/intel64/gcc4.8")
+prepend_path("LIBRARY_PATH",      "%(root)s/compiler/%(compiler_version)s/lib")
+prepend_path("LIBRARY_PATH",      "%(root)s/tbb/%(tbb_version)s/lib/")
+prepend_path("MANPATH",           "%(root)s/compiler/%(compiler_version)s/share/man/")
+prepend_path("OCL_ICD_FILENAMES", "%(root)s/compiler/%(compiler_version)s/lib/libintelocl.so")
+prepend_path("PATH",              "%(root)s/compiler/%(compiler_version)s/bin")
+prepend_path("TBBROOT",           "%(root)s/tbb/%(tbb_version)s")
+
+""" % {
+    'root'             : '%(installdir)s',
+    'rocm_version'     : local_rocm_version,
+    'compiler_version' : local_compiler_version,
+    'tbb_version'      : local_tbb_version,
+}
+
+moduleclass = 'compiler'
