@@ -1,5 +1,9 @@
 # Based on recipe from Rasmus Kronberg (CSC) 
 #
+#DOC This EasyConfig provides two versions of GROMACS for the AMD GPUs in LUMI:
+#DOC One compiled with heFFTe (gmx_mpi) and one compiled with VkFFT (gmx_mpi_vkffte).
+#DOC See [the GROMACS installation guide](https://manual.gromacs.org/documentation/2024.3/install-guide/index.html#using-heffte)
+#DOC for the differences between these two variants.
 easyblock = 'CMakeMake'
 
 local_AdaptiveCpp_version = '24.06.0'
@@ -49,7 +53,7 @@ dependencies = [
     ('cray-fftw',   EXTERNAL_MODULE),
     ('cray-python', EXTERNAL_MODULE),
     ('cray-libsci', EXTERNAL_MODULE),
-    ('rocm', EXTERNAL_MODULE),
+    ('rocm',        EXTERNAL_MODULE),
     ('AdaptiveCpp', local_AdaptiveCpp_version, '-rocm'),
     ('HeFFTe',      local_HeFFTe_version,      '-rocm'),
     ('Boost',       local_Boost_version),
