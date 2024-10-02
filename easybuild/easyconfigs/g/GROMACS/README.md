@@ -157,4 +157,8 @@ engines.
 
 -   Found in the PLUMED manual that it is incompatible with Thread-MPI so Thread-MPI has been
     explicitly turned off in the modules with PLUMED support.
+    
+-   Turned off GMXAPI support in cpeCray and cpeAMD builds as those libraries wouldn't work with
+    GCC-compiled Python distributions anyway due to OpenMP runtime conflicts.
+
 

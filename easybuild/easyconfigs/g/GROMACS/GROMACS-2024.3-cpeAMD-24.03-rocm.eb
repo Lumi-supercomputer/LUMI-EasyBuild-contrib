@@ -51,7 +51,7 @@ builddependencies = [
 
 dependencies = [
     ('cray-fftw',   EXTERNAL_MODULE),
-    ('cray-python', EXTERNAL_MODULE),
+    #('cray-python', EXTERNAL_MODULE), # Doesn't make sense to build Python support as there are runtime library conflicts with GNU-built Python distributions.
     ('cray-libsci', EXTERNAL_MODULE),
     ('rocm',        EXTERNAL_MODULE),
     ('AdaptiveCpp', local_AdaptiveCpp_version, '-rocm'),
@@ -76,6 +76,7 @@ local_common_opts += '-D GMX_LAPACK_USER=${CRAY_LIBSCI_PREFIX_DIR}/lib/libsci_am
 local_common_opts += '-D ACPP_TARGETS="hip:gfx90a" '
 local_common_opts += '-D HIPSYCL_ROCM_PATH=${ROCM_PATH} '
 local_common_opts += '-D HIPSYCL_TARGETS="hip:gfx90a" '
+local_common_opts += '-D GMXAPI=off ' # GMXAPI turned off as Python support wouldn't work due to runtime library conflicts unless the whole Python distribution were built with cpeAMD.
 
 configopts = [
     # with heFFTe (recommended version see: https://manual.gromacs.org/current/install-guide/index.html#using-heffte)
