@@ -1,0 +1,31 @@
+Prevent optimization via `-O0` for the memory instrumentation check
+as AOCC 4.1.0 and newer removes all the allocation calls otherwise,
+causing the check to fail.
+
+diff --git a/test/instrumenter_checks/memory/Makefile.in b/test/instrumenter_checks/memory/Makefile.in
+index 4f1e0c385a73f2653c19fff6cb297a6ad4e80b28..520a9b7ef5a5427533649ce5179a230dbeb65bea 100644
+--- a/test/instrumenter_checks/memory/Makefile.in
++++ b/test/instrumenter_checks/memory/Makefile.in
+@@ -5,7 +5,7 @@
+ ##
+ ## This file is part of the Score-P software (http://www.score-p.org)
+ ##
+-## Copyright (c) 2014,
++## Copyright (c) 2014, 2024,
+ ## Forschungszentrum Juelich GmbH, Germany
+ ##
+ ## Copyright (c) 2016,
+@@ -18,10 +18,10 @@
+ 
+ 
+ CC       = @CC@
+-CFLAGS   =
++CFLAGS   = -O0
+ 
+ CXX      = @CXX@
+-CXXFLAGS =
++CXXFLAGS = -O0
+ 
+ TOOLS_BINDIR               = @BINDIR@
+ INSTRUMENTERCHECK_SRCDIR   = @abs_top_srcdir@/../test/instrumenter_checks
+

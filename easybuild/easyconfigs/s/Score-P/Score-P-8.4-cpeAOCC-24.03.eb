@@ -44,46 +44,43 @@ docurls = [
     'On-system documentation in $EBROOTSCOREMINP/share/doc/scorep (after loading the module)',  
 ]
 
-toolchain = {'name': 'cpeGNU', 'version': '24.03'}
+toolchain = {'name': 'cpeAOCC', 'version': '24.03'}
 toolchainopts = {'pic': True, 'usempi': True, 'openmp': True}
 
 source_urls = ['http://perftools.pages.jsc.fz-juelich.de/cicd/scorep/tags/scorep-%(version)s']
 sources = ['scorep-%(version)s.tar.gz']
-patches = ['Score-P-8.4-fix-mpi-dependency-Cray-ldflags.patch']
+patches = [
+    'Score-P-8.4-fix-mpi-dependency-Cray-ldflags.patch',
+    'Score-P-8.4-installcheck-prevent-memory-optimization.patch'
+]
 checksums = [
     '7bbde9a0721d27cc6205baf13c1626833bcfbabb1f33b325a2d67976290f7f8a',  # scorep-8.4.tar.gz
-    '5ad42c8c21334c55feb7fb7e25461ef91f063b2c49b33ed3fc0ea3b5ce109e8d'   # Score-P-8.4-fix-mpi-dependency-Cray-ldflags.patch
+    '5ad42c8c21334c55feb7fb7e25461ef91f063b2c49b33ed3fc0ea3b5ce109e8d',  # Score-P-8.4-fix-mpi-dependency-Cray-ldflags.patch
+    '7c0306046b234b5523c613d9de1989e716bfb8bec7877db553479ebeee6d907d'   # Score-P-8.4-installcheck-prevent-memory-optimization.patch
 ]
 
 builddependencies = [
-    ('buildtools', '%(toolchain_version)s', '', True),
+    ('CubeLib',    local_CubeLib_version),
+    ('CubeWriter', local_CubeWriter_version),
+    # Unwinding/sampling support (optional):
+    ('libunwind',  local_libunwind_version),
 ]
 
 dependencies = [
-    ('CubeLib',         local_CubeLib_version),
-    ('CubeWriter',      local_CubeWriter_version),
     ('OPARI2',          local_OPARI2_version),
     ('OTF2',            local_OTF2_version),
-    ('libbfd',          local_libbfd_version),
-    # Unwinding/sampling support (optional):
-    ('libunwind',       local_libunwind_version),
-    ('CubeLib',         local_CubeLib_version),
-    ('CubeWriter',      local_CubeWriter_version),
-    # Unwinding/sampling support (optional):
-    ('libunwind',       local_libunwind_version),
     # Support for SHMEM
     ('cray-openshmemx', EXTERNAL_MODULE),
+    ('libbfd',          local_libbfd_version),
     # Hardware counter support (optional):
     ('papi',            EXTERNAL_MODULE),
 ]
 
-configopts  = '--enable-shared --disable-static --with-machine-name=LUMI-cpeGNU-24.03 '
+configopts  = '--enable-shared --disable-static --with-machine-name=LUMI-cpeAOCC-24.03 '
 configopts += '--with-libpmi=/opt/cray/pe/pmi/default '
 configopts += '--with-papi-header=$CRAY_PAPI_PREFIX/include --with-papi-lib=$CRAY_PAPI_PREFIX/lib '
 # Make OMPT default, if available
 configopts += '--enable-default=ompt '
-# Force set correct GCC compilers, as Score-P will use /usr/bin/gcc otherwise
-configopts += 'CC=gcc-13 CXX=g++-13 F77=gfortran-13 FC=gfortran-13 '
 
 postinstallcmds = ['make installcheck']
 

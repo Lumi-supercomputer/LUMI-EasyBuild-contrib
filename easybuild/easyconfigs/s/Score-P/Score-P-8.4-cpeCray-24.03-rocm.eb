@@ -75,7 +75,7 @@ dependencies = [
     ('rocm',            EXTERNAL_MODULE),
 ]
 
-configopts  = '--enable-shared --disable-static --with-machine-name=LUMI '
+configopts  = '--enable-shared --disable-static --with-machine-name=LUMI-cpeCray-24.03-rocm '
 configopts += '--with-libpmi=/opt/cray/pe/pmi/default '
 configopts += '--with-papi-header=$CRAY_PAPI_PREFIX/include --with-papi-lib=$CRAY_PAPI_PREFIX/lib '
 configopts += '--with-rocm=$ROCM_PATH '
