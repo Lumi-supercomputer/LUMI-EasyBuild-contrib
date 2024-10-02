@@ -53,6 +53,10 @@ $ module load cray-hugepages8M
 However, if the size is too large, you may get out-of-memory messages due to memory
 fragmentation. Hence it may require some experimenting to find the optimal page
 size.
+
+The gmxapi support needed to interface with Python is turned off in this build as 
+one would need a Python distribution built with the Cray compilers for it to work due
+to runtime conflicts between the GNU and Cray OpenMP runtimes.
 """
 
 toolchain = {'name': 'cpeCray', 'version': '24.03'}
@@ -69,11 +73,12 @@ builddependencies = [
 
 local_common_opts  = '-DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_LIBDIR=lib '  # General CMake options
 local_common_opts += '-DGMX_OPENMP=ON -DGMX_GPU=OFF ' # Build type: No GPU, OpenMP for CPU, MPI specified elsewhere
-local_common_opts += '-DBUILD_SHARED_LIBS=ON ' # REquired to be able to build GMXAPI
+local_common_opts += '-DBUILD_SHARED_LIBS=ON '
 local_common_opts += '-DGMX_SIMD=AVX2_256 '
 local_common_opts += '-DGMX_CYCLE_SUBCOUNTERS=ON '
 local_common_opts += '-DGMX_BUILD_OWN_FFTW=ON '
 local_common_opts += '-DGMX_DEFAULT_SUFFIX=ON '
+local_common_opts += '-DGMXAPI=OFF ' # Do not build GMXAPI as there are runtime conflicts with GNU-compiled Python distributions due to the different OpenMP runtime.
 
 configopts = [
     # single precision

@@ -27,7 +27,7 @@ homepage = 'http://www.gromacs.org'
 
 whatis = [
     'Description: GROMACS is a versatile package to perform molecular dynamics, i.e. simulate the Newtonian equations of motion for systems with hundreds to millions of particles.',
-    'Extensions: Includes PLUMED %s' % local_PLUMED2_9_version,
+    f'Extensions: Includes PLUMED {local_PLUMED2_9_version}',
 ]
 
 description = """
@@ -63,6 +63,10 @@ $ module load cray-hugepages8M
 However, if the size is too large, you may get out-of-memory messages due to memory
 fragmentation. Hence it may require some experimenting to find the optimal page
 size.
+
+The gmxapi support needed to interface with Python is turned off in this build as 
+one would need a Python distribution built with the Cray compilers for it to work due
+to runtime conflicts between the GNU and Cray OpenMP runtimes.
 """
 
 toolchain = {'name': 'cpeCray', 'version': '24.03'}
@@ -93,6 +97,7 @@ local_common_opts = ' '.join([
     '-DGMX_BUILD_OWN_FFTW=OFF',    # We already use cray-fftw for PLUMED and would have conflics otherwise
     '-DGMX_DEFAULT_SUFFIX=ON',
     '-DGMX_THREAD_MPI=OFF',        # According to the PLUMED manual, PLUMED is not compatible with Thread-MPI and it should be turned off.
+    '-DGMXAPI=off',                # Do not build GMXAPI as there are runtime conflicts with GNU-compiled Python distributions due to the different OpenMP runtime.
 ])
 
 preconfigopts = ' cd ../gromacs-%(version)s && plumed-patch -p -e gromacs-%(version)s -m shared && cd - && '
