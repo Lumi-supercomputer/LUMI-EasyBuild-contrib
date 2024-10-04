@@ -1,0 +1,70 @@
+diff --git a/src/GPU/ROCm/elpa_explicit_name_amd_gpu.cpp b/src/GPU/ROCm/elpa_explicit_name_amd_gpu.cpp
+index 2e495f4d..6488be92 100644
+--- a/src/GPU/ROCm/elpa_explicit_name_amd_gpu.cpp
++++ b/src/GPU/ROCm/elpa_explicit_name_amd_gpu.cpp
+@@ -48,6 +48,7 @@
+ 
+ #include <cstdio>
+ #include <hip/hip_runtime.h>
++#include "config-f90.h"
+ 
+ extern "C" {
+   
+diff --git a/src/cholesky/elpa_cholesky_template.F90 b/src/cholesky/elpa_cholesky_template.F90
+index ba6d4939..2627e90a 100644
+--- a/src/cholesky/elpa_cholesky_template.F90
++++ b/src/cholesky/elpa_cholesky_template.F90
+@@ -339,13 +339,13 @@
+ 
+   if (useGPU) then
+ #if defined(WITH_NVIDIA_CUSOLVER) || defined(WITH_AMD_ROCSOLVER)    
+-    successGPU = gpu_malloc(info_dev, 1*sizeof(c_int))
++    successGPU = gpu_malloc(info_dev, int(1*sizeof(c_int), kind=c_intptr_t))
+     check_alloc_gpu("elpa_cholesky: info_dev", successGPU)
+ 
+-    successGPU = gpu_malloc(info_abs_accumulated_dev, 1*sizeof(c_int))
++    successGPU = gpu_malloc(info_abs_accumulated_dev, int(1*sizeof(c_int), kind=c_intptr_t))
+     check_alloc_gpu("elpa_cholesky: info_abs_accumulated_dev", successGPU)
+     
+-    successGPU = gpu_memset(info_abs_accumulated_dev, 0, 1*sizeof(c_int))
++    successGPU = gpu_memset(info_abs_accumulated_dev, 0, int(1*sizeof(c_int), kind=c_intptr_t))
+     check_memcpy_gpu("elpa_cholesky: memset info_abs_accumulated_dev", successGPU)
+ #endif
+ 
+diff --git a/src/elpa_impl_math_template.F90 b/src/elpa_impl_math_template.F90
+index b96f2197..0dbc749d 100644
+--- a/src/elpa_impl_math_template.F90
++++ b/src/elpa_impl_math_template.F90
+@@ -1184,21 +1184,20 @@
+ 
+     subroutine elpa_solve_tridiagonal_&
+                     &ELPA_IMPL_SUFFIX&
+-                    &_c(handle, d_p, e_p, q_p, error) &
+ #ifdef REALCASE
+ #ifdef DOUBLE_PRECISION_REAL
+-                    bind(C, name="elpa_solve_tridiagonal_d")
++                    &_c(handle, d_p, e_p, q_p, error) bind(C, name="elpa_solve_tridiagonal_d")
+ #endif
+ #ifdef SINGLE_PRECISION_REAL
+-                    bind(C, name="elpa_solve_tridiagonal_f")
++                    &_c(handle, d_p, e_p, q_p, error) bind(C, name="elpa_solve_tridiagonal_f")
+ #endif
+ #endif
+ #ifdef COMPLEXCASE
+ #ifdef DOUBLE_PRECISION_COMPLEX
+-                    & !bind(C, name="elpa_solve_tridiagonal_dc")
++                    &_c(handle, d_p, e_p, q_p, error) !bind(C, name="elpa_solve_tridiagonal_dc")
+ #endif
+ #ifdef SINGLE_PRECISION_COMPLEX
+-                    & !bind(C, name="elpa_solve_tridiagonal_fc")
++                    &_c(handle, d_p, e_p, q_p, error) !bind(C, name="elpa_solve_tridiagonal_fc")
+ #endif
+ #endif
+ 
+@@ -1220,4 +1219,4 @@
+               &ELPA_IMPL_SUFFIX&
+               & (self, d, e, q, error)
+     end subroutine
+-    
+\ No newline at end of file
++    
