@@ -30,6 +30,20 @@ Some known restrictions:
     will launch one thread per virtual core rather one thread per available core, which can
     lead to heavy oversubscription of the cores in your job and very bad parallel performance.
 
+-   We have seen issues with some linear algebra operations when running in multithreaded
+    mode. Two workarounds seem to help:
+    
+    -   Setting `OMP_STACKSIZE=256M` (and exporting this variable) which we have implemented in 
+        the module for the 24.03 versions, and
+     
+    -   using `ulimit -s 300000` 
+
+    The problem has been reported to HPE Cray. It might be fixed in the 25.03 release
+    of the programming environment.
+    
+    Note that the issue also occurs with the `cray-R` module, but there you'll have 
+    to also set `OMP_STACKSIZE` by hand as we cannot change those modules.
+
 
 ## Some noteworthy packages included in the regular EasyConfig
 
