@@ -1,6 +1,6 @@
 --- /dev/null
 +++ b/siteconfig-lumi-gpu.py
-@@ -0,0 +1,46 @@
+@@ -0,0 +1,47 @@
 +"""Custom GPAW siteconfig for LUMI-G."""
 +
 +parallel_python_interpreter = True
@@ -17,6 +17,7 @@
 +    '-fPIC',
 +    '-Wall',
 +    '-Wno-stringop-overflow',  # suppress warnings from MPI_STATUSES_IGNORE
++    '-Wno-deprecated-declarations',  # PySys_SetArgv() etc deprecated in Python 3.11
 +    ]
 +
 +# FFTW
