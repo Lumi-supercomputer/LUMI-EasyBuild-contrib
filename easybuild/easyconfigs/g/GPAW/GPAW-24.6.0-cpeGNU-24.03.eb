@@ -31,6 +31,11 @@ checksums = [
     {'GPAW-24.6.0-fix-ase-version.patch': 'df4d2611daadcb509ca65964cfccfbbd9a4f6244807a1025bd9054080ca5b5ff'},
 ]
 
+builddependencies = [
+    # Provides wheel
+    ('buildtools-python', '%(toolchain_version)s', '-cray-python%(pyshortver)s', True),
+]
+
 dependencies = [
     ('cray-python/3.11.7', EXTERNAL_MODULE),
     ('cray-fftw/3.3.10.7', EXTERNAL_MODULE),
