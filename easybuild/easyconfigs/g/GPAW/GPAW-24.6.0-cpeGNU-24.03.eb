@@ -8,7 +8,7 @@ description = """GPAW is a density-functional theory (DFT) Python code based on 
  method and the atomic simulation environment (ASE). It uses real-space uniform grids and multigrid methods or
  atom-centered basis-functions."""
 
-toolchain = {'name': 'cpeGNU', 'version': '23.09'}
+toolchain = {'name': 'cpeGNU', 'version': '24.03'}
 toolchainopts = {'usempi': True, 'openmp': True}
 
 sources = [{
@@ -21,20 +21,19 @@ sources = [{
 }
 ]
 patches = [
-   {'name': 'GPAW-24.1.0-siteconfig-cpu.patch', 'level': 1},
+   {'name': 'GPAW-24.6.0-siteconfig-cpu.patch', 'level': 1},
    {'name': 'GPAW-24.6.0-fix-ase-version.patch', 'level': 1},
 ]
 checksums = [
     {'gpaw-24.6.0.tar.gz': 'fb48ef0db48c0e321ce5967126a47900bba20c7efb420d6e7b5459983bd8f6f6'},
     {'gpaw-setups-24.1.0.tar.gz': '314d43168f7b57a2d942855d3d5ad21da9ef74e772d37343d416305113a95c23'},
-    {'GPAW-24.1.0-siteconfig-cpu.patch': '456bef91d3ed7fb40d0e136c6a39810d4e68f818c8e177541ee64dda06408bf6'},
+    {'GPAW-24.6.0-siteconfig-cpu.patch': 'd84d1ac4150fc41756e5450b0588f5af91facdfc7dc05088191741a3f2465bfa'},
     {'GPAW-24.6.0-fix-ase-version.patch': 'df4d2611daadcb509ca65964cfccfbbd9a4f6244807a1025bd9054080ca5b5ff'},
 ]
 
 dependencies = [
-    ('cray-python/3.10.10', EXTERNAL_MODULE),
-    ('cray-libsci/23.09.1.1', EXTERNAL_MODULE),
-    ('cray-fftw/3.3.10.5', EXTERNAL_MODULE),
+    ('cray-python/3.11.7', EXTERNAL_MODULE),
+    ('cray-fftw/3.3.10.7', EXTERNAL_MODULE),
     ('libxc', '6.2.2'),
 ]
 
