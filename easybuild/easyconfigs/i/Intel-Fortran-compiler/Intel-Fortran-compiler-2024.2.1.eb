@@ -1,0 +1,62 @@
+easyblock = 'Binary'
+
+local_rocm_version        = '6.0.3'
+local_plugin_rocm_version = '6.0.2'
+local_compiler_version    = '2024.2'
+local_tbb_version         = '2021.13'
+
+name = 'Intel-Fortran-compiler'
+version = '2024.2.1'
+
+homepage = 'https://software.intel.com/content/www/us/en/develop/tools/oneapi/hpc-toolkit.html'
+
+whatis = ['Description: the Intel Compiler Classic and Intel Fortran Compiler']
+
+description = """
+This package includes the Intel Fortran Compiler Classic (ifort) and the Intel® Fortran Compiler (ifx) versions.
+This package is not a replacement for the Intel compiler suite. It doesn't include Intel MPI. It's intended usage is to
+compile Fortran units only.
+"""
+
+toolchain = SYSTEM
+
+local_installer_file = f'l_fortran-compiler_p_{version}.80_offline.sh'
+
+# see https://software.intel.com/content/www/us/en/develop/articles/oneapi-standalone-components.html
+sources = [
+    {
+        'source_urls' : ['https://registrationcenter-download.intel.com/akdlm/IRC_NAS/5e7b0f1c-6f25-4cc8-94d7-3a527e596739'],
+        'filename'    : local_installer_file,
+    },
+]
+
+checksums = [
+    {local_installer_file          : '6f6dab82a88082a7a39f6feb699343c521f58c6481a1bb87edba7e2550995b6d'},
+]
+
+install_cmds = ['HOME=%(builddir)s ./' + local_installer_file + ' -a -s --eula accept --install-dir %(installdir)s']
+
+local_compiler_path = 'compiler/' + local_compiler_version
+local_compiler_bin = '%(installdir)s/' + local_compiler_path + '/bin'
+
+sanity_check_paths = {
+    'files': [local_compiler_path + '/' + f for f in ['bin/ifort', 'bin/ifx']],
+    'dirs': [],
+}
+
+modluafooter = """
+try_load("rocm/%(rocm_version)s")
+
+prepend_path("CMAKE_PREFIX_PATH", "%(root)s/compiler/%(compiler_version)s")
+prepend_path("LD_LIBRARY_PATH",   "%(root)s/compiler/%(compiler_version)s/lib")
+prepend_path("LIBRARY_PATH",      "%(root)s/compiler/%(compiler_version)s/lib")
+prepend_path("MANPATH",           "%(root)s/compiler/%(compiler_version)s/share/man/")
+prepend_path("PATH",              "%(root)s/compiler/%(compiler_version)s/bin")
+
+""" % {
+    'root'             : '%(installdir)s',
+    'rocm_version'     : local_rocm_version,
+    'compiler_version' : local_compiler_version,
+}
+
+moduleclass = 'compiler'
