@@ -1,0 +1,10 @@
+--- a/gpaw/gpu/__init__.py
++++ b/gpaw/gpu/__init__.py
+@@ -18,6 +18,7 @@ if TYPE_CHECKING:
+ else:
+     try:
+         import cupy
++        import cupy.cublas
+         import cupyx
+         from cupy.cuda import runtime
+         is_hip = runtime.is_hip
