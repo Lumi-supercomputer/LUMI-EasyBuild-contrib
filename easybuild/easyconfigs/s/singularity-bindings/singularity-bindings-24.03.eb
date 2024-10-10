@@ -71,6 +71,7 @@ modextravars = {
                          '/usr/lib64/libkrb5support.so.0,'
                          '/usr/lib64/liblber-2.4.so.2,'
                          '/usr/lib64/libldap_r-2.4.so.2,'
+                         '/usr/lib64/liblnetconfig.so.4,'
                          '/usr/lib64/liblustreapi.so,'
                          '/usr/lib64/libnghttp2.so.14,'
                          '/usr/lib64/libnl-3.so.200,'
@@ -83,6 +84,7 @@ modextravars = {
                          '/usr/lib64/libssl.so.1.1,'
                          '/opt/cray/pe/gcc-libs/libstdc++.so.6:/usr/lib64/libstdc++.so.6,'
                          '/usr/lib64/libunistring.so.2,' 
+                         '/usr/lib64/libyaml-0.so.2,'
                          '/usr/lib64/libz.so.1,'
                          '/usr/lib64/libzstd.so.1,'
                          '/run/cxi')
