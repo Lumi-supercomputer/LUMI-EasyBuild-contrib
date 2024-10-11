@@ -1,6 +1,6 @@
 easyblock = 'ConfigureMake'
 
-name =    'neko'
+name =    'Neko'
 version = '0.8.1'
 versionsuffix = '-rocm'
 
