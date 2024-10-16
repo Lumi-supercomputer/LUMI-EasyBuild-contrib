@@ -27,11 +27,8 @@ source_urls = ["https://github.com/ExtremeFLOW/neko/releases/download/v0.8.1"]
 sources =     ["neko-0.8.1.tar.gz"]
 checksums =   ['ac8162bc18e7112fd21b49c5a9c36f45c7b84896e90738be36a182990798baec']
 
-builddependencies = [
-    ('json-fortran', '8.3.0'),
-]
-
 dependencies = [
+    ('json-fortran', '8.3.0'),
     ('rocm/6.0.3', EXTERNAL_MODULE),
 ]
 
