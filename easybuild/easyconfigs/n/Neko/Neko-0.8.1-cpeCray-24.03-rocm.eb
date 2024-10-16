@@ -17,10 +17,6 @@ Neko is currently maintained and developed at KTH Royal Institute of Technology.
 
 """
 
-usage = """
-After loading this module
-"""
-
 docurls = [
     'https://github.com/ExtremeFLOW/neko/tree/develop/doc',
 ]
@@ -31,21 +27,17 @@ source_urls = ["https://github.com/ExtremeFLOW/neko/releases/download/v0.8.1"]
 sources =     ["neko-0.8.1.tar.gz"]
 checksums =   ['ac8162bc18e7112fd21b49c5a9c36f45c7b84896e90738be36a182990798baec']
 
-dependencies = [
-    ('rocm/6.0.3', EXTERNAL_MODULE),
+builddependencies = [
     ('json-fortran', '8.3.0'),
-    ('cce/16.0.1', EXTERNAL_MODULE), # Neko fails to compiler with cce/17.0.1
 ]
 
-preconfigopts = 'MPIFC=ftn MPICC=cc FC=ftn CFLAGS="-O2 -fopenmp" FCFLAGS="-O2 -fopenmp -hipa0"  HIP_HIPCC_FLAGS="-O2 --offload-arch=gfx90a" JSON_Fortran_CFLAGS="-I$EBROOTJSONMINFORTRAN/include/" '
+dependencies = [
+    ('rocm/6.0.3', EXTERNAL_MODULE),
+]
 
-configopts  = '--enable-device-mpi --with-hip'
+configopts  = 'MPIFC=ftn MPICC=cc FC=ftn CFLAGS="-O2 -fopenmp" FCFLAGS="-O2 -fopenmp -hipa0"  HIP_HIPCC_FLAGS="-O2 --offload-arch=gfx90a" JSON_Fortran_CFLAGS="-I$EBROOTJSONMINFORTRAN/include/" --enable-device-mpi --with-hip'
 
-prebuildopts = ""
-
-#postinstallcmds = [
-#    'mkdir -p %(installdir)s/share/licenses/%(name)s && cp LICENSE README NEWS %(installdir)s/share/licenses/%(name)s'
-#]
+prebuildopts = 'export TMPDIR=/local/tmp && '
 
 sanity_check_paths = {
     'files': ['bin/neko', 'bin/makeneko', 'lib/libneko.a'],
