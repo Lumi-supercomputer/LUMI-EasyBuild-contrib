@@ -1,3 +1,4 @@
+#DOC MUMPS compiled with the multi-threaded LibSci libraries, as shared and static libraries.
 
 local_SCOTCH_version = '7.0.4'
 local_METIS_version  = '5.1.0'
@@ -15,7 +16,8 @@ whatis = [
 description = """
 MUMPS stands for MUltifrontal Massively Parallel sparse direct Solver.
 
-Both static and shared libraries are provided.
+Both static and shared libraries are provided. This version is compiled 
+with the multi-threaded LibSci libraries.
 """
 
 docurls = [

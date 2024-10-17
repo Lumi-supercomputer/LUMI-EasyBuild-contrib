@@ -1,9 +1,12 @@
+#DOC MUMPS compiled with the single-threaded LibSci libraries, as shared and static libraries.
+
 
 local_SCOTCH_version = '7.0.4'
 local_METIS_version  = '5.1.0'
 
-name = 'MUMPS'
-version = '5.6.1'
+name =          'MUMPS'
+version =       '5.6.1'
+versionsuffix = '-noOpenMP'
 
 homepage = 'https://graal.ens-lyon.fr/MUMPS/'
 
@@ -14,7 +17,8 @@ whatis = [
 description = """
 MUMPS stands for MUltifrontal Massively Parallel sparse direct Solver.
 
-Both static and shared libraries are provided.
+Both static and shared libraries are provided. This version is using the
+single-threaded LibSci.
 """
 
 docurls = [
@@ -22,7 +26,7 @@ docurls = [
 ]
 
 toolchain = {'name': 'cpeGNU', 'version': '24.03'}
-toolchainopts = {'pic': True, 'usempi': True, 'gfortran9-compat': True}
+toolchainopts = {'pic': True, 'usempi': True, 'openmp': False, 'gfortran9-compat': True}
 
 source_urls = ['http://mumps-solver.org/']
 sources = ['%(name)s_%(version)s.tar.gz']
