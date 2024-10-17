@@ -1,4 +1,6 @@
 # Based on EPCC recipe from https://github.com/ARCHER2-HPC/pe-scripts/blob/modules-2022-12/sh/petsc.sh
+# PETSc for CPU, compiled with the multi-threaded LibSci libraries (and using OpenMP where possible).
+
 easyblock = 'ConfigureMake'
 
 local_Boost_version        = '1.83.0'
