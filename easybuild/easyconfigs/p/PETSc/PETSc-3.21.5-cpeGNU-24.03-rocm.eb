@@ -44,7 +44,7 @@ dependencies = [
     ('METIS',              local_METIS_version),
     ('ParMETIS',           local_ParMETIS_version),
     ('SCOTCH',             local_SCOTCH_version),
-    ('MUMPS',              local_MUMPS_version),
+    ('MUMPS',              local_MUMPS_version, '-OpenMP'),
     ('Hypre',              local_Hypre_version),
     ('SuperLU',            local_SuperLU_version, '-OpenMP'),
     ('SuperLU_DIST',       local_SuperLU_DIST_version, '-OpenMP'),
