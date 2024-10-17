@@ -73,6 +73,7 @@ configopts = ' '.join([
 ])
 
 prebuildopts = 'export CPATH=$ROCM_PATH/include/hipblas && make clean && '
+prebuildopts += 'export TMPDIR=/local/tmp/ && '
 
 maxparallel = 16
 
