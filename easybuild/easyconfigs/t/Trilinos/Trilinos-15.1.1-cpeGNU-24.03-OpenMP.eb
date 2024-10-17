@@ -1,3 +1,5 @@
+#DOC Trilinos, compiled with the multi-threaded LibSci libraries.
+
 easyblock = 'CMakeMake'
 
 local_Boost_version        = '1.83.0'
@@ -8,8 +10,9 @@ local_SuperLU_DIST_version = '9.0.0'
 local_MATIO_version        = '1.5.27'
 local_cURL_version         = '8.3.0'
 
-name =    'Trilinos'
-version = '15.1.1'
+name =          'Trilinos'
+version =       '15.1.1'
+versionsuffix = '-OpenMP'
 
 homepage = 'https://trilinos.org'
 
@@ -49,7 +52,7 @@ dependencies = [
     ('Boost',                    local_Boost_version),
     ('SCOTCH',                   local_SCOTCH_version),
     ('ParMETIS',                 local_ParMETIS_version),
-    ('MUMPS',                    local_MUMPS_version),
+    ('MUMPS',                    local_MUMPS_version,        '-OpenMP'),
     ('SuperLU_DIST',             local_SuperLU_DIST_version, '-OpenMP'),
     ('MATIO',                    local_MATIO_version),
     ('cURL',                     local_cURL_version),
