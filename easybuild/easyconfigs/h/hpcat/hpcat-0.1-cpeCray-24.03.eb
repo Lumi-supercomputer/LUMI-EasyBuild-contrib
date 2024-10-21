@@ -27,7 +27,7 @@ the following arguments:
 toolchain = {'name': 'cpeCray', 'version': '24.03'}
 
 sources =   [f'{name}-{version}-cce-{local_cce_version}.tar.gz']
-checksums = ['f1990c7f6b6c212af0d2fd3b9e4cac41baeea5fd88c140dd03484ef3aa1850c0']
+checksums = ['f3186cfaead118786653e2d9a8c52a119048968361e96ec30be3995027a165a4']
 
 extract_sources = True
 
