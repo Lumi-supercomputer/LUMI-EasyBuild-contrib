@@ -1,5 +1,9 @@
 # Based on EPCC recipe from https://github.com/ARCHER2-HPC/pe-scripts/blob/modules-2022-12/sh/petsc.sh
 # and https://gitlab.com/petsc/petsc/-/blob/main/config/examples/arch-olcf-frontier-opt.py
+#DOC PETSc for CPU, compiled with the multi-threaded LibSci libraries (and using OpenMP where possible),
+#DOC and also including ROCm GPU support.
+#DOC When using this version of PETSc, you'll have to ensure that `-fopenmp` is used when linking
+#DOC to avoid linking both the single- and multi-threaded LibSci libraries.
 easyblock = 'ConfigureMake'
 
 local_Boost_version        = '1.83.0'
@@ -44,9 +48,9 @@ dependencies = [
     ('METIS',              local_METIS_version),
     ('ParMETIS',           local_ParMETIS_version),
     ('SCOTCH',             local_SCOTCH_version),
-    ('MUMPS',              local_MUMPS_version),
+    ('MUMPS',              local_MUMPS_version,        '-OpenMP'),
     ('Hypre',              local_Hypre_version),
-    ('SuperLU',            local_SuperLU_version, '-OpenMP'),
+    ('SuperLU',            local_SuperLU_version,      '-OpenMP'),
     ('SuperLU_DIST',       local_SuperLU_DIST_version, '-OpenMP'),
 ]
 
