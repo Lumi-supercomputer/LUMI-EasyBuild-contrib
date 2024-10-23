@@ -1,0 +1,26 @@
+--- amber24_src_orig/cmake/PythonBuildConfig.cmake	2024-10-22 17:22:52.205270302 +0300
++++ amber24_src/cmake/PythonBuildConfig.cmake	2024-10-22 17:23:20.169043428 +0300
+@@ -30,7 +30,7 @@
+ 		# check "normal" packages
+ 		# --------------------------------------------------------------------
+ 
+-		set(NEEDED_PYTHON_PACKAGES numpy scipy matplotlib setuptools)
++		set(NEEDED_PYTHON_PACKAGES numpy scipy setuptools)
+ 		set(HAVE_ALL_PYTHON_PACKAGES TRUE)
+ 
+ 		# in Amber releases cython is not needed since pytraj will have been pre-cythonized
+@@ -67,14 +67,6 @@
+ 			message(FATAL_ERROR ${ERROR_MESSAGE})
+ 		endif()
+ 		
+-		# --------------------------------------------------------------------
+-		# tkinter's capitalization changes based on the python version
+-		check_python_package(tkinter HAVE_TKINTER)
+-
+-		if(NOT HAVE_TKINTER)
+-			message(FATAL_ERROR "Could not find the Python Tkinter package.  You must install tk through your package manager (python-tk/python3-tk on Ubuntu, tk on Arch),\
+-	 and the tkinter Python package will get installed.  If you cannot get Tkinter, disable BUILD_PYTHON to skip building Python packages, or enable DOWNLOAD_MINICONDA.")
+-		endif()
+ 		
+ 		# --------------------------------------------------------------------
+ 		# this one has a different error message
