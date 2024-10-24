@@ -40,6 +40,12 @@ nodes of LUMI.
 This version of R links with the multithreaded version of 
 Cray LibSci, so its linear algebra routines support multithreading
 by setting OMP_NUM_THREADS.
+
+We have observed crashes in the linear algebra libraries when running
+multithreaded. It appears that setting OMP_STACKSIZE=256M,
+which is now done in the module, reduces those crashes. 
+Using ulimit -s 300000 may also help. The problem has been discussed with
+HPE Cray, but a solution will come at the earliest with 25.03.
 """
 
 toolchain = {'name': 'cpeGNU', 'version': '24.03'}
@@ -138,5 +144,10 @@ exts_list = [
         'checksums':   ['8591fa9f50de52535a32b36e7ed142c6ca4e03fdfdbef79a1e27a63ed5322eef'],
     }),
 ]
+
+# Set OMP_STACKSIZE to avoid crashes in LibSci
+modextravars = {
+    'OMP_STACKSIZE': '256M',
+}
 
 moduleclass = 'lang'
