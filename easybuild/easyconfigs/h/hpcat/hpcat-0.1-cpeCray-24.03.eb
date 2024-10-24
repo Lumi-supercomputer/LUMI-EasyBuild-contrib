@@ -1,0 +1,43 @@
+easyblock = "Binary"
+
+name =    'hpcat'
+version = '0.1'
+
+local_cce_version = '17.0.1'
+
+homepage = '(none)'
+
+whatis = [
+    'Description: hpcat is a tool to investigate thread and process binding to cores, GPUs and NICs'
+]
+
+description = """
+The hpcat application is designed to display NUMA and CPU affinities in the
+context of HPC applications. Details about, MPI tasks, OpenMP (optional),
+accelerators and NIC (Cray MPICH only) are reported. The application accepts 
+the following arguments:
+
+  -o, --disable-omp          Do not display OpenMP affinities.
+  -y, --yaml                 YAML output.
+  -?, --help                 Give this help list
+      --usage                Give a short usage message
+  -V, --version              Print program version
+"""
+
+toolchain = {'name': 'cpeCray', 'version': '24.03'}
+
+sources =   [f'{name}-{version}-cce-{local_cce_version}.tar.gz']
+checksums = ['f3186cfaead118786653e2d9a8c52a119048968361e96ec30be3995027a165a4']
+
+extract_sources = True
+
+sanity_check_paths = {
+    'files': ['bin/hpcat', 'lib/hpcathip.%s' % SHLIB_EXT],
+    'dirs':  []
+}
+
+sanity_check_commands = [
+    'hpcat --version',
+]
+
+moduleclass = 'tools'
