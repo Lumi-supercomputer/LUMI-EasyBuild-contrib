@@ -1,6 +1,9 @@
 # Contributed by Luca Marsella (CSCS)
 # Some adaptations by Kurt Lust (University of Antwerpen and LUMI consortium)
 # GPU version adapted for LUMI
+#DOC Some performance degradation has been observed with ROCm 6.0. It may be solved
+#DOC by using rocm/6.2.2 when running instead if that module is compatible with
+#DOC your code.
 easyblock = 'ConfigureMake'
 
 local_ELPA_version = '2024.05.001'
