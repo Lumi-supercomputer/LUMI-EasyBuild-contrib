@@ -15,7 +15,7 @@ local_libxsmm_version      = '1.17'
 local_spglib_version       = '2.5.0'
 local_COSMA_version        = '2.6.6'
 local_GSL_version          = '2.7.1'
-local_PLUMED_version       = '2.9.1'
+local_PLUMED_version       = '2.9.2'
 
 name = 'CP2K'
 version = '2024.2'
