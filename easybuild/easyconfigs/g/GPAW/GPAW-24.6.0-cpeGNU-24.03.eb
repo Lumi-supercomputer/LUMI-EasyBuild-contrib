@@ -1,0 +1,65 @@
+easyblock = "PythonPackage"
+
+name = 'GPAW'
+version = '24.6.0'
+
+homepage = 'https://wiki.fysik.dtu.dk/gpaw/'
+description = """GPAW is a density-functional theory (DFT) Python code based on the projector-augmented wave (PAW)
+ method and the atomic simulation environment (ASE). It uses real-space uniform grids and multigrid methods or
+ atom-centered basis-functions."""
+
+toolchain = {'name': 'cpeGNU', 'version': '24.03'}
+toolchainopts = {'usempi': True, 'openmp': True}
+
+sources = [{
+     'filename': SOURCELOWER_TAR_GZ,
+     'source_urls': [PYPI_LOWER_SOURCE],
+},
+{
+     'filename': 'gpaw-setups-24.1.0.tar.gz',
+     'source_urls': ['https://wiki.fysik.dtu.dk/gpaw-files/'],
+}
+]
+patches = [
+   {'name': 'GPAW-24.6.0-siteconfig-cpu.patch', 'level': 1},
+   {'name': 'GPAW-24.6.0-fix-ase-version.patch', 'level': 1},
+]
+checksums = [
+    {'gpaw-24.6.0.tar.gz': 'fb48ef0db48c0e321ce5967126a47900bba20c7efb420d6e7b5459983bd8f6f6'},
+    {'gpaw-setups-24.1.0.tar.gz': '314d43168f7b57a2d942855d3d5ad21da9ef74e772d37343d416305113a95c23'},
+    {'GPAW-24.6.0-siteconfig-cpu.patch': 'd84d1ac4150fc41756e5450b0588f5af91facdfc7dc05088191741a3f2465bfa'},
+    {'GPAW-24.6.0-fix-ase-version.patch': 'df4d2611daadcb509ca65964cfccfbbd9a4f6244807a1025bd9054080ca5b5ff'},
+]
+
+builddependencies = [
+    # Provides wheel
+    ('buildtools-python', '%(toolchain_version)s', '-cray-python%(pyshortver)s', True),
+]
+
+dependencies = [
+    ('cray-python/3.11.7', EXTERNAL_MODULE),
+    ('cray-fftw/3.3.10.7', EXTERNAL_MODULE),
+    ('libxc', '6.2.2'),
+]
+
+preinstallopts = 'GPAW_CONFIG=siteconfig-lumi-cpu.py '
+
+download_dep_fail = False
+use_pip = True
+use_pip_for_deps = True
+pip_verbose = True
+pip_ignore_installed = False
+pip_no_index = False
+sanity_pip_check = True
+
+postinstallcmds = ['cp -rp ../gpaw-setups-24.1.0 %(installdir)s/']
+
+sanity_check_paths = {
+    'files': ['bin/gpaw%s' % x for x in ['', '-analyse-basis', '-basis', '-plot-parallel-timings',
+                                         '-runscript', '-setup', '-upfplot']],
+    'dirs': ['lib/python%(pyshortver)s/site-packages']
+}
+
+modextravars = {'GPAW_SETUP_PATH': '%(installdir)s/gpaw-setups-24.1.0'}
+
+moduleclass = 'chem'
