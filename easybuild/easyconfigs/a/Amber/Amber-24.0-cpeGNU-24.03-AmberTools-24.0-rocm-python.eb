@@ -13,7 +13,7 @@ local_patchlevels = (0, 0)  # (AmberTools, Amber)
 
 name = 'Amber'
 version = '%s.%s' % (local_Amber_version, local_patchlevels[1])
-versionsuffix = '-AmberTools-%s.%s-rocm+python' % (local_AmberTools_version, local_patchlevels[0])
+versionsuffix = '-AmberTools-%s.%s-rocm-python' % (local_AmberTools_version, local_patchlevels[0])
 
 homepage = 'https://ambermd.org/amber.html'
 
