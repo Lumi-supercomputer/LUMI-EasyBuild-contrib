@@ -1,4 +1,7 @@
+#DOC Amber with the matching version of AmberTools, and support for Cray Python.
 easyblock = 'CMakeMake'
+
+local_craypython_version =  '3.11.7'
 
 local_Amber_version      = '24'
 local_AmberTools_version = '24'
@@ -13,7 +16,7 @@ local_patchlevels = (0, 0)  # (AmberTools, Amber)
 
 name = 'Amber'
 version = '%s.%s' % (local_Amber_version, local_patchlevels[1])
-versionsuffix = '-AmberTools-%s.%s-rocm-python' % (local_AmberTools_version, local_patchlevels[0])
+versionsuffix = '-AmberTools-%s.%s-rocm-cray-python-%s' % (local_AmberTools_version, local_patchlevels[0], local_craypython_version)
 
 homepage = 'https://ambermd.org/amber.html'
 
@@ -54,16 +57,16 @@ builddependencies = [
 ]
 
 dependencies = [
-    ('cray-python/3.11.7',       EXTERNAL_MODULE),
-    ('cray-fftw',                EXTERNAL_MODULE),
-    ('cray-hdf5-parallel',       EXTERNAL_MODULE),
-    ('cray-parallel-netcdf',     EXTERNAL_MODULE),
-    ('cray-netcdf-hdf5parallel', EXTERNAL_MODULE),
-    ('rocm',                     EXTERNAL_MODULE),
-    ('zlib',                     local_zlib_version),
-    ('bzip2',                    local_bzip2_version),
-    ('Perl',                     local_Perl_version),
-    ('arpack-ng',                local_arpack_ng_version, '-OpenMP'),
+    (f'cray-python/{local_craypython_version}', EXTERNAL_MODULE),
+    ('cray-fftw',                               EXTERNAL_MODULE),
+    ('cray-hdf5-parallel',                      EXTERNAL_MODULE),
+    ('cray-parallel-netcdf',                    EXTERNAL_MODULE),
+    ('cray-netcdf-hdf5parallel',                EXTERNAL_MODULE),
+    ('rocm',                                    EXTERNAL_MODULE),
+    ('zlib',      local_zlib_version),
+    ('bzip2',     local_bzip2_version),
+    ('Perl',      local_Perl_version),
+    ('arpack-ng', local_arpack_ng_version,      '-OpenMP'),
 ]
 
 configopts = ' '.join([ 
@@ -109,7 +112,7 @@ configopts = ' '.join([
 
 sanity_check_paths = {
     'files': ['bin/pmemd.hip'],
-    'dirs': [''],
+    'dirs':  [''],
 }
 
 modextravars = {
