@@ -10,8 +10,19 @@ that is very quick to install.
 
 ## EasyBuild
 
-### 1.0.1 for cpeCray-22.08
+### 1.0.1 for CPE 22.08
 
 -   The EasyConfig is derived from the one build up in the 
     [examples on "Creating easyconfig files" for the LUST course of 2021](http://tutorial.easybuild.io/2021-lust/creating_easyconfig_files/#example)
+
+
+### 1.0.1 for CPE 22.12
+
+-   Trivial port of the 22.08 one.
+
+
+### 1.0.1 for CPE 24.03
+
+-   Trivial port of the 22.12 one.
+
 
