@@ -16,9 +16,11 @@ toolchainopts = {'usempi': True, 'openmp' : True }
 sources = ['vasp.6.4.3.tgz']
 
 dependencies = [
-	('Wannier90','3.1.0'),
-  ('cray-fftw', EXTERNAL_MODULE),
-  ('cray-hdf5-parallel', EXTERNAL_MODULE),
+    ('Wannier90','3.1.0'),
+#    ('DFTD4','3.4.0'),
+    ('libxc','6.2.2'),
+    ('cray-fftw', EXTERNAL_MODULE),
+    ('cray-hdf5-parallel', EXTERNAL_MODULE),
 ]
 
 # Just copy in fully patched makefile.include

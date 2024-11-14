@@ -8,7 +8,7 @@ CPP_OPTIONS = -DHOST=\"LUMI2403B02\" \
               -Duse_bse_te \
               -Dtbdyn \
               -Dfock_dblbuf \
-              -D_OPENMP -Duse_shmem -DnoSTOPCAR -DVASP2WANNIER90v2 -DUSELIBXC -DDFTD4
+              -D_OPENMP -Duse_shmem -DnoSTOPCAR -DVASP2WANNIER90v2 -DUSELIBXC
 
 CPP         = gcc-13 -E -C -w $*$(FUFFIX) >$*$(SUFFIX) $(CPP_OPTIONS)
 
@@ -70,7 +70,7 @@ LLIBS      += $(SCALAPACK) $(BLASPACK)
 # Note the explicit linking to -lffttw3_omp. It needs to be done due a bug in the build system.
 # For some reason, the Cray ftn wrapper does not pick up that OpenMP is enabled for FFTW
 LLIBS      += -L$(FFTW_ROOT)/lib -lfftw3 -lfftw3_omp
-INCS       += -I$(FFTW_INC) $(shell pkg-config --cflags dftd4) 
+INCS       += -I$(FFTW_INC)
 
 # HDF5-support (optional but strongly recommended)
 # Use HDF5 from the Cray-module
@@ -82,7 +82,7 @@ INCS       += -I$(HDF5_ROOT)/include
 # For the VASP-2-Wannier90 interface (optional)
 CPP_OPTIONS    += -DVASP2WANNIER90
 #WANNIER90_ROOT ?=  
-LLIBS          += -L$(EBROOTWANNIER90)/lib -lwannier -L/$(shell pkg-config --libs dftd4) 
+LLIBS          += -L$(EBROOTWANNIER90)/lib -lwannier
 
 # Add Libxc
 LLIBS     += -L$(EBROOTLIBXC)/lib -lxcf03 -lxc
