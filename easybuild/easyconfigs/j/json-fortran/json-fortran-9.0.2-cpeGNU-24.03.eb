@@ -1,0 +1,44 @@
+# J. Sassmannshausen (Imperial College London/UK)
+
+easyblock = 'CMakeMake'
+
+local_jsonc_version = '9.0.2'
+
+name = 'json-fortran'
+version = local_jsonc_version
+
+homepage = 'https://github.com/jacobwilliams/json-fortran'
+
+whatis = [
+    'Description: JSON-Fortran'
+]
+
+description = """
+JSON-Fortran is a user-friendly, thread-safe, and object-oriented API for reading and writing JSON files,
+ written in modern Fortran.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '24.03'}
+
+source_urls = ['https://github.com/jacobwilliams/json-fortran/archive/']
+sources = ['%(version)s.tar.gz']
+checksums = ['a599a77e406e59cdb7672d780e69156b6ce57cb8ce515d21d1744c4065a85976']
+
+builddependencies = [
+    ('buildtools',   '%(toolchain_version)s',   '', True),
+]
+
+configopts = '-DCMAKE_INSTALL_LIBDIR=lib '
+
+runtest = 'check'
+
+configopts += '-DUSE_GNU_INSTALL_CONVENTION=TRUE'
+
+
+sanity_check_paths = {
+    'files': ['lib/libjsonfortran.a', 'lib/libjsonfortran.%s' % SHLIB_EXT,
+              'include/json_module.mod', 'include/json_parameters.mod'],
+    'dirs': ['include'],
+}
+
+moduleclass = 'lib'
