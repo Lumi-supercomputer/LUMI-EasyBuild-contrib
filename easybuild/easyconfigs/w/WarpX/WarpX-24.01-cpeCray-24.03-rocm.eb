@@ -53,7 +53,7 @@ configopts = ' '.join([
 ])
 
 sanity_check_paths = {
-    'files': ['bin/warpx.rz.MPI.HIP.DP.PDP.OPMD.FFT.EB.QED.GENQEDTABLES',
+    'files': ['bin/warpx.rz.MPI.HIP.DP.PDP.OPMD.QED.GENQEDTABLES',
               'lib/libamrex_3d.so', 'lib/libamrex_2d.so', 'lib/libamrex_1d.so'],
     'dirs': ['include', 'share'],
 }
