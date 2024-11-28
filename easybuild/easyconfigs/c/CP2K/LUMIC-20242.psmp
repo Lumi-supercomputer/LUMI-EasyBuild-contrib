@@ -4,7 +4,7 @@ AR          = ar -r
 FC          = ftn
 LD          = ftn
 #
-DFLAGS      = -D__LIBXSMM  -D__SCALAPACK -D__parallel -D__FFTW3  -D__LIBINT -D__LIBXC -D__COSMA -D__ELPA  -D__GSL -D__HDF5 -D__SPGLIB -D__LIBVORI -D__MPI_F08 -D__PLUMED2
+DFLAGS      = -D__LIBXSMM  -D__SCALAPACK -D__parallel -D__FFTW3  -D__LIBINT -D__LIBXC -D__COSMA -D__ELPA  -D__GSL -D__HDF5 -D__SPGLIB -D__LIBVORI -D__PLUMED2
 #
 WFLAGS      = -Werror=aliasing -Werror=ampersand -Werror=c-binding-type -Werror=intrinsic-shadow -Werror=intrinsics-std -Werror=line-truncation -Werror=tabs -Werror=target-lifetime -Werror=underflow -Werror=unused-dummy-argument -Werror=conversion -Werror=zerotrip -Wno-maybe-uninitialized -Wuninitialized -Wuse-without-only
 #
@@ -21,7 +21,7 @@ CFLAGS += -I$(EBROOTGSL)/include
 # HDF5?
 CFLAGS += -I$(EBROOTSPGLIB)/include
 
-FCFLAGS     = -fno-omit-frame-pointer -fopenmp -g -mtune=native  -O3 -funroll-loops -fallow-argument-mismatch  $(FCDEBFLAGS) $(WFLAGS) $(DFLAGS)
+FCFLAGS     = -fno-omit-frame-pointer -fopenmp -g -O3 -funroll-loops -fallow-argument-mismatch  $(FCDEBFLAGS) $(WFLAGS) $(DFLAGS)
 FCFLAGS += -I$(ROCM_PATH)/include
 FCFLAGS += -I$(FFTW_INC)
 FCFLAGS += -I$(EBROOTLIBINTMINCP2K)/include -I$(EBROOTLIBINTMINCP2K)/include/libint2
@@ -33,7 +33,7 @@ FCFLAGS += -I$(EBROOTGSL)/include
 # HDF5?
 FCFLAGS += -I$(EBROOTSPGLIB)/include
 
-CXXFLAGS    = -O2 -fPIC -fno-omit-frame-pointer -fopenmp -g -mtune=native --std=c++14 $(DFLAGS) -Wno-deprecated-declarations -fopenmp -Wall -Wextra
+CXXFLAGS    = -O2 -fPIC -fno-omit-frame-pointer -fopenmp -g --std=c++14 $(DFLAGS) -Wno-deprecated-declarations -fopenmp -Wall -Wextra
 
 LDFLAGS =  $(FCFLAGS) -Wl,--enable-new-dtags
 LDFLAGS += -I$(EBROOTGSL)/lib
