@@ -29,7 +29,7 @@ builddependencies = [
     ('cray-hdf5-parallel', EXTERNAL_MODULE),
     ('Boost', '1.83.0'),
     ('blaspp', '2024.05.31', '-rocm'),
-    ('blaspp', '2024.05.31', '-rocm'),
+    ('lapackpp', '2024.05.31', '-rocm'),
     ('Blosc', '1.21.5')
 ]
 
@@ -49,12 +49,13 @@ configopts = ' '.join([
     '-D WarpX_QED_TABLE_GEN=ON', 
     '-D WarpX_QED_TABLES_GEN_OMP=OFF', 
     '-D WarpX_DIMS="1;2;RZ;3"',
+    '-D WarpX_LIB=ON',
     '-D AMReX_AMD_ARCH=gfx90a',
 ])
 
 sanity_check_paths = {
     'files': ['bin/warpx.rz.MPI.HIP.DP.PDP.OPMD.QED.GENQEDTABLES',
-              'lib/libamrex_3d.so', 'lib/libamrex_2d.so', 'lib/libamrex_1d.so'],
+              'lib/libamrex_3d.a', 'lib/libamrex_2d.a', 'lib/libamrex_1d.a'],
     'dirs': ['include', 'share'],
 }
 
