@@ -1,0 +1,40 @@
+easyblock = 'ConfigureMake'
+
+name = 'GlobalArrays'
+version = '5.8.2'
+
+homepage = 'https://hpc.pnl.gov/globalarrays'
+
+whatis = [
+    'Description: Global Arrays (GA) is a Partitioned Global Address Space (PGAS) programming model'
+]
+
+description = """
+Global Arrays (GA) is a Partitioned Global Address Space (PGAS) programming
+model. It provides primitives for one-sided communication (Get, Put,
+Accumulate) and Atomic Operations (read increment). It supports blocking
+and non-blocking primtives, and supports location consistency.
+
+Starting with GA v5.4, ARMCI has been deprecated and replaced with
+Communication runtime for Extreme Scale (ComEx). GA uses ComEx to abstract
+inter-node communication operations. The default ComEx ports use MPI --- which
+makes GA and ComEx portable for high-end systems. Most ComEx implementations
+use on-node shared memory for faster intra-node communication.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '24.03'}
+
+source_urls = ['https://github.com/GlobalArrays/ga/releases/download/']
+sources =     ['v%(version)s/ga-%(version)s.tar.gz']
+
+configopts = '--with-mpi-pr --enable-i8 --with-blas8 MPICC=cc CC=cc CXX=CC MPICXX=CC MPIEXEC=srun FFLAG_INT=-fdefault-integer-8'
+configopts += ' --enable-shared'
+
+sanity_check_paths = {
+    'files': ['bin/ga-config', 'lib/libarmci.a', 'lib/libcomex.a', 'lib/libga.a'],
+    'dirs':  ['include'],
+}
+
+modextrapaths = {'PATH': 'bin'}
+
+moduleclass = 'lib'
