@@ -20,7 +20,7 @@ operations, and deep learning primitives.
 toolchain = {'name': 'cpeGNU', 'version': '24.03'}
 toolchainopts = {'usempi': True, 'openmp': True}
 
-source_urls = ['https://github.com/hfp/%(name)s/archive/']
+source_urls = ['https://github.com/%(name)s/%(name)s/archive/']
 sources = ['%(version)s.tar.gz']
 checksums = ['8b642127880e92e8a75400125307724635ecdf4020ca4481e5efe7640451bb92']
 
