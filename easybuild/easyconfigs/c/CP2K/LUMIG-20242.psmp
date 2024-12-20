@@ -14,11 +14,11 @@ DFLAGS  += -D__COSMA
 DFLAGS  += -D__ELPA
 DFLAGS  += -D__GSL
 DFLAGS  += -D__SPGLIB
-DFLAGS  += -D__SPLA
 DFLAGS  += -D__LIBVORI
 DFLAGS  += -D__LIBINT
 DFLAGS  += -D__OFFLOAD_GEMM
 DFLAGS  += -D__HDF5
+#DFLAGS  += -D__SPLA
 
 CFLAGS   = $(DFLAGS) -O3 -fopenmp -fopenmp-simd -mavx2 -mfma -fomit-frame-pointer -std=c11
 CXXFLAGS = $(DFLAGS) -std=c++11 -O3 -fopenmp -fopenmp-simd -mavx2 -mfma -fomit-frame-pointer
