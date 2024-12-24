@@ -1,0 +1,110 @@
+# Created by Orian Louant for the LUMI consortium
+# Updated for WRF-SFIRE
+
+easyblock = 'CmdCp'
+
+name          = 'WRF-SFIRE'
+version       = 'W4.4-S0.1'
+
+local_Perl_version = '5.38.0'
+
+local_configuration  = [
+#    ('WRF_EM_CORE',                  '0'),
+#    ('WRF_CHEM',                     '0'),
+#    ('WRF_KPP',                      '0'),
+#    ('WRFIO_NCD_LARGE_FILE_SUPPORT', '0'),
+    ('NETCDF',                       '${NETCDF_DIR}'),
+    ('FLEX_LIB_DIR',                 '$EBROOTFLEX/lib'),
+    ('YACC_PATH',                    '$EBROOTBYACC/bin'),
+    ('HDF5',                         '$CRAY_HDF5_PREFIX'),
+]
+
+local_compile_targets = [
+    'em_real',
+#    'emi_conv',
+]
+
+homepage = 'https://wiki.openwfm.org/'
+
+whatis = [
+    'Description: A coupled weather-fire forecasting model built on top of Weather Research and Forecasting (WRF).'
+]
+
+description = """
+WRF-Chem is the Weather Research and Forecasting (WRF) model coupled with
+Chemistry. The model simulates the emission, transport, mixing, and chemical
+transformation of trace gases and aerosols simultaneously with the meteorology.
+The model is used for investigation of regional-scale air quality, field program
+analysis, and cloud-scale interactions between clouds and chemistry.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '24.03'}
+
+#https://github.com/openwfm/WRF-SFIRE/archive/refs/tags/W4.4-S0.1.tar.gz
+#W4.4-S0.1
+#source_urls = ['https://github.com/openwfm/WRF-SFIRE/archive']
+sources = [{
+    'filename': '%(version)s.tar.gz',
+    'git_config': {
+        'url': 'https://github.com/openwfm',
+        'repo_name': 'WRF-SFIRE',
+        'tag': '%(version)s',
+        'recursive': True,
+        'keep_git_dir': True,
+    }
+}]
+
+patches = [
+    'configure.patch',
+]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+    ('Perl',       local_Perl_version),
+]
+
+dependencies = [
+    ('cray-hdf5-parallel',   EXTERNAL_MODULE),
+    ('cray-netcdf-hdf5parallel', EXTERNAL_MODULE),
+]
+
+unpack_options    = '--strip-components=1'
+buildininstalldir = True
+
+local_configure_cmds = """./configure <<'EOF'
+34
+1
+EOF
+sed -i s/gcc/cc/ configure.wrf && \
+sed -i s/mpicc/cc/ configure.wrf && \
+sed -i s/gfortran/ftn/ configure.wrf && \
+sed -i s/mpif90/ftn/ configure.wrf""" 
+#sed -i s//-fallow-argument-mismatch -fallow-invalid-boz/ configure.wrf"""
+#sed -i 's/-ll //' chem/KPP/kpp/kpp-2.1/src/Makefile && \
+#sed -i 's/#  YACC=/YACC=${YACC_PATH}\//' chem/KPP/configure_kpp"""
+
+local_preconfigure_cmds = ' && '.join(['export ' + x[0] + '=' + x[1] for x in local_configuration])
+local_build_cmds        = ' && '.join(['./compile -j 8 %s' % x for x in local_compile_targets])
+
+cmds_map = [
+    ('%(version)s.tar.gz',
+     ' && '.join([
+        local_preconfigure_cmds,
+        local_configure_cmds,
+        local_build_cmds
+    ])),
+]
+
+files_to_copy = None
+
+sanity_check_paths = {
+    'files': ['main/%s' % x for x in ['wrf.exe', 'ndown.exe', 'tc.exe', 'real.exe', 'libwrflib.a']],
+    'dirs':  ['main']
+}
+
+modextrapaths = {
+    'PATH'            : 'main',
+    'LD_LIBRARY_PATH' : 'main',
+}
+
+moduleclass = 'geo'

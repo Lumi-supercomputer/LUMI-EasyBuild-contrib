@@ -1,0 +1,22 @@
+diff --git a/configure b/configure
+index 37798a612..1e574e589 100755
+--- a/configure
++++ b/configure
+@@ -709,7 +709,7 @@ if [ $os = "Linux" -o $os = "Darwin" ]; then
+       END PROGRAM
+ EOF
+ 
+-    gfortran -o ${foo} ${foo}.F > /dev/null 2>&1 && ./${foo}
++    ftn -o ${foo} ${foo}.F > /dev/null 2>&1 && ./${foo}
+     if [ $? -eq 1 ]
+     then
+       sed '/^FCCOMPAT/ s/$/ -fallow-argument-mismatch -fallow-invalid-boz/' configure.wrf > configure.wrf.edit
+@@ -736,7 +736,7 @@ EOF
+   if [ -z "`grep 'SCC.*mmic' configure.wrf`" ] ; then
+     # Detecting whether if mpi compiler wrapper supports -cc/-f90 options
+     if [ -z "`grep -i -E '^DMPARALLEL[ \t]*=.*#' configure.wrf`" ] ; then
+-      mpicc -cc=$SCC -o ${foo} ${foo}.c > /dev/null 2>&1
++      cc -cc=$SCC -o ${foo} ${foo}.c > /dev/null 2>&1
+       if [ $? != 0 ]; then
+         sed 's/-cc=$(SCC)//' configure.wrf > configure.wrf.edit
+         mv configure.wrf.edit configure.wrf
