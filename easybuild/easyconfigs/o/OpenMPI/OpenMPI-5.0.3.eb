@@ -14,22 +14,21 @@ toolchain = SYSTEM
 source_urls = ['http://www.open-mpi.org/software/ompi/v%(version_major_minor)s/downloads']
 sources = [SOURCELOWER_TAR_GZ]
 
+patches = ['OpenMPI-5.0.3-PMIx.patch']
+
 dependencies = [
     ('craype-network-ofi', EXTERNAL_MODULE),
     ('libfabric/1.15.2.0', EXTERNAL_MODULE),
-    ('gcc/12.1', EXTERNAL_MODULE),
+    ('gcc-native/13.2', EXTERNAL_MODULE),
+#    ('xpmem', EXTERNAL_MODULE),
 ]
 
 preconfigopts = 'module unload cray-mpich && '
 
-configopts  = '--enable-shared --with-hwloc=internal '
-configopts += '--with-pmix=internal --disable-oshmem '
-configopts += '--with-slurm --with-ofi=/opt/cray/libfabric/1.15.2.0 --disable-ucx '
-postinstallcmds = [
-    'echo "mtl = ofi" >> %(installdir)s/etc/openmpi-mca-params.conf && '
-    'echo "btl = ofi" >> %(installdir)s/etc/openmpi-mca-params.conf && '
-    'echo "ras_base_launch_orted_on_hn = 1" >> %(installdir)s/etc/pmix-mca-params.conf '
-]
+configopts = ' --enable-shared --with-hwloc=internal '
+configopts += '  --with-pmix=internal --disable-oshmem '
+configopts += ' --with-slurm --with-ofi=/opt/cray/libfabric/1.15.2.0 --disable-ucx '
+configopts += ' --with-slingshot --with-cxi '
 
 local_libs = ["mpi_mpifh", "mpi", "open-pal", "prrte"]
 sanity_check_paths = {
@@ -39,7 +38,12 @@ sanity_check_paths = {
     'dirs': [],
 }
 
-modluafooter = """
-conflict("cray-mpich")
-"""
+modextravars = {
+    'FI_PROVIDER': 'cxi',
+    'OMPI_MCA_ras_base_launch_orted_on_hn': '1',
+    'OMPI_MCA_pml': 'cm',
+    'OMPI_MCA_mtl': 'ofi',
+    'PRTE_MCA_plm_slurm_args': '--exact --overlap', 
+}
+
 moduleclass = 'mpi'
