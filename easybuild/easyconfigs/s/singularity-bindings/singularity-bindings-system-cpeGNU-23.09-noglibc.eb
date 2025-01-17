@@ -75,3 +75,12 @@ modextravars = {
              '/lib64/libselinux.so.1,')
 
 }
+
+modluafooter = """
+family( 'containerbindings' )
+conflict( 'singularity-bindings' )
+conflict( 'singularity-CPEbits' )
+conflict( 'singularity-userfilesystems' )
+"""
+
+moduleclass = 'tools'
