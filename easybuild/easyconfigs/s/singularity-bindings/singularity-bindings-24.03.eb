@@ -1,3 +1,5 @@
+# Bindings for the AI containers in /appl/local/containers for containers that were
+# released while 24.03 is/was the main programming environment on the system.
 easyblock = 'Bundle'
 
 local_craympich_version = '8.1.29'
@@ -89,3 +91,12 @@ modextravars = {
                          '/usr/lib64/libzstd.so.1,'
                          '/run/cxi')
 }
+
+modluafooter = """
+family( 'containerbindings' )
+conflict( 'singularity-bindings' )
+conflict( 'singularity-CPEbits' )
+conflict( 'singularity-userfilesystems' )
+"""
+
+moduleclass = 'tools'
