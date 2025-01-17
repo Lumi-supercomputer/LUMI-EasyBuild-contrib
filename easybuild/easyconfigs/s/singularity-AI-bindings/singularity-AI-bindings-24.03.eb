@@ -1,0 +1,63 @@
+easyblock = 'Bundle'
+
+local_craympich_version = '8.1.29'
+local_craympich_gnutoolchain = '12.3'
+local_libfabric_version = '1.15.2.0'
+
+local_LUMI_version =        '24.03'
+
+name =    'singularity-AI-bindings'
+version = local_LUMI_version
+
+homepage = '()'
+
+whatis = [
+    'Description: Bindings to let most containers in /appl/local/containers/sif-images use the Slingshot network and access files on Lustre'    
+]
+
+description = """
+LUMI provides containers for AI applications in /appl/local/containers,
+in the sif-images, tested-containers and easybuild-sif-images subdirectories.
+
+These containers require access to the Slingshot network for good RCCL and MPI
+performance, and most users also want transparent access to their files. 
+
+The bindings set up by this module take care of this.
+
+Note that the precise bindings may be different for some containers, and may
+also change over time as the MPI and libfabric libraries on the system change.
+This module is certainly not a generic solution for all containers, but worked
+for the PyTorch, Tensorflow, JAX, rocm and mpi4py containers in 
+/appl/local/containers when developed in early 2025.
+
+The module should not be used with any other container binding module.
+"""
+
+toolchain = SYSTEM
+
+modextravars = {
+    'SINGULARITY_BIND': (# Work with Slurm
+                         '/var/spool/slurmd,'
+                         # HPE Cray PE and Slingshot
+                         '/opt/cray,'
+                         '/usr/lib64/libcxi.so.1,'
+                         # Still to investigate: Proper bindings for MPI I/O through mpi4py
+                         # The next one doesn't seem to be needed anymore
+                         '/usr/lib64/libjansson.so.4,'
+                         # Access to all filesystems in the regular way
+                         '/pfs,'
+                         '/scratch,'
+                         '/projappl,'
+                         '/project,'
+                         '/flash,'
+                         '/appl')
+}
+
+modluafooter = """
+family( 'containerbindings' )
+conflict( 'singularity-bindings' )
+conflict( 'singularity-CPEbits' )
+conflict( 'singularity-userfilesystems' )
+"""
+
+moduleclass = 'tools'
