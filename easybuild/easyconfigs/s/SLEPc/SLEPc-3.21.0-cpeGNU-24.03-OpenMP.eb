@@ -1,0 +1,28 @@
+name = 'SLEPc'
+version = '3.21.0'
+versionsuffix = '-OpenMP'
+
+homepage = 'https://slepc.upv.es'
+description = """SLEPc (Scalable Library for Eigenvalue Problem Computations) is a software library for the solution
+ of large scale sparse eigenvalue problems on parallel computers. It is an extension of PETSc and can be used for
+ either standard or generalized eigenproblems, with real or complex arithmetic. It can also be used for computing a
+ partial SVD of a large, sparse, rectangular matrix, and to solve quadratic eigenvalue problems."""
+
+toolchain = {'name': 'cpeGNU', 'version': '24.03'}
+toolchainopts = {'usempi': True, 'openmp': True}
+
+source_urls = ['https://slepc.upv.es/download/distrib']
+sources = [SOURCELOWER_TAR_GZ]
+
+dependencies = [('PETSc', '3.21.5', '-OpenMP')]
+
+preconfigopts = 'export PETSC_DIR=$EBROOTPETSC && export PETSC_ARCH="" && '
+
+petsc_arch = ''
+runtest = False
+
+prebuildopts = 'export PETSC_DIR=$EBROOTPETSC && export PETSC_ARCH="" && '
+
+preinstallopts = 'export PETSC_DIR=$EBROOTPETSC && export PETSC_ARCH="" && '
+
+moduleclass = 'numlib'
