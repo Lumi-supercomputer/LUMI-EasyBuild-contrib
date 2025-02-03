@@ -1,7 +1,10 @@
 easyblock = 'ConfigureMake'
 
-name = 'Imlib2'
-version = '1.5.1'
+local_libjpegturbo_version = '3.0.1'         # https://github.com/libjpeg-turbo/libjpeg-turbo/releases
+local_libpng_version =       '1.6.40'        # http://www.libpng.org/pub/png/libpng.html
+
+name =    'Imlib2'
+version = '1.12.3'
 
 homepage = 'https://docs.enlightenment.org/api/imlib2/html/'
 
@@ -17,20 +20,21 @@ intelligent about doing them, so writing naive programs can be done
 easily, without sacrificing speed.
 """
 
-toolchain = {'name': 'cpeGNU', 'version': '24.03'}
+toolchain =     {'name': 'cpeGNU', 'version': '24.03'}
 toolchainopts = {'pic': True}
 
 source_urls = ['https://sourceforge.net/projects/enlightenment/files/imlib2-src/%(version)s']
-sources = [SOURCELOWER_TAR_GZ]
-checksums = ['b25df9347648cf3dfb784c099139ab24157b1dbd1baa9428f103b683b8a78c61']
+sources =     [SOURCELOWER_TAR_GZ]
+checksums =   ['544f789c7dfefbc81b5e82cd74dcd2be3847ae8ce253d402852f19a82f25186b']
 
 builddependencies = [
     ('buildtools', '%(toolchain_version)s', '', SYSTEM),
 ]
 
 dependencies = [
-    ('X11', '24.03'),
-    ('libjpeg-turbo', '3.0.1'),
+    ('libjpeg-turbo', local_libjpegturbo_version),
+    ('libpng',        local_libpng_version),
+    ('X11',           '%(toolchain_version)s'),
 ]
 
 postinstallcmds = [
@@ -40,9 +44,15 @@ postinstallcmds = [
 
 sanity_check_paths = {
     'files': ['bin/imlib2_%s' % x for x in ['bumpmap', 'colorspace', 'conv', 'grab', 'poly', 'show', 'test', 'view']] +
-             ['bin/imlib2-config', 'include/Imlib2.h', 'lib/libImlib2.a', 'lib/libImlib2.%s' % SHLIB_EXT] + 
+             ['include/Imlib2.h', 'lib/libImlib2.a', 'lib/libImlib2.%s' % SHLIB_EXT] + 
              ['share/licenses/%(name)s/COPYING'],
     'dirs':  []
 }
+
+sanity_check_commands = [ 
+    # Only command that actually runs with -h and does produce a zero return code.
+    # Most commands crash without access to an X11 display and cannot be tested in EasyBuild.
+    'imlib2_conv -h',    
+]
 
 moduleclass = 'vis'
