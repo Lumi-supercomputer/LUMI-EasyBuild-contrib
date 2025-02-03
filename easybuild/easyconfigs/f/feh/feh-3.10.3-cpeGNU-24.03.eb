@@ -1,7 +1,10 @@
 easyblock = 'ConfigureMake'
 
-name = 'feh'
-version = '2.26'
+local_cURL_version =         '8.3.0'         # https://curl.haxx.se/download/
+local_file_version =         '5.43'          # ftp://ftp.astron.com/pub/file/
+
+name =    'feh'
+version = '3.10.3'
 
 homepage = 'https://feh.finalrewind.org/'
 
@@ -24,20 +27,23 @@ toolchainopts = {'pic': True}
 
 source_urls = ['http://feh.finalrewind.org']
 sources = [SOURCE_TAR_BZ2]
-checksums = ['b1d6bfdd79060d864b8eff05b916153be04801998148620125e3ac31f99f6c86']
+checksums = ['5426e2799770217af1e01c2e8c182d9ca8687d84613321d8ab4a66fe4041e9c8']
 
 builddependencies = [
     ('buildtools', '%(toolchain_version)s', '', SYSTEM),
 ]
 
 dependencies = [
-    ('Imlib2', '1.5.1'),
-    ('X11',    '%(toolchain_version)s'),
+    ('cURL',    local_cURL_version),
+    ('file',    local_file_version),
+    ('libexif', '0.6.25'),
+    ('Imlib2',  '1.5.1'),
+    ('X11',     '%(toolchain_version)s'),
 ]
 
 skipsteps = ['configure']
 
-buildopts = 'PREFIX=%(installdir)s'
+buildopts = 'PREFIX=%(installdir)s curl=1 exif=1 magic=1'
 installopts = buildopts
 
 postinstallcmds = [
