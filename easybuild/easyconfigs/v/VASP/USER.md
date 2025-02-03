@@ -131,16 +131,32 @@ srun vasp_std
     other licensed users!), we unfortunately cannot give detailed
     recommendations on the best way to run VASP.
 
-* In general, try increasing `NCORE` to 16-32, and `NSIM` to 32.
-* OpenMP works best with many threads, eg. `OMP_NUM_THREADS=8`. OpenMP works particularily well with exact exchange calculations.
-* It is best to run with all 128 processor cores per compute node if you can,
-  but reducing the number of cores per compute node does not decrease
-  performance as much as you might expect. That can be useful when you are
-  constrained by memory and need more available memory per MPI rank. It is
-  important to explicitly [pin the MPI ranks to processor
-  cores][slurm-bindings] if you
-  run with less than 128 cores per node.
-* If possible, use k-point parallelization `KPAR` up to the maxium number of
-  k-points. It is often a good choice to use 1 compute node per k-point.
-* We generally recommend using VASP version 6 when possible, and not VASP 5 (even though installation scripts are provided). VASP 5 on LUMI exhibits some problems with disk I/O, jobs may appear to hang for several minutes at launch before all input files are read and the calculation begins.
+*   In general, try increasing `NCORE` to 16-32, and `NSIM` to 32.
 
+*   OpenMP works best with many threads, eg. `OMP_NUM_THREADS=8`. OpenMP works particularily well with exact exchange calculations.
+
+*   It is best to run with all 128 processor cores per compute node if you can,
+    but reducing the number of cores per compute node does not decrease
+    performance as much as you might expect. That can be useful when you are
+    constrained by memory and need more available memory per MPI rank. It is
+    important to explicitly [pin the MPI ranks to processor
+    cores][slurm-bindings] if you
+    run with less than 128 cores per node.
+
+*   If possible, use k-point parallelization `KPAR` up to the maxium number of
+    k-points. It is often a good choice to use 1 compute node per k-point.
+
+*   We generally recommend using VASP version 6 when possible, and not VASP 5 
+    (even though installation scripts are provided). 
+    VASP 5 on LUMI exhibits some problems with disk I/O, 
+    jobs may appear to hang for several minutes at launch before all input files 
+    are read and the calculation begins.
+
+*   The [STOPCAR LABORT](https://www.vasp.at/wiki/index.php/STOPCAR) option should not be used
+    on LUMI. Support for it is explicitly turned off in our build recipes as this function
+    puts a lot of stress on the Lustre file system. Basically, at every step, all 
+    MPI ranks will check in the file system if the file exists and if so, also read it.
+    This causes a very high load on the metadata servers. Most supercomputer centres 
+    with large clusters will disable this feature for that reason.
+  
+    Do not turn it on yourself, it will not be appreciated if you run VASP at scale!
