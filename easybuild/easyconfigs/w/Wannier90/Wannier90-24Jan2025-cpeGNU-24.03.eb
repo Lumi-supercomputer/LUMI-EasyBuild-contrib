@@ -1,0 +1,78 @@
+# adapted for LUMI by Orian Louant
+
+easyblock = 'MakeCp'
+
+name = 'Wannier90'
+version = '24Jan2025'
+
+homepage = 'http://www.wannier.org'
+
+whatis = [
+    'Description: Wannier90 is a code for generating maximally-localized Wannier functions'
+]
+
+description = """
+Wannier90 is an open-source code (released under GPLv2) for generating
+maximally-localized Wannier functions and using them to compute advanced
+electronic properties of materials with high efficiency and accuracy.
+
+Many electronic structure codes have an interface to Wannier90, including
+Quantum ESPRESSO, Abinit, VASP, Siesta, Wien2k, Fleur, OpenMX and GPAW; and
+there are several post-processing codes that are able to use the output of
+Wannier90 for further analysis and calculation.
+
+In all publications resulting from your use of Wannier90, please cite:
+
+[ref] "Wannier90 as a community code: new features and applications",
+      G. Pizzi et al., J. Phys. Cond. Matt. 32, 165902 (2020)
+
+This module was build with with MPI support.
+"""
+
+docurls = [
+    'User guide and tutorial:  http://www.wannier.org/support/'
+]
+
+toolchain = {'name': 'cpeGNU', 'version': '24.03'}
+toolchainopts = {'usempi': True}
+
+sources = [{
+    'filename': '%(name)s-%(version)s.tar.gz',
+    'git_config': {
+        'url': 'https://github.com/wannier-developers',
+        'repo_name': 'wannier90',
+        'commit': '3151d6ebcad17379681b31f84dc107b23195055c',
+    }
+}
+]
+
+#patches = ['Wannier90_lumi_gnu_make_inc.patch']
+
+#checksums = [
+#    '0e33be78db4af265cb8cee05047f1e09c401233a73a6745653b41a111bdd7aa7',
+#    '561c0d296e0e30b8bb303702cd6e41ded54c153d9b9e6cd9cab73858e5e2945e',  # Wannier90_3x_ignore_makeinc.patch
+#]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True)
+]
+
+prebuildopts  = 'echo "F90 = ftn"       > make.inc && '
+prebuildopts += 'echo "COMMS  = mpi08" >> make.inc && '
+prebuildopts += 'echo "MPIF90 = ftn"   >> make.inc && '
+prebuildopts += 'echo "FCOPTS = -O3 -fPIC" >> make.inc && ' 
+
+buildopts  = 'all '
+#buildopts  = 'all F90=$F90 MPIF90=$MPIF90 FCOPTS="$FFLAGS" LDOPTS="$FFLAGS" '
+#buildopts += 'COMMS=mpi08'
+
+parallel = 1
+
+files_to_copy = [(['wannier90.x', 'postw90.x'], 'bin'), (['libwannier90_mpi.a'], 'lib')]
+
+sanity_check_paths = {
+    'files': ['bin/wannier90.x', 'bin/postw90.x', 'lib/libwannier90_mpi.a'],
+    'dirs': []
+}
+
+moduleclass = 'chem'
