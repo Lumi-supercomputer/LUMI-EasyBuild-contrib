@@ -1,7 +1,6 @@
 [elk]: https://elk.sourceforge.net
-[lumi-c]: https://docs.lumi-supercomputer.eu/hardware/compute/lumic/
-[lumi-g]: https://docs.lumi-supercomputer.eu/hardware/compute/lumig/
-[eap]: https://docs.lumi-supercomputer.eu/hardware/compute/eap/
+[lumi-c]: https://docs.lumi-supercomputer.eu/hardware/lumic/
+[lumi-g]: https://docs.lumi-supercomputer.eu/hardware/lumig/
 [slurm-quickstart]: https://docs.lumi-supercomputer.eu/runjobs/scheduled-jobs/slurm-quickstart/
 [batch-job]: https://docs.lumi-supercomputer.eu/runjobs/scheduled-jobs/batch-job/
 [EasyBuild]: https://docs.lumi-supercomputer.eu/software/installing/easybuild/
@@ -17,7 +16,7 @@ in the [LUMI-G][lumi-g].**
 
 We provide automatic installation scripts for several versions of Elk. In
 general, the installation procedure is described on the [EasyBuild
-page][EasyBuild]. The step by step procedure to install QE 10.3.12
+page][EasyBuild]. The step by step procedure to install Elk 10.3.12
 is:
 
 1. Load the LUMI software environment: `module load LUMI/24.03`.
