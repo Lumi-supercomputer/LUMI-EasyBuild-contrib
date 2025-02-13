@@ -42,3 +42,8 @@ tested and reliable set of LDA, GGA, and meta-GGA  functionals.
 ### Version 6.2.2 for cpeGNU 22.12 and 23.09
 
 -   Derived from the 6.1.0 EasyConfig.
+
+
+### Version 7.0.0 for cpeGNU 24.03
+
+-   Derived from the 6.2.2 EasyConfig.
