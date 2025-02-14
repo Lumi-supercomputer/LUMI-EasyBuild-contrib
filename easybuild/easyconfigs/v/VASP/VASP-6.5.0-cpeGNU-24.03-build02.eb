@@ -1,5 +1,7 @@
 # Based on CSCS VASP easyconfig by Luca Marsella
 # Adapted for LUMI by Peter Larsson
+#DOC VASP 6.5.0 with POTCAR and HDF5 I/O patches. Passes the VASP test suite.
+#DOC This is the recommended version.
 
 easyblock = 'MakeCp'
 

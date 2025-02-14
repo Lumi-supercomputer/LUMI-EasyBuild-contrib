@@ -1,5 +1,6 @@
 # Based on CSCS VASP easyconfig by Luca Marsella
 # Adapted for LUMI by Peter Larsson
+#DOC VASP 6.5.0 release version built without any modifications. Passes the VASP test suite. 
 
 easyblock = 'MakeCp'
 
