@@ -4,7 +4,7 @@ name =    'Kokkos'
 version = '4.5.01'
 versionsuffix = '-rocm'
 
-homepage = 'https://adaptivecpp.github.io/'
+homepage = 'https://kokkos.org/'
 
 whatis = [
     "Description: Kokkos C++ Performance Portability Programming Ecosystem: The Programming Model - Parallel Execution and Memory Abstraction"
