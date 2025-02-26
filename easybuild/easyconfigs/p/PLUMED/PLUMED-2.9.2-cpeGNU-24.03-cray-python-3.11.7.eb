@@ -7,7 +7,7 @@
 #DOC PLUMED with the Python plugin. Only in cpeGNU as Cray Python is compiled
 #DOC with the GNU compilers and not compatible with libraries compiled with
 #DOC other compilers that use or link to libraries with OpenMP support.
-#
+#DOC
 #DOC This version turned out to be rather buggy so was replaced with version 2.9.2 in the software stack.
 #
 easyblock = 'ConfigureMake'
