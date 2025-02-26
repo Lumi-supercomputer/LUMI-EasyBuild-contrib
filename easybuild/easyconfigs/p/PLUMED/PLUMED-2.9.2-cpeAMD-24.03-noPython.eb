@@ -3,6 +3,9 @@
 # Adapted by Kurt Lust (kurt.lust@uantwerpen.be) for the LUMI consortium
 #
 # Instructions to run regression tests at the bottom of this file.
+#
+#DOC This version turned out to be rather buggy so was replaced with version 2.9.2 in the software stack.
+#
 easyblock = 'ConfigureMake'
 
 local_crayfftw_version =    '3.3.10.1'
