@@ -1,10 +1,10 @@
 # contributed by Luca Marsella (CSCS)
 # modified for LUMI-G by Peter Larsson
-# Updated to version 2024.1 by Radim Janalik (CSCS)
+# Updated to version 2024.2 by Radim Janalik (CSCS)
 #
-#DOC CP2K 2024.1 release compiled with AMD GPU support enabled for CP2K 
-#DOC itself and several of the libraries (SpFFT, SpLA). Cray Programming 
-#DOC Environment 23.09.
+#DOC CP2K 2024.2 release compiled for CPU with PLUMED.
+#DOC
+#DOC Switched to PLUMED 2.9.3 in February 2025 after reports of problems with 2.9.2.
 easyblock = 'MakeCp'
 
 local_ELPA_version         = '2024.05.001'
@@ -15,7 +15,7 @@ local_libxsmm_version      = '1.17'
 local_spglib_version       = '2.5.0'
 local_COSMA_version        = '2.6.6'
 local_GSL_version          = '2.7.1'
-local_PLUMED_version       = '2.9.2'
+local_PLUMED_version       = '2.9.3'
 
 name = 'CP2K'
 version = '2024.2'
@@ -55,7 +55,7 @@ builddependencies = [
 dependencies = [
     ('cray-fftw',   EXTERNAL_MODULE),
     ('cray-hdf5',   EXTERNAL_MODULE),
-    ('rocm',        EXTERNAL_MODULE),
+    #('rocm',        EXTERNAL_MODULE),
     ('ELPA',        local_ELPA_version,  versionsuffix),
     ('COSMA',       local_COSMA_version, versionsuffix),
     ('GSL',         local_GSL_version,   '-OpenMP'),
