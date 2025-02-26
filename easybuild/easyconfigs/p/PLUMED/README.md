@@ -6,10 +6,13 @@
 
   * [PLUMED on GitHub](https://github.com/plumed/plumed2)
 
-
 Note that the choice of PLUMED version depends a lot on the software that it will be
 used with. E.g., every GROMACS version requires a very specific version of PLUMED.
 
+The easiest way to find out which versions of other applications are supported by a 
+particular version of PLUMED, is to go into 
+[the patches subdirectory](https://github.com/plumed/plumed2/tree/master/patches)
+and then look for the patches for a given version tag.
 
 
 ## EasyBuild
@@ -138,6 +141,7 @@ and `--enable-external-lapack` are used.
     
 -   Initially no support for cpeCray as we cannot build Boost for cpeCray.
 
+
 ### 2.9.2 for CPE 24.03
 
 -   Some improvements inspired by the current EasyBuilders versions.
@@ -156,3 +160,10 @@ and `--enable-external-lapack` are used.
     According to the manual, it is normal that some tests fail due to numerical
     differences when using different compilers with more aggressive optimisations,
     so interpret with care.
+    
+
+### 2.9.3 for cpe 24.03
+
+-   Trivial port, and mostly done because there were reports that 2.9.2 is rather
+    buggy.
+
