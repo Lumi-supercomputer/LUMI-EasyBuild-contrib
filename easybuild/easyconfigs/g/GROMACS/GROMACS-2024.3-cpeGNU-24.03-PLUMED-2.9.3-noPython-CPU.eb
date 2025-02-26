@@ -13,11 +13,15 @@
 #
 # Adapted by Kurt Lust (kurt.lust@uantwerpen.be) for the LUMI consortium
 #
+#
+#DOC Replaces the earlier version with PLUMED 2.9.2 as that turned out to be 
+#DOC a release with issues.
+#
 easyblock = 'CMakeMake'
 
 local_crayfftw_version =    '3.3.10.1'
 
-local_PLUMED2_9_version =    '2.9.2'         # https://github.com/plumed/plumed2/releases
+local_PLUMED2_9_version =    '2.9.3'         # https://github.com/plumed/plumed2/releases
 
 name =          'GROMACS'
 version =       '2024.3'

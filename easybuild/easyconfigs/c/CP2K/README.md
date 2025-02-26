@@ -31,3 +31,4 @@
 -   `CP2K-2024.1-cpeGNU-23.09-GPU.eb`: CP2K 2024.1 release compiled with AMD GPU support enabled for CP2K 
     itself and several of the libraries (SpFFT, SpLA). Cray Programming Environment 23.09 used together with 
     the unsupported `rocm/5.6.1` module installed by the LUMI Support Team.
+    

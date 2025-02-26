@@ -20,7 +20,8 @@ engines.
 
 | PLUMED  | 2019   | 2020   | 2021   | 2022   | 2023   | 2024   |
 |:--------|:-------|:-------|:-------|:-------|:-------|:-------| 
-| 2.9.2   |        |        |        | 2022.5 | 2023.5 | 2024.3 |
+| 2.9.3   |        | 2020.7 | 2021.7 | 2022.5 | 2023.5 | 2024.3 |
+| 2.9.2   |        | 2020.7 | 2021.7 | 2022.5 | 2023.5 | 2024.2 |
 | 2.9.0   |        | 2020.7 | 2021.7 | 2022.5 | 2023   |        |
 | 2.8.3   | 2019.6 | 2020.7 | 2021.7 | 2022.5 |        |        |
 | 2.8.0   | 2019.6 | 2020.6 | 2021.4 |        |        |        |
@@ -34,6 +35,7 @@ engines.
 | 2.6.2   | 2019.6 | 2020.4 |        |        |        |        |
 | 2.6.1   | 2019.6 | 2020.2 |        |        |        |        |
 | 2.6.0   | 2019.4 |        |        |        |        |        |
+
 
 ## GROMACS and GPU
 
@@ -160,5 +162,8 @@ engines.
     
 -   Turned off GMXAPI support in cpeCray and cpeAMD builds as those libraries wouldn't work with
     GCC-compiled Python distributions anyway due to OpenMP runtime conflicts.
+
+-   Updated to PLUMED 2.9.3 in February 2025 after reports on the internet of wrong results with
+    PLUMED 2.9.2 which had a bad reputation.
 
 

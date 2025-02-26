@@ -23,12 +23,16 @@
 #DOC perfect for the `networkx` package and solve all file system issues. 
 #DOC Hence this recipe is only useful if you don't need much more than what cray-python 
 #DOC provides and the base packages for PLUMED and GMXAPI with the mandatory dependencies.
+#DOC
+#DOC Replaces the earlier version with PLUMED 2.9.2 as that turned out to be 
+#DOC a release with issues.
+#
 easyblock = 'CMakeMake'
 
 local_crayfftw_version =    '3.3.10.1'
 local_craypython_version =  '3.11.7'
 
-local_PLUMED2_9_version =    '2.9.2'         # https://github.com/plumed/plumed2/releases
+local_PLUMED2_9_version =    '2.9.3'         # https://github.com/plumed/plumed2/releases
 
 name =          'GROMACS'
 version =       '2024.3'

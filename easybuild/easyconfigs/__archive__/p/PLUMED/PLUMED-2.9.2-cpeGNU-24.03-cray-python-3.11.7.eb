@@ -1,0 +1,178 @@
+# by Ward Poelmans <wpoely86@gmail.com>
+# Modified by Luca Marsella (CSCS)
+# Adapted by Kurt Lust (kurt.lust@uantwerpen.be) for the LUMI consortium
+#
+# Instructions to run regression tests at the bottom of this file.
+#
+#DOC PLUMED with the Python plugin. Only in cpeGNU as Cray Python is compiled
+#DOC with the GNU compilers and not compatible with libraries compiled with
+#DOC other compilers that use or link to libraries with OpenMP support.
+#DOC
+#DOC This version turned out to be rather buggy so was replaced with version 2.9.2 in the software stack.
+#
+easyblock = 'ConfigureMake'
+
+local_crayfftw_version =    '3.3.10.1'
+local_craypython_version =  '3.11.7'
+
+local_Boost_version =        '1.83.0'        # https://www.boost.org/
+local_GSL_version =          '2.7.1'         # https://ftp.gnu.org/gnu/gsl/
+local_zlib_version =         '1.3.1'         # https://zlib.net/
+
+local_PLUMED2_9_version =    '2.9.2'         # https://github.com/plumed/plumed2/releases
+
+name =          'PLUMED'
+version =       local_PLUMED2_9_version
+versionsuffix = f'-cray-python-{local_craypython_version}'
+
+homepage = 'https://www.plumed.org'
+
+whatis = [
+    'Description: PLUMED - PLUgin for MolEcular Dynamics'
+]
+
+description = """
+PLUMED is an open source library for free energy calculations in molecular
+systems which works together with some of the most popular molecular dynamics
+engines.
+
+Free energy calculations can be performed as a function of many order parameters
+with a particular focus on biological problems, using state of the art methods
+such as metadynamics, umbrella sampling and Jarzynski-equation based steered MD.
+
+The software, written in C++, can be easily interfaced with both fortran and
+C/C++ codes.
+
+NOTES:
+  * This module does not include the optional VMD plugins.
+  * This module does not include support for XDR
+  * The module provides the bash function plumed-completion to enable command
+    line completion. Note that unloading the module will not disable command
+    completion again.
+
+This module is compiled with support for huge pages via the cray-hugepages modules.
+Using those can significantly lower the cost of memory access. However, to benefit
+from this you will have to load a suitable cray-hugepages module, e.g.,
+$ module load cray-hugepages8M
+However, if the size is too large, you may get out-of-memory messages due to memory
+fragmentation. Hence it may require some experimenting to find the optimal page
+size.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '24.03'}
+toolchainopts = {'usempi': 'True', 'openmp': True, 'strict': True}
+
+# https://github.com/plumed/plumed2/releases/download/v2.9.2/plumed-2.9.2.tgz
+source_urls = ['https://github.com/plumed/plumed2/releases/download/v%(version)s/']
+sources =     [SOURCE_TGZ]
+checksums =   ['6fc23fe31074ad6b7a0eb9e2441fce5b3d92514d0d87206594c59c75e4c83d6e']
+
+builddependencies = [
+    ('buildtools',         '%(toolchain_version)s', '', True), # For CMake and xxd
+    ('craype-hugepages8M', EXTERNAL_MODULE),
+    ('craype-accel-host',  EXTERNAL_MODULE),  # Avoid enabling OpenMP offload
+]
+
+dependencies = [
+    (f'cray-python/{local_craypython_version}', EXTERNAL_MODULE),
+    (f'cray-fftw/{local_crayfftw_version}',     EXTERNAL_MODULE),
+    ('Boost',     local_Boost_version),
+    ('zlib',      local_zlib_version),
+    ('GSL',       local_GSL_version,            '-OpenMP'),
+]
+
+preconfigopts  = f'unset PYTHONPATH && module load cray-python/{local_craypython_version} && '
+prebuildopts   = f'unset PYTHONPATH && module load cray-python/{local_craypython_version} && '
+preinstallopts = f'unset PYTHONPATH && module load cray-python/{local_craypython_version} && '
+
+preconfigopts  += 'module unload rocm && '
+prebuildopts   += 'module unload rocm && '
+preinstallopts += 'module unload rocm && '
+
+# This is a trick to avoid multiple LibSci linking problem
+preconfigopts += 'export LDSHARED="CC -fopenmp -shared" && '
+
+configopts = ' '.join([
+    '--enable-modules=all',
+    '--exec-prefix=%(installdir)s',
+    '--enable-boost_graph',
+    '--enable-boost_serialization',
+    '--enable-mpi',
+    '--enable-fftw',
+    '--enable-gsl',
+    '--enable-python',
+    '--enable-asmjit',
+    # Disable features that we do not have, avoids warnings
+    '--disable-xdrfile',
+])
+
+postinstallcmds = [
+    # Uncomment the next two lines if you want to install the regression tests with PLUMED,
+    # but see the bottom of this file for a better approach
+    #'sed -e "s|-mpirun|-srun|" -e "s| -np | -n |" -i regtest/scripts/run',
+    #'cp -r regtest %(installdir)s',
+    'mkdir -p %(installdir)s/share/licenses/%(name)s && cp COPYING.LESSER PEOPLE README.md %(installdir)s/share/licenses/%(name)s',   
+]
+
+sanity_check_paths = {
+    'files': ['bin/%(namelower)s', 'lib/libplumedKernel.so', 'lib/libplumed.so',
+              'share/licenses/%(name)s/COPYING.LESSER'],
+    'dirs':  ['lib/%(namelower)s'],
+}
+
+# Check if the requested features are indeed enabled. It turns out the the return code
+# of plumed config has can actually be used for that easily. And it would also catch
+# the crashes that we had when compiling with Cray BLAS.
+sanity_check_commands = [
+    'plumed --no-mpi config has mpi',
+    'plumed --no-mpi config has fftw',
+    'plumed --no-mpi config has zlib',
+    'plumed --no-mpi config has gsl',
+    'plumed --no-mpi config has boost_graph',
+    'plumed --no-mpi config has boost_serialization',
+    'plumed --no-mpi config has asmjit',
+    # Tests that should be removed for a -noPython build.
+    'python -c "import plumed"',
+    'python -c "import plumed; plumed.Plumed()"', # Test still fails so something seems to be wrong.
+]
+
+modextravars = {
+    'PLUMED_KERNEL': '%(installdir)s/lib/libplumedKernel.so',
+    'PLUMED_ROOT':   '%(installdir)s/lib/%(namelower)s',    
+    'PLUMED_VIM':    '%(installdir)s/lib/%(namelower)s/vim',    
+}
+
+modextrapaths = {
+    'PYTHONPATH':    'lib/%(namelower)s/python',
+}
+
+local_bash_completion = """
+[==[
+  _plumed() { eval "$(plumed --no-mpi completion 2>/dev/null)";} ;
+  complete -F _plumed -o default plumed
+]==]
+"""
+
+local_csh_completion = '"echo \'Not implemented\'"'
+
+modluafooter = """
+set_shell_function( 'plumed-completion', %(bash_completion)s, %(csh_completion)s )
+""" % {
+    'bash_completion': local_bash_completion,
+    'csh_completion':  local_csh_completion,
+}
+
+moduleclass = 'chem'
+
+# --------------------
+# RUN REGRESSION TESTS
+# --------------------
+#
+# tar xf $EBU_USER_PREFIX/sources/p/PLUMED/PLUMED-2.9.2.tgz
+# cd plumed-2.9.2/regtest/
+# sed -i 's/$mpi -np/$mpi -n/' scripts/run
+# salloc -n6 -c4 -psmall -t30:00 -A <project>
+# module load PLUMED/2.9.2-cpeGNU-24.03-cray-python-3.11.7
+# export PLUMED_MPIRUN=srun
+# make
+# exit

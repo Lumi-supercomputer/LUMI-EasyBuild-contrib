@@ -4,6 +4,9 @@
 #DOC One compiled with heFFTe (gmx_mpi) and one compiled with VkFFT (gmx_mpi_vkffte).
 #DOC See [the GROMACS installation guide](https://manual.gromacs.org/documentation/2024.3/install-guide/index.html#using-heffte)
 #DOC for the differences between these two variants.
+#DOC
+#DOC Replaces the earlier version with PLUMED 2.9.2 as that turned out to be 
+#DOC a release with issues.
 easyblock = 'CMakeMake'
 
 local_crayfftw_version    = '3.3.10.1'
@@ -11,11 +14,11 @@ local_crayfftw_version    = '3.3.10.1'
 local_AdaptiveCpp_version = '24.06.0'
 local_HeFFTe_version      = '2.4.0'
 local_Boost_version       = '1.83.0'        # https://www.boost.org/
-local_PLUMED2_9_version   = '2.9.2'         # https://github.com/plumed/plumed2/releases
+local_PLUMED2_9_version   = '2.9.3'         # https://github.com/plumed/plumed2/releases
 
 name =          'GROMACS'
 version =       '2024.3'
-versionsuffix = f'-PLUMED-{local_PLUMED2_9_version}-noPythonrocm' 
+versionsuffix = f'-PLUMED-{local_PLUMED2_9_version}-noPython-rocm' 
 
 homepage = 'http://www.gromacs.org'
 
