@@ -23,6 +23,9 @@
 #DOC perfect for the `networkx` package and solve all file system issues. 
 #DOC Hence this recipe is only useful if you don't need much more than what cray-python 
 #DOC provides and the base packages for PLUMED and GMXAPI with the mandatory dependencies.
+#DOC
+#DOC PLUMED 2.9.2 is known to produce wrong results for some computations,
+#DOC upgrade to the version with PLUMED 2.9.3.
 easyblock = 'CMakeMake'
 
 local_crayfftw_version =    '3.3.10.1'

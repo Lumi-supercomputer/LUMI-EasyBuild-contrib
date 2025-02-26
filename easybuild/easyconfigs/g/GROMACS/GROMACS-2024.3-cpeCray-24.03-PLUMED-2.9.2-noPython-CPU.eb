@@ -13,6 +13,8 @@
 #
 # Adapted by Kurt Lust (kurt.lust@uantwerpen.be) for the LUMI consortium
 #
+#DOC PLUMED 2.9.2 is known to produce wrong results for some computations,
+#DOC upgrade to the version with PLUMED 2.9.3.
 easyblock = 'CMakeMake'
 
 local_crayfftw_version =    '3.3.10.1'

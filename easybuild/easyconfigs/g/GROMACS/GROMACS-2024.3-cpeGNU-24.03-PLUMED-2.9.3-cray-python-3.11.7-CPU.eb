@@ -23,7 +23,7 @@
 #DOC perfect for the `networkx` package and solve all file system issues. 
 #DOC Hence this recipe is only useful if you don't need much more than what cray-python 
 #DOC provides and the base packages for PLUMED and GMXAPI with the mandatory dependencies.
-#
+#DOC
 #DOC Replaces the earlier version with PLUMED 2.9.2 as that turned out to be 
 #DOC a release with issues.
 #

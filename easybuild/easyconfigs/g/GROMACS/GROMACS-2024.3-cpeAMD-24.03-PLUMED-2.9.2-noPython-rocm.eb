@@ -4,6 +4,9 @@
 #DOC One compiled with heFFTe (gmx_mpi) and one compiled with VkFFT (gmx_mpi_vkffte).
 #DOC See [the GROMACS installation guide](https://manual.gromacs.org/documentation/2024.3/install-guide/index.html#using-heffte)
 #DOC for the differences between these two variants.
+#DOC
+#DOC PLUMED 2.9.2 is known to produce wrong results for some computations,
+#DOC upgrade to the version with PLUMED 2.9.3.
 easyblock = 'CMakeMake'
 
 local_crayfftw_version    = '3.3.10.1'
