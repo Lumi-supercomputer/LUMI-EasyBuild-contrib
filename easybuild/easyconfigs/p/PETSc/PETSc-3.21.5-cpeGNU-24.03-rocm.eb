@@ -19,6 +19,7 @@ local_PETSc_version = '3.21.5'
 
 name = 'PETSc'
 version = local_PETSc_version
+versionsuffix = '-rocm'
 
 homepage = 'https://www.mcs.anl.gov/petsc'
 description = """PETSc, pronounced PET-see (the S is silent), is a suite of data structures and routines for the
@@ -54,10 +55,14 @@ dependencies = [
     ('SuperLU_DIST',       local_SuperLU_DIST_version, '-OpenMP'),
 ]
 
+# This is important while some packages are installed prior to build
+keeppreviousinstall = True
+
 preconfigopts = ' && '.join([
     'export HIPCC_COMPILE_FLAGS_APPEND="$(CC --cray-print-opts=cflags)"',
     'export HIPCC_LINK_FLAGS_APPEND=$(CC --cray-print-opts=libs)',
     'export CPATH=$ROCM_PATH/include/rocm-core:$CPATH',
+    'mkdir -p %(installdir)s',
 ]) + ' && '
 
 prebuildopts = preconfigopts
@@ -118,7 +123,7 @@ configopts = ' '.join([
     '--with-hypre=1',
     '--with-scalapack=1',
     '--with-ptscotch=1',
-    '--with-ptscotch-der="$EBROOTSCOTCH"',
+    '--with-ptscotch-dir="$EBROOTSCOTCH"',
     '--with-mumps=1',
     '--with-mumps-include="$EBROOTMUMPS/include"',
     '--with-mumps-lib="-L$EBROOTMUMPS/lib -lcmumps -ldmumps -lesmumps -lsmumps -lzmumps -lmumps_common -lptesmumps -lesmumps -lpord -lmpifort"',
@@ -130,10 +135,13 @@ configopts = ' '.join([
     '--with-hip',
     '--with-hipc=hipcc',
     '--with-hip-arch=gfx90a',
-    '--download-kokkos',
-    '--download-kokkos-kernels',
+    '--download-kokkos=yes',
+    '--download-kokkos-kernels=yes',
     '--LIBS="-lgfortran -lgcc -lstdc++"',
+    '--with-python-exec="$CRAY_PYTHON_PREFIX"/bin/python3',
 ])
+
+buildopts = 'PETSC_ARCH=$CRAY_CPU_TARGET-$CRAY_ACCEL_TARGET all'
 
 # This is for checking if linking against the library is correct
 runtest = 'check_build MPIEXEC=exec V=1'
