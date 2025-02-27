@@ -1,0 +1,57 @@
+easyblock = 'ConfigureMake'
+
+name = 'libcxi'
+version = '0f3609b'
+
+homepage = 'https://github.com/HewlettPackard/shs-libcxi'
+description = "The CXI library provides interfaces which interact directly with CXI drivers. CXI drivers support communication over the Cray Cassini NIC."
+
+toolchain = SYSTEM
+
+sources = [
+    {
+        'filename': '%(name)s.tar.gz',
+        'git_config': {
+            'url': 'https://github.com/HewlettPackard',
+            'repo_name': 'shs-libcxi',
+            'commit': '0f3609b5e224636abffc7ceffe6f4e9c83244c08'
+        },
+     },
+    {
+        'filename': 'cassini-headers.tar.gz',
+        'git_config': {
+            'url': 'https://github.com/HewlettPackard',
+            'repo_name': 'shs-cassini-headers',
+            'commit': '9a8a738a879f007849fbc69be8e3487a4abf0952',
+            'clone_into': '../cassini-headers/install'
+        },
+     },
+    {
+        'filename': 'cxi-driver.tar.gz',
+        'git_config': {
+            'url': 'https://github.com/HewlettPackard',
+            'repo_name': 'shs-cxi-driver',
+            'commit': '751ebc4263827e2b47e3b2b89aa6f37824824ff2',
+            'clone_into': '../cxi-driver'
+        },
+     },
+]
+
+builddependencies = [
+    ('rocm', EXTERNAL_MODULE),
+    ('libconfig', '1.7.3', '', SYSTEM),
+    ('libuv', '1.48.0', '', SYSTEM),
+    ('lm-sensors', '3.6.0', '', SYSTEM),
+    ('FUSE', '2.9.9', '', SYSTEM),
+]
+
+preconfigopts  = './autogen.sh && '
+configopts = 'CFLAGS="-Wno-error -D_FILE_OFFSET_BITS=64 -I../cxi-driver/include" --with-udevrulesdir=%(installdir)s/lib/udev/rules.d --with-systemdsystemunitdir=%(installdir)s/lib/systemd/system '
+
+sanity_check_paths = {
+    'files': ['lib/libcxi.%s' % SHLIB_EXT,
+              'include/libcxi/libcxi.h'],
+    'dirs': ['lib'],
+}
+
+moduleclass = 'lib'
