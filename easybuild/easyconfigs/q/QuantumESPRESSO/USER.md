@@ -39,7 +39,7 @@ called "QuantumESPRESSO/7.3.1-cpeGNU-24.03" installed in your home directory.
 Load the module to use it
 
 ```bash
-$ module load QuantumESPRESSO/7.1.0-cpeGNU-22.0
+$ module load QuantumESPRESSO/7.3.1-cpeGNU-24.03.0
 ```
 
 The usual QE binaries, `pw.x`, `ph.x` etc. will now be in your `PATH`. Launch
