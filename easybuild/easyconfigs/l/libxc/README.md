@@ -39,11 +39,19 @@ tested and reliable set of LDA, GGA, and meta-GGA  functionals.
 -   Derived from the 5.2.2 one, but currently only generating shared libraries.
     
 
-### Version 6.2.2 for cpeGNU 22.12 and 23.09
+### Version 6.2.2 for cpeGNU 22.12 and 23.09 and 24.03
 
 -   Derived from the 6.1.0 EasyConfig.
+
+-   Checksums removed at some time since it seems the downloads change from time to 
+    time.
 
 
 ### Version 7.0.0 for cpeGNU 24.03
 
 -   Derived from the 6.2.2 EasyConfig.
+
+-   Checksums removed at some time since it seems the downloads change from time to 
+    time.
+
+    
