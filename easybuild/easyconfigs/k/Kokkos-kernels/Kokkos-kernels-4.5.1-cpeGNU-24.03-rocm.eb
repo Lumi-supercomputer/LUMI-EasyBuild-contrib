@@ -1,0 +1,55 @@
+easyblock = 'CMakeMake'
+
+name =    'Kokkos-kernels'
+version = '4.5.01'
+versionsuffix = '-rocm'
+
+homepage = 'https://github.com/kokkos/kokkos-kernels'
+
+whatis = [
+    "Kokkos C++ Performance Portability Programming Ecosystem: Math Kernels - Provides BLAS, Sparse BLAS and Graph Kernels"
+]
+
+description = """
+Kokkos C++ Performance Portability Programming Ecosystem: Math Kernels - Provides BLAS, Sparse BLAS and Graph Kernels
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '24.03'}
+toolchainopts = {'verbose': False, 'openmp': True}
+
+sources = [{
+    'filename': '%(namelower)s-%(version)s.tar.gz',
+    'git_config': {
+        'url': 'https://github.com/kokkos',
+        'repo_name': '%(namelower)s',
+        'commit': '%(version)s',
+    }
+}]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+    ('rocm',   EXTERNAL_MODULE),
+    ('Kokkos', '4.5.01', '-rocm'),
+]
+
+preconfigopts = 'module unload craype-accel-amd-gfx90a && '
+
+configopts  = '-D Kokkos_ROOT=${EBROOTKOKKOS} '
+configopts += '-D CMAKE_CXX_COMPILER=CC '
+configopts += '-D BUILD_SHARED_LIBS=ON '
+configopts += '-D KokkosKernels_ENABLE_TPL_BLAS=ON '
+configopts += '-D KokkosKernels_ENABLE_TPL_LAPACK=ON '
+
+prebuildopts = 'module unload craype-accel-amd-gfx90a && '
+
+sanity_check_paths = {
+    'files': ['lib/libkokkoskernels.%s' % SHLIB_EXT,
+              'include/KokkosKernels_config.h'],
+    'dirs': ['lib', 'include'],
+}
+
+moduleclass = 'lib'
+
