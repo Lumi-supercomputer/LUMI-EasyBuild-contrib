@@ -14,8 +14,8 @@ local_MUMPS_version        = '5.6.1'
 local_Hypre_version        = '2.31.0'
 local_SuperLU_version      = '6.0.1'
 local_SuperLU_DIST_version = '9.0.0'
-local_Kokkos_version       = '4.5.01'
-local_Kokkos_kernels_ver   = '4.5.01'
+local_Kokkos_version       = '4.3.00'
+local_Kokkos_kernels_ver   = '4.3.00'
 
 local_PETSc_version = '3.21.5'
 
