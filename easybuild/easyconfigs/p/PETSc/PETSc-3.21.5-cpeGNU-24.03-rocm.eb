@@ -60,7 +60,7 @@ dependencies = [
 ]
 
 # This is important while some packages are installed prior to build
-keeppreviousinstall = True
+#keeppreviousinstall = True
 
 preconfigopts = ' && '.join([
     'export HIPCC_COMPILE_FLAGS_APPEND="$(CC --cray-print-opts=cflags)"',
