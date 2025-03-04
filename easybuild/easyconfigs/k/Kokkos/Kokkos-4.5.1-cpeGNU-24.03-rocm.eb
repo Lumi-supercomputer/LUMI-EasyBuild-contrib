@@ -36,7 +36,7 @@ dependencies = [
 
 preconfigopts = 'module unload craype-accel-amd-gfx90a && '
 
-configopts  = '-D CMAKE_CXX_COMPILER=CC '
+configopts  = '-D CMAKE_CXX_COMPILER=hipcc '
 configopts += '-D BUILD_SHARED_LIBS=ON '
 configopts += '-D Kokkos_ENABLE_ROCM=ON '
 configopts += '-D Kokkos_ENABLE_HIP=ON '
