@@ -56,7 +56,7 @@ sources = [{
 
 patches = [
     'configure.patch',
-    '0d8def7691132e808b41ee4b3673ce66d6dd0d28.patch',
+    '2157.patch',
 ]
 
 builddependencies = [
