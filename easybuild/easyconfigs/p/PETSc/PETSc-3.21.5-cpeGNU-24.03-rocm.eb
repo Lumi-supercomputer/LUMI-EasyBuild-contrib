@@ -14,6 +14,8 @@ local_MUMPS_version        = '5.6.1'
 local_Hypre_version        = '2.31.0'
 local_SuperLU_version      = '6.0.1'
 local_SuperLU_DIST_version = '9.0.0'
+local_Kokkos_version       = '4.3.00'
+local_Kokkos_kernels_ver   = '4.3.00'
 
 local_PETSc_version = '3.21.5'
 
@@ -53,10 +55,12 @@ dependencies = [
     ('Hypre',              local_Hypre_version),
     ('SuperLU',            local_SuperLU_version,      '-OpenMP'),
     ('SuperLU_DIST',       local_SuperLU_DIST_version, '-OpenMP'),
+    ('Kokkos',             local_Kokkos_version,       '-rocm'),
+    ('Kokkos-kernels',     local_Kokkos_kernels_ver,   '-rocm'),
 ]
 
 # This is important while some packages are installed prior to build
-keeppreviousinstall = True
+#keeppreviousinstall = True
 
 preconfigopts = ' && '.join([
     'export HIPCC_COMPILE_FLAGS_APPEND="$(CC --cray-print-opts=cflags)"',
@@ -135,8 +139,10 @@ configopts = ' '.join([
     '--with-hip',
     '--with-hipc=hipcc',
     '--with-hip-arch=gfx90a',
-    '--download-kokkos=yes',
-    '--download-kokkos-kernels=yes',
+    '--with-kokkos=1',
+    '--with-kokkos-dir="$EBROOTKOKKOS"',
+    '--with-kokkos-kernels=1',
+    '--with-kokkos-kernels-dir="$EBROOTKOKKOSMINUSKERNELS"',
     '--LIBS="-lgfortran -lgcc -lstdc++"',
     '--with-python-exec="$CRAY_PYTHON_PREFIX"/bin/python3',
 ])
