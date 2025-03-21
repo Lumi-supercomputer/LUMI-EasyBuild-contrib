@@ -1,3 +1,5 @@
+#DOC This version offers only the serial host backend and not the OpenMP one for CPU, to avoid
+#DOC a mismatch between the GNU and ROCm OpenMP libraries.
 easyblock = 'CMakeMake'
 
 name =    'Kokkos'
