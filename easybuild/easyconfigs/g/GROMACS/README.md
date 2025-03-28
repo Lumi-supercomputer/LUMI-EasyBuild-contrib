@@ -115,11 +115,13 @@ engines.
     of enabling support for the `cray-python` modules. Therefore the corresponding 
     EasyConfigs of GROMACS have also been replaced.**
 
+
 ### GROMACS-2023-dev-cpeGNU-22.08-MPI-GPU
 
   * This is an EasyConfig for AMD's own, _unofficial_ HIP-port of GROMACS which is a version
     that is not supported by the main GROMACS developers, who prefer to work with
     SYCL for support for AMD GPUs. It is derived from the container recipes of AMD.
+
 
 ### GROMACS 2023.2 and 2023.3 with AMD GPU support for CPE 22.12
 
@@ -130,6 +132,7 @@ engines.
        * [HeFFTe](https://manual.gromacs.org/2023.2/install-guide/index.html#using-heffte) variant allows offload to multiple GPUs (relies on rocFFT) with direct GPU communication and PME decomposition across multiple GPUs
        * [VkFFT](https://manual.gromacs.org/2023.2/install-guide/index.html#using-vkfft) variant is faster but does not support PME decomposition, recommended for a single GPU runs (standalone or ensemble) or in multi GPU runs with exactly one separate PME rank (i.e. `-npme 1` runtime option).
     * thread-MPI is for a single node use only and does not support direct GPU communication, recommended only for a single GPU use.
+ 
  
 ### Version 2021.7 for CPE 23.09
 
@@ -165,5 +168,11 @@ engines.
 
 -   Updated to PLUMED 2.9.3 in February 2025 after reports on the internet of wrong results with
     PLUMED 2.9.2 which had a bad reputation.
+
+
+### Release 2025.1 for CPE 24.03
+
+-   Ports of the previous versions, but using a different technique to combine CMake options
+    that may improve readability of the EasyConfig.
 
 
