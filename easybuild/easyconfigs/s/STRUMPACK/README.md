@@ -17,3 +17,12 @@
 -   The EasyConfig files are derived from those in the EasyBuilders repository, but
     support for AMD GPUs has been added.
 
+
+### Version 7.0.1 CPU for cpeGNU 24.03
+
+-   Made the layout more readable.
+
+-   Corrected the homepage.
+
+    Note that the main author, Pieter Ghysels, has left the national labs and is
+    now working for AMD. It remains to be seen how this package will further evolve. 
