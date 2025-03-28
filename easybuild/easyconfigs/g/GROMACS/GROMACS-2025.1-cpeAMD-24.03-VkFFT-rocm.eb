@@ -1,5 +1,10 @@
 # Based on recipe from Rasmus Kronberg (CSC) 
 #
+#DOC [VkFFT](https://manual.gromacs.org/2025.1/install-guide/index.html#using-vkfft) variant 
+#DOC is faster than the heFFTe versionb, but does not support PME decomposition.
+#DOC It isrecommended for a single GPU runs (standalone or ensemble) or in multi GPU runs with 
+#DOC exactly one separate PME rank (i.e. `-npme 1` runtime option).
+#
 easyblock = 'CMakeMake'
 
 local_AdaptiveCpp_version = '24.06.0'
@@ -53,23 +58,24 @@ dependencies = [
 ]
 
 # These options are taken from CSC installation developed by Rasmus adapted for AMD toolchain 
-
-configopts  = '-D CMAKE_BUILD_TYPE=Release '
-configopts += '-D ROCM_PATH=${ROCM_PATH} '
-configopts += '-D CMAKE_C_COMPILER=${ROCM_PATH}/llvm/bin/clang '
-configopts += '-D CMAKE_CXX_COMPILER=${ROCM_PATH}/llvm/bin/clang++ '
-configopts += '-D CMAKE_PREFIX_PATH=${CRAY_MPICH_PREFIX}:${ROCM_PATH}/lib '
-configopts += '-D GMX_GPU=SYCL '
-configopts += '-D GMX_MPI=ON '
-configopts += '-D GMX_OPENMP=ON '
-configopts += '-D GMX_SYCL_HIPSYCL=ON '
-configopts += '-D GMX_GPU_FFT_LIBRARY=VKFFT '
-configopts += '-D GMX_BUILD_OWN_FFTW=OFF '
-configopts += '-D GMX_BLAS_USER=${CRAY_LIBSCI_PREFIX_DIR}/lib/libsci_amd.so '
-configopts += '-D GMX_LAPACK_USER=${CRAY_LIBSCI_PREFIX_DIR}/lib/libsci_amd.so '
-configopts += '-D ACPP_TARGETS="hip:gfx90a" '
-configopts += '-D HIPSYCL_ROCM_PATH=${ROCM_PATH} '
-configopts += '-D HIPSYCL_TARGETS="hip:gfx90a" '
+configopts = ' '.join( [
+    '-D CMAKE_BUILD_TYPE=Release',
+    '-D ROCM_PATH=${ROCM_PATH}',
+    '-D CMAKE_C_COMPILER=${ROCM_PATH}/llvm/bin/clang',
+    '-D CMAKE_CXX_COMPILER=${ROCM_PATH}/llvm/bin/clang++',
+    '-D CMAKE_PREFIX_PATH=${CRAY_MPICH_PREFIX}:${ROCM_PATH}/lib',
+    '-D GMX_GPU=SYCL',
+    '-D GMX_MPI=ON',
+    '-D GMX_OPENMP=ON',
+    '-D GMX_SYCL_HIPSYCL=ON',
+    '-D GMX_GPU_FFT_LIBRARY=VKFFT',
+    '-D GMX_BUILD_OWN_FFTW=OFF',
+    '-D GMX_BLAS_USER=${CRAY_LIBSCI_PREFIX_DIR}/lib/libsci_amd.so',
+    '-D GMX_LAPACK_USER=${CRAY_LIBSCI_PREFIX_DIR}/lib/libsci_amd.so',
+    '-D ACPP_TARGETS="hip:gfx90a"',
+    '-D HIPSYCL_ROCM_PATH=${ROCM_PATH}',
+    '-D HIPSYCL_TARGETS="hip:gfx90a"',
+] )
 
 prebuildopts = 'export CPATH="$ROCM_PATH/include/rocfft:$CPATH" && '
 

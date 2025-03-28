@@ -67,13 +67,16 @@ builddependencies = [
     ('craype-hugepages8M', EXTERNAL_MODULE),
 ]
 
-local_common_opts  = '-DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_LIBDIR=lib '  # General CMake options
-local_common_opts += '-DGMX_OPENMP=ON -DGMX_GPU=OFF ' # Build type: No GPU, OpenMP for CPU, MPI specified elsewhere
-local_common_opts += '-DBUILD_SHARED_LIBS=ON ' # REquired to be able to build GMXAPI
-local_common_opts += '-DGMX_SIMD=AVX2_256 '
-local_common_opts += '-DGMX_CYCLE_SUBCOUNTERS=ON '
-local_common_opts += '-DGMX_BUILD_OWN_FFTW=ON '
-local_common_opts += '-DGMX_DEFAULT_SUFFIX=ON '
+local_common_opts= ' '.join( [
+    '-DCMAKE_BUILD_TYPE=Release',    # General CMake options: Release build
+    '-DCMAKE_INSTALL_LIBDIR=lib',    # General CMake options: USe lib intead of lib64 for consistency with autotools-installed softwware
+    '-DGMX_OPENMP=ON -DGMX_GPU=OFF', # Build type: No GPU, OpenMP for CPU, MPI specified elsewhere
+    '-DBUILD_SHARED_LIBS=ON',        # Required to be able to build GMXAPI
+    '-DGMX_SIMD=AVX2_256',
+    '-DGMX_CYCLE_SUBCOUNTERS=ON',
+    '-DGMX_BUILD_OWN_FFTW=ON',       # We don't use Cray FFTW at the moment.
+    '-DGMX_DEFAULT_SUFFIX=ON',
+])
 
 configopts = [
     # single precision
