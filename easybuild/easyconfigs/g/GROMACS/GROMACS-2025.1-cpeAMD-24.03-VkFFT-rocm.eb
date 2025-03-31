@@ -1,8 +1,8 @@
 # Based on recipe from Rasmus Kronberg (CSC) 
 #
 #DOC [VkFFT](https://manual.gromacs.org/2025.1/install-guide/index.html#using-vkfft) variant 
-#DOC is faster than the heFFTe versionb, but does not support PME decomposition.
-#DOC It isrecommended for a single GPU runs (standalone or ensemble) or in multi GPU runs with 
+#DOC is faster than the heFFTe version, but does not support PME decomposition.
+#DOC It is recommended for a single GPU runs (standalone or ensemble) or in multi GPU runs with 
 #DOC exactly one separate PME rank (i.e. `-npme 1` runtime option).
 #
 easyblock = 'CMakeMake'
