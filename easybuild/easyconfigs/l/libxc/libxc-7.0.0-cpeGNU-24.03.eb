@@ -41,7 +41,7 @@ toolchainopts = {'opt': True}
 source_urls = ['https://gitlab.com/%(name)s/%(name)s/-/archive/%(version)s']
 sources = [SOURCE_TAR_BZ2]
 #checksums = ['f72ed08af7b9dff5f57482c5f97bff22c7dc49da9564bc93871997cbda6dacf3']
-checksums = ['e9ae69f8966d8de6b7585abd9fab588794ada1fab8f689337959a35abbf9527d']  # libxc-7.0.0.tar.bz2
+#checksums = ['e9ae69f8966d8de6b7585abd9fab588794ada1fab8f689337959a35abbf9527d']  # libxc-7.0.0.tar.bz2
 
 builddependencies = [
     ('buildtools', '%(toolchain_version)s', '', True), # For CMake

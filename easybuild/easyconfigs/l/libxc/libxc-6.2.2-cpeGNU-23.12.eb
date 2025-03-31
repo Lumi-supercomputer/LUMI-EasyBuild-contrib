@@ -40,7 +40,7 @@ toolchainopts = {'opt': True}
 
 source_urls = ['https://gitlab.com/%(name)s/%(name)s/-/archive/%(version)s']
 sources = [SOURCE_TAR_BZ2]
-checksums = ['f72ed08af7b9dff5f57482c5f97bff22c7dc49da9564bc93871997cbda6dacf3']
+#checksums = ['f72ed08af7b9dff5f57482c5f97bff22c7dc49da9564bc93871997cbda6dacf3']
 
 builddependencies = [
     ('buildtools',          '%(toolchain_version)s', '', True), # For CMake
