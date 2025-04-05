@@ -1,0 +1,66 @@
+# This is based on the version from the easybuilders repo at https://github.com/easybuilders/easybuild-easyconfigs
+easyblock = 'CMakeMake'
+
+name = 'OpenMolcas'
+version = '24.06'
+
+homepage = "https://gitlab.com/Molcas/OpenMolcas"
+description = "OpenMolcas is a quantum chemistry software package."
+
+toolchain = {'name': 'cpeGNU', 'version': '24.03'}
+toolchainopts = {'usempi': True, 'openmp': True}
+
+source_urls = ['https://gitlab.com/Molcas/OpenMolcas/-/archive/v%(version)s/']
+sources = ["%(name)s-v%(version)s.tar.gz"]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+   ('cray-python', EXTERNAL_MODULE),
+   ('cray-libsci', EXTERNAL_MODULE), 
+   ('cray-hdf5', EXTERNAL_MODULE),
+   ('GSL', '2.7.1', '-OpenMP'),
+   ('Boost', '1.83.0'),
+   ('GlobalArrays', '5.8.2'),
+#   ('libxc', '6.2.2'),
+]
+
+build_shared_libs = True
+
+preconfigopts = 'GAROOT=$EBROOTGLOBALARRAYS'
+_copts = [
+    '-DLINALG=Manual',
+    '-DOPENMP=ON',
+    '-DTOOLS=ON',
+    '-DFDE=ON',
+    '-DMPI=ON',
+    '-DGA=ON',
+#    '-DDMRG=ON',
+#    '-DNEVPT2=ON',
+    '-DHDF5=ON',
+    '-DHDF5_DIR=${HDF5_DIR}',
+#    '-DHDF5_CXX_COMPILER_EXECUTABLE=CC', 
+    '-DHDF5_INCLUDE_DIRS=${HDF5_DIR}/include',
+    '-DHDF5_CXX_INCLUDE_DIR=${HDF5_DIR}/include',
+]
+configopts = ' '.join(_copts)
+
+modextrapaths = {'PATH': ''}
+
+modextravars = {
+    'MOLCAS': '%(installdir)s',
+    'MOLCAS_DRIVER': '%(installdir)s/pymolcas',
+    'MOLCAS_SOURCE': '%(installdir)s',
+}
+
+#sanity_check_commands = ['cd %(builddir)s/easybuild_obj; ./pymolcas verify']
+
+sanity_check_paths = {
+    'files': ['bin/dynamix.exe', 'bin/mpprop.exe', 'lib/libmolcas.%s' % SHLIB_EXT,
+              'sbin/help_basis', 'pymolcas'],
+    'dirs': ['data/', 'basis_library/'],
+}
+
+moduleclass = 'chem'
