@@ -1,0 +1,77 @@
+# Adapted by Kurt Lust (kurt.lust@uantwerpen.be) for the LUMI consortium
+easyblock = 'ConfigureMake'
+
+name =    'fpocket'
+version = '4.2.2'
+
+homepage = 'https://github.com/Discngine/fpocket'
+
+whatis = [
+    "Description: fpocket is a very fast open source protein pocket detection algorithm based on Voronoi tessellation."
+]
+
+description = """
+The fpocket suite of programs is a very fast open source protein pocket 
+detection algorithm based on Voronoi tessellation. The platform is suited 
+for the scientific community willing to develop new scoring functions and 
+extract pocket descriptors on a large scale level.
+
+The (lack of) quality of the Makefiles and the high number of compiler 
+warnings indicate that the tool may not work in all circumstances and 
+may be rather buggy.
+"""
+
+docurls = [
+    'Manual pages in section 8'
+]
+
+toolchain = {'name': 'cpeGNU', 'version': '24.03'}
+
+# https://github.com/Discngine/fpocket/archive/refs/tags/4.2.2.zip
+sources = [
+    {
+        'download_filename': '%(version)s.zip',
+        'filename':          SOURCELOWER_ZIP,
+        'source_urls':       ['https://github.com/Discngine/fpocket/archive/refs/tags']
+    }
+]
+patches = [ 'fpocket-%(version)s_Cray_makefiles.patch' ]
+checksums = [
+    '69f274d766651af11f47545ed013001d8fa9ba0b266791b0aac97c6e2208c3ba',  # fpocket-4.2.2.zip
+]
+
+builddependencies = [ # Create a reproducible build environment.
+    ('buildtools',   '%(toolchain_version)s',   '', True),
+]
+
+dependencies = [
+    # Cray packages
+    ('cray-hdf5',   EXTERNAL_MODULE),
+    ('cray-netcdf', EXTERNAL_MODULE),
+]
+
+skipsteps = [ 'configure' ]
+
+installopts = 'PREFIX=%(installdir)s'
+
+maxparallel = 1
+
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s && ' +
+    'cp LICENSE QHULL_COPYING.txt README.md %(installdir)s/share/licenses/%(name)s',
+    '/bin/rm -f %(installdir)s/share/man/man8/Makefile.am',
+]
+
+sanity_check_paths = {
+    'files': ['bin/%s' % local_util for local_util in ['dpocket', 'fpocket', 'mdpocket', 'tpocket']],
+    'dirs':  ['lib', 'share'],
+}
+
+sanity_check_commands = [
+    'dpocket --help',
+    'fpocket --help',
+    'mdpocket --help',
+    'tpocket --help',
+]
+
+moduleclass = 'chem'
