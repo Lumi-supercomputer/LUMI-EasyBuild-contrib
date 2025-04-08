@@ -1,24 +1,15 @@
 Patch developed by Kurt Lust for LUMI.
 Basically, the makefiles are junk as they fix the installation directory
 and fix compiler names in a stupid way.
+We also set CXX for QHull though for this code it is never used as only the
+C-version of the library is built. But just for completeness, if this would
+change in the future...
 diff -Nau fpocket-4.2.2/makefile.orig fpocket-4.2.2/makefile
 diff -Nau fpocket-4.2.2/src/qhull/Makefile.orig fpocket-4.2.2/src/qhull/Makefile
 
---- fpocket-4.2.2/makefile.orig	2025-04-07 19:58:59.000000000 +0300
-+++ fpocket-4.2.2/makefile	2025-04-07 20:20:49.000000000 +0300
-@@ -5,6 +5,11 @@
- ARCH	    = LINUXAMD64
- export ARCH
- 
-+CC = cc
-+CCQHULL = $(CC)
-+LINKER = LD_LIBRARY_PATH=$(PLUGINDIR)/$(ARCH)/molfile $(CC)
-+LINKERQHULL = $(CC)
-+
- PLUGINDIR   = plugins
- 
- PATH_OBJ    = obj/
-@@ -15,11 +20,11 @@
+--- fpocket-4.2.2/makefile.orig	2024-09-09 15:20:23.000000000 +0300
++++ fpocket-4.2.2/makefile	2025-04-08 10:33:16.000000000 +0300
+@@ -15,11 +15,10 @@
  PATH_QHULL  = src/qhull/src
  PATH_LIB	= $(PLUGINDIR)/$(ARCH)/molfile/
  
@@ -26,15 +17,15 @@ diff -Nau fpocket-4.2.2/src/qhull/Makefile.orig fpocket-4.2.2/src/qhull/Makefile
 -LIBDIR  = /usr/local/lib/
 -
 -MANDIR  = /usr/local/man/man8/
-+PREFIX = /usr/local
- 
-+BINDIR  = $(PREFIX)/bin/
-+LIBDIR  = $(PREFIX)/lib/
-+MANDIR  = $(PREFIX)/share/man/man8/
+-
++PREFIX  ?= /usr/local
++BINDIR   = $(PREFIX)/bin/
++LIBDIR   = $(PREFIX)/lib/
++MANDIR   = $(PREFIX)/share/man/man8/
  
  FPOCKET     = fpocket
  TPOCKET	    = tpocket
-@@ -30,17 +35,6 @@
+@@ -30,17 +29,11 @@
  PROGALL		= $(PATH_BIN)$(FPOCKET) $(PATH_BIN)$(TPOCKET) $(PATH_BIN)$(DPOCKET) $(PATH_BIN)$(MDPOCKET)
  PROGMDPOCKET    = $(PATH_BIN)$(MDPOCKET)
  
@@ -49,10 +40,33 @@ diff -Nau fpocket-4.2.2/src/qhull/Makefile.orig fpocket-4.2.2/src/qhull/Makefile
 -  LINKER      = LD_LIBRARY_PATH=$(PLUGINDIR)/$(ARCH)/molfile clang
 -  LINKERQHULL = clang
 -endif
++CC           ?= gcc-14
++CXX          ?= g++-14
++CCQHULL       = $(CC)
++LINKER        = LD_LIBRARY_PATH=$(PLUGINDIR)/$(ARCH)/molfile $(CC)
++LINKERQHULL   = $(CC)
  
  CGSL        = -DMD_NOT_USE_GSL -I$(PATH_GSL)include
  COS         = -DM_OS_LINUX
-@@ -179,6 +173,7 @@
+@@ -48,7 +41,7 @@
+ CWARN       = -W -Wextra -Wwrite-strings -Wstrict-prototypes
+ 
+ CFLAGS      = $(CWARN) $(COS) $(CDEBUG) -O2 -g -pg -std=gnu99 -I$(PLUGINDIR)/include -I$(PLUGINDIR)/$(ARCH)/molfile
+-QCFLAGS     = -O -g -pg -ansi
++QCFLAGS     = -O2 -g -pg -ansi
+ 
+ LGSL        = -L$(PATH_GSL)lib -lgsl -lgslcblas 
+ LFLAGS	    = -lm -L$(PLUGINDIR)/$(ARCH)/molfile $(PLUGINDIR)/$(ARCH)/molfile/libmolfile_plugin.a -lstdc++
+@@ -160,7 +153,7 @@
+ 
+ 
+ qhull:
+-	cd src/qhull/ && make
++	cd src/qhull/ && make CC=$(CC) CXX=$(CXX) 
+ 
+ $(PATH_BIN)$(CHECK): $(CHOBJ) $(QOBJS)
+ 	$(LINKER) $^ -o $@ $(LFLAGS)
+@@ -179,6 +172,7 @@
  
  install:
  	mkdir -p $(BINDIR)
@@ -60,40 +74,14 @@ diff -Nau fpocket-4.2.2/src/qhull/Makefile.orig fpocket-4.2.2/src/qhull/Makefile
  	mkdir -p $(MANDIR)
  	cp $(PATH_BIN)$(FPOCKET) $(BINDIR)
  	cp $(PATH_BIN)$(TPOCKET) $(BINDIR)
---- fpocket-4.2.2/src/qhull/Makefile.orig	2025-04-07 20:15:39.000000000 +0300
-+++ fpocket-4.2.2/src/qhull/Makefile	2025-04-07 20:17:11.000000000 +0300
-@@ -6,7 +6,7 @@
- #   For static builds, a simple alternative is src/libqhull_r/Makefile
- #   
- # Variables
--#   DESTDIR        destination directory for 'make install'.
-+#   PREFIX        destination directory for 'make install'.
- #   BINDIR         directory where to copy executables
- #   DOCDIR         directory where to copy html documentation
- #   INCDIR         directory where to copy headers
-@@ -77,12 +77,12 @@
- # Unix line endings (\n)
- # $Id: //main/2015/qhull/Makefile#10 $
+--- fpocket-4.2.2/src/qhull/Makefile.orig	2024-09-09 15:20:23.000000000 +0300
++++ fpocket-4.2.2/src/qhull/Makefile	2025-04-08 10:33:29.000000000 +0300
+@@ -90,16 +90,8 @@
+ # PRINTMAN = lpr
+ # PRINTC = lpr
  
--DESTDIR = /usr/local
--BINDIR	= $(DESTDIR)/bin
--INCDIR	= $(DESTDIR)/include
--LIBDIR	= $(DESTDIR)/lib
--DOCDIR	= $(DESTDIR)/share/doc/qhull
--MANDIR	= $(DESTDIR)/share/man/man1
-+PREFIX = /usr/local
-+BINDIR	= $(PREFIX)/bin
-+INCDIR	= $(PREFIX)/include
-+LIBDIR	= $(PREFIX)/lib
-+DOCDIR	= $(PREFIX)/share/doc/qhull
-+MANDIR	= $(PREFIX)/share/man/man1
- 
- # if you do not have enscript, try a2ps or just use lpr.  The files are text.
- PRINTMAN = enscript -2rl
-@@ -92,13 +92,8 @@
- 
- #for Gnu's gcc compiler, -O3 for optimization, -g for debugging, -pg for profiling
- # -fpic needed for gcc x86_64-linux-gnu.  Not needed for mingw
+-#for Gnu's gcc compiler, -O3 for optimization, -g for debugging, -pg for profiling
+-# -fpic needed for gcc x86_64-linux-gnu.  Not needed for mingw
 -ifeq ($(CXX),g++)
 -  CC          = gcc
 -  CXX		  = g++:
@@ -101,8 +89,9 @@ diff -Nau fpocket-4.2.2/src/qhull/Makefile.orig fpocket-4.2.2/src/qhull/Makefile
 -  CC          = clang
 -  CXX       = clang
 -endif
-+CC          = cc
-+CXX		    = CC
- 
+-
++CC  ?= gcc-14
++CXX ?= g++-14
  
  CC_OPTS1  = -O3 -ansi -Isrc -fpic $(CC_WARNINGS)
+ 

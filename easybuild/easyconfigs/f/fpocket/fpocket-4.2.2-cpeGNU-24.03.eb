@@ -36,9 +36,11 @@ sources = [
     }
 ]
 patches = [ 'fpocket-%(version)s_Cray_makefiles.patch' ]
-checksums = [
-    '69f274d766651af11f47545ed013001d8fa9ba0b266791b0aac97c6e2208c3ba',  # fpocket-4.2.2.zip
-]
+checksums = [ {
+    'fpocket-4.2.2.zip':                  '69f274d766651af11f47545ed013001d8fa9ba0b266791b0aac97c6e2208c3ba',
+    'fpocket-4.2.2_Cray_makefiles.patch': '4359e5c8cbf098ca29251e6840d140d18a743f1d66fd862491ea5eaa88061249',
+
+} ]
 
 builddependencies = [ # Create a reproducible build environment.
     ('buildtools',   '%(toolchain_version)s',   '', True),
