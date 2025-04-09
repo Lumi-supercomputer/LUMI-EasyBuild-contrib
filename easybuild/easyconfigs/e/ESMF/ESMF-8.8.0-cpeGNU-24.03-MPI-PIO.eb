@@ -44,6 +44,15 @@ checksums = [
     '3851627f07c32a7da55d99072d619942bd3a1d9dd002e1557716158e7aacdaf4',  # ESMF-6.1.1_libopts.patch
 ]
 
+builddependencies = [ # Create a reproducible build environment.
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+    ('cray-hdf5',   EXTERNAL_MODULE),
+    ('cray-netcdf', EXTERNAL_MODULE),
+]
+
 mpicomm  = 'mpi'     # System mpi, see build_config/Unicos.gfortran.default
 usepio   = 'internal'
 optlevel = '2'       # Has to be a string
@@ -63,15 +72,6 @@ local_export_opts = ' && '.join( [
 preconfigopts   = local_export_opts + ' && '
 prebuildopts    = local_export_opts + ' && '
 preinstallopts  = local_export_opts + ' && '
-
-builddependencies = [ # Create a reproducible build environment.
-    ('buildtools', '%(toolchain_version)s', '', True),
-]
-
-dependencies = [
-    ('cray-hdf5',   EXTERNAL_MODULE),
-    ('cray-netcdf', EXTERNAL_MODULE),
-]
 
 postinstallcmds = [
     'mkdir -p %(installdir)s/share/licenses/%(name)s',
