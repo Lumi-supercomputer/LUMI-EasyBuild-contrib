@@ -62,7 +62,7 @@ class esmfmpich(ConfigureMake):
 
         env.setvar('ESMF_NETCDF', 'split')
 
-        env.setvar('ESMF_OS', 'Unicos')
+        env.setvar('ESMF_OS', 'Linux')
 
         env.setvar('ESMF_PREPROCESSOR', 'ftn')
         env.setvar('ESMF_F90COMPILER', 'ftn')
