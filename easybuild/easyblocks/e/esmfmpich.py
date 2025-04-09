@@ -60,17 +60,17 @@ class esmfmpich(ConfigureMake):
         env.setvar('ESMF_INSTALL_LIBDIR', 'lib')
         env.setvar('ESMF_INSTALL_MODDIR', 'mod')
 
-        env.setvar('ESMF_NETCDF', 'split')
+        # env.setvar('ESMF_NETCDF', 'split')
 
         env.setvar('ESMF_OS', 'Unicos')
 
-        env.setvar('ESMF_PREPROCESSOR', 'ftn')
-        env.setvar('ESMF_F90COMPILER', 'ftn')
-        env.setvar('ESMF_CXXCOMPILER', 'CC')
-        env.setvar('ESMF_CXXLINKER', 'CC')
-        env.setvar('ESMF_CCOMPILER', 'cc')
+        # env.setvar('ESMF_PREPROCESSOR', 'ftn')
+        # env.setvar('ESMF_F90COMPILER', 'ftn')
+        # env.setvar('ESMF_CXXCOMPILER', 'CC')
+        # env.setvar('ESMF_CXXLINKER', 'CC')
+        # env.setvar('ESMF_CCOMPILER', 'cc')
 
-        env.setvar('CMAKE_C_COMPILER', 'cc')
+        # env.setvar('CMAKE_C_COMPILER', 'cc')
 
         env.setvar('ESMF_PIO', 'internal')
 
