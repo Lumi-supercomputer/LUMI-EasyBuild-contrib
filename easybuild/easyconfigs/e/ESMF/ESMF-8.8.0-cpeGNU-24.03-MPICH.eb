@@ -39,7 +39,7 @@ checksums = [
     '3851627f07c32a7da55d99072d619942bd3a1d9dd002e1557716158e7aacdaf4',  # ESMF-6.1.1_libopts.patch
 ]
 
-mpicomm = 'mpich'
+mpicomm = 'mpi'
 
 preconfigopts = 'ESMF_F90COMPILEOPTS="$F90FLAGS" '
 
