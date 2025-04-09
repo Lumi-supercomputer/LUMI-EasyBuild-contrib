@@ -10,7 +10,7 @@ local_ESMF_version =         '8.8.0'         # https://github.com/esmf-org/esmf/
 
 name =          'ESMF'
 version =       local_ESMF_version
-versionsuffix = '-Tor'
+versionsuffix = '-MPI-PIO'
 
 homepage = 'http://sourceforge.net/projects/esmf'
 
