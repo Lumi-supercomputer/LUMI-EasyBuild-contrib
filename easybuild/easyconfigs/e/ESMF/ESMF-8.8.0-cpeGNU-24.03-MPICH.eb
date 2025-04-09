@@ -1,0 +1,79 @@
+# contributed by Luca Marsella (CSCS), Theofilos Manitaras (CSCS)
+# Adapted by Kurt Lust (kurt.lust@uantwerpen.be) for the LUMI consortium
+easyblock = 'esmfmpich'
+
+local_ESMF_version =         '8.8.0'         # https://github.com/esmf-org/esmf/releases
+
+name =    'ESMF'
+version = local_ESMF_version
+
+homepage = 'http://sourceforge.net/projects/esmf'
+
+whatis = [
+    'Description: ESMF is the Earth System Modeling Framework, software for coupling weather, climate and related models'
+]
+
+description = """
+The Earth System Modeling Framework (ESMF) is software for building and coupling weather,
+climate, and related models.
+ """
+
+software_license_urls = [
+    f'https://github.com/esmf-org/esmf/blob/v{version}/LICENSE',
+]
+
+toolchain = {'name': 'cpeGNU', 'version': '24.03'}
+toolchainopts = {'usempi': True, 'openmp': True, 'gfortran9-compat': True}
+
+# https://github.com/esmf-org/esmf/archive/refs/tags/v8.3.0.tar.gz
+sources = [
+    {
+        'download_filename': 'v%(version)s.tar.gz',
+        'filename':          SOURCE_TAR_GZ,
+        'source_urls':       ['https://github.com/esmf-org/esmf/archive/refs/tags']
+    }
+]
+patches = ['ESMF-6.1.1_libopts.patch']
+checksums = [
+    'f89327428aeef6ad34660b5b78f30d1c55ec67efb8f7df1991fdaa6b1eb3a27c',  # ESMF-8.8.0.tar.gz
+    '3851627f07c32a7da55d99072d619942bd3a1d9dd002e1557716158e7aacdaf4',  # ESMF-6.1.1_libopts.patch
+]
+
+mpicomm = 'mpich'
+
+preconfigopts = 'ESMF_F90COMPILEOPTS="$F90FLAGS" '
+
+local_exportopts = ' && '.join( [
+    'export NETCDF_INSTALL_ROOT="${NETCDF_DIR}/"',
+    'export NETCDF_FORTRAN_INSTALL_ROOT="${NETCDF_DIR}/"',
+    'export ESMF_NETCDF_INCLUDE="${NETCDF_DIR}/include/"',
+    'export ESMF_NETCDF_LIBPATH="${NETCDF_DIR}/lib/"',
+    'export LD_LIBRARY_PATH="$NETCDF_FORTRAN_INSTALL_ROOT/lib:$NETCDF_INSTALL_ROOT/lib:$LD_LIBRARY_PATH"'
+    ])
+
+prebuildopts = local_exportopts + ' && ESMF_F90COMPILEOPTS="$F90FLAGS" '
+
+builddependencies = [ # Create a reproducible build environment.
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+    ('cray-hdf5',   EXTERNAL_MODULE),
+    ('cray-netcdf', EXTERNAL_MODULE),
+    ('rocm',        EXTERNAL_MODULE),
+    ('cray-libsci', EXTERNAL_MODULE)
+]
+
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cd %(start_dir)s && cp LICENSE README.md %(installdir)s/share/licenses/%(name)s',
+]
+
+# Just a single sanity check command as the other commands generate output files even when simply using
+# -h or --version. It should be enough though to check if the executable can find all necessary
+# shared libraries.
+sanity_check_commands = [
+    'ESMF_PrintInfoC --version',
+]
+
+moduleclass = 'geo'
