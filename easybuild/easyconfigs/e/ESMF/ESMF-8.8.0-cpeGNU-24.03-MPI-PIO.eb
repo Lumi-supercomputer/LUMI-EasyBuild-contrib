@@ -61,8 +61,6 @@ optlevel = '2'       # Has to be a string
 # though that is not needed with the Cray compiler wrappers.
 local_export_opts = ' && '.join( [
     'export ESMF_NETCDF="split"'
-    'export NETCDF_INSTALL_ROOT="${NETCDF_DIR}/"',
-    'export NETCDF_FORTRAN_INSTALL_ROOT="${NETCDF_DIR}/"',
     'export ESMF_NETCDF_INCLUDE="${NETCDF_DIR}/include/"',
     'export ESMF_NETCDF_LIBPATH="${NETCDF_DIR}/lib/"',
 ])
