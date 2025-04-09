@@ -57,20 +57,6 @@ mpicomm  = 'mpi'     # System mpi, see build_config/Unicos.gfortran.default
 usepio   = 'internal'
 optlevel = '2'       # Has to be a string
 
-# PIO does not want to build unless a full NetCDF configuration is given, even
-# though that is not needed with the Cray compiler wrappers.
-local_export_opts = ' && '.join( [
-    'export ESMF_NETCDF="split"'
-    'export ESMF_NETCDF_INCLUDE="${NETCDF_DIR}/include/"',
-    'export ESMF_NETCDF_LIBPATH="${NETCDF_DIR}/lib/"',
-])
-
-# Check when compiling a new version if this is still needed.
-# It was done to work around issues with recent versions of gfortran.
-preconfigopts   = local_export_opts + ' && '
-prebuildopts    = local_export_opts + ' && '
-preinstallopts  = local_export_opts + ' && '
-
 postinstallcmds = [
     'mkdir -p %(installdir)s/share/licenses/%(name)s',
     'cd %(start_dir)s && cp LICENSE README.md %(installdir)s/share/licenses/%(name)s',   
