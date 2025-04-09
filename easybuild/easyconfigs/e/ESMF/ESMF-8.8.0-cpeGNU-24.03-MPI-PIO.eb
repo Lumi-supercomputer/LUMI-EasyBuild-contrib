@@ -49,8 +49,8 @@ builddependencies = [ # Create a reproducible build environment.
 ]
 
 dependencies = [
-    ('cray-hdf5',   EXTERNAL_MODULE),
-    ('cray-netcdf', EXTERNAL_MODULE),
+    ('cray-hdf5-parallel',       EXTERNAL_MODULE),
+    ('cray-netcdf-hdf5parallel', EXTERNAL_MODULE),
 ]
 
 mpicomm  = 'mpi'     # System mpi, see build_config/Unicos.gfortran.default
