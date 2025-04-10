@@ -1,6 +1,7 @@
 # contributed by Luca Marsella (CSCS), Theofilos Manitaras (CSCS)
 # Adapted by Kurt Lust (kurt.lust@uantwerpen.be) for the LUMI consortium
 #DOC ESMF compiled with support for MPICH and PIO. 
+#DOC It also uses netCDF with the parallel HDF5 back-end.
 easyblock = 'esmfcray'
 
 local_ESMF_version =         '8.8.0'         # https://github.com/esmf-org/esmf/releases - Candidate for version bump if time left
