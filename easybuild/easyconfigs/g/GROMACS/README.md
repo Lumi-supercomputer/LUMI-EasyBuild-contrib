@@ -170,6 +170,25 @@ engines.
     PLUMED 2.9.2 which had a bad reputation.
 
 
+### Release 2024.3 with QM/MM support for cpeGNU 24.03
+
+-   [Build instructions in the GROMACS manual: "Building with CP2K QM/MM support"](https://manual.gromacs.org/2024.3/install-guide/index.html#installing-with-cp2k)
+
+-   This build is incompatible with ThreadMPI. The manual also advises to use double 
+    precision, but we have also included single precision support just in case.
+    
+-   Linking turned out to be particularly troublesome. It turns out that in this mode,
+    GROMACS uses `g++-13` as the linker, so no compiler wrappers and no Fortran compiler,
+    so many libraries are not found by default and the Fortran interfaces to libraries
+    definitely need to be specified explicitly.
+    
+    The wrong `Libs:` filed in `libcp2k.pc` did not help. In the end we've chosen to fix
+    that file and simply use `pkg-config` to get the flags to link the libraries. The 
+    flags in `libcp2k` were already written to link via a regular C compiler, but needed
+    to be cleaned up thoroughly which is done in the CP2K EasyConfig that we use as 
+    a dependency as it is a file installed in the CP2K directories.
+
+
 ### Release 2025.1 for CPE 24.03
 
 -   Ports of the previous versions, but using a different technique to combine CMake options
