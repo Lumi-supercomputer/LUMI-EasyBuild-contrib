@@ -31,4 +31,26 @@
 -   `CP2K-2024.1-cpeGNU-23.09-GPU.eb`: CP2K 2024.1 release compiled with AMD GPU support enabled for CP2K 
     itself and several of the libraries (SpFFT, SpLA). Cray Programming Environment 23.09 used together with 
     the unsupported `rocm/5.6.1` module installed by the LUMI Support Team.
+
     
+### Version 2024.2 with libcp2k
+
+-   Build instructions in the CP2K manual
+
+    It turns out that one needs to build this option after doing the regular build,
+    and `make all libcp2k` to do it in a single step, cannot be done. Since a two-phase
+    build is no option either as the second build starts clean, the solution is to play
+    with buildopts and add the second make command as
+    `&& make ARCH=LUMIC-20242 VERSION={local_buildtype} libcp2k`.
+    
+-   The `libcp2k.pc` file is completely broken. CP2K does not have a proper `make install`
+    script but really assumes an in-place build. Hence all directories set in the .pc file
+    are wrong and refer to the EasyBuild build directory. The `Libs:` field is completely 
+    off and contains even compiler options and not just options for the linker.
+    
+    We've tried to fix this through edits of the `libcp2k.pc` file. However, if the list of
+    dependencies changes, this bit of code in `postinstallcmds` will have to be checked again.
+
+**TODO**: It likely does no harm to simply always include the `libcp2k` library rather than
+having two EasyConfigs, one with and one without, so we may simply integrate the support for
+future toolchains.
