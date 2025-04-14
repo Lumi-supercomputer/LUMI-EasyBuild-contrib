@@ -62,10 +62,10 @@ preconfigopts = 'module unload cray-libsci rocm craype-accel-amd-gfx90a && '
 prebuildopts = preconfigopts
 preinstallopts = preconfigopts
 
+configopts = '-DSHARED=1'
+
 # To better check the log files, do a verbose build.
 buildopts = 'VERBOSE=1'
-
-configopts = '-DSHARED=1'
 
 postinstallcmds = [
     'mkdir -p %(installdir)s/share/licenses/%(name)s',
