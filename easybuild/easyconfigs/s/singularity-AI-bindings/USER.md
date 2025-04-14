@@ -23,6 +23,15 @@ singularity which files and directories from the system should be made available
 in the container and takes care binding the necessary files for CXI, MPI and full file
 system access. 
 
+For most of these containers, there are also more complete modules available to ease 
+working with them that can be installed through EasyBuild, e.g., for most containers
+for [PyTorch](../../p/PyTorch/index.md), [TensorFlow](../../t/TensorFlow/index.md),
+[jax](../../j/jax/index.md), [AlphaFold](../../a/AlphaFold/index.md),
+[rocm](../../r/rocm/index.md) and [mpi4py](../../m/mpi4py/index.md). The modules
+installed for those containers following the instructions on those pages in the 
+LUMI Software Library already perform all necessary bindings. So when using these
+modules, one should **not** use `singularity-AI-bindings`. 
+
 
 ## Install
 

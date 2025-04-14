@@ -147,3 +147,12 @@ https://develop.openfoam.com/Development/openfoam/-/wikis/building#easybuild
 
 -   Needed some patching compared to the very old version 9 EasyConfigs.
 
+
+### OpenFOAM.org 12
+
+-   Patching needed as it did not work correctly with `gcc-13`. Some files were compiled
+    with the correct compiler while others were compiled with the SYSTEM compiler.
+
+-   Uses now also ParMETIS, which needed a shared library build of ParMETIS.
+
+
