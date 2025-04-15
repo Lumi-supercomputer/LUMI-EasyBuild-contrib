@@ -1,0 +1,62 @@
+easyblock ='ConfigureMake'
+
+import os as local_os
+local_LUMI_autoversion = local_os.environ['LUMI_STACK_CPE_VERSION']
+
+local_pbzip2_version =        '1.1.13'   # http://compression.great-site.net/pbzip2/
+
+name =          'pbzip2'
+version =       local_pbzip2_version
+
+homepage = 'http://compression.great-site.net/pbzip2/'
+
+whatis = [
+    'Description: pbzip2 is a parallel implementation of bzip2',
+]
+
+description = f""""
+PBZIP2 is a parallel implementation of the bzip2 block-sorting file compressor 
+that uses pthreads and achieves near-linear speedup on SMP machines. The 
+output of this version is fully compatible with bzip2 v1.0.2 or newer 
+(ie: anything compressed with pbzip2 can be decompressed with bzip2).
+
+Note that development has halted long ago, so consider this unsupported
+software and problems will not get fixed.
+"""
+
+docurls = [
+    'man page for pbzip2 in section 1'
+]
+
+toolchain = SYSTEM
+
+sources =     [SOURCELOWER_TAR_GZ]
+source_urls = ['https://launchpad.net/pbzip2/1.1/1.1.13/+download']
+checksums = [
+    {'pbzip2-1.1.13.tar.gz': '8fd13eaaa266f7ee91f85c1ea97c86d9c9cc985969db9059cdebcb1e1b7bdbe6'},
+]
+
+builddependencies = [
+    ( 'buildtools', local_LUMI_autoversion ),
+    ( 'syslibs',    local_LUMI_autoversion, '-static' ),
+]
+
+skipsteps = ['configure']
+
+installopts = 'PREFIX=%(installdir)s'
+
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s && ' +
+    'cp AUTHORS COPYING README %(installdir)s/share/licenses/%(name)s'   , 
+]
+
+sanity_check_paths = {
+    'files': ['bin/pbzip2', 'share/man/man1/pbzip2.1'],
+    'dirs':  [],
+}
+
+sanity_check_commands = [
+    'pbzip2 -h 2>&1 | grep "Parallel BZIP2 v%(version)s"'
+]
+
+moduleclass = 'tools'
