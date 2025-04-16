@@ -14,14 +14,23 @@ whatis = [
     'Description: pbzip2 is a parallel implementation of bzip2',
 ]
 
-description = f""""
+description = f"""
 PBZIP2 is a parallel implementation of the bzip2 block-sorting file compressor 
 that uses pthreads and achieves near-linear speedup on SMP machines. The 
 output of this version is fully compatible with bzip2 v1.0.2 or newer 
 (ie: anything compressed with pbzip2 can be decompressed with bzip2).
 
 Note that development has halted long ago, so consider this unsupported
-software and problems will not get fixed.
+software and problems will not get fixed. As this is old code, the amount
+of memory that one can request through the -m command line argument is
+also limited and the maximum value for the argument is 2000 as otherwise
+unexpected behaviour can occur (and this is not properly checked in the
+current version).
+
+A small patch is applied to detect the correct number of CPUs allocated to
+the job and to limit the default number of threads on the login nodes of
+LUMI to not flood the login nodes with threads that would be very ineffective
+anyway due to restrictions on the amount of CPU resources a user can use.
 """
 
 docurls = [
@@ -32,8 +41,10 @@ toolchain = SYSTEM
 
 sources =     [SOURCELOWER_TAR_GZ]
 source_urls = ['https://launchpad.net/pbzip2/1.1/1.1.13/+download']
+patches =     ['%(name)s-%(version)s_LUMI.patch']
 checksums = [
-    {'pbzip2-1.1.13.tar.gz': '8fd13eaaa266f7ee91f85c1ea97c86d9c9cc985969db9059cdebcb1e1b7bdbe6'},
+    {'pbzip2-1.1.13.tar.gz':     '8fd13eaaa266f7ee91f85c1ea97c86d9c9cc985969db9059cdebcb1e1b7bdbe6'},
+    {'pbzip2-1.1.13_LUMI.patch': 'eae828715f36d125cb6319af15c517818b20bc783c86e201df471c32e705acc3'}
 ]
 
 builddependencies = [
@@ -43,11 +54,13 @@ builddependencies = [
 
 skipsteps = ['configure']
 
+prebuildopts = 'sed -e "s|CXXFLAGS = -O2|CXXFLAGS = -O2 -march=znver1 -std=c++98 -DLUMI_PATCH|" -i Makefile &&'
+
 installopts = 'PREFIX=%(installdir)s'
 
 postinstallcmds = [
     'mkdir -p %(installdir)s/share/licenses/%(name)s && ' +
-    'cp AUTHORS COPYING README %(installdir)s/share/licenses/%(name)s'   , 
+    'cp AUTHORS COPYING README %(installdir)s/share/licenses/%(name)s',
 ]
 
 sanity_check_paths = {
