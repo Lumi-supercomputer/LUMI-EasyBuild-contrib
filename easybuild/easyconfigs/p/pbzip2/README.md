@@ -2,7 +2,7 @@
 
 -   [pbzip2 home page](http://compression.great-site.net/pbzip2/)
     
-The code has not been maintained since 2015.
+The code has not been unmaintained since 2015.
 
 
 ## EasyBuild
