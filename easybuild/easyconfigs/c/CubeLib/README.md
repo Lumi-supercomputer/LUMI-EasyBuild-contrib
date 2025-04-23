@@ -1,4 +1,4 @@
-# ubeLib
+# CubeLib
 
 - [CubeLib web site](https://www.scalasca.org/scalasca/software/cube-4.x/download.html)
 
