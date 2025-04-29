@@ -14,7 +14,7 @@
 # Adapted by Kurt Lust (kurt.lust@uantwerpen.be) for the LUMI consortium
 #
 #
-#DOC This version of GROMACS is built with support for PLUMED and fwith
+#DOC This version of GROMACS is built with support for PLUMED and with
 #DOC CP2K QM/MM support. Only MPI versions are provided due to the requirements
 #DOC for CP2K. Double precision recommended, but single precision binaries are
 #DOC also provided.
