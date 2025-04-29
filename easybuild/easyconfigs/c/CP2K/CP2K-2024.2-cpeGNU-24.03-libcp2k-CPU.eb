@@ -1,0 +1,121 @@
+# contributed by Luca Marsella (CSCS)
+# modified for LUMI-G by Peter Larsson
+# Updated to version 2024.2 by Radim Janalik (CSCS)
+#
+#DOC CP2K 2024.2 release compiled for CPU with PLUMED and also generating the
+#DOC libcp2k library.
+#DOC
+#DOC Switched to PLUMED 2.9.3 in February 2025 after reports of problems with 2.9.2.
+easyblock = 'MakeCp'
+
+local_ELPA_version         = '2024.05.001'
+local_Libint_CP2K_version  = '2.7.2'
+local_libvori_version      = '220621'
+local_libxc_version        = '6.2.2'
+local_libxsmm_version      = '1.17'
+local_spglib_version       = '2.5.0'
+local_COSMA_version        = '2.6.6'
+local_GSL_version          = '2.7.1'
+local_PLUMED_version       = '2.9.3'
+
+name = 'CP2K'
+version = '2024.2'
+versionsuffix = '-libcp2k-CPU'
+
+homepage = 'http://www.cp2k.org/'
+
+whatis = [
+    'Description: CP2K is a program to perform atomistic and molecular '
+    'simulations of solid state, liquid, molecular and biological systems.'
+]
+
+description = """
+CP2K is a freely available (GPL) program, written in Fortran 95, to
+perform atomistic and molecular simulations of solid state, liquid,
+molecular and biological systems. It provides a general framework for
+different methods such as e.g. density functional theory (DFT) using a
+mixed Gaussian and plane waves approach (GPW), and classical pair and
+many-body potentials.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '24.03'}
+toolchainopts = {'openmp': True, 'usempi': True}
+
+source_urls = ['https://github.com/%(namelower)s/%(namelower)s/releases/download/v%(version)s']
+sources = [SOURCELOWER_TAR_BZ2]
+checksums = ['cc3e56c971dee9e89b705a1103765aba57bf41ad39a11c89d3de04c8b8cdf473']
+
+patches = [
+    ('LUMIC-20242.psmp', '%(builddir)s/%(namelower)s-%(version)s/arch')
+]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+    ('cray-fftw',   EXTERNAL_MODULE),
+    ('cray-hdf5',   EXTERNAL_MODULE),
+    ('ELPA',        local_ELPA_version,  '-CPU'),
+    ('COSMA',       local_COSMA_version, '-CPU'),
+    ('GSL',         local_GSL_version,   '-OpenMP'),
+    ('Libint-CP2K', local_Libint_CP2K_version),
+    ('libvori',     local_libvori_version),
+    ('libxc',       local_libxc_version),
+    ('libxsmm',     local_libxsmm_version),
+    ('spglib',      local_spglib_version),
+    ('PLUMED',      local_PLUMED_version, '-noPython'),
+]
+
+local_buildtype = 'psmp'
+
+buildopts = f'ARCH=LUMIC-20242 VERSION={local_buildtype} all && make ARCH=LUMIC-20242 VERSION={local_buildtype} libcp2k'
+
+files_to_copy = [
+    ([f'./arch/LUMIC-20242.{local_buildtype}'], 'arch'),
+    (['./exe/LUMIC-20242/*'], 'bin'),
+    ([f'./lib/LUMIC-20242/{local_buildtype}/*'], 'lib'),
+    (['./src/start/libcp2k.h'], 'include'),
+    (['./data'], '.'),
+    (['./tests'], '.'),
+    (['./tools'], '.')
+]
+
+local_extlibs = ' '.join([
+    '-L\${libdir} -lcp2k', 
+    '-L\${libdir}/exts/dbcsr -ldbcsr',
+    '-L$EBROOTSPGLIB/lib -lsymspg',
+    '-L$EBROOTZLIB -lz',
+    '-L$EBROOTGSL/lib -lgsl',
+    '-L$EBROOTELPA/lib -lelpa',
+    '-L$EBROOTCOSMA/lib -lcosma_prefixed_pxgemm -lcosma -lcosta',
+    '-L$EBROOTLIBXSMM/lib -lxsmmf -lxsmm',
+    '-L$EBROOTLIBXC/lib -lxcf03 -lxc',
+    '-L$EBROOTLIBINTMINCP2K/lib -lint2',
+    '-L$EBROOTPLUMED/lib -lplumed',
+    '-L$EBROOTLIBVORI -lvori',
+    '-ldl',
+    '-L$HDF5_DIR/lib -lhdf5_fortran -lhdf5 -lhdf5_hl',
+    '-L$FFTW_DIR -lfftw3_mpi -lfftw3 -lfftw3_omp',
+    '-L$MPICH_DIR/lib -lmpifort -lmpi',
+])
+
+postinstallcmds = [
+    'sed -e "s|includedir=.*|includedir=%(installdir)s/include|" ' +
+        '-e "s|libdir=.*|libdir=%(installdir)s/lib|" ' +
+       f'-e "s|Libs: .*|Libs: {local_extlibs}|" ' +
+        '-i.orig %(installdir)s/lib/pkgconfig/libcp2k.pc',
+]
+
+sanity_check_paths = {
+    'files': ['arch/LUMIC-20242.psmp', 'bin/%(namelower)s.psmp', 'lib/libcp2k.a', 'include/libcp2k.h', 'lib/pkgconfig/libcp2k.pc'],
+    'dirs':  ['data', 'tests'],
+}
+
+# set custom CP2K_DATA_DIR
+modextravars = {
+    'CP2K_DATA_DIR': '%(installdir)s/data'
+}
+
+moduleclass = 'chem'
+
