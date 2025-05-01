@@ -1,0 +1,412 @@
+From 13bbd1c5164e76a327dfa57668a683f515ecf9be Mon Sep 17 00:00:00 2001
+From: Ben Kirk <benkirk@ucar.edu>
+Date: Fri, 17 Jan 2025 12:43:35 -0700
+Subject: [PATCH 1/4] remove trailing whitespace
+
+---
+ frame/collect_on_comm.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
+
+diff --git a/frame/collect_on_comm.c b/frame/collect_on_comm.c
+index 15d2c5ef2e..1a6559164a 100644
+--- a/frame/collect_on_comm.c
++++ b/frame/collect_on_comm.c
+@@ -36,11 +36,11 @@
+ # endif
+ #endif
+ 
+-  
++
+ int col_on_comm ( int *, int *, void *, int *, void *, int *, int);
+ int dst_on_comm ( int *, int *, void *, int *, void *, int *, int);
+ 
+-void 
++void
+ COLLECT_ON_COMM ( int * comm, int * typesize ,
+                   void * inbuf, int *ninbuf , void * outbuf, int * noutbuf )
+ {
+@@ -96,7 +96,7 @@ col_on_comm ( int * Fcomm, int * typesize ,
+     {
+ #ifndef MS_SUA
+       fprintf(stderr,"FATAL ERROR: collect_on_comm: noutbuf_loc (%d) > noutbuf (%d)\n",
+-		      noutbuf_loc , * noutbuf ) ; 
++		      noutbuf_loc , * noutbuf ) ;
+       fprintf(stderr,"WILL NOT perform the collection operation\n") ;
+ #endif
+       MPI_Abort(MPI_COMM_WORLD,1) ;
+@@ -241,4 +241,3 @@ rlim_ ()
+ }
+ #endif
+ #endif
+-
+
+From 05be2eefc1c3828278234bf7a9defadb2145b59c Mon Sep 17 00:00:00 2001
+From: Ben Kirk <benkirk@ucar.edu>
+Date: Fri, 17 Jan 2025 13:06:06 -0700
+Subject: [PATCH 2/4] Determine MPI Data Types in col_on_comm() & dst_on_comm()
+ to prevent displacements overflow.
+
+The MPI_Gatherv() and MPI_Scatterv() operations require integer displacements into the communications buffers.
+Historically everything is passed as an MPI_CHAR, causing these displacements to be larger than otherwise necessary.
+For large domain sizes this can cause the displace[] offsets to exceed the maximum int, wrapping to negative values.
+
+This change introduces additional error checking and then uses the function MPI_Type_match_size() (available since MPI-2.0)
+to determine a suitable MPI_Datatype given the input *typesize.  The result then is that the displace[] offsets are in
+terms of data type extents, rather than bytes, and less likely to overflow.
+---
+ frame/collect_on_comm.c | 71 +++++++++++++++++++++++++++++++----------
+ 1 file changed, 55 insertions(+), 16 deletions(-)
+
+diff --git a/frame/collect_on_comm.c b/frame/collect_on_comm.c
+index 1a6559164a..c573f20e3a 100644
+--- a/frame/collect_on_comm.c
++++ b/frame/collect_on_comm.c
+@@ -69,6 +69,7 @@ col_on_comm ( int * Fcomm, int * typesize ,
+   int root_task ;
+   MPI_Comm *comm, dummy_comm ;
+   int ierr ;
++  int dtype = -1;
+ 
+   comm = &dummy_comm ;
+   *comm = MPI_Comm_f2c( *Fcomm ) ;
+@@ -90,6 +91,18 @@ col_on_comm ( int * Fcomm, int * typesize ,
+     for ( p = 1 , displace[0] = 0 , noutbuf_loc = recvcounts[0] ; p < ntasks ; p++ ) {
+       displace[p] = displace[p-1]+recvcounts[p-1] ;
+       noutbuf_loc = noutbuf_loc + recvcounts[p] ;
++
++      /* check for overflow: displace is the partial sum of sendcounts, which can overflow for large problems. */
++      /* it is sufficient to check displace[p] since it is greater than sendcounts[p] */
++      if ( (displace[p] < 0) || (noutbuf_loc < 0) )
++        {
++#ifndef MS_SUA
++          fprintf(stderr,"%s %d buffer offset overflow!!\n",__FILE__,__LINE__) ;
++          fprintf(stderr," ---> p = %d,\n ---> displace[%d] = %d,\n ---> noutbuf_loc = %d,\n ---> typesize = %d\n",
++                  p, p, displace[p], noutbuf_loc, *typesize);
++#endif
++          MPI_Abort(MPI_COMM_WORLD,1) ;
++        }
+     }
+ 
+     if ( noutbuf_loc > * noutbuf )
+@@ -101,17 +114,23 @@ col_on_comm ( int * Fcomm, int * typesize ,
+ #endif
+       MPI_Abort(MPI_COMM_WORLD,1) ;
+     }
++  }
+ 
+-    /* multiply everything by the size of the type */
+-    for ( p = 0 ; p < ntasks ; p++ ) {
+-      displace[p] *= *typesize ;
+-      recvcounts[p] *= *typesize ;
+-    }
++  /* handle different sized data types appropriately. */
++  ierr = MPI_Type_match_size (MPI_TYPECLASS_REAL, *typesize, &dtype);
++  if (MPI_SUCCESS != ierr) {
++    ierr = MPI_Type_match_size (MPI_TYPECLASS_INTEGER, *typesize, &dtype);
++  }
++  if (MPI_SUCCESS != ierr) {
++#ifndef MS_SUA
++    fprintf(stderr,"%s %d FATAL ERROR: unhandled typesize = %d!!\n", __FILE__,__LINE__,*typesize) ;
++#endif
++    MPI_Abort(MPI_COMM_WORLD,1) ;
+   }
+ 
+-  ierr = MPI_Gatherv( inbuf  , *ninbuf * *typesize  , MPI_CHAR ,
+-               outbuf , recvcounts , displace, MPI_CHAR ,
+-               root_task , *comm ) ;
++  ierr = MPI_Gatherv( inbuf,     *ninbuf,              dtype,
++                      outbuf,    recvcounts, displace, dtype,
++                      root_task, *comm ) ;
+ #ifndef MS_SUA
+   if ( ierr != 0 ) fprintf(stderr,"%s %d MPI_Gatherv returns %d\n",__FILE__,__LINE__,ierr ) ;
+ #endif
+@@ -152,6 +171,8 @@ dst_on_comm ( int * Fcomm, int * typesize ,
+   int *displace ;
+   int noutbuf_loc ;
+   int root_task ;
++  int dtype = -1;
++  int ierr = -1;
+   MPI_Comm *comm, dummy_comm ;
+ 
+   comm = &dummy_comm ;
+@@ -171,18 +192,36 @@ dst_on_comm ( int * Fcomm, int * typesize ,
+     for ( p = 1 , displace[0] = 0 , noutbuf_loc = sendcounts[0] ; p < ntasks ; p++ ) {
+       displace[p] = displace[p-1]+sendcounts[p-1] ;
+       noutbuf_loc = noutbuf_loc + sendcounts[p] ;
+-    }
+ 
+-    /* multiply everything by the size of the type */
+-    for ( p = 0 ; p < ntasks ; p++ ) {
+-      displace[p] *= *typesize ;
+-      sendcounts[p] *= *typesize ;
++      /* check for overflow: displace is the partial sum of sendcounts, which can overflow for large problems. */
++      /* it is sufficient to check displace[p] since it is greater than sendcounts[p] */
++      if ( (displace[p] < 0) || (noutbuf_loc < 0) )
++        {
++#ifndef MS_SUA
++          fprintf(stderr,"%s %d buffer offset overflow!!\n",__FILE__,__LINE__) ;
++          fprintf(stderr," ---> p = %d,\n ---> displace[%d] = %d,\n ---> noutbuf_loc = %d,\n ---> typesize = %d\n",
++                  p, p, displace[p], noutbuf_loc, *typesize);
++#endif
++          MPI_Abort(MPI_COMM_WORLD,1) ;
++        }
+     }
+   }
+ 
+-  MPI_Scatterv( inbuf   , sendcounts , displace, MPI_CHAR ,
+-                outbuf  , *noutbuf * *typesize  , MPI_CHAR ,
+-                root_task , *comm ) ;
++  /* handle different sized data types appropriately. */
++  ierr = MPI_Type_match_size (MPI_TYPECLASS_REAL, *typesize, &dtype);
++  if (MPI_SUCCESS != ierr) {
++    ierr = MPI_Type_match_size (MPI_TYPECLASS_INTEGER, *typesize, &dtype);
++  }
++  if (MPI_SUCCESS != ierr) {
++#ifndef MS_SUA
++    fprintf(stderr,"%s %d FATAL ERROR: unhandled typesize = %d!!\n", __FILE__,__LINE__,*typesize) ;
++#endif
++    MPI_Abort(MPI_COMM_WORLD,1) ;
++  }
++
++  MPI_Scatterv( inbuf,     sendcounts,  displace, dtype,
++                outbuf,    *noutbuf,              dtype,
++                root_task, *comm ) ;
+ 
+   free(sendcounts) ;
+   free(displace) ;
+
+From 13b94c273cb5dbbd57f12ff8012df69eee7cf752 Mon Sep 17 00:00:00 2001
+From: Ben Kirk <benkirk@ucar.edu>
+Date: Fri, 17 Jan 2025 18:48:44 -0700
+Subject: [PATCH 3/4] Only detect overflow in col_on_comm(), report, and exit.
+
+Fixes runtime failures caught by CI in in the underlying MPI_Gatherv().
+---
+ frame/collect_on_comm.c | 68 +++++++++++++++++++----------------------
+ 1 file changed, 31 insertions(+), 37 deletions(-)
+
+diff --git a/frame/collect_on_comm.c b/frame/collect_on_comm.c
+index c573f20e3a..c16517d5bc 100644
+--- a/frame/collect_on_comm.c
++++ b/frame/collect_on_comm.c
+@@ -69,7 +69,6 @@ col_on_comm ( int * Fcomm, int * typesize ,
+   int root_task ;
+   MPI_Comm *comm, dummy_comm ;
+   int ierr ;
+-  int dtype = -1;
+ 
+   comm = &dummy_comm ;
+   *comm = MPI_Comm_f2c( *Fcomm ) ;
+@@ -91,18 +90,6 @@ col_on_comm ( int * Fcomm, int * typesize ,
+     for ( p = 1 , displace[0] = 0 , noutbuf_loc = recvcounts[0] ; p < ntasks ; p++ ) {
+       displace[p] = displace[p-1]+recvcounts[p-1] ;
+       noutbuf_loc = noutbuf_loc + recvcounts[p] ;
+-
+-      /* check for overflow: displace is the partial sum of sendcounts, which can overflow for large problems. */
+-      /* it is sufficient to check displace[p] since it is greater than sendcounts[p] */
+-      if ( (displace[p] < 0) || (noutbuf_loc < 0) )
+-        {
+-#ifndef MS_SUA
+-          fprintf(stderr,"%s %d buffer offset overflow!!\n",__FILE__,__LINE__) ;
+-          fprintf(stderr," ---> p = %d,\n ---> displace[%d] = %d,\n ---> noutbuf_loc = %d,\n ---> typesize = %d\n",
+-                  p, p, displace[p], noutbuf_loc, *typesize);
+-#endif
+-          MPI_Abort(MPI_COMM_WORLD,1) ;
+-        }
+     }
+ 
+     if ( noutbuf_loc > * noutbuf )
+@@ -114,23 +101,27 @@ col_on_comm ( int * Fcomm, int * typesize ,
+ #endif
+       MPI_Abort(MPI_COMM_WORLD,1) ;
+     }
+-  }
+ 
+-  /* handle different sized data types appropriately. */
+-  ierr = MPI_Type_match_size (MPI_TYPECLASS_REAL, *typesize, &dtype);
+-  if (MPI_SUCCESS != ierr) {
+-    ierr = MPI_Type_match_size (MPI_TYPECLASS_INTEGER, *typesize, &dtype);
+-  }
+-  if (MPI_SUCCESS != ierr) {
++    /* multiply everything by the size of the type */
++    for ( p = 0 ; p < ntasks ; p++ ) {
++      displace[p] *= *typesize ;
++      recvcounts[p] *= *typesize ;
++
++      /* check for overflow: displace is the partial sum of recvcounts, which can overflow for large problems. */
++      if (displace[p] < 0) {
+ #ifndef MS_SUA
+-    fprintf(stderr,"%s %d FATAL ERROR: unhandled typesize = %d!!\n", __FILE__,__LINE__,*typesize) ;
++        fprintf(stderr,"%s %d buffer offset overflow!!\n",__FILE__,__LINE__) ;
++        fprintf(stderr," ---> p = %d,\n ---> displace[%d] = %d,\n ---> typesize = %d\n",
++                p, p, displace[p], *typesize);
+ #endif
+-    MPI_Abort(MPI_COMM_WORLD,1) ;
++        MPI_Abort(MPI_COMM_WORLD,1) ;
++      }
++    }
+   }
+ 
+-  ierr = MPI_Gatherv( inbuf,     *ninbuf,              dtype,
+-                      outbuf,    recvcounts, displace, dtype,
+-                      root_task, *comm ) ;
++  ierr = MPI_Gatherv( inbuf  , *ninbuf * *typesize  , MPI_CHAR ,
++               outbuf , recvcounts , displace, MPI_CHAR ,
++               root_task , *comm ) ;
+ #ifndef MS_SUA
+   if ( ierr != 0 ) fprintf(stderr,"%s %d MPI_Gatherv returns %d\n",__FILE__,__LINE__,ierr ) ;
+ #endif
+@@ -194,16 +185,14 @@ dst_on_comm ( int * Fcomm, int * typesize ,
+       noutbuf_loc = noutbuf_loc + sendcounts[p] ;
+ 
+       /* check for overflow: displace is the partial sum of sendcounts, which can overflow for large problems. */
+-      /* it is sufficient to check displace[p] since it is greater than sendcounts[p] */
+-      if ( (displace[p] < 0) || (noutbuf_loc < 0) )
+-        {
++      if ( (displace[p] < 0) || (noutbuf_loc < 0) ) {
+ #ifndef MS_SUA
+-          fprintf(stderr,"%s %d buffer offset overflow!!\n",__FILE__,__LINE__) ;
+-          fprintf(stderr," ---> p = %d,\n ---> displace[%d] = %d,\n ---> noutbuf_loc = %d,\n ---> typesize = %d\n",
+-                  p, p, displace[p], noutbuf_loc, *typesize);
++        fprintf(stderr,"%s %d buffer offset overflow!!\n",__FILE__,__LINE__) ;
++        fprintf(stderr," ---> p = %d,\n ---> displace[%d] = %d,\n ---> noutbuf_loc = %d,\n ---> typesize = %d\n",
++                p, p, displace[p], noutbuf_loc, *typesize);
+ #endif
+-          MPI_Abort(MPI_COMM_WORLD,1) ;
+-        }
++        MPI_Abort(MPI_COMM_WORLD,1) ;
++      }
+     }
+   }
+ 
+@@ -211,12 +200,17 @@ dst_on_comm ( int * Fcomm, int * typesize ,
+   ierr = MPI_Type_match_size (MPI_TYPECLASS_REAL, *typesize, &dtype);
+   if (MPI_SUCCESS != ierr) {
+     ierr = MPI_Type_match_size (MPI_TYPECLASS_INTEGER, *typesize, &dtype);
+-  }
+-  if (MPI_SUCCESS != ierr) {
++    if (MPI_SUCCESS != ierr) {
++      if (1 == *typesize) {
++        dtype = MPI_CHAR;
++      }
++      else {
+ #ifndef MS_SUA
+-    fprintf(stderr,"%s %d FATAL ERROR: unhandled typesize = %d!!\n", __FILE__,__LINE__,*typesize) ;
++        fprintf(stderr,"%s %d FATAL ERROR: unhandled typesize = %d!!\n", __FILE__,__LINE__,*typesize) ;
+ #endif
+-    MPI_Abort(MPI_COMM_WORLD,1) ;
++        MPI_Abort(MPI_COMM_WORLD,1) ;
++      }
++    }
+   }
+ 
+   MPI_Scatterv( inbuf,     sendcounts,  displace, dtype,
+
+From 0d8def7691132e808b41ee4b3673ce66d6dd0d28 Mon Sep 17 00:00:00 2001
+From: Ben Kirk <benkirk@ucar.edu>
+Date: Sat, 18 Jan 2025 09:50:00 -0700
+Subject: [PATCH 4/4] Properly define MPI_Datatype dtype.
+
+Of course dtype needs to be MPI_Datatype, not an int.  This error sneaked through MPICH-based tests but not OpenMPI.
+Hopefully this change will address previous CI failures.
+---
+ frame/collect_on_comm.c | 49 ++++++++++++++++++++++-------------------
+ 1 file changed, 26 insertions(+), 23 deletions(-)
+
+diff --git a/frame/collect_on_comm.c b/frame/collect_on_comm.c
+index c16517d5bc..964008533a 100644
+--- a/frame/collect_on_comm.c
++++ b/frame/collect_on_comm.c
+@@ -67,8 +67,9 @@ col_on_comm ( int * Fcomm, int * typesize ,
+   int *displace ;
+   int noutbuf_loc ;
+   int root_task ;
++  MPI_Datatype dtype;
++  int ierr = -1;
+   MPI_Comm *comm, dummy_comm ;
+-  int ierr ;
+ 
+   comm = &dummy_comm ;
+   *comm = MPI_Comm_f2c( *Fcomm ) ;
+@@ -90,6 +91,16 @@ col_on_comm ( int * Fcomm, int * typesize ,
+     for ( p = 1 , displace[0] = 0 , noutbuf_loc = recvcounts[0] ; p < ntasks ; p++ ) {
+       displace[p] = displace[p-1]+recvcounts[p-1] ;
+       noutbuf_loc = noutbuf_loc + recvcounts[p] ;
++
++      /* check for overflow: displace is the partial sum of recvcounts, which can overflow for large problems. */
++      if (displace[p] < 0) {
++#ifndef MS_SUA
++        fprintf(stderr,"%s %d buffer offset overflow!!\n",__FILE__,__LINE__) ;
++        fprintf(stderr," ---> p = %d,\n ---> displace[%d] = %d,\n ---> typesize = %d\n",
++                p, p, displace[p], *typesize);
++#endif
++        MPI_Abort(MPI_COMM_WORLD,1) ;
++      }
+     }
+ 
+     if ( noutbuf_loc > * noutbuf )
+@@ -102,26 +113,23 @@ col_on_comm ( int * Fcomm, int * typesize ,
+       MPI_Abort(MPI_COMM_WORLD,1) ;
+     }
+ 
+-    /* multiply everything by the size of the type */
+-    for ( p = 0 ; p < ntasks ; p++ ) {
+-      displace[p] *= *typesize ;
+-      recvcounts[p] *= *typesize ;
++  }
+ 
+-      /* check for overflow: displace is the partial sum of recvcounts, which can overflow for large problems. */
+-      if (displace[p] < 0) {
++  /* handle different sized data types appropriately. */
++  ierr = MPI_Type_match_size (MPI_TYPECLASS_REAL, *typesize, &dtype);
++  if (MPI_SUCCESS != ierr) {
++    ierr = MPI_Type_match_size (MPI_TYPECLASS_INTEGER, *typesize, &dtype);
++    if (MPI_SUCCESS != ierr) {
+ #ifndef MS_SUA
+-        fprintf(stderr,"%s %d buffer offset overflow!!\n",__FILE__,__LINE__) ;
+-        fprintf(stderr," ---> p = %d,\n ---> displace[%d] = %d,\n ---> typesize = %d\n",
+-                p, p, displace[p], *typesize);
++      fprintf(stderr,"%s %d FATAL ERROR: unhandled typesize = %d!!\n", __FILE__,__LINE__,*typesize) ;
+ #endif
+-        MPI_Abort(MPI_COMM_WORLD,1) ;
+-      }
++      MPI_Abort(MPI_COMM_WORLD,1) ;
+     }
+   }
+ 
+-  ierr = MPI_Gatherv( inbuf  , *ninbuf * *typesize  , MPI_CHAR ,
+-               outbuf , recvcounts , displace, MPI_CHAR ,
+-               root_task , *comm ) ;
++  ierr = MPI_Gatherv( inbuf  , *ninbuf,               dtype,
++                      outbuf , recvcounts , displace, dtype,
++                      root_task , *comm ) ;
+ #ifndef MS_SUA
+   if ( ierr != 0 ) fprintf(stderr,"%s %d MPI_Gatherv returns %d\n",__FILE__,__LINE__,ierr ) ;
+ #endif
+@@ -162,7 +170,7 @@ dst_on_comm ( int * Fcomm, int * typesize ,
+   int *displace ;
+   int noutbuf_loc ;
+   int root_task ;
+-  int dtype = -1;
++  MPI_Datatype dtype;
+   int ierr = -1;
+   MPI_Comm *comm, dummy_comm ;
+ 
+@@ -201,15 +209,10 @@ dst_on_comm ( int * Fcomm, int * typesize ,
+   if (MPI_SUCCESS != ierr) {
+     ierr = MPI_Type_match_size (MPI_TYPECLASS_INTEGER, *typesize, &dtype);
+     if (MPI_SUCCESS != ierr) {
+-      if (1 == *typesize) {
+-        dtype = MPI_CHAR;
+-      }
+-      else {
+ #ifndef MS_SUA
+-        fprintf(stderr,"%s %d FATAL ERROR: unhandled typesize = %d!!\n", __FILE__,__LINE__,*typesize) ;
++      fprintf(stderr,"%s %d FATAL ERROR: unhandled typesize = %d!!\n", __FILE__,__LINE__,*typesize) ;
+ #endif
+-        MPI_Abort(MPI_COMM_WORLD,1) ;
+-      }
++      MPI_Abort(MPI_COMM_WORLD,1) ;
+     }
+   }
+ 
