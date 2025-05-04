@@ -1,0 +1,11 @@
+--- 3rd-party/openpmix/src/mca/gds/shmem2/gds_shmem2.c  2024-05-11 12:04:47.948222000 +0200
++++ 3rd-party/openpmix/src/mca/gds/shmem2/gds_shmem2.c  2024-05-11 12:05:12.699162000 +0200
+@@ -1860,6 +1860,8 @@
+     pmix_keyindex_t tmpindex;
+     bool found;
+
++    return PMIX_SUCCESS;
++
+     // Do we need to update?
+     pmix_gds_shmem2_job_t *job;
+     rc = pmix_gds_shmem2_get_job_tracker(nspace_name, true, &job);
