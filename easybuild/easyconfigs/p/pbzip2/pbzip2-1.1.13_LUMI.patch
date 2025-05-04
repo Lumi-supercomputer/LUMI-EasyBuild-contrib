@@ -1,0 +1,43 @@
+Patch developed by Kurt Lust for LUMI.
+The patch implements proper CPU detection based on affinity masks, 
+and further limits the number of CPUs to 16 on the login nodes
+(though users can still overwrite).
+diff -Nau pbzip2-1.1.13/pbzip2.cpp.orig pbzip2-1.1.13/pbzip2.cpp
+
+--- pbzip2-1.1.13/pbzip2.cpp.orig	2025-04-16 10:16:15.000000000 +0300
++++ pbzip2-1.1.13/pbzip2.cpp	2025-04-16 10:34:35.000000000 +0300
+@@ -24,6 +24,7 @@
+ #include <sys/stat.h>
+ #include <errno.h>
+ #include <fcntl.h>
++#include <sched.h>
+ #include <signal.h>
+ #include <stdio.h>
+ #include <stdarg.h>
+@@ -32,6 +33,7 @@
+ #include <time.h>
+ #include <bzlib.h>
+ #include <limits.h>
++#include <unistd.h>
+ }
+ 
+ 
+@@ -3186,6 +3188,18 @@
+ 		mib[1] = HW_NCPU;
+ 		if (sysctl(mib, 2, &ncpu, &len, 0, 0) < 0 || len != sizeof(ncpu))
+ 			ncpu = 1;
++    #elif defined(LUMI_PATCH)
++        // Get the number of CPUs available to the job.
++        // For the login nodes, this will still return 256.
++        cpu_set_t set;
++        CPU_ZERO( &set );
++        sched_getaffinity( 0, sizeof( set ), &set );
++        ncpu = CPU_COUNT( &set );
++        // Now check if we are on a login node
++        char hostname[64];
++        gethostname( hostname, sizeof( hostname ) );
++        if ( strstr( hostname, "uan" ) )
++            ncpu = 16;
+ 	#elif defined(_SC_NPROCESSORS_ONLN)
+ 		ncpu = sysconf(_SC_NPROCESSORS_ONLN);
+ 	#elif defined(WIN32)
