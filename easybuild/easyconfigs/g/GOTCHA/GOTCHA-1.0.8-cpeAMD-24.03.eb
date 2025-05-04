@@ -1,0 +1,46 @@
+easyblock = "CMakeMake"
+
+name = "GOTCHA"
+
+local_GOTCHA_version = '1.0.8' # https://github.com/LLNL/GOTCHA/releases
+
+version = local_GOTCHA_version
+
+homepage = "https://gotcha.readthedocs.io/en/latest/"
+
+whatis = [
+    'Description: Gotcha is a library that wraps functions',
+]
+
+description = """Gotcha is a library that wraps functions. Tools can use gotcha to install hooks into other
+libraries, for example putting a wrapper function around libc's malloc. It is similar to LD_PRELOAD, but
+operates via a programmable API. This enables easy methods of accomplishing tasks like code instrumentation
+or wholesale replacement of mechanisms in programs without disrupting their source code."""
+
+docurls = [
+    'Web-based documentation of the latest version at https://gotcha.readthedocs.io/en/latest/api.html',  
+]
+toolchain = {'name': 'cpeAMD', 'version': '24.03'}
+toolchainopts = {'pic': True}
+
+source_urls = ['https://github.com/LLNL/GOTCHA/archive/']
+sources = ['%(version)s.tar.gz']
+checksums = ['267ac6d02916863c8a360b192f1f36e4eaeb8945c73ae7f92116d6f801ad8184']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+configopts = [
+    "-DGOTCHA_ENABLE_TESTS=OFF",
+    "-DDEPENDENCIES_PREINSTALLED=ON"
+]
+
+sanity_check_paths = {
+    'files': [('lib/libgotcha.%s' % SHLIB_EXT, 'lib64/libgotcha.%s' % SHLIB_EXT),
+              'lib/cmake/gotcha/gotcha-config.cmake',
+              'include/gotcha/gotcha.h'],
+    'dirs': []
+}
+
+moduleclass = 'devel'
