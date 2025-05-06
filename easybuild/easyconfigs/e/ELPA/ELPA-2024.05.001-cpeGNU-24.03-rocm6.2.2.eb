@@ -1,6 +1,7 @@
 # Contributed by Luca Marsella (CSCS)
 # Some adaptations by Kurt Lust (University of Antwerpen and LUMI consortium)
 # GPU version adapted for LUMI
+# Modified for rocm/6.2.2 by Lauri Niemi (CSC)
 easyblock = 'ConfigureMake'
 
 local_ELPA_version = '2024.05.001'

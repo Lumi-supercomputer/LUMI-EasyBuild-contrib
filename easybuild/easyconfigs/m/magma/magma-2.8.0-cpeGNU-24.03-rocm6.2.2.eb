@@ -1,5 +1,5 @@
 # Created for LUMI by Orian Louant
-# Modified by Lauri Niemi for ROCm 6.2.2
+# Modified for ROCm 6.2.2 by Lauri Niemi (CSC)
 easyblock = "CMakeMake"
 
 name = 'magma'
