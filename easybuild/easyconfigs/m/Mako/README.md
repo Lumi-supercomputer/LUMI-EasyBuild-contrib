@@ -22,12 +22,11 @@
     current Python version on SUSE 15SP3.
     
 -   The EasyConfig is basically a new development
+
     
 ### Version 1.2.0 for CPE 22.08
 
 -   Created from scratch for LUMI as the LUMI Python setup is different from the
     EasyBuilders and CSCS ones. Created independently from the 1.1.6 one.
 
-### Version 1.3.5 for CPE 24.03
 
--   Based on previous easyconfigs
