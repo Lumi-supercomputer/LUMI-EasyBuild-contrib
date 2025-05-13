@@ -132,7 +132,7 @@ configopts = ' '.join([
     
     # more options
     '-DADIOS2_USE_IME=OFF',
-    '-DADIOS2_USE_Profiling=OFF',
+    '-DADIOS2_USE_Profiling=ON',  # Profiling needed for VisIt
 ])
 
 runtest = False

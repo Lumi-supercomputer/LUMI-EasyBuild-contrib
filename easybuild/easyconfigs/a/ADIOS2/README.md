@@ -33,3 +33,9 @@
 -   But switched the homepage to the page on readthedocs as the old home page doesn't seem to
     be updated anymore.
 
+### Version 2.10.1 for CPE 24.03
+
+-   Trivial port, but took a nicer way of configuring the `configopts`.
+
+-   Changed in May 2025: Turned profiling on as that is needed for VisIt.
+
