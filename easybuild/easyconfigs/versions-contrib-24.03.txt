@@ -48,5 +48,7 @@ local_VCFtools_version =     '0.1.16'        # https://github.com/vcftools/vcfto
 
 local_Xerces_version =       '3.2.5'         # https://xerces.apache.org/xerces-c/releases.html
 
+local_yaml_cpp_version =     '0.8.0'         # https://github.com/jbeder/yaml-cpp/releases
+
 local_ZeroMQ_version =       '4.3.5'         # https://github.com/zeromq/libzmq/releases/
 local_zfp_version =          '1.0.1'         # https://github.com/LLNL/zfp/releases

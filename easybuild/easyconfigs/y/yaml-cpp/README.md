@@ -16,3 +16,9 @@
 
 -   This is a direct port of the EasyBuilders recipe.
 
+
+### Version 0.8.0 for CPE 24.03
+
+-   Trivial port of the 0.7.0 recipe.
+
+-   Added the license information in May 2025.
