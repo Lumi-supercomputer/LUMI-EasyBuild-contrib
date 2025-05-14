@@ -29,7 +29,7 @@ toolchainopts = {'pic': True}
 
 source_urls = ['https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/openpgm/']
 sources =     ['libpgm-%(version)s.tar.gz']
-patches = ['OpenPGM-5.2.122_python3-compliant.patch']
+patches =     ['OpenPGM-5.2.122_python3-compliant.patch']
 
 checksums = [
     # libpgm-5.2.122.tar.gz
@@ -48,6 +48,11 @@ preconfigopts = 'module unload rocm cray-libsci && '
 prebuildopts = preconfigopts
 
 start_dir = 'pgm'
+
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cp COPYING LICENSE README %(installdir)s/share/licenses/%(name)s',   
+]
 
 sanity_check_paths = {
     'files': ['lib/libpgm.%s' % SHLIB_EXT, 'lib/libpgm.a'],
