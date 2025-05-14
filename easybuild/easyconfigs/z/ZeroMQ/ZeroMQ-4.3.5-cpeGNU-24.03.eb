@@ -52,9 +52,14 @@ configopts = '--with-pic --with-pgm --with-libsodium --disable-Werror'
 preconfigopts = 'module unload cray-libsci rocm && '
 prebuildopts = preconfigopts
 
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cp AUTHORS ChangeLog INSTALL LICENSE NEWS README.md %(installdir)s/share/licenses/%(name)s',   
+]
+
 sanity_check_paths = {
     'files': ['lib/libzmq.%s' % SHLIB_EXT, 'lib/libzmq.a'],
-    'dirs': ['include', 'lib'],
+    'dirs':  ['include', 'lib'],
 }
 
 moduleclass = 'devel'
