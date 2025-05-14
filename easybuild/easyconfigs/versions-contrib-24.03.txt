@@ -42,6 +42,7 @@ local_PLUMED2_9_version =    '2.9.2'         # https://github.com/plumed/plumed2
 local_SAMtools_version =     '1.20'          # https://github.com/samtools/samtools/releases
 local_Scalasca_version =     '2.6.1'         # https://www.scalasca.org/scalasca/software/scalasca-2.x/download.html
 local_ScoreP_version =       '8.4'           # https://www.vi-hps.org/projects/score-p/
+local_Silo_version =         '4.11.1'        # https://github.com/LLNL/Silo/releases
 local_STAR_version =         '2.7.11b'       # https://github.com/alexdobin/STAR/releases
 
 local_VCFtools_version =     '0.1.16'        # https://github.com/vcftools/vcftools/releases
