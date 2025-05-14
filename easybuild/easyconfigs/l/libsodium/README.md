@@ -23,3 +23,4 @@
 
 -   Trivial version bump.
 
+-   Added license information to the 24.03 one in May 2025.
