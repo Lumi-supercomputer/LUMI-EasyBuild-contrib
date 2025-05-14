@@ -32,3 +32,8 @@
 -   And build without the Python interfaces as those require cython which is
     not part of the Cray Python version used for 23.09.
 
+### Version 1.0.1 for CPE 24.03
+
+-   Trivial port of the EasyConfig for 1.0.0 in CPE 23.09.
+
+-   May 2025: Added license information to the installation.

@@ -16,19 +16,19 @@ whatis = [
 ]
 
 description = """
- zfp is a compressed format for representing multidimensional floating-point
- and integer arrays. zfp provides compressed-array classes that support high
- throughput read and write random access to individual array elements. zfp
- also supports serial and parallel (OpenMP and CUDA) compression of whole
- arrays, e.g., for applications that read and write large data sets to and
- from disk.
+zfp is a compressed format for representing multidimensional floating-point
+and integer arrays. zfp provides compressed-array classes that support high
+throughput read and write random access to individual array elements. zfp
+also supports serial and parallel (OpenMP and CUDA) compression of whole
+arrays, e.g., for applications that read and write large data sets to and
+from disk.
  
- zfp uses lossy but optionally error-bounded compression to achieve high
- compression ratios. Bit-for-bit lossless compression is also possible through
- one of zfp's compression modes. zfp works best for 2D, 3D, and 4D arrays that
- exhibit spatial correlation, such as continuous fields from physics simulations,
- natural images, regularly sampled terrain surfaces, etc. zfp compression of 1D
- arrays is possible but generally discouraged.
+zfp uses lossy but optionally error-bounded compression to achieve high
+compression ratios. Bit-for-bit lossless compression is also possible through
+one of zfp's compression modes. zfp works best for 2D, 3D, and 4D arrays that
+exhibit spatial correlation, such as continuous fields from physics simulations,
+natural images, regularly sampled terrain surfaces, etc. zfp compression of 1D
+arrays is possible but generally discouraged.
 """
 
 docurls = ['https://zfp.readthedocs.io/en/release1.0.1/']
@@ -82,10 +82,12 @@ Version: %(version)s
 Requires:
 Libs: -L\${libdir} -lzfp -lcfp
 Cflags: -I\${includedir}" > %(installdir)s/lib/pkgconfig/%(name)s.pc""",
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cd ../%(namelower)s-%(version)s && cp CHANGELOG.md CITATION.cff CONTRIBUTING.md LICENSE NOTICE README.md SUPPORT.md %(installdir)s/share/licenses/%(name)s',   
 ]
 
 sanity_check_paths = {
-    'files': ['lib64/libzfp.so', 'lib64/libcfp.so', 'include/zfp.h'],
+    'files': ['lib64/libzfp.so', 'lib64/libcfp.so', 'include/zfp.h', 'share/licenses/%(name)s/LICENSE'],
     'dirs':  ['lib/pkgconfig'],
 }
 

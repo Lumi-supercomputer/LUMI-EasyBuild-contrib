@@ -8,3 +8,6 @@ which also contain a further
 
 Users using zfp are asked to 
 [cite a paritcular zfp paper](https://github.com/LLNL/zfp#citing-zfp).
+
+From version 1.0.1 on, the license information can also be found in
+`$EBROOTZFP/share/licenses/zfp` after installing and loading the module.
