@@ -36,6 +36,7 @@ local_nlohmannjson_version = '3.11.2'        # https://github.com/nlohmann/json/
 
 local_OPARI2_version =       '2.0.8'         # https://www.vi-hps.org/projects/score-p/
 local_OpenPGM_version =      '5.2.122'       # https://code.google.com/archive/p/openpgm/downloads
+local_OptiX_version =        '8.0.0'         # https://developer.nvidia.com/designworks/optix/download
 local_OTF2_version =         '3.0.3'         # https://www.vi-hps.org/projects/score-p/
 
 local_PLUMED2_8_version =    '2.8.4'         # https://github.com/plumed/plumed2/releases
