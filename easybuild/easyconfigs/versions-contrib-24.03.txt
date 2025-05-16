@@ -34,6 +34,7 @@ local_NCO_version =          '5.2.7'         # https://github.com/nco/nco/releas
 local_ncview_version =       '2.1.9'         # https://cirrus.ucsd.edu/~pierce/ncview/
 local_nlohmannjson_version = '3.11.2'        # https://github.com/nlohmann/json/releases
 
+local_oneTBB_version =       '2021.13.0'     # https://github.com/uxlfoundation/oneTBB/releases
 local_OPARI2_version =       '2.0.8'         # https://www.vi-hps.org/projects/score-p/
 local_OpenPGM_version =      '5.2.122'       # https://code.google.com/archive/p/openpgm/downloads
 local_OptiX_version =        '8.0.0'         # https://developer.nvidia.com/designworks/optix/download
