@@ -33,3 +33,5 @@
 -   Still without `bin/sz`, but this executable does not exist anymore?
 
 -   Added license information in May 2025.
+
+-   May 2025: Version added with `cray-hdf5-parallel` which was somewhat nontrivial.

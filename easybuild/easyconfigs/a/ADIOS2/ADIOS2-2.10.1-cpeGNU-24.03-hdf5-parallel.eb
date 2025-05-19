@@ -14,8 +14,9 @@ local_yaml_cpp_version =     '0.8.0'         # https://github.com/zeromq/libzmq/
 
 local_ADIOS2_version =       '2.10.1'        # https://github.com/jbeder/yaml-cpp/releases
 
-name =    'ADIOS2'
-version = local_ADIOS2_version
+name =          'ADIOS2'
+version =       local_ADIOS2_version
+versionsuffix = '-hdf5-parallel'
 
 local_pybind11_cmake_prefix = 'lib/python%(pyshortver)s/site-packages/pybind11/share/cmake'
 
@@ -64,7 +65,7 @@ builddependencies = [
 
 dependencies = [
     ('cray-python',        EXTERNAL_MODULE),
-    ('cray-hdf5',          EXTERNAL_MODULE),
+    ('cray-hdf5-parallel', EXTERNAL_MODULE),
     # Central stack
     ('zlib',               local_zlib_version),
     ('bzip2',              local_bzip2_version),
@@ -73,7 +74,7 @@ dependencies = [
     ('libpng',             local_libpng_version),
     ('nlohmann-json',      local_nlohmannjson_version),
     # Contributed
-    ('SZ',                 local_SZ_version),
+    ('SZ',                 local_SZ_version,           '-hdf5-parallel'),
     ('zfp',                local_zfp_version),
     ('ZeroMQ',             local_ZeroMQ_version),
     ('yaml-cpp',           local_yaml_cpp_version),
