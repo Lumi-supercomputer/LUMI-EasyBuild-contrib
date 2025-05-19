@@ -4,6 +4,8 @@
 
 -   [SZ on Github](https://github.com/szcompressor/SZ)
 
+    -   [GitHub releases](https://github.com/szcompressor/SZ/releases)
+
 
 ## EasyBuild
 

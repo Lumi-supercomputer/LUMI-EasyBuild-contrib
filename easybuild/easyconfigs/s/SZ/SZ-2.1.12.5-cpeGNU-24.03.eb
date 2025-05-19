@@ -1,5 +1,7 @@
 # Based on a easyconfig by the Juelich Supercomputing Centre
 # Adapted for LUMI by Orian Louant
+#
+#DOC This version uses the `cray-hdf5` and `cray-netcdf` modules.
 
 easyblock = 'CMakeMake'
 
