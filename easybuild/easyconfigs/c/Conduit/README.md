@@ -13,7 +13,7 @@
     
 -   [Conduit in the CSCS repository](https://github.com/eth-cscs/production/tree/master/easybuild/easyconfigs/c/Conduit)
     
--   [Conduit in the JSC repository](https://packages.spack.io/package.html?name=conduit)
+-   [Conduit in the JSC repository](https://github.com/easybuilders/JSC/tree/2025/Golden_Repo/c/Conduit)
     
 -   [conduit package in Spack](https://packages.spack.io/package.html?name=conduit)
 
