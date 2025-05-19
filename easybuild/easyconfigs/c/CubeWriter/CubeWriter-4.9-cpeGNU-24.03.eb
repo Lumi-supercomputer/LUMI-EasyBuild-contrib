@@ -60,6 +60,11 @@ prebuildopts = preconfigopts
 
 configopts = '--enable-shared'
 
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cp AUTHORS ChangeLog COPYING OPEN_ISSUES README %(installdir)s/share/licenses/%(name)s',   
+]
+
 sanity_check_paths = {
     'files': ['bin/cubew-config',
               ('lib/libcube4w.%s' % SHLIB_EXT, 'lib64/libcube4w.%s' % SHLIB_EXT)],
