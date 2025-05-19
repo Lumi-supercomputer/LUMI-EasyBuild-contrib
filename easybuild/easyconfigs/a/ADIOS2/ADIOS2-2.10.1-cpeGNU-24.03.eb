@@ -1,3 +1,4 @@
+#DOC This version uses the `cray-hdf5` module.
 easyblock = 'CMakeMake'
 
 local_zlib_version =         '1.3.1'         # https://zlib.net/
@@ -156,6 +157,9 @@ Description: ADIOS2 I/O library (Fortran)
 Version: %(version)s
 Libs: $(%(installdir)s/bin/adios2-config --fortran-libs)
 Cflags: $(%(installdir)s/bin/adios2-config --fortran-flags)" > %(installdir)s/lib/pkgconfig/adios2_f.pc""",
+    'mkdir -p %(installdir)s/share/licenses/%(name)s && ' +
+    'cd ../%(name)s-%(version)s && ' + 
+    'cp CODEOWNERS Contributing.md Copyright.txt LICENSE ReadMe.md %(installdir)s/share/licenses/%(name)s',   
 ]
 
 sanity_check_paths = {
