@@ -36,6 +36,11 @@ configopts = [
     "-DDEPENDENCIES_PREINSTALLED=ON"
 ]
 
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cd ../%(name)s-%(version)s && cp COPYRIGHT LGPL README.md %(installdir)s/share/licenses/%(name)s',   
+]
+
 sanity_check_paths = {
     'files': [('lib/libgotcha.%s' % SHLIB_EXT, 'lib64/libgotcha.%s' % SHLIB_EXT),
               'lib/cmake/gotcha/gotcha-config.cmake',
