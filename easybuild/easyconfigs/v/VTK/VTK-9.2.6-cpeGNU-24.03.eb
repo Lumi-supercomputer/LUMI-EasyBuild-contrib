@@ -2,6 +2,7 @@ easyblock = 'CMakeMake'
 
 local_VTK_version =          '9.2.6'         # https://vtk.org/download/
 
+# Central stack
 local_Boost_version =        '1.83.0'        # https://www.boost.org/
 local_bzip2_version =        '1.0.8'         # http://www.bzip.org/downloads.html
 local_FFmpeg_version =       '6.1.1'         # https://ffmpeg.org/download.html#releases
@@ -12,14 +13,15 @@ local_libjpegturbo_version = '3.0.1'         # https://github.com/libjpeg-turbo/
 local_libxml2_version =      '2.11.5'        # http://xmlsoft.org/sources/
 local_libtiff_version =      '4.6.0'         # https://download.osgeo.org/libtiff/
 local_zlib_version =         '1.3.1'         # https://zlib.net/
-local_nlohmannjson_version = '3.12.0'        # https://github.com/nlohmann/json/releases
+local_nlohmannjson_version = '3.11.3'        # https://github.com/nlohmann/json/releases
 local_double_conv_version =  '3.3.0'         # https://github.com/google/double-conversion/releases
-local_zfp_version =          '1.0.1'         # https://github.com/LLNL/zfp/releases
-local_Catalyst_version =     '2.0.0'         # https://gitlab.kitware.com/paraview/catalyst/-/tags
 local_oneTBB_version =       '2021.13.0'     # https://github.com/uxlfoundation/oneTBB/releases
 local_Eigen_version =        '3.4.0'         # https://gitlab.com/libeigen/eigen/-/releases
 local_Qt5_version =          '5.15.15'       # https://download.qt.io/official_releases/qt/
 local_PROJ_version =         '9.3.1'         # https://proj.org/download.html
+# Contrib
+local_Catalyst_version =     '2.0.0'         # https://gitlab.kitware.com/paraview/catalyst/-/tags
+local_zfp_version =          '1.0.1'         # https://github.com/LLNL/zfp/releases
 
 name = 'VTK'
 version = local_VTK_version
