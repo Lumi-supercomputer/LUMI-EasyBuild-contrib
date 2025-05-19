@@ -22,10 +22,3 @@
 ### Version 3.11.2 for CPE 22.12 and 23.09
 
 -   Based on the JSC easyconfig
-
-
-### Version 3.12.0 for CPE 24.03
-
--   Trivial port of the EasyConfig for 3.11.2.
-
-    Upgraded as 3.11.2 gave a compilation error in cpeGNU/24.03.
