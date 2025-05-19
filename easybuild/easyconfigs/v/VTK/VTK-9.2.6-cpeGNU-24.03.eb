@@ -1,0 +1,189 @@
+easyblock = 'CMakeMake'
+
+local_VTK_version =          '9.2.6'         # https://vtk.org/download/
+
+local_Boost_version =        '1.83.0'        # https://www.boost.org/
+local_bzip2_version =        '1.0.8'         # http://www.bzip.org/downloads.html
+local_FFmpeg_version =       '6.1.1'         # https://ffmpeg.org/download.html#releases
+local_libpng_version =       '1.6.40'        # http://www.libpng.org/pub/png/libpng.html
+local_expat_version =        '2.6.2'         # https://github.com/libexpat/libexpat/releases
+local_freetype_version =     '2.13.2'        # https://download.savannah.gnu.org/releases/freetype/
+local_libjpegturbo_version = '3.0.1'         # https://github.com/libjpeg-turbo/libjpeg-turbo/releases
+local_libxml2_version =      '2.11.5'        # http://xmlsoft.org/sources/
+local_libtiff_version =      '4.6.0'         # https://download.osgeo.org/libtiff/
+local_zlib_version =         '1.3.1'         # https://zlib.net/
+local_nlohmannjson_version = '3.12.0'        # https://github.com/nlohmann/json/releases
+local_double_conv_version =  '3.3.0'         # https://github.com/google/double-conversion/releases
+local_zfp_version =          '1.0.1'         # https://github.com/LLNL/zfp/releases
+local_Catalyst_version =     '2.0.0'         # https://gitlab.kitware.com/paraview/catalyst/-/tags
+local_oneTBB_version =       '2021.13.0'     # https://github.com/uxlfoundation/oneTBB/releases
+local_Eigen_version =        '3.4.0'         # https://gitlab.com/libeigen/eigen/-/releases
+local_Qt5_version =          '5.15.15'       # https://download.qt.io/official_releases/qt/
+local_PROJ_version =         '9.3.1'         # https://proj.org/download.html
+
+name = 'VTK'
+version = local_VTK_version
+
+homepage = 'https://www.vtk.org'
+
+description = """
+The Visualization Toolkit (VTK) is an open-source, freely available software
+system for 3D computer graphics, image processing and visualization. VTK
+consists of a C++ class library and several interpreted interface layers
+including Tcl/Tk, Java, and Python. VTK supports a wide variety of visualization
+algorithms including: scalar, vector, tensor, texture, and volumetric methods;
+and advanced modeling techniques such as: implicit modeling, polygon reduction,
+mesh smoothing, cutting, contouring, and Delaunay triangulation.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '24.03'}
+toolchainopts = {'usempi': True}
+
+source_urls = ['https://www.vtk.org/files/release/%(version_major_minor)s']
+sources =     [SOURCE_TAR_GZ]
+
+patches = [
+    'VTK-9.2.6_fix-gcc-13-compilation.patch',
+    ('vtk-version.egg-info', '.'),
+]
+
+checksums = [
+    {'VTK-9.2.6.tar.gz' : 
+        '06fc8d49c4e56f498c40fcb38a563ed8d4ec31358d0101e8988f0bb4d539dd12'},
+    {'VTK-9.2.6_fix-gcc-13-compilation.patch' : 
+        '13c778bc1ff829baf8b505aa7a3e06759da8b3ab1e6f7967e0ffe919507c1865'},
+    {'vtk-version.egg-info' : 
+        '787b82415ae7a4a1f815b4db0e25f7abc809a05fc85d7d219627f3a7e5d3867b'},
+]
+
+builddependencies = [
+    ('buildtools',        '%(toolchain_version)s', '', True),
+    ('craype-accel-host', EXTERNAL_MODULE),
+]
+
+dependencies = [
+    ('cray-hdf5-parallel',       EXTERNAL_MODULE),
+    ('cray-netcdf-hdf5parallel', EXTERNAL_MODULE),
+    ('cray-parallel-netcdf',     EXTERNAL_MODULE),
+    ('cray-python',              EXTERNAL_MODULE),
+    ('Eigen',                    local_Eigen_version, '', True),
+    ('X11',                      '%(toolchain_version)s'),
+    ('OpenGL',                   '%(toolchain_version)s'),
+    ('Boost',                    local_Boost_version),
+    ('bzip2',                    local_bzip2_version),
+    ('FFmpeg',                   local_FFmpeg_version),
+    ('libpng',                   local_libpng_version),
+    ('expat',                    local_expat_version),
+    ('freetype',                 local_freetype_version),
+    ('libjpeg-turbo',            local_libjpegturbo_version),
+    ('libxml2',                  local_libxml2_version),
+    ('LibTIFF',                  local_libtiff_version),
+    ('zlib',                     local_zlib_version),
+    ('nlohmann-json',            local_nlohmannjson_version),
+    ('double-conversion',        local_double_conv_version),
+    ('zfp',                      local_zfp_version),
+    ('Catalyst',                 local_Catalyst_version),
+    ('oneTBB',                   local_oneTBB_version),
+    ('Qt5',                      local_Qt5_version),
+    ('PROJ',                     local_PROJ_version),
+]
+
+preconfigopts = ' && '.join([
+    'module unload cray-libsci rocm',
+    'export LIBRARY_PATH=$CRAY_PYTHON_PREFIX/lib:$LIBRARY_PATH',
+    'export __EGL_VENDOR_LIBRARY_FILENAMES=${EBROOTOPENGL}/share/glvnd/egl_vendor.d/50_mesa.json',
+]) + ' && '
+
+configopts = ' '.join([
+    '-D CMAKE_CXX_STANDARD=11',
+    '-D OPENGL_INCLUDE_DIR=${EBROOTOPENGL}/include',
+    '-D OPENGL_GLX_INCLUDE_DIR=${EBROOTOPENGL}/include',
+    '-D OPENGL_EGL_INCLUDE_DIR=${EBROOTOPENGL}/include',
+    '-D OPENGL_opengl_LIBRARY=${EBROOTOPENGL}/lib/libOpenGL.so.0',
+    '-D OPENGL_gl_LIBRARY=${EBROOTOPENGL}/lib/libGL.so',
+    '-D OPENGL_glx_LIBRARY=${EBROOTOPENGL}/lib/libGLX.so.0',
+    '-D OPENGL_glu_LIBRARY=${EBROOTOPENGL}/lib/libGLU.so',
+    '-D OPENGL_egl_LIBRARY=${EBROOTOPENGL}/lib/libEGL.so.1',
+    '-D OpenGL_GL_PREFERENCE=GLVND',
+    '-D VTK_GROUP_ENABLE_MPI=WANT',
+    '-D VTK_GROUP_ENABLE_Qt=WANT',
+    '-D VTK_GROUP_ENABLE_Rendering=WANT',
+    '-D VTK_QT_VERSION=5',
+    '-D VTK_USE_MPI=ON',
+    '-D VTK_WRAP_PYTHON=ON',
+    '-D VTK_PYTHON_VERSION=3',
+    '-D VTK_PYTHON_OPTIONAL_LINK=OFF',
+    '-D CMAKE_INSTALL_RPATH=$CRAY_PYTHON_PREFIX/lib',
+    '-D VTK_SMP_IMPLEMENTATION_TYPE=OpenMP',
+    '-D VTK_MAX_THREADS=128',
+    '-D VTK_USE_64BIT_IDS=ON',
+    '-D VTK_REPORT_OPENGL_ERRORS_IN_RELEASE_BUILDS=OFF',
+    '-D VTK_OPENGL_HAS_EGL=ON',
+    '-D VTK_OPENGL_HAS_OSMESA=OFF',
+    '-D VTK_USE_X=OFF',
+    '-D VTK_ENABLE_CATALYST=ON',
+    '-D VTK_DEFAULT_EGL_DEVICE_INDEX=0',
+    '-D VTK_MODULE_ENABLE_VTK_IOFFMPEG=YES',
+    '-D VTK_MODULE_ENABLE_VTK_IOVideo=YES',
+    '-D VTK_MODULE_ENABLE_VTK_DICOMParser=YES',
+    '-D VTK_MODULE_ENABLE_VTK_FiltersReebGraph=YES',
+    '-D VTK_MODULE_ENABLE_VTK_FiltersSMP=YES',
+    '-D VTK_MODULE_ENABLE_VTK_FiltersSelection=YES',
+    '-D VTK_MODULE_ENABLE_VTK_FiltersTopology=YES',
+    '-D VTK_MODULE_ENABLE_VTK_FiltersTexture=YES',
+    '-D VTK_MODULE_ENABLE_VTK_mpi4py=YES',
+    '-D VTK_MODULE_ENABLE_VTK_GUISupportQt=YES',
+    '-D VTK_MODULE_ENABLE_VTK_ViewsQt=YES',
+    '-D VTK_MODULE_ENABLE_VTK_IONetCDF=YES',
+    '-D VTK_MODULE_ENABLE_VTK_IOParallelNetCDF=YES',
+    '-D VTK_MODULE_ENABLE_VTK_hdf5=YES',
+    '-D VTK_MODULE_USE_EXTERNAL_VTK_expat=ON',
+    '-D VTK_MODULE_USE_EXTERNAL_VTK_freetype=ON',
+    '-D VTK_MODULE_USE_EXTERNAL_VTK_hdf5=ON',
+    '-D VTK_MODULE_USE_EXTERNAL_VTK_jpeg=ON',
+    '-D VTK_MODULE_USE_EXTERNAL_VTK_libxml2=ON',
+    '-D VTK_MODULE_USE_EXTERNAL_VTK_mpi4py=ON',
+    '-D VTK_MODULE_USE_EXTERNAL_VTK_netcdf=ON',
+    '-D VTK_MODULE_USE_EXTERNAL_VTK_png=ON',
+    '-D VTK_MODULE_USE_EXTERNAL_VTK_tiff=ON',
+    '-D VTK_MODULE_USE_EXTERNAL_VTK_zlib=ON',
+    '-D VTK_MODULE_USE_EXTERNAL_VTK_doubleconversion=ON',
+    '-D VTK_MODULE_USE_EXTERNAL_VTK_eigen=ON',
+    '-D VTK_MODULE_USE_EXTERNAL_VTK_nlohmannjson=ON',
+    '-D VTK_MODULE_USE_EXTERNAL_VTK_glew=ON',
+    '-D VTK_MODULE_USE_EXTERNAL_VTK_libproj=ON',
+])
+
+preinstallopts = "export PYTHONPATH=%(installdir)s/lib64/python%(pyshortver)s/site-packages:$PYTHONPATH && "
+
+local_egg_info_src = '%(builddir)s/VTK-%(version)s/vtk-version.egg-info'
+local_egg_info_dest = '%(installdir)s/lib64/python%(pyshortver)s/site-packages/vtk-%(version)s.egg-info'
+
+postinstallcmds = [
+    'sed "s/#VTK_VERSION#/%%(version)s/" %s > %s' % (local_egg_info_src, local_egg_info_dest),
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cd ../%(name)s-%(version)s && cp CONTRIBUTING.md Copyright.txt README.md %(installdir)s/share/licenses/%(name)s',   
+]
+
+modextrapaths = {
+    'PYTHONPATH': 'lib64/python%(pyshortver)s/site-packages',
+}
+
+local_vtk_exec = ['vtk%s-%%(version_major_minor)s' % x
+                  for x in ['WrapPythonInit', 'WrapPython', 'WrapHierarchy']]
+local_vtk_exec += ['vtkpython']
+
+local_vtk_libs = ['CommonCore', 'IONetCDF', 'ParallelCore', 'RenderingOpenGL2']
+
+sanity_check_paths = {
+    'files': ['bin/%s' % x for x in local_vtk_exec] + ['include/vtk-%(version_major_minor)s/vtkMPI.h'] +
+             ['lib/libvtk%s-%%(version_major_minor)s.%s' % (l, SHLIB_EXT) for l in local_vtk_libs],
+    'dirs': ['lib/python%(pyshortver)s/site-packages/', 'include/vtk-%(version_major_minor)s'],
+}
+
+sanity_check_commands = [
+    "python -c 'import %(namelower)s'",
+    "python -c 'import pkg_resources; pkg_resources.get_distribution(\"vtk\")'",
+]
+
+moduleclass = 'vis'
