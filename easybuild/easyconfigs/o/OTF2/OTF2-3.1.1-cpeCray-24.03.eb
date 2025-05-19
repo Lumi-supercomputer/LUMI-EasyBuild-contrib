@@ -52,6 +52,11 @@ prebuildopts = preconfigopts
 
 configopts = '--enable-shared'
 
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cp AUTHORS ChangeLog CITATION.cff COPYING OPEN_ISSUES README THANKS %(installdir)s/share/licenses/%(name)s',   
+]
+
 modextrapaths = {'PYTHONPATH': ['lib64/python%s/site-packages' % local_Python_shortversion]}
 
 sanity_check_paths = {

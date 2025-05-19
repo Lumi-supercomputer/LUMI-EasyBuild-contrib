@@ -32,3 +32,4 @@ it will avoid copying during unification of parallel event streams.
 
 -   Reuse of EasyConfigs of CPE 23.09 with the inclusion of Python to build the Python bindings.
 
+-   Included license information in the software installation also.
