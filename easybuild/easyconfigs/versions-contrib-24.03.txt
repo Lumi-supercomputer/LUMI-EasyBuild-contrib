@@ -32,7 +32,7 @@ local_libsodium_version =    '1.0.19'        # https://download.libsodium.org/li
 
 local_NCO_version =          '5.2.7'         # https://github.com/nco/nco/releases
 local_ncview_version =       '2.1.9'         # https://cirrus.ucsd.edu/~pierce/ncview/
-local_nlohmannjson_version = '3.11.2'        # https://github.com/nlohmann/json/releases
+local_nlohmannjson_version = '3.12.0'        # https://github.com/nlohmann/json/releases
 
 local_OPARI2_version =       '2.0.8'         # https://www.vi-hps.org/projects/score-p/
 local_OpenPGM_version =      '5.2.122'       # https://code.google.com/archive/p/openpgm/downloads
@@ -64,3 +64,4 @@ local_zfp_version =          '1.0.1'         # https://github.com/LLNL/zfp/relea
 
 local_AnariSDK_version =     '0.11.1'        # https://github.com/KhronosGroup/ANARI-SDK/releases
 local_VisRTX_version =       '0.9.0'         # https://github.com/NVIDIA/VisRTX/releases
+local_VTK_version =          '9.2.6'         # https://vtk.org/download/
