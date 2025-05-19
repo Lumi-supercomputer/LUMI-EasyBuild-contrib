@@ -34,7 +34,7 @@ local_NCO_version =          '5.2.7'         # https://github.com/nco/nco/releas
 local_ncview_version =       '2.1.9'         # https://cirrus.ucsd.edu/~pierce/ncview/
 local_nlohmannjson_version = '3.11.2'        # https://github.com/nlohmann/json/releases
 
-ocal_OPARI2_version =       '2.0.8'         # https://www.vi-hps.org/projects/score-p/
+local_OPARI2_version =       '2.0.8'         # https://www.vi-hps.org/projects/score-p/
 local_OpenPGM_version =      '5.2.122'       # https://code.google.com/archive/p/openpgm/downloads
 local_OptiX_version =        '8.0.0'         # https://developer.nvidia.com/designworks/optix/download
 local_OTF2_version =         '3.0.3'         # https://www.vi-hps.org/projects/score-p/
@@ -57,3 +57,10 @@ local_yaml_cpp_version =     '0.8.0'         # https://github.com/jbeder/yaml-cp
 
 local_ZeroMQ_version =       '4.3.5'         # https://github.com/zeromq/libzmq/releases/
 local_zfp_version =          '1.0.1'         # https://github.com/LLNL/zfp/releases
+
+#
+# LUMI-D stack only
+#
+
+local_AnariSDK_version =     '0.11.1'        # https://github.com/KhronosGroup/ANARI-SDK/releases
+local_VisRTX_version =       '0.9.0'         # https://github.com/NVIDIA/VisRTX/releases
