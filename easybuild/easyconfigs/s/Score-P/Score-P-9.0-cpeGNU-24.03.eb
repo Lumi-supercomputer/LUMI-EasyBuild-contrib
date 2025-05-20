@@ -77,7 +77,11 @@ configopts += '--with-papi-header=$CRAY_PAPI_PREFIX/include --with-papi-lib=$CRA
 # Force set correct GCC compilers, as Score-P will use /usr/bin/gcc otherwise
 configopts += 'CC=gcc-13 CXX=g++-13 F77=gfortran-13 FC=gfortran-13 '
 
-postinstallcmds = ['make installcheck V=1 VERBOSE=1']
+postinstallcmds = [
+    'make installcheck V=1 VERBOSE=1',
+    'mkdir -p %(installdir)s/share/licenses/%(name)s && ' +
+    'cp AUTHORS ChangeLog CITATION.cff COPYING OPEN_ISSUES README.md THANKS %(installdir)s/share/licenses/%(name)s',   
+]
 
 sanity_check_paths = {
     'files': ['bin/scorep', 'include/scorep/SCOREP_User.h',

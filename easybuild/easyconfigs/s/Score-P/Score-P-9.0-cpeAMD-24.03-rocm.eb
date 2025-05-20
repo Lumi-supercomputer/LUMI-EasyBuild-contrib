@@ -83,7 +83,11 @@ configopts += '--with-rocm=$ROCM_PATH CFLAGS="-isystem ${ROCM_PATH}/include/roct
 # passing LLVM IR arguments when it shouldn't
 configopts += '--disable-llvm-plugin '
 
-postinstallcmds = ['make installcheck V=1 VERBOSE=1']
+postinstallcmds = [
+    'make installcheck V=1 VERBOSE=1',
+    'mkdir -p %(installdir)s/share/licenses/%(name)s && ' +
+    'cp AUTHORS ChangeLog CITATION.cff COPYING OPEN_ISSUES README.md THANKS %(installdir)s/share/licenses/%(name)s',   
+]
 
 sanity_check_paths = {
     'files': ['bin/scorep', 'include/scorep/SCOREP_User.h',

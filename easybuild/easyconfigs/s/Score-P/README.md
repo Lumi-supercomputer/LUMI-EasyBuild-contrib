@@ -19,6 +19,8 @@ Score-P offers the user a maximum of convenience by supporting a number of analy
 
 -   [Score-P support in the JSC repository]()
 
+There was earlier work in the central software stack before we got EasyConfigs contributed
+by the Score-P authors.
 
 ### Version 8.4 for CPE 23.09
 
@@ -35,8 +37,14 @@ Score-P offers the user a maximum of convenience by supporting a number of analy
     as otherwise `roctracer` is not correctly detected. The `rocm` module does a few
     initialisations of environment variables that the `amd` module does not do.
     
- ### Version 8.4 for CPE 24.03
+### Version 8.4 for CPE 24.03
 
 -   Conversion of the easyconfigs for 23.09 with some build dependencies moved
     to runtime dependencies as we don't want to rely on RPATH.
 
+
+### Version 9.0 for CPE 24.03
+
+-   Some reworking needed, offered to us by JSC. Also required an update of the EasyBlock.
+
+-   Added license information to the installation.

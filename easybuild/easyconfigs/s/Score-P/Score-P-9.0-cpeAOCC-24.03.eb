@@ -77,7 +77,11 @@ configopts  = '--enable-shared --disable-static --with-machine-name=LUMI-cpeAOCC
 configopts += '--with-libpmi=/opt/cray/pe/pmi/default '
 configopts += '--with-papi-header=$CRAY_PAPI_PREFIX/include --with-papi-lib=$CRAY_PAPI_PREFIX/lib '
 
-postinstallcmds = ['make installcheck']
+postinstallcmds = [
+    'make installcheck V=1 VERBOSE=1',
+    'mkdir -p %(installdir)s/share/licenses/%(name)s && ' +
+    'cp AUTHORS ChangeLog CITATION.cff COPYING OPEN_ISSUES README.md THANKS %(installdir)s/share/licenses/%(name)s',   
+]
 
 sanity_check_paths = {
     'files': ['bin/scorep', 'include/scorep/SCOREP_User.h',
