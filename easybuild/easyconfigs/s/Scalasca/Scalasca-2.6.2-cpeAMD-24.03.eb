@@ -60,6 +60,11 @@ dependencies = [
     ('OTF2',    local_OTF2_version),
 ]
 
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cp AUTHORS ChangeLog COPYING OPEN_ISSUES README %(installdir)s/share/licenses/%(name)s',   
+]
+
 sanity_check_paths = {
     'files': ['bin/scalasca', ('lib/libpearl.replay.a', 'lib64/libpearl.replay.a')],
     'dirs': [],

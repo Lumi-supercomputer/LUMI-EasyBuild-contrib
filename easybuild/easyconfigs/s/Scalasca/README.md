@@ -19,6 +19,15 @@ parallel programs
 -   The EasyConfig was contributed by Jan André Reuter of JSC and based on their
     EasyConfigs.
 
+
 ### Version 2.6.1 for CPE 24.03
 
 -   Reuse of EasyConfig for CPE 23.09.
+
+
+### Version 2.6.2 for CPE 24.03
+
+-   Mostly a bugfix release. We omitted the message about Score-P for now.
+
+-   Needed to unload `craype-accel-amd-gfx90a` for the cpeCray build as otherwise compilation
+    failed. (This effectively turns off OpenMP offload when OpenMP is enabled.)
