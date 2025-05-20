@@ -49,6 +49,11 @@ builddependencies = [
 preconfigopts = 'module unload cray-libsci rocm && '
 prebuildopts = preconfigopts
 
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cp AUTHORS LICENSE README.markdown THANKS %(installdir)s/share/licenses/%(name)s',   
+]
+
 sanity_check_paths = {
     'files': ['include/sodium.h', 'lib/libsodium.so', 'lib/libsodium.a'],
     'dirs':  ['include/sodium', 'lib/pkgconfig'],

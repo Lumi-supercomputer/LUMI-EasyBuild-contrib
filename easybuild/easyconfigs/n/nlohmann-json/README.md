@@ -22,4 +22,3 @@
 ### Version 3.11.2 for CPE 22.12 and 23.09
 
 -   Based on the JSC easyconfig
-

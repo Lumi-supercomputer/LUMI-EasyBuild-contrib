@@ -4,6 +4,8 @@
 
 -   [SZ on Github](https://github.com/szcompressor/SZ)
 
+    -   [GitHub releases](https://github.com/szcompressor/SZ/releases)
+
 
 ## EasyBuild
 
@@ -27,3 +29,11 @@
 
 -   Did not work: the bin/sz binary was not built, so reverted to plain 2.1.12.
 
+
+### 2.1.12.5 for CPE 24.03
+
+-   Still without `bin/sz`, but this executable does not exist anymore?
+
+-   Added license information in May 2025.
+
+-   May 2025: Version added with `cray-hdf5-parallel` which was somewhat nontrivial.

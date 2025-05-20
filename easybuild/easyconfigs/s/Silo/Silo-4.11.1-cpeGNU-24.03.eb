@@ -1,0 +1,75 @@
+easyblock = 'ConfigureMake'
+
+local_Szip_version =         '2.1.1'         # https://support.hdfgroup.org/ftp/lib-external/szip/
+local_Silo_version =         '4.11.1'        # https://github.com/LLNL/Silo/releases
+
+name = 'Silo'
+version = local_Silo_version
+
+homepage = 'https://wci.llnl.gov/simulation/computer-codes/silo/'
+
+whatis = ['Description: Silo is a library for reading and writing a wide variety of scientific data to binary disk files']
+
+description = """
+Silo is a library for reading and writing a wide variety of scientific data to
+binary disk files. The files Silo produces and the data within them can be easily
+shared and exchanged between wholly independently developed applications running
+on disparate computing platforms. Consequently, Silo facilitates the development
+of general purpose tools for processing scientific data.
+
+Silo supports gridless (point) meshes, structured meshes, unstructured-zoo and
+unstructured-arbitrary-polyhedral meshes, block structured AMR meshes,
+constructive solid geometry (CSG) meshes, piecewise-constant (e.g.,
+zone-centered) and piecewise-linear (e.g. node-centered) variables defined on
+the node, edge, face or volume elements of meshes as well as the decomposition
+of meshes into arbitrary subset hierarchies including materials and mixing
+materials. In addition, Silo supports a wide variety of other useful objects and
+metadata to address various scientific computing application needs. Although the
+Silo library is a serial library, key features enable it to be applied
+effectively in scalable, parallel applications using the Multiple Independent
+File (MIF) parallel I/O paradigm.
+
+Architecturally, the library is divided into two main pieces; an upper-level
+application programming interface (API) and a lower-level I/O implementation
+called a driver. Silo supports multiple I/O drivers. The two most common are the
+HDF5 (Hierarchical Data Format 5) and PDB (Portable DataBase) drivers.
+"""
+
+docurls = ['https://silo.readthedocs.io/']
+software_license_urls = ['https://github.com/LLNL/Silo/blob/main/COPYRIGHT']
+
+toolchain = {'name': 'cpeGNU', 'version': '24.03'}
+toolchainopts = {'opt': True, 'pic': True, 'usempi': True}
+
+source_urls = ['https://github.com/LLNL/Silo/releases/download/%(version)s']
+sources =     ['%(namelower)s-%(version)s.tar.xz']
+
+checksums = ['49eddc00304aa4a19074b099559edbdcaa3532c98df32f99aa62b9ec3ea7cee2']
+
+builddependencies = [
+    ('buildtools',        '%(toolchain_version)s', '', True),
+    ('craype-accel-host', EXTERNAL_MODULE)
+]
+
+dependencies = [
+    ('cray-hdf5-parallel', EXTERNAL_MODULE),
+    ('Szip',               local_Szip_version)
+]
+
+configopts = [
+    '--with-hdf5=$CRAY_HDF5_PARALLEL_PREFIX/include,$CRAY_HDF5_PARALLEL_PREFIX/lib --with-szlib=$EBROOTSZIP/lib --enable-shared --disable-silex',
+    '--with-szlib=$EBROOTSZIP/lib --enable-shared --disable-silex --enable-install-lite-headers',
+]
+
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cd ../%(namelower)s-%(version)s && cp BSD_LICENSE_README COPYRIGHT %(installdir)s/share/licenses/%(name)s',   
+]
+
+sanity_check_paths = {
+    'files': ['bin/browser', 'bin/silock', 'bin/silodiff', 'bin/silofile', 'lib/libsilo.a', 'lib/libsiloh5.a',
+              'share/licenses/%(name)s/COPYRIGHT'],
+    'dirs':  [],
+}
+
+moduleclass = 'data'

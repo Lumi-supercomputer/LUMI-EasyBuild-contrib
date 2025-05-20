@@ -12,3 +12,6 @@ See also the
 [LICENSE.MIT file in that repository](https://github.com/nlohmann/json/blob/develop/LICENSE.MIT) and
 the [LICENSES subdirectory](https://github.com/nlohmann/json/tree/develop/LICENSES)
 for other licenses.
+
+After installing and loading the module, this information can also be found in
+`$EBROOTNLOHMANNMINJSON/share/licenses/nlohmann-json`.

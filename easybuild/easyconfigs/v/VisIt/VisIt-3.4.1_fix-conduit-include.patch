@@ -1,0 +1,120 @@
+diff -ruN visit3.4.1.orig/src/avt/Blueprint/avtConduitBlueprintDataAdaptor.C visit3.4.1/src/avt/Blueprint/avtConduitBlueprintDataAdaptor.C
+--- visit3.4.1.orig/src/avt/Blueprint/avtConduitBlueprintDataAdaptor.C	2025-02-07 07:45:35.341150636 +0100
++++ visit3.4.1/src/avt/Blueprint/avtConduitBlueprintDataAdaptor.C	2025-02-07 07:52:41.909471154 +0100
+@@ -3,7 +3,7 @@
+ // details.  No copyright assignment is required to contribute to VisIt.
+ 
+ #include <avtConduitBlueprintDataAdaptor.h>
+-#include <conduit.hpp>
++#include <conduit/conduit.hpp>
+ #include <conduit_blueprint.hpp>
+ #include <conduit_blueprint_mesh_utils.hpp>
+ #include "avtConduitBlueprintLogging.h"
+diff -ruN visit3.4.1.orig/src/avt/Blueprint/avtConduitBlueprintDataAdaptor.h visit3.4.1/src/avt/Blueprint/avtConduitBlueprintDataAdaptor.h
+--- visit3.4.1.orig/src/avt/Blueprint/avtConduitBlueprintDataAdaptor.h	2025-02-07 07:45:35.341150636 +0100
++++ visit3.4.1/src/avt/Blueprint/avtConduitBlueprintDataAdaptor.h	2025-02-07 07:52:20.113659949 +0100
+@@ -5,7 +5,7 @@
+ #ifndef AVT_CONDUIT_BLUEPRINT_DATA_ADAPTOR_H
+ #define AVT_CONDUIT_BLUEPRINT_DATA_ADAPTOR_H
+ #include <avtblueprint_exports.h>
+-#include <conduit.hpp>
++#include <conduit/conduit.hpp>
+ 
+ //-----------------------------------------------------------------------------
+ // mfem includes
+diff -ruN visit3.4.1.orig/src/avt/Blueprint/avtConduitBlueprintLogging.h visit3.4.1/src/avt/Blueprint/avtConduitBlueprintLogging.h
+--- visit3.4.1.orig/src/avt/Blueprint/avtConduitBlueprintLogging.h	2025-02-07 07:45:35.341150636 +0100
++++ visit3.4.1/src/avt/Blueprint/avtConduitBlueprintLogging.h	2025-02-07 07:50:52.062417340 +0100
+@@ -9,7 +9,7 @@
+ #ifndef AVT_CONDUIT_BLUEPRINT_LOGGING_H
+ #define AVT_CONDUIT_BLUEPRINT_LOGGING_H
+ 
+-#include "conduit.hpp"
++#include <conduit/conduit.hpp>
+ #include <string>
+ #include "InvalidVariableException.h"
+ 
+diff -ruN visit3.4.1.orig/src/databases/Blueprint/avtBlueprintFileFormat.C visit3.4.1/src/databases/Blueprint/avtBlueprintFileFormat.C
+--- visit3.4.1.orig/src/databases/Blueprint/avtBlueprintFileFormat.C	2025-02-07 07:45:35.505149204 +0100
++++ visit3.4.1/src/databases/Blueprint/avtBlueprintFileFormat.C	2025-02-07 07:50:51.138425265 +0100
+@@ -45,7 +45,7 @@
+ //-----------------------------------------------------------------------------
+ // conduit includes
+ //-----------------------------------------------------------------------------
+-#include "conduit.hpp"
++#include <conduit/conduit.hpp>
+ #include "conduit_relay.hpp"
+ #include "conduit_relay_io_hdf5.hpp"
+ #include "conduit_blueprint.hpp"
+diff -ruN visit3.4.1.orig/src/databases/Blueprint/avtBlueprintFileFormat.h visit3.4.1/src/databases/Blueprint/avtBlueprintFileFormat.h
+--- visit3.4.1.orig/src/databases/Blueprint/avtBlueprintFileFormat.h	2025-02-07 07:45:35.505149204 +0100
++++ visit3.4.1/src/databases/Blueprint/avtBlueprintFileFormat.h	2025-02-07 07:50:51.030426192 +0100
+@@ -18,7 +18,7 @@
+ 
+ #include "avtSTMDFileFormat.h"
+ 
+-#include "conduit.hpp"
++#include <conduit/conduit.hpp>
+ 
+ #include <string>
+ #include <vector>
+diff -ruN visit3.4.1.orig/src/databases/Blueprint/avtBlueprintLogging.h visit3.4.1/src/databases/Blueprint/avtBlueprintLogging.h
+--- visit3.4.1.orig/src/databases/Blueprint/avtBlueprintLogging.h	2025-02-07 07:45:35.505149204 +0100
++++ visit3.4.1/src/databases/Blueprint/avtBlueprintLogging.h	2025-02-07 07:50:50.922427118 +0100
+@@ -9,7 +9,7 @@
+ #ifndef AVT_BLUEPRINT_LOGGING_H
+ #define AVT_BLUEPRINT_LOGGING_H
+ 
+-#include "conduit.hpp"
++#include <conduit/conduit.hpp>
+ #include <string>
+ #include "InvalidVariableException.h"
+ 
+diff -ruN visit3.4.1.orig/src/databases/Blueprint/avtBlueprintTreeCache.C visit3.4.1/src/databases/Blueprint/avtBlueprintTreeCache.C
+--- visit3.4.1.orig/src/databases/Blueprint/avtBlueprintTreeCache.C	2025-02-07 07:45:35.505149204 +0100
++++ visit3.4.1/src/databases/Blueprint/avtBlueprintTreeCache.C	2025-02-07 07:50:50.818428010 +0100
+@@ -24,7 +24,7 @@
+ //-----------------------------------------------------------------------------
+ // conduit includes
+ //-----------------------------------------------------------------------------
+-#include "conduit.hpp"
++#include <conduit/conduit.hpp>
+ #include "conduit_relay.hpp"
+ #include "conduit_relay_io_hdf5.hpp"
+ 
+diff -ruN visit3.4.1.orig/src/databases/Blueprint/avtBlueprintTreeCache.h visit3.4.1/src/databases/Blueprint/avtBlueprintTreeCache.h
+--- visit3.4.1.orig/src/databases/Blueprint/avtBlueprintTreeCache.h	2025-02-07 07:45:35.505149204 +0100
++++ visit3.4.1/src/databases/Blueprint/avtBlueprintTreeCache.h	2025-02-07 07:50:50.714428902 +0100
+@@ -10,7 +10,7 @@
+ #define AVT_BLUEPRINT_TREE_CACHE_H
+ 
+ #include <string>
+-#include "conduit.hpp"
++#include <conduit/conduit.hpp>
+ 
+ //---------------------------------------------------------------------------//
+ //
+diff -ruN visit3.4.1.orig/src/databases/Blueprint/avtBlueprintWriter.C visit3.4.1/src/databases/Blueprint/avtBlueprintWriter.C
+--- visit3.4.1.orig/src/databases/Blueprint/avtBlueprintWriter.C	2025-02-07 07:45:35.505149204 +0100
++++ visit3.4.1/src/databases/Blueprint/avtBlueprintWriter.C	2025-02-07 07:50:50.606429828 +0100
+@@ -40,7 +40,7 @@
+ //-----------------------------------------------------------------------------
+ // conduit includes
+ //-----------------------------------------------------------------------------
+-#include "conduit.hpp"
++#include <conduit/conduit.hpp>
+ #include "conduit_relay.hpp"
+ #include "conduit_relay_io_hdf5.hpp"
+ #include "conduit_blueprint.hpp"
+diff -ruN visit3.4.1.orig/src/databases/Blueprint/avtBlueprintWriter.h visit3.4.1/src/databases/Blueprint/avtBlueprintWriter.h
+--- visit3.4.1.orig/src/databases/Blueprint/avtBlueprintWriter.h	2025-02-07 07:45:35.505149204 +0100
++++ visit3.4.1/src/databases/Blueprint/avtBlueprintWriter.h	2025-02-07 07:50:50.502430720 +0100
+@@ -19,7 +19,7 @@
+ #include <string>
+ #include <vector>
+ 
+-#include "conduit.hpp"
++#include <conduit/conduit.hpp>
+ 
+ class DBOptionsAttributes;
+ 

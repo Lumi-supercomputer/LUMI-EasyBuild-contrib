@@ -1,0 +1,12 @@
+--- VTK-9.2.6.orig/Rendering/RayTracing/CMakeLists.txt	2025-02-06 07:01:50.683217982 +0100
++++ VTK-9.2.6/Rendering/RayTracing/CMakeLists.txt	2025-02-06 07:07:04.720518178 +0100
+@@ -56,8 +56,7 @@
+ 
+ if (VTK_ENABLE_OSPRAY)
+   vtk_module_find_package(
+-    PACKAGE ospray
+-    VERSION 2.1)
++    PACKAGE ospray)
+ 
+   vtk_module_link(VTK::RenderingRayTracing
+     PUBLIC

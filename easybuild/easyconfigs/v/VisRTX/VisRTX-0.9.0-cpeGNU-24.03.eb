@@ -1,0 +1,98 @@
+easyblock = 'Bundle'
+
+local_AnariSDK_version =     '0.11.1'        # https://github.com/KhronosGroup/ANARI-SDK/releases
+local_VisRTX_version =       '0.9.0'         # https://github.com/NVIDIA/VisRTX/releases
+local_CUDA_version =         '12.2.2'
+local_OptiX_version =        '8.0.0'         # https://developer.nvidia.com/designworks/optix/download
+
+local_AnariSDK_checksum = '164fb5b467732ac292e1363e8b47c1382df70f9080dd5ecf06011cf1d0328035'
+local_VisRTX_checksum   = '713a35595290bb89a661c86bfc7c60b5c38e3d2c25457bba12ea3d576ab0db85'
+
+name = 'VisRTX'
+version = local_VisRTX_version
+
+homepage = 'https://github.com/NVIDIA/VisRTX'
+
+whatis = ['Description: NVIDIA OptiX based implementation of ANARI']
+
+description = """
+VisRTX is an experimental, scientific visualization-focused implementation of
+the Khronos ANARI standard, and is developed by the HPC Visualization Developer
+Technology team at NVIDIA.
+
+VisRTX is designed to track ongoing developments of the ANARI standard and
+provide usable extensions where possible. Prospective backend implementors of
+ANARI are encouraged to use VisRTX as a much more complete example of a
+GPU-accelerated, ray tracing based implementation of ANARI.
+"""
+
+software_license_urls = [
+    'VisRTX    : https://github.com/NVIDIA/VisRTX/blob/main/LICENSE',
+    'ANARI-SDK : https://github.com/KhronosGroup/ANARI-SDK/blob/next_release/LICENSE',
+]
+
+toolchain = {'name': 'cpeGNU', 'version': '24.03'}
+
+builddependencies = [
+    ('buildtools',          '%(toolchain_version)s', '', True),
+    ('craype-accel-host',   EXTERNAL_MODULE),
+    ('craype-network-none', EXTERNAL_MODULE),
+    ('cray-python',         EXTERNAL_MODULE),
+]
+
+dependencies = [
+    ('OpenGL',        '%(toolchain_version)s'),
+    ('X11',           '%(toolchain_version)s'),
+    ('CUDA',          local_CUDA_version,  '', True),
+    ('OptiX',         local_OptiX_version, '', True),
+]
+
+default_easyblock = 'CMakeMake'
+
+local_unload_unneeded = 'module unload cray-libsci rocm xpmem && '
+
+default_component_specs = {
+    'start_dir'     : '%(name)s-%(version)s',
+    'preconfigopts' : local_unload_unneeded,
+    'prebuildopts'  : local_unload_unneeded,
+}
+
+components = [
+    ('ANARI-SDK', local_AnariSDK_version, {
+        'source_urls'   : [' https://github.com/KhronosGroup/ANARI-SDK/archive/refs/tags'],
+        'sources'       : ['v%(version)s.tar.gz'],
+        'checksums'     : [local_AnariSDK_checksum],
+        'configopts'    : ' '.join([
+            '-DBUILD_SHARED_LIBS=ON',
+            '-DBUILD_CTS=OFF',
+            '-DBUILD_TESTING=OFF',
+            '-DBUILD_HELIDE_DEVICE=OFF',
+            '-DBUILD_REMOTE_DEVICE=OFF',
+            '-DBUILD_EXAMPLES=OFF',
+            '-DBUILD_VIEWER=OFF',
+            '-DBUILD_HDANARI=OFF',
+        ]),
+        'installopts'   : '&& mkdir -p %(installdir)s/share/licenses/%(name)s ' +
+                          '&& cd ../%(name)s-%(version)s ' +
+                          '&& cp -r LICENSE LICENCES README.md %(installdir)s/share/licenses/%(name)s'
+    }),
+    ('VisRTX', local_VisRTX_version, {
+        'source_urls'   : ['https://github.com/NVIDIA/VisRTX/archive/refs/tags'],
+        'sources'       : ['v%(version)s.tar.gz'],
+        'checksums'     : [local_VisRTX_checksum],
+        'configopts'    : '-DVISRTX_PRECOMPILE_SHADERS=OFF',
+        'installopts'   : '&& mkdir -p %(installdir)s/share/licenses/%(name)s ' +
+                          '&& cd ../%(name)s-%(version)s ' +
+                          '&& cp -r LICENSE README.md %(installdir)s/share/licenses/%(name)s'
+    }),
+]
+
+local_libs = ['anari', 'anari_library_visgl', 'anari_library_visrtx']
+
+sanity_check_paths = {
+    'files': ['lib/lib%s.%s' % (lib, SHLIB_EXT) for lib in local_libs] +
+             ['share/licenses/ANARI-SDK/LICENSE', 'share/licenses/VisRTX/LICENSE'],
+    'dirs':  ['lib/cmake'],
+}
+
+moduleclass = 'vis'

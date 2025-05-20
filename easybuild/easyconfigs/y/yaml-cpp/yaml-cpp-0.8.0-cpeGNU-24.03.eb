@@ -2,7 +2,7 @@
 # Adapted for LUMI by Orian Louant
 easyblock = 'CMakeMake'
 
-local_yaml_cpp_version = '0.8.0'     # https://github.com/jbeder/yaml-cpp/releases
+local_yaml_cpp_version =     '0.8.0'         # https://github.com/jbeder/yaml-cpp/releases
 
 name =    'yaml-cpp'
 version = local_yaml_cpp_version
@@ -23,8 +23,8 @@ toolchain = {'name': 'cpeGNU', 'version': '24.03'}
 toolchainopts = {'pic': True}
 
 source_urls = ['https://github.com/jbeder/%(name)s/archive/']
-sources = ['%(version)s.tar.gz']
-checksums = ['fbe74bbdcee21d656715688706da3c8becfd946d92cd44705cc6098bb23b3a16']
+sources =     ['%(version)s.tar.gz']
+checksums =   ['fbe74bbdcee21d656715688706da3c8becfd946d92cd44705cc6098bb23b3a16']
 
 builddependencies = [
     ('buildtools',           '%(toolchain_version)s', '', True),
@@ -37,8 +37,14 @@ prebuildopts = preconfigopts
 
 configopts = ['', '-DBUILD_SHARED_LIBS=ON']
 
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cd ../%(namelower)s-%(version)s && cp CONTRIBUTING.md LICENSE README.md SECURITY.md %(installdir)s/share/licenses/%(name)s',   
+]
+
 sanity_check_paths = {
-    'files': ['lib/libyaml-cpp.a', 'lib/libyaml-cpp.%s' % SHLIB_EXT, 'include/yaml-cpp/yaml.h'],
+    'files': ['lib/libyaml-cpp.a', 'lib/libyaml-cpp.%s' % SHLIB_EXT, 'include/yaml-cpp/yaml.h',
+              'share/licenses/%(name)s/LICENSE'],
     'dirs':  ['lib', 'include'],
 }
 

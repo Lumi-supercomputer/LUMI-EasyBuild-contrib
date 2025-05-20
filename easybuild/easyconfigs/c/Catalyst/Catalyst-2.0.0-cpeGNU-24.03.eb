@@ -1,0 +1,78 @@
+easyblock = 'CMakeMake'
+
+local_Conduit_version =      '0.9.2'         # https://github.com/LLNL/conduit/releases
+local_Catalyst_version =     '2.0.0'         # https://gitlab.kitware.com/paraview/catalyst/-/tags
+
+name = 'Catalyst'
+version = local_Catalyst_version
+
+homepage = 'https://gitlab.kitware.com/paraview/catalyst/'
+
+whatis = ['Description: Catalyst is an in situ visualization framework']
+
+description = """
+Catalyst is an in situ visualization framework created as part
+of ParaView.
+
+Also known as coprocessing or concurrent analysis, the in situ
+workflow allows you to perform analysis and visualization at
+the time of the simulation.
+
+As only the output of the analysis is written on the disk, the I/O
+operations are considerably reduced compared to:
+
+  - writing full simulation output
+  - reading the full-size data in an analysis tool
+  - writing the analysis output.
+
+ParaView Catalyst provides a small, easy-to-use, API that any simulation
+developed in C++, C, Fortran or Python can use to do in situ analysis
+without developing its own custom data analysis code.
+"""
+
+docurls = ['https://catalyst-in-situ.readthedocs.io/en/latest/']
+software_license_urls = ['https://gitlab.kitware.com/paraview/catalyst/-/blob/master/License.txt']
+
+toolchain = {'name': 'cpeGNU', 'version': '24.03'}
+toolchainopts = {'pic': True, 'usempi': True}
+
+source_urls = [('https://gitlab.kitware.com/paraview/catalyst/-/archive/v%(version)s/')]
+sources =     [('catalyst-v%(version)s.tar.gz')]
+checksums =   ['e9f072637ebb7108d940fd0abdce1e260f2942790069e8038a5f2906d4563afd']
+
+builddependencies = [
+    ('buildtools',        '%(toolchain_version)s', '', True),
+    ('craype-accel-host', EXTERNAL_MODULE),
+]
+
+dependencies = [
+    ('cray-python', EXTERNAL_MODULE),
+    ('Conduit',     local_Conduit_version),
+]
+
+preconfigopts = ' && '.join([
+    'module unload rocm cray-libsci',
+    'export LDFLAGS="${LDFLAGS} -L${CRAY_PYTHON_PREFIX}/lib -Wl,-rpath=${CRAY_PYTHON_PREFIX}/lib"',
+]) + ' && '
+
+prebuildopts = preconfigopts
+
+configopts = ' '.join([
+    '-DCATALYST_BUILD_TOOLS=ON',
+    '-DCATALYST_USE_MPI=ON',
+    '-DCATALYST_WRAP_PYTHON=ON',
+    '-DCATALYST_WRAP_FORTRAN=ON',
+    '-DCATALYST_WITH_EXTERNAL_CONDUIT=ON',
+])
+
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cd ../%(namelower)s-v%(version)s && cp 3rdPartyLicenses.txt License.txt README.md %(installdir)s/share/licenses/%(name)s',   
+]
+
+sanity_check_paths = {
+    'files': ['lib/libcatalyst.%s' % SHLIB_EXT, 'lib/libcatalyst_fortran.%s' % SHLIB_EXT],
+    'dirs':  ['include/', 'lib'],
+}
+
+moduleclass = 'vis'

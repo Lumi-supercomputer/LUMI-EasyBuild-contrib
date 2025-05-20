@@ -1,3 +1,4 @@
+#DOC This version uses the `cray-hdf5` module.
 easyblock = 'CMakeMake'
 
 local_zlib_version =         '1.3.1'         # https://zlib.net/
@@ -63,20 +64,20 @@ builddependencies = [
 ]
 
 dependencies = [
-    ('cray-python',   EXTERNAL_MODULE),
-    ('cray-hdf5',     EXTERNAL_MODULE),
+    ('cray-python',        EXTERNAL_MODULE),
+    ('cray-hdf5',          EXTERNAL_MODULE),
     # Central stack
-    ('zlib',          local_zlib_version),
-    ('bzip2',         local_bzip2_version),
-    ('Szip',          local_Szip_version),
-    ('Blosc',         local_Blosc_version),
-    ('libpng',        local_libpng_version),
-    ('nlohmann-json', local_nlohmannjson_version),
+    ('zlib',               local_zlib_version),
+    ('bzip2',              local_bzip2_version),
+    ('Szip',               local_Szip_version),
+    ('Blosc',              local_Blosc_version),
+    ('libpng',             local_libpng_version),
+    ('nlohmann-json',      local_nlohmannjson_version),
     # Contributed
-    ('SZ',            local_SZ_version),
-    ('zfp',           local_zfp_version),
-    ('ZeroMQ',        local_ZeroMQ_version),
-    ('yaml-cpp',      local_yaml_cpp_version),
+    ('SZ',                 local_SZ_version),
+    ('zfp',                local_zfp_version),
+    ('ZeroMQ',             local_ZeroMQ_version),
+    ('yaml-cpp',           local_yaml_cpp_version),
 ]
 
 preconfigopts  = 'export CMAKE_PREFIX_PATH=${EBROOTPYTHON}/%s:$CMAKE_PREFIX_PATH && ' % local_pybind11_cmake_prefix
@@ -132,7 +133,7 @@ configopts = ' '.join([
     
     # more options
     '-DADIOS2_USE_IME=OFF',
-    '-DADIOS2_USE_Profiling=OFF',
+    '-DADIOS2_USE_Profiling=ON',  # Profiling needed for VisIt
 ])
 
 runtest = False
@@ -156,6 +157,9 @@ Description: ADIOS2 I/O library (Fortran)
 Version: %(version)s
 Libs: $(%(installdir)s/bin/adios2-config --fortran-libs)
 Cflags: $(%(installdir)s/bin/adios2-config --fortran-flags)" > %(installdir)s/lib/pkgconfig/adios2_f.pc""",
+    'mkdir -p %(installdir)s/share/licenses/%(name)s && ' +
+    'cd ../%(name)s-%(version)s && ' + 
+    'cp CODEOWNERS Contributing.md Copyright.txt LICENSE ReadMe.md %(installdir)s/share/licenses/%(name)s',   
 ]
 
 sanity_check_paths = {
