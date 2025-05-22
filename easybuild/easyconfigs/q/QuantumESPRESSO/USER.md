@@ -14,8 +14,18 @@ Open-Source computer codes for electronic-structure calculations and materials
 modeling at the nanoscale. It is based on density-functional theory, plane
 waves, and pseudopotentials.". In general, it runs well on [LUMI-C][lumi-c].
 
-**There is currently no version of Quantum Espresso that can use the AMD GPUs
-in the [LUMI-G][lumi-g].**
+**There is currently (May 2025 last update) no AMD release of QE that we can support from the LUMI User
+Support Team. Some recent releases have support for AMD GPUs via OpenMP offload.
+However, [version 7.4.1omp](https://gitlab.com/QEF/q-e-omp-repository/-/releases/qe-7.4.1omp) requires 
+[the Cray compiler CCE 15 or older](https://gitlab.com/QEF/q-e/-/wikis/Support/Build-cray-gpu)
+as there are issues with CCE 16 to 18. CCE 15 requires using a ROCm version (5.2,
+though 5.4 worked also) that is not
+supported by the current driver on LUMI, and in fact, is even known to fail.
+The Cray PE 25.03, expected to be installed on LUMI in late summer of 2025, may
+solve the issues with QE on the LUMI-G GPUs.
+Note that even though we do have CPE 25.03 with CCE 19 in [a container](c/ccpe/index.md), this 
+container cannot be used on LUMI-G to run software as it is based on ROCm 6.3 which also 
+has issues on the current AMD GPU driver.**
 
 ## Installing Quantum ESPRESSO
 
