@@ -1,0 +1,75 @@
+easyblock = 'CMakeMake'
+
+name = 'QUDA'
+version = 'a76d22e'
+versionsuffix = '-rocm-xnack'
+
+homepage = 'https://lattice.github.io/quda/'
+
+description = """QUDA is a library for performing calculations in lattice QCD on GPUs."""
+
+
+toolchain = {'name': 'cpeAMD', 'version': '24.03'}
+toolchainopts = {'usempi': True, 'openmp': True}
+
+sources = [{
+    'filename':   'quda-%(version)s.tar.gz',    
+    'git_config': {
+        'url': 'https://github.com/lattice',
+        'repo_name': 'quda',
+        'commit': 'a76d22e' # develop at 2025/05/15
+    }
+}]
+
+dependencies = [
+    ('rocm', '6.2.2', '', SYSTEM),
+]
+
+builddependencies = [
+    ('buildtools',   '%(toolchain_version)s',   '', True),
+]
+
+configopts =  '-D CMAKE_BUILD_TYPE=DEVEL '
+configopts += '-D CMAKE_C_COMPILER=amdclang '
+configopts += '-D CMAKE_C_FLAGS="-O2 -frelaxed-template-template-args -fopenmp -I${MPICH_DIR}/include" '
+configopts += '-D CMAKE_C_STANDARD=99 '
+configopts += '-D CMAKE_CXX_COMPILER=hipcc '
+configopts += '-D CMAKE_CXX_FLAGS="-std=c++17 -O2 -frelaxed-template-template-args -fopenmp -fgpu-rdc -I${MPICH_DIR}/include -I${ROCM_PATH}/include -I${ROCM_PATH}/include/hipfft" '
+configopts += '-D CMAKE_EXE_LINKER_FLAGS="--hip-link -L${MPICH_DIR}/lib -lmpi -L${ROCM_PATH}/lib -fopenmp ${PE_MPICH_GTL_DIR_amd_gfx90a} ${PE_MPICH_GTL_LIBS_amd_gfx90a}" '
+configopts += '-D CMAKE_SHARED_LINKER_FLAGS="--hip-link -L${MPICH_DIR}/lib -lmpi -L${ROCM_PATH}/lib -fopenmp ${PE_MPICH_GTL_DIR_amd_gfx90a} ${PE_MPICH_GTL_LIBS_amd_gfx90a}" '
+configopts += '-D MPI_CXX_COMPILER=CC '
+configopts += '-D MPI_C_COMPILER=/opt/cray/pe/craype/2.7.31.11/bin/cc '
+configopts += '-D ROCM_PATH=${ROCM_PATH} '
+configopts += '-D AMDGPU_TARGETS="gfx90a:xnack+" '
+configopts += '-D GPU_TARGETS="gfx90a:xnack+" '
+configopts += '-D BUILD_SHARED_LIBS=ON '
+configopts += '-D QUDA_TARGET_TYPE="HIP" '
+configopts += '-D QUDA_GPU_ARCH="gfx90a:xnack+" '
+configopts += '-D QUDA_MPI=ON '
+configopts += '-D QUDA_COVDEV=OFF '
+configopts += '-D QUDA_DIRAC_NDEG_TWISTED_CLOVER=OFF '
+configopts += '-D QUDA_DIRAC_NDEG_TWISTED_MASS=OFF '
+configopts += '-D QUDA_DIRAC_DOMAIN_WALL=OFF '
+configopts += '-D QUDA_DIRAC_CLOVER_HASENBUSCH=OFF '
+configopts += '-D QUDA_DIRAC_CLOVER=ON '
+configopts += '-D QUDA_DIRAC_STAGGERED=ON '
+configopts += '-D QUDA_DIRAC_TWISTED_MASS=OFF '
+configopts += '-D QUDA_DIRAC_TWISTED_CLOVER=OFF '
+configopts += '-D QUDA_DIRAC_WILSON=ON '
+configopts += '-D QUDA_INTERFACE_MILC=ON '
+configopts += '-D QUDA_INTERFACE_CPS=ON '
+configopts += '-D QUDA_INTERFACE_QDP=ON '
+configopts += '-D QUDA_INTERFACE_TIFR=OFF '
+configopts += '-D QUDA_MULTIGRID=ON '
+configopts += '-D QUDA_BUILD_SHAREDLIB=ON '
+configopts += '-D QUDA_BUILD_ALL_TESTS=ON '
+configopts += '-D QUDA_CTEST_DISABLE_BENCHMARKS=ON '
+configopts += '-D QUDA_MAX_MULTI_BLAS_N=9 '
+configopts += '-D QUDA_MULTIGRID_NVEC_LIST=6 '
+
+sanity_check_paths = {
+    'files': ['lib/libquda.so'],
+    'dirs':  ['bin', 'lib', 'include'],
+}
+
+moduleclass = 'phys'
