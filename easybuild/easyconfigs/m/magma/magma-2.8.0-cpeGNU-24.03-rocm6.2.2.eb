@@ -65,8 +65,7 @@ builddependencies = [
 ]
 
 dependencies = [
-    # Load rocm/6.2.2 as EXTERNAL_MODULE to ensure Magma's CMake build finds it instead of 6.0.3
-    ('rocm/6.2.2', EXTERNAL_MODULE),
+    ('rocm', '6.2.2', '', SYSTEM)
 ]
 
 local_configopts_base = ' '.join([
