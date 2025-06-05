@@ -23,3 +23,8 @@ CuPy is a NumPy/SciPy-compatible array library for GPU-accelerated computing wit
 
 -  Need a patch in order to support ROCm 6.0
 
+### Version 13.4.1 for CPE 24.03
+
+- Supports ROCm 6.
+- Requires Cython 3 (not available in cray-python).
+
