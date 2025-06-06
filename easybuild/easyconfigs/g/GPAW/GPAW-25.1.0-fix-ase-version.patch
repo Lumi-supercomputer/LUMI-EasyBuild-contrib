@@ -1,0 +1,13 @@
+diff --git a/setup.py b/setup.py
+index 9ea28ce7d..b09894925 100644
+--- a/setup.py
++++ b/setup.py
+@@ -397,7 +397,7 @@ setup(name='gpaw',
+           'console_scripts': ['gpaw = gpaw.cli.main:main']},
+       setup_requires=['numpy'],
+       python_requires=python_requires,
+-      install_requires=[f'ase>={ase_version_required}',
++      install_requires=['ase==3.24.0',
+                         'numpy',
+                         'scipy>=1.6.0'],
+       extras_require={'docs': ['sphinx-rtd-theme',

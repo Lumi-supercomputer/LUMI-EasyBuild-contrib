@@ -1,0 +1,75 @@
+easyblock = "PythonPackage"
+
+name = 'GPAW'
+version = '25.1.0'
+
+homepage = 'https://wiki.fysik.dtu.dk/gpaw/'
+description = """GPAW is a density-functional theory (DFT) Python code based on the projector-augmented wave (PAW)
+ method and the atomic simulation environment (ASE). It uses real-space uniform grids and multigrid methods or
+ atom-centered basis-functions."""
+
+toolchain = {'name': 'cpeGNU', 'version': '24.03'}
+toolchainopts = {'usempi': True, 'openmp': True}
+
+sources = [{
+     'filename': SOURCELOWER_TAR_GZ,
+     'source_urls': [PYPI_LOWER_SOURCE],
+},
+{
+     # Old setups are OK for 25.1.0
+     'filename': 'gpaw-setups-24.1.0.tar.gz',
+     'source_urls': ['https://wiki.fysik.dtu.dk/gpaw-files/'],
+}
+]
+patches = [
+   {'name': 'GPAW-25.1.0-siteconfig-cpu.patch', 'level': 1},
+   {'name': 'GPAW-25.1.0-fix-ase-version.patch', 'level': 1},
+   {'name': 'GPAW-25.1.0-test-nosave-projections.patch', 'level': 1},
+   {'name': 'GPAW-25.1.0-test-gauss-func.patch', 'level': 1},
+]
+checksums = [
+    {'gpaw-25.1.0.tar.gz': '80236e779784df3317e7da395dc59ea403bc0213bb3a68d02c17957162e972ea'},
+    {'gpaw-setups-24.1.0.tar.gz': '314d43168f7b57a2d942855d3d5ad21da9ef74e772d37343d416305113a95c23'},
+    {'GPAW-25.1.0-siteconfig-cpu.patch': '12682be6f65a990ddd1c17a21f14c9f8fa681890f410d356bf5474255f5f2912'},
+    {'GPAW-25.1.0-fix-ase-version.patch': '23c76f4769ab44da1406828b0c39da75783b53428f3bfc395bbac92fe7264c1d'},
+    {'GPAW-25.1.0-test-nosave-projections.patch': 'cf8f56058885633ec0c745223d5ef8ac2fa0dc4d18955ea41308ebce99f026cf'},
+    {'GPAW-25.1.0-test-gauss-func.patch': 'a6428a529eec59f113bc7e6b384ac2c4bed2cd72da227cb33a40137dbde2ae40'},
+]
+
+builddependencies = [
+    # Provides wheel
+    ('buildtools-python', '%(toolchain_version)s', '-cray-python%(pyshortver)s', True),
+]
+
+dependencies = [
+    ('cray-python/3.11.7', EXTERNAL_MODULE),
+    ('cray-fftw/3.3.10.7', EXTERNAL_MODULE),
+    ('libxc', '7.0.0'),
+    ('libvdwxc', '0.4.0'),
+]
+
+preinstallopts = 'GPAW_CONFIG=siteconfig-lumi-cpu.py '
+
+download_dep_fail = False
+use_pip = True
+use_pip_for_deps = True
+pip_verbose = True
+pip_ignore_installed = False
+pip_no_index = False
+sanity_pip_check = True
+
+postinstallcmds = ['cp -rp ../gpaw-setups-24.1.0 %(installdir)s/']
+
+sanity_check_paths = {
+    'files': ['bin/gpaw%s' % x for x in ['', '-analyse-basis', '-basis', '-plot-parallel-timings',
+                                         '-runscript', '-setup', '-upfplot']],
+    'dirs': ['lib/python%(pyshortver)s/site-packages'],
+}
+
+sanity_check_commands = [
+    "gpaw info"
+]
+
+modextravars = {'GPAW_SETUP_PATH': '%(installdir)s/gpaw-setups-24.1.0'}
+
+moduleclass = 'chem'
