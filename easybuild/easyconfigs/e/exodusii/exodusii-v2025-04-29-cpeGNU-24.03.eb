@@ -1,0 +1,47 @@
+easyblock = 'CMakeMake'
+
+local_seacas_version = '2025-04-29'         # https://github.com/sandialabs/seacas/releases
+
+name =    'exodusii'
+version = local_seacas_version
+
+homepage = 'https://sandialabs.github.io/seacas-docs/sphinx/html/index.html'
+
+whatis = [
+    'Description: Exodus is a model developed to store and retrieve data for finite element analyses.'
+]
+
+description = """
+Exodus is a model developed to store and retrieve data for finite element analyses.
+ """
+
+toolchain = {'name': 'cpeGNU', 'version': '24.03'}
+
+# https://github.com/sandialabs/seacas/archive/refs/tags/v2025-04-29.tar.gz
+sources = [
+    {
+        'download_filename': 'v%(version)s.tar.gz',
+        'filename':          SOURCE_TAR_GZ,
+        'source_urls':       ['https://github.com/sandialabs/seacas/archive/refs/tags']
+    }
+]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+    ('cray-hdf5',   EXTERNAL_MODULE),
+    ('cray-netcdf', EXTERNAL_MODULE),
+]
+
+preconfigopts = 'export INSTALL_PATH=%(installdir)s; export NETCDF_ROOT=$EBROOTNETCDF; export ACCESS=%(start_dir)s; export COMPILER=gnu;'
+configure_cmd = '%(start_dir)s/cmake-exodus'
+prefix_opt = ''
+
+sanity_check_paths = {
+    'files': [],
+    'dirs': ['lib/', 'include/']
+}
+
+moduleclass = 'data'
