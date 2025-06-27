@@ -1,0 +1,59 @@
+easyblock = 'CMakeMake'
+
+local_Boost_version = '1.83.0'
+name = 'MicroHH'
+version = '2.0.1'
+
+homepage = 'https://microhh.org/'
+
+whatis = [
+	'Description: For the simulation of turbulent flows in the atmosphere'
+]
+
+description = """
+MicroHH is a computational fluid dynamics code designed to simulate turbulent flows in the atmosphere using Direct Numerical Simulation (DNS) and Large-Eddy Simulation (LES) techniques. Its capabilities span a range from highly idealized flows to realistic atmospheric boundary layers, incorporating all relevant processes, such as moist thermodynamics, radiation, land surface processes, and microphysics. The code is written in C++/CUDA and runs on both CPUs and GPUs.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '24.03'}
+
+sources = [{
+	'filename': '%(version)s.tar.gz',
+	'git_config': {
+		'url': 'https://github.com/microhh',
+		'repo_name': 'microhh',
+		'tag': '%(version)s',
+		'recursive': True,
+		'keep_git_dir': True,
+	},
+}]
+
+patches = [
+	('MicroHH-config-default.patch', 1),
+]
+ 
+dependencies = [
+	('cray-fftw',   EXTERNAL_MODULE),
+	('cray-hdf5',	EXTERNAL_MODULE),
+	('cray-netcdf', EXTERNAL_MODULE),
+]
+
+builddependencies = [
+	('buildtools', '%(toolchain_version)s', '', True),
+	('Boost', local_Boost_version),
+]
+
+configopts =  '-DUSEMPI=TRUE'
+
+install_cmd = 'cp microhh %(installdir)s'
+
+moduleclass = 'chem'
+
+sanity_check_paths = {
+	'files': ['microhh'],
+	'dirs':   [],
+}
+
+modextrapaths = {
+    'PATH'            : ['.'],
+    'LD_LIBRARY_PATH' : '',
+}
