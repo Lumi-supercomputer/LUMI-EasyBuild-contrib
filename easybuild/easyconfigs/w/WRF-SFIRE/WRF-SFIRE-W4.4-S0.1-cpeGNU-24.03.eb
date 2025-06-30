@@ -6,7 +6,7 @@ easyblock = 'CmdCp'
 local_JasPer_version =       '4.0.0'         # https://github.com/jasper-software/jasper/releases
 local_libpng_version =       '1.6.40'        # http://www.libpng.org/pub/png/libpng.html
 local_libtirpc_version =     '1.3.4'         # https://sourceforge.net/projects/libtirpc/files/libtirpc/
-local_Perl_version = '5.38.0'
+local_Perl_version =         '5.38.0'        # https://www.perl.org/get.html
 local_zlib_version =         '1.3.1'         # https://zlib.net/
 
 name          = 'WRF-SFIRE'
