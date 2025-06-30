@@ -1,0 +1,107 @@
+# Created by Orian Louant for the LUMI consortium
+# Updated for WPS
+
+easyblock = 'CmdCp'
+
+name          = 'WPS'
+version       = 'v4.4'
+
+local_Perl_version = '5.38.0'
+
+local_configuration  = [
+    ('NETCDF',                       '${NETCDF_DIR}'),
+    ('FLEX_LIB_DIR',                 '$EBROOTFLEX/lib'),
+    ('YACC_PATH',                    '$EBROOTBYACC/bin'),
+    ('HDF5',                         '$CRAY_HDF5_PARALLEL_PREFIX'),
+    ('PHDF5',			     '$CRAY_HDF5_PARALLEL_PREFIX'),
+    ('RPC_INCLUDES',                 '$EBROOTLIBTIRPC'),
+    ('JASPERLIB',	   	     '$EBROOTJASPER/lib'),
+    ('JASPERINC',                    '$EBROOTJASPER/include'),
+    ('WRF_DIR',                      '$EBROOTWRFMINSFIRE'),
+]
+
+local_compile_targets = [
+    '',
+]
+
+
+homepage = 'http://www.wrf-model.org'
+
+whatis = [
+    'Description: A coupled weather-fire forecasting model built on top of Weather Research and Forecasting (WRF).'
+]
+
+description = """
+WRF Preprocessing System (WPS) for WRF. The Weather Research and Forecasting (WRF) Model is
+a next-generation mesoscale numerical weather prediction system designed to serve both operational
+forecasting and atmospheric research needs.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '24.03'}
+
+sources = [{
+    'filename': '%(version)s.tar.gz',
+    'git_config': {
+        'url': 'https://github.com/wrf-model',
+        'repo_name': 'WPS',
+        'tag': '%(version)s',
+        'recursive': True,
+        'keep_git_dir': True,
+    }
+}]
+
+patches = [
+    'wps.patch',
+]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+    ('Perl',       local_Perl_version),
+]
+
+dependencies = [
+    ('cray-hdf5-parallel',   EXTERNAL_MODULE),
+    ('cray-netcdf-hdf5parallel', EXTERNAL_MODULE),
+    ('JasPer', EXTERNAL_MODULE),
+    ('libtirpc', EXTERNAL_MODULE),
+    ('libpng', EXTERNAL_MODULE),
+    ('zlib', EXTERNAL_MODULE),
+    ('WRF-SFIRE', EXTERNAL_MODULE),
+]
+
+unpack_options    = '--strip-components=1'
+buildininstalldir = True
+
+local_configure_cmds = """./configure <<'EOF'
+3
+EOF
+sed -i s/gcc/cc/ configure.wps && \
+sed -i s/mpicc/cc/ configure.wps && \
+sed -i s/gfortran/ftn/ configure.wps && \
+sed -i s/mpif90/ftn/ configure.wps && \
+sed -i '/^LDFLAGS/ s/$/ -lgomp -lpng/' configure.wps""" 
+
+local_preconfigure_cmds = ' && '.join(['export ' + x[0] + '=' + x[1] for x in local_configuration])
+local_build_cmds        = ' && '.join(['./compile %s' % x for x in local_compile_targets]) # max 20 parallel jobs
+
+cmds_map = [
+    ('%(version)s.tar.gz',
+     ' && '.join([
+        local_preconfigure_cmds,
+        local_configure_cmds,
+        local_build_cmds
+    ])),
+]
+
+files_to_copy = None
+
+sanity_check_paths = {
+    'files': ['geogrid.exe',  'ungrib.exe', 'metgrid.exe'],
+    'dirs':  []
+}
+
+modextrapaths = {
+    'PATH'            : '',
+}
+
+moduleclass = 'geo'
