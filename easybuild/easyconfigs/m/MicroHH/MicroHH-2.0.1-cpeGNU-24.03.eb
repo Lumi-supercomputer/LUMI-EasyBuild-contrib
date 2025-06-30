@@ -1,7 +1,9 @@
+#DOC CPU version, compile for `partitioon/C` and run on LUMI-C.
 easyblock = 'CMakeMake'
 
 local_Boost_version = '1.83.0'
-name = 'MicroHH'
+
+name =    'MicroHH'
 version = '2.0.1'
 
 homepage = 'https://microhh.org/'
@@ -39,21 +41,16 @@ dependencies = [
 
 builddependencies = [
 	('buildtools', '%(toolchain_version)s', '', True),
-	('Boost', local_Boost_version),
+	('Boost',      local_Boost_version),
 ]
 
 configopts =  '-DUSEMPI=TRUE'
 
-install_cmd = 'cp microhh %(installdir)s'
-
-moduleclass = 'chem'
+install_cmd = 'mkdir -p %(installdir)s/bin && cp microhh %(installdir)s/bin'
 
 sanity_check_paths = {
-	'files': ['microhh'],
-	'dirs':   [],
+	'files': ['bin/microhh'],
+	'dirs':  [],
 }
 
-modextrapaths = {
-    'PATH'            : ['.'],
-    'LD_LIBRARY_PATH' : '',
-}
+moduleclass = 'chem'

@@ -3,10 +3,14 @@
 
 easyblock = 'CmdCp'
 
+local_JasPer_version =       '4.0.0'         # https://github.com/jasper-software/jasper/releases
+local_libpng_version =       '1.6.40'        # http://www.libpng.org/pub/png/libpng.html
+local_libtirpc_version =     '1.3.4'         # https://sourceforge.net/projects/libtirpc/files/libtirpc/
+local_Perl_version = '5.38.0'
+local_zlib_version =         '1.3.1'         # https://zlib.net/
+
 name          = 'WRF-SFIRE'
 version       = 'W4.4-S0.1'
-
-local_Perl_version = '5.38.0'
 
 local_configuration  = [
 #    ('WRF_EM_CORE',                  '0'),
@@ -70,12 +74,12 @@ builddependencies = [
 ]
 
 dependencies = [
-    ('cray-hdf5-parallel',   EXTERNAL_MODULE),
+    ('cray-hdf5-parallel',       EXTERNAL_MODULE),
     ('cray-netcdf-hdf5parallel', EXTERNAL_MODULE),
-    ('JasPer', EXTERNAL_MODULE),
-    ('libtirpc', EXTERNAL_MODULE),
-    ('libpng', EXTERNAL_MODULE),
-    ('zlib', EXTERNAL_MODULE)
+    ('JasPer',                   local_JasPer_version),
+    ('libtirpc',                 local_libtirpc_version),
+    ('libpng',                   local_libpng_version),
+    ('zlib',                     local_zlib_version)
 ]
 
 unpack_options    = '--strip-components=1'
