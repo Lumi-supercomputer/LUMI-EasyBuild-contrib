@@ -1,0 +1,96 @@
+# Created for LUMI by Orian Louant
+# Modified for ROCm 6.2.2 by Lauri Niemi (CSC)
+#DOC Version specifically with ROCm 6.2.2 as that ROCm version solves some issues with FFT in
+#DOC GPAW.
+easyblock = "CMakeMake"
+
+name = 'magma'
+version = '2.8.0'
+versionsuffix = '-rocm6.2.2'
+
+homepage = 'https://icl.cs.utk.edu/magma/'
+
+whatis = ['Description: MAGMA, Matrix Algebra on GPU and Multi-core Architectures']
+
+description = """
+Matrix Algebra on GPU and Multi-core Architectures (MAGMA) is a collection of
+next-generation linear algebra libraries for heterogeneous computing. The MAGMA
+package supports interfaces for current linear algebra packages and standards
+(e.g., LAPACK and BLAS) to enable computational scientists to easily port any
+linear algebra–reliant software components to heterogeneous computing systems.
+MAGMA enables applications to fully exploit the power of current hybrid systems
+of many-core CPUs and multi-GPUs/coprocessors to deliver the fastest possible
+time to accurate solutions within given energy constraints.
+
+MAGMA features LAPACK-compliant routines for multi-core CPUs enhanced with
+NVIDIA or AMD GPUs. MAGMA includes more than 400 routines that cover one-sided
+dense matrix factorizations and solvers, two-sided factorizations, and
+eigen/singular-value problem solvers, as well as a subset of highly optimized
+BLAS for GPUs.
+"""
+
+docurls = [
+    'Magma documentation available here https://icl.utk.edu/projectsfiles/magma/doxygen/index.html'
+]
+
+local_pkgconfig_file = """
+prefix=%(installdir)s
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: magma
+Description: Matrix Algebra on GPU and Multicore Architectures
+Version: 2.8.0
+Cflags: -I${includedir}
+Libs: -L${libdir} -lmagma_sparse -lmagma
+Libs.private:
+Requires:
+Requires.private:
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '24.03'}
+toolchainopts = {'pic': True, 'openmp': True}
+
+source_urls = ['https://icl.cs.utk.edu/projectsfiles/magma/downloads/']
+sources = [SOURCE_TAR_GZ]
+patches = ['magma-2.8.0_separate-cxx-and-hip-compilation.patch']
+
+checksums = [
+    'f4e5e75350743fe57f49b615247da2cc875e5193cc90c11b43554a7c82cc4348', # magma-2.8.0.tar.gz
+    '72d89534fe8a15ea42821a06b8a5b07d78039d0c7e493915f9a9581d3a5d8308', # magma-2.8.0_separate-cxx-and-hip-compilation.patch
+]
+
+builddependencies = [
+    ('buildtools',          '%(toolchain_version)s', '', True),
+    ('craype-network-none', EXTERNAL_MODULE),
+    ('craype-accel-host',   EXTERNAL_MODULE),
+]
+
+dependencies = [
+    ('rocm', '6.2.2', '', SYSTEM)
+]
+
+local_configopts_base = ' '.join([
+    '-DCMAKE_HIP_COMPILER=${ROCM_PATH}/bin/amdclang++', 
+    '-DMAGMA_ENABLE_HIP=ON',
+    '-DCMAKE_HIP_ARCHITECTURES=gfx90a',
+    '-DCMAKE_HIP_FLAGS=-O3',
+])
+
+configopts = [
+    local_configopts_base,
+    local_configopts_base + ' -DBUILD_SHARED_LIBS=OFF',
+]
+
+postinstallcmds = [
+    'cd %(installdir)s/lib/pkgconfig/; rm -f magma.pc',
+    'cd %(installdir)s/lib/pkgconfig/; cat >magma.pc <<EOF\n' + local_pkgconfig_file.replace('$', '\$') + '\nEOF\n'
+    'cd %(installdir)s/lib/pkgconfig/; chmod a+r magma.pc'
+]
+
+sanity_check_paths = {
+    'files': ['lib/libmagma.so', 'lib/libmagma.a'],
+    'dirs': ['include'],
+}
+
+moduleclass = 'math'

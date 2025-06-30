@@ -1,0 +1,13 @@
+diff --git a/gpaw/test/test_nosave_projections.py b/gpaw/test/test_nosave_projections.py
+index 9dfd470a3..f60ddbb5d 100644
+--- a/gpaw/test/test_nosave_projections.py
++++ b/gpaw/test/test_nosave_projections.py
+@@ -45,7 +45,7 @@ def test_nice_error_message(noprojs_gpw):
+         wfs.P_ani
+ 
+ 
+-def test_fixed_density_bandstructure(tmp_path, noprojs_gpw):
++def test_fixed_density_bandstructure(noprojs_gpw):
+     calc = GPAW(noprojs_gpw, parallel=parallel)
+ 
+     fixed_calc = calc.fixed_density(

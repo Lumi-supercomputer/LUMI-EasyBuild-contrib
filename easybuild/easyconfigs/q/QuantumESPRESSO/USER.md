@@ -23,7 +23,7 @@ though 5.4 worked also) that is not
 supported by the current driver on LUMI, and in fact, is even known to fail.
 The Cray PE 25.03, expected to be installed on LUMI in late summer of 2025, may
 solve the issues with QE on the LUMI-G GPUs.
-Note that even though we do have CPE 25.03 with CCE 19 in [a container](c/ccpe/index.md), this 
+Note that even though we do have CPE 25.03 with CCE 19 in [a container](../../c/ccpe/index.md), this 
 container cannot be used on LUMI-G to run software as it is based on ROCm 6.3 which also 
 has issues on the current AMD GPU driver.**
 

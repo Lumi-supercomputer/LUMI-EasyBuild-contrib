@@ -1,0 +1,77 @@
+#DOC Version specifically with ROCm 6.2.2 as that solves some FFT-related issues when
+#DOC used with GPAW. 
+easyblock = 'PythonPackage'
+
+local_CuPy_version      = '13.2.0'
+local_fastrlock_version = '0.8.2'
+
+name = 'CuPy'
+version = local_CuPy_version
+versionsuffix = '-rocm6.2.2'
+
+homepage = 'https://cupy.dev'
+
+whatis = [
+    'Description: CuPy is an open-source array library for GPU-accelerated computing with Python'
+]
+
+description = """"
+CuPy is an open-source array library for GPU-accelerated computing with Python.
+CuPy acts as a drop-in replacement to run existing NumPy/SciPy code on NVIDIA CUDA
+or AMD ROCm platforms.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '24.03'}
+
+source_urls = [PYPI_LOWER_SOURCE]
+sources = [SOURCELOWER_TAR_GZ]
+patches = ['CuPy-13.2.0_rocm-6.patch']
+
+checksums = [
+    'e4dbd2b2ed4159a5cc0c0f98a710a014950eb2c16eeb455e956128f3b3bd0d51', # cupy-13.2.0.tar.gz
+    'ab13ae53fc74da4cd94e6c31ceef22d021edf8a8a048e4e5af86d34ba7be2683', # CuPy-13.2.0_rocm-6.patch
+]
+
+builddependencies = [
+    # Provides wheel
+    ('buildtools-python', '%(toolchain_version)s', '-cray-python%(pyshortver)s', True),
+]
+
+dependencies = [
+    ('cray-python', EXTERNAL_MODULE),
+    ('rocm', '6.2.2', '', SYSTEM)
+]
+
+use_pip = True
+
+local_include_dirs = ['hipblas', 'hipsparse', 'hipfft', 'rocsolver', 'rccl']
+
+preinstallopts = ' && '.join([
+    'export ROCM_HOME=$(readlink -f $ROCM_PATH)',
+    'export CUPY_INSTALL_USE_HIP=1',
+    'export HCC_AMDGPU_TARGET=gfx90a',
+    'export CFLAGS="-w $CFLAGS"', 
+]) + ' && '
+
+skipsteps = ['build']
+
+exts_defaultclass = 'PythonPackage'
+
+exts_default_options = {
+    'source_urls': [PYPI_SOURCE],
+    'use_pip': True
+}
+
+exts_list = [
+    ('fastrlock', local_fastrlock_version)
+]
+
+sanity_check_paths = {
+    'files': [
+        'lib/python%(pyshortver)s/site-packages/cupyx/cusolver.cpython-311-x86_64-linux-gnu.so',
+        'lib/python%(pyshortver)s/site-packages/fastrlock/rlock.cpython-311-x86_64-linux-gnu.so'
+    ],
+    'dirs': ['lib/python%(pyshortver)s/site-packages'],
+}
+
+moduleclass = 'devel'
