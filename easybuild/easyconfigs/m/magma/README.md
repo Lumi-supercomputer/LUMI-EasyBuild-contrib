@@ -22,4 +22,12 @@
 - For CPE GNU and AMD, static and shared libraries are built.
 
 - For CPE Cray, only the shared library is available.
-  
+
+
+### Version 2.8.0 for 24.03
+
+-   Derived from the EasyConfig for 2.7.2 but with a switch to a different ROCm compiler 
+    driver.
+
+-   Specific version with ROCm 6.2.2 needed for CuPy with ROCm 6.2.2 which in turn
+    is needed for GPAW.

@@ -1,5 +1,7 @@
 # Created for LUMI by Orian Louant
 # Modified for ROCm 6.2.2 by Lauri Niemi (CSC)
+#DOC Version specifically with ROCm 6.2.2 as that ROCm version solves some issues with FFT in
+#DOC GPAW.
 easyblock = "CMakeMake"
 
 name = 'magma'
