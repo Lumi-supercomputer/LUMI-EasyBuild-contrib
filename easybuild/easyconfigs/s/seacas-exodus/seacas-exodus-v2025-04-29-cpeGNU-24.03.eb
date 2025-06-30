@@ -2,7 +2,7 @@ easyblock = 'CMakeMake'
 
 local_seacas_version = '2025-04-29'         # https://github.com/sandialabs/seacas/releases
 
-name =    'exodusii'
+name =    'seacas-exodus'
 version = local_seacas_version
 
 homepage = 'https://sandialabs.github.io/seacas-docs/sphinx/html/index.html'
@@ -13,7 +13,7 @@ whatis = [
 
 description = """
 Exodus is a model developed to store and retrieve data for finite element analyses.
- """
+"""
 
 toolchain = {'name': 'cpeGNU', 'version': '24.03'}
 
@@ -41,7 +41,7 @@ prefix_opt = ''
 
 sanity_check_paths = {
     'files': [],
-    'dirs': ['lib/', 'include/']
+    'dirs':  ['lib/', 'include/']
 }
 
 moduleclass = 'data'
