@@ -1,0 +1,39 @@
+Patch to run on LUMI using the config/default.cmake file
+author: Bert jorissen
+diff -ruN microhh/config/default.cmake microhh2/config/default.cmake
+--- microhh.orig/config/default.cmake	1970-01-01 02:00:00.000000000 +0200
++++ microhh/config/default.cmake	2025-06-27 14:15:08.000000000 +0300
+@@ -0,0 +1,33 @@
++# Generic CMake file that should work on many systems, provided that the environmental variables are set properly
++# Provides pathways for Intel and GCC compilers
++# Make sure to set the following variables: CPLUS_INCLUDE_PATH and LIBRARY_PATH (depending on the system configuriation, they may be called differently)
++# The following libraries should be included: netcdf fftw3 fftw3f hdf5
++#
++# Tested on the following systems:
++# ARM Cumulus with GCC CUDA/MPICH (RedHat)
++# Cleveland State with GCC CUDA/MPICH (Ubuntu 22.04)
++
++# Switch between Intel and GCC:
++set(USEINTEL FALSE)
++
++# Select correct compilers for Intel/GCC + parallel/serial:
++set(ENV{CC} cc)
++set(ENV{CXX} CC)
++set(ENV{FC} ftn)
++
++# Set compiler flags / options:
++set(USER_CXX_FLAGS "-std=c++17")
++set(USER_CXX_FLAGS_RELEASE "-O3")
++set(USER_CXX_FLAGS_DEBUG "-O0 -g -Wall -Wno-unknown-pragmas")
++
++set(USER_FC_FLAGS "-fdefault-real-8 -fdefault-double-8 -fPIC -ffixed-line-length-none -fno-range-check")
++set(USER_FC_FLAGS_RELEASE "-DNDEBUG -O3")
++
++add_definitions(-DRESTRICTKEYWORD=__restrict__)
++
++
++set(NETCDF_LIB_C "netcdf")
++set(FFTW_LIB "fftw3")
++set(FFTWF_LIB "fftw3f")
++set(HDF5_LIB "hdf5")
++set(LIBS ${FFTW_LIB} ${FFTWF_LIB} ${NETCDF_LIB_C} ${HDF5_LIB}) #It may be necessary to add m z curl sz if necessary)
