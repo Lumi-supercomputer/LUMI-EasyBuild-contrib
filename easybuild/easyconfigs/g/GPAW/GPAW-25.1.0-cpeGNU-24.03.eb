@@ -1,3 +1,4 @@
+#DOC This is a version of GPAW built with libvdwxc for LUMI-C.
 easyblock = "PythonPackage"
 
 name = 'GPAW'
