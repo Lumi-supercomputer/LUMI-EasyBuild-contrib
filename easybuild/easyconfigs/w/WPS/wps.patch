@@ -1,0 +1,62 @@
+diff -ruN a/compile b/compile
+--- a/compile	2025-02-06 15:58:40.000000000 +0200
++++ b/compile	2025-02-06 16:01:40.000000000 +0200
+@@ -123,6 +123,8 @@
+     pgf90 --version
+   else if ( "$comp[1]" == "ifort" ) then
+     ifort -V
++  else if ( "$comp[1]" == "ftn" ) then
++    ftn --version
+   else
+     echo "Not sure how to figure out the version of this compiler: $comp[1]"
+   endif
+diff -ruN a/configure b/configure
+--- a/configure	2025-02-06 15:58:27.000000000 +0200
++++ b/configure	2025-02-06 17:05:28.000000000 +0200
+@@ -499,7 +499,7 @@
+ # The above test program gives exit status 1 iff we are using the GNU Fortran
+ # compiler with a major version greater than 9
+
+-FC=`grep ^SFC configure.wps | cut -d"=" -f2-`
++FC=ftn #`grep ^SFC configure.wps | cut -d"=" -f2-`
+ FFLAGS=`grep ^FFLAGS configure.wps | cut -d"=" -f2-`
+ $FC ${FFLAGS} gnu_flag_test.F90 -o gnu_flag_test > /dev/null 2>&1
+ if [ -f ./gnu_flag_test ]; then
+diff -ruN a/ungrib/src/ngl/g2/dec_jpeg2000.c b/ungrib/src/ngl/g2/dec_jpeg2000.c
+--- a/ungrib/src/ngl/g2/dec_jpeg2000.c	2025-02-06 16:18:43.000000000 +0200
++++ b/ungrib/src/ngl/g2/dec_jpeg2000.c	2025-02-06 16:28:40.000000000 +0200
+@@ -80,7 +80,7 @@
+ /*   
+  *     Decode JPEG200 codestream into jas_image_t structure.
+  */      
+-    image=jpc_decode(jpcstream,opts);
++    image=jas_image_decode(jpcstream,jas_image_getfmt(jpcstream),opts);
+     if ( image == 0 ) {
+        printf(" jpc_decode return = %d \n",ier);
+        return -3;
+diff -ruN a/ungrib/src/ngl/g2/enc_jpeg2000.c b/ungrib/src/ngl/g2/enc_jpeg2000.c
+--- a/ungrib/src/ngl/g2/enc_jpeg2000.c	2025-02-06 16:18:33.000000000 +0200
++++ b/ungrib/src/ngl/g2/enc_jpeg2000.c	2025-02-06 16:28:09.000000000 +0200
+@@ -178,7 +178,7 @@
+ /*
+  *     Encode image.
+  */
+-    ier=jpc_encode(&image,jpcstream,opts);
++    ier=jas_image_encode(&image,jpcstream,jas_image_getfmt(jpcstream),opts);
+     if ( ier != 0 ) {
+        printf(" jpc_encode return = %d \n",ier);
+        return -3;
+
+diff -ruN a/ungrib/src/ngl/g2/Makefile b/ungrib/src/ngl/g2/Makefile
+--- a/ungrib/src/ngl/g2/Makefile	2025-03-31 13:47:17.560319586 +0200
++++ b/ungrib/src/ngl/g2/Makefile	2025-03-31 13:47:00.537707570 +0200
+@@ -14,6 +14,8 @@
+ #                     ( and all the jasper/*.h include files).
+ #
+ 
++FDEFS   =       -DUSE_PNG -DUSE_JPEG2000
++
+ CFLAGS2	=	$(CPPFLAGS) $(COMPRESSION_INC) $(FDEFS) -D__64BIT__
+ LIB	=	libg2_4.a
+ 
+
