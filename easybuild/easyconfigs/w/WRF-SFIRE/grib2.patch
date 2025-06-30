@@ -1,0 +1,95 @@
+diff -ruN a/external/io_grib2/g2lib/dec_jpeg2000.c b/external/io_grib2/g2lib/dec_jpeg2000.c
+--- a/external/io_grib2/g2lib/dec_jpeg2000.c    2025-02-05 16:28:36.000000000 +0200
++++ b/external/io_grib2/g2lib/dec_jpeg2000.c    2025-02-05 19:16:07.000000000 +0200
+@@ -83,7 +83,7 @@
+ /*   
+        Decode JPEG200 codestream into jas_image_t structure.
+ */       
+-    image=jpc_decode(jpcstream,opts);
++    image=jas_image_decode(jpcstream,jas_image_getfmt(jpcstream),opts);
+     if ( image == 0 ) {
+        printf(" jpc_decode return = %d \n",ier);
+        return -3;
+diff -ruN a/external/io_grib2/g2lib/dec_png.c b/external/io_grib2/g2lib/dec_png.c
+--- a/external/io_grib2/g2lib/dec_png.c    2025-02-05 16:28:36.000000000 +0200
++++ b/external/io_grib2/g2lib/dec_png.c    2025-02-05 19:16:07.000000000 +0200
+@@ -88,7 +88,7 @@
+
+ /*    Set new custom read function    */
+
+-    png_set_read_fn(png_ptr,(voidp)&read_io_ptr,(png_rw_ptr)user_read_data);
++    png_set_read_fn(png_ptr,(void *)&read_io_ptr,(png_rw_ptr)user_read_data);
+ /*     png_init_io(png_ptr, fptr);   */
+
+ /*     Read and decode PNG stream   */
+diff -ruN a/external/io_grib2/g2lib/enc_png.c b/external/io_grib2/g2lib/enc_png.c
+--- a/external/io_grib2/g2lib/enc_png.c    2025-02-05 16:31:12.000000000 +0200
++++ b/external/io_grib2/g2lib/enc_png.c    2025-02-05 21:43:22.000000000 +0200
+@@ -88,7 +88,7 @@
+
+ /*    Set new custom write functions    */
+
+-    png_set_write_fn(png_ptr,(voidp)&write_io_ptr,(png_rw_ptr)user_write_data,
++    png_set_write_fn(png_ptr,(void *)&write_io_ptr,(png_rw_ptr)user_write_data,
+                     (png_flush_ptr)user_flush_data);
+ /*    png_init_io(png_ptr, fptr);   */
+ /*    png_set_compression_level(png_ptr, Z_BEST_COMPRESSION);  */
+diff -ruN a/external/io_grib2/g2lib/enc_jpeg2000.c b/external/io_grib2/g2lib/enc_jpeg2000.c
+--- a/external/io_grib2/g2lib/enc_jpeg2000.c    2025-02-05 16:31:12.000000000 +0200
++++ b/external/io_grib2/g2lib/enc_jpeg2000.c    2025-02-05 21:43:22.000000000 +0200
+@@ -139,7 +139,7 @@
+     image.clrspc_=JAS_CLRSPC_SGRAY;         /* grayscale Image */
+     image.cmprof_=0; 
+ #endif
+-    image.inmem_=1;
++    //image.inmem_=1;
+
+     cmpt.tlx_=0;
+     cmpt.tly_=0;
+@@ -176,7 +176,7 @@
+ /*
+        Encode image.
+ */
+-    ier=jpc_encode(&image,jpcstream,opts);
++    ier=jas_image_encode(&image,jpcstream,jas_image_getfmt(jpcstream),opts);
+     if ( ier != 0 ) {
+        printf(" jpc_encode return = %d \n",ier);
+        return -3;
+diff -ruN a/external/io_grib2/g2lib/grib2.h b/external/io_grib2/g2lib/grib2.h
+--- a/arch/Config.pl
++++ b/arch/Config.pl
+@@ -248,7 +248,7 @@
+ # environment variables JASPERLIB and JASPERINC to paths to library and 
+ # include files to enable this feature prior to running configure.  
+
+- $I_really_want_to_output_grib2_from_WRF = "FALSE" ;
++ $I_really_want_to_output_grib2_from_WRF = "TRUE" ;
+
+  if ( $ENV{JASPERLIB} && $ENV{JASPERINC} && $I_really_want_to_output_grib2_from_WRF eq "TRUE" )
+    {
+diff -ruN a/external/io_grib2/g2lib/Makefile b/external/io_grib2/g2lib/Makefile
+--- a/external/io_grib2/g2lib/Makefile  2025-03-31 14:33:47.698679693 +0200
++++ b/external/io_grib2/g2lib/Makefile  2025-03-31 14:35:17.036608901 +0200
+@@ -49,7 +49,7 @@
+ #     These spaces will generate an error when the library is made.
+ #
+ LIB_NAME = io_grib2
+-CPPFLAGS = -DUSE_JPEG2000
++CPPFLAGS = -DUSE_PNG -DUSE_JPEG2000
+ # 
+ # To have the option of using the PNG compression scheme in the grib2 output,
+ #   uncomment the following line.  In addition, you will need to assure
+@@ -131,7 +131,11 @@
+         g2grids.o \
+         gdt2gds.o \
+         mova2i.o \
+-        params.o
++        params.o \
++        pngpack.o \
++        pngunpack.o \
++        enc_png.o \
++        dec_png.o
+
+ #
+ #  Include the boilerplate rules for building library modules.
+~                                                                  
