@@ -95,7 +95,7 @@ sed -i '/^LDFLAGS_LOCAL/s/$/ -lpng/' configure.wrf"""
 #sed -i 's/#  YACC=/YACC=${YACC_PATH}\//' chem/KPP/configure_kpp"""
 
 local_preconfigure_cmds = ' && '.join(['export ' + x[0] + '=' + x[1] for x in local_configuration])
-local_build_cmds        = ' && '.join(['./compile -j 1 %s' % x for x in local_compile_targets]) # max 20 parallel jobs
+local_build_cmds        = ' && '.join(['./compile -j 1 %s' % x for x in local_compile_targets]) # max 1 parallel jobs
 
 cmds_map = [
     ('%(version)s.tar.gz',
