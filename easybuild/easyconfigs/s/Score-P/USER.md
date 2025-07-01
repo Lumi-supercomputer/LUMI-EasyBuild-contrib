@@ -33,7 +33,7 @@ Note that there are a few things to note on LUMI:
 -   We cannot yet provide CubeGui due to the complexity of the installation, and the AppImage
     provided by the developers also cannot be used on LUMI.
 
--   On the LUMI-G nodes, the use of Score-P is currently limited unless you are an 
+-   Score-P v8.4: On the LUMI-G nodes, the use of Score-P is currently limited unless you are an 
     expert in figuring out compiler options and rewriting Makefiles. Not only is OpenMP
     offload not supported with instrumentation, but enabling it by loading the GPU 
     target module (loaded by default by `cpeCray` and `cpeAMD`) and using `-fopenmp`
