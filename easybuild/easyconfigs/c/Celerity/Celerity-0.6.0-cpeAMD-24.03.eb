@@ -2,6 +2,8 @@
 
 easyblock = 'CMakeMake'
 
+local_AdaptiveCpp_version = '24.10.0'
+
 name = 'Celerity'
 version = '0.6.0'
 
@@ -50,7 +52,7 @@ builddependencies = [
 
 
 dependencies = [
-	('AdaptiveCpp', EXTERNAL_MODULE)
+	('AdaptiveCpp', local_AdaptiveCpp_version)
 ]
 
 configopts = ''
