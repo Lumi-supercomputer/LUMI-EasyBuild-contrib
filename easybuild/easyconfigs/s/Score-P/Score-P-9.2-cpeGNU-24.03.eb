@@ -10,12 +10,10 @@
 # This work is based on experiences from the UNITE project
 # http://apps.fz-juelich.de/unite/
 ##
-#DOC Score-P without the HIP-adapter for the regular compute nodes.
-#DOC The build process takes a while (up to 1 hour) due to lengthy configure and postprocessing steps.
 
 easyblock = 'EB_Score_minus_P_minus_CPE'
 
-local_ScoreP_version =       '9.1'           # https://www.vi-hps.org/projects/score-p/
+local_ScoreP_version =       '9.2'           # https://www.vi-hps.org/projects/score-p/
 
 local_CubeLib_version =      '4.9'           # https://www.scalasca.org/scalasca/software/cube-4.x/download.html
 local_CubeWriter_version =   '4.9'           # https://www.scalasca.org/scalasca/software/cube-4.x/download.html
@@ -25,8 +23,8 @@ local_libbfd_version =       '2.42'          # https://ftp.gnu.org/gnu/binutils/
 local_OPARI2_version =       '2.0.9'         # https://www.vi-hps.org/projects/score-p/
 local_OTF2_version =         '3.1.1'         # https://www.vi-hps.org/projects/score-p/
 
-name =    'Score-P'
-version = local_ScoreP_version
+name =          'Score-P'
+version =       local_ScoreP_version
 
 homepage = 'https://www.score-p.org'
 
@@ -44,24 +42,24 @@ docurls = [
     'Web-based documentation of the latest version at https://perftools.pages.jsc.fz-juelich.de/cicd/scorep/tags/latest/html/',
     'On-system documentation in $EBROOTSCOREMINP/share/doc/scorep (after loading the module)',  
 ]
-
-toolchain = {'name': 'cpeAOCC', 'version': '24.03'}
+toolchain = {'name': 'cpeGNU', 'version': '24.03'}
 toolchainopts = {'pic': True, 'usempi': True, 'openmp': True}
 
 source_urls = ['http://perftools.pages.jsc.fz-juelich.de/cicd/scorep/tags/scorep-%(version)s']
-sources = ['scorep-%(version)s.tar.gz']
+sources =     ['scorep-%(version)s.tar.gz']
 checksums = [
-    'a6593716e62c751937f3be78782bf09b3737a68c46cdbeabec7cff80d2fdc7c8',  # scorep-9.1.tar.gz
+    'be3eaee99cdd0145e518c1aa959126df45e25b61579a007d062748b2844c499c',  # scorep-9.2.tar.gz
 ]
 
 builddependencies = [
-    ('CubeLib',    local_CubeLib_version),
-    ('CubeWriter', local_CubeWriter_version),
-    # Unwinding/sampling support (optional):
-    ('libunwind',  local_libunwind_version),
+    ('buildtools', '%(toolchain_version)s', '', True),
 ]
 
 dependencies = [
+    ('CubeLib',         local_CubeLib_version),
+    ('CubeWriter',      local_CubeWriter_version),
+    # Unwinding/sampling support (optional):
+    ('libunwind',       local_libunwind_version),
     ('OPARI2',          local_OPARI2_version),
     ('OTF2',            local_OTF2_version),
     # Support for SHMEM
@@ -73,9 +71,11 @@ dependencies = [
     ('GOTCHA',          local_GOTCHA_version),
 ]
 
-configopts  = '--enable-shared --disable-static --with-machine-name=LUMI-cpeAOCC-24.03 '
+configopts  = '--enable-shared --disable-static --with-machine-name=LUMI-cpeGNU-24.03 '
 configopts += '--with-libpmi=/opt/cray/pe/pmi/default '
 configopts += '--with-papi-header=$CRAY_PAPI_PREFIX/include --with-papi-lib=$CRAY_PAPI_PREFIX/lib '
+# Force set correct GCC compilers, as Score-P will use /usr/bin/gcc otherwise
+configopts += 'CC=gcc-13 CXX=g++-13 F77=gfortran-13 FC=gfortran-13 '
 
 postinstallcmds = [
     'make installcheck V=1 VERBOSE=1',
@@ -86,7 +86,7 @@ postinstallcmds = [
 sanity_check_paths = {
     'files': ['bin/scorep', 'include/scorep/SCOREP_User.h',
               ('lib/libscorep_adapter_mpi_event.%s' % SHLIB_EXT, 'lib64/libscorep_adapter_mpi_event.%s' % SHLIB_EXT)],
-    'dirs': [],
+    'dirs':  [],
 }
 
 # Ensure that local metric documentation is found by CubeGUI

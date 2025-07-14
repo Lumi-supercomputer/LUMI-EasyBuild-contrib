@@ -49,7 +49,7 @@ by the Score-P authors.
 
 -   Added license information to the installation.
 
-### Version 9.1 for CPE 24.03
+### Version 9.2 for CPE 24.03
 
 -   Simple version bump, fixing several minor issues
 
