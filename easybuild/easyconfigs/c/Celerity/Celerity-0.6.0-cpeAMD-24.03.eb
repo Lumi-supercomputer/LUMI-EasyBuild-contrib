@@ -47,12 +47,12 @@ patches = [
 ]
 
 builddependencies = [
-    ('buildtools', '%(toolchain_version)s', '', True), # For CMake
+    ('buildtools', '%(toolchain_version)s', '', SYSTEM), # For CMake
 ]
 
 
 dependencies = [
-	('AdaptiveCpp', local_AdaptiveCpp_version)
+	('AdaptiveCpp', local_AdaptiveCpp_version, '-rocm')
 ]
 
 configopts = ''
