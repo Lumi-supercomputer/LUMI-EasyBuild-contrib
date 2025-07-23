@@ -48,3 +48,8 @@ by the Score-P authors.
 -   Some reworking needed, offered to us by JSC. Also required an update of the EasyBlock.
 
 -   Added license information to the installation.
+
+### Version 9.2 for CPE 24.03
+
+-   Simple version bump, fixing several minor issues
+
