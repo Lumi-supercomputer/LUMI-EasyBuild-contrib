@@ -1,0 +1,82 @@
+easyblock = 'CMakeMake'
+
+local_Boost_version = '1.88.0'
+
+name =    'AdaptiveCpp'
+version = '25.02.0'
+versionsuffix = '-rocm'
+
+homepage = 'https://adaptivecpp.github.io/'
+
+whatis = [
+    "Description: Implementation of SYCL and C++ standard parallelism for CPUs and GPUs from all vendors: The independent, community-driven compiler for C++-based heterogeneous programming models."
+]
+
+description = """
+AdaptiveCpp is the independent, community-driven modern platform for C++-based heterogeneous programming models targeting CPUs and GPUs from all major vendors. 
+"""
+
+toolchain = {'name': 'cpeAMD', 'version': '25.03'}
+toolchainopts = {'verbose': False, 'openmp': True}
+
+sources = [{
+    'filename': '%(name)s-%(version)s.tar.gz',
+    'git_config': {
+        'url': 'https://github.com/AdaptiveCpp',
+        'repo_name': '%(name)s',
+        'tag': 'v%(version)s',
+    }
+}]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+    ('Boost',      local_Boost_version),
+]
+
+dependencies = [
+    ('cray-python', EXTERNAL_MODULE),
+    ('rocm',        EXTERNAL_MODULE),
+]
+
+preconfigopts  = 'export PATH=${ROCM_PATH}/llvm/bin:$PATH && '
+preconfigopts += 'export C_INCLUDE_PATH=$ROCM_PATH/llvm/include && '
+preconfigopts += 'export CPLUS_INCLUDE_PATH=$ROCM_PATH/llvm/include && '
+
+configopts  = '-DACPP_VERSION_SUFFIX="rocm6" '
+configopts += '-DACPP_EXPERIMENTAL_LLVM=ON '
+configopts += '-DROCM_PATH=$ROCM_PATH '
+configopts += '-DAMDGPU_TARGETS=gfx90a '
+configopts += '-DCMAKE_C_COMPILER=${ROCM_PATH}/llvm/bin/clang '
+configopts += '-DCMAKE_CXX_COMPILER=${ROCM_PATH}/llvm/bin/clang++ '
+configopts += '-DWITH_ACCELERATED_CPU=ON '
+configopts += '-DWITH_CPU_BACKEND=ON '
+configopts += '-DWITH_CUDA_BACKEND=OFF '
+configopts += '-DWITH_ROCM_BACKEND=ON '
+configopts += '-DWITH_OPENCL_BACKEND=OFF '
+configopts += '-DWITH_LEVEL_ZERO_BACKEND=OFF '
+configopts += '-DACPP_TARGETS="gfx90a" '
+configopts += '-DBoost_NO_BOOST_CMAKE=TRUE '
+configopts += '-DBoost_NO_SYSTEM_PATHS=TRUE '
+configopts += '-DWITH_SSCP_COMPILER=OFF ' 
+configopts += '-DHIPSYCL_ALLOW_INSTANT_SUBMISSION=1 '
+configopts += '-DLLVM_DIR=${ROCM_PATH}/llvm/lib/cmake/llvm/ '
+
+
+sanity_check_paths = {
+    'files': ['bin/acpp', 'include/AdaptiveCpp/sycl/sycl.hpp',
+              'lib/hipSYCL/librt-backend-omp.%s' % SHLIB_EXT,
+              'lib/hipSYCL/librt-backend-hip.%s' % SHLIB_EXT,
+              'lib/libacpp-clang.%s' % SHLIB_EXT,
+              'lib/libacpp-rt.%s' % SHLIB_EXT],
+    'dirs': ['include/AdaptiveCpp/CL', 'include/AdaptiveCpp/SYCL'],
+}
+sanity_check_commands = [
+    'acpp --help'
+]
+
+modextravars = {
+    'ACPP_TARGETS': 'hip:gfx90a',
+}
+
+moduleclass = 'compiler'
+
