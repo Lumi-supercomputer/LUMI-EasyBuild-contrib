@@ -1,0 +1,52 @@
+#./configure MPIF90=ftn F90=ftn FC=ftn LIBDIRS=$CRAY_LIBSCI_PREFIX/lib --with-rocm-path=$ROCM_PATH --enable-rocblas=yes --enable-openmp5 --with-blas-libs=-lsci_cray_mpi_mp --enable-parallel 
+#target=all
+easyblock = 'ConfigureMake'
+
+name = 'deviceXlib'
+version = '0.9.0'
+versionsuffix = '-OpenMP5'
+
+homepage = 'https://gitlab.com/max-centre/components/devicexlib'
+
+whatis = [
+    'Library wrapping device-oriented routines and utilities'
+]
+
+description = '''
+    deviceXlib is a library that wraps device-oriented routines and utilities, such as device data allocation, host-device data transfers.
+'''
+
+toolchain = {'name': 'cpeCray', 'version': '24.03'}
+toolchainopts = {'usempi': True, 'openmp': True}
+
+sources = [{
+        'filename': 'devxlib-%s.tar.gz' % version,
+        'git_config': {
+            'url': 'https://gitlab.com/max-centre/components',
+            'repo_name': 'devicexlib',
+            'commit': version,
+            'clone_into': 'devxlib',
+        },
+}]
+
+builddependencies = [
+    ('buildtools', '', '%(toolchain_version)s', True),
+]
+
+dependencies = [
+    ('rocm', EXTERNAL_MODULE),
+]
+
+configopts  = '--enable-openmp5 '
+configopts += '--enable-parallel '
+configopts += '--enable-rocblas=yes '
+configopts += '--with-blas-libs=-lsci_cray_mpi_mp '
+configopts += '--with-rocm-path=$ROCM_PATH '
+configopts += 'LIBDIRS=$CRAY_LIBSCI_PREFIX/lib '
+
+sanity_check_paths = {
+    'files': ['lib/libdevXlib.a'],
+    'dirs':  ['lib'],
+}
+
+moduleclass = 'lib'
