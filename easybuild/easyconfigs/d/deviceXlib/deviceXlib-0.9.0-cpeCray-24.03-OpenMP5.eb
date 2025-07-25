@@ -1,5 +1,3 @@
-#./configure MPIF90=ftn F90=ftn FC=ftn LIBDIRS=$CRAY_LIBSCI_PREFIX/lib --with-rocm-path=$ROCM_PATH --enable-rocblas=yes --enable-openmp5 --with-blas-libs=-lsci_cray_mpi_mp --enable-parallel 
-#target=all
 easyblock = 'ConfigureMake'
 
 name = 'deviceXlib'
@@ -37,12 +35,16 @@ dependencies = [
     ('rocm', EXTERNAL_MODULE),
 ]
 
-configopts  = '--enable-openmp5 '
+configopts  = 'MPIF90=ftn F90=ftn FC=ftn LIBDIRS=$CRAY_LIBSCI_PREFIX/lib '
+configopts += 'FFLAGS="-O2 -emf -ffree -eZ -M878" '
+configopts += 'F90FLAGS="-O2 -emf -ffree -eZ -M878" '
+configopts += '--enable-openmp5 '
 configopts += '--enable-parallel '
 configopts += '--enable-rocblas=yes '
 configopts += '--with-blas-libs=-lsci_cray_mpi_mp '
 configopts += '--with-rocm-path=$ROCM_PATH '
-configopts += 'LIBDIRS=$CRAY_LIBSCI_PREFIX/lib '
+
+build_cmd_targets = 'all'
 
 sanity_check_paths = {
     'files': ['lib/libdevXlib.a'],
