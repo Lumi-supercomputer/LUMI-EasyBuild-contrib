@@ -58,7 +58,6 @@ configopts += '-DACPP_TARGETS="gfx90a" '
 configopts += '-DBoost_NO_BOOST_CMAKE=TRUE '
 configopts += '-DBoost_NO_SYSTEM_PATHS=TRUE '
 configopts += '-DWITH_SSCP_COMPILER=OFF ' 
-configopts += '-DHIPSYCL_ALLOW_INSTANT_SUBMISSION=1 '
 configopts += '-DLLVM_DIR=${ROCM_PATH}/llvm/lib/cmake/llvm/ '
 
 
