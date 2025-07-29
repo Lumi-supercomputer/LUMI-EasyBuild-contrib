@@ -1,0 +1,98 @@
+# Based on a easyconfig by the Juelich Supercomputing Centre
+# Adapted for LUMI by Orian Louant
+
+easyblock = 'CMakeMake'
+
+local_zfp_version =          '1.0.1'         # https://github.com/LLNL/zfp/releases
+
+name =    'zfp'
+version = local_zfp_version
+
+homepage = "https://computing.llnl.gov/projects/zfp"
+
+whatis = [
+    'Description: zfp is a compressed format for representing multidimensional' 
+    'floating-point and integer arrays'
+]
+
+description = """
+zfp is a compressed format for representing multidimensional floating-point
+and integer arrays. zfp provides compressed-array classes that support high
+throughput read and write random access to individual array elements. zfp
+also supports serial and parallel (OpenMP and CUDA) compression of whole
+arrays, e.g., for applications that read and write large data sets to and
+from disk.
+ 
+zfp uses lossy but optionally error-bounded compression to achieve high
+compression ratios. Bit-for-bit lossless compression is also possible through
+one of zfp's compression modes. zfp works best for 2D, 3D, and 4D arrays that
+exhibit spatial correlation, such as continuous fields from physics simulations,
+natural images, regularly sampled terrain surfaces, etc. zfp compression of 1D
+arrays is possible but generally discouraged.
+"""
+
+docurls = ['https://zfp.readthedocs.io/en/release1.0.1/']
+software_license_urls = ['https://github.com/LLNL/zfp/blob/develop/LICENSE']
+
+toolchain = {'name': 'cpeGNU', 'version': '25.03'}
+toolchainopts = {'pic': True}
+
+source_urls = ['https://github.com/LLNL/zfp/archive']
+sources =     ['%(version)s.tar.gz']
+checksums =   ['4984db6a55bc919831966dd17ba5e47ca7ac58668f4fd278ebd98cd2200da66f']
+
+builddependencies = [
+    ('buildtools',          '%(toolchain_version)s', '', True),
+    ('craype-network-none', EXTERNAL_MODULE),
+    ('craype-accel-host',   EXTERNAL_MODULE),
+]
+
+dependencies = [
+    ('cray-python', EXTERNAL_MODULE),
+]
+
+# Remove previous install: the reason is that when forcing rebuild (-f flag),
+# the build failed if a previous install already exists at configure stage.
+preconfigopts  = 'rm -rf %(installdir)s/* && '
+preconfigopts += 'module unload rocm cray-libsci && '
+
+prebuildopts = 'module unload rocm cray-libsci && '
+
+configopts = ' '.join([
+    '-DBUILD_SHARED_LIBS:BOOL=ON',
+    '-DBUILD_EXAMPLES:BOOL=OFF',
+    '-DBUILD_TESTING:BOOL=OFF',
+    '-DZFP_WITH_OPENMP:BOOL=ON',
+    '-DZFP_WITH_CUDA:BOOL=OFF',
+    '-DBUILD_CFP:BOOL=ON',
+    '-DBUILD_ZFPY:BOOL=OFF',
+    '-DBUILD_ZFORP:BOOL=ON',
+    '-DBUILD_UTILITIES:BOOL=ON',
+])
+
+# create pkgconfig file
+postinstallcmds = [
+    "mkdir -p %(installdir)s/lib/pkgconfig",
+    """echo -e "prefix=%(installdir)s
+libdir=\${prefix}/lib64
+includedir=\${prefix}/include
+Name: %(name)s
+Description: %(name)s compression library
+Version: %(version)s
+Requires:
+Libs: -L\${libdir} -lzfp -lcfp
+Cflags: -I\${includedir}" > %(installdir)s/lib/pkgconfig/%(name)s.pc""",
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cd ../%(namelower)s-%(version)s && cp CHANGELOG.md CITATION.cff CONTRIBUTING.md LICENSE NOTICE README.md SUPPORT.md %(installdir)s/share/licenses/%(name)s',   
+]
+
+sanity_check_paths = {
+    'files': ['lib64/libzfp.so', 'lib64/libcfp.so', 'include/zfp.h', 'share/licenses/%(name)s/LICENSE'],
+    'dirs':  ['lib/pkgconfig'],
+}
+
+modextrapaths = {
+    'PYTHONPATH': 'lib/python%(pyshortver)s/site-packages',
+}
+
+moduleclass = 'lib'

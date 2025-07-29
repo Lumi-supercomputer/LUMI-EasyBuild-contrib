@@ -39,3 +39,8 @@
 
 -   Changed in May 2025: Turned profiling on as that is needed for VisIt.
 
+
+### Version 2.10.2 for CPE 25.03
+
+-   Trivial port of the 2.10.1 EasyConfig for 24.03, but added a versionsuffix
+    to the version using `cray-hdf5` to make the differences clearer from the name.
