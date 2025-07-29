@@ -1,0 +1,69 @@
+# Versions of some packages in LUMI-EasyBuild-contrib.
+
+local_ADIOS2_version =       '2.10.1'        # https://github.com/ornladios/ADIOS2/releases
+local_ANTLR_NCO_version =    '2.7.7'         # Looks like NCO requires an antique version.
+local_aria2_version =        '1.37.0'        # https://github.com/aria2/aria2/releases
+
+local_BCFtools_version =     '1.19'          # https://github.com/samtools/bcftools/releases
+
+local_cares_version =        '1.27.0'        # https://github.com/c-ares/c-ares/releases
+local_Catalyst_version =     '2.0.0'         # https://gitlab.kitware.com/paraview/catalyst/-/tags
+local_CDO_version =          '2.4.3'         # https://code.mpimet.mpg.de/projects/cdo/files
+local_CMOR_version =         '3.8.0'         # https://github.com/PCMDI/cmor/releases
+local_Conduit_version =      '0.9.2'         # https://github.com/LLNL/conduit/releases
+local_CppUnit =              '1.15.1'        # https://dev-www.libreoffice.org/src/
+local_CubeLib_version =      '4.8.2'         # https://www.scalasca.org/scalasca/software/cube-4.x/download.html
+local_CubeWriter_version =   '4.8.2'         # https://www.scalasca.org/scalasca/software/cube-4.x/download.html
+
+local_ecCodes_version =      '2.42.0'        # https://confluence.ecmwf.int/display/ECC/Releases
+local_ESMF_version =         '8.8.1'         # https://github.com/esmf-org/esmf/releases - Candidate for version bump if time left
+
+local_GDAL_version =         '3.9.0'         # https://github.com/OSGeo/gdal/releases
+local_GEOS_version =         '3.12.1'        # https://github.com/libgeos/geos/releases
+
+local_HDF_version =          '4.2.16-2'      # https://support.hdfgroup.org/ftp/HDF/releases/
+local_HeFFTe_version =       '2.4.1'         # https://github.com/icl-utk-edu/heffte/releases
+local_HTSlib_version =       '1.19.1'        # https://github.com/samtools/htslib/releases
+
+local_jsonc_version =        '0.17'          # https://github.com/json-c/json-c/tags
+
+local_libbfd_version =       '2.42'          # https://ftp.gnu.org/gnu/binutils/
+local_libdap_version =       '3.21.0-27'     # https://www.opendap.org/pub/source/
+local_libgeotiff_version =   '1.7.3'         # https://github.com/OSGeo/libgeotiff/releases
+local_libsodium_version =    '1.0.19'        # https://download.libsodium.org/libsodium/releases/
+
+local_NCO_version =          '5.2.7'         # https://github.com/nco/nco/releases
+local_ncview_version =       '2.1.9'         # https://cirrus.ucsd.edu/~pierce/ncview/
+
+local_OPARI2_version =       '2.0.8'         # https://www.vi-hps.org/projects/score-p/
+local_OpenPGM_version =      '5.2.122'       # https://code.google.com/archive/p/openpgm/downloads
+local_OptiX_version =        '8.0.0'         # https://developer.nvidia.com/designworks/optix/download
+local_OTF2_version =         '3.0.3'         # https://www.vi-hps.org/projects/score-p/
+
+local_PLUMED2_8_version =    '2.8.4'         # https://github.com/plumed/plumed2/releases
+local_PLUMED2_9_version =    '2.9.2'         # https://github.com/plumed/plumed2/releases
+
+local_SAMtools_version =     '1.20'          # https://github.com/samtools/samtools/releases
+local_Scalasca_version =     '2.6.1'         # https://www.scalasca.org/scalasca/software/scalasca-2.x/download.html
+local_ScoreP_version =       '8.4'           # https://www.vi-hps.org/projects/score-p/
+local_Silo_version =         '4.11.1'        # https://github.com/LLNL/Silo/releases
+local_STAR_version =         '2.7.11b'       # https://github.com/alexdobin/STAR/releases
+local_SZ_version =           '2.1.12.5'      # https://github.com/szcompressor/SZ/releases
+
+local_VCFtools_version =     '0.1.16'        # https://github.com/vcftools/vcftools/releases
+
+local_Xerces_version =       '3.2.5'         # https://xerces.apache.org/xerces-c/releases.html
+
+local_yaml_cpp_version =     '0.8.0'         # https://github.com/jbeder/yaml-cpp/releases
+
+local_ZeroMQ_version =       '4.3.5'         # https://github.com/zeromq/libzmq/releases/
+local_zfp_version =          '1.0.1'         # https://github.com/LLNL/zfp/releases
+
+#
+# LUMI-D stack only
+#
+
+local_AnariSDK_version =     '0.11.1'        # https://github.com/KhronosGroup/ANARI-SDK/releases
+local_VisRTX_version =       '0.9.0'         # https://github.com/NVIDIA/VisRTX/releases
+local_VisIt_version =        '3.4.1'         # https://github.com/visit-dav/visit/releases
+local_VTK_version =          '9.2.6'         # https://vtk.org/download/
