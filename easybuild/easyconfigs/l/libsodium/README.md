@@ -24,3 +24,8 @@
 -   Trivial version bump.
 
 -   Added license information to the 24.03 one in May 2025.
+
+
+### Version 1.0.20 from CPE 25.03 on
+
+-   Trivial version bump of the 1.0.19 EasyConfig for 24.03.
