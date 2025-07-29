@@ -37,3 +37,6 @@
 -   Added license information in May 2025.
 
 -   May 2025: Version added with `cray-hdf5-parallel` which was somewhat nontrivial.
+
+-   Changed the name of the one using `cray-hdf5` for the 25.03 stack so that the 
+    difference between the two variants becomes clearer just from the name.
