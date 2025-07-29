@@ -30,7 +30,7 @@ local_jsonc_version =        '0.17'          # https://github.com/json-c/json-c/
 local_libbfd_version =       '2.42'          # https://ftp.gnu.org/gnu/binutils/
 local_libdap_version =       '3.21.0-27'     # https://www.opendap.org/pub/source/
 local_libgeotiff_version =   '1.7.3'         # https://github.com/OSGeo/libgeotiff/releases
-local_libsodium_version =    '1.0.19'        # https://download.libsodium.org/libsodium/releases/
+local_libsodium_version =    '1.0.20'        # https://download.libsodium.org/libsodium/releases/
 
 local_NCO_version =          '5.2.7'         # https://github.com/nco/nco/releases
 local_ncview_version =       '2.1.9'         # https://cirrus.ucsd.edu/~pierce/ncview/
