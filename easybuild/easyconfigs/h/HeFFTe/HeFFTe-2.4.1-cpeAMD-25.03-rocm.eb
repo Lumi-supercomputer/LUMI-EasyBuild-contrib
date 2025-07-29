@@ -1,11 +1,29 @@
 easyblock = 'CMakeMake'
 
-name = 'HeFFTe'
-version = '2.4.1'
+local_HeFFTe_version =       '2.4.1'         # https://github.com/icl-utk-edu/heffte/releases
+
+name =          'HeFFTe'
+version =       local_HeFFTe_version
 versionsuffix = '-rocm'
 
 homepage = 'https://icl.utk.edu/fft'
-description = "Highly Efficient FFT for Exascale (HeFFTe) library"
+
+whatis = [
+    'Description: HeFFTe - Highly Efficient FFT for Exascale (HeFFTe) library'
+]
+
+description = """
+The Highly Efficient FFT for Exascale (heFFTe) library is being developed as
+part of the Exascale Computing Project (ECP), which is a joint project of the
+U.S. Department of Energy's Office of Science and National Nuclear Security
+Administration (NNSA). HeFFTe delivers algorithms for distributed fast-Fourier
+transforms in on a heterogeneous systems, targeting the upcoming exascale 
+machines.
+"""
+
+docurls = [
+    'Web-based documentation on https://icl-utk-edu.github.io/heffte/',
+]
 
 toolchain = {'name': 'cpeAMD', 'version': '25.03'}
 
@@ -26,16 +44,24 @@ dependencies = [
 
 build_shared_libs = True
 
-configopts  = '-D CMAKE_BUILD_TYPE=Release '
-configopts += '-D Heffte_ENABLE_AVX=ON '
-configopts += '-D Heffte_ENABLE_ROCM=ON '
-configopts += '-D CMAKE_CXX_COMPILER=hipcc '
-configopts += '-D CMAKE_HIP_FLAGS="--offload-arch=gfx90a" '
-configopts += '-D MPI_CXX_COMPILER=CC '
+configopts = ' '.join([
+    '-D CMAKE_BUILD_TYPE=Release',
+    '-D CMAKE_INSTALL_LIBDIR=lib',
+    '-D Heffte_ENABLE_AVX=ON',
+    '-D Heffte_ENABLE_ROCM=ON',
+    '-D CMAKE_CXX_COMPILER=hipcc',
+    '-D CMAKE_HIP_FLAGS="--offload-arch=gfx90a"',
+    '-D MPI_CXX_COMPILER=CC'
+]) 
+
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cd ../%(namelower)s-%(version)s && cp LICENSE README.md %(installdir)s/share/licenses/%(name)s',   
+]
 
 sanity_check_paths = {
-    'files': ['lib/libheffte.%s' % SHLIB_EXT],
-    'dirs': ['include', 'lib/cmake/Heffte', 'share/heffte/examples'],
+    'files': ['lib/libheffte.%s' % SHLIB_EXT, 'share/licenses/HeFFTe/LICENSE'],
+    'dirs':  ['include', 'lib/cmake/Heffte', 'share/heffte/examples'],
 }
 
 moduleclass = 'lib'
