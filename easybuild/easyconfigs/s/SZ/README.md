@@ -42,3 +42,6 @@
     SZ version 3. `github.com/szcompressor/SZ` is now empty repo. 
     The source is now at `github.com/szcompressor/SZ2`
 
+-   Changed the name of the one using `cray-hdf5` for the 25.03 stack so that the 
+    difference between the two variants becomes clearer just from the name.
+
