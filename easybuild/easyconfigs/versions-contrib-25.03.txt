@@ -12,8 +12,6 @@ local_CMOR_version =         '3.8.0'         # https://github.com/PCMDI/cmor/rel
 local_COSMA26_version =      '2.6.6'         # https://github.com/eth-cscs/COSMA/releases
 local_COSMA27_version =      '2.7.0'         # https://github.com/eth-cscs/COSMA/releases
 local_CppUnit_version =      '1.15.1'        # https://dev-www.libreoffice.org/src/
-local_CubeLib_version =      '4.8.2'         # https://www.scalasca.org/scalasca/software/cube-4.x/download.html
-local_CubeWriter_version =   '4.8.2'         # https://www.scalasca.org/scalasca/software/cube-4.x/download.html
 
 local_ecCodes_version =      '2.42.0'        # https://confluence.ecmwf.int/display/ECC/Releases
 local_ESMF_version =         '8.8.1'         # https://github.com/esmf-org/esmf/releases - Candidate for version bump if time left
