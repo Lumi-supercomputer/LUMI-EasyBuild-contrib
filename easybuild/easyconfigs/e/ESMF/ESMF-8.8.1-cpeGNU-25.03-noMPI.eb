@@ -1,0 +1,73 @@
+# contributed by Luca Marsella (CSCS), Theofilos Manitaras (CSCS)
+# Adapted by Kurt Lust (kurt.lust@uantwerpen.be) for the LUMI consortium
+#DOC ESMF compiled in mpiuni mode, without support for MPI.
+easyblock = 'esmfcray'
+
+local_ESMF_version =         '8.8.1'         # https://github.com/esmf-org/esmf/releases - Candidate for version bump if time left
+
+name =          'ESMF'
+version =       local_ESMF_version
+versionsuffix = '-noMPI'
+
+homepage = 'http://sourceforge.net/projects/esmf'
+
+whatis = [
+    'Description: ESMF is the Earth System Modeling Framework, software for coupling weather, climate and related models'
+]
+
+description = """
+The Earth System Modeling Framework (ESMF) is software for building and coupling weather,
+climate, and related models.
+ """
+
+software_license_urls = [
+    f'https://github.com/esmf-org/esmf/blob/v{version}/LICENSE',
+]
+
+toolchain = {'name': 'cpeGNU', 'version': '25.03'}
+toolchainopts = {'usempi': True, 'openmp': True, 'gfortran9-compat': True}
+
+# https://github.com/esmf-org/esmf/archive/refs/tags/v8.3.0.tar.gz
+sources = [
+    {
+        'download_filename': 'v%(version)s.tar.gz',
+        'filename':          SOURCE_TAR_GZ,
+        'source_urls':       ['https://github.com/esmf-org/esmf/archive/refs/tags']
+    }
+]
+patches = ['ESMF-6.1.1_libopts.patch']
+checksums = [
+    'b0acb59d4f000bfbdfddc121a24819bd2a50997c7b257b0db2ceb96f3111b173',  # ESMF-8.8.1.tar.gz
+    '3851627f07c32a7da55d99072d619942bd3a1d9dd002e1557716158e7aacdaf4',  # ESMF-6.1.1_libopts.patch
+]
+
+mpicomm = 'mpiuni'
+optlevel = '2'   # Has to be a string
+
+# Check when compiling a new version if this is still needed.
+# It was done to work around issues with recent versions of gfortran.
+preconfigopts = 'ESMF_F90COMPILEOPTS="$F90FLAGS"'
+prebuildopts  = 'ESMF_F90COMPILEOPTS="$F90FLAGS"'
+
+builddependencies = [ # Create a reproducible build environment.
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+    ('cray-hdf5', EXTERNAL_MODULE),
+    ('cray-netcdf', EXTERNAL_MODULE),
+]
+
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cd %(start_dir)s && cp LICENSE README.md %(installdir)s/share/licenses/%(name)s',   
+]
+
+# Just a single sanity check command as the other commands generate output files even when simply using
+# -h or --version. It should be enough though to check if the executable can find all necessary 
+# shared libraries.
+sanity_check_commands = [ 
+    'ESMF_PrintInfoC --version',
+]
+
+moduleclass = 'geo'
