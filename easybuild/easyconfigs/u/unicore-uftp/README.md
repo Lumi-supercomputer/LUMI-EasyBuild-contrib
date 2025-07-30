@@ -22,7 +22,7 @@
 -   There is no support for UFTP in Spack
 
 
-### Version 1.8
+### Version 1.8.0
 
 -   Started from the EasyBuilders EasyConfig, but
 
@@ -33,4 +33,7 @@
         
 -   Moved the license file etc. to our standard location in share/licenses.
 
-      
+
+### Version 2.2.2
+
+-   Trivial update of the 1.8.0 EasyConfig.
