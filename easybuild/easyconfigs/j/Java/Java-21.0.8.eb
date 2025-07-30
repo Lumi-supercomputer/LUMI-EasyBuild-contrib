@@ -3,7 +3,7 @@
 easyblock = 'EB_Java'
 
 name =        'Java'
-version =     '11.0.21'
+version =     '21.0.8'
 local_build = '9'
 
 homepage = 'http://openjdk.java.net'
@@ -34,21 +34,15 @@ sources = [local_tarball_tmpl % ('%(jdkarch)s', local_build)]
 checksums = [
     {
         local_tarball_tmpl % ('x64', local_build):
-            '60ea98daa09834fdd3162ca91ddc8d92a155ab3121204f6f643176ee0c2d0d5e',
-        local_tarball_tmpl % ('aarch64', local_build):
-            '8c3146035b99c55ab26a2982f4b9abd2bf600582361cf9c732539f713d271faf',
-        local_tarball_tmpl % ('ppc64le', local_build):
-            '262ff98d6d88a7c7cc522cb4ec4129491a0eb04f5b17dcca0da57cfcdcf3830d',
+            'f2dc5418092c43003db8f9005c4a286e1c0104fea96ccdd49e8ebd037cac9219',
+        #local_tarball_tmpl % ('aarch64', local_build):
+        #    'e184dc29a6712c1f78754ab36fb48866583665fa345324f1a79e569c064f95e9',
+        #local_tarball_tmpl % ('ppc64le', local_build):
+        #    '9574828ef3d735a25404ced82e09bf20e1614f7d6403956002de9cfbfcb8638f',
     }
 ]
 
-modextravars = {
-    'JAVA_ROOT':   '%(installdir)s',
-    'JAVA_BINDIR': '%(installdir)s/bin',
-}
-
 sanity_check_commands = [
-    'jaotc --version',
     'jar --version',
     'jarsigner --help',
     'java --version',
@@ -64,10 +58,10 @@ sanity_check_commands = [
     'jhsdb --help',
     'jimage --version',
     'jinfo --help',
-    # No test for jjs, or we could check for the exit code wich it 100 for jjs --help?
     'jlink --version',
     'jmap --help',
     'jmod --version',
+    'jpackage --version',
     'jps --help',
     'jrunscript --help',
     'jshell --version',
@@ -75,12 +69,8 @@ sanity_check_commands = [
     'jstat --help',
     'jstatd --help',
     'keytool --help',
-    'pack200 --version',
-    # No easy test for rmic, or we'd have to check the error output to see if the application has loaded properly.
-    # No easy test for rmid, or we'd have to check the error output to see if the application has loaded properly.
     # No easy test for rmiregistry, or we'd have to check the error output to see if the application has loaded properly.
     # No easy test for serialver, or we'd have to check the error output to see if the application has loaded properly.
-    'unpack200 --version',
 ]
 
 moduleclass = 'lang'
