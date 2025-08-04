@@ -63,7 +63,7 @@ checksums =   ['2ba5095bc7c7cfde1ca95780c1240d852b7dc1b00c9de5b31e607120449ff827
 
 builddependencies = [
     ('buildtools',         '%(toolchain_version)s', '', True), # For CMake
-    ('craype-hugepages8M', EXTERNAL_MODULE),
+#    ('craype-hugepages8M', EXTERNAL_MODULE),
     ('craype-accel-host',  EXTERNAL_MODULE),  # Avoid enabling OpenMP offload
 ]
 
