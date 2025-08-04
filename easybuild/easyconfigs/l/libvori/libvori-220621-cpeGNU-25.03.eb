@@ -1,0 +1,43 @@
+# Contributed by Luca Marsella (CSCS)
+# Modified for LUMI by Peter Larsson
+# Bump to the latest version and CPE version by Radim Janalik (CSCS)
+easyblock = 'CMakeMake'
+
+name = 'libvori'
+version = '220621'
+
+homepage = 'https://brehm-research.de/libvori.php'
+
+whatis = [
+    'Description: libvori stands for \'Library for Voronoi Integration\', a library so far meant specifically for CP2K',
+]
+
+description = """
+The libvori library implements recently developed methods of Voronoi integration
+as well as the compressed bqb file format into a small C++ library, which is
+called “libvori” (“Library for Voronoi Integration”). In principle, libvori
+enables other programs to include these approaches. The present version of
+libvori is a very early development version, which is hard-coded to work with
+the CP2k program package, in which I have recently implemented these two methods.
+There is no well-defined interface or documentation yet. If you want to use
+libvori in your code, please have some more patience
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '25.03'}
+toolchainopts = {'usempi': False, 'openmp': False}
+
+source_urls = ['https://brehm-research.de/files']
+sources = [SOURCE_TAR_GZ]
+checksums = ['1cfa98c564814bddacf1c0e7f11582137d758668f6307e6eb392c72317984c14']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True)
+]
+
+sanity_check_paths = {
+    'files': ['lib/%(name)s.a'],
+    'dirs':  ['lib'],
+}
+
+moduleclass = 'chem'
+
