@@ -1,0 +1,15 @@
+--- cupy-13.5.1/pyproject.toml	2025-07-10 16:07:19.000000000 +0300
++++ cupy-13.5.1-patched/pyproject.toml	2025-08-04 18:31:21.507950415 +0300
+@@ -16,11 +16,7 @@
+ maintainers = [
+     { name = "CuPy Developers" },
+ ]
+-license = "MIT"
+-license-files = [
+-    "LICENSE",
+-    "docs/source/license.rst",
+-]
++license = {file = "LICENSE"}
+ classifiers = [
+     "Development Status :: 5 - Production/Stable",
+     "Intended Audience :: Science/Research",

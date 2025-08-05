@@ -1,0 +1,65 @@
+easyblock = 'PythonPackage'
+
+local_CuPy_version      = '13.5.1'
+local_cython_version = '3.1.2'
+
+name = 'CuPy'
+version = local_CuPy_version
+versionsuffix = '-rocm'
+
+homepage = 'https://cupy.dev'
+
+whatis = [
+    'Description: CuPy is an open-source array library for GPU-accelerated computing with Python'
+]
+
+description = """"
+CuPy is an open-source array library for GPU-accelerated computing with Python.
+CuPy acts as a drop-in replacement to run existing NumPy/SciPy code on NVIDIA CUDA
+or AMD ROCm platforms.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '25.03'}
+
+source_urls = [PYPI_LOWER_SOURCE]
+sources = [SOURCELOWER_TAR_GZ]
+patches = ['cupy_lic_def.patch']
+
+
+builddependencies = [
+    # Provides wheel
+    ('buildtools-python', '%(toolchain_version)s', '-cray-python%(pyshortver)s', True),
+]
+
+dependencies = [
+    ('cray-python', EXTERNAL_MODULE),
+    ('rocm',        EXTERNAL_MODULE),
+    # CuPy needs Cython>3 and fastrlock it includes - not very elegant solution
+    ('Cython', '3.1.2', ''),
+]
+
+use_pip = True
+
+preinstallopts = ' '.join([
+    'ROCM_HOME=$ROCM_PATH',
+    'CUPY_INSTALL_USE_HIP=1',
+    'HCC_AMDGPU_TARGET=gfx90a',
+    'CFLAGS="-w $CFLAGS"', 
+    'HIPCC="hipcc"',
+]) 
+
+exts_defaultclass = 'PythonPackage'
+
+exts_default_options = {
+    'source_urls': [PYPI_SOURCE],
+    'use_pip': True
+}
+
+sanity_check_paths = {
+    'files': [
+        'lib/python%(pyshortver)s/site-packages/cupyx/cusolver.cpython-311-x86_64-linux-gnu.so',
+    ],
+    'dirs': ['lib/python%(pyshortver)s/site-packages'],
+}
+
+moduleclass = 'devel'
