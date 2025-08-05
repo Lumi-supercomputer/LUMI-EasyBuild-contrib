@@ -47,6 +47,7 @@ local_SAMtools_version =     '1.20'          # https://github.com/samtools/samto
 local_Scalasca_version =     '2.6.1'         # https://www.scalasca.org/scalasca/software/scalasca-2.x/download.html
 local_ScoreP_version =       '8.4'           # https://www.vi-hps.org/projects/score-p/
 local_Silo_version =         '4.11.1'        # https://github.com/LLNL/Silo/releases
+local_spglib_version =       '2.6.0'         # https://github.com/spglib/spglib/tags
 local_STAR_version =         '2.7.11b'       # https://github.com/alexdobin/STAR/releases
 local_SZ_version =           '2.1.12.5'      # https://github.com/szcompressor/SZ/releases
 
