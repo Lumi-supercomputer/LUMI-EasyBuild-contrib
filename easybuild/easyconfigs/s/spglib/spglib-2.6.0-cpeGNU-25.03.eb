@@ -4,8 +4,10 @@
 
 easyblock = 'CMakeMake'
 
+local_spglib_version =       '2.6.0'         # https://github.com/spglib/spglib/tags
+
 name =    'spglib'
-version = '2.5.0'
+version = local_spglib_version
 
 homepage = 'https://spglib.github.io/spglib/'
 
@@ -25,8 +27,8 @@ toolchain = {'name': 'cpeGNU', 'version': '25.03'}
 toolchainopts = {'openmp': True, 'usempi': False}
 
 source_urls = ['https://github.com/spglib/%(name)s/archive/']
-sources = ['v%(version)s.tar.gz']
-checksums = ['b6026f5e85106c0c9ee57e54b9399890d0f29982e20e96ede0428b3efbe6b914'] 
+sources =     ['v%(version)s.tar.gz']
+checksums =   ['c65af71136c915352eb82444b165ec83289877eb8e46593033f199801b43dbf7'] 
 
 builddependencies = [
     ('buildtools',         '%(toolchain_version)s', '', True),
@@ -35,15 +37,17 @@ builddependencies = [
 ]
 
 postinstallcmds = [
-    'cd %(installdir)s/include && mkdir spglib && ln -s ../spglib.h spglib/'
+    'cd %(installdir)s/include && mkdir spglib && ln -s ../spglib.h spglib/',
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cd ../%(namelower)s-%(version)s && cp CITATION.cff COPYING ChangeLog.md Contributing.md README.md %(installdir)s/share/licenses/%(name)s',   
 ]
 
 preconfigopts = 'module unload rocm && '
-prebuildopts = preconfigopts
+preinstallopts = pretestopts = prebuildopts = preconfigopts
 
 sanity_check_paths = {
     'files': ['include/spglib.h', 'lib/libsymspg.%s' % SHLIB_EXT],
-    'dirs': [],
+    'dirs':  [],
 }
 
 moduleclass = 'chem'
