@@ -11,10 +11,7 @@ Packages marked with (M) are packages that pull in the others as dependencies.
 | [c-ares](https://c-ares.org/) | [Use "Source code" .tar.gz](https://github.com/c-ares/c-ares/releases)  | [EB c-ares](https://github.com/easybuilders/easybuild-easyconfigs/tree/develop/easybuild/easyconfigs/c/c-ares) | / |  |
 | [CDO](https://code.mpimet.mpg.de/projects/cdo) (M) | [Use .tar.gz](https://code.mpimet.mpg.de/projects/cdo/files)| [EB CDO](https://github.com/easybuilders/easybuild-easyconfigs/tree/main/easybuild/easyconfigs/c/CDO) | [CSCS CDO](https://github.com/eth-cscs/production/tree/master/easybuild/easyconfigs/c/CDO) |  |
 | [CMOR](https://cmor.llnl.gov) | [Use .tar.gz](https://github.com/PCMDI/cmor/releases) | / | / |  |
-<<<<<<< HEAD
 | [COSMA](https://github.com/eth-cscs/COSMA) | [Clone from](https://github.com/eth-cscs/COSMA/releases) | / | / |  |
-=======
->>>>>>> 906da95 (Moving spglib to a more recent version.)
 | [CppUnit](https://freedesktop.org/wiki/Software/cppunit/) | [Use .tar.gz](https://dev-www.libreoffice.org/src/) | [EB CppUnit](https://github.com/easybuilders/easybuild-easyconfigs/tree/develop/easybuild/easyconfigs/c/CppUnit) | / |  |
 | [CubeLib](https://www.scalasca.org/scalasca/software/cube-4.x/) | [Releases](https://www.scalasca.org/scalasca/software/cube-4.x/download.html) | [EB CubeLib](https://github.com/easybuilders/easybuild-easyconfigs/tree/develop/easybuild/easyconfigs/c/CubeLib) | [EB CubeLib](https://github.com/easybuilders/CSCS/tree/master/easybuild/easyconfigs/c/CubeLib) |  |
 | [CubeWriter](https://www.scalasca.org/scalasca/software/cube-4.x/) | [Releases](https://www.scalasca.org/scalasca/software/cube-4.x/download.html) | [EB CubeWriter](https://github.com/easybuilders/easybuild-easyconfigs/tree/develop/easybuild/easyconfigs/c/CubeWriter) | [EB CubeLib](https://github.com/easybuilders/CSCS/tree/master/easybuild/easyconfigs/c/CubeWriter) |  |
