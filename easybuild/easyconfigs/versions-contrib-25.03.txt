@@ -47,7 +47,7 @@ local_OptiX_version =        '8.0.0'         # https://developer.nvidia.com/desi
 local_OTF2_version =         '3.0.3'         # https://www.vi-hps.org/projects/score-p/
 
 local_PLUMED2_8_version =    '2.8.4'         # https://github.com/plumed/plumed2/releases
-local_PLUMED2_9_version =    '2.9.2'         # https://github.com/plumed/plumed2/releases
+local_PLUMED2_9_version =    '2.9.4'         # https://github.com/plumed/plumed2/releases
 
 local_SAMtools_version =     '1.20'          # https://github.com/samtools/samtools/releases
 local_Scalasca_version =     '2.6.1'         # https://www.scalasca.org/scalasca/software/scalasca-2.x/download.html
