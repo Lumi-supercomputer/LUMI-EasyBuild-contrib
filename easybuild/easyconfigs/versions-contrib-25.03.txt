@@ -30,7 +30,10 @@ local_libdap_version =       '3.21.1'        # https://www.opendap.org/pub/sourc
 local_libgeotiff_version =   '1.7.3'         # https://github.com/OSGeo/libgeotiff/releases
 local_libnsl_version =       '2.0.1'         # https://github.com/thkukuk/libnsl/releases
 local_libsodium_version =    '1.0.20'        # https://download.libsodium.org/libsodium/releases/
+<<<<<<< HEAD
 local_libvori_version =      '220621'        # https://brehm-research.de/libvori.php
+=======
+>>>>>>> 7a83fdf (libxc clean-up for 25.03, taking requirements of different programs into account.)
 local_libxc6_version =       '6.2.2'         # https://gitlab.com/libxc/libxc/-/releases
 local_libxc7_version =       '7.0.0'         # https://gitlab.com/libxc/libxc/-/releases
 local_libxsmm_version =      '1.17'          # https://github.com/libxsmm/libxsmm/releases
