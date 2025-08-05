@@ -60,7 +60,6 @@ configopts += '-DBoost_NO_SYSTEM_PATHS=TRUE '
 configopts += '-DWITH_SSCP_COMPILER=OFF ' 
 configopts += '-DLLVM_DIR=${ROCM_PATH}/llvm/lib/cmake/llvm/ '
 
-
 sanity_check_paths = {
     'files': ['bin/acpp', 'include/AdaptiveCpp/sycl/sycl.hpp',
               'lib/hipSYCL/librt-backend-omp.%s' % SHLIB_EXT,
