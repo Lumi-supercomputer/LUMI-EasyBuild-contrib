@@ -27,6 +27,10 @@ sources = [{
         'tag': 'v%(version)s',
     }
 }]
+<<<<<<< HEAD
+=======
+checksums = ['3cb66d1e0f37feb3a79943b9562d268ede88cdf798379561adffd5935030fb62']
+>>>>>>> f7b3cf7 (Update AdaptiveCpp to 25.03)
 
 builddependencies = [
     ('buildtools', '%(toolchain_version)s', '', True),
@@ -43,9 +47,13 @@ preconfigopts += 'export C_INCLUDE_PATH=$ROCM_PATH/llvm/include && '
 preconfigopts += 'export CPLUS_INCLUDE_PATH=$ROCM_PATH/llvm/include && '
 
 configopts  = '-DACPP_VERSION_SUFFIX="rocm6" '
+<<<<<<< HEAD
 configopts += '-DACPP_EXPERIMENTAL_LLVM=ON '
 configopts += '-DROCM_PATH=$ROCM_PATH '
 configopts += '-DAMDGPU_TARGETS=gfx90a '
+=======
+configopts += '-DROCM_PATH=$ROCM_PATH '
+>>>>>>> f7b3cf7 (Update AdaptiveCpp to 25.03)
 configopts += '-DCMAKE_C_COMPILER=${ROCM_PATH}/llvm/bin/clang '
 configopts += '-DCMAKE_CXX_COMPILER=${ROCM_PATH}/llvm/bin/clang++ '
 configopts += '-DWITH_ACCELERATED_CPU=ON '
@@ -59,7 +67,12 @@ configopts += '-DBoost_NO_BOOST_CMAKE=TRUE '
 configopts += '-DBoost_NO_SYSTEM_PATHS=TRUE '
 configopts += '-DWITH_SSCP_COMPILER=OFF ' 
 configopts += '-DLLVM_DIR=${ROCM_PATH}/llvm/lib/cmake/llvm/ '
+<<<<<<< HEAD
 
+=======
+configopts += '-DHIPSYCL_ALLOW_INSTANT_SUBMISSION=1 '
+configopts += '-DACPP_EXPERIMENTAL_LLVM=ON '
+>>>>>>> f7b3cf7 (Update AdaptiveCpp to 25.03)
 
 sanity_check_paths = {
     'files': ['bin/acpp', 'include/AdaptiveCpp/sycl/sycl.hpp',
