@@ -3,8 +3,10 @@
 # Bump to the latest version and CPE version by Radim Janalik (CSCS)
 easyblock = 'CMakeMake'
 
-name = 'libvori'
-version = '220621'
+local_libvori_version =      '220621'        # https://brehm-research.de/libvori.php
+
+name =    'libvori'
+version = local_libvori_version
 
 homepage = 'https://brehm-research.de/libvori.php'
 
@@ -27,11 +29,21 @@ toolchain = {'name': 'cpeGNU', 'version': '25.03'}
 toolchainopts = {'usempi': False, 'openmp': False}
 
 source_urls = ['https://brehm-research.de/files']
-sources = [SOURCE_TAR_GZ]
-checksums = ['1cfa98c564814bddacf1c0e7f11582137d758668f6307e6eb392c72317984c14']
+sources =     [SOURCE_TAR_GZ]
+checksums =   ['1cfa98c564814bddacf1c0e7f11582137d758668f6307e6eb392c72317984c14']
 
 builddependencies = [
     ('buildtools', '%(toolchain_version)s', '', True)
+]
+
+preconfigopts = 'module unload cray-mpich cray-libsci rocm && '
+preinstallopts = pretestopts = prebuildopts = preconfigopts
+
+configopts = '-DCMAKE_INSTALL_LIBDIR=lib'   # Not really needed here as that seems to be the default for this code.
+
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cd ../%(namelower)s-%(version)s && cp COPYING README %(installdir)s/share/licenses/%(name)s',   
 ]
 
 sanity_check_paths = {
@@ -40,4 +52,3 @@ sanity_check_paths = {
 }
 
 moduleclass = 'chem'
-
