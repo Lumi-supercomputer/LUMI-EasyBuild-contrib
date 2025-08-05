@@ -1,12 +1,14 @@
 # contributed by Luca Marsella (CSCS)
-# adapted for LUMI by Peter Larsson
+# adapated for LUMI by Peter Larsson
 
-local_Perl_version = '5.40.0'
+local_Perl_version =         '5.40.0'        # https://www.perl.org/get.html
+
+local_libxc6_version =       '6.2.2'         # https://gitlab.com/libxc/libxc/-/releases
 
 easyblock = 'CMakeMake'
 
-name = 'libxc'
-version =  '7.0.0'
+name =     'libxc'
+version =  local_libxc6_version
 
 homepage = 'https://www.tddft.org/programs/libxc/'
 
@@ -16,17 +18,17 @@ whatis = [
 ]
 
 description = """
-Libxc is a library of exchange-correlation and kinetic energy functionals for
-density-functional theory. The original aim was to provide a portable, well
+Libxc is a library of exchange-correlation and kinetic energy functionals for 
+density-functional theory. The original aim was to provide a portable, well 
 tested and reliable set of LDA, GGA, and meta-GGA functionals.
 
-Libxc is written in C, but it also comes with Fortran binding.
+Libxc is written in C, but it also comes with Fortran binding. 
 
-It is released under the MPL license (v. 2.0). In all publications resulting
+It is released under the MPL license (v. 2.0). In all publications resulting 
 from your use of Libxc, please cite:
 
-[ref] Susi Lehtola, Conrad Steigemann, Micael J. T. Oliveira, and Miguel A. L. Marques,
-      "Recent developments in Libxc - A comprehensive  library of functionals for
+[ref] Susi Lehtola, Conrad Steigemann, Micael J. T. Oliveira, and Miguel A. L. Marques, 
+      "Recent developments in Libxc - A comprehensive  library of functionals for 
       density functional theory", Software X 7, 1 (2018)
 """
 
@@ -40,8 +42,7 @@ toolchainopts = {'opt': True}
 
 source_urls = ['https://gitlab.com/%(name)s/%(name)s/-/archive/%(version)s']
 sources = [SOURCE_TAR_BZ2]
-#checksums = ['f72ed08af7b9dff5f57482c5f97bff22c7dc49da9564bc93871997cbda6dacf3']
-#checksums = ['e9ae69f8966d8de6b7585abd9fab588794ada1fab8f689337959a35abbf9527d']  # libxc-7.0.0.tar.bz2
+#checksums = ['ec292de621e819b03a37db1f7a7365a9eaf423e30e2fd4553e6336eca534cc29']
 
 builddependencies = [
     ('buildtools', '%(toolchain_version)s', '', True), # For CMake
@@ -50,7 +51,7 @@ builddependencies = [
     ('Perl',                local_Perl_version),
 ]
 
-local_common_configopts = '-DENABLE_FORTRAN=ON'
+local_common_configopts = '-DENABLE_FORTRAN=ON -DCMAKE_INSTALL_LIBDIR=lib'
 
 configopts = [
     local_common_configopts + ' -DBUILD_SHARED_LIBS=OFF',
@@ -67,7 +68,7 @@ postinstallcmds = [
 
 sanity_check_paths = {
     'files': ['bin/xc-info'] +
-             ['lib/libxc%s.%s' % (x, y) for x in ['', 'f03'] for y in ['a', SHLIB_EXT]],
+             ['lib/libxc%s.%s' % (x, y) for x in ['', 'f03', 'f90'] for y in ['a', SHLIB_EXT]],
     'dirs': ['include', 'lib/pkgconfig', 'lib/cmake/Libxc'],
 }
 
