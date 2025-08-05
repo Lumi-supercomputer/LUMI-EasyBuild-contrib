@@ -5,10 +5,10 @@ easyblock = 'CMakeMake'
 
 local_bzip2_version =        '1.0.8'         # http://www.bzip.org/downloads.html
 
-local_COSMA26_version =      '2.6.6'         # https://github.com/eth-cscs/COSMA/releases
+local_COSMA27_version =      '2.7.0'         # https://github.com/eth-cscs/COSMA/releases
 
 name =          'COSMA'
-version =       local_COSMA26_version
+version =       local_COSMA27_version
 versionsuffix = '-CPU'
 
 homepage = 'https://github.com/eth-cscs/COSMA'
@@ -34,12 +34,15 @@ docurls = [
 toolchain = {'name': 'cpeGNU', 'version': '25.03'}
 toolchainopts = {'opt': True}
 
+# The tar files distributed via GitHub lack a dependency that needs to be included,
+# getting the sources this way solves this without having to go check for another
+# piece of code and integrate both.
 sources =     [{
     'filename'   : SOURCELOWER_TAR_GZ,
     'git_config' : {
         'url'          : 'https://github.com/eth-cscs',
-        'repo_name'    : '%(name)s',
-        'tag'          : f'v{local_COSMA26_version}',
+        'repo_name'    :'%(name)s',
+        'tag'          :'v2.6.6',
         'recursive'    : True,
         'keep_git_dir' : True, 
     },
