@@ -43,9 +43,12 @@ toolchainopts = {'openmp': True, 'usempi': True}
 
 source_urls = ['https://github.com/%(namelower)s/%(namelower)s/releases/download/v%(version)s']
 sources = [SOURCELOWER_TAR_BZ2]
-checksums = ['cc3e56c971dee9e89b705a1103765aba57bf41ad39a11c89d3de04c8b8cdf473']
 patches = [
     ('LUMIG-20242.psmp', '%(builddir)s/%(namelower)s-%(version)s/arch')
+]
+checksums = [
+    {'cp2k-2024.3.tar.bz2': 'a6eeee773b6b1fb417def576e4049a89a08a0ed5feffcd7f0b33c7d7b48f19ba'},
+    {'LUMIG-20242.psmp': '36b2eec66a53d2c1753d7026868407f93122b60442e58cf1fdd2f3f280bd1ba6'},
 ]
 
 builddependencies = [
