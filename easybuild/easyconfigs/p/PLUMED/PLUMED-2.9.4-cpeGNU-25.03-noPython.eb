@@ -96,6 +96,11 @@ configopts = ' '.join([
     '--enable-gsl',
     '--disable-python',
     '--enable-asmjit',
+<<<<<<< HEAD
+=======
+    # Disable features that we do not have, avoids warnings
+    '--disable-xdrfile',
+>>>>>>> c11372e (Minor update of PLUMED, version with Python still missing due to mysterious issues.)
 ])
 
 postinstallcmds = [
