@@ -3,8 +3,10 @@
 # Bump to the latest version and CPE version by Radim Janalik (CSCS)
 easyblock = 'ConfigureMake'
 
+local_libxsmm_version =      '1.17'          # https://github.com/libxsmm/libxsmm/releases
+
 name =    'libxsmm'
-version = '1.17'
+version = local_libxsmm_version
 
 homepage = 'https://readthedocs.org/projects/libxsmm'
 
@@ -21,8 +23,8 @@ toolchain = {'name': 'cpeGNU', 'version': '25.03'}
 toolchainopts = {'usempi': True, 'openmp': True}
 
 source_urls = ['https://github.com/%(name)s/%(name)s/archive/']
-sources = ['%(version)s.tar.gz']
-checksums = ['8b642127880e92e8a75400125307724635ecdf4020ca4481e5efe7640451bb92']
+sources =     ['%(version)s.tar.gz']
+checksums =   ['8b642127880e92e8a75400125307724635ecdf4020ca4481e5efe7640451bb92']
 
 builddependencies = [
     ('buildtools',          '%(toolchain_version)s', '', True),
@@ -44,6 +46,8 @@ maxparallel = 1
 
 postinstallcmds = [
     'cd %(installdir)s/lib; mkdir -p pkgconfig; mv *.pc pkgconfig',
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cp LICENSE.md README.md SECURITY.md %(installdir)s/share/licenses/%(name)s',   
 ]
 
 sanity_check_paths = {
