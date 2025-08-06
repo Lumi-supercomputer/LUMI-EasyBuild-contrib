@@ -62,3 +62,12 @@
 
 -   Trivial port of the 1.17 EasyConfig
 
+
+### 1.19.1 for 24.03
+
+-   Trivial port of the 1.18 EasyConfig for 23.09
+
+
+### 1.22.1 for 25.03
+
+-   Trivial port of the 1.19.1 EasyConfig for 24.03
