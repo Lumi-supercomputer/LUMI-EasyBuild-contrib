@@ -1,9 +1,9 @@
 easyblock = 'ConfigureMake'
 
-local_CppUnit =              '1.15.1'        # https://dev-www.libreoffice.org/src/
+local_CppUnit_version =      '1.15.1'        # https://dev-www.libreoffice.org/src/
 
 name =    'CppUnit'
-version = local_CppUnit
+version = local_CppUnit_version
 
 homepage = 'https://freedesktop.org/wiki/Software/cppunit/'
 
