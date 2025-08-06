@@ -63,6 +63,11 @@ configopts = [
     local_common_configopts + ' --enable-openmp '
 ]
 
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cp -r Changelog CONTRIBUTING.md LICENSE README.md COPYING %(installdir)s/share/licenses/%(name)s',   
+]
+
 sanity_check_paths = {
     'files': ['lib/libelpa.a', 'lib/libelpa.so', 'lib/libelpa_openmp.a', 'lib/libelpa_openmp.so'],
     'dirs':  ['bin', 'lib/pkgconfig',
