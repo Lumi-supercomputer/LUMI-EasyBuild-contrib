@@ -1,0 +1,82 @@
+##
+# This is a contribution from DeepThought HPC Service, Flinders University, Adelaide, Australia
+# Homepage:     https://staff.flinders.edu.au/research/deep-thought
+#
+# Authors::     Robert Qiao <rob.qiao@flinders.edu.au>
+# License::     MIT
+#
+# Notes::
+#
+# Updated to 1.14 and gcc-11.2.0
+# J. Sassmannshausen / GSTT
+# K. Lust: Updated to 1.15.1.
+easyblock = 'EB_SAMtools'
+
+local_SAMtools_version =     '1.22.1'        # https://github.com/samtools/samtools/releases
+
+# Dependencies from the main software stack
+local_ncurses_version =      '6.5'           # https://ftp.gnu.org/pub/gnu/ncurses/
+
+# Dependencies from the contributed applications
+local_HTSlib_version =       '1.22.1'        # https://github.com/samtools/htslib/releases
+
+name =    'SAMtools'
+version = local_SAMtools_version
+
+homepage = 'https://www.htslib.org/'
+
+whatis = [
+    "Description: SAMtools is a collection of utilities for the Sequence Alignment/Map (SAM) format",
+    "The module provides a static library (libbam.a) and a number of executables and scripts",
+]
+
+description = """
+SAMtools provide various utilities for manipulating alignments in the SAM
+format, including sorting, merging, indexing and generating alignments in a
+per-position format.
+SAMtools is implemented as a couple of executables and a number of scripts.
+Some scripts (in particular the LUA scripts) may require additional modules.
+"""
+
+docurls = [
+    "Manual page for the samtools and wgsim commands (section 1)",
+]
+
+toolchain = {'name': 'cpeGNU', 'version': '25.03'}
+toolchainopts = {'pic': True}
+
+source_urls = ['https://github.com/samtools/%(namelower)s/releases/download/%(version)s']
+sources =     [SOURCELOWER_TAR_BZ2]
+checksums =   ['02aa5cd0ba52e06c2080054e059d7d77a885dfe9717c31cd89dfe7a4047eda0e']
+
+builddependencies = [
+    ('buildtools',          '%(toolchain_version)s', '', True),
+    ('craype-accel-host',   EXTERNAL_MODULE),
+    ('craype-network-none', EXTERNAL_MODULE),
+]
+
+# The htslib component of SAMtools >= 1.4 uses zlib, bzip2 and lzma compression.
+# The latter is currently provided by XZ.
+dependencies = [
+    #('ncurses',    local_ncurses_version),
+    ('HTSlib',     local_HTSlib_version),
+]
+
+#
+# Unload modules that are not needed to compile HTSlib. A user has reported crashed with
+# version 1.14, so let's remove everything that is not strictly needed.
+#
+preconfigopts = 'module unload rocm cray-libsci cray-mpich xpmem cray-dsmml ; module list ; '
+preinstallopts = pretestopts = prebuildopts = preconfigopts
+
+configopts = '--with-htslib=$EBROOTHTSLIB --with-ncurses=$EBROOTNCURSES'
+
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s ; cp LICENSE AUTHORS NEWS.md README %(installdir)s/share/licenses/%(name)s'    
+]
+
+sanity_check_commands = [
+    'samtools version'
+]
+
+moduleclass = 'bio'
