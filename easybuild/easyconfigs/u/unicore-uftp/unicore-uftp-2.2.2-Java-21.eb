@@ -3,7 +3,7 @@
 easyblock = 'PackedBinary'
 
 name =          'unicore-uftp'
-version =       '1.8.0'
+version =       '2.2.2'
 versionsuffix = '-Java-%(javaver)s'
 
 homepage = 'https://github.com/UNICORE-EU'
@@ -28,7 +28,7 @@ toolchain = SYSTEM
 # https://github.com/UNICORE-EU/uftp-javaclient/releases/download/1.8.0/uftp-client-1.8.0-all.zip
 source_urls = ['https://github.com/UNICORE-EU/uftp-javaclient/releases/download/%(version)s']
 sources =     ['uftp-client-%(version)s-all.zip']
-checksums =   ['ff7c5f2f85129b9cdb977d3314d12408c710addf7e92a37e44be6a4cfff0b355']
+checksums =   ['ee66c61037f59e5af315f401ccd49dd2d305f2fd3344babe6935c87be6165214']
 
 dependencies = [
     ('Java', '21', '', SYSTEM)

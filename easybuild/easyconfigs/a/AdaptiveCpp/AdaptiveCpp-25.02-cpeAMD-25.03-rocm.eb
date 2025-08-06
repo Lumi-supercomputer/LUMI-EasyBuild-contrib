@@ -28,6 +28,8 @@ sources = [{
     }
 }]
 
+checksums = ['3cb66d1e0f37feb3a79943b9562d268ede88cdf798379561adffd5935030fb62']
+
 builddependencies = [
     ('buildtools', '%(toolchain_version)s', '', True),
     ('Boost',      local_Boost_version),
@@ -59,7 +61,6 @@ configopts += '-DBoost_NO_BOOST_CMAKE=TRUE '
 configopts += '-DBoost_NO_SYSTEM_PATHS=TRUE '
 configopts += '-DWITH_SSCP_COMPILER=OFF ' 
 configopts += '-DLLVM_DIR=${ROCM_PATH}/llvm/lib/cmake/llvm/ '
-
 
 sanity_check_paths = {
     'files': ['bin/acpp', 'include/AdaptiveCpp/sycl/sycl.hpp',
