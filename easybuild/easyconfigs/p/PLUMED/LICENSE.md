@@ -7,3 +7,6 @@ a copy of which can be found in the
 
 Users are asked to acknowledge PLUMED in their work and cite the relevant publications, see the
 ["How to cite PLUMED" page on the PLUMED web site](https://www.plumed.org/cite).
+
+From LUMI/25.03 onwards, the license information can also be found in
+`$EBROOTPLUMED/share/licenses/PLUMED` afer installing and loading the module.

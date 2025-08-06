@@ -2,12 +2,18 @@
 # Modified by Luca Marsella (CSCS)
 # Adapted by Kurt Lust (kurt.lust@uantwerpen.be) for the LUMI consortium
 #
+# Instructions to run regression tests at the bottom of this file.
+#
+#DOC PLUMED with the Python plugin. Only in cpeGNU as Cray Python is compiled
+#DOC with the GNU compilers and not compatible with libraries compiled with
+#DOC other compilers that use or link to libraries with OpenMP support.
+#DOC
 #DOC Another mostly bug fix release.
 #
-# Instructions to run regression tests at the bottom of this file.
 easyblock = 'ConfigureMake'
 
 local_crayfftw_version =     '3.3.10.10'
+local_craypython_version =   '3.11.7'
 
 local_Boost_version =        '1.88.0'        # https://www.boost.org/
 local_GSL_version =          '2.8'           # https://ftp.gnu.org/gnu/gsl/
@@ -17,7 +23,7 @@ local_PLUMED2_9_version =    '2.9.4'         # https://github.com/plumed/plumed2
 
 name =          'PLUMED'
 version =       local_PLUMED2_9_version
-versionsuffix = '-noPython'
+versionsuffix = f'-cray-python-{local_craypython_version}'
 
 homepage = 'https://www.plumed.org'
 
@@ -69,19 +75,24 @@ sources = [{
 checksums =   ['3068ab5e28cbae38b582d128fecac14c820762244d8eb87ad6030f04f96ecd78']
 
 builddependencies = [
-    ('buildtools',         '%(toolchain_version)s', '', SYSTEM), # For CMake
+    ('buildtools',         '%(toolchain_version)s', '', SYSTEM), # For CMake and xxd
 #    ('craype-hugepages8M', EXTERNAL_MODULE),
     ('craype-accel-host',  EXTERNAL_MODULE),  # Avoid enabling OpenMP offload
 ]
 
 dependencies = [
-    (f'cray-fftw/{local_crayfftw_version}', EXTERNAL_MODULE),
+    (f'cray-python/{local_craypython_version}', EXTERNAL_MODULE),
+    (f'cray-fftw/{local_crayfftw_version}',     EXTERNAL_MODULE),
     ('Boost',     local_Boost_version),
     ('zlib',      local_zlib_version),
-    ('GSL',       local_GSL_version,        '-OpenMP'),
+    ('GSL',       local_GSL_version,            '-OpenMP'),
 ]
 
-preconfigopts = prebuildopts = 'module rm rocm && '
+preconfigopts = ''
+preconfigopts  = f'unset PYTHONPATH && module load cray-python/{local_craypython_version} && '
+preconfigopts += 'module unload rocm && '
+
+preinstallopts = pretestopts = prebuildopts = preconfigopts
 
 # This is a trick to avoid multiple LibSci linking problem
 preconfigopts += 'export LDSHARED="CC -fopenmp -shared" && '
@@ -94,7 +105,7 @@ configopts = ' '.join([
     '--enable-mpi',
     '--enable-fftw',
     '--enable-gsl',
-    '--disable-python',
+    '--enable-python',
     '--enable-asmjit',
 ])
 
@@ -103,7 +114,7 @@ postinstallcmds = [
     # but see the bottom of this file for a better approach
     #'sed -e "s|-mpirun|-srun|" -e "s| -np | -n |" -i regtest/scripts/run',
     #'cp -r regtest %(installdir)s',
-    'mkdir -p %(installdir)s/share/licenses/%(name)s && cp COPYING.LESSER PEOPLE README.md %(installdir)s/share/licenses/%(name)s',
+    'mkdir -p %(installdir)s/share/licenses/%(name)s && cp COPYING.LESSER PEOPLE README.md %(installdir)s/share/licenses/%(name)s',   
 ]
 
 sanity_check_paths = {
@@ -123,12 +134,19 @@ sanity_check_commands = [
     'plumed --no-mpi config has boost_graph',
     'plumed --no-mpi config has boost_serialization',
     'plumed --no-mpi config has asmjit',
+    # Tests that should be removed for a -noPython build.
+    'python -c "import plumed"',
+    'python -c "import plumed; plumed.Plumed()"', # Test still fails so something seems to be wrong.
 ]
 
 modextravars = {
     'PLUMED_KERNEL': '%(installdir)s/lib/libplumedKernel.so',
-    'PLUMED_ROOT':   '%(installdir)s/lib/%(namelower)s',
-    'PLUMED_VIM':    '%(installdir)s/lib/%(namelower)s/vim',
+    'PLUMED_ROOT':   '%(installdir)s/lib/%(namelower)s',    
+    'PLUMED_VIM':    '%(installdir)s/lib/%(namelower)s/vim',    
+}
+
+modextrapaths = {
+    'PYTHONPATH':    'lib/%(namelower)s/python',
 }
 
 local_bash_completion = """
@@ -154,10 +172,10 @@ moduleclass = 'chem'
 # --------------------
 #
 # tar xf $EBU_USER_PREFIX/sources/p/PLUMED/PLUMED-2.9.2.tgz
-# cd plumed-2.9.2/regtest/
+# cd plumed-2.9.4/regtest/
 # sed -i 's/$mpi -np/$mpi -n/' scripts/run
 # salloc -n6 -c4 -psmall -t30:00 -A <project>
-# module load PLUMED/2.9.2-cpeGNU-24.03-noPython
+# module load PLUMED/2.9.4-cpeGNU-24.03-cray-python-3.11.7
 # export PLUMED_MPIRUN=srun
 # make
 # exit
