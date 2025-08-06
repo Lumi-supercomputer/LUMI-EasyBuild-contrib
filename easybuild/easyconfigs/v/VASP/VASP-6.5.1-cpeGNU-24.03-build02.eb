@@ -1,3 +1,6 @@
+#DOC VASP 6.5.1 with POTCAR and HDF5 I/O patches. Contributed and tested by a user.
+#DOC This is the recommended version.
+
 easyblock = 'MakeCp'
 
 name = 'VASP'
