@@ -1,12 +1,13 @@
 # Created for LUMI by Orian Louant
 easyblock = 'EB_Libint'
+
 local_LibInt_CP2K_version = '2.7.2'
 
-local_Boost_version = '1.88.0'
-local_GMP_version   = '6.3.0'
-local_Eigen_version = '3.4.0'
+local_Boost_version =        '1.88.0'        # https://www.boost.org/
+local_GMP_version =          '6.3.0'         # https://ftp.gnu.org/gnu/gmp/
+local_Eigen_version =        '3.4.0'         # https://gitlab.com/libeigen/eigen/-/releases
 
-name = 'Libint-CP2K'
+name =    'Libint-CP2K'
 version = local_LibInt_CP2K_version
 
 homepage = 'https://github.com/evaleev/libint'
@@ -26,8 +27,7 @@ toolchain = {'name': 'cpeGNU', 'version': '25.03'}
 toolchainopts = {'opt': True, 'pic': True}
 
 source_urls = ['https://github.com/evaleev/libint/archive']
-sources = ['v%(version)s.tar.gz']
-checksums = ['fd0466ce9eb6786b8c5bbe3d510e387ed44b198a163264dfd7e60b337e295fd9'],
+sources =     ['v%(version)s.tar.gz']
 
 patches = [
     'Libint-2.7.2_remove-test-permute.patch',
@@ -73,5 +73,10 @@ libint_compiler_configopts = ' '.join([
 
 with_fortran = True
 runtest = False
+
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cd ../libint-%(version)s && cp CHANGES CITATION COPYING.LESSER INSTALL LICENSE README.md %(installdir)s/share/licenses/%(name)s',   
+]
 
 moduleclass = 'chem'
