@@ -57,3 +57,13 @@
 
 -   Trivial port of the 1.18 EasyConfig.
 
+
+### Version 1.20 for 24.03
+
+-   Trivial port of the EasyConfig of 1.18 for 23.09.
+
+
+### Version 1.22.1 for 24.03
+
+-   Trivial port of the EasyConfig of 1.20 for 24.03, but needed to point
+    explicitly to ncurses.
