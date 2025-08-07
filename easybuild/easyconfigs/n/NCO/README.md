@@ -19,12 +19,19 @@ Some special ones:
     operations, an executable from ESMF is called (and this is the case for the 
     sanity check that we added in 5.3.4 for 25.03).
 
--   There is a feature called CCR, which requires an additiona dependency which 
-    itself has a lot of dependencies, that is not yet included and not included
-    in the EasyBuilders version either.
+-   There is a feature called [CCR or Community Codec Repository](https://github.com/ccr/ccr)
+    with extra compression algorithms for netCDF and HDF5, but it doesn't seem to 
+    be well maintained recently. It is also not yet included in the EasyBuilders
+    build nor can we find an EasyConfig for CCR. A Spack package also seems to 
+    be non-existent.
 
--   Another feature is support for MOAB, an unstructured grid library, that is not
+-   Another feature is support for [MOAB](https://sigma.mcs.anl.gov/moab-library/)
+    or Mesh-Oriented datABase, that is not
     included in our builds or in the EasyBuilders one.
+    
+    The [MOAB library](https://sigma.mcs.anl.gov/moab-library/) itself
+    is [supported in Spack](https://packages.spack.io/package.html?name=moab).
+    The package has a huge number of optional dependencies.
 
 
 ## EasyBuild
@@ -105,4 +112,3 @@ Some special ones:
     library is not linked directly.
 
         
-
