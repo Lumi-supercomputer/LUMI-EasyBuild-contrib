@@ -57,7 +57,7 @@ preconfigopts = 'module unload rocm cray-libsci && '
 preinstallopts = pretestopts = prebuildopts = preconfigopts
 
 preconfigopts += 'autoreconf --force --install --verbose && '
-preconfigopts += 'LDFLAGS="$LDFLAGS -L$EBROOTICU/lib -licuuc" '
+preconfigopts += 'LDFLAGS="$LDFLAGS -L$EBROOTICU/lib -licuuc -Wl,--allow-shlib-undefined" '
 configopts = 'TIRPC_LIBS="-L$EBROOTLIBTIRPC/lib -ltirpc"'
 
 postinstallcmds = [
