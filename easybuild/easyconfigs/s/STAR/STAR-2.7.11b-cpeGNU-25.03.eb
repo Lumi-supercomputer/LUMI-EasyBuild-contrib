@@ -1,0 +1,86 @@
+# Contribution from the NIHR Biomedical Research Centre
+# Guy's and St Thomas' NHS Foundation Trust and King's College London
+# Based on STAR-2.7.7a-GCC-10.2.0.eb 
+# uploaded by J. Sassmannshausen
+# modified by Thomas Eylenbosch
+
+easyblock = 'MakeCp'
+
+local_STAR_version =         '2.7.11b'       # https://github.com/alexdobin/STAR/releases
+
+local_zlib_version =         '1.3.1'         # https://zlib.net/
+
+local_HTSlib_version =       '1.22.1'        # https://github.com/samtools/htslib/releases
+
+name =    'STAR'
+version = '2.7.11b'
+
+homepage = 'https://github.com/alexdobin/STAR'
+
+whatis = [
+    'Description: STAR aligns RNA-seq reads to a reference genome using uncompressed suffix arrays.',
+]
+
+description = """
+Spliced Transcripts Alignment to a Reference (STAR) is a fast RNA-seq read 
+mapper, with support for splice-junction and fusion read detection.
+
+STAR aligns reads by finding the Maximal Mappable Prefix (MMP) hits between 
+reads (or read pairs) and the genome, using a Suffix Array index. Different 
+parts of a read can be mapped to different genomic positions, corresponding to 
+splicing or RNA-fusions. The genome index includes known splice-junctions from 
+annotated gene models, allowing for sensitive detection of spliced reads. STAR 
+performs local alignment, automatically soft clipping ends of reads with high 
+mismatches.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '25.03'}
+toolchainopts = {'openmp': True, 'cstd': 'c++11', 'opt': True} # Mimic the settings that are coded in the Makefile anyway.
+
+# https://github.com/alexdobin/STAR/archive/refs/tags/2.7.11b.tar.gz
+sources = {
+    'download_filename': '%(version)s.tar.gz',
+    'filename':          SOURCE_TAR_GZ,
+    'source_urls':       ['https://github.com/alexdobin/STAR/archive/refs/tags']
+
+}
+
+patches = ['STAR-2.7.11b_use-external-htslib.patch']
+checksums = [
+    {'STAR-2.7.11b.tar.gz':                    '3f65305e4112bd154c7e22b333dcdaafc681f4a895048fa30fa7ae56cac408e7'},
+    {'STAR-2.7.11b_use-external-htslib.patch': '4ec4c36d57277adb9b1ea87f2974ebfa0c3b0e3ad1faacd184c5cfe897eb484d'},
+]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', SYSTEM), # xxd and other make
+]
+
+dependencies = [
+    ('HTSlib', local_HTSlib_version),
+    ('zlib',   local_zlib_version),
+]
+
+start_dir = 'source'
+
+# by default this is set to -mavx2 which makes it fail on non x86 systems
+prebuildopts = 'CXXFLAGS_SIMD= '
+
+buildopts = ' STAR && make STARlong'
+
+files_to_copy = [
+    (['source/%(name)s', 'source/%(name)slong'], 'bin'),
+    'doc', 'extras', 
+    (['CHANGES.md', 'LICENSE', 'README.md', 'RELEASEnotes.md'], 'share/licenses/%(name)s'),
+]
+
+sanity_check_paths = {
+    'files': ['bin/%(name)s', 'bin/%(name)slong'],
+    'dirs':  [],
+}
+
+sanity_check_commands = [
+    "STAR --help",
+    "STARlong --help",
+]
+
+moduleclass = 'bio'
