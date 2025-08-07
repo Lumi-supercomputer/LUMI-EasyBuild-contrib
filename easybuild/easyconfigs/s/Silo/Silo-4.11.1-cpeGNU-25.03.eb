@@ -73,7 +73,7 @@ sanity_check_paths = {
 }
 
 sanity_check_commands = [
-    f'browser --version | grep -q {local_Silo_version}', 
+    f'browser --version |& grep -q {local_Silo_version}', 
 ]
 
 moduleclass = 'data'
