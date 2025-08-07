@@ -21,3 +21,12 @@
 ### Version 0.9.2 for cpeGNU/24.03
 
 -   The EasyConfig is largely a LUST development.
+
+
+### Version 0.9.4 for cpeGNU/25.03
+
+-   Trivial port of the 0.9.2 EasyConfig for 24.03. The patch is no longer needed.
+
+    We also checked for better sanity checks, but as even the help option already
+    returns an error code, this is hard to check until we have an actual issue
+    and can see how that differs from the regular behaviour.
