@@ -1,0 +1,106 @@
+# contributed by Luca Marsella (CSCS), updated by Samuel Omlin (CSCS)
+# Adapted by Kurt Lust (kurt.lust@uantwerpen.be) for the LUMI consortium
+easyblock = 'ConfigureMake'
+
+local_GSL_version =          '2.8'           # https://ftp.gnu.org/gnu/gsl/
+local_UDUNITS_version =      '2.2.28'        # https://artifacts.unidata.ucar.edu/service/rest/repository/browse/downloads-udunits/
+
+local_ANTLR_NCO_version =    '2.7.7'         # Looks like NCO requires an antique version.
+local_ESMF_version =         '8.8.1'         # https://github.com/esmf-org/esmf/releases - Candidate for version bump if time left
+
+local_NCO_version =          '5.3.4'         # https://github.com/nco/nco/releases
+
+name =    'NCO'
+version = local_NCO_version
+
+homepage = 'http://nco.sourceforge.net/'
+
+whatis = [
+    "Description: The NCO toolkit manipulates and analyzes data stored in netCDF-accessible formats, including DAP, HDF4, and HDF5."
+]
+
+description = """
+The NCO toolkit manipulates and analyzes data stored in netCDF-accessible
+formats, including DAP, HDF4, and HDF5.
+
+This version was build with cray-libsci unloaded as it causes crashes in
+the tests. If work with NCO depends heavily on an optimized BLAS, it may
+be very inefficient in this module.
+"""
+
+docurls = [
+    'Manual pages for the commands in section 1'
+    'Support for the info command: info nco',
+]
+
+toolchain = {'name': 'cpeGNU', 'version': '25.03'}
+toolchainopts = {'opt': True, 'pic': True, 'openmp': True}
+
+# https://github.com/nco/nco/archive/refs/tags/5.0.6.tar.gz
+sources = [
+    {
+        'download_filename': '%(version)s.tar.gz',
+        'filename':          SOURCELOWER_TAR_GZ,
+        'source_urls':       ['https://github.com/nco/nco/archive/']
+    }
+]
+
+checksums = [
+    '265059157ab4e64e73b6aad96da1e09427ba8a03ed3e2348d0a5deb57cf76006',  # nco-5.3.4.tar.gz
+]
+
+builddependencies = [ # Create a reproducible build environment.
+    ('buildtools',          '%(toolchain_version)s',   '', True),
+    ('craype-network-none', EXTERNAL_MODULE),
+    ('craype-accel-host',   EXTERNAL_MODULE),
+]
+
+dependencies = [
+    # Cray packages
+    ('cray-hdf5',   EXTERNAL_MODULE),
+    ('cray-netcdf', EXTERNAL_MODULE),
+    # LUMI software stack
+    ('GSL',         local_GSL_version,       '-OpenMP'), # NCO by default compiles with OpenMP enabled.
+    ('UDUNITS',     local_UDUNITS_version),              # Also pulls in expat
+    # Contributed dependencies
+    ('ANTLR',       local_ANTLR_NCO_version, '-cray-python3.11'), # It really requires this antique version!
+    ('ESMF',        local_ESMF_version,      '-noMPI'),   # You can't see it in the output of configure, but the sanity check shows it is being used.
+]
+
+preconfigopts = 'module unload rocm && '
+preinstallopts = pretestopts = prebuildopts = preconfigopts
+
+configopts = ' '.join([
+    '--enable-nco_cplusplus', # Enable NCO C++ interface (default=no)
+    '--disable-udunits --enable-udunits2', # You don't see it in the final executables, but the header files are used. 
+    #'--enable-dap',           # Does not work, so removed libdap as a dependency
+    '--disable-ccr',          # Build-in CCR support if possible [default=no], requires additional work and dependencies
+])
+
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s && ' +
+    'cp COPYING COPYRIGHT CITATION %(installdir)s/share/licenses/%(name)s',
+]
+
+sanity_check_paths = {
+    'files': ['bin/ncbo'],
+    'dirs':  [],
+}
+
+sanity_check_commands = [
+    'ncap2 --version',
+    'ncatted --version',
+    'ncbo --version',
+    'ncclimo --version',
+    'ncecat --version',
+    'ncflint --version',
+    'ncks --version',
+    'ncpdq --version',
+    'ncra --version',
+    'ncremap --version',
+    'ncrename --version',
+    'ncwa --version',
+    'ncks -O -7 --cnk_dmn time,10 %(builddir)s/%(namelower)s-%(version)s/data/in.nc %(builddir)s/%(namelower)s-%(version)s/data/in4.cdl',
+]
+
+moduleclass = 'data'
