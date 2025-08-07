@@ -39,7 +39,7 @@ local_libxc6_version =       '6.2.2'         # https://gitlab.com/libxc/libxc/-/
 local_libxc7_version =       '7.0.0'         # https://gitlab.com/libxc/libxc/-/releases
 local_libxsmm_version =      '1.17'          # https://github.com/libxsmm/libxsmm/releases
 
-local_NCO_version =          '5.2.7'         # https://github.com/nco/nco/releases
+local_NCO_version =          '5.3.4'         # https://github.com/nco/nco/releases
 local_ncview_version =       '2.1.9'         # https://cirrus.ucsd.edu/~pierce/ncview/
 
 local_OPARI2_version =       '2.0.8'         # https://www.vi-hps.org/projects/score-p/
