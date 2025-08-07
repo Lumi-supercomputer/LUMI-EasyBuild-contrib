@@ -60,4 +60,8 @@ package.
 -   The cpeCray version failed to find ICU properly while linking so
     we had to change LDFLAGS by hand.
     
+    There was also an issue with the `getpeereid` function that `libtirpc` could not find.
+    That function likely lives in `libbsd` so we may need to add yet a dependency to
+    `libtirpc` if `libdap` fails in use.
+    
 -   Added CppUnit as a dependency as the configure script really was looking for this.
