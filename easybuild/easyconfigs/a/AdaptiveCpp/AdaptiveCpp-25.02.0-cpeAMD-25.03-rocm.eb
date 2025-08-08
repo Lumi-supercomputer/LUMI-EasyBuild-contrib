@@ -28,7 +28,9 @@ sources = [{
     }
 }]
 
-checksums = ['3cb66d1e0f37feb3a79943b9562d268ede88cdf798379561adffd5935030fb62']
+# Cannot use a checksum as downloads from git this way are not reproducible unless
+# EasyBuild can use a package that is only supported on Python 3.9 and higher.
+#checksums = ['3cb66d1e0f37feb3a79943b9562d268ede88cdf798379561adffd5935030fb62']
 
 builddependencies = [
     ('buildtools', '%(toolchain_version)s', '', True),

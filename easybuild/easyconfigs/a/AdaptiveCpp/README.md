@@ -23,3 +23,19 @@
 
 -   All the recipes rely on ROCm LLVM entirely which misses libraries required to 
     enable the single pass compiler feature of ACPP.
+
+    
+### Release 24.06.00 for 24.03
+
+-   A port of the EasyConfig for 23.10 for 23.09, but some configuration options
+    have changed, so some changes where needed.
+    
+
+### Release 24.10.0 for 24.03
+
+-   A trivial change of the EasyConfig for 24.06.0 for 24.03.
+
+
+### Release 25.02.0 for 25.03
+
+-   A port of 24.10.0 for 24.03, but this time some options needed changes again.
