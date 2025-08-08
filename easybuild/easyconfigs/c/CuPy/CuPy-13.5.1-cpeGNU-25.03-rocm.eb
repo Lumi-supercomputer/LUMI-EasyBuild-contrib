@@ -1,3 +1,4 @@
+#DOC CuPy to be used with Cray Python.
 easyblock = 'PythonBundle'
 
 local_CuPy_version      = '13.5.1'
