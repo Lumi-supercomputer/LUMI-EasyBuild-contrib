@@ -31,5 +31,11 @@ CuPy is a NumPy/SciPy-compatible array library for GPU-accelerated computing wit
 ### Version 13.4.1 for CPE 24.03
 
 -   Supports ROCm 6.
+
 -   Requires Cython 3 (not available in cray-python).
 
+
+### Version 13.5.1 for 25.03
+
+-   Port of the 13.4.1 EasyConfig for 24.03, but needed an additional patch and
+    some settings via `preinstallopts` to build properly.
