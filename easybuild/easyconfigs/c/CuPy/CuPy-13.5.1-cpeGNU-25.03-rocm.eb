@@ -1,7 +1,8 @@
-easyblock = 'PythonPackage'
+easyblock = 'PythonBundle'
 
 local_CuPy_version      = '13.5.1'
-local_cython_version = '3.1.2'
+local_cython_version    = '3.1.2'
+local_fastrlock_version = '0.8.3'
 
 name = 'CuPy'
 version = local_CuPy_version
@@ -21,39 +22,32 @@ or AMD ROCm platforms.
 
 toolchain = {'name': 'cpeGNU', 'version': '25.03'}
 
-source_urls = [PYPI_LOWER_SOURCE]
-sources = [SOURCELOWER_TAR_GZ]
-patches = ['cupy_lic_def.patch']
-
-
 builddependencies = [
     # Provides wheel
     ('buildtools-python', '%(toolchain_version)s', '-cray-python%(pyshortver)s', True),
+    # CuPy needs Cython>3
+    ('Cython', local_cython_version),
 ]
 
 dependencies = [
     ('cray-python', EXTERNAL_MODULE),
     ('rocm',        EXTERNAL_MODULE),
-    # CuPy needs Cython>3 and fastrlock it includes - not very elegant solution
-    ('Cython', '3.1.2', ''),
 ]
 
 use_pip = True
 
-preinstallopts = ' '.join([
-    'ROCM_HOME=$ROCM_PATH',
-    'CUPY_INSTALL_USE_HIP=1',
-    'HCC_AMDGPU_TARGET=gfx90a',
-    'CFLAGS="-w $CFLAGS"', 
-    'HIPCC="hipcc"',
-]) 
-
-exts_defaultclass = 'PythonPackage'
-
 exts_default_options = {
-    'source_urls': [PYPI_SOURCE],
+    'source_urls': [PYPI_LOWER_SOURCE],
     'use_pip': True
 }
+
+exts_list = [
+    ('fastrlock', local_fastrlock_version),
+    ('cupy', version, {
+        'preinstallopts': 'ROCM_HOME=$ROCM_PATH CUPY_INSTALL_USE_HIP=1 HCC_AMDGPU_TARGET=gfx90a HIPCC="hipcc" CFLAGS="-w $CFLAGS" ',
+        'patches': ['cupy_lic_def.patch'],
+    }),
+]
 
 sanity_check_paths = {
     'files': [
