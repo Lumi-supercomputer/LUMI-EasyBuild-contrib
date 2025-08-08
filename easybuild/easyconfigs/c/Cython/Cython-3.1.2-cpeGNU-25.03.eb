@@ -1,3 +1,4 @@
+#DOC EasyConfig to be used with Cray Python when its Cython implementation is too old.
 easyblock = 'PythonPackage'
 
 name = 'Cython'
