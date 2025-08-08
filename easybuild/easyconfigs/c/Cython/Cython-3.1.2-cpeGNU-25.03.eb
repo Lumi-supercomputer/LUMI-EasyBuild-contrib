@@ -3,9 +3,6 @@ easyblock = 'PythonPackage'
 name = 'Cython'
 version = '3.1.2'
 
-# This is needed for CuPy
-local_fastrlock_version = '0.8.3'
-
 homepage = 'https://cython.org/'
 description = """
 Cython is an optimising static compiler for both the Python programming
@@ -29,19 +26,8 @@ dependencies = [
     ('cray-python', EXTERNAL_MODULE),
 ]
 
+# Cython currently requires pip to build correctly
 use_pip = True
-
-exts_defaultclass = 'PythonPackage'
-
-exts_default_options = {
-    'source_urls': [PYPI_SOURCE],
-    'use_pip': True
-}
-
-exts_list = [
-    ('fastrlock', local_fastrlock_version),
-]
-
 
 sanity_check_paths = {
     'files': ['bin/cygdb', 'bin/cython', 'bin/cythonize'],
