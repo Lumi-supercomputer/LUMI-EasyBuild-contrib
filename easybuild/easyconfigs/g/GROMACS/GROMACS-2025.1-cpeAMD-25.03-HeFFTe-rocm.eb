@@ -22,7 +22,7 @@ Newtonian equations of motion for systems with hundreds to millions of
 particles.
 
 Binaries included:
-* gmx_mpi: Compiled with MPI, hipSYCL and heFFTe support for multiple GPU compute nodes
+* gmx_mpi: Compiled with MPI, AdaptiveCpp and heFFTe support for multiple GPU compute nodes
 
 The module sets the environment variables that would otherwise be set by running
 the script $EBROOTGROMACS/bin/GMXRC. So running this script snould not be
