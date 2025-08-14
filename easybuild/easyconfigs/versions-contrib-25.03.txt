@@ -55,6 +55,8 @@ local_spglib_version =       '2.6.0'         # https://github.com/spglib/spglib/
 local_STAR_version =         '2.7.11b'       # https://github.com/alexdobin/STAR/releases
 local_SZ_version =           '2.1.12.5'      # https://github.com/szcompressor/SZ/releases
 
+local_UnZip_version =        '6.0'           # https://infozip.sourceforge.net/UnZip.html
+
 local_VCFtools_version =     '0.1.17'        # https://github.com/vcftools/vcftools/releases
 
 local_Xerces_version =       '3.2.5'         # https://xerces.apache.org/xerces-c/releases.html
@@ -62,6 +64,7 @@ local_Xerces_version =       '3.2.5'         # https://xerces.apache.org/xerces-
 local_yaml_cpp_version =     '0.8.0'         # https://github.com/jbeder/yaml-cpp/releases
 
 local_ZeroMQ_version =       '4.3.5'         # https://github.com/zeromq/libzmq/releases/
+local_Zip_version =          '3.0'           # https://infozip.sourceforge.net/Zip.html
 local_zfp_version =          '1.0.1'         # https://github.com/LLNL/zfp/releases
 
 #
