@@ -181,12 +181,14 @@ the other EasyConfigs offer examples of how to add packages.
 -   Quick port with minor version updates of the 22.12 one.
 
 
-## VErsion 4.4.1 for 24.03
+## Version 4.4.1 for 24.03
 
 -   Quick port with version updates of the 23.09 EasyConfigs.
 
 -   Changed the naming to stress that we link with the multithreaded BLAS libraries.
 
-            
-            
 
+## Version 4.5.1 for 25.03
+
+-   Trivial port of the EasyConfig for 4.4.1 for 24.03, but with an update of all packages.
+            
