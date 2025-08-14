@@ -1,0 +1,64 @@
+diff -ruN dftd4-3.7.0.orig/config/meson.build dftd4-3.7.0/config/meson.build
+--- dftd4-3.7.0.orig/config/meson.build	2024-08-29 16:35:42.000000000 +0300
++++ dftd4-3.7.0/config/meson.build	2025-08-14 14:38:22.000000000 +0300
+@@ -108,16 +108,18 @@
+ elif lapack_vendor == 'custom'
+   custom_deps = []
+   libs = get_option('custom_libraries')
+-  if libs[0].startswith('-L')
+-    foreach lib: libs
+-      if lib != libs[0]
+-        custom_deps += fc.find_library(lib, dirs: libs[0].substring(2))
+-      endif
+-    endforeach
+-  else
+-    foreach lib: libs
+-      custom_deps += fc.find_library(lib)
+-    endforeach
++  if libs.length() > 0
++    if libs[0].startswith('-L')
++      foreach lib: libs
++        if lib != libs[0]
++          custom_deps += fc.find_library(lib, dirs: libs[0].substring(2))
++        endif
++      endforeach
++    else
++      foreach lib: libs
++        custom_deps += fc.find_library(lib)
++      endforeach
++    endif
+   endif
+   if (not fc.links('external dsytrs; call dsytrs(); end', dependencies: [custom_deps,omp_dep]))
+     error('Custom LAPACK libraries do not link')
+diff -ruN dftd4-3.7.0.orig/subprojects/multicharge/config/meson.build dftd4-3.7.0/subprojects/multicharge/config/meson.build
+--- dftd4-3.7.0.orig/subprojects/multicharge/config/meson.build	2024-08-29 16:25:54.000000000 +0300
++++ dftd4-3.7.0/subprojects/multicharge/config/meson.build	2025-08-14 14:56:53.000000000 +0300
+@@ -107,16 +107,18 @@
+ elif lapack_vendor == 'custom'
+   custom_deps = []
+   libs = get_option('custom_libraries')
+-  if libs[0].startswith('-L')
+-    foreach lib: libs
+-      if lib != libs[0]
+-        custom_deps += fc.find_library(lib, dirs: libs[0].substring(2))
+-      endif
+-    endforeach
+-  else
+-    foreach lib: libs
+-      custom_deps += fc.find_library(lib)
+-    endforeach
++  if libs.length() > 0
++    if libs[0].startswith('-L')
++      foreach lib: libs
++        if lib != libs[0]
++          custom_deps += fc.find_library(lib, dirs: libs[0].substring(2))
++        endif
++      endforeach
++    else
++      foreach lib: libs
++        custom_deps += fc.find_library(lib)
++      endforeach
++    endif
+   endif
+   if (not fc.links('external dsytrs; call dsytrs(); end', dependencies: [custom_deps,omp_dep]))
+     error('Custom LAPACK libraries do not link')
