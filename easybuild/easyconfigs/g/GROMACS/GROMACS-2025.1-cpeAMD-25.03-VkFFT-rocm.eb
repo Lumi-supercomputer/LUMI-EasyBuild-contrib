@@ -25,7 +25,7 @@ Binaries included:
 
 The module sets the environment variables that would otherwise be set by running
 the script $EBROOTGROMACS/bin/GMXRC. So running this script snould not be
-}necessary in most cases.
+necessary in most cases.
 
 The module also defines the shell function gromacs-completion that can be used to
 turn bash command completion on for GROMACS. Note that unloading the module will
