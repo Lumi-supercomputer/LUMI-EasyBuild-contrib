@@ -1,0 +1,60 @@
+easyblock = 'CMakeMake'
+
+name =    'rocSHMEM'
+version = '6.4.2'
+
+homepage = 'https://rocm.docs.amd.com/projects/rocSHMEM/en/latest/'
+
+whatis = [
+    "rocSHMEM intra-kernel networking runtime for AMD dGPUs on the ROCm platform."
+]
+
+description = """
+rocSHMEM intra-kernel networking runtime for AMD dGPUs on the ROCm platform.
+"""
+
+toolchain = {'name': 'cpeAMD', 'version': '25.03'}
+
+sources = [{
+    'filename': '%(name)s-%(version)s.tar.gz',
+    'git_config': {
+        'url': 'https://github.com/ROCM',
+        'repo_name': '%(name)s',
+        'commit': 'rocm-%(version)s',
+    }
+}]
+
+dependencies = [
+    ('rocm', EXTERNAL_MODULE),
+]
+
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+configopts  = '-DROCM_PATH=$ROCM_PATH '
+configopts += '-DMPI_ROOT=$MPICH_DIR '
+configopts += '-DCMAKE_CXX_COMPILER=CC '
+configopts += '-DDEBUG=OFF '
+configopts += '-DPROFILE=OFF '
+configopts += '-DUSE_GPU_IB=OFF '
+configopts += '-DUSE_RO=OFF '
+configopts += '-DUSE_DC=OFF '
+configopts += '-DUSE_IPC=ON '
+configopts += '-DUSE_COHERENT_HEAP=ON '
+configopts += '-DUSE_THREADS=OFF '
+configopts += '-DUSE_WF_COAL=OFF '
+configopts += '-DUSE_SINGLE_NODE=ON '
+configopts += '-DUSE_HOST_SIDE_HDP_FLUSH=OFF '
+configopts += '-DBUILD_LOCAL_GPU_TARGET_ONLY=ON '
+configopts += '-DBUILD_UNIT_TESTS=OFF '
+configopts += '-DAMDGPU_TARGETS=gfx90a '
+configopts += '-DGPU_TARGETS=gfx90a '
+
+sanity_check_paths = {
+    'files': ['lib/librocshmem.a'],
+    'dirs': ['lib']
+}
+
+moduleclass = 'lib'
