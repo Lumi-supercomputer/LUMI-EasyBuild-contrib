@@ -1,0 +1,45 @@
+easyblock = 'ConfigureMake'
+
+name = 'QuantumESPRESSO'
+version = '7.4.1omp'
+versionsuffix = '-rocm' 
+
+homepage = 'https://www.quantum-espresso.org'
+description = '''Quantum ESPRESSO  is an integrated suite of computer codes
+for electronic-structure calculations and materials modeling at the nanoscale.
+It is based on density-functional theory, plane waves, and pseudopotentials
+(both norm-conserving and ultrasoft).
+'''
+
+toolchain = {'name': 'cpeCray', 'version': '25.03'}
+toolchainopts = {'usempi': True, 'openmp': True}
+
+sources = [
+    {
+        'filename': 'q-e-omp-%(version)s.tar.gz',
+        'git_config': {
+            'url': 'https://gitlab.com/QEF',
+            'repo_name': 'q-e-omp-repository',
+            'commit': 'qe-7.4.1omp'
+        }
+    },
+]
+
+builddependencies = [
+    ('buildtools', '', '%(toolchain_version)s', True),
+]
+
+dependencies = [
+    ('rocm',               EXTERNAL_MODULE),
+    ('cray-hdf5-parallel', EXTERNAL_MODULE),
+    ('cray-fftw',          EXTERNAL_MODULE),
+]
+
+configopts ='ARCH=craype --enable-omp_gpu --with-rocm=$ROCM_PATH --enable-omp_mpi_gpu'
+
+sanity_check_paths = {
+    'files': ['bin/pw.x'],
+    'dirs':  [''],
+}
+
+moduleclass = 'chem'
