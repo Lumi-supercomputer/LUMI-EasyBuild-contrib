@@ -1,8 +1,8 @@
 easyblock = 'CMakeMake'
 
 name = 'QUDA'
-version = 'a76d22e'
-versionsuffix = '-rocm-xnack'
+version = '07822b6'
+versionsuffix = '-rocm'
 
 homepage = 'https://lattice.github.io/quda/'
 
@@ -17,7 +17,7 @@ sources = [{
     'git_config': {
         'url': 'https://github.com/lattice',
         'repo_name': 'quda',
-        'commit': 'a76d22e' # develop at 2025/05/15
+        'commit': '07822b6'
     }
 }]
 
@@ -29,22 +29,19 @@ builddependencies = [
     ('buildtools',   '%(toolchain_version)s',   '', True),
 ]
 
-configopts =  '-D CMAKE_BUILD_TYPE=DEVEL '
-configopts += '-D CMAKE_C_COMPILER=amdclang '
-configopts += '-D CMAKE_C_FLAGS="-O2 -frelaxed-template-template-args -fopenmp -I${MPICH_DIR}/include" '
-configopts += '-D CMAKE_C_STANDARD=99 '
-configopts += '-D CMAKE_CXX_COMPILER=hipcc '
-configopts += '-D CMAKE_CXX_FLAGS="-std=c++17 -O2 -frelaxed-template-template-args -fopenmp -fgpu-rdc -I${MPICH_DIR}/include -I${ROCM_PATH}/include -I${ROCM_PATH}/include/hipfft" '
-configopts += '-D CMAKE_EXE_LINKER_FLAGS="--hip-link -L${MPICH_DIR}/lib -lmpi -L${ROCM_PATH}/lib -fopenmp ${PE_MPICH_GTL_DIR_amd_gfx90a} ${PE_MPICH_GTL_LIBS_amd_gfx90a}" '
-configopts += '-D CMAKE_SHARED_LINKER_FLAGS="--hip-link -L${MPICH_DIR}/lib -lmpi -L${ROCM_PATH}/lib -fopenmp ${PE_MPICH_GTL_DIR_amd_gfx90a} ${PE_MPICH_GTL_LIBS_amd_gfx90a}" '
+configopts  = '-D CMAKE_C_COMPILER=amdclang '
+configopts += '-D CMAKE_CXX_COMPILER=amdclang++ '
+configopts += '-D MPI_C_COMPILER=cc '
 configopts += '-D MPI_CXX_COMPILER=CC '
-configopts += '-D MPI_C_COMPILER=/opt/cray/pe/craype/2.7.31.11/bin/cc '
+configopts += '-D CMAKE_C_STANDARD=99 '
+configopts += '-D CMAKE_EXE_LINKER_FLAGS="${PE_MPICH_GTL_DIR_amd_gfx90a} ${PE_MPICH_GTL_LIBS_amd_gfx90a}" '
+configopts += '-D CMAKE_SHARED_LINKER_FLAGS="${PE_MPICH_GTL_DIR_amd_gfx90a} ${PE_MPICH_GTL_LIBS_amd_gfx90a}" '
 configopts += '-D ROCM_PATH=${ROCM_PATH} '
-configopts += '-D AMDGPU_TARGETS="gfx90a:xnack+" '
-configopts += '-D GPU_TARGETS="gfx90a:xnack+" '
+configopts += '-D AMDGPU_TARGETS="gfx90a" '
+configopts += '-D GPU_TARGETS="gfx90a" '
+configopts += '-D QUDA_GPU_ARCH="gfx90a" '
 configopts += '-D BUILD_SHARED_LIBS=ON '
 configopts += '-D QUDA_TARGET_TYPE="HIP" '
-configopts += '-D QUDA_GPU_ARCH="gfx90a:xnack+" '
 configopts += '-D QUDA_MPI=ON '
 configopts += '-D QUDA_COVDEV=OFF '
 configopts += '-D QUDA_DIRAC_NDEG_TWISTED_CLOVER=OFF '
