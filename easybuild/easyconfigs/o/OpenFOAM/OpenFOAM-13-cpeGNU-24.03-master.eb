@@ -39,7 +39,7 @@ toolchain = {'name': 'cpeGNU', 'version': '24.03'}
 source_urls = ['https://github.com/OpenFOAM/OpenFOAM-%(version_major)s/archive/refs/tags']
 sources     = [
     {
-        'filename': f'OpenFOAM-{version}-version-{version}.tar.gz',
+        'filename': f'OpenFOAM-%(version_major)s-version-%(version)s.tar.gz',
         'download_filename': 'version-%(version)s.tar.gz',
     }]
 patches = [
