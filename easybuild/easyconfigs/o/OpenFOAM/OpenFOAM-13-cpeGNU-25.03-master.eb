@@ -33,7 +33,7 @@ in either job script for sbatch or directly within salloc session.
 Allrun scripts require some additional tweaking.
 """
 
-toolchain = {'name': 'cpeGNU', 'version': '24.03'}
+toolchain = {'name': 'cpeGNU', 'version': '25.03'}
 
 
 source_urls = ['https://github.com/OpenFOAM/OpenFOAM-%(version_major)s/archive/refs/tags']
