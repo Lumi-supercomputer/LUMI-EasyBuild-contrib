@@ -1,6 +1,7 @@
 # Contributed by Guilherme Peretti Pezzi, Luca Marsella and Christopher Bignamini (CSCS)
 # Adapted by Kurt Lust (kurt.lust@uantwerpen.be) for the LUMI consortium
 # Adapted by Pierre Beaujean (pierre.beaujean@unamur.be) for 22.08
+# Adapted by Matteo Murdaca (matteo.murdaca@csc.fi) for 25.03
 
 easyblock = 'ConfigureMake'
 
