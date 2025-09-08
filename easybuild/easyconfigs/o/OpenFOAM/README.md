@@ -155,4 +155,8 @@ https://develop.openfoam.com/Development/openfoam/-/wikis/building#easybuild
 
 -   Uses now also ParMETIS, which needed a shared library build of ParMETIS.
 
+### OpenFOAM.org 13
+
+-   Fairly trivial port of the EasyConfig for version 12, but improved the name of the
+    downloaded file.
 
