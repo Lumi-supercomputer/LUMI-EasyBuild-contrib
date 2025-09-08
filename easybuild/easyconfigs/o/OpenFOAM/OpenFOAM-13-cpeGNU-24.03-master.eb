@@ -1,0 +1,89 @@
+# Version 10, based on instructions from Esko Järvinen, CSC
+# Updated to version 10 by Orian Louant
+# Updated to version 12 by Stanislau Stasheuski
+
+easyblock = 'Binary'
+
+local_version_tag = 'master'
+
+name          = 'OpenFOAM'
+version       = '13'
+versionsuffix = f'-{local_version_tag}'
+
+homepage = 'http://www.openfoam.org/'
+
+whatis = [
+    'Description: The OpenFOAM (CFD software) distribution from the OpenFOAM Foundation'
+]
+
+description = """
+OpenFOAM is the leading free, open source software for computational fluid dynamics (CFD),
+owned by the OpenFOAM Foundation and distributed exclusively under the General Public Licence (GPL).
+The GPL gives users the freedom to modify and redistribute the software and a guarantee of continued
+free use, within the terms of the licence.
+"""
+
+usage = """
+To run OpenFOAM solvers on compute nodes use srun command:
+
+ srun foamSolverName -parallel
+
+in either job script for sbatch or directly within salloc session.
+
+Allrun scripts require some additional tweaking.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '24.03'}
+
+
+source_urls = ['https://github.com/OpenFOAM/OpenFOAM-%(version_major)s/archive/refs/tags']
+sources     = [
+    {
+        'filename': f'OpenFOAM-%(version_major)s-version-%(version)s.tar.gz',
+        'download_filename': 'version-%(version)s.tar.gz',
+    }]
+patches = [
+    ('wmake-rules-linux64Cray-gcc13.patch', 0),
+]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+    ('cray-fftw', EXTERNAL_MODULE),
+    ('SCOTCH',    '7.0.4'),
+    ('METIS',     '5.1.0'),
+    ('Zoltan',    '3.901'), # depends on ParMETIS
+]
+
+unpack_options    = '--strip-components=1'
+extract_sources   = True
+buildininstalldir = True
+
+local_project_name = '%(version_major)s-%(toolchain_name)s-%(toolchain_version)s'
+
+install_cmd  = ' && '.join([
+    './bin/tools/foamConfigurePaths --projectName %s-%s --dependency PARMETIS=OpenFOAM --dependency ParaView=none' % (local_project_name, local_version_tag),
+    'printf "export PARMETIS_ARCH_PATH=$EBROOTPARMETIS\nexport PARMETIS_VERSION=parmetis-${EBVERSIONPARMETIS}\n" > ./etc/config.sh/parMetis',
+    'sed -i \'125i    *cpeGNU*) version=%(version_major)s ;;\' ./bin/foamEtcFile',
+    'source ./etc/bashrc WM_COMPILER=Cray WM_CC=cc WM_CXX=CC WM_MPLIB=CRAY-MPICH MPICH_DIR=${CRAY_MPICH_PREFIX}',
+    './Allwmake -j%(parallel)s',
+])
+
+sanity_check_paths = {
+    'files': [],
+    'dirs':  ['platforms/linux64CrayDPInt32Opt/bin', 'platforms/linux64CrayDPInt32Opt/lib'],
+}
+
+modextravars = {
+    'FOAM_BASH'       : '%(installdir)s/bashrc',
+    'MPI_BUFFER_SIZE' : '2000000000',
+}
+
+# source_sh fails, use execute as workaround
+modluafooter = """
+execute {cmd="source " .. pathJoin(root, "etc/bashrc") .. " WM_COMPILER=Cray WM_MPLIB=CRAY-MPICH WM_CC=gcc-13 WM_CXX=g++-13", modeA={"load"}}
+"""
+
+moduleclass = 'cae'
