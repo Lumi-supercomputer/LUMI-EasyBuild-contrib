@@ -45,9 +45,13 @@ software. However, due to LMOD limitations it was not possible to automate this.
     unusual; your job may behave unpredictably (and/or abort) after this.
     ```
 
-    So far it appears that this warning can be safely ignored. It is not entirely
-    clear what the cause is. It may be related to the Slingshot network plugin
-    of Slurm not initialising a virtual network interface as Cray MPICH doesn't
-    use libfabric for intra-node communication.
+    Slurm on LUMI does not initialise a virtual network interface for a job step
+    that uses only one node, as Cray MPICH will never use it. However, Open MPI 
+    relies on libfabric also for intra-node communication and does check the network
+    interface, leading to this message. It can be safely ignored, but you can also 
+    get rid of it by using the `--network=single_node_vni` flag with `srun`.
+    (The Cray documentation says that there are cases where 
+    `--network=single_node_vni,job_vni,def_tles=0` is needed but we haven't seen such
+    cases yet.)
 
 It is not clear if or when these issues can be solved.
