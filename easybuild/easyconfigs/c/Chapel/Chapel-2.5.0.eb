@@ -1,0 +1,68 @@
+#created by Emanuele Vitali (LUST)
+
+easyblock = 'ConfigureMake'
+name = 'Chapel'
+version = '2.5.0'
+
+homepage = 'https://TBD'
+
+whatis = [
+    'Description: TBD'
+]
+
+description = """
+"""
+
+docurls = [
+    'Web-based manual at https://TBD'
+]
+
+toolchain = SYSTEM
+####https://github.com/chapel-lang/chapel/releases/download/2.5.0/chapel-2.5.0.tar.gz
+source_urls = ['https://github.com/%(namelower)s-lang/%(namelower)s/releases/download/%(version)s']
+sources = ['%(namelower)s-%(version)s.tar.gz']
+patches = [
+    'add_cce.patch', 
+]
+
+checksums  = [
+    '020220ca9bf52b9f416e9a029bdc465bb1f635c1e274c6ca3c18d1f83e41fce1' , #tarball
+    'c2c291b53200f29d412175d089862923343ff45c532b112c1916712b4e75f9b6' , #add_ccpe
+    ]
+local_module_conf = f'module load PrgEnv-cray; module load craype-x86-milan; module list ; '
+buildininstalldir = True  ##needed because chapel only want the gmake, and then expect things to be in the exact place. i did experiment with Makecp and failed because the executable running in a different place cannot find the CHPL_HOME variable
+
+build_cmd = "gmake"
+
+prebuildopts  = 'export CHPL_HOST_PLATFORM=hpe-cray-ex && ' 
+prebuildopts += 'export CHPL_LAUNCHER=slurm-srun && '
+prebuildopts += 'export CHPL_TARGET_COMPILER=cray-prgenv-cray &&'
+prebuildopts += 'export CC=cc && ' 
+prebuildopts += 'export CXX=CC && ' 
+prebuildopts += 'export CHPL_LLVM=none && ' 
+
+
+#######script to wrap chpl
+local_chpl_script = f"""
+#!/bin/bash
+ml PrgEnv-cray craype-x86-milan  ##milan is also needed because if different craype target is loaded when running the chpl program will recognize the compiler and refuse to work.
+CC=cc CXX=CC %(installdir)s/%(namelower)s-%(version)s/bin/hpe-cray-ex-x86_64/chpl "$@" ##the CC blah is also needed because by default it will use the system gcc/g++ compiler, which were not the correct ones used to compile it.
+""".replace( '$', '\\$' )
+
+postinstallcmds = [
+    'mkdir -p %(installdir)s/bin',
+    f'cat >%(installdir)s/bin/chpl <<EOF {local_chpl_script}EOF',
+    'chmod a+rx %(installdir)s/bin/chpl'
+]
+
+
+sanity_check_paths = {
+    'files': ['bin/chpl'],
+    'dirs':  [],
+}
+
+sanity_check_commands = [
+    "chpl --version",
+]
+
+moduleclass = 'tools'
