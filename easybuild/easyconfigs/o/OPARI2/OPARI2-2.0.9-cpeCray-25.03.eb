@@ -1,0 +1,64 @@
+##
+# This is an easyconfig file for EasyBuild, see https://github.com/easybuilders/easybuild
+# Copyright:: Copyright 2013-2024 Juelich Supercomputing Centre, Germany
+# Authors::   Bernd Mohr <b.mohr@fz-juelich.de>
+#             Markus Geimer <m.geimer@fz-juelich.de>
+#             Christian Feld <c.feld@fz-juelich.de>
+#             Jan André Reuter <j.reuter@fz-juelich.de>
+# License::   3-clause BSD
+#
+# This work is based on experiences from the UNITE project
+# http://apps.fz-juelich.de/unite/
+##
+
+easyblock = 'ConfigureMake'
+
+local_OPARI2_version =       '2.0.9'         # https://www.vi-hps.org/projects/score-p/
+
+name =    'OPARI2'
+version = local_OPARI2_version
+
+homepage = 'https://www.score-p.org'
+
+whatis = [
+   'Description: OPARI2 is a source-to-source instrumentation tool for OpenMP and hybrid codes.'
+]
+
+description = """
+OPARI2, the successor of Forschungszentrum Juelich's OPARI, is a
+source-to-source instrumentation tool for OpenMP and hybrid codes.
+It surrounds OpenMP directives and runtime library calls with calls
+to the POMP2 measurement interface.
+"""
+
+toolchain = {'name': 'cpeCray', 'version': '25.03'}
+toolchainopts = {'pic': True}
+
+source_urls = ['http://perftools.pages.jsc.fz-juelich.de/cicd/opari2/tags/opari2-%(version)s']
+sources = [SOURCELOWER_TAR_GZ]
+checksums = [
+    'd57139f757c5666afaaead45ed3d0954a9b98c4a6cef6b22afe672707cffd779',  # opari2-2.0.9.tar.gz
+]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+    ('craype-network-none', EXTERNAL_MODULE),
+    ('craype-accel-host',   EXTERNAL_MODULE),
+]
+
+preconfigopts = 'module unload rocm xpmem ; '
+prebuildopts = preconfigopts;
+
+configopts = '--enable-shared'
+
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cp AUTHORS ChangeLog COPYING OPEN_ISSUES README %(installdir)s/share/licenses/%(name)s',   
+]
+
+sanity_check_paths = {
+    'files': ['bin/opari2', 'include/opari2/pomp2_lib.h'],
+    'dirs': [],
+}
+
+moduleclass = 'perf'
