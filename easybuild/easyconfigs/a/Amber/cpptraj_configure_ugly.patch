@@ -1,0 +1,58 @@
+diff --git a/configure.old b/AmberTools/src/cpptraj/configure
+index f64bd2a..afffa9b 100755
+--- a/configure.old
++++ b/AmberTools/src/cpptraj/configure
+@@ -1622,7 +1622,7 @@ SetupCompilers() {
+       foptflags='-O3'
+       FLINK='-lgfortran'
+       picflag='-fPIC'
+-      C11FLAG='-std=gnu++11'
++      C11FLAG='-std=gnu++14'
+       staticlink='-lquadmath'
+       ;;
+    'clang' )
+@@ -1636,7 +1636,7 @@ SetupCompilers() {
+       foptflags='-O3'
+       FLINK='-lgfortran'
+       picflag='-fPIC'
+-      C11FLAG='-std=c++11'
++      C11FLAG='-std=c++14'
+       ;;
+    'oneapi' )
+       if [ -z "$CC" ]; then CC=icx; fi
+@@ -1646,7 +1646,7 @@ SetupCompilers() {
+       optflags=''
+       ompflag='-fopenmp'
+       picflag='-fpic'
+-      C11FLAG='-std=c++11'
++      C11FLAG='-std=c++14'
+       # May be several fortran compiler options
+       if [ -z "$FC" ]; then
+         if [ ! -z "`which ifx`" ] ; then
+@@ -1696,7 +1696,7 @@ SetupCompilers() {
+       fwarnflag='-warn all'
+       FLINK='-lifport -lifcore'
+       picflag="-fpic"
+-      C11FLAG='-std=c++11'
++      C11FLAG='-std=c++14'
+       # Check for 'error: identifier "_LIB_VERSION_TYPE" is undefined'
+       cat > testp.cpp <<EOF
+ #include <math.h>
+@@ -1727,7 +1727,7 @@ EOF
+       freefmtflag='-Mfree'
+       FLINK='-pgf90libs'
+       picflag='-fpic'
+-      C11FLAG='-std=c++11'
++      C11FLAG='-std=c++14'
+       ;;
+     "cray" )
+       if [ -z "$CC" ]; then CC=cc; fi
+@@ -1744,7 +1744,7 @@ EOF
+       foptflags=''
+       FLINK=''
+       picflag='-fpic'
+-      C11FLAG='-hstd=c++11'
++      C11FLAG='-hstd=c++14'
+       if [ $USE_OPENMP -eq 0 ] ; then
+         commonflags='-h noomp'
+       fi

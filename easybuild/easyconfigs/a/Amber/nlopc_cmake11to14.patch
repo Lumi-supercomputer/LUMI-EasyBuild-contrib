@@ -1,0 +1,17 @@
+diff --git a/original.cmake b/AmberTools/src/nlopt/CMakeLists.txt
+index fadecb8..9b72d04 100644
+--- a/original.cmake
++++ b/AmberTools/src/nlopt/CMakeLists.txt
+@@ -162,9 +162,9 @@ endif ()
+ if (NLOPT_CXX OR NLOPT_PYTHON OR NLOPT_GUILE OR NLOPT_OCTAVE)
+   check_cxx_symbol_exists (__cplusplus ciso646 SYSTEM_HAS_CXX)
+   if (SYSTEM_HAS_CXX)
+-    check_cxx_compiler_flag ("-std=c++11" SUPPORTS_STDCXX11)
++    check_cxx_compiler_flag ("-std=c++14" SUPPORTS_STDCXX14)
+-    if (SUPPORTS_STDCXX11)
++    if (SUPPORTS_STDCXX14)
+-      set (CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
++      set (CMAKE_CXX_FLAGS "-std=c++14 ${CMAKE_CXX_FLAGS}")
+       if (NLOPT_CXX)
+         set (NLOPT_CXX11 ON)
+       endif ()
