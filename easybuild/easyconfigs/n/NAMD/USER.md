@@ -36,3 +36,15 @@ To download and install NAMD:
     eb NAMD-2.14-cpeGNU-23.09-MPI.eb -r .
     ```
 
+## NAMD with AMD GPU support
+
+There are two specific NAMD recipes enabling support for AND GPUs. These easyconfigs
+allow installation of NAMD3 with different modes of GPU acceleration:
+
+*  GPU offload: offloads most of the force calculations to GPU devices and runs the 
+   other calculations on CPU; this version runs with MPI and multi-threading.
+
+*  GPU resident: calculates the entire dynamics calculations on GPU; this version 
+   only works on a single GPU node with multi-threading.
+
+For more details on GPU support please refer to [the NAMD GPU Acceleration](https://www.ks.uiuc.edu/Research/namd/3.0.2/ug/node102.html).
