@@ -1,6 +1,12 @@
 # Contributed by Guilherme Peretti Pezzi, Luca Marsella and Christopher Bignamini (CSCS)
 # Adapted by Kurt Lust (kurt.lust@uantwerpen.be) for the LUMI consortium
 # Adapted by Pierre Beaujean (pierre.beaujean@unamur.be) for 22.08
+# GPU acceleration support added for LUMI
+#DOC Contains NAMD3 with GPU resident mode enabled, running with HIP using default ROCm 
+#DOC version and GNU compilers. This version works multithreading only and is limited to
+#DOC run on a single node only.
+#DOC Please refer to the NAMD documentation for specific NAMD runtime parameters and input
+#DOC file keywords.
 
 easyblock = 'ConfigureMake'
 
