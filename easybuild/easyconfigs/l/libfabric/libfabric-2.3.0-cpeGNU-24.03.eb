@@ -1,0 +1,45 @@
+easyblock = 'ConfigureMake'
+
+name = 'libfabric'
+version = '2.3.0'
+
+homepage = 'https://ofiwg.github.io/libfabric/'
+description = """
+Libfabric is a core component of OFI. It is the library that defines and exports
+the user-space API of OFI, and is typically the only software that applications
+deal with directly. It works in conjunction with provider libraries, which are
+often integrated directly into libfabric.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '24.03'}
+
+source_urls = ['https://github.com/ofiwg/libfabric/releases/download/v%(version)s']
+sources = [SOURCE_TAR_BZ2]
+
+checksums = [
+    '1d18fce868f8fef68b42fccd1f5df2555369739e8cb7c148532a0529a308eb09',
+]
+
+dependencies = [
+    ('rocm', EXTERNAL_MODULE),
+    ('libcxi', 'shs-12.0.1', '', SYSTEM),
+    ('json-c', '0.17'),
+]
+
+preconfigopts = 'module unload libfabric && '
+
+configopts = '--enable-cxi=${EBROOTLIBCXI} --with-rocr=${ROCM_PATH} --with-json-c=${EBROOTJSONMINUSC} --with-cxi-uapi-headers=${EBROOTLIBCXI} --with-cassini-headers=${EBROOTLIBCXI} '
+
+prebuildopts = 'module unload libfabric && '
+
+sanity_check_paths = {
+    'files': ['lib/libfabric.%s' % SHLIB_EXT,
+              'include/rdma/fabric.h'],
+    'dirs': ['lib', 'include/rdma'],
+}
+
+modluafooter = """
+conflict( 'libfabric' )
+"""
+
+moduleclass = 'lib'
