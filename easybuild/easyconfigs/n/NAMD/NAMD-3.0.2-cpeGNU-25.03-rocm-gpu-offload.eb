@@ -36,28 +36,21 @@ to hundreds of cores for typical simulations and beyond 500,000 cores for the
 largest simulations. NAMD uses the popular molecular graphics program VMD for
 simulation setup and trajectory analysis, but is also file-compatible with
 AMBER, CHARMM, and X-PLOR.
-
 This version of NAMD is compiled with MPI as the transport.
-
 Please check the NAMD license at https://www.ks.uiuc.edu/Research/namd/license.html
 before installing or using this software. In particular, this software is only free
 for non-commercial research and teaching. All commercial use requires a commercial
 license. Also, when installing this as part of a project, all users should explictly
 register on the NAMD web site (e.g., by trying to download the sources from
 https://www.ks.uiuc.edu/Development/Download/download.cgi?PackageName=NAMD).
-
 Please also note article 6 of the LICENSE:
-
     The user agrees that any reports or published results obtained with
     the Software will acknowledge its use by the appropriate citation as
     follows:
-
     "NAMD was developed by the Theoretical and Computational Biophysics Group in
      the Beckman Institute for Advanced Science and Technology at the University
      of Illinois at Urbana-Champaign."
-
     Any published work which utilizes NAMD shall include the following reference:
-
     "James C. Phillips, David J. Hardy, Julio D. C. Maia, John E. Stone,
      Joao V. Ribeiro, Rafael C. Bernardi, Ronak Buch, Giacomo Fiorin,
      Jerome Henin, Wei Jiang, Ryan McGreevy, Marcelo C. R. Melo,
@@ -66,7 +59,6 @@ Please also note article 6 of the LICENSE:
      Klaus Schulten, Christophe Chipot, and Emad Tajkhorshid.
      Scalable molecular dynamics on CPU and GPU architectures with NAMD.
      Journal of Chemical Physics, 153:044130, 2020. doi:10.1063/5.0014475"
-
     Electronic documents will include a direct link to the official NAMD page
     at http://www.ks.uiuc.edu/Research/namd/
 """
@@ -106,7 +98,7 @@ builddependencies = [
 
 dependencies = [
     ('rocm',    EXTERNAL_MODULE),
-    ('Charm++', local_Charmpp_version, versionsuffix),
+    ('Charm++', local_Charmpp_version, local_Charmpp_suffix),
 ]
 
 local_namd_arch = 'Linux-x86_64-cray-gnu'
