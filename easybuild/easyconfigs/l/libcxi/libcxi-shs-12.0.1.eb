@@ -1,7 +1,7 @@
 easyblock = 'ConfigureMake'
 
 name = 'libcxi'
-version = '0f3609b'
+version = 'shs-12.0.1'
 
 homepage = 'https://github.com/HewlettPackard/shs-libcxi'
 description = "The CXI library provides interfaces which interact directly with CXI drivers. CXI drivers support communication over the Cray Cassini NIC."
@@ -10,11 +10,11 @@ toolchain = SYSTEM
 
 sources = [
     {
-        'filename': '%(name)s.tar.gz',
+        'filename': '%(name)s-%(version)s.tar.gz',
         'git_config': {
             'url': 'https://github.com/HewlettPackard',
             'repo_name': 'shs-libcxi',
-            'commit': '0f3609b5e224636abffc7ceffe6f4e9c83244c08'
+            'commit': 'release/%(version)s'
         },
      },
     {
@@ -22,7 +22,7 @@ sources = [
         'git_config': {
             'url': 'https://github.com/HewlettPackard',
             'repo_name': 'shs-cassini-headers',
-            'commit': '9a8a738a879f007849fbc69be8e3487a4abf0952',
+            'commit': 'release/%(version)s',
             'clone_into': '../cassini-headers/install'
         },
      },
@@ -31,10 +31,16 @@ sources = [
         'git_config': {
             'url': 'https://github.com/HewlettPackard',
             'repo_name': 'shs-cxi-driver',
-            'commit': '751ebc4263827e2b47e3b2b89aa6f37824824ff2',
+            'commit': 'release/%(version)s',
             'clone_into': '../cxi-driver'
         },
      },
+]
+
+checksums = [
+  'bb58ca0f50b759f929a09ffff757966b642181ca61f05cfba94af30c43944d92',
+  'f97b4c4b039f9c3d543e43fc843a95b0915a7db01a8474468465a060b80d3572',
+  '4e71f1337b9ce9bb71c8469dff3f86e99fbfe8ba5d0584ffcc62f0c4ebfed42b',
 ]
 
 builddependencies = [
