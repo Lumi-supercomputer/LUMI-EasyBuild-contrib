@@ -1,0 +1,65 @@
+easyblock = 'ConfigureMake'
+
+name = 'libfabric'
+version = '2.3.0'
+
+homepage = 'https://ofiwg.github.io/libfabric/'
+description = """
+Libfabric is a core component of OFI. It is the library that defines and exports
+the user-space API of OFI, and is typically the only software that applications
+deal with directly. It works in conjunction with provider libraries, which are
+often integrated directly into libfabric.
+"""
+
+toolchain = SYSTEM
+
+source_urls = ['https://github.com/ofiwg/libfabric/releases/download/v%(version)s']
+sources = [SOURCE_TAR_BZ2]
+
+checksums = [
+    '1d18fce868f8fef68b42fccd1f5df2555369739e8cb7c148532a0529a308eb09',
+]
+
+dependencies = [
+    ('rocm',                     EXTERNAL_MODULE),
+    ('xpmem',                    EXTERNAL_MODULE),
+    ('libcxi', 'shs-12.0.1', '', SYSTEM),
+    ('json-c', '0.18', '',       SYSTEM),
+]
+
+preconfigopts  = 'module unload libfabric && '
+preconfigopts += 'export XPMEM_ROOT=$(dirname $(pkg-config --variable=libdir cray-xpmem)) && '
+
+configopts  = '--enable-cxi=${EBROOTLIBCXI} '
+configopts += '--with-cxi-uapi-headers=${EBROOTLIBCXI} '
+configopts += '--with-cassini-headers=${EBROOTLIBCXI} '
+configopts += '--with-rocr=${ROCM_PATH} '
+configopts += '--with-json-c=${EBROOTJSONMINUSC} '
+configopts += '--enable-xpmem=${XPMEM_ROOT} '
+configopts += '--enable-shm '
+configopts += '--disable-sockets '
+configopts += '--disable-udp '
+configopts += '--disable-verbs '
+configopts += '--disable-rxm '
+configopts += '--disable-mrail '
+configopts += '--disable-rxd '
+configopts += '--disable-tcp '
+configopts += '--disable-usnic ' 
+configopts += '--disable-efa '
+configopts += '--disable-psm2 '
+configopts += '--disable-psm3 '
+configopts += '--disable-opx '
+
+prebuildopts = 'module unload libfabric && '
+
+sanity_check_paths = {
+    'files': ['lib/libfabric.%s' % SHLIB_EXT,
+              'include/rdma/fabric.h'],
+    'dirs': ['lib', 'include/rdma'],
+}
+
+modluafooter = """
+conflict( 'libfabric' )
+"""
+
+moduleclass = 'lib'
