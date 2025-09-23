@@ -24,3 +24,7 @@
 
   * The EasyConfig is mostly a LUST development with a version specifically tuned for 
     OpenFOAM.
+
+### Version 5.6.3 -OpenFOAM
+
+  * Trivial port of the EasyConfig for 4.12.2.
