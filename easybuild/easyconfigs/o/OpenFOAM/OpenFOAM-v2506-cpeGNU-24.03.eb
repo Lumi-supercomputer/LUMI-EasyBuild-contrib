@@ -43,6 +43,7 @@ toolchain = {'name': 'cpeGNU', 'version': '24.03'}
 
 source_urls = ['https://dl.%(namelower)s.com/source/%(version)s']
 sources = [SOURCE_TGZ]
+checksums = ['63d26f48ae7ee9a7806a0ceb339ef8a0ba485a4714d54fbfb31e78e1a4849965']
 
 builddependencies = [
     ('buildtools', '%(toolchain_version)s', '', True),
