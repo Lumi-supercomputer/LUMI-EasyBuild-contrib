@@ -53,7 +53,7 @@ builddependencies = [
 dependencies = [
     ('cray-fftw', EXTERNAL_MODULE),
     ('SCOTCH',    '7.0.4'),
-    ('CGAL',      '5.6.2',       '-OpenFOAM'),
+    ('CGAL',      '5.6.3',       '-OpenFOAM'),
 ]
 
 unpack_options = '--strip-components=1'
