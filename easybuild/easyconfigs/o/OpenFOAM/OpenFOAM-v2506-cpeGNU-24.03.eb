@@ -47,13 +47,13 @@ sources = [SOURCE_TGZ]
 
 builddependencies = [
     ('buildtools', '%(toolchain_version)s', '', True),
-    ('Boost',      '1.82.0', ''),
+    ('Boost',      '1.83.0', ''),
 ]
 
 dependencies = [
     ('cray-fftw', EXTERNAL_MODULE),
-    ('SCOTCH',    '7.0.3'),
-    ('CGAL',      '4.12.2',       '-OpenFOAM'),
+    ('SCOTCH',    '7.0.4'),
+    ('CGAL',      '5.6.2',       '-OpenFOAM'),
 ]
 
 unpack_options = '--strip-components=1'
