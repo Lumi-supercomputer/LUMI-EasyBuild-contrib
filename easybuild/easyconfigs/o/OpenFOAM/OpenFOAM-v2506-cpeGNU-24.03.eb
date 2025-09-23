@@ -40,7 +40,6 @@ Allrun scripts require some additional tweaking.
 """
 
 toolchain = {'name': 'cpeGNU', 'version': '24.03'}
-#toolchainopts = {'cstd': 'c++11'}
 
 source_urls = ['https://dl.%(namelower)s.com/source/%(version)s']
 sources = [SOURCE_TGZ]
