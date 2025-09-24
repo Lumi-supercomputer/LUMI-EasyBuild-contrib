@@ -44,7 +44,7 @@ checksums = [
 ]
 
 builddependencies = [
-    ('rocm/6.2.2',              EXTERNAL_MODULE),
+    ('rocm', '6.2.2', '',       SYSTEM),
     ('libconfig', '1.7.3', '',  SYSTEM),
     ('libuv', '1.48.0', '',     SYSTEM),
     ('lm-sensors', '3.6.0', '', SYSTEM),
