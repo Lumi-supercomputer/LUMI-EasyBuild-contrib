@@ -18,7 +18,7 @@ builddependencies = [
     ('libbfd', '2.42'),
 ]
 dependencies = [
-    ('elfutils', '0.191'),
+    ('elfutils', '0.193'),
 ]
 
 configopts = "--enable-shared "
