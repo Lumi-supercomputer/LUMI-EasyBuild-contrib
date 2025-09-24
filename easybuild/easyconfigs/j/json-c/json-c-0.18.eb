@@ -22,15 +22,10 @@ JSON formatted strings back into the C representation of JSON objects.
 """
 
 toolchain = SYSTEM
-#toolchainopts = {'extra_cflags': '-Wno-error=implicit-function-declaration'}
 
 source_urls = ['https://github.com/json-c/json-c/archive/']
 sources = ['json-c-%%(version)s%s.tar.gz' % local_source_suffix]
-#checksums = ['024d302a3aadcbf9f78735320a6d5aedf8b77876c8ac8bbb95081ca55054c7eb']
-
-#builddependencies = [
-#    ('buildtools',   '%(toolchain_version)s',   '', True),
-#]
+checksums = ['3112c1f25d39eca661fe3fc663431e130cc6e2f900c081738317fba49d29e298']
 
 configopts = '-DCMAKE_INSTALL_LIBDIR=lib '
 
