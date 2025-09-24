@@ -15,7 +15,7 @@ sources = [SOURCE_TAR_XZ]
 checksums = ['b511a2dc78b98786064889deaa2c1bc48a0c70115c187900dd838474ded1cc19']
 
 builddependencies = [
-    ('binutils', '2.45'),
+    ('libbfd', '2.42'),
 ]
 dependencies = [
     #('elfutils', '0.191'),
