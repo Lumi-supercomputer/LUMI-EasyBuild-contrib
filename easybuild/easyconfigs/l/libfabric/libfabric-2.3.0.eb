@@ -21,8 +21,8 @@ checksums = [
 ]
 
 dependencies = [
-    ('rocm/6.2.2',               EXTERNAL_MODULE),
     ('xpmem',                    EXTERNAL_MODULE),
+    ('rocm', '6.2.2', '',        SYSTEM),
     ('libcxi', 'shs-12.0.1', '', SYSTEM),
     ('json-c', '0.18', '',       SYSTEM),
 ]
