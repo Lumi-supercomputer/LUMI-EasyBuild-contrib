@@ -75,3 +75,41 @@ scalability in certain large runs on LUMI.
     irrelevant or even damaging, but that didn't work as doing a load and unload of
     the same module in the same call to the module command does not work. This happens
     if the cpe* module is not yet loaded when loading the OpenMPI module.
+
+### Experimental GPU support with 5.0.8 version for 24.03
+
+  * There is EasyConfig with experimental support for ROCm (AMD GPUs) that uses custom
+    dependencies:
+   
+      * Slinghost Host Software (SHS) elements with updated LibCXI
+      * Recent OFI Libfabric release (v2.3.0) with the ROCm support
+      * ROCm 6.2.2
+ 
+   * it also requires careful build and runtime configuration:
+
+      * there is no direct SLURM integration via `pmix` `mpi` plugin and programs need
+        to be launched via `mpirun`
+
+      * SLURM affinity bindings are not necessarily honored and one needs to apply mpirun
+        specific bind options
+
+      * There is experimental OFI provider used, LinkX, to allow intra-node shared memory
+        communication along cxi network (Slingshot) for intra-node trnasfers
+
+      * To run with the CXI provider only (network only) one needs to overwrite this 
+        environmental variables:
+
+           - `OMPI_MCA_opal_common_ofi_provider_include=cxi` for mpirun
+
+           - moreover to allow multiple processes per node one needs to enable network VNIs
+             using SLURM's job allocation option:
+
+             `--network=single_node_vni`
+
+       * To run interactively from existing SLURM jobstep one needs to allow OpenMPI daemon
+         to overlap resources of actual allocation with environmental variable:
+
+          - `PRTE_MCA_plm_slurm_args="--overlap --exact"`
+        
+
+     
