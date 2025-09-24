@@ -50,7 +50,7 @@ sanity_check_paths = {
 
 # these variables are crucial to allow OpenMPI programs running on LUMI:
 modextravars = {
-    'FI_LNX_PROV_LINKS': 'shm+cxi',              # Sets up LinkX provider 
+    'FI_LNX_PROV_LINKS': 'shm+cxi:cxi0',         # Sets up LinkX provider 
     'FI_SHM_USE_XPMEM': '1',                     # Turns on libfabric xpmem support  
     'PRTE_MCA_ras_base_launch_orted_on_hn': '1', # Required to properly start orte deamon for multi-node jobs
     'OMPI_MCA_pml': 'cm',
