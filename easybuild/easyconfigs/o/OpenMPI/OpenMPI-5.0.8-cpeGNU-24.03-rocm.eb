@@ -24,11 +24,12 @@ dependencies = [
     ('libfabric', '2.3.0', '', SYSTEM),
 ]
 
-preconfigopts = 'module unload cray-mpich && module unload libfabric/1.15.2.0 && '
+preconfigopts  = 'module unload cray-mpich && module unload libfabric/1.15.2.0 && '
+preconfigopts += 'export XPMEM_ROOT=$(dirname $(pkg-config --variable=libdir cray-xpmem)) && '
 
 configopts  = 'CC=gcc-13 CXX=g++-13 FC=gfortran-13 '
 configopts += '--with-cray-xpmem=yes '
-configopts += '--with-slingshot '
+configopts += '--with-xpmem=${XPMEM_ROOT} '
 configopts += '--without-ucx '
 configopts += '--with-rocm=$ROCM_PATH '
 configopts += '--with-ofi=${EBROOTLIBFABRIC} '
@@ -37,7 +38,6 @@ configopts += '--with-pmix=internal '
 configopts += '--with-libevent=internal '
 configopts += '--with-slurm '
 configopts += '--without-lsf --without-knem '
-configopts += '--enable-mca-no-build=btl-usnic '
 
 local_libs = ["mpi_mpifh", "mpi", "open-pal", "prrte"]
 
@@ -50,12 +50,13 @@ sanity_check_paths = {
 
 # these variables are crucial to allow OpenMPI programs running on LUMI:
 modextravars = {
-    'FI_LNX_PROV_LINKS': 'shm+cxi:cxi0',         # Sets up LinkX provider 
+    'FI_LNX_PROV_LINKS': 'shm+cxi',              # Sets up LinkX provider 
     'FI_SHM_USE_XPMEM': '1',                     # Turns on libfabric xpmem support  
     'PRTE_MCA_ras_base_launch_orted_on_hn': '1', # Required to properly start orte deamon for multi-node jobs
     'OMPI_MCA_pml': 'cm',
     'OMPI_MCA_mtl': 'ofi',
-    'OMPI_MCA_opal_common_ofi_provider_include': 'shm+cxi:lnx',
+    'OMPI_MCA_opal_common_ofi_provider_include': 'lnx',
+    'OMPI_MCA_mtl_ofi_av': 'table',
 }
 
 moduleclass = 'mpi'
