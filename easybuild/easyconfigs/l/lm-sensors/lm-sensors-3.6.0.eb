@@ -1,0 +1,24 @@
+easyblock = 'ConfigureMake'
+
+name = 'lm-sensors'
+version = '3.6.0'
+
+homepage = 'https://github.com/groeck/lm-sensors/'
+description = "lm-sensors package provides user-space support for the hardware monitoring drivers in Linux."
+
+toolchain = SYSTEM
+
+source_urls = ['https://github.com/groeck/lm-sensors/archive']
+sources = ['V3-6-0.tar.gz']
+
+configure_cmd = 'echo '
+
+installopts = 'PREFIX=%(installdir)s ETCDIR=%(installdir)s/etc'
+
+sanity_check_paths = {
+    'files': ['lib/libsensors.%s' % SHLIB_EXT,
+              'include/sensors/sensors.h'],
+    'dirs': ['lib'],
+}
+
+moduleclass = 'lib'
