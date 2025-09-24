@@ -44,11 +44,11 @@ checksums = [
 ]
 
 builddependencies = [
-    ('rocm', EXTERNAL_MODULE),
-    ('libconfig', '1.7.3', '', SYSTEM),
-    ('libuv', '1.48.0', '', SYSTEM),
+    ('rocm/6.2.2',              EXTERNAL_MODULE),
+    ('libconfig', '1.7.3', '',  SYSTEM),
+    ('libuv', '1.48.0', '',     SYSTEM),
     ('lm-sensors', '3.6.0', '', SYSTEM),
-    ('FUSE', '2.9.9', '', SYSTEM),
+    ('FUSE', '2.9.9', '',       SYSTEM),
 ]
 
 preconfigopts  = './autogen.sh && '
