@@ -12,7 +12,7 @@ toolchainopts = {'pic': True}
 
 source_urls = ['https://github.com/davea42/libdwarf-code/releases/download/v%(version)s']
 sources = [SOURCE_TAR_XZ]
-checksums = ['b511a2dc78b98786064889deaa2c1bc48a0c70115c187900dd838474ded1cc19']
+checksums = ['b5be211b1bd0c1ee41b871b543c73cbff5822f76994f6b160fc70d01d1b5a1bf']
 
 builddependencies = [
     ('libbfd', '2.42'),
