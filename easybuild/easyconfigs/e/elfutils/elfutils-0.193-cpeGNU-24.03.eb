@@ -28,11 +28,9 @@ dependencies = [
     ('zstd', '1.5.5'),
 ]
 
-configure_without_installdir=True
-configopts = "--disable-debuginfod --disable-libdebuginfod"
+configopts = "--disable-debuginfod --disable-libdebuginfod --prefix=''"
 
 installopts = "DESTDIR=%(installdir)s"
-#Add install-opts where it gives DESTDIR explicitly on make-install
 
 sanity_check_paths = {
     'files': ['bin/eu-elfcmp', 'include/dwarf.h', 'lib/libelf.%s' % SHLIB_EXT],
