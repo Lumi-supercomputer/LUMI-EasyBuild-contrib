@@ -30,7 +30,8 @@ dependencies = [
 
 configopts = "--disable-debuginfod --disable-libdebuginfod"
 
-installopts = "DESTDIR=test"
+preinstallopts = "pwd; "
+#installopts = "DESTDIR=test"
 #Add install-opts where it gives DESTDIR explicitly on make-install
 
 sanity_check_paths = {
