@@ -28,10 +28,12 @@ dependencies = [
     ('zstd', '1.5.5'),
 ]
 
-host_type =  False
-build_type = False
-
 configopts = "--disable-debuginfod --disable-libdebuginfod"
+
+postinstallcmds = [
+    # Copy the lib folder into libdw because the binaries inexplicably expect that folder instead of lib when built with easybuild
+    'cp -r %(installdir)s/lib %(installdir)s/libdw',
+]
 
 sanity_check_paths = {
     'files': ['bin/eu-elfcmp', 'include/dwarf.h', 'lib/libelf.%s' % SHLIB_EXT],
