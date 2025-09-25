@@ -33,8 +33,8 @@ dependencies = [
     ('Boost', local_Boost_version),
     ('libxml2', local_libxml2_version),
     ('libdwarf', local_libdwarf_version),
-    ('papi', local_PAPI_version),
     ('libunwind', local_libunwind_version),
+    ('papi', EXTERNAL_MODULE),
 ]
 
 # Disable dynamic memory instrumentation for this release, has been seen to sometimes cause MPI test failures
