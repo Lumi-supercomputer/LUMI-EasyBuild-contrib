@@ -17,9 +17,6 @@ checksums = ['b5be211b1bd0c1ee41b871b543c73cbff5822f76994f6b160fc70d01d1b5a1bf']
 builddependencies = [
     ('libbfd', '2.42'),
 ]
-dependencies = [
-    ('elfutils', '0.193'),
-]
 
 configopts = "--enable-shared "
 
