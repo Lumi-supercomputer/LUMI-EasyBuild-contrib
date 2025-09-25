@@ -1,0 +1,45 @@
+
+
+local_zlib_version =      '1.3.1'
+local_Boost_version =     '1.83.0'
+local_libxml2_version =   '2.11.5'
+local_libdwarf_version =  '0.11.1' #MISSING
+local_PAPI_version =      '7.1.0.1'
+local_libunwind_version = '1.6.2'
+
+
+name = 'Extrae'
+version = '4.2.5'
+
+homepage = 'https://tools.bsc.es/extrae'
+description = """Extrae is the package devoted to generate Paraver trace-files for a post-mortem analysis.
+Extrae is a tool that uses different interposition mechanisms to inject probes into the target application
+so as to gather information regarding the application performance."""
+
+toolchain = {'name': 'cpeGNU', 'version': '24.03'}
+toolchainopts = {'usempi': True}
+#toolchainopts = {'pic': True, 'usempi': True, 'openmp': True}
+
+source_urls = ['https://ftp.tools.bsc.es/%(namelower)s']
+sources = ['%(namelower)s-%(version)s-src.tar.bz2']
+checksums = ['962e17e4033b009d691ffb99fb89466074cc66369ff979f1cfad8c9203a24de9']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True), #Automake
+]
+
+dependencies = [
+    ('zlib', local_zlib_version),
+    ('Boost', local_Boost_version),
+    ('libxml2', local_libxml2_version),
+    ('libdwarf', local_libdwarf_version),
+    ('PAPI', local_PAPI_version),
+    ('libunwind', local_libunwind_version),
+]
+
+# Disable dynamic memory instrumentation for this release, has been seen to sometimes cause MPI test failures
+configopts = '--disable-instrument-dynamic-memory'
+
+runtest = 'check'
+
+moduleclass = 'perf'
