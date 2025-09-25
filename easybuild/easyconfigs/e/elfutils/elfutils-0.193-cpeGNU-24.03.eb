@@ -28,9 +28,10 @@ dependencies = [
     ('zstd', '1.5.5'),
 ]
 
+configure_without_installdir=""
 configopts = "--disable-debuginfod --disable-libdebuginfod"
 
-installopts = "DESTDIR=''"
+installopts = "DESTDIR=%(installdir)s"
 #Add install-opts where it gives DESTDIR explicitly on make-install
 
 sanity_check_paths = {
