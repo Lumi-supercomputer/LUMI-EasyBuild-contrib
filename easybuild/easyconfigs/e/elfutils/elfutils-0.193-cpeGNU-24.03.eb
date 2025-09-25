@@ -28,7 +28,7 @@ dependencies = [
     ('zstd', '1.5.5'),
 ]
 
-configure_without_installdir=""
+configure_without_installdir=True
 configopts = "--disable-debuginfod --disable-libdebuginfod"
 
 installopts = "DESTDIR=%(installdir)s"
