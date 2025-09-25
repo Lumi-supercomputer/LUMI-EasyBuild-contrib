@@ -28,9 +28,10 @@ dependencies = [
     ('zstd', '1.5.5'),
 ]
 
-configopts = "--disable-debuginfod --disable-libdebuginfod --prefix=''"
+host_type =  ""
+build_type = ""
 
-installopts = "DESTDIR=%(installdir)s"
+configopts = "--disable-debuginfod --disable-libdebuginfod"
 
 sanity_check_paths = {
     'files': ['bin/eu-elfcmp', 'include/dwarf.h', 'lib/libelf.%s' % SHLIB_EXT],
