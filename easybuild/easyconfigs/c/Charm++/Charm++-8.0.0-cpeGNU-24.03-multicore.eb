@@ -55,7 +55,7 @@ local_cc_gcc_sh_file_content = """
 PGCC=`CC -V 2>&1 | grep pgCC`
 ICPC=`CC -V 2>&1 | grep Intel`
 CLANG=`CC -V 2>&1 | grep 'clang'`
-GNU=`CC -V 2>&1 | grep 'g++'`
+GNU=`CC --version 2>&1 | grep 'g++ | cut -d" " -f1'`
 CCE=`CC -V 2>&1 | grep 'Cray'`
 
 CMK_CPP_CHARM="cpp -P"
