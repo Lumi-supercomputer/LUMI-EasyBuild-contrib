@@ -28,8 +28,8 @@ dependencies = [
     ('zstd', '1.5.5'),
 ]
 
-host_type =  ""
-build_type = ""
+host_type =  False
+build_type = False
 
 configopts = "--disable-debuginfod --disable-libdebuginfod"
 
