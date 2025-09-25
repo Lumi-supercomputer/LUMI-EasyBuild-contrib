@@ -1,0 +1,67 @@
+#created by Emanuele Vitali and adapted by Jorik van Kemenade (LUST)
+#DOC Chapel without GPU support.
+#DOC Tricky version that can work in CrayEnv also. It claims to use the SYSTEM toolchain,
+#DOC but under the hood it is using the Cray compiler to build Chapel. You should be able
+#DOC to install it even for CrayEnv (by using `module load LUMI partition/CrayEnv EasyBuild-user`,
+#DOC but it will only work for the CPU target that you find here close to the top of the
+#DOC EasyBuild recipe.
+easyblock = 'ConfigureMake'
+
+local_CPUtarget_module = 'craype-x86-milan'
+local_CPE_version =      '24.03'
+
+name =    'Chapel'
+version = '2.6.0'
+
+homepage = 'https://chapel-lang.org/'
+
+whatis = [
+    'Description: Compiler for the Chapel programming language'
+]
+
+description = """
+Chapel, the Cascade High Productivity Language, is a parallel programming
+language that was developed by Cray,[3] and later by Hewlett Packard Enterprise
+which acquired Cray. It was being developed as part of the Cray Cascade project,
+a participant in DARPA's High Productivity Computing Systems (HPCS) program,
+which had the goal of increasing supercomputer productivity by 2010.
+Its development still continues as an open source project.
+"""
+
+docurls = [
+    'Web-based documentation at https://chapel-lang.org/learn/'
+]
+
+toolchain = SYSTEM
+source_urls = ['https://github.com/%(namelower)s-lang/%(namelower)s/releases/download/%(version)s']
+sources = ['%(namelower)s-%(version)s.tar.gz']
+
+checksums  = [
+    'e469c35be601cf1f59af542ab885e8a14aa2b087b79af0d5372a4421976c74b6' , #tarball
+    ]
+
+preconfigopts = f'module load cpe/{local_CPE_version} && module load {local_CPUtarget_module} PrgEnv-cray && '
+preinstallopts = prebuildopts = preconfigopts
+
+postinstallcmds = [
+    # Copy the man pages to a place where EasyBuild can find them
+    'cd %(installdir)s && cp -r %(namelower)s-%(version)s/man share/man',
+    # Copy the license file etc. to the standard location used on LUMI
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cp ACKNOWLEDGEMENTS.md CHANGES.md CONTRIBUTORS.md COPYRIGHT LICENSE LICENSE.chapel README.files README.rst %(installdir)s/share/licenses/%(name)s',
+]
+
+sanity_check_paths = {
+    'files': ['bin/chpl'],
+    'dirs':  [],
+}
+
+sanity_check_commands = [
+    "chpl --version",
+]
+
+modextravars = {
+    'CHPL_HOME': '%(installdir)s/%(namelower)s-%(version)s',
+}
+
+moduleclass = 'tools'
