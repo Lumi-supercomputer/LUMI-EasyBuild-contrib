@@ -3,7 +3,7 @@
 local_zlib_version =      '1.3.1'
 local_Boost_version =     '1.83.0'
 local_libxml2_version =   '2.11.5'
-local_libdwarf_version =  '0.11.1' #MISSING
+local_libdwarf_version =  '0.11.1'
 local_PAPI_version =      '7.1.0.1'
 local_libunwind_version = '1.6.2'
 
@@ -33,7 +33,7 @@ dependencies = [
     ('Boost', local_Boost_version),
     ('libxml2', local_libxml2_version),
     ('libdwarf', local_libdwarf_version),
-    ('PAPI', local_PAPI_version),
+    ('papi', local_PAPI_version),
     ('libunwind', local_libunwind_version),
 ]
 
