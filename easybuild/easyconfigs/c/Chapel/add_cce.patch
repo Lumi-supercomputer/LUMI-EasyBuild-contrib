@@ -1,0 +1,12 @@
+diff --git a/old.py b/util/chplenv/chpl_compiler.py
+index 982a03f..a8482bb 100755
+--- a/old.py
++++ b/util/chplenv/chpl_compiler.py
+@@ -263,6 +263,7 @@ COMPILERS = [('gnu', 'gcc', 'g++'),
+              ('clang', 'clang', 'clang++'),
+              ('ibm', 'xlc', 'xlC'),
+              ('intel', 'icc', 'icpc'),
++             ('cray-prgenv-cray', 'cc', 'CC'),
+              ('pgi', 'pgcc', 'pgc++')]
+ 
+ # given a compiler command string, (e.g. "gcc" or "/path/to/clang++"),
