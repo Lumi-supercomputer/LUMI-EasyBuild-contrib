@@ -1,0 +1,16 @@
+diff --git a/Peptide.orig.c b/tmp/vitaliem/easybuild/build/Amber/24.0/cpeGNU-25.03-AmberTools-24.0-rocm/amber24_src/AmberTools/src/mdgx/Peptide.c
+index ec15e7e..af9606a 100644
+--- a/Peptide.orig.c
++++ b/tmp/vitaliem/easybuild/build/Amber/24.0/cpeGNU-25.03-AmberTools-24.0-rocm/amber24_src/AmberTools/src/mdgx/Peptide.c
+@@ -1695,7 +1695,11 @@ static void DestroyGpuMultiSim(gpuMultiSim *gms)
+   DestroyGpuInt2(&gms->diheReadLimits);
+   DestroyGpuUInt2(&gms->diheIDs);
+   DestroyGpuFloat2(&gms->diheInfo);
++#ifdef AMBER_PLATFORM_AMD
++  DestroyGpuUInt2(&gms->pairBitMasks);
++#else
+   DestroyGpuUInt(&gms->pairBitMasks);
++#endif
+   DestroyGpuUInt(&gms->attnIDs);
+   DestroyGpuFloat2(&gms->attnFactors);
+   DestroyGpuInt4(&gms->nbReadLimits);
