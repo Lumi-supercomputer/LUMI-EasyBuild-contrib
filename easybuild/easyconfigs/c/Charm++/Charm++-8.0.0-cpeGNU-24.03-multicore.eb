@@ -23,11 +23,15 @@ without a shared memory.
 """
 
 toolchain = {'name': 'cpeGNU', 'version': '24.03'}
-toolchainopts = {'dynamic': False}
 
 source_urls = ['http://charm.cs.illinois.edu/distrib/']
 sources = ['charm-%(version)s.tar.gz']
-checksums = ['e30fc1e921e5cbf3406e792d5b0ca5f211c5d8ffbfc56e56d5501d8118abcaf6']
+patches = ['charmpp-800-cmake.patch']
+
+checksums = [
+    'e30fc1e921e5cbf3406e792d5b0ca5f211c5d8ffbfc56e56d5501d8118abcaf6',
+    '5352f0bf005e47b2fc916c90f203ecdf0627e5ec856adff0eb724a940fb9f0bb',
+]
 
 builddependencies = [
     ('buildtools',          '%(toolchain_version)s', '', True),
@@ -47,34 +51,10 @@ configopts = ' '.join([
     '-DARCH=x86_64',
     '-DNETWORK=' + local_charm_network,
     '-DSMP=OFF',
+    '-DCMK_COMPILER_SUFFIX=-${PE_GCC_LEVEL}',
     '-DENABLE_FORTRAN=ON',
     '-DBUILD_SHARED=ON'
 ])
-
-local_cc_gcc_sh_file_content = """
-PGCC=`CC -V 2>&1 | grep pgCC`
-ICPC=`CC -V 2>&1 | grep Intel`
-CLANG=`CC -V 2>&1 | grep 'clang'`
-GNU=`CC -V 2>&1 | grep 'g++'`
-CCE=`CC -V 2>&1 | grep 'Cray'`
-
-CMK_CPP_CHARM="cpp -P"
-CMK_CPP_C="cc"
-CMK_CC="cc "
-CMK_CXX="CC "
-CMK_LD="$CMK_CC "
-CMK_LDXX="$CMK_CXX "
-
-CMK_CPP_C_FLAGS="-E"
-
-CMK_LINK_BINARY='-dynamic'
-"""
-
-postinstallcmds = [
-    'sed -E -i \'s#(/.*)+(/conv-.*.sh)#%(installdir)s/include\\2#g\' %(installdir)s/include/conv-*.sh',
-    'ln -s %(installdir)s %(installdir)s/' + local_charm_network + '-linux-x86_64',
-    'cat >%(installdir)s/include/cc-gcc.sh <<EOF\n' + local_cc_gcc_sh_file_content.replace('$', '\$') + '\nEOF\n',
-]
 
 sanity_check_paths = {
     'files': ['bin/charmc', 'bin/charmrun'],
