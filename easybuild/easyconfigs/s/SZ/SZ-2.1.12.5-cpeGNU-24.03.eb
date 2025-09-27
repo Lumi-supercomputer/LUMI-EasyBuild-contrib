@@ -31,13 +31,15 @@ description = """
  data.
 """
 
-software_license_urls = ['https://github.com/szcompressor/SZ/blob/master/copyright-and-BSD-license.txt']
+software_license_urls = [
+    "https://github.com/szcompressor/SZ2/blob/master/copyright-and-BSD-license.txt"
+]
 
 toolchain = {'name': 'cpeGNU', 'version': '24.03'}
 toolchainopts = {'pic': True}
 
 github_account = 'szcompressor'
-source_urls = [GITHUB_SOURCE]
+source_urls = ["https://github.com/szcompressor/SZ2/releases/download/v%(version)s"]
 sources = ['v%(version)s.tar.gz']
 checksums = ['32a820daf6019156a777300389d2392e4498a5c9daffce7be754cd0a5ba8729c']
 

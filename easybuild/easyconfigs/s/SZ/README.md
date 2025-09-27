@@ -37,3 +37,4 @@
 -   Added license information in May 2025.
 
 -   May 2025: Version added with `cray-hdf5-parallel` which was somewhat nontrivial.
+-   September 2025: `github.com/szcompressor/SZ` is now empty repo. The source is now at `github.com/szcompressor/SZ2`
