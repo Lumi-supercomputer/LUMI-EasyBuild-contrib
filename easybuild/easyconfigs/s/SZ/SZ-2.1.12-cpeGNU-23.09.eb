@@ -27,22 +27,22 @@ description = """
  data.
 """
 
-software_license_urls = ['https://github.com/szcompressor/SZ/blob/master/copyright-and-BSD-license.txt']
+software_license_urls = ['https://github.com/szcompressor/SZ2/blob/master/copyright-and-BSD-license.txt']
 
 toolchain = {'name': 'cpeGNU', 'version': '23.09'}
 toolchainopts = {'pic': True}
 
-github_account = 'szcompressor'
-source_urls = [GITHUB_SOURCE]
-sources = ['v%(version)s.tar.gz']
-checksums = ['3712b2cd7170d1511569e48a208f02dfb72ecd7ad053c321e2880b9083e150de']
+# https://github.com/szcompressor/SZ2/releases/download/v2.1.12/SZ-2.1.12.tar.gz
+source_urls = ['https://github.com/szcompressor/SZ2/releases/download/v%(version)s']
+sources =     ['SZ-%(version)s.tar.gz']
+checksums =   ['3712b2cd7170d1511569e48a208f02dfb72ecd7ad053c321e2880b9083e150de']
 
 builddependencies = [
     ('buildtools', '%(toolchain_version)s', '', True),
 ]
 
 dependencies = [
-    ('cray-hdf5', EXTERNAL_MODULE),
+    ('cray-hdf5',   EXTERNAL_MODULE),
     ('cray-netcdf', EXTERNAL_MODULE),
 ]
 
@@ -58,7 +58,7 @@ prebuildopts = 'module rm cray-libsci && '
 
 sanity_check_paths = {
     'files': ['bin/sz', 'lib/libSZ.%s' % SHLIB_EXT],
-    'dirs': ['bin', 'include', 'lib'],
+    'dirs':  ['bin', 'include', 'lib'],
 }
 
 moduleclass = 'data'
