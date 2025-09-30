@@ -2,7 +2,7 @@
 
 The full code is spread over 3 repositories:
 
--   [libcxi GitHub repository](https://github.com/HewlettPackard/shs-libcxi)
+-   [shs-libcxi GitHub repository](https://github.com/HewlettPackard/shs-libcxi)
 
     -   [GitHub releases via tags](https://github.com/HewlettPackard/shs-libcxi/tags)
 
