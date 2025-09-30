@@ -160,3 +160,6 @@ https://develop.openfoam.com/Development/openfoam/-/wikis/building#easybuild
 -   Fairly trivial port of the EasyConfig for version 12, but improved the name of the
     downloaded file.
 
+### OpenFOAM v2506
+
+-   A trivial port of the v2312 EasyConfig. Updated CGAL version
