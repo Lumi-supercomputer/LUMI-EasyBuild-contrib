@@ -2,21 +2,23 @@
 
 **Open MPI is currently provided as-is, without any support promise. It is not entirely
 free of problems as Open MPI 4 was not really designed for the interconnect of LUMI
-while Open MPI 5 requires software that is not yet on the system for security reasons.
+while Open MPI 5 requires software that is not yet on the system for security reasons
+for optimal integration with Slurm, and needs a custom libfabric library and CXI provider.
 Our only fully supported MPI implementaton on LUMI is HPE Cray MPICH as provided by
 the `cray-mpich` module. We also do not intend to rebuild other software with 
 Open MPI beyond what is needed for some testing.**
 
 Open MPI has UCX as the preferred communication library, with OFI (libfabric) often
 treated as a second choice, certainly when it comes to GPU support. On LUMI the 
-use of the HPE Cray provided libfabric library is rather important, especially to
+use of a HPE Cray provided libfabric library is rather important, especially to
 link to the libfabric provider for the Slingshot 11 network of LUMI. Currently
-that libfabric+provider implementation is not entirely feature-complete so not all
+that default libfabric+provider implementation is not entirely feature-complete so not all
 routines that are not needed for Cray MPICH are provided. Hence we cannot exclude 
-that there will be compatibility problems.
+that there will be compatibility problems. For Open MPI 5, a special version is used
+but that too is a relatively early release with specific features for Open MPI 5.
 
 
-## Two builds from 4.1.6 onwards
+## Two Open MPI 4 builds from 4.1.6 onwards
 
 Building Open MPI in the cpe\* toolchains may seem to make no sense as the MPI
 module loaded by those toolchains cannot be used, and neither can the MPI
@@ -38,7 +40,7 @@ software. However, due to LMOD limitations it was not possible to automate this.
 
 ## Known issues
 
-1.  When starting a job on a single node, one gets a warning starting with
+1.  When starting a job on a single node with Open MPI 4, one gets a warning starting with
 
     ```
     Open MPI failed an OFI Libfabric library call (fi_domain).  This is highly

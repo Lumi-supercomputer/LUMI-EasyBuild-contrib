@@ -1,23 +1,39 @@
+# Developed by Maciej Szpindler for the LUMI consortium.
+# This recipe is developed as a dependency for the custom CXI provider for Open MPI.
 easyblock = 'ConfigureMake'
 
-name = 'libuv'
+name =    'libuv'
 version = '1.48.0'
 
 homepage = 'https://libuv.org'
-description = "libuv is a multi-platform support library with a focus on asynchronous I/O."
+
+whatis = [
+    'Description: libuv is a multi-platform support library with a focus on asynchronous I/O.'
+]
+
+description = """
+libuv is a multi-platform support library with a focus on asynchronous I/O. 
+It was primarily developed for use by Node.js, but it’s also used by Luvit, 
+Julia, uvloop, and others.
+"""
 
 toolchain = SYSTEM
 
 github_account = 'libuv'
-source_urls = [GITHUB_SOURCE]
-sources = [{'download_filename': 'v%(version)s.tar.gz', 'filename': SOURCELOWER_TAR_GZ}]
-checksums = ['8c253adb0f800926a6cbd1c6576abae0bc8eb86a4f891049b72f9e5b7dc58f33']
+source_urls =    [GITHUB_SOURCE]
+sources =        [{'download_filename': 'v%(version)s.tar.gz', 'filename': SOURCELOWER_TAR_GZ}]
+checksums =      ['8c253adb0f800926a6cbd1c6576abae0bc8eb86a4f891049b72f9e5b7dc58f33']
 
 preconfigopts = './autogen.sh; '
 
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cp AUTHORS CONTRIBUTING.md ChangeLog LICENSE LICENSE-docs LICENSE-extra README.md SECURITY.md %(installdir)s/share/licenses/%(name)s',   
+]
+
 sanity_check_paths = {
     'files': ['include/uv.h', 'lib/libuv.a', 'lib/libuv.%s' % SHLIB_EXT, 'lib/pkgconfig/libuv.pc'],
-    'dirs': []
+    'dirs':  []
 }
 
 moduleclass = 'lib'

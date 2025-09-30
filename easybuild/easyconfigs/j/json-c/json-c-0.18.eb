@@ -1,5 +1,6 @@
 # Adapted from the recipe in the EasyBuilders repository by Kurt Lust
 # (kurt.lust@uantwerpen.be) for the LUMI consortium.
+#DOC This version with the SYSTEM toolchain is used to build an alternative libfabric.
 easyblock = 'CMakeMake'
 
 local_jsonc_version =        '0.18'          # https://github.com/json-c/json-c/tags
