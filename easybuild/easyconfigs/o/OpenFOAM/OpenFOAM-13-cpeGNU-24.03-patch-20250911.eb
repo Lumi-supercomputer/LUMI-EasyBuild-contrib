@@ -1,17 +1,17 @@
 # Version 10, based on instructions from Esko Järvinen, CSC
 # Updated to version 10 by Orian Louant
 # Updated to version 12 by Stanislau Stasheuski
-#DOC Deprecated EasyConfig, installing the latest from the master branch of OpenFOAM 12.
-#DOC However, it will not automatically download the latest version if this EasyConfig has
-#DOC been used before and will install whatever version was downloaded back then.
+#DOC Patch release 20250911 of OpenFOAM 13. To change to a later patch release, all that is
+#DOC needed is adapt the local_version_tag line towards the top of this file. It does not
+#DOC contain a checksum at the moment.
 
 easyblock = 'Binary'
 
-local_version_tag = 'master'
+local_version_tag = '20250911'
 
 name          = 'OpenFOAM'
-version       = '12'
-versionsuffix = f'-{local_version_tag}'
+version       = '13'
+versionsuffix = f'-patch-{local_version_tag}'
 
 homepage = 'http://www.openfoam.org/'
 
@@ -38,11 +38,12 @@ Allrun scripts require some additional tweaking.
 
 toolchain = {'name': 'cpeGNU', 'version': '24.03'}
 
-source_urls = ['https://github.com/OpenFOAM/OpenFOAM-%(version_major)s/archive/refs/heads']
+# https://github.com/OpenFOAM/OpenFOAM-13/archive/refs/tags/20250911.tar.gz
+source_urls = ['https://github.com/OpenFOAM/OpenFOAM-%(version)s/archive/refs/tags']
 sources     = [
     {
         'download_filename': f'{local_version_tag}.tar.gz',
-        'filename':          'OpenFOAM-%(version)s-latest.tar.gz',
+        'filename':          f'OpenFOAM-%(version)s-{local_version_tag}.tar.gz',
     }]
 patches = [
     ('wmake-rules-linux64Cray-gcc13.patch', 0),
@@ -63,7 +64,8 @@ unpack_options    = '--strip-components=1'
 extract_sources   = True
 buildininstalldir = True
 
-local_project_name = '%(version_major)s-%(toolchain_name)s-%(toolchain_version)s-master'
+# This has to be the last component of %(installdir)s.
+local_project_name = f'%(version)s-%(toolchain_name)s-%(toolchain_version)s-patch-{local_version_tag}'
 
 install_cmd  = ' && '.join([
     f'./bin/tools/foamConfigurePaths --projectName {local_project_name} --dependency PARMETIS=OpenFOAM --dependency ParaView=none',
