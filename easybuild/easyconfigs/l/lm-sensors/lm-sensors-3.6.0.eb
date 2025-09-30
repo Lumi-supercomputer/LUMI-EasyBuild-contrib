@@ -1,3 +1,5 @@
+# Developed by Maciej Szpindler for the LUMI consortium.
+# This recipe is developed as a dependency for the custom CXI provider for Open MPI.
 easyblock = 'ConfigureMake'
 
 name = 'lm-sensors'
@@ -15,10 +17,15 @@ configure_cmd = 'echo '
 
 installopts = 'PREFIX=%(installdir)s ETCDIR=%(installdir)s/etc'
 
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cp CHANGES CONTRIBUTORS COPYING COPYING.LGPL INSTALL README %(installdir)s/share/licenses/%(name)s',   
+]
+
 sanity_check_paths = {
     'files': ['lib/libsensors.%s' % SHLIB_EXT,
               'include/sensors/sensors.h'],
-    'dirs': ['lib'],
+    'dirs':  ['lib'],
 }
 
 moduleclass = 'lib'
