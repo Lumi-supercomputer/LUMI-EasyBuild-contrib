@@ -1,6 +1,9 @@
+# Developed by Maciej Szpindler for the LUMI consortium.
+# This package is a dependency for the custom CXI provider for our custom
+# libfabric for the system as it was in September 2025.
 easyblock = 'ConfigureMake'
 
-name = 'libconfig'
+name =    'libconfig'
 version = '1.7.3'
 
 homepage = 'https://hyperrealm.github.io/libconfig'
@@ -8,14 +11,20 @@ description = "Libconfig is a simple library for processing structured configura
 
 toolchain = SYSTEM
 
-source_urls = ['https://hyperrealm.github.io/libconfig/dist/']
-sources = [SOURCE_TAR_GZ]
-checksums = ['545166d6cac037744381d1e9cc5a5405094e7bfad16a411699bcff40bbb31ee7']
+# https://github.com/hyperrealm/libconfig/releases/download/v1.7.3/libconfig-1.7.3.tar.gz
+source_urls = ['https://github.com/hyperrealm/libconfig/releases/download/v%(version)s']
+sources =     [SOURCE_TAR_GZ]
+checksums =   ['545166d6cac037744381d1e9cc5a5405094e7bfad16a411699bcff40bbb31ee7']
+
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cp AUTHORS COPYING.LIB ChangeLog INSTALL NEWS README %(installdir)s/share/licenses/%(name)s',   
+]
 
 sanity_check_paths = {
     'files': ['include/libconfig.h', 'include/libconfig.h++', 'lib/libconfig.a', 'lib/libconfig++.a',
               'lib/libconfig.%s' % SHLIB_EXT, 'lib/libconfig++.%s' % SHLIB_EXT],
-    'dirs': ['lib/pkgconfig'],
+    'dirs':  ['lib/pkgconfig'],
 }
 
 moduleclass = 'lib'
