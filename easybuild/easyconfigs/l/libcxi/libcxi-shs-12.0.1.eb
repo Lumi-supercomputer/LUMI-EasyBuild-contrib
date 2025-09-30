@@ -1,0 +1,67 @@
+easyblock = 'ConfigureMake'
+
+name = 'libcxi'
+version = 'shs-12.0.1'
+
+homepage = 'https://github.com/HewlettPackard/shs-libcxi'
+description = "The CXI library provides interfaces which interact directly with CXI drivers. CXI drivers support communication over the Cray Cassini NIC."
+
+toolchain = SYSTEM
+
+sources = [
+    {
+        'filename': '%(name)s-%(version)s.tar.gz',
+        'git_config': {
+            'url': 'https://github.com/HewlettPackard',
+            'repo_name': 'shs-libcxi',
+            'commit': 'release/%(version)s'
+        },
+     },
+    {
+        'filename': 'cassini-headers.tar.gz',
+        'git_config': {
+            'url': 'https://github.com/HewlettPackard',
+            'repo_name': 'shs-cassini-headers',
+            'commit': 'release/%(version)s',
+            'clone_into': '../cassini-headers/install'
+        },
+     },
+    {
+        'filename': 'cxi-driver.tar.gz',
+        'git_config': {
+            'url': 'https://github.com/HewlettPackard',
+            'repo_name': 'shs-cxi-driver',
+            'commit': 'release/%(version)s',
+            'clone_into': '../cxi-driver'
+        },
+     },
+]
+
+checksums = [
+  'bb58ca0f50b759f929a09ffff757966b642181ca61f05cfba94af30c43944d92',
+  'f97b4c4b039f9c3d543e43fc843a95b0915a7db01a8474468465a060b80d3572',
+  '4e71f1337b9ce9bb71c8469dff3f86e99fbfe8ba5d0584ffcc62f0c4ebfed42b',
+]
+
+builddependencies = [
+    ('rocm', '6.2.2', '',       SYSTEM),
+    ('libconfig', '1.7.3', '',  SYSTEM),
+    ('libuv', '1.48.0', '',     SYSTEM),
+    ('lm-sensors', '3.6.0', '', SYSTEM),
+    ('FUSE', '2.9.9', '',       SYSTEM),
+]
+
+preconfigopts  = './autogen.sh && '
+configopts = 'CFLAGS="-Wno-error -D_FILE_OFFSET_BITS=64 -I../cxi-driver/include" --with-udevrulesdir=%(installdir)s/lib/udev/rules.d --with-systemdsystemunitdir=%(installdir)s/lib/systemd/system '
+
+postinstallcmds  = [
+    'cp -r ../cxi-driver/include/linux %(installdir)s/include && cp -r ../cxi-driver/include/uapi %(installdir)s/include && cp -r ../cassini-headers/install/include/* %(installdir)s/include && cp -r ../cassini-headers/install/share %(installdir)s'
+]
+
+sanity_check_paths = {
+    'files': ['lib/libcxi.%s' % SHLIB_EXT,
+              'include/libcxi/libcxi.h'],
+    'dirs': ['lib'],
+}
+
+moduleclass = 'lib'
