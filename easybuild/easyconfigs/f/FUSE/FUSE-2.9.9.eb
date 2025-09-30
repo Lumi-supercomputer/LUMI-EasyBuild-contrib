@@ -1,0 +1,46 @@
+# Developed by Maceij Szpindler for the LUMI consortium.
+# This particular version is older than on the system but was required to build Open MPI 5.
+easyblock = 'ConfigureMake'
+
+name =    'FUSE'
+version = '2.9.9'
+
+homepage = 'https://github.com/libfuse/libfuse'
+
+whatis = [
+    'Description: FUSE is the reference implementation of the Linux FUSE (Filesystem in Userspace) interface'
+]
+
+description = """
+FUSE (Filesystem in Userspace) is an interface for userspace programs to export
+a filesystem to the Linux kernel. The FUSE project consists of two components: 
+the fuse kernel module (maintained in the regular kernel repositories) and 
+the libfuse userspace library (maintained in this repository). 
+libfuse provides the reference implementation for communicating with the 
+FUSE kernel module.
+
+This module provides libfuse. This older version was required for Open MPI.
+"""
+
+toolchain = SYSTEM
+
+source_urls = ['https://github.com/libfuse/libfuse/releases/download/fuse-%(version)s/']
+sources = [SOURCELOWER_TAR_GZ]
+
+
+configopts  = 'MOUNT_FUSE_PATH=%(installdir)s/sbin '
+configopts += 'UDEV_RULES_PATH=%(installdir)s/etc '
+configopts += 'INIT_D_PATH=%(installdir)s/etc '
+
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cp AUTHORS ChangeLog COPYING COPYING.LIB NEWS README.md README.NFS %(installdir)s/share/licenses/%(name)s',   
+]
+
+sanity_check_paths = {
+    'files': ['lib64/libfuse.%s' % SHLIB_EXT,
+              'lib64/pkgconfig/fuse.pc'],
+    'dirs':  ['include/fuse'],
+}
+
+moduleclass = 'lib'
