@@ -3,25 +3,43 @@
 # Adapted by Maciej Szpindler for the LUMI toolchain
 easyblock = 'ConfigureMake'
 
-name = 'OpenMPI'
-version = '5.0.8'
+name =          'OpenMPI'
+version =       '5.0.8'
 versionsuffix = '-rocm'
 
 homepage = 'http://www.open-mpi.org/'
-description = """The Open MPI Project is an open source MPI-3 implementation."""
+
+whatis = [
+    "Description: The Open MPI Project is an open source MPI-3 implementation."    
+]
+
+description = """
+The Open MPI Project is an open source MPI-4 implementation.
+
+This module contains an Open MPI 5 build with support for ROCm. It uses a 
+custom libfabric library and CXI provider that is not the default on the 
+system. It currently does not integrate with Slurm so MPI tasks should be
+started with `mpirun` rather than `srun`.
+
+Please check all Open MPI documentation in the LUMI software library, including 
+the technical documentation section. This module is meant for experts; 
+Cray MPICH remains the recommended MPI implementation on LUMI. The module does
+set a number of environment variables to correctly configure for LUMI, but
+some fine tuning may be needed.
+"""
 
 toolchain = {'name': 'cpeGNU', 'version': '24.03'}
 
 source_urls = ['http://www.open-mpi.org/software/ompi/v%(version_major_minor)s/downloads']
-sources = [SOURCELOWER_TAR_GZ]
-checksums = ['f891ddf2dab3b604f2521d0569615bc1c07a1ac86a295ac543e059aecb303621']
+sources =     [SOURCELOWER_TAR_GZ]
+checksums =   ['f891ddf2dab3b604f2521d0569615bc1c07a1ac86a295ac543e059aecb303621']
 
 dependencies = [
-    ('craype-network-ofi',     EXTERNAL_MODULE),
-    ('xpmem',                  EXTERNAL_MODULE),
-    ('gcc-native/13.2',        EXTERNAL_MODULE),
-    ('rocm', '6.2.2', '',      SYSTEM),
-    ('libfabric', '2.3.0', '', SYSTEM),
+    ('craype-network-ofi',              EXTERNAL_MODULE),
+    ('xpmem',                           EXTERNAL_MODULE),
+    ('gcc-native/13.2',                 EXTERNAL_MODULE),
+    ('rocm',               '6.2.2', '', SYSTEM),
+    ('libfabric',          '2.3.0', '', SYSTEM),
 ]
 
 preconfigopts  = 'module unload cray-mpich && module unload libfabric/1.15.2.0 && '
@@ -41,22 +59,26 @@ configopts += '--without-lsf --without-knem '
 
 local_libs = ["mpi_mpifh", "mpi", "open-pal", "prrte"]
 
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s && cp AUTHORS LICENSE README.md VERSION %(installdir)s/share/licenses/%(name)s'
+]
+
 sanity_check_paths = {
     'files': ["bin/%s" % binfile for binfile in ["ompi_info", "opal_wrapper", "prterun"]] +
              ["lib/lib%s.%s" % (libfile, SHLIB_EXT) for libfile in local_libs] +
              ["include/%s.h" % x for x in ["mpi-ext", "mpif-config", "mpif", "mpi", "mpi_portable_platform"]],
-    'dirs': [],
+    'dirs':  [],
 }
 
 # these variables are crucial to allow OpenMPI programs running on LUMI:
 modextravars = {
-    'FI_LNX_PROV_LINKS': 'shm+cxi',              # Sets up LinkX provider 
-    'FI_SHM_USE_XPMEM': '1',                     # Turns on libfabric xpmem support  
-    'PRTE_MCA_ras_base_launch_orted_on_hn': '1', # Required to properly start orte deamon for multi-node jobs
-    'OMPI_MCA_pml': 'cm',
-    'OMPI_MCA_mtl': 'ofi',
+    'FI_LNX_PROV_LINKS':                         'shm+cxi', # Sets up LinkX provider 
+    'FI_SHM_USE_XPMEM':                          '1',       # Turns on libfabric xpmem support  
+    'PRTE_MCA_ras_base_launch_orted_on_hn':      '1',       # Required to properly start orte deamon for multi-node jobs
+    'OMPI_MCA_pml':                              'cm',
+    'OMPI_MCA_mtl':                              'ofi',
     'OMPI_MCA_opal_common_ofi_provider_include': 'lnx',
-    'OMPI_MCA_mtl_ofi_av': 'table',
+    'OMPI_MCA_mtl_ofi_av':                       'table',
 }
 
 moduleclass = 'mpi'
