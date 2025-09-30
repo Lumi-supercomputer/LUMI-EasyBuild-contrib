@@ -1,0 +1,11 @@
+--- charm-8.0.0/CMakeLists.txt	2024-05-30 19:53:44.000000000 +0300
++++ charm-8.0.0-mod/CMakeLists.txt	2025-09-26 16:42:00.000000000 +0300
+@@ -1014,7 +1014,7 @@
+ file(APPEND  ${optfile_sh} "CMK_COMPILER_SUFFIX=${CMK_COMPILER_SUFFIX}\n")
+ 
+ if(NOT ${NETWORK} STREQUAL "mpi" AND NOT ${NETWORK} MATCHES "gni-" AND NOT ${NETWORK} MATCHES "-cray")
+-    file(APPEND ${optfile_sh} ". ${CMAKE_BINARY_DIR}/include/cc-${CMK_COMPILER}.sh\n")
++    file(APPEND ${optfile_sh} ". ${CMAKE_INSTALL_PREFIX}/include/cc-${CMK_COMPILER}.sh\n")
+ endif()
+ 
+ if(${BUILD_SHARED})
