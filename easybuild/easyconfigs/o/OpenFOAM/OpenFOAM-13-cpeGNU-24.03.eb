@@ -1,17 +1,12 @@
 # Version 10, based on instructions from Esko Järvinen, CSC
 # Updated to version 10 by Orian Louant
 # Updated to version 12 by Stanislau Stasheuski
-#DOC Deprecated EasyConfig, installing the latest from the master branch of OpenFOAM 12.
-#DOC However, it will not automatically download the latest version if this EasyConfig has
-#DOC been used before and will install whatever version was downloaded back then.
+#DOC Release version of OpenFOAM 13, without further patches.
 
 easyblock = 'Binary'
 
-local_version_tag = 'master'
-
-name          = 'OpenFOAM'
-version       = '12'
-versionsuffix = f'-{local_version_tag}'
+name    = 'OpenFOAM'
+version = '13'
 
 homepage = 'http://www.openfoam.org/'
 
@@ -38,11 +33,12 @@ Allrun scripts require some additional tweaking.
 
 toolchain = {'name': 'cpeGNU', 'version': '24.03'}
 
-source_urls = ['https://github.com/OpenFOAM/OpenFOAM-%(version_major)s/archive/refs/heads']
+# https://github.com/OpenFOAM/OpenFOAM-13/archive/refs/tags/version-13.tar.gz
+source_urls = ['https://github.com/OpenFOAM/OpenFOAM-%(version_major)s/archive/refs/tags']
 sources     = [
     {
-        'download_filename': f'{local_version_tag}.tar.gz',
-        'filename':          'OpenFOAM-%(version)s-latest.tar.gz',
+        'download_filename': f'version-%(version)s.tar.gz',
+        'filename':          'OpenFOAM-%(version)s.tar.gz',
     }]
 patches = [
     ('wmake-rules-linux64Cray-gcc13.patch', 0),
@@ -63,7 +59,7 @@ unpack_options    = '--strip-components=1'
 extract_sources   = True
 buildininstalldir = True
 
-local_project_name = '%(version_major)s-%(toolchain_name)s-%(toolchain_version)s-master'
+local_project_name = '%(version_major)s-%(toolchain_name)s-%(toolchain_version)s'
 
 install_cmd  = ' && '.join([
     f'./bin/tools/foamConfigurePaths --projectName {local_project_name} --dependency PARMETIS=OpenFOAM --dependency ParaView=none',
