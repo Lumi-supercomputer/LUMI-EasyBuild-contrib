@@ -1,9 +1,16 @@
+# Developed by Maciej Szpindler for the LUMI consortium.
+#DOC This is a custom libfabric library for use with Open MPI 5.
 easyblock = 'ConfigureMake'
 
-name = 'libfabric'
+name =    'libfabric'
 version = '2.3.0'
 
 homepage = 'https://ofiwg.github.io/libfabric/'
+
+whatis = [
+    'Descriptio: libfabric is one of the core OFI components, exporting the user-space API.'
+]
+
 description = """
 Libfabric is a core component of OFI. It is the library that defines and exports
 the user-space API of OFI, and is typically the only software that applications
@@ -14,17 +21,16 @@ often integrated directly into libfabric.
 toolchain = SYSTEM
 
 source_urls = ['https://github.com/ofiwg/libfabric/releases/download/v%(version)s']
-sources = [SOURCE_TAR_BZ2]
-
+sources =     [SOURCE_TAR_BZ2]
 checksums = [
     '1d18fce868f8fef68b42fccd1f5df2555369739e8cb7c148532a0529a308eb09',
 ]
 
 dependencies = [
     ('xpmem',                    EXTERNAL_MODULE),
-    ('rocm', '6.2.2', '',        SYSTEM),
+    ('rocm', '  6.2.2',      '', SYSTEM),
     ('libcxi', 'shs-12.0.1', '', SYSTEM),
-    ('json-c', '0.18', '',       SYSTEM),
+    ('json-c', '0.18',       '', SYSTEM),
 ]
 
 preconfigopts  = 'module unload libfabric && '
@@ -52,14 +58,15 @@ configopts += '--disable-opx '
 
 prebuildopts = 'module unload libfabric && '
 
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cp AUTHORS COPYING NEWS.md README %(installdir)s/share/licenses/%(name)s',   
+]
+
 sanity_check_paths = {
     'files': ['lib/libfabric.%s' % SHLIB_EXT,
               'include/rdma/fabric.h'],
-    'dirs': ['lib', 'include/rdma'],
+    'dirs':  ['lib', 'include/rdma'],
 }
-
-modluafooter = """
-conflict( 'libfabric' )
-"""
 
 moduleclass = 'lib'
