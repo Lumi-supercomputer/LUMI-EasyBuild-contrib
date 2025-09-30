@@ -39,8 +39,11 @@ were replaced with two versions, one without Python support and one with a diffe
 of enabling support for the `cray-python` modules. Therefore the corresponding 
 EasyConfigs of GROMACS have also been replaced.
 
-It is done this way because it is also unclear if the Python support is needed when
+It is done this way because it is also unclear if the Python support is needed when PLUMED is
 used with GROMACS. 
+
+As GROMACS 2025 should contain all necessary parts of PLUMED that are needed when running GROMACS,
+we do not offer modules with the full PLUMED integrated anymore.
 
 See also the [page on PLUMED](../../p/PLUMED/).
 
