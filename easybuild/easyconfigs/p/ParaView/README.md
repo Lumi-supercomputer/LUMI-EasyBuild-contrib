@@ -29,4 +29,5 @@ Created from scratch for LUMI. Some remarks about the build configuration:
 -   This is an entirely new development in the LUMI-D software stack.
 
 
-
+### Version 6.0.1 for cpeGNU/24.03
+-   A trivial port of the v5.13.3 EasyConfig with the VTK-m workaround removed since it was depricated.
