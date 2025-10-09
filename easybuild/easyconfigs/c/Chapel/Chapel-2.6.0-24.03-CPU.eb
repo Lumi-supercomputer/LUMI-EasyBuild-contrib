@@ -63,10 +63,6 @@ sanity_check_commands = [
     "chpl --version",
 ]
 
-modextravars = {
-    'CHPL_HOME': '%(installdir)s',
-}
-
 modextrapaths = {
     'PATH'    : 'util',
     'MANPATH' : 'man',
