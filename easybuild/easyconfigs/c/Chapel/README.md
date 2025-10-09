@@ -12,6 +12,16 @@ The [main website for Chapel](https://chapel-lang.org/) provides an introduction
 
     -   [GitHub releases](https://github.com/chapel-lang/chapel/releases)
 
+## Usage
+
+Currently we only support the CPU version of Chapel with the included LLVM backend. To use Chapel load the module and configure the launcher:
+```
+module load LUMI partition/C Chapel/2.6.0
+export CHPL_LAUNCHER_CORES_PER_LOCALE=128
+export CHPL_LAUNCHER_PARTITION=<LUMI partition>
+export CHPL_LAUNCHER_ACCOUNT=<Your project>
+```
+
 ## EasyBuild
 -   There is no support for Chapel in the EasyBuilders repository.
 
