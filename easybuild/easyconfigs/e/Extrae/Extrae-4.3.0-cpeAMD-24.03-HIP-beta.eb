@@ -1,0 +1,49 @@
+
+easyblock = 'ConfigureMake'
+
+name = "Extrae"
+version = "HIP_beta"
+moduleclass = 'perf'
+
+homepage = 'http://www.bsc.es/computer-sciences/performance-tools'
+
+description = """Extrae is the core instrumentation package developed by the Performance Tools 
+group at BSC. It supports instrumentation of applications using MPI, OpenMP, pthreads, CUDA, 
+OpenACC, OpenCL, and more, through various instrumentation techniques. Extrae collects detailed 
+performance data, including timestamped runtime events, hardware performance counters, 
+and source code references. Additionally, it provides a user API for manual instrumentation, 
+allowing developers to insert custom trace events into their applications."""
+
+toolchain = {'name': 'cpeAMD', 'version': '24.03'}
+toolchainopts = {'extra_cflags': '-Wno-error=int-conversion -Wno-error=implicit-function-declaration'}
+
+source_urls = ['https://ftp.tools.bsc.es/extrae/devel']
+sources = ['extrae-4.3.0-hip-instrumentation-src.tar.bz2']
+
+checksums = [
+    '7c0ddf746b7f9a4e59b51416f49082cec5ecdbc5852d14be6154188e1423faf0' # extrae-4.3.0-hip-instrumentation-src.tar.bz2
+]
+
+dependencies = [
+    ('cray-mpich', EXTERNAL_MODULE),
+    ('binutils', '2.45'),
+    ('libunwind', '1.6.2'),
+    ('libxml2', '2.11.5'),
+    ('papi', EXTERNAL_MODULE),
+    ('rocm', EXTERNAL_MODULE),
+    ('zlib', '1.3.1')
+]
+
+preconfigopts = 'autoreconf -vif && '
+
+configopts = '--enable-posix-clock --enable-openmp --enable-sampling --disable-pebs-sampling --disable-instrument-io --disable-instrument-dynamic-memory --disable-instrument-syscall '
+configopts += '--without-dyninst '
+configopts += '--with-binutils=$EBROOTBINUTILS '
+configopts += '--with-unwind=$EBROOTLIBUNWIND '
+configopts += '--with-xml=$EBROOTLIBXML2 '
+configopts += '--with-mpi=$CRAY_MPICH_PREFIX '
+configopts += '--with-papi=$CRAY_PAPI_PREFIX '
+configopts += '--with-hip=$CRAY_ROCM_DIR '
+configopts += '--with-libz=$EBROOTZLIB '
+configopts += 'MPICC=$CRAY_MPICH_PREFIX/bin/mpicc'
+
