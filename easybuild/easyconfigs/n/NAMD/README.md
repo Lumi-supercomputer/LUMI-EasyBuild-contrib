@@ -42,6 +42,11 @@ file-compatible with AMBER, CHARMM, and X-PLOR.
     -   Another one directly talking to the libfabric library.
 
 
+### Version 3.0.2 for CPU in 25.03
+
+-   The configurations are a straightforward port of those for 3.0 in 24.03.
+
+
 ### Version 3.0.2 with GPU support for 24.03 and 25.03
 
 -   Two different configurations:
