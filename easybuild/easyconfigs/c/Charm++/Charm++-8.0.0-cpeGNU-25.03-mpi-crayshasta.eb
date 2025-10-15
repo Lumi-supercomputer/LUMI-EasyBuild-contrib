@@ -1,0 +1,71 @@
+easyblock = 'CMakeMake'
+
+local_zlib_version =         '1.3.1'         # https://zlib.net/
+
+local_Charmpp_version = '8.0.0'
+
+local_charm_network = 'mpi-crayshasta'
+
+name =          'Charm++'
+version =       '8.0.0'
+versionsuffix = '-' + local_charm_network
+
+homepage = 'http://charm.cs.illinois.edu/research/charm/'
+
+whatis = [
+    'Charm++ is a machine independent parallel programming system.'
+]
+
+description = """
+Charm++ is a machine independent parallel programming system. Programs
+written using this system will run unchanged on MIMD machines with or
+without a shared memory.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '25.03'}
+toolchainopts = {'dynamic': False}
+
+source_urls = ['http://charm.cs.illinois.edu/distrib/']
+sources =     ['charm-%(version)s.tar.gz']
+checksums =   ['e30fc1e921e5cbf3406e792d5b0ca5f211c5d8ffbfc56e56d5501d8118abcaf6']
+
+builddependencies = [
+    ('buildtools',        '%(toolchain_version)s', '', True),
+    ('craype-accel-host', EXTERNAL_MODULE),
+]
+
+dependencies = [
+    ('cray-pmi', EXTERNAL_MODULE),
+    ('zlib',     local_zlib_version),
+]
+
+preconfigopts = 'module unload cray-libsci rocm && '
+prebuildopts = preconfigopts
+
+configopts = ' '.join([
+    '-DTARGET=Charm++',
+    '-DARCH=x86_64',
+    '-DNETWORK=' + local_charm_network,
+    '-DSMP=ON',
+    '-DENABLE_FORTRAN=ON',
+    '-DBUILD_SHARED=ON'
+])
+
+postinstallcmds = [
+    'sed -E -i \'s#(/.*)+(/conv-.*.sh)#%(installdir)s/include\\2#g\' %(installdir)s/include/conv-*.sh',
+    'ln -s %(installdir)s %(installdir)s/' + local_charm_network + '-linux-x86_64',
+    # Copy the license files
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cd ../charm-%(version)s && cp CHANGES CITATION.cff LICENSE NOTICE README.md %(installdir)s/share/licenses/%(name)s',   
+]
+
+sanity_check_paths = {
+    'files': ['bin/charmc', 'bin/charmrun'],
+    'dirs':  [],
+}
+
+modextravars = {
+    'EBTYPECHARMPLUSPLUS': local_charm_network + '-linux-x86_64'
+}
+
+moduleclass = 'lib'
