@@ -134,6 +134,12 @@ install_cmd = ' && '.join([
     'cp namd3 psfgen sortreplicas flipbinpdb flipdcd %(installdir)s/bin'
 ])
 
+postinstallcmds = [
+    # Copy the license information
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cp announce.txt license.txt README.md README.txt %(installdir)s/share/licenses/%(name)s',   
+]
+
 sanity_check_paths = {
     'files': ['bin/namd3'],
     'dirs':  [],
