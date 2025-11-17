@@ -1,0 +1,102 @@
+##
+# This is an easyconfig file for EasyBuild, see https://github.com/easybuilders/easybuild
+# Copyright:: Copyright 2013-2024 Juelich Supercomputing Centre, Germany
+# Authors::   Bernd Mohr <b.mohr@fz-juelich.de>
+#             Markus Geimer <m.geimer@fz-juelich.de>
+#             Christian Feld <c.feld@fz-juelich.de>
+#             Jan Andŕe Reuter <j.reuter@fz-juelich.de>
+# License::   3-clause BSD
+#
+# This work is based on experiences from the UNITE project
+# http://apps.fz-juelich.de/unite/
+##
+
+easyblock = 'EB_Score_minus_P_minus_CPE'
+
+local_ScoreP_version =       '9.3'           # https://www.vi-hps.org/projects/score-p/
+
+local_CubeLib_version =      '4.9'           # https://www.scalasca.org/scalasca/software/cube-4.x/download.html
+local_CubeWriter_version =   '4.9'           # https://www.scalasca.org/scalasca/software/cube-4.x/download.html
+local_GOTCHA_version =       '1.0.8'         # https://gotcha.readthedocs.io/en/latest/
+local_libunwind_version  =   '1.6.2'         # http://download.savannah.nongnu.org/releases/libunwind/
+local_libbfd_version =       '2.42'          # https://ftp.gnu.org/gnu/binutils/
+local_OPARI2_version =       '2.0.9'         # https://www.vi-hps.org/projects/score-p/
+local_OTF2_version =         '3.1.1'         # https://www.vi-hps.org/projects/score-p/
+
+name =          'Score-P'
+version =       local_ScoreP_version
+versionsuffix = '-rocm'
+
+homepage = 'https://www.score-p.org'
+
+whatis = [
+    'Description: Score-P is a scalable performance measurement infrastructure for parallel codes',
+]
+
+description = """
+The Score-P measurement infrastructure is a highly scalable and easy-to-use
+tool suite for profiling, event tracing, and online analysis of HPC
+applications.
+"""
+
+docurls = [
+    'Web-based documentation of the latest version at https://perftools.pages.jsc.fz-juelich.de/cicd/scorep/tags/latest/html/',
+    'On-system documentation in $EBROOTSCOREMINP/share/doc/scorep (after loading the module)',  
+]
+toolchain = {'name': 'cpeAMD', 'version': '24.03'}
+toolchainopts = {'pic': True, 'usempi': True, 'openmp': True}
+
+source_urls = ['http://perftools.pages.jsc.fz-juelich.de/cicd/scorep/tags/scorep-%(version)s']
+sources =     ['scorep-%(version)s.tar.gz']
+checksums = [
+    '5498b31b1d6c04b08a9d408320a7515e884538d248de58b6dd11b48c8f364112',  # scorep-9.3.tar.gz
+]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+    ('CubeLib',         local_CubeLib_version),
+    ('CubeWriter',      local_CubeWriter_version),
+    # Unwinding/sampling support (optional):
+    ('libunwind',       local_libunwind_version),
+    ('OPARI2',          local_OPARI2_version),
+    ('OTF2',            local_OTF2_version),
+    # Support for SHMEM
+    ('cray-openshmemx', EXTERNAL_MODULE),
+    ('libbfd',          local_libbfd_version),
+    # Hardware counter support (optional):
+    ('papi',            EXTERNAL_MODULE),
+    # Support for HIP adapter.
+    ('rocm',            EXTERNAL_MODULE),
+    # Library wrapping
+    ('GOTCHA',          local_GOTCHA_version),
+]
+
+configopts  = '--enable-shared --disable-static --with-machine-name=LUMI-cpeAMD-24.03-rocm '
+configopts += '--with-libpmi=/opt/cray/pe/pmi/default '
+configopts += '--with-papi-header=$CRAY_PAPI_PREFIX/include --with-papi-lib=$CRAY_PAPI_PREFIX/lib '
+# Add CFLAGS to prevent error of roctracer check due to path issues
+configopts += '--with-rocm=$ROCM_PATH CFLAGS="-isystem ${ROCM_PATH}/include/roctracer" '
+# Disable LLVM IR plug-in, as ROCm invokes lld when generating object files,
+# passing LLVM IR arguments when it shouldn't
+configopts += '--disable-llvm-plugin '
+
+postinstallcmds = [
+    'make installcheck V=1 VERBOSE=1',
+    'mkdir -p %(installdir)s/share/licenses/%(name)s && ' +
+    'cp AUTHORS ChangeLog CITATION.cff COPYING OPEN_ISSUES README.md THANKS %(installdir)s/share/licenses/%(name)s',   
+]
+
+sanity_check_paths = {
+    'files': ['bin/scorep', 'include/scorep/SCOREP_User.h',
+              ('lib/libscorep_adapter_mpi_event.%s' % SHLIB_EXT, 'lib64/libscorep_adapter_mpi_event.%s' % SHLIB_EXT)],
+    'dirs':  [],
+}
+
+# Ensure that local metric documentation is found by CubeGUI
+modextrapaths = {'CUBE_DOCPATH': 'share/doc/scorep/profile'}
+
+moduleclass = 'perf'
+

@@ -53,3 +53,7 @@ by the Score-P authors.
 
 -   Simple version bump, fixing several minor issues
 
+### Version 9.3 for CPE 24.03
+
+-   Version bump
+
