@@ -80,11 +80,11 @@ local_common_opts= ' '.join( [
 
 configopts = [
     # single precision
-    local_common_opts + '-DGMX_MPI=OFF',
-    local_common_opts + '-DGMX_MPI=ON',
+    local_common_opts + ' -DGMX_MPI=OFF',
+    local_common_opts + ' -DGMX_MPI=ON',
     # double precision
-    local_common_opts + '-DGMX_MPI=OFF -DGMX_DOUBLE=ON',
-    local_common_opts + '-DGMX_MPI=ON  -DGMX_DOUBLE=ON',
+    local_common_opts + ' -DGMX_MPI=OFF -DGMX_DOUBLE=ON',
+    local_common_opts + ' -DGMX_MPI=ON  -DGMX_DOUBLE=ON',
 ]
 
 #onlytcmod = True
