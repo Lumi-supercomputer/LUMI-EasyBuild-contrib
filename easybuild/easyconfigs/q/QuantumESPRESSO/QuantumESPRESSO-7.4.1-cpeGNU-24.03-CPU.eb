@@ -1,0 +1,167 @@
+easyblock = 'CMakeMake'
+
+name =          'QuantumESPRESSO'
+version =       '7.4.1'
+versionsuffix = '-CPU'
+
+homepage = 'https://www.quantum-espresso.org'
+
+whatis = [
+    'Description: QuantumESPRESSO is a suite of codes for electronic structure calculations based on DFT, plane wave and pseudopotentials'    
+]
+
+description = """
+Quantum ESPRESSO  is an integrated suite of computer codes
+for electronic-structure calculations and materials modeling at the nanoscale.
+It is based on density-functional theory, plane waves, and pseudopotentials
+(both norm-conserving and ultrasoft).
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '24.03'}
+toolchainopts = {'usempi': True, 'openmp': True}
+
+# Check hashes inside external/submodule_commit_hash_records when making file for new version
+local_mbd_hash =      '89a3cc199c0a200c9f0f688c3229ef6b9a8d63bd'
+local_devxlib_hash =  'a6b89ef77b1ceda48e967921f1f5488d2df9226d'
+local_fox_hash =      '3453648e6837658b747b895bb7bef4b1ed2eac40'
+local_d3q_hash =      '808acbaf012468f42147d8d6af452ec64b9e5ab0' # Different from the one at tag qe-7.4, see https://github.com/anharmonic/d3q/issues/22
+local_qe_gipaw_hash = '717e55c36f28c512d232321adb10d5a66d3e1072' # Different from the in external/submodule_commit_hash_records, used the one at tag 7.4.1 instead
+local_qmcpack_hash =  'f72ab25fa4ea755c1b4b230ae8074b47d5509c70'
+local_w90_hash =      '1d6b187374a2d50b509e5e79e2cab01a79ff7ce1'
+
+
+sources = [
+    {
+        'filename': 'q-e-qe-%(version)s.tar.gz',
+        'extract_cmd': 'mkdir -p %(builddir)s/qe-%(version)s && tar xzvf %s --strip-components=1 -C $_',
+        'source_urls': ['https://gitlab.com/QEF/q-e/-/archive/qe-%(version)s'],
+    },
+    { # Checksum None 1
+        'filename': 'mbd-%s.tar.gz' % local_mbd_hash,
+        'git_config': {
+            'url': 'https://github.com/libmbd',
+            'repo_name': 'libmbd',
+            'commit': local_mbd_hash,
+            'clone_into': 'mbd',
+        },
+    },
+    { # Checksum None 2
+        'filename': 'devxlib-%s.tar.gz' % local_devxlib_hash,
+        'git_config': {
+            'url': 'https://gitlab.com/max-centre/components',
+            'repo_name': 'devicexlib',
+            'commit': local_devxlib_hash,
+            'clone_into': 'devxlib',
+        },
+    },
+    { # Checksum None 3
+        'filename': 'd3q-%s.tar.gz' % local_d3q_hash,
+        'git_config': {
+            'url': 'https://github.com/anharmonic',
+            'repo_name': 'd3q',
+            'commit': local_d3q_hash,
+        },
+    },
+    { # Checksum None 4
+        'filename': 'fox-%s.tar.gz' % local_fox_hash,
+        'git_config': {
+            'url': 'https://github.com/pietrodelugas',
+            'repo_name': 'fox',
+            'commit': local_fox_hash,
+        },
+    },
+    { # Checksum None 5
+        'filename': 'qe-gipaw-%s.tar.gz' % local_qe_gipaw_hash,
+        'git_config': {
+            'url': 'https://github.com/dceresoli',
+            'repo_name': 'qe-gipaw',
+            'commit': local_qe_gipaw_hash,
+        },
+    },
+    { # Checksum None 6
+        'filename': 'pw2qmcpack-%s.tar.gz' % local_qmcpack_hash,
+        'git_config': {
+            'url': 'https://github.com/QMCPACK',
+            'repo_name': 'pw2qmcpack',
+            'commit': local_qmcpack_hash,
+        },
+    },
+    { # Checksum None 7
+        'filename': 'wannier90-%s.tar.gz' % local_w90_hash,
+        'git_config': {
+            'url': 'https://github.com/wannier-developers',
+            'repo_name': 'wannier90',
+            'commit': local_w90_hash,
+        },
+    },
+]
+
+patches = [
+    # sourcepath needed for patches applied outside the first `finalpath` directory
+    {'name': 'QuantumESPRESSO-7.4-d3q.patch',                     'sourcepath': '../', 'level': 1},
+    #{'name': 'QuantumESPRESSO-7.4-d3q.patch',                     'sourcepath': '../'},
+    {'name': 'QuantumESPRESSO-7.4-parallel-symmetrization.patch'},
+]
+
+checksums = [
+    '6ef9c53dbf0add2a5bf5ad2a372c0bff935ad56c4472baa001003e4f932cab97',
+    None, None, None, None, None, None, None,
+    '1f1686365fbf0cc56f634e072a92b3d336fe454348e514d0b4136d447f0d4923',
+    'e11ac954fa2289a3b453e86871a819a78972e94681f08425ec35dc51a908f7d2',
+]
+
+builddependencies = [
+    ('buildtools', '', '%(toolchain_version)s', True),
+]
+
+dependencies = [
+    ('cray-hdf5-parallel', EXTERNAL_MODULE),
+    ('cray-fftw',          EXTERNAL_MODULE),
+    ('ELPA',               '2024.05.001', '-CPU'),
+    ('libxc',              '6.2.2'),
+]
+
+local_submodules = [
+    'mbd', 'devxlib', 'fox', 'd3q', 'qe-gipaw', 'pw2qmcpack', 'wannier90'
+]
+
+local_plugins = [
+    'gipaw', 
+    'd3q', 
+    'pw2qmcpack'
+]
+
+preconfigopts = ''
+for local_submod in local_submodules:
+    preconfigopts += f'mv %(builddir)s/{local_submod} %(builddir)s/qe-{version}/external && '
+
+configopts = ' '.join([
+    '-DQE_ENABLE_MPI=ON',
+    '-DQE_ENABLE_OPENMP=ON',
+    '-DQE_ENABLE_CUDA=OFF',
+    '-DQE_ENABLE_OPENACC=OFF',
+    '-DQE_ENABLE_SCALAPACK=ON',
+    '-DSCALAPACK_LIBRARIES="-lm"',
+    '-DQE_ENABLE_FOX=ON',
+    '-DQE_ENABLE_HDF5=ON',
+    '-DQE_ENABLE_LIBXC=ON',
+    '-DQE_ENABLE_ELPA=ON',
+    '-DQE_ENABLE_PLUGINS="%s"' % ';'.join(local_plugins),
+    '-DQE_CLOCK_SECONDS=ON',
+    '-DBUILD_SHARED_LIBS=OFF',
+])
+
+# Uncomment the next line for debug purposes.
+#maxparallel = 1
+
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cd %(start_dir)s && cp License README.md %(installdir)s/share/licenses/%(name)s',
+]
+
+sanity_check_paths = {
+    'files': ['bin/pw.x'],
+    'dirs':  [''],
+}
+
+moduleclass = 'chem'
