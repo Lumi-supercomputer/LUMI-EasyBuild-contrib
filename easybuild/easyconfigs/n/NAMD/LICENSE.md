@@ -31,3 +31,6 @@ Electronic documents will include a direct link to the official NAMD page
 at http://www.ks.uiuc.edu/Research/namd/
  
 (The above text copied from the NAMD 2.14 license and may evolve over time!)
+
+From toolchain version 25.03 onwards, the license information can also be found in
+`$EBROOTNAMD/share/licenses/NAMD` after installing and loading the module.
