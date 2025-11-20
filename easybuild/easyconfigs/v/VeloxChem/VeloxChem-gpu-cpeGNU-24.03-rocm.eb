@@ -66,7 +66,10 @@ exts_list = [
          }],
         'prebuildopts': 'cp src/Makefile.setup_hip src/Makefile.setup && ',
         'buildcmd': 'make -j16 MAGMA_HOME=${EBROOTMAGMA} LIBXC_HOME=${EBROOTLIBXC} CXX=${ROCM_PATH}/bin/amdclang++ DEVICE_LIB="-L${ROCM_PATH}/lib -lhipblas" -C src',
-        'postinstallcmds': ['cp build/python/veloxchem/veloxchemlib.so %(installdir)s/lib/python%(pyshortver)s/site-packages/veloxchem/'],
+        'postinstallcmds': [
+            'cp build/python/veloxchem/veloxchemlib.so %(installdir)s/lib/python%(pyshortver)s/site-packages/veloxchem/',
+            'cp -r build/python/veloxchem/basis %(installdir)s/lib/python%(pyshortver)s/site-packages/veloxchem/',
+        ],
         'use_pip': True,
     }),
 ]
