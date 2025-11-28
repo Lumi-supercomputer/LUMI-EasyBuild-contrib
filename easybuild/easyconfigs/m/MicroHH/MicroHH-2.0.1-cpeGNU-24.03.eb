@@ -1,3 +1,4 @@
+# This EasyConfig was contributed by the EPICURE project (https://epicure-hpc.eu/).
 #DOC CPU version, compile for `partition/C` and run on LUMI-C.
 easyblock = 'CMakeMake'
 
