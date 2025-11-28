@@ -1,5 +1,6 @@
 # Created by Orian Louant for the LUMI consortium
 # Updated for WRF-SFIRE by Maciej Szpindler and Bert Jorissen
+# This EasyConfig was partly developed by the EPICURE project (https://epicure-hpc.eu/).
 
 easyblock = 'CmdCp'
 

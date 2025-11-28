@@ -1,4 +1,5 @@
-#DOC CPU version, compile for `partitioon/C` and run on LUMI-C.
+# This EasyConfig was contributed by the EPICURE project (https://epicure-hpc.eu/).
+#DOC CPU version, compile for `partition/C` and run on LUMI-C.
 easyblock = 'CMakeMake'
 
 local_Boost_version = '1.83.0'
@@ -13,7 +14,16 @@ whatis = [
 ]
 
 description = """
-MicroHH is a computational fluid dynamics code designed to simulate turbulent flows in the atmosphere using Direct Numerical Simulation (DNS) and Large-Eddy Simulation (LES) techniques. Its capabilities span a range from highly idealized flows to realistic atmospheric boundary layers, incorporating all relevant processes, such as moist thermodynamics, radiation, land surface processes, and microphysics. The code is written in C++/CUDA and runs on both CPUs and GPUs.
+MicroHH is a computational fluid dynamics code designed to simulate turbulent
+flows in the atmosphere using Direct Numerical Simulation (DNS) and Large-Eddy
+Simulation (LES) techniques. Its capabilities span a range from highly
+idealized flows to realistic atmospheric boundary layers, incorporating all
+relevant processes, such as moist thermodynamics, radiation, land surface
+processes, and microphysics. The code is written in C++/CUDA and runs on
+both CPUs and GPUs.
+
+The version is this module is for CPU only (as CUDA cannot be used on other
+than NVIDIA GPUs as it is NVIDIA-proprietary technology).
 """
 
 toolchain = {'name': 'cpeGNU', 'version': '24.03'}
