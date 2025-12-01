@@ -97,7 +97,7 @@ configopts = ' '.join([
     '--disable-python',
     '--enable-asmjit',
     # Disable features that we do not have, avoids warnings
-    '--disable-xdrfile',
+    #'--disable-xdrfile',  # This option does no longer exist.
 ])
 
 postinstallcmds = [
