@@ -1,0 +1,11 @@
+--- libflame-5.1/src/base/flamec/include/FLA_type_defs.h.orig	2025-12-01 19:36:07.439766516 +0200
++++ libflame-5.1/src/base/flamec/include/FLA_type_defs.h	2025-12-01 19:36:24.359657881 +0200
+@@ -246,7 +246,7 @@
+ 
+   // Integer arguments
+   int           n_int_args;
+-  int*          int_arg;
++  integer*      int_arg;
+ 
+   // Constant FLA_Obj arguments
+   int           n_fla_args;

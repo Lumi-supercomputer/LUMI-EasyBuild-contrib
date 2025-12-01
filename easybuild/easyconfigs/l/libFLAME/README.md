@@ -65,6 +65,6 @@
     
 -   We did some reworking of the long configure options list in a shorter format.
     
--   There are currently no ILP64 versions as the compiler rightfully complains about
-    incompatible pointer types and produces other warnings also. This will require some
-    code fixing to compile properly and work reliably afterwards.
+-   There is an issue with the supermatrix support in the ILP64 version as there is
+    a piece of code with incompatible pointer types. We tried to patch this but are not 
+    100% sure the patch is the correct one.
