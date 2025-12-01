@@ -2,7 +2,7 @@ easyblock = 'ConfigureMake'
 
 name =          'libFLAME'
 version =       '5.1'
-versionsuffix = '-amd'
+versionsuffix = '-amd-ILP64'
 
 homepage = 'https://developer.amd.com/amd-cpu-libraries/blas-library/#libflame'
 
@@ -26,9 +26,12 @@ problems with the Cray LibSci library. Note however that software in the
 LUMI stack is by default build with the Cray LibSci library, so your code
 that relies on libFLAME and BLIS may not link correctly to any of the other
 modules in the LUMI software stacks.
+
+The ILP64 versions of the modules provide a LAPACK interface with 64-bit
+integers.
 """
 
-toolchain = {'name': 'cpeCray', 'version': '25.03'}
+toolchain = {'name': 'cpeGNU', 'version': '25.03'}
 
 # https://github.com/amd/libflame/archive/refs/tags/5.1.tar.gz
 sources = [{
@@ -36,7 +39,8 @@ sources = [{
     'filename':          SOURCE_TAR_GZ,
     'source_urls':       ['https://github.com/amd/libflame/archive/refs/tags/']
 }]
-checksums =   ['25524ba78b5952303369fa0859d217e44071144fd122a9dc3f72ed0bd73e3b2d']
+patches = ['libFLAME-5.1_ILP64.patch']
+#checksums =   ['25524ba78b5952303369fa0859d217e44071144fd122a9dc3f72ed0bd73e3b2d']
 
 builddependencies = [
     ('buildtools', '%(toolchain_version)s', '', True),
@@ -48,7 +52,7 @@ dependencies = [
     ('BLIS',       version, versionsuffix),
 ]
 
-preconfigopts  = 'module unload cray-libsci cray-mpich && '
+preconfigopts  = 'module unload cray-libsci && '
 # Configure script uses weird way of compiler vendor detection,
 # And avoid using -march=native but let the compiler wrappers do their work.
 preconfigopts += 'sed -e "s|CC_VENDOR=..echo.*|CC_VENDOR=gcc|" -e "s|-mtune=native ||" -i configure && '
@@ -67,9 +71,10 @@ configopts = ' '.join([
     '--enable-multithreading=openmp',
     '--enable-supermatrix',
     '--enable-amd-flags --enable-amd-opt',
+    '--enable-ilp64'
 ])
 
-preinstallopts = prebuildopts = 'module unload cray-libsci cray-mpich && '
+prebuildopts = 'module unload cray-libsci && '
 
 # libFLAME C++ Template API tests
 # runtest = 'checkcpp LIBBLAS=$EBROOTBLIS/lib/libblis.a'
