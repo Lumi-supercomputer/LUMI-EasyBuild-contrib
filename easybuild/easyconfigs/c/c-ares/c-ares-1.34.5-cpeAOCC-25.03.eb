@@ -28,6 +28,7 @@ builddependencies = [
 preconfigopts = 'autoreconf -i -f && module unload rocm cray-libsci && '
 prebuildopts = 'module unload rocm cray-libsci && '
 
+postinstallcmds = [
     'mkdir -p %(installdir)s/share/licenses/%(name)s',
     'cp AUTHORS CONTRIBUTING.md DEVELOPER-NOTES.md LICENSE.md README.md RELEASE-NOTES.md SECURITY.md %(installdir)s/share/licenses/%(name)s',   
 ]
