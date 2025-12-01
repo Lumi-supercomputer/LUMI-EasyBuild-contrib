@@ -27,3 +27,4 @@
 
 -   Update from previous easyconfigs.
 
+-   25.03: Add license information to the installation.
