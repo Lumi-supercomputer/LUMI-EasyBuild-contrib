@@ -63,6 +63,8 @@
 -   Trivial port of the EasyConfig for 4.2 in 24.03, but we did change the name of 
     the downloaded files.
     
+-   We did some reworking of the long configure options list in a shorter format.
+    
 -   There are currently no ILP64 versions as the compiler rightfully complains about
     incompatible pointer types and produces other warnings also. This will require some
     code fixing to compile properly and work reliably afterwards.
