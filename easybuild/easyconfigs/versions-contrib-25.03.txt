@@ -6,7 +6,7 @@ local_aria2_version =        '1.37.0'        # https://github.com/aria2/aria2/re
 
 local_BCFtools_version =     '1.22'          # https://github.com/samtools/bcftools/releases
 
-local_cares_version =        '1.27.0'        # https://github.com/c-ares/c-ares/releases
+local_cares_version =        '1.34.5'        # https://github.com/c-ares/c-ares/releases
 local_CDO_version =          '2.4.3'         # https://code.mpimet.mpg.de/projects/cdo/files
 local_CMOR_version =         '3.8.0'         # https://github.com/PCMDI/cmor/releases
 local_COSMA26_version =      '2.6.6'         # https://github.com/eth-cscs/COSMA/releases
