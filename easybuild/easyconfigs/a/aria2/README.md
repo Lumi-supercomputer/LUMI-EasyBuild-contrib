@@ -15,7 +15,7 @@
 -   Adapted from the EasyBuilders EasyConfig.
 
 
-### Version 1.36.0 for CPE 22.06 and 22.08
+### Version 1.36.0 for CPE 22.06 and later
 
 -   Switched back to using dependencies build with EasyBuild just to
     be sure but otherwise a trivial upgrade.
@@ -28,3 +28,11 @@
 -   For 23.09: The tests fail in a way that the testing does not continue, but it 
     is not clear what the cause is. The program may only be partially functional.
     Testing is now disabled so that it builds at least.
+
+    
+### Version 1.37 for CPE 24.03 and later
+
+-   Trivial port of the EasyConfig for 1.36 for 23.09
+    
+-   25.03: Added license information to the installation
+    
