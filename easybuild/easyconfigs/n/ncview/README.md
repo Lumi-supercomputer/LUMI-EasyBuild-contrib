@@ -5,15 +5,19 @@ ncview to get a quick and easy, push-button look at your netCDF files. You
 can view simple movies of the data, view along various dimensions, take a
 look at the actual data values, change color maps, invert the data, etc.
 
--   [ncview web site](http://meteora.ucsd.edu/~pierce/ncview_home_page.html)
+-   [ncview web site](https://cirrus.ucsd.edu/ncview/)
 
--   [ncview download via ftp](ftp://cirrus.ucsd.edu/pub/ncview/) - may contain
+-   [New web-based downloads of ncview](https://cirrus.ucsd.edu/~pierce/ncview/)
+
+-   [old ncview download via ftp](ftp://cirrus.ucsd.edu/pub/ncview/) - may contain
     versions that are newer than those discussed on the home page
 
-The 2.1.8 release dates from 2017 and as of September 2021 there haven't been
-any further releases. Hence there is no guarantee that this package can be
-supported in the future as it may become incompatible with newer versions of
-libraries that it uses.
+Releases where dormant between 2017 and 2023, but there have been some bug
+fix releases in 2023 and 2024. However, it is not clear how well it is still
+being developed as it looks more like a side-project for the developer so we
+cannot guarantee continuing support for this package. Also, there are currently
+issues with 2.1.10 and 2.1.11 on LUMI that we do not understand (compatibility
+issues with an X11 library).
 
 
 ## EasyBuild
