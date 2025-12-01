@@ -30,8 +30,12 @@ modules in the LUMI software stacks.
 
 toolchain = {'name': 'cpeGNU', 'version': '25.03'}
 
-source_urls = ['https://github.com/amd/libflame/archive/']
-sources =     ['%(version)s.tar.gz']
+# https://github.com/amd/libflame/archive/refs/tags/5.1.tar.gz
+sources = [{
+    'download_filename': '%(version)s.tar.gz',
+    'filename':          SOURCE_TAR_GZ,
+    'source_urls':       ['https://github.com/amd/libflame/archive/refs/tags/']
+}]
 checksums =   ['25524ba78b5952303369fa0859d217e44071144fd122a9dc3f72ed0bd73e3b2d']
 
 builddependencies = [

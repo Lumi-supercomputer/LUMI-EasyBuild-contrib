@@ -30,8 +30,12 @@ modules in the LUMI software stacks.
 
 toolchain = {'name': 'cpeCray', 'version': '25.03'}
 
-source_urls = ['https://github.com/amd/libflame/archive/']
-sources =     ['%(version)s.tar.gz']
+# https://github.com/amd/libflame/archive/refs/tags/5.1.tar.gz
+sources = [{
+    'download_filename': '%(version)s.tar.gz',
+    'filename':          SOURCE_TAR_GZ,
+    'source_urls':       ['https://github.com/amd/libflame/archive/refs/tags/']
+}]
 checksums =   ['25524ba78b5952303369fa0859d217e44071144fd122a9dc3f72ed0bd73e3b2d']
 
 builddependencies = [
@@ -44,26 +48,29 @@ dependencies = [
     ('BLIS',       version, versionsuffix),
 ]
 
-# Use unset FLIBS to let configure pick up LDFLAGS
-preconfigopts  = 'module unload cray-libsci && '
+preconfigopts  = 'module unload cray-libsci cray-mpich && '
 # Configure script uses weird way of compiler vendor detection,
 # And avoid using -march=native but let the compiler wrappers do their work.
 preconfigopts += 'sed -e "s|CC_VENDOR=..echo.*|CC_VENDOR=gcc|" -e "s|-mtune=native ||" -i configure && '
+# Use unset FLIBS to let configure pick up LDFLAGS
 preconfigopts += 'unset FLIBS && '
 preconfigopts += 'LIBS="-lblis-mt $LIBS" '
 preconfigopts += 'LDFLAGS="$LDFLAGS -L$EBROOTBLIS/lib -fopenmp -lm -lpthread -laoclutils" '
 preconfigopts += 'CFLAGS="$CFLAGS -fopenmp -I${EBROOTBLIS}/include/blis" '
 
-configopts  = '--enable-max-arg-list-hack '
-configopts += '--enable-lapack2flame '
-configopts += '--enable-external-lapack-interfaces '
-configopts += '--enable-cblas-interfaces '
-configopts += '--enable-static-build --enable-dynamic-build '
-configopts += '--enable-multithreading=openmp '
-configopts += '--enable-supermatrix '
-configopts += '--enable-amd-flags --enable-amd-opt '
 
-prebuildopts = 'module unload cray-libsci && '
+configopts = ' '.join([
+    '--enable-static-build --enable-dynamic-build',
+    '--enable-max-arg-list-hack',
+    '--enable-lapack2flame',
+    '--enable-external-lapack-interfaces',
+    '--enable-cblas-interfaces',
+    '--enable-multithreading=openmp',
+    '--enable-supermatrix',
+    '--enable-amd-flags --enable-amd-opt',
+])
+
+preinstallopts = prebuildopts = 'module unload cray-libsci cray-mpich && '
 
 # libFLAME C++ Template API tests
 # runtest = 'checkcpp LIBBLAS=$EBROOTBLIS/lib/libblis.a'
