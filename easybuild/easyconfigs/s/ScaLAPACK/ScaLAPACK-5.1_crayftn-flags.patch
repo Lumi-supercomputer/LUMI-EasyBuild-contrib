@@ -1,0 +1,37 @@
+diff -ruN aocl-scalapack-5.1.orig/CMakeLists.txt aocl-scalapack-5.1/CMakeLists.txt
+--- aocl-scalapack-5.1.orig/CMakeLists.txt	2024-02-26 19:49:57.000000000 +0200
++++ aocl-scalapack-5.1/CMakeLists.txt	2024-08-21 15:04:31.000000000 +0300
+@@ -62,7 +62,7 @@
+ endif()
+ 
+ set(CMAKE_ICC_FLAGS " ")
+-set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -cpp" )
++set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -eT" )
+ 
+ # set compile flags to enable address sanitizer (ASAN) tests
+ if(ENABLE_ASAN_TESTS)
+@@ -95,6 +95,9 @@
+    if ("${CMAKE_Fortran_COMPILER_ID}" STREQUAL "Flang")
+       set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -ffixed-line-length-132 -I ${SL_FRAMEWORK_INCLUDE_PATH}/" )
+    endif ()
++   if ("${CMAKE_Fortran_COMPILER_ID}" STREQUAL "Cray")
++      set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -hnopattern -N 132 -I ${SL_FRAMEWORK_INCLUDE_PATH}/" )
++   endif ()
+    if ("${CMAKE_Fortran_COMPILER_ID}" STREQUAL "Intel")
+       set( CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -fltconsistency -fp-port -no-vec -I ${SL_FRAMEWORK_INCLUDE_PATH}/" )
+    elseif ("${CMAKE_Fortran_COMPILER}" MATCHES "ifort" )
+--- aocl-scalapack-5.1.orig/TESTING/LIN/CMakeLists.txt	2025-12-01 18:33:50.930039830 +0200
++++ aocl-scalapack-5.1/TESTING/LIN/CMakeLists.txt	2025-12-01 18:34:08.345884556 +0200
+@@ -186,9 +186,9 @@
+ endif(WIN32)
+ 
+ # Temp hack to address warning in *qrdriver.f files. Here floating point values are being Integer parameter
+-if (UNIX)
+-	set_source_files_properties(psqrdriver.f pdqrdriver.f pcqrdriver.f pzqrdriver.f PROPERTIES COMPILE_FLAGS "-w")
+-endif()
++#if (UNIX)
++#	set_source_files_properties(psqrdriver.f pdqrdriver.f pcqrdriver.f pzqrdriver.f PROPERTIES COMPILE_FLAGS "-w")
++#endif()
+ 
+ if ("${CMAKE_Fortran_COMPILER_ID}" STREQUAL "GNU" AND CMAKE_Fortran_COMPILER_VERSION VERSION_GREATER_EQUAL 10)
+     set( CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -std=legacy" )  # local to this directory
