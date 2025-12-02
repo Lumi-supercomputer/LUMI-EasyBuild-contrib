@@ -12,3 +12,12 @@
 ### Version 4.2 for CPE 23.12 and 24.03
 
 - Created for LUMI
+
+
+### Version 5.1 for 25.03
+
+-   Trivial port of the EasyConfig for 4.2 for 24.03, but changed the name
+    of the source files.
+
+
+
