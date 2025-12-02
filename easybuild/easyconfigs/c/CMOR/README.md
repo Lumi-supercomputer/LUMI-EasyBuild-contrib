@@ -53,7 +53,7 @@ complete. Use at your own risk.
 -   Trivial port of the 3.7.3 EasyConfig for 23.09.
 
 
-### Version 1.13.0 for CPE 25.03
+### Version 3.13.0 for CPE 25.03
 
 -   Almost trivial port of the 3.8.0 EasyConfig for 24.03, but:
 
