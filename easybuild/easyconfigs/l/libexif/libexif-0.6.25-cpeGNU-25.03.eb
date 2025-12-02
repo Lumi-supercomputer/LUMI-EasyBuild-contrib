@@ -1,0 +1,57 @@
+# Author: Jasper Grimm (UoY)
+
+easyblock = 'ConfigureMake'
+
+local_gettext_version =      '0.24'          # https://ftp.gnu.org/pub/gnu/gettext/
+
+local_libexif_version =      '0.6.25'        # https://github.com/libexif/libexif/releases
+
+name =    'libexif'
+version = local_libexif_version
+
+homepage = 'https://libexif.github.io/'
+
+whatis = [
+    'Description: libexif is a library for parsing, editing, and saving EXIF data.'
+]
+
+description = """
+Libexif is a library for parsing, editing, and saving EXIF data, written in
+pure portable C.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '25.03'}
+
+source_urls = [GITHUB_SOURCE]
+sources =     ['v%(version)s.tar.gz']
+checksums =   ['b23af41f37019b8d591d4d9b42ba52fd30709b6767341aa887f9afe400c8408a']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', SYSTEM), # For autotools
+    ('gettext',    local_gettext_version),
+]
+
+preconfigopts = 'autoreconf -if &&'
+configopts = '--disable-docs'
+
+runtest = 'check'
+
+maxparallel = 1 # When gettext is called, there is too much parallelism otherwise
+
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cd ../%(namelower)s-%(version)s && cp AUTHORS COPYING ChangeLog NEWS README %(installdir)s/share/licenses/%(name)s',
+]
+
+local_includes = ['include/%s/exif-%s.h' % (name, x) for x in [
+    'byte-order', 'content', 'data', 'data-type', 'entry', 'format', 'ifd',
+    'loader', 'log', 'mem', 'mnote-data', 'tag', 'utils']
+]
+local_libs = ['lib/%s.%s' % (name, x) for x in ['a', 'la', SHLIB_EXT]] + ['lib/pkgconfig/%(name)s.pc']
+
+sanity_check_paths = {
+    'files': local_includes + local_libs + ['share/licenses/libexif/COPYING'],
+    'dirs':  [],
+}
+
+moduleclass = 'lib'
