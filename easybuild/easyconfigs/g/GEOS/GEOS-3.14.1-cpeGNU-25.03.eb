@@ -1,0 +1,60 @@
+easyblock = 'CMakeMake'
+
+local_GEOS_version =         '3.14.1'        # https://github.com/libgeos/geos/releases
+
+name =    'GEOS'
+version = local_GEOS_version
+
+homepage = 'https://trac.osgeo.org/geos'
+
+whatis = [
+    'Description: GEOS (Geometry Engine - Open Source) is a C++ port of the Java Topology Suite (JTS)'
+]
+
+description = """
+GEOS (Geometry Engine - Open Source) is a C++ port of the  Java Topology Suite
+(JTS). As such, it aims to contain the complete functionality of JTS in C++.
+This includes all the OpenGIS Simple Features for SQL spatial predicate
+functions and spatial operators, as well as specific JTS enhanced topology
+functions.
+
+GEOS is available under the terms of GNU Lesser General Public License (LGPL),
+and is a project of OSGeo.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '25.03'}
+toolchainopts = {'pic': True}
+
+source_urls = ['https://download.osgeo.org/geos/']
+sources =     [SOURCELOWER_TAR_BZ2]
+checksums =   ['3c20919cda9a505db07b5216baa980bacdaa0702da715b43f176fb07eff7e716']
+
+builddependencies = [
+    ('buildtools',          '%(toolchain_version)s', '', True),
+    ('craype-network-none', EXTERNAL_MODULE),
+]
+
+# Build static and shared libraries
+configopts = [
+    '-DBUILD_SHARED_LIBS=ON  -DCMAKE_INSTALL_LIBDIR=lib', 
+    '-DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_LIBDIR=lib'
+]
+
+postinstallcmds = [
+    'pwd',
+    'cd ../%(namelower)s-%(version)s && mkdir -p %(installdir)s/share/licenses/GEOS && cp -f COPYING %(installdir)s/share/licenses/GEOS/COPYING',
+]
+
+sanity_check_paths = {
+    'files': ['bin/geos-config', 'bin/geosop', 'lib/libgeos.%s' % SHLIB_EXT, 'lib/libgeos.a', 'include/geos_c.h',
+              'share/licenses/GEOS/COPYING'],
+    'dirs':  [],
+}
+
+sanity_check_commands = [
+    'pkg-config --libs geos',
+    'geos-config --cflags',
+    'geosop --help',
+]
+
+moduleclass = 'math'
