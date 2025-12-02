@@ -40,7 +40,10 @@ sources = [{
     'source_urls':       ['https://github.com/amd/libflame/archive/refs/tags/']
 }]
 patches = ['libFLAME-5.1_ILP64.patch']
-#checksums =   ['25524ba78b5952303369fa0859d217e44071144fd122a9dc3f72ed0bd73e3b2d']
+checksums =   [
+    '25524ba78b5952303369fa0859d217e44071144fd122a9dc3f72ed0bd73e3b2d',
+    'ad5c9a95c1de84f066062d37bcaab5cf2c9c262655d341d1fec59d5c96fc18bc'
+]
 
 builddependencies = [
     ('buildtools', '%(toolchain_version)s', '', True),

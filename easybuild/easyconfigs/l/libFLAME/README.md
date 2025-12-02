@@ -67,4 +67,5 @@
     
 -   There is an issue with the supermatrix support in the ILP64 version as there is
     a piece of code with incompatible pointer types. We tried to patch this but are not 
-    100% sure the patch is the correct one.
+    100% sure the patch is the correct one. We've also patched several type errors in 
+    printf function calls.
