@@ -1,3 +1,9 @@
+Patch developed by Kurt Lust for the LUMI consortium.
+Remove some warnings and one error about types when compiling with ILP64 support.
+diff -Nau libflame-5.1/src/base/flamec/include/FLA_type_defs.h.orig libflame-5.1/src/base/flamec/include/FLA_type_defs.h
+diff -Nau libflame-5.1/src/base/flamec/include/FLA_f2c.h.orig libflame-5.1/src/base/flamec/include/FLA_f2c.h
+diff -Nau libflame-5.1/src/base/flamec/supermatrix/main/FLASH_Queue.c.orig libflame-5.1/src/base/flamec/supermatrix/main/FLASH_Queue.c
+diff -Nau libflame-5.1/src/base/flamec/supermatrix/main/FLASH_Queue_exec.c.orig libflame-5.1/src/base/flamec/supermatrix/main/FLASH_Queue_exec.c
 --- libflame-5.1/src/base/flamec/include/FLA_type_defs.h.orig	2025-12-01 19:36:07.439766516 +0200
 +++ libflame-5.1/src/base/flamec/include/FLA_type_defs.h	2025-12-01 19:36:24.359657881 +0200
 @@ -246,7 +246,7 @@
@@ -9,3 +15,36 @@
  
    // Constant FLA_Obj arguments
    int           n_fla_args;
+--- libflame-5.1/src/base/flamec/include/FLA_f2c.h.orig	2025-12-02 10:30:54.000000000 +0200
++++ libflame-5.1/src/base/flamec/include/FLA_f2c.h	2025-12-02 10:31:17.000000000 +0200
+@@ -43,7 +43,7 @@
+ 
+ //DTL purpose
+ #ifdef FLA_ENABLE_ILP64
+-#define FLA_IS "lld"
++#define FLA_IS "ld"
+ #else
+ #define FLA_IS "d"
+ #endif
+--- libflame-5.1/src/base/flamec/supermatrix/main/FLASH_Queue.c.orig	2025-12-02 10:32:44.000000000 +0200
++++ libflame-5.1/src/base/flamec/supermatrix/main/FLASH_Queue.c	2025-12-02 10:33:26.000000000 +0200
+@@ -1857,7 +1857,7 @@
+          // Iterate over all the threads.
+          for ( k = 0; k < n_threads; k++ )
+          {
+-            printf( "subgraph cluster%d {\nlabel=\"%d\"\n", k, k );
++            printf( "subgraph cluster%ld {\nlabel=\"%ld\"\n", k, k );
+ 
+             // Iterate over linked list of tasks.
+             for ( i = 0; i < n_tasks; i++ )
+--- libflame-5.1/src/base/flamec/supermatrix/main/FLASH_Queue_exec.c.orig	2025-12-02 10:33:34.000000000 +0200
++++ libflame-5.1/src/base/flamec/supermatrix/main/FLASH_Queue_exec.c	2025-12-02 10:33:52.000000000 +0200
+@@ -2659,7 +2659,7 @@
+       
+       n_stages++;
+       if ( !verbose )
+-         printf( "%7d", n_stages );
++         printf( "%7ld", n_stages );
+       
+       // Move ready tasks from the waiting queue to execution queue.
+       for ( i = 0; i < n_threads; i++ )
