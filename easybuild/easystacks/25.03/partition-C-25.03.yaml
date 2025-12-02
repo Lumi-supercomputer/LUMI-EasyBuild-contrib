@@ -49,6 +49,18 @@ easyconfigs:
   - STAR-2.7.11b-cpeGNU-25.03.eb
   - VCFtools-0.1.17-cpeGNU-25.03.eb
 #
+# CDO
+#
+  - json-c-0.18-cpeGNU-25.03.eb
+  - json-c-0.18-cpeCray-25.03.eb
+  #- json-c-0.18-cpeAOCC-25.03.eb
+  - CMOR-3.13.0-cpeGNU-25.03.eb
+  - CMOR-3.13.0-cpeCray-25.03.eb
+  - ecCodes-2.42.0-cpeGNU-25.03.eb
+  - ecCodes-2.42.0-cpeCray-25.03.eb
+  - CDO-2.5.4-cpeGNU-25.03.eb
+  - CDO-2.5.4-cpeCray-25.03.eb
+#
 # CP2K
 #
   - COSMA-2.6.6-cpeGNU-25.03-CPU.eb
@@ -67,11 +79,6 @@ easyconfigs:
 #
   - Cython-3.1.2-cpeGNU-25.03.eb
 # On LUMI-G also used for CuPy.
-#
-# ecCodes
-#
-  - ecCodes-2.42.0-cpeGNU-25.03.eb
-  - ecCodes-2.42.0-cpeCray-25.03.eb
 #
 # GROMACS
 #

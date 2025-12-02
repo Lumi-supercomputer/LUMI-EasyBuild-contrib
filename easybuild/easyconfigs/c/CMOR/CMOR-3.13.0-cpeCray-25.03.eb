@@ -1,0 +1,80 @@
+# Developed by Kurt Lust (kurt.lust@uantwerpen.be) for the LUMI consortium
+easyblock = 'ConfigureMake'
+
+local_UDUNITS_version =      '2.2.28'        # https://artifacts.unidata.ucar.edu/service/rest/repository/browse/downloads-udunits/
+local_util_version =         '2.40.4'        # https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/ (Not yet in EB 2025a when checking)
+
+local_jsonc_version =        '0.18'          # https://github.com/json-c/json-c/tags
+
+local_CMOR_version =         '3.13.0'        # https://github.com/PCMDI/cmor/releases
+
+name =    'CMOR'
+version = local_CMOR_version
+
+homepage = 'https://cmor.llnl.gov/'
+
+whatis = [
+    'Description: CMOR - Climate Model Output Rewriter'
+]
+
+description = """
+CMOR was not designed to serve as an all-purpose writer of CF-compliant
+netCDF files, but simply to reduce the effort required to prepare and manage
+MIP model output. Although MIPs encourage systematic analysis of results
+across models, this is only easy to do if the model output is written in a
+common format with files structured similarly and with sufficient metadata
+uniformly stored according to a common standard. Individual modeling groups
+store their data in different ways, but if a group can read its own data,
+then it should easily be able to transform the data, using CMOR, into the
+common format required by the MIPs. The adoption of CMOR as a standard code
+for exchanging climate data will facilitate participation in MIPs because
+after learning how to satisfy the output requirements of one MIP, it will
+be easy to prepare output for other MIPs.
+
+NOTES:
+  * This module does not support the Python interface. It also does not
+    include CDAT.
+  * The Fortran interface is not included due to build problems. Use the
+    cpeGNU or cpeAOCC toolchains if you need Fortran support.
+"""
+
+toolchain = {'name': 'cpeCray', 'version': '25.03'}
+toolchainopts = {'openmp': True, 'opt': True, 'pic': True, 'verbose': False}
+
+# https://github.com/PCMDI/cmor/archive/3.6.1.tar.gz
+sources = [{
+    'filename':          SOURCE_TAR_GZ,
+    'download_filename': '%(version)s.tar.gz',
+    'source_urls':       ['https://github.com/PCMDI/cmor/archive/'],
+}]
+checksums = ['d7207bd10f090cbc200d538bc0643a76d54f0188327153d1716817a71d980c31']
+
+builddependencies = [
+    ('buildtools',   '%(toolchain_version)s',   '', True),
+]
+
+dependencies = [
+    # Cray PE
+    ('cray-hdf5', EXTERNAL_MODULE),
+    ('cray-netcdf', EXTERNAL_MODULE),
+    ('UDUNITS',     local_UDUNITS_version), # For UUID
+    ('util-linux',  local_util_version),
+    ('json-c',      local_jsonc_version)
+]
+
+#preconfigopts = 'sed -i -e \'s/git log.*/echo "%(version)s"/\' get_git_version.sh && '
+
+configopts  = '--disable-fortran '
+configopts += '--without-python --without-cdat '
+configopts += '--with-json-c --with-uuid --with-netcdf '
+
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s && cp LICENSE %(installdir)s/share/licenses/%(name)s'
+]
+
+sanity_check_paths = {
+    'files': ['lib/libcmor.a', 'include/cmor.h'],
+    'dirs':  [],
+}
+
+moduleclass = 'data'
