@@ -7,8 +7,8 @@ local_aria2_version =        '1.37.0'        # https://github.com/aria2/aria2/re
 local_BCFtools_version =     '1.22'          # https://github.com/samtools/bcftools/releases
 
 local_cares_version =        '1.34.5'        # https://github.com/c-ares/c-ares/releases
-local_CDO_version =          '2.4.3'         # https://code.mpimet.mpg.de/projects/cdo/files
-local_CMOR_version =         '3.8.0'         # https://github.com/PCMDI/cmor/releases
+local_CDO_version =          '2.5.4'         # https://code.mpimet.mpg.de/projects/cdo/files
+local_CMOR_version =         '3.13.0'        # https://github.com/PCMDI/cmor/releases
 local_COSMA26_version =      '2.6.6'         # https://github.com/eth-cscs/COSMA/releases
 local_COSMA27_version =      '2.7.0'         # https://github.com/eth-cscs/COSMA/releases
 local_CppUnit_version =      '1.15.1'        # https://dev-www.libreoffice.org/src/
@@ -25,7 +25,7 @@ local_HDF_version =          '4.2.16-2'      # https://support.hdfgroup.org/ftp/
 local_HeFFTe_version =       '2.4.1'         # https://github.com/icl-utk-edu/heffte/releases
 local_HTSlib_version =       '1.22.1'        # https://github.com/samtools/htslib/releases
 
-local_jsonc_version =        '0.17'          # https://github.com/json-c/json-c/tags
+local_jsonc_version =        '0.18'          # https://github.com/json-c/json-c/tags
 
 local_libbfd_version =       '2.42'          # https://ftp.gnu.org/gnu/binutils/
 local_libdap_version =       '3.21.1'        # https://www.opendap.org/pub/source/
