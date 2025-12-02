@@ -80,6 +80,12 @@ easyconfigs:
   - Cython-3.1.2-cpeGNU-25.03.eb
 # On LUMI-G also used for CuPy.
 #
+# feh (image viewer)
+#
+  - libexif-0.6.25-cpeGNU-25.03.eb
+  - Imlib2-1.12.5-cpeGNU-25.03.eb
+  - feh-3.11.2-cpeGNU-25.03.eb
+#
 # GROMACS
 #
 # TODO

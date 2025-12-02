@@ -1,0 +1,60 @@
+easyblock = 'ConfigureMake'
+
+local_libjpegturbo_version = '3.1.0'         # https://github.com/libjpeg-turbo/libjpeg-turbo/releases
+local_libpng_version =       '1.6.47'        # http://www.libpng.org/pub/png/libpng.html (Not yet in EB 2025a when checking)
+
+local_Imlib2_version =       '1.12.5'        # https://sourceforge.net/projects/enlightenment/files/imlib2-src/
+
+name =    'Imlib2'
+version = local_Imlib2_version
+
+homepage = 'https://docs.enlightenment.org/api/imlib2/html/'
+
+whatis = [
+    'Description: Imlib2 is a library that does image file loading and saving as well as rendering, manipulation, arbitrary polygon support'
+]
+
+description = """
+This is the Imlib 2 library - a library that does image file loading and
+saving as well as rendering, manipulation, arbitrary polygon support, etc.
+It does ALL of these operations FAST. Imlib2 also tries to be highly
+intelligent about doing them, so writing naive programs can be done
+easily, without sacrificing speed.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '25.03'}
+toolchainopts = {'pic': True}
+
+source_urls = ['https://sourceforge.net/projects/enlightenment/files/imlib2-src/%(version)s']
+sources =     [SOURCELOWER_TAR_GZ]
+checksums =   ['097d40aee4cf4a349187615b796b37db1652fcc84bb0e8d5c0b380ab651d9095']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', SYSTEM),
+]
+
+dependencies = [
+    ('libjpeg-turbo', local_libjpegturbo_version),
+    ('libpng',        local_libpng_version),
+    ('X11',           '%(toolchain_version)s'),
+]
+
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cd ../%(namelower)s-%(version)s && cp AUTHORS COPYING COPYING-PLAIN ChangeLog INSTALL README %(installdir)s/share/licenses/%(name)s',
+]
+
+sanity_check_paths = {
+    'files': ['bin/imlib2_%s' % x for x in ['bumpmap', 'colorspace', 'conv', 'grab', 'poly', 'show', 'test', 'view']] +
+             ['include/Imlib2.h', 'lib/libImlib2.a', 'lib/libImlib2.%s' % SHLIB_EXT] + 
+             ['share/licenses/%(name)s/COPYING'],
+    'dirs':  []
+}
+
+sanity_check_commands = [ 
+    # Only command that actually runs with -h and does produce a zero return code.
+    # Most commands crash without access to an X11 display and cannot be tested in EasyBuild.
+    'imlib2_conv -h',    
+]
+
+moduleclass = 'vis'

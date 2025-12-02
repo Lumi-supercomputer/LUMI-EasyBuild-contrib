@@ -1,0 +1,68 @@
+easyblock = 'ConfigureMake'
+
+local_cURL_version =         '8.11.1'        # https://curl.haxx.se/download/
+local_file_version =         '5.46'          # ftp://ftp.astron.com/pub/file/ (not yet in EB 2025a when checking)
+
+local_libexif_version =      '0.6.25'        # https://github.com/libexif/libexif/releases
+local_Imlib2_version =       '1.12.5'        # https://sourceforge.net/projects/enlightenment/files/imlib2-src/
+
+local_feh_version =          '3.11.2'        # https://github.com/derf/feh/tags
+
+name =    'feh'
+version = '3.11.2'
+
+homepage = 'https://feh.finalrewind.org/'
+
+whatis = [
+    'Description: feh is a simple X11 image viewer aimed at console users'
+]
+
+description = """
+feh is an X11 image viewer aimed mostly at console users.
+Unlike most other viewers, it does not have a fancy GUI, but simply displays images.
+It is controlled via command line arguments and configurable key/mouse actions.
+"""
+
+docurls = [
+    'Man page for the feh command',
+]
+
+toolchain = {'name': 'cpeGNU', 'version': '25.03'}
+toolchainopts = {'pic': True}
+
+source_urls = ['http://feh.finalrewind.org']
+sources =     [SOURCE_TAR_BZ2]
+checksums =   ['020f8bce84c709333dcc6ec5fff36313782e0b50662754947c6585d922a7a7b2']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', SYSTEM),
+]
+
+dependencies = [
+    ('cURL',    local_cURL_version),
+    ('file',    local_file_version),
+    ('libexif', local_libexif_version),
+    ('Imlib2',  local_Imlib2_version),
+    ('X11',     '%(toolchain_version)s'),
+]
+
+skipsteps = ['configure']
+
+buildopts = 'PREFIX=%(installdir)s curl=1 exif=1 magic=1'
+installopts = buildopts
+
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cd ../%(namelower)s-%(version)s && cp AUTHORS COPYING ChangeLog README.md %(installdir)s/share/licenses/%(name)s',
+]
+
+sanity_check_paths = {
+    'files': ['bin/feh', 'share/licenses/feh/COPYING'],
+    'dirs':  ['share/man/man1']
+}
+
+sanity_check_commands = [
+    'feh -h',
+]
+
+moduleclass = 'vis'
