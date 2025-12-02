@@ -16,7 +16,7 @@
 -   [Spack package for libexif](https://packages.spack.io/package.html?name=libexif)
 
 
-### Version 0.6.25 for cpeGNU 24.03
+### Version 0.6.25 for cpeGNU 24.03 and 25.03
 
 -   EasyConfig derived from the EasyBuilders one, but we also store the license
     information in the installation directories.
