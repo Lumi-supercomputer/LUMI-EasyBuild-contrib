@@ -36,8 +36,8 @@ easyconfigs:
 #
 # NAMD
 #
-#  - Charm++-8.0.0-cpeGNU-25.03-mpi-crayshasta-smp.eb
-#  - NAMD-3.0.2-cpeGNU-25.03-rocm-gpu-offload.eb
-#  - Charm++-8.0.0-cpeGNU-25.03-multicore.eb
-#  - NAMD-3.0.2-cpeGNU-25.03-rocm-gpu-resident.eb
-# Charm++ EasyConfigs are missing, where are they?
+  - Charm++-8.0.0-cpeGNU-25.03-mpi-crayshasta-smp.eb
+  - NAMD-3.0.2-cpeGNU-25.03-rocm-gpu-offload.eb
+  - Charm++-8.0.0-cpeGNU-25.03-multicore.eb
+  - NAMD-3.0.2-cpeGNU-25.03-rocm-gpu-resident.eb
+# NAMD GPU resident is broken.
