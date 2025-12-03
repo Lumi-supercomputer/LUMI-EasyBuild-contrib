@@ -24,6 +24,11 @@
     components use the same directory.
 
 
-### Version 3.12.1 for cpeGNU 23.09
+### Version 3.12.1 for cpeGNU 23.09 and 24.03
 
 -   The EasyConfig is a trivial version update of the 23.09 one.
+
+
+### Version 3.14.1 for cpeGNU 25.03
+
+-   The EasyConfig is a trivial version update of the one for 3.12.1 in 24.03.

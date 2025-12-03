@@ -20,8 +20,8 @@ local_ESMF_version =         '8.8.1'         # https://github.com/esmf-org/esmf/
 
 local_feh_version =          '3.11.2'        # https://github.com/derf/feh/tags
 
-local_GDAL_version =         '3.9.0'         # https://github.com/OSGeo/gdal/releases
-local_GEOS_version =         '3.12.1'        # https://github.com/libgeos/geos/releases
+local_GDAL_version =         '3.12.0'        # https://github.com/OSGeo/gdal/releases
+local_GEOS_version =         '3.14.1'        # https://github.com/libgeos/geos/releases
 
 local_HDF_version =          '4.2.16-2'      # https://support.hdfgroup.org/ftp/HDF/releases/
 local_HeFFTe_version =       '2.4.1'         # https://github.com/icl-utk-edu/heffte/releases
@@ -34,7 +34,7 @@ local_jsonc_version =        '0.18'          # https://github.com/json-c/json-c/
 local_libbfd_version =       '2.42'          # https://ftp.gnu.org/gnu/binutils/
 local_libdap_version =       '3.21.1'        # https://www.opendap.org/pub/source/
 local_libexif_version =      '0.6.25'        # https://github.com/libexif/libexif/releases
-local_libgeotiff_version =   '1.7.3'         # https://github.com/OSGeo/libgeotiff/releases
+local_libgeotiff_version =   '1.7.4'         # https://github.com/OSGeo/libgeotiff/releases
 local_libnsl_version =       '2.0.1'         # https://github.com/thkukuk/libnsl/releases
 local_libsodium_version =    '1.0.20'        # https://download.libsodium.org/libsodium/releases/
 local_libvori_version =      '220621'        # https://brehm-research.de/libvori.php
@@ -58,13 +58,14 @@ local_Scalasca_version =     '2.6.1'         # https://www.scalasca.org/scalasca
 local_ScoreP_version =       '8.4'           # https://www.vi-hps.org/projects/score-p/
 local_spglib_version =       '2.6.0'         # https://github.com/spglib/spglib/tags
 local_STAR_version =         '2.7.11b'       # https://github.com/alexdobin/STAR/releases
+local_SWIG_version =         '4.4.0'         # https://www.swig.org/
 local_SZ_version =           '2.1.12.5'      # https://github.com/szcompressor/SZ/releases
 
 local_UnZip_version =        '6.0'           # https://infozip.sourceforge.net/UnZip.html
 
 local_VCFtools_version =     '0.1.17'        # https://github.com/vcftools/vcftools/releases
 
-local_Xerces_version =       '3.2.5'         # https://xerces.apache.org/xerces-c/releases.html
+local_Xerces_version =       '3.3.0'         # https://xerces.apache.org/xerces-c/releases.html
 
 local_yaml_cpp_version =     '0.8.0'         # https://github.com/jbeder/yaml-cpp/releases
 
