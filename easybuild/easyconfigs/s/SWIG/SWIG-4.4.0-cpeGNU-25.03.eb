@@ -1,0 +1,36 @@
+local_zlib_version =         '1.3.1'         # https://zlib.net/
+local_PCRE2_version =        '10.45'         # https://github.com/PCRE2Project/pcre2/releases  # Not yet in EB 2025a when checked for installation
+
+local_SWIG_version =         '4.4.0'         # https://www.swig.org/
+
+name =    'SWIG'
+version = local_SWIG_version
+
+homepage = 'http://www.swig.org/'
+
+description = """
+SWIG is a software development tool that connects programs written in C and C++
+with a variety of high-level programming languages.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '25.03'}
+toolchainopts = {'pic': True}
+
+source_urls = [SOURCEFORGE_SOURCE]
+sources = [SOURCELOWER_TAR_GZ]
+checksums = ['c3f8e5dcd68c18aa19847b33b0a1bb92f07e904c53ae9cf5ae4ff8727a72927e']
+
+builddependencies = [
+    ('buildtools',          '%(toolchain_version)s', '', True),
+    ('craype-network-none', EXTERNAL_MODULE),
+    ('craype-accel-host',   EXTERNAL_MODULE),
+]
+
+dependencies = [
+    ('zlib',  local_zlib_version),
+    ('PCRE2', local_PCRE2_version),
+]
+
+configopts = '--without-alllang --with-boost=no'
+
+moduleclass = 'devel'
