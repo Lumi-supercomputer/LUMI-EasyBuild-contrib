@@ -1,6 +1,6 @@
 # SWIG
 
-  * [SWIG Website](http://www.swig.org/)
+-   [SWIG Website](http://www.swig.org/)
 
 ## General information
 
@@ -13,10 +13,20 @@ tailor the wrapping process to suit your application.
 
 ## EasyBuild
 
-  * [SWIG in the EasyBuilders repository](https://github.com/easybuilders/easybuild-easyconfigs/tree/develop/easybuild/easyconfigs/s/SWIG)
-  * [SWIG in the CSCS repository](https://github.com/easybuilders/CSCS/tree/master/easybuild/easyconfigs/s/SWIG)
+-   [SWIG in the EasyBuilders repository](https://github.com/easybuilders/easybuild-easyconfigs/tree/develop/easybuild/easyconfigs/s/SWIG)
+-   [SWIG in the CSCS repository](https://github.com/easybuilders/CSCS/tree/master/easybuild/easyconfigs/s/SWIG)
 
 
 ### Version 4.0.2 for CPE GNU 21.08 and 21.12
 
-  * The EasyConfig is derived from the EasyBuilders one
+-   The EasyConfig is derived from the EasyBuilders one
+
+
+### Version 4.1.1 for 24.03
+
+-   The EasyConfig is a straightforward port of the 4.0.2 one for previous versions.
+
+
+### Version 4.4.0 for 25.03
+
+-   The EasyConfig is a straightforward port of the 4.1.1 one for previous versions.
