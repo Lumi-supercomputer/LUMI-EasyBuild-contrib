@@ -1,0 +1,51 @@
+# Adapted from the recipe in the EasyBuilders repository by Kurt Lust
+# (kurt.lust@uantwerpen.be) for the LUMI consortium.
+easyblock = 'CMakeMake'
+
+local_jsonfortran_version =  '8.3.0'          # https://github.com/jacobwilliams/json-fortran/releases/tag/8.3.0
+
+name =   'json-fortran'
+version = local_jsonfortran_version
+
+homepage = 'https://github.com/jacobwilliams/json-fortran'
+
+whatis = [
+    'Description: JSON-Fortran'
+]
+
+description = """
+JSON-Fortran is a user-friendly, thread-safe, and object-oriented API for reading and writing JSON files,
+ written in modern Fortran.
+"""
+
+toolchain = {'name': 'cpeCray', 'version': '25.03'}
+toolchainopts = {'extra_cflags': '-Wno-error=strict-prototypes'}
+
+source_urls = ['https://github.com/jacobwilliams/json-fortran/archive']
+sources =     ['%(version)s.tar.gz']
+checksums =   ['5fe9ad709a726416cec986886503e0526419742e288c4e43f63c1c22026d1e8a']
+
+builddependencies = [
+    ('buildtools',   '%(toolchain_version)s',   '', True),
+]
+
+configopts = '-DCMAKE_INSTALL_LIBDIR=lib '
+
+# disable using Valgrind during the tests to avoid failures caused by using an OS Valgrind
+#pretestopts = 'USE_VALGRIND=0 '
+#runtest = 'test'
+
+configopts += '-DUSE_GNU_INSTALL_CONVENTION=TRUE'
+
+
+sanity_check_paths = {
+    'files': ['lib/libjsonfortran.a', 'lib/libjsonfortran.%s' % SHLIB_EXT,
+              'include/JSON_MODULE.mod', 'include/JSON_PARAMETERS.mod'],
+    'dirs': ['include'],
+}
+
+sanity_check_commands = [
+    'pkg-config --libs json-fortran',
+]
+
+moduleclass = 'lib'
