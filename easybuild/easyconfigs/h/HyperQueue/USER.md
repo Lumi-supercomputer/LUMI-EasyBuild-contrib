@@ -34,14 +34,14 @@ HyperQueue will be available in all main partitions of the software stack with
 just a single install.
 
 E.g.,
-HyperQueue 0.17.0 was tested specifically in LUMI/23.09 (as can be seen
+HyperQueue 0.19.0 was tested specifically in LUMI/24.03 (as can be seen
 if you open the EasyConfig via the links on this page). So one can install
 it as follows:
 
 ``` bash
-module load LUMI/23.09 partition/common
+module load LUMI/24.03 partition/common
 module load EasyBuild-user
-eb HyperQueue-0.17.0.eb -r
+eb HyperQueue-0.19.0.eb -r
 ```
 
 This will also install the required version of the Rust compiler first which
@@ -49,10 +49,14 @@ is actually a rather time-consuming thing, so don't be surprised if the build
 takes one hour.
 
 After a successful installation, Rust and HyperQueue will be available in 
-all partitions of the LUMI/23.09 stack. 
+all partitions of the LUMI/24.03 stack. 
 
 Installation of HyperQueue 0.17.0 or later may work in other versions of the
 LUMI stack also but this has not been tested neither do we support it.
+
+More recently, we also offer `-bindist` versions installed from a binary distribution
+offered by the authors. Installation is very quick with these EasyConfigs, but as we 
+do not know how these are built, we cannot guarantee 100% compatibility with LUMI.
 
 
 ## Training materials
