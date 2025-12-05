@@ -2,10 +2,10 @@
 # (kurt.lust@uantwerpen.be) for the LUMI consortium.
 easyblock = 'CMakeMake'
 
-local_jsonc_version =        '8.3.0'          # https://github.com/jacobwilliams/json-fortran/releases/tag/8.3.0
+local_jsonfortran_version =  '8.3.0'          # https://github.com/jacobwilliams/json-fortran/releases/tag/8.3.0
 
-name = 'json-fortran'
-version = local_jsonc_version
+name =   'json-fortran'
+version = local_jsonfortran_version
 
 homepage = 'https://github.com/jacobwilliams/json-fortran'
 

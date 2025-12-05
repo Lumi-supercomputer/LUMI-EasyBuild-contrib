@@ -1,0 +1,46 @@
+easyblock = 'CMakeMake'
+
+local_jsonfortran_version =  '9.0.5'         # https://github.com/jacobwilliams/json-fortran/releases
+
+name = 'json-fortran'
+version = local_jsonfortran_version
+
+homepage = 'https://github.com/jacobwilliams/json-fortran'
+
+whatis = [
+    'Description: JSON-Fortran: Fortran API for reading and writing JSON files'
+]
+
+description = """
+JSON-Fortran is a user-friendly, thread-safe, and object-oriented API for 
+reading and writing JSON files,  written in modern Fortran.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '25.03'}
+
+source_urls = ['https://github.com/jacobwilliams/json-fortran/archive/']
+sources =     ['%(version)s.tar.gz']
+checksums =   ['8ec27366be7f861cd14b277fd997be1ebee2a7e776a0b904b6f2425f0a274984']
+
+builddependencies = [
+    ('buildtools',   '%(toolchain_version)s',   '', True),
+]
+
+configopts = '-DCMAKE_INSTALL_LIBDIR=lib '
+
+runtest = 'check'
+
+configopts += '-DUSE_GNU_INSTALL_CONVENTION=TRUE'
+
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cd ../%(namelower)s-%(version)s && cp CHANGELOG.md LICENSE README.md %(installdir)s/share/licenses/%(name)s',   
+]
+
+sanity_check_paths = {
+    'files': ['lib/libjsonfortran.a', 'lib/libjsonfortran.%s' % SHLIB_EXT,
+              'include/json_module.mod', 'include/json_parameters.mod'],
+    'dirs': ['include'],
+}
+
+moduleclass = 'lib'
