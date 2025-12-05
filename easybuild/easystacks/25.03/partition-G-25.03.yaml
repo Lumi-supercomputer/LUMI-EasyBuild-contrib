@@ -41,3 +41,12 @@ easyconfigs:
   - Charm++-8.0.0-cpeGNU-25.03-multicore.eb
   - NAMD-3.0.2-cpeGNU-25.03-rocm-gpu-resident.eb
 # NAMD GPU resident is broken.
+#
+# Neko
+#
+  - json-fortran-9.0.5-cpeGNU-25.03.eb
+  - json-fortran-8.3.0-cpeCray-25.03.eb
+  - Neko-0.9.1-cpeGNU-25.03-rocm.eb
+  - Neko-0.9.1-cpeCray-25.03-rocm.eb
+  # Neko 1.0.0 was out but did not compile.
+#

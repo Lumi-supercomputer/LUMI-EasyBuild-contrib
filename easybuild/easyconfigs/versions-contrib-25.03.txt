@@ -30,6 +30,7 @@ local_HTSlib_version =       '1.22.1'        # https://github.com/samtools/htsli
 local_Imlib2_version =       '1.12.5'        # https://sourceforge.net/projects/enlightenment/files/imlib2-src/
 
 local_jsonc_version =        '0.18'          # https://github.com/json-c/json-c/tags
+local_jsonfortran_version =  '9.0.5'         # https://github.com/jacobwilliams/json-fortran/releases
 
 local_libbfd_version =       '2.42'          # https://ftp.gnu.org/gnu/binutils/
 local_libdap_version =       '3.21.1'        # https://www.opendap.org/pub/source/
