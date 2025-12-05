@@ -28,3 +28,8 @@
     so with an installation from binaries to avoid having to install Go.
 
     This version already supports some features of git 2.41.
+
+    
+### Version 3.7.1
+
+-   The EasyConfig is a straightforward port of our EasyConfig for 3.4.0.
