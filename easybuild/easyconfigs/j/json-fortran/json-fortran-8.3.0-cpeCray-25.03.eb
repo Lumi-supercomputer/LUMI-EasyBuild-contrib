@@ -18,7 +18,7 @@ JSON-Fortran is a user-friendly, thread-safe, and object-oriented API for readin
  written in modern Fortran.
 """
 
-toolchain = {'name': 'cpeCray', 'version': '24.03'}
+toolchain = {'name': 'cpeCray', 'version': '25.03'}
 toolchainopts = {'extra_cflags': '-Wno-error=strict-prototypes'}
 
 source_urls = ['https://github.com/jacobwilliams/json-fortran/archive']
