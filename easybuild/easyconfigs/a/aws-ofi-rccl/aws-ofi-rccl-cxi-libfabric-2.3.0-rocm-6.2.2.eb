@@ -1,0 +1,56 @@
+easyblock = 'ConfigureMake'
+
+name = 'aws-ofi-rccl'
+version = 'cxi'
+versionsuffix = '-libfabric-2.3.0-rocm-6.2.2'
+
+homepage = 'https://github.com/ROCmSoftwarePlatform/aws-ofi-rccl'
+
+whatis = [
+    'Description: AWS OFI RCCL is a plug-in which enables EC2 developers to use libfabric as a network provider.'
+]
+
+description = """
+Machine learning frameworks running on top of AMD GPUs use a library called 
+RCCL which provides standard collective communication routines for an arbitrary 
+number of GPUs installed across single or multiple nodes.
+
+This module implements a plug-in which maps RCCLs connection-oriented transport 
+APIs to libfabric's connection-less reliable interface. This allows RCCL 
+applications to take benefit of libfabric's transport layer services like 
+reliable message support and operating system bypass.
+"""
+
+software_license_urls = ['https://github.com/ROCmSoftwarePlatform/aws-ofi-rccl/blob/cxi/LICENSE']
+
+# The plugin build needs access to MPI directory
+toolchain = SYSTEM
+
+sources = [{
+    'filename': '%(name)s-%(version)s.tar.gz',
+    'git_config': {
+        'url': 'https://github.com/ROCmSoftwarePlatform',
+        'repo_name': '%(name)s',
+        'commit': '%(version)s'
+    }
+}]
+
+dependencies = [
+    ('rocm', '6.2.2'),
+    ('libfabric', '2.3.0'), # Cray branch
+]
+
+preconfigopts = ' ./autogen.sh && '
+configopts = (
+    ' --with-libfabric=${EBROOTLIBFABRIC} '
+    ' --with-hip=${ROCM_PATH}/hip '
+    ' --with-rccl=${ROCM_PATH}/rccl '
+    ' --with-mpi=${CRAY_MPICH_BASEDIR}/rocm-compiler/5.0 '
+)
+
+sanity_check_paths = {
+    'files': ['lib/librccl-net.so.0.0.0'],
+    'dirs':  ['bin', 'lib']
+}
+
+moduleclass = 'devel'
