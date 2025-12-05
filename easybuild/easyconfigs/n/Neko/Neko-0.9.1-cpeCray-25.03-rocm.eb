@@ -1,0 +1,58 @@
+easyblock = 'ConfigureMake'
+
+name =          'Neko'
+version =       '0.9.1'
+versionsuffix = '-rocm'
+
+homepage = 'https://github.com/ExtremeFLOW/neko'
+
+whatis = [
+    "Description: Neko is a portable framework for high-order spectral element flow simulations."    
+]
+
+description = """
+Neko is a portable framework for high-order spectral element flow simulations. 
+Written in modern Fortran, Neko adopts an object-oriented approach, allowing 
+multi-tier abstractions of the solver stack and facilitating various hardware 
+backends ranging from general-purpose processors, CUDA and HIP enabled 
+accelerators to SX-Aurora vector processors. Neko has its roots in the 
+spectral element code Nek5000 from UChicago/ANL, from where many of the 
+namings, code structure and numerical methods are adopted.
+
+Neko is currently maintained and developed at KTH Royal Institute of 
+Technology.
+"""
+
+docurls = [
+    'https://github.com/ExtremeFLOW/neko/tree/develop/doc',
+]
+
+toolchain = {'name': 'cpeCray', 'version': '25.03'}
+toolchainopts = {'openmp': True}
+
+# https://github.com/ExtremeFLOW/neko/releases/download/v1.0.0/neko-1.0.0.tar.gz
+source_urls = ["https://github.com/ExtremeFLOW/neko/releases/download/v%(version)s"]
+sources =     ["neko-%(version)s.tar.gz"]
+checksums =   ['098bee5cb807d10cdf2fb56111ba8cbc592882a87e4dae18caf9dbda894611ef']
+
+dependencies = [
+    ('json-fortran', '8.3.0'),
+    ('rocm/6.3.4',   EXTERNAL_MODULE),
+]
+
+preconfigopts  = ' '.join([ 
+    'FCFLAGS="$FCFLAGS -hipa0"', # Augment the flags already set by EasyBuild.
+    'HIP_HIPCC_FLAGS="-O2 --offload-arch=gfx90a"',
+    'JSON_Fortran_CFLAGS="-I$EBROOTJSONMINFORTRAN/include/"',
+])
+
+configopts = '--enable-device-mpi --with-hip'
+
+prebuildopts = 'export TMPDIR=/tmp/$USER && '
+
+sanity_check_paths = {
+    'files': ['bin/neko', 'bin/makeneko', 'lib/libneko.a'],
+    'dirs':  ['bin', 'lib', 'lib64', 'include'],
+}
+
+moduleclass = 'phys'
