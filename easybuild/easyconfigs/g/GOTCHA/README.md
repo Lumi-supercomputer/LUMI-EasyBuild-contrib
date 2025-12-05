@@ -1,5 +1,7 @@
 # GOTCHA
 
+Gotcha is a dependency of Score-P.
+
 -   [GOTCHA web site](https://gotcha.readthedocs.io/en/latest/)
 
 -   [GOTCHA on GitHub](https://github.com/LLNL/GOTCHA)
