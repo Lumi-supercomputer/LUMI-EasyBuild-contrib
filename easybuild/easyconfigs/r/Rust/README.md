@@ -53,3 +53,10 @@
   
   * Adapted the code a little bit so that in principle it could also work in other 
     versions of the LUMI stack than the intended one.
+
+
+### Rust 1.80.1, developed for LUMI/24.03
+
+-   Almost trivial port of the 1.75.0 EasyConfig, but now need to take the existence
+    of the `gcc-native` modules into account.
+
