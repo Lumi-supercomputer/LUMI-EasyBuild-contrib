@@ -1,0 +1,70 @@
+# We suggest to install this build recipe in partition/common so that
+# the same binaries are available for all LUMI partitions. This will make
+# it a lot easier to start HyperQueue. 
+#
+# HyperQueue is developed in Rust and we have great difficulties to support Rust
+# properly.
+#
+# As the developers also distribute binary versions, we prepared this recipe to
+# quickly install these. This recipe does not depend on a Rust installation anymore,
+# but as the binary distribution is not specifically for SUSE Linux, we cannot 
+# guarantee that there will be no compatibility issues.
+#
+#DOC HyperQueue installed from the binary distributions. Quick to install, use of
+#DOC `partition/common` (see docs above) recommended.
+easyblock = 'Binary'
+
+local_HyperQueue_version = '0.24.0'   # https://github.com/It4innovations/hyperqueue/releases
+
+name =          'HyperQueue'
+version =       local_HyperQueue_version
+versionsuffix = '-bindist-noPython'
+
+homepage = 'https://it4innovations.github.io/hyperqueue/'
+
+whatis = [
+    'Description: HyperQueue (HQ) lets you build a computation plan consisting of a large amount of tasks and then execute it transparently over a system like SLURM/PBS'
+]
+
+description = """
+HyperQueue lets you build a computation plan consisting of a large amount of
+tasks and then execute it transparently over a system like SLURM/PBS. It
+dynamically groups jobs into SLURM/PBS jobs and distributes them to fully
+utilize allocated notes. You thus do not have to manually aggregate your
+tasks into SLURM/PBS jobs.
+
+Also see the "CHANGELOG.md" file in $EBROOTHYPERQUEUE/share/licenses/HyperQueue
+after loading the module.
+
+This module provides HyperQueue without the Python bindings. It is installed
+from a binary distributed by the developers at IT4I but has not been built
+specifically for LUMI so compatibility issues may occur.
+"""
+
+docurls = [
+    'Web-based manual at https://it4innovations.github.io/hyperqueue/'
+]
+
+toolchain = SYSTEM
+
+# https://github.com/It4innovations/hyperqueue/releases/download/v0.24.0/hq-v0.24.0-linux-x64.tar.gz
+sources =     ['hq-v%(version)s-linux-x64.tar.gz']
+source_urls = ['https://github.com/It4innovations/hyperqueue/releases/download/v%(version)s']
+checksums =   ['2c73b6dc866b32b70b4286934610d2b426418437df7fbcc6d2dcccef37220379']
+extract_sources = True
+
+install_cmds = [
+    'mkdir -p %(installdir)s/bin',
+    'cp hq %(installdir)s/bin'    
+]
+
+sanity_check_paths = {
+    'files': ['bin/hq'],
+    'dirs':  [],
+}
+
+sanity_check_commands = [
+    "hq -V",
+]
+
+moduleclass = 'tools'
