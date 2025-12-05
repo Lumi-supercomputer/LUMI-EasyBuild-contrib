@@ -30,4 +30,7 @@
 
 -   Straightforward port of the EasyConfig for 9.0.2 in 24.03, but with
     some adaptations to bring it more in line with other LUMI EasyConfigs.
-    
+
+-   Version 9.0.5 does not yet compile with the Cray Fortran compiler from
+    25.03. 8.3.0 does, so we stick with that version for 25.03 for the time
+    being.
