@@ -1,0 +1,230 @@
+# Contributed by TWR and Luca Marsella (CSCS)
+# Adapted by Kurt Lust (kurt.lust@uantwerpen.be) for use on LUMI
+# Updated to CPE 24.03 by Orian Louant
+
+easyblock = 'CMakeMake'
+
+local_FFmpeg_version =       '7.1.1'         # https://ffmpeg.org/download.html#releases
+local_libjpegturbo_version = '3.1.0'         # https://github.com/libjpeg-turbo/libjpeg-turbo/releases
+local_libpng_version =       '1.6.47'        # http://www.libpng.org/pub/png/libpng.html (Not yet in EB 2025a when checking)
+local_zstd_version =         '1.5.7'         # https://github.com/facebook/zstd/releases
+local_GSL_version =          '2.8'           # https://ftp.gnu.org/gnu/gsl/
+local_zlib_version =         '1.3.1'         # https://zlib.net/
+local_gzip_version =         '1.14'          # https://ftp.gnu.org/gnu/gzip/
+local_cURL_version =         '8.11.1'        # https://curl.haxx.se/download/
+local_PCRE2_version =        '10.45'         # https://github.com/PCRE2Project/pcre2/releases  # Not yet in EB 2025a when checked for installation
+local_libxml2_version =      '2.13.4'        # http://xmlsoft.org/sources/
+local_Eigen_version =        '3.4.0'         # https://gitlab.com/libeigen/eigen/-/releases
+
+local_PLUMED29_version =     '2.9.4'         # https://github.com/plumed/plumed2/releases
+
+name =          'LAMMPS'
+version =       '22Jul2025_update2'
+versionsuffix = '-CPU'
+
+homepage = 'https://www.lammps.org/'
+
+whatis = [
+    'Description: LAMMPS is a classical molecular dynamics simulation code designed for HPC systems'
+]
+
+description = """
+LAMMPS is a classical molecular dynamics code with a focus on materials
+modeling. It's an acronym for Large-scale Atomic/Molecular Massively
+Parallel Simulator.
+
+LAMMPS has potentials for solid-state materials (metals, semiconductors)
+and soft matter (biomolecules, polymers) and coarse-grained or mesoscopic
+systems. It can be used to model atoms or, more generically, as a parallel
+particle simulator at the atomic, meso, or continuum scale.
+
+LAMMPS runs on single processors or in parallel using message-passing
+techniques and a spatial-decomposition of the simulation domain. Many of
+its models have versions that provide accelerated performance on CPUs, GPUs,
+and Intel Xeon Phis. The code is designed to be easy to modify or extend
+with new functionality.
+
+LAMMPS is distributed as an open source code under the terms of the GPLv2.
+"""
+
+software_license_urls = ['https://docs.lammps.org/Intro_opensource.html']
+docurls = ['https://docs.lammps.org/stable/']
+
+toolchain = {'name': 'cpeGNU', 'version': '25.03'}
+toolchainopts = {'usempi': True, 'verbose': False, 'openmp': True}
+
+source_urls = ['https://github.com/%(namelower)s/%(namelower)s/archive']
+sources =     ['stable_%(version)s.tar.gz']
+checksums =   ['fede484269cdb22f1cb738b4cd118a9bf9cb4bd3c85667f1e6a73a9fa5c2de6b']
+
+builddependencies = [
+    ('buildtools',       '%(toolchain_version)s', '', True),
+    ('craype-accel-host', EXTERNAL_MODULE),
+]
+
+dependencies = [
+    # Cray dependencies
+    ('cray-python',              EXTERNAL_MODULE),
+    ('cray-hdf5-parallel',       EXTERNAL_MODULE),
+    ('cray-netcdf-hdf5parallel', EXTERNAL_MODULE),
+    ('cray-parallel-netcdf',     EXTERNAL_MODULE),
+    ('cray-fftw',                EXTERNAL_MODULE),
+    # Central stack dependencies
+    ('FFmpeg',                   local_FFmpeg_version),
+    ('libjpeg-turbo',            local_libjpegturbo_version),
+    ('libpng',                   local_libpng_version),
+    ('zstd',                     local_zstd_version),
+    ('GSL',                      local_GSL_version, '-OpenMP'),
+    ('zlib',                     local_zlib_version),                         # For the COMPRESS package
+    ('gzip',                     local_gzip_version),
+    ('cURL',                     local_cURL_version),
+    ('PCRE2',                    local_PCRE2_version),
+    ('libxml2',                  local_libxml2_version),
+    ('Eigen',                    local_Eigen_version,    '',           True), # For the MACHDYN package
+    # Contrib dependencies
+    ('PLUMED',                   local_PLUMED29_version, '-noPython'),        # For the PLUMED package
+]
+
+local_enabled_packages = [
+    #'ADIOS',   # Dependency in contrib, and could not get this to work yet.
+    'AMOEBA',
+    'ASPHERE',
+    'ATC',
+    'AWPMD',
+    'BOCS',
+    'BODY',
+    'BPM',
+    'BROWNIAN',
+    'CG-DNA',
+    'CG-SPICA',
+    'CLASS2',
+    'COLLOID',
+    'COLVARS',
+    'COMPRESS',  # Needs zlib
+    'CORESHELL',
+    'DIELECTRIC',
+    'DIFFRACTION',
+    'DIPOLE',
+    'DPD-BASIC',
+    'DPD-MESO',
+    'DPD-REACT',
+    'DPD-SMOOTH',
+    'DRUDE',
+    'EFF',
+    'ELECTRODE',  # Also needs KSPACE to be enabled.
+    'EXTRA-COMPUTE',
+    'EXTRA-DUMP',
+    'EXTRA-FIX',
+    'EXTRA-MOLECULE',
+    'EXTRA-PAIR',
+    'FEP',
+    'GRANULAR',
+    'H5MD',       # Needs HDF5.
+    'INTERLAYER',
+    #'KIM',        # Not included as it needs an additional library not yet in the software stack.
+    'KSPACE',
+    'LATBOLTZ',
+    'LEPTON',     # Additional library that is needed is included in the LAMMPS distribution
+    'MACHDYN',    # Needs Eigen3 library, so the Eigen module
+    'MANIFOLD',
+    'MANYBODY',
+    'MC',
+    'MEAM',
+    'MESONT',
+    'MGPT',
+    'MISC',
+    #'ML-HDNNP',   # Not included as it needs the n2p2 library
+    'ML-IAP',     # Needs ML-SNAP to be included in the list. When enabling Python (not done yet), Cython is also needed.
+    'ML-PACE',
+    'ML-POD',
+    #'ML-QUIP',   # Needs the QUIP library so not included.
+    'ML-RANN',
+    'ML-SNAP',
+    'MOFFF',
+    'MOLECULE',
+    'MOLFILE',
+    'MPIIO',
+    'NETCDF',     # Requires NetCDF
+    'OPENMP',
+    'OPT',
+    'ORIENT',
+    'PERI',
+    'PHONON',
+    'PLUGIN',
+    'PLUMED',     # Needs PLUMED
+    'POEMS',
+    'PTM',
+    'PYTHON',
+    'QEQ',
+    'QTB',
+    'REACTION',
+    'REAXFF',
+    'REPLICA',
+    #'RHEO',      # Not included at the moment, but might work.
+    'RIGID',
+    #'SCAFACOS',   # Not included at the moment as it needs an additional library.
+    'SHOCK',
+    'SMTBQ',
+    'SPH',
+    'SPIN',
+    'SRD',
+    'TALLY',
+    'UEF',
+    #'VORONOI',    # Not included as it needs the Voro++ library
+    #'VTK',        # Not included at the moment as it needs the VTK libraries
+    'YAFF',
+]
+
+local_disabled_packages = [
+    'USER-INTEL',
+]
+
+# General compilation options 
+configopts = ' '.join([
+    '-DCMAKE_CXX_COMPILER="$CXX"',
+    '-DMPICXX="$CXX"',
+    '-DBUILD_MPI=ON',
+    '-DBUILD_OMP=ON',
+    '-DWITH_JPEG=ON',
+    '-DWITH_PNG=ON',
+    '-DWITH_FFMPEG=ON',
+    '-DWITH_GZIP=ON'
+]) + ' '
+
+# Compilation options specific to Kokkos
+import os
+local_lumi_partition = os.getenv('LUMI_STACK_PARTITION', 'L')
+local_kokkos_cpu_arch = 'ZEN3' if local_lumi_partition in ['C', 'G'] else 'ZEN2'
+
+configopts += ' '.join([
+    '-DPKG_KOKKOS=ON',
+    '-DKokkos_ENABLE_SERIAL=ON',
+    '-DKokkos_ENABLE_OPENMP=ON',
+    '-DKokkos_ARCH_%s=ON' % local_kokkos_cpu_arch,
+]) + ' '
+
+# Enabled packages
+configopts += ' '.join([f'-DPKG_{package}=ON' for package in local_enabled_packages]) + ' '
+# Packages explicitly turned off
+configopts += ' '.join([f'-DPKG_{package}=OFF' for package in local_disabled_packages]) + ' '
+
+preconfigopts = prebuildopts = 'module rm rocm && '
+
+# folder with CMakeLists.txt relative to the unpacked tarball
+srcdir = 'cmake'
+
+sanity_check_paths = {
+    'files': ['bin/lmp'],
+    'dirs':  [],
+}
+
+# cray-python does not set LD_LIBRARY_PATH to a location where the Python library
+# is installed, causing LAMMPS to crash, so, we had it ourself
+modluafooter = """
+python_prefix = os.getenv("CRAY_PYTHON_PREFIX")
+if python_prefix ~= nil then
+    prepend_path("LD_LIBRARY_PATH", pathJoin(python_prefix, "lib"))
+end
+"""
+
+moduleclass = 'chem'
