@@ -1,0 +1,41 @@
+#
+easyblock = 'CMakeMake'
+
+local_Boost_version =        '1.88.0'        # https://www.boost.org/
+
+local_CGAL_5_version =       '5.6.3'         # https://www.cgal.org/
+
+name =          'CGAL'
+version =       local_CGAL_5_version
+versionsuffix = '-OpenFOAM'
+
+homepage = 'http://www.cgal.org/'
+whatis = [
+    "Description: CGAL provides easy access to efficient and reliable geometric algorithms in the form of a C++ library",
+    "This module is compiled to the specific needs of our OpenFOAM installations"
+]
+
+description = """
+The goal of the CGAL Open Source Project is to provide easy access to efficient
+and reliable geometric algorithms in the form of a C++ library.
+
+This module is compiled to the specific needs of our OpenFOAM installation.
+It does not include GUI support as we want to run OpenFOAM in batch mode.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '25.03'}
+toolchainopts = {'strict': True}
+
+#https://github.com/CGAL/cgal/releases/download/v5.6.3/CGAL-5.6.3.tar.xz
+source_urls = ['https://github.com/%(name)s/%(namelower)s/releases/download/v%(version)s']
+sources =     [SOURCE_TAR_XZ]
+checksums =   ['15c743cb395d1a0855b9062525f3ae0cd40486489acfe7ce1457c3710ab34111']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+    ('Boost',      local_Boost_version),
+]
+
+configopts = "-DCMAKE_BUILD_TYPE=Release -DBoost_DIR=${EBROOTBOOST} -DWITH_ZLIB=ON -DCGAL_DISABLE_MPFR=TRUE -DCGAL_DISABLE_GMP=TRUE -DWITH_BLAS=ON -DWITH_CGAL_Qt5=OFF "
+
+moduleclass = 'numlib'
