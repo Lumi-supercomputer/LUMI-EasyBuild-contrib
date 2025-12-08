@@ -63,3 +63,7 @@ easyconfigs:
   - Neko-0.9.1-cpeCray-25.03-rocm.eb
   # Neko 1.0.0 was out but did not compile.
 #
+# OpenBLAS
+#
+  - OpenBLAS-0.3.30-cpeGNU-25.03.eb
+#
