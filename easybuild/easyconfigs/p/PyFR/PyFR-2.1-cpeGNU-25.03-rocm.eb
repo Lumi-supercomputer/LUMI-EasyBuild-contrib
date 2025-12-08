@@ -1,0 +1,125 @@
+# Created for LUMI by Orian Louant
+easyblock = 'PythonBundle'
+
+local_ROCm_version =         '6.3.4'
+
+name =          'PyFR'
+version =       '2.1'
+versionsuffix = '-rocm'
+
+# Central stack packages
+local_Mako_version =         '1.3.10'        # https://pypi.org/project/Mako/
+local_METIS_version =        '5.1.0'         # https:/http://glaros.dtc.umn.edu/gkhome/metis/metis/download
+
+# Contrib packages
+local_h5py_version =         '3.11.0'        # https://github.com/h5py/h5py/releases
+local_libspatialindex_version = '2.1.0'      # https://github.com/libspatialindex/libspatialindex/releases
+
+# Local packages
+local_pathspec_version          = '0.12.1'
+local_trove_classifiers_version = '2025.12.1.14'
+local_hatchling_version         = '1.25.0'
+local_hatch_vcs_version         = '0.4.0' 
+local_platformdirs_version      = '4.5.1'
+local_GiMMiK_version            = '3.2.1'
+local_Rtree_version             = '1.3.0'
+local_pytools_version           = '2024.1.13'
+
+local_pathspec_checksum          = 'a482d51503a1ab33b1c67a6c3813a26953dbdc71c31dacaef9a838c4e29f5712'
+local_trove_classifiers_checksum = 'a74f0400524fc83620a9be74a07074b5cbe7594fd4d97fd4c2bfde625fdc1633'
+local_hatchling_checksum         = '7064631a512610b52250a4d3ff1bd81551d6d1431c4eb7b72e734df6c74f4262'
+local_hatch_vcs_checksum         = '093810748fe01db0d451fabcf2c1ac2688caefd232d4ede967090b1c1b07d9f7' 
+local_platformdirs_checksum      = '61d5cdcc6065745cdd94f0f878977f8de9437be93de97c1c12f853c9c0cdcbda'
+local_pytools_checksum           = 'c78f5e29fa8492cd69860d4c89b5533e0bfbe694f2fa397b04eaf0cf92409d65'
+local_GiMMiK_checksum            = '048644bd71497eb07e144f2c22fdee49ba23e1cde5fb954c3c30c4e3ea23687a'
+local_RTree_checksum             = 'b36e9dd2dc60ffe3d02e367242d2c26f7281b00e1aaf0c39590442edaaadd916'
+local_PyFR_checksum              = '979835c385f1c1acf02733edac4481843e44abc015edd67e4ee9a8f524a3da06'
+
+homepage = 'https://www.pyfr.org/'
+
+whatis = ['Description: PyFR is a framework for solving advection-diffusion type problems']
+
+description = """
+PyFR is an open-source Python based framework for solving advection-diffusion
+type problems on streaming architectures using the Flux Reconstruction approach
+of Huynh. The framework is designed to solve a range of governing systems on
+mixed unstructured grids containing various element types. It is also designed
+to target a range of hardware platforms via use of an in-built domain specific
+language derived from the Mako templating engine. PyFR has the following 
+capabilities:
+ 
+ - Governing Equations - Euler, Navier Stokes
+ - Dimensionality - 2D, 3D
+ - Element Types - Triangles, Quadrilaterals, Hexahedra, Prisms, Tetrahedra, Pyramids
+ - Platforms - CPU Clusters, Nvidia GPU Clusters, AMD GPU Clusters
+ - Spatial Discretisation - High-Order Flux Reconstruction
+ - Temporal Discretisation - Explicit and Implicit (via Dual Time-Stepping)
+ - Precision - Single, Double
+ - Mesh Files Imported - Gmsh (.msh)
+ - Solution Files Exported - Unstructured VTK (.vtu, .pvtu)
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '25.03'}
+toolchainopts = {'usempi': True}
+
+builddependencies = [
+  ('buildtools-python', '%(toolchain_version)s', '-cray-python%(pyshortver)s', True)
+]
+
+dependencies = [
+    ('cray-python',                EXTERNAL_MODULE),
+    (f'rocm/{local_ROCm_version}', EXTERNAL_MODULE),
+    ('Mako',                       local_Mako_version),
+    ('libspatialindex',            local_libspatialindex_version),
+    ('h5py',                       local_h5py_version,            '-parallel'),
+    ('METIS',                      local_METIS_version),
+    
+]
+
+sanity_pip_check = False
+unversioned_packages = ['trove-classifiers']
+
+exts_default_options = {
+    'source_urls':       [PYPI_SOURCE],
+    'use_pip':           True,
+    'use_pip_for_deps':  False,
+    'download_dep_fail': True,
+}
+
+exts_list = [
+    ('pathspec', local_pathspec_version, {
+        'checksums' : [local_pathspec_checksum],
+    }),
+    ('trove_classifiers', local_trove_classifiers_version, {
+        'checksums'   : [local_trove_classifiers_checksum],
+    }),
+    ('hatchling', local_hatchling_version, {
+        'checksums' : [local_hatchling_checksum],
+    }),
+    ('hatch_vcs', local_hatch_vcs_version, {
+        'checksums'   : [local_hatch_vcs_checksum],
+    }),
+    ('platformdirs', local_platformdirs_version, {
+        'checksums' : [local_platformdirs_checksum],
+    }),
+    ('pytools', local_pytools_version, {
+        'checksums' : [local_pytools_checksum],
+    }),
+    ('gimmik', local_GiMMiK_version, {
+        'checksums' : [local_GiMMiK_checksum],
+    }),
+    ('rtree', local_Rtree_version, {
+        'checksums' : [local_RTree_checksum],
+    }),
+    (name, version, {
+        'source_tmpl' : 'v%(version)s.tar.gz',
+        'source_urls' : ['https://github.com/PyFR/PyFR/archive/refs/tags/'],
+        'checksums'   : [local_PyFR_checksum],
+    }),
+]
+
+modluafooter = """
+setenv("PYFR_METIS_LIBRARY_PATH", pathJoin(os.getenv("EBROOTMETIS"), "lib/libmetis.so"))
+"""
+
+moduleclass = 'phys'
