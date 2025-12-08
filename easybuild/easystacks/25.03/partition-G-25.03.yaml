@@ -67,3 +67,10 @@ easyconfigs:
 #
   - OpenBLAS-0.3.30-cpeGNU-25.03.eb
 #
+# PyFR
+#
+  - h5py-3.11.0-cpeGNU-25.03.eb
+  - h5py-3.11.0-cpeGNU-25.03-parallel.eb
+  - libspatialindex-2.1.0-cpeGNU-25.03.eb
+  - PyFR-2.1-cpeGNU-25.03-rocm.eb
+#
