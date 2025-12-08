@@ -41,6 +41,12 @@ easyconfigs:
   - PLUMED-2.9.4-cpeAMD-25.03-noPython.eb
   #- LAMMPS-22Jul2025_update2-cpeAMD-25.03-rocm.eb # Does not yet build.
 #
+# mpiFileUtils
+#
+  - mpiFileUtils-0.12-cpeGNU-25.03.eb
+  - mpiFileUtils-0.12-cpeCray-25.03.eb
+  - mpiFileUtils-0.12-cpeAMD-25.03.eb
+#
 # NAMD
 #
   - Charm++-8.0.0-cpeGNU-25.03-mpi-crayshasta-smp.eb
