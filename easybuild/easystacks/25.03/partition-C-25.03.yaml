@@ -152,6 +152,8 @@ easyconfigs:
 #
   - Zoltan-3.901-cpeGNU-25.03.eb
   - OpenFOAM-13-cpeGNU-25.03-master.eb
+  - CGAL-5.6.3-cpeGNU-25.03-OpenFOAM.eb
+  - OpenFOAM-v2506-cpeGNU-25.03.eb
 #
 # R
 #
