@@ -11,11 +11,11 @@ whatis = [
 ]
 
 description = """
-Kokkos C++ Performance Portability Programming Ecosystem: Math Kernels -
+Kokkos C++ Performance Portability Programming Ecosystem: Math Kernels - 
 Provides BLAS, Sparse BLAS and Graph Kernels
 """
 
-toolchain = {'name': 'cpeGNU', 'version': '25.03'}
+toolchain = {'name': 'cpeAMD', 'version': '25.03'}
 toolchainopts = {'verbose': False, 'openmp': True}
 
 sources = [{
@@ -40,8 +40,7 @@ preconfigopts = 'module unload craype-accel-amd-gfx90a && '
 
 configopts = ' '.join([
     '-D Kokkos_ROOT=${EBROOTKOKKOS}',
-    '-D CMAKE_CXX_COMPILER=hipcc',
-    '-D CMAKE_CXX_FLAGS="-fPIC -g --offload-arch=gfx90a"',
+    '-D CMAKE_CXX_COMPILER=CC', # Isn't really needed as EasyBuild does that already, but stresses the difference with the cpeGNU version.
     '-D BUILD_SHARED_LIBS=ON',
     '-D KokkosKernels_ENABLE_TPL_BLAS=ON',
     '-D KokkosKernels_ENABLE_TPL_LAPACK=ON',
