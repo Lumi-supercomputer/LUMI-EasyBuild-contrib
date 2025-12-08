@@ -139,6 +139,10 @@ easyconfigs:
   - ncview-2.1.11-cpeCray-25.03.eb
   #- ncview-2.1.11-cpeAOCC-25.03.eb
 #
+# OpenBLAS
+#
+  - OpenBLAS-0.3.30-cpeGNU-25.03.eb
+#
 # PETSc with and without Hypre.
 #
   - Hypre-2.33.0-cpeGNU-25.03.eb
