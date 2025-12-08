@@ -26,7 +26,6 @@ version that worked so far for us. It requires a special Cargo feature that only
 appeared in newer versions of Rust.
 
 
-
 ## Neko
 
 I believe this EasyConfig was contributed by the authors, as it contains lots of
@@ -37,3 +36,10 @@ to the release notes) and with the Cray compilers (issues with recent Cray Forta
 compilers also mentioned in the release notes).
 
 So keep an eye on the evolution and eventual bug fixes.
+
+
+## nvtop
+
+The issues that we run into are likely due to libraries that are on LUMI but not in
+the container on which we test. So let's wait for a LUMI update to see what needs
+to be done.
