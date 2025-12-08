@@ -31,8 +31,15 @@ easyconfigs:
 #
 # Kokkos
 #
-  - Kokkos-4.6.2-cpeGNU-25.03-rocm.eb
-  - Kokkos-kernels-4.6.2-cpeGNU-25.03-rocm.eb
+  - Kokkos-4.6.02-cpeGNU-25.03-rocm.eb
+  - Kokkos-kernels-4.6.02-cpeGNU-25.03-rocm.eb
+  - Kokkos-4.6.02-cpeAMD-25.03-rocm.eb
+  - Kokkos-kernels-4.6.02-cpeAMD-25.03-rocm.eb
+#
+# LAMMPS
+#
+  - PLUMED-2.9.4-cpeAMD-25.03-noPython.eb
+  #- LAMMPS-22Jul2025_update2-cpeAMD-25.03-rocm.eb # Does not yet build.
 #
 # NAMD
 #
