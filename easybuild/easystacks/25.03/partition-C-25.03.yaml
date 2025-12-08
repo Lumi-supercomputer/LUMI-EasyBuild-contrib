@@ -108,6 +108,12 @@ easyconfigs:
   - PLUMED-2.9.4-cpeGNU-25.03-noPython.eb
   - LAMMPS-22Jul2025_update2-cpeGNU-25.03-CPU.eb
 #
+# mpiFileUtils
+#
+  - mpiFileUtils-0.12-cpeGNU-25.03.eb
+  - mpiFileUtils-0.12-cpeCray-25.03.eb
+  - mpiFileUtils-0.12-cpeAOCC-25.03.eb
+#
 # NCO
 #
   - CppUnit-1.15.1-cpeGNU-25.03.eb
