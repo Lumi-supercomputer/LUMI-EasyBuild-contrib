@@ -75,14 +75,14 @@ dependencies = [
     ('libpng',                   local_libpng_version),
     ('zstd',                     local_zstd_version),
     ('GSL',                      local_GSL_version, '-OpenMP'),
-    ('zlib',                     local_zlib_version),                                # For the COMPRESS package
+    ('zlib',                     local_zlib_version),                         # For the COMPRESS package
     ('gzip',                     local_gzip_version),
     ('cURL',                     local_cURL_version),
     ('PCRE2',                    local_PCRE2_version),
     ('libxml2',                  local_libxml2_version),
-    ('Eigen',                    local_Eigen_version,    '',                  True), # For the MACHDYN package
+    ('Eigen',                    local_Eigen_version,    '',           True), # For the MACHDYN package
     # Contrib dependencies
-    ('PLUMED',                   local_PLUMED29_version, '-noPython'),               # For the PLUMED package
+    ('PLUMED',                   local_PLUMED29_version, '-noPython'),        # For the PLUMED package
 ]
 
 local_enabled_packages = [
