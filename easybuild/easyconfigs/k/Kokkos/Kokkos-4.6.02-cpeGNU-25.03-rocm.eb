@@ -13,7 +13,8 @@ whatis = [
 ]
 
 description = """
-Kokkos C++ Performance Portability Programming Ecosystem: The Programming Model - Parallel Execution and Memory Abstraction
+Kokkos C++ Performance Portability Programming Ecosystem: The Programming
+Model - Parallel Execution and Memory Abstraction
 """
 
 # GNU toolchain recipe serves serial host backend only to avoid OpenMP runtime library mismatch between the toolchain and ROCm
@@ -39,17 +40,19 @@ dependencies = [
 
 preconfigopts = 'module unload craype-accel-amd-gfx90a && '
 
-configopts  = '-D CMAKE_CXX_COMPILER=hipcc '
-configopts += '-D CMAKE_CXX_FLAGS="-fPIC -g --offload-arch=gfx90a" '
-configopts += '-D BUILD_SHARED_LIBS=ON '
-configopts += '-D Kokkos_ENABLE_ROCM=ON '
-configopts += '-D Kokkos_ENABLE_HIP=ON '
-configopts += '-D Kokkos_ENABLE_SERIAL=ON '
-configopts += '-D Kokkos_ARCH_ZEN3=ON '
-configopts += '-D Kokkos_ARCH_AMD_GFX90A=ON '
-configopts += '-D Kokkos_ENABLE_DEPRECATION_WARNINGS=ON '
-configopts += '-D Kokkos_ENABLE_HIP_RELOCATABLE_DEVICE_CODE=OFF '
-configopts += '-D Kokkos_ENABLE_HIP_MULTIPLE_KERNEL_INSTANTIATIONS=ON '
+configopts = ' '.join([
+    '-D CMAKE_CXX_COMPILER=hipcc',
+    '-D CMAKE_CXX_FLAGS="-fPIC -g --offload-arch=gfx90a"',
+    '-D BUILD_SHARED_LIBS=ON',
+    '-D Kokkos_ENABLE_ROCM=ON',
+    '-D Kokkos_ENABLE_HIP=ON',
+    '-D Kokkos_ENABLE_SERIAL=ON',
+    '-D Kokkos_ARCH_ZEN3=ON',
+    '-D Kokkos_ARCH_AMD_GFX90A=ON',
+    '-D Kokkos_ENABLE_DEPRECATION_WARNINGS=ON',
+    '-D Kokkos_ENABLE_HIP_RELOCATABLE_DEVICE_CODE=OFF',
+    '-D Kokkos_ENABLE_HIP_MULTIPLE_KERNEL_INSTANTIATIONS=ON',
+])
 
 prebuildopts = 'module unload craype-accel-amd-gfx90a && '
 
