@@ -23,6 +23,7 @@ local_feh_version =          '3.11.2'        # https://github.com/derf/feh/tags
 local_GDAL_version =         '3.12.0'        # https://github.com/OSGeo/gdal/releases
 local_GEOS_version =         '3.14.1'        # https://github.com/libgeos/geos/releases
 
+local_h5py_version =         '3.11.0'        # https://github.com/h5py/h5py/releases
 local_HDF_version =          '4.2.16-2'      # https://support.hdfgroup.org/ftp/HDF/releases/
 local_HeFFTe_version =       '2.4.1'         # https://github.com/icl-utk-edu/heffte/releases
 local_HTSlib_version =       '1.22.1'        # https://github.com/samtools/htslib/releases
@@ -38,6 +39,7 @@ local_libexif_version =      '0.6.25'        # https://github.com/libexif/libexi
 local_libgeotiff_version =   '1.7.4'         # https://github.com/OSGeo/libgeotiff/releases
 local_libnsl_version =       '2.0.1'         # https://github.com/thkukuk/libnsl/releases
 local_libsodium_version =    '1.0.20'        # https://download.libsodium.org/libsodium/releases/
+local_libspatialindex_version = '2.1.0'      # https://github.com/libspatialindex/libspatialindex/releases
 local_libvori_version =      '220621'        # https://brehm-research.de/libvori.php
 local_libxc6_version =       '6.2.2'         # https://gitlab.com/libxc/libxc/-/releases
 local_libxc7_version =       '7.0.0'         # https://gitlab.com/libxc/libxc/-/releases
