@@ -13,6 +13,8 @@
 
 -   There is no support for SuperLU in the CSCS repository.
 
+-   [superlu Spack package](https://packages.spack.io/package.html?name=superlu)
+
 
 ### Version 6.0.0 for CPE 23.09
 

@@ -13,6 +13,8 @@
 
 -   There is no support for SuperLU in the CSCS repository.
 
+-   [superlu-dist Spack package](https://packages.spack.io/package.html?name=superlu-dist)
+
 
 ### Version 7.2.0 for cpeGNU 22.08
 
