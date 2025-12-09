@@ -23,6 +23,7 @@ dependencies = [
     ('numpy', '2.3.5'),
     ('magma', '2.8.0', '-rocm'),
     ('libxc', '7.0.0'),
+    ('SciPy-bundle', '24.03'),
 ]
 
 use_pip = True
