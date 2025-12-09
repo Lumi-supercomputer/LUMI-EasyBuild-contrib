@@ -44,3 +44,9 @@ The issues that we run into are likely due to libraries that are on LUMI but not
 the container on which we test. So let's wait for a LUMI update to see what needs
 to be done.
 
+
+## Rust
+
+Tried to build a new Rust version, but it turned out that the resulting compiler 
+couldn't link.
+
