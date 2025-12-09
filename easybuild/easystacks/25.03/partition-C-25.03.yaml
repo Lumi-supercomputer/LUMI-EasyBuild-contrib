@@ -172,6 +172,14 @@ easyconfigs:
   - STRUMPACK-7.2.0-cpeGNU-25.03-OpenMP.eb
   - STRUMPACK-8.0.0-cpeGNU-25.03-OpenMP.eb
 #
+# SuperLU single- and multi-threaded and distributed
+#
+  - SuperLU-6.0.1-cpeGNU-25.03-OpenMP.eb
+  - SuperLU-7.0.1-cpeGNU-25.03.eb
+  - SuperLU-7.0.1-cpeGNU-25.03-OpenMP.eb
+  - SuperLU_MT-4.0.1-cpeGNU-25.03-OpenMP.eb
+  - SuperLU_DIST-9.2.0-cpeGNU-25.03-OpenMP-CPU.eb
+#
 # VTK
 #
   - Silo-4.11.1-cpeGNU-25.03.eb
