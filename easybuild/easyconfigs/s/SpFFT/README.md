@@ -1,6 +1,9 @@
 # SpFFT
 
-  * [SpFFT repository](https://github.com/eth-cscs/SpFFT)
+SpFFT is a dependency of CP2K
+
+-   [SpFFT repository](https://github.com/eth-cscs/SpFFT)
+
 
 ## General information
 
@@ -15,15 +18,21 @@ in space domain and pencil decomposition in frequency domain
 
 ## EasyBuild
 
-  * [SpFFT in the CSCS repository](https://github.com/easybuilders/CSCS/tree/master/easybuild/easyconfigs/s/SpFFT)
+-   [SpFFT in the CSCS repository](https://github.com/easybuilders/CSCS/tree/master/easybuild/easyconfigs/s/SpFFT)
 
 
 ### Version 1.0.5 for CPE 21.08
 
-  * The EasyConfig is derived from the CSCS one
+-   The EasyConfig is derived from the CSCS one
   
  
 ### Version 1.0.6 for 22.08 and 23.09 with GPU support
 
-  * The EasyConfig is an adaptation of the 1.0.5 one but now with GPU support
+-   The EasyConfig is an adaptation of the 1.0.5 one but now with GPU support
     enabled.
+
+    
+### Version 1.1.0 for 23.12 and 24.03 with GPU support
+
+-   The EasyConfig is an almost straightforward port of the 1.0.6 one for 23.09,
+    but the patch is no longer needed.
