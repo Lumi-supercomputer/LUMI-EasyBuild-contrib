@@ -166,6 +166,12 @@ easyconfigs:
  - R-4.5.1-cpeGNU-25.03-OpenMP-raw.eb
  - R-4.5.1-cpeGNU-25.03-OpenMP.eb
 #
+# STRUMPACK
+#
+  - zfp-1.0.1-cpeGNU-25.03.eb
+  - STRUMPACK-7.2.0-cpeGNU-25.03-OpenMP.eb
+  - STRUMPACK-8.0.0-cpeGNU-25.03-OpenMP.eb
+#
 # VTK
 #
   - Silo-4.11.1-cpeGNU-25.03.eb

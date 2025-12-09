@@ -1,0 +1,78 @@
+#DOC Note that this is a CPU-only version of STRUMPACK. GPU computing is not enabled.
+easyblock = 'CMakeMake'
+
+# Central software stack dependencies
+local_ParMETIS_version =     '4.0.3'         # https:/http://glaros.dtc.umn.edu/gkhome/metis/parmetis/download
+local_SCOTCH7_version =      '7.0.8'         # https://gforge.inria.fr/projects/scotch/
+local_zlib_version =         '1.3.1'         # https://zlib.net/
+# Contrib packages
+local_zfp_version =          '1.0.1'         # https://github.com/LLNL/zfp/releases
+
+name =          'STRUMPACK'
+version =       '7.2.0'
+versionsuffix = '-OpenMP'
+
+homepage = 'https://portal.nersc.gov/project/sparse/strumpack//'
+
+whatis = [ 
+    'Description: STRUMPACK - STRUctured Matrix PACKage - Fast linear solvers and preconditioner for both dense and sparse systems using low-rank structured factorization with randomized sampling.'
+]
+
+description = """
+STRUMPACK - STRUctured Matrix PACKage - Fast linear solvers and preconditioner
+for both dense and sparse systems using low-rank structured factorization with randomized sampling.
+Many large dense matrices are rank structured, meaning they exhibit some kind of low-rank property, 
+for instance in hierarchically defined sub-blocks. In sparse direct solvers based on LU factorization, 
+the LU factors can often also be approximated well using rank-structured matrix compression, 
+leading to robust preconditioners. The sparse solver in STRUMPACK can also be used as an exact direct solver, 
+in which case it functions similarly as for instance SuperLU or Superlu_Dist. 
+The STRUMPACK sparse direct solver delivers good performance and distributed memory scalability and 
+provides excellent CUDA support and some AMD support also.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '25.03'}
+toolchainopts = {'pic': True, 'usempi': True, 'openmp': True}
+
+sources = [{
+    'download_filename': 'v%(version)s.tar.gz',
+    'filename':          SOURCE_TAR_GZ,
+    'source_urls':       ['https://github.com/pghysels/%(name)s/archive/']
+}]
+checksums = ['6988c00c3213f13e53d75fb474102358f4fecf07a4b4304b7123d86fdc784639']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+    # Central software stack packages
+    ('zlib',     local_zlib_version),
+    ('ParMETIS', local_ParMETIS_version),
+    ('SCOTCH',   local_SCOTCH7_version),
+    # Contrib packages
+    ('zfp',      local_zfp_version),
+]
+
+configopts = ' '.join( [
+    '-DSTRUMPACK_USE_OPENMP=ON',
+    '-DTPL_ENABLE_BPACK=OFF',
+    '-DTPL_ENABLE_ZFP=ON',
+    '-DTPL_ENABLE_SLATE=OFF',
+    '-DTPL_ENABLE_PARMETIS=ON',
+    '-DTPL_ENABLE_SCOTCH=ON',
+    '-DTPL_METIS_INCLUDE_DIRS=${EBROOTPARMETIS}/include',
+    '-DTPL_METIS_LIBRARY_DIR=${EBROOTPARMETIS}/lib',
+    '-DTPL_PARMETIS_INCLUDE_DIRS=${EBROOTPARMETIS}/include',
+    '-DTPL_PARMETIS_LIBRARY_DIR=${EBROOTPARMETIS}/lib',
+    '-DTPL_SCOTCH_INCLUDE_DIRS=${EBROOTSCOTCH}/include',
+    '-DTPL_SCOTCH_LIBRARY_DIR=${EBROOTSCOTCH}/lib',
+    '-DSTRUMPACK_USE_HIP=OFF',
+] )
+
+sanity_check_paths = {
+    'files': ['lib/libstrumpack.a'],
+    'dirs':  ['include/%s' % x for x in ['BLR', 'clustering', 'dense', 'HSS', 'kernel', 'misc', 'python', 'sparse']] +
+             ['lib'],
+}
+
+moduleclass = 'numlib'
