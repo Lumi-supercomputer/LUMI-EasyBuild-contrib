@@ -1,0 +1,60 @@
+easyblock = 'CMakeMake'
+
+local_zlib_version =         '1.3.1'         # https://zlib.net/
+
+local_MATIO_version =        '1.5.29'        # https://github.com/tbeu/matio/releases
+
+name =    'MATIO'
+version = local_MATIO_version
+
+homepage = 'https://matio.sourceforge.io/'
+
+whatis = [
+    "Description: MATIO is a C library for reading and writing Matlab MAT files."
+]
+
+description = """
+matio is a C library for reading and writing Matlab MAT files.
+"""
+
+docurls = [
+    "PDF of the documentation available on https://sourceforge.net/projects/matio/files/matio/%(version)s/matio_user_guide.pdf/download",
+]
+
+toolchain = {'name': 'cpeGNU', 'version': '25.03'}
+
+source_urls = [SOURCEFORGE_SOURCE]
+sources =     [SOURCELOWER_ZIP]
+checksums =   ['081911c58de613dad78b11dfba23b64994b537b93b02f33a19ae6c145b1942c5']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True)
+]
+
+dependencies = [
+    ('cray-hdf5-parallel', EXTERNAL_MODULE),
+    ('zlib',               local_zlib_version),
+]
+
+local_common_configopts = ' '.join([
+    '-DMATIO_WITH_ZLIB=ON',
+    '-DMATIO_WITH_HDF5=ON',
+    '-DHDF5_VERSION="$CRAY_HDF5_PARALLEL_VERSION"',
+])
+
+configopts = [
+    local_common_configopts + '-DMATIO_SHARED=OFF',
+    local_common_configopts + '-DMATIO_SHARED=ON',
+]
+
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cd ../%(namelower)s-%(version)s && cp COPYING NEWS README %(installdir)s/share/licenses/%(name)s',   
+]
+
+sanity_check_paths = {
+    'files': ['include/matio.h', 'bin/matdump', 'lib/libmatio.%s' % SHLIB_EXT],
+    'dirs':  [],
+}
+
+moduleclass = 'lib'
