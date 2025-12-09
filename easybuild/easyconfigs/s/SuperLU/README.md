@@ -19,18 +19,24 @@
 -   The EasyConfig is a LUST development.
 
 
-### Version 6.0.0 for cpeGNU 24.03
+### Version 6.0.1 for cpeGNU 24.03 and 25.03
 
 -   Update based on previous easyconfigs
+
+-   The OpenMP versionsuffix is misleading as the code does not contain any 
+    OpenMP directives and as a static library, will also not link to the
+    multithreaded BLAS. This was copied from the EasyBuilders repository and
+    it is not clear why they did that.
 
 
 ### Version 7.0.1 for cpeGNU 25.03
 
--   Removed the OpenMP enabling, also from `toolchainopts`. 
-    You may want to use it in `toolchainopts` to link the OpenMP version of LibSci,
-    but in fact you need `SuperLU_MT` for threading support in SuperLU itself.
+-   Mostly a straightforward adaptation of the 6.0.1 EasyConfig in 25.03.
 
-    There are no OpenMP pragma's in the code, and even though it needs a BLAS
-    library, there is no reference to that in the pkgconfig file for the package,
-    so basically adding the OpenMP compiler flags should not do anything.
+-   The EasyConfig was also extended to generate both static and shared libraries.
 
+-   As we now generate a shared library version also, we must take into account
+    single- en multi-threaded BLAS libraries, which is why there is a version
+    with and without `-OpenMP` versionsuffix.
+    
+    Note that SuperLU itself is single-threaded code.
