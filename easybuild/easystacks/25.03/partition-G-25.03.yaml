@@ -74,3 +74,8 @@ easyconfigs:
   - libspatialindex-2.1.0-cpeGNU-25.03.eb
   - PyFR-2.1-cpeGNU-25.03-rocm.eb
 #
+# QuEST
+#
+  - QuEST-3.7.0-cpeGNU-25.03-prec2-rocm.eb
+  - QuEST-4.2.0-cpeGNU-25.03-prec2-rocm.eb
+#
