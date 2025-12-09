@@ -1,0 +1,106 @@
+# Written by Kurt Lust (kurt.lust@uantwerpen.be) for the LUMI project.
+# Updated v3.7.0 and cpeGNU 23.09 by Orian Louant
+#
+# This EasyConfig file is offered as a courtasy to users of the LUMI system
+# without any warranty as QuEST isn't really meant to be installed as a
+# module.
+#
+# Please follow the instructions in this EasyConfig file to configure
+# QuEST as you need it. There is currently no EasyBlock to guide you
+# through the configuration process.
+#
+
+easyblock = 'CMakeMake'
+
+name =          'QuEST'
+version =       '4.2.0'
+versionsuffix = '-prec2-hybrid'
+
+homepage = 'https://quest.qtechtheory.org/'
+
+whatis = [
+    'Description: Quantum Exact Simulation Toolkit, a high performance simulator of universal quantum circuits, state vectors and density matrices'
+]
+
+description = """
+The Quantum Exact Simulation Toolkit is a high performance simulator of
+universal quantum circuits, state vectors and density matrices. QuEST
+can be used by both C and C++, is open source, multithreaded, distributed
+and GPU-accelerated. Needing only compilation, QuEST is easy to run both
+on laptops and supercomputers, where it can take advantage of multicore
+and networked machines to quickly simulate circuits on many qubits.
+
+Note that when using this installation you should carefully check the
+configuration that was used to build the library, e.g., from the
+EasyBuild recipe stored in $EBROOTQUEST/easybuild.
+"""
+
+usage = """
+After loading the module, you can test the compilation of an example
+program included with QuEST as follows:
+  * Copy the sources from $EBROOTQUEST/examples to your working directory:
+    cp $EBROOTQUEST/examples/tutorial_example.c .
+  * Compile using the Cray compiler wrapper:
+    cc tutorial_example.c -o demo -lQuEST
+  * Run the demo executable that was generated in the previous step:
+    ./demo
+"""
+
+docurls = [
+    'Web-based documentation at https://quest.qtechtheory.org/docs/',
+    'Web-based API information at https://quest-kit.github.io/QuEST/modules.html',
+]
+
+toolchain = {'name': 'cpeGNU', 'version': '25.03'}
+# We specify mpi and OpenMP in the toolchainopts though it is not
+# really needed as CMake will figure things out correctly from the
+# configuration switches given to it.
+toolchainopts = { 'usempi': True, 'openmp': True, 'pic': True}
+
+sources = [
+    {   # QuEST itself: https://github.com/QuEST-Kit/QuEST/archive/refs/tags/v3.7.0.tar.gz
+        'filename':          'QuEST-%(version)s.tar.gz',
+        'download_filename': 'v%(version)s.tar.gz',
+        'source_urls':       ['https://github.com/QuEST-Kit/QuEST/archive/refs/tags'],
+    },
+]
+checksums = ['2c812a7ec4d727e0947ffd0daf05452963c3f1c10e428c8bc30c35164921fcba']
+
+builddependencies = [ # Create a reproducible build environment.
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+# The first one of the next options is very important to ensure proper compilation
+# for the intended LUMI partition. The second one just produces a bit more information
+# in the log files for debugging.
+configopts  = '-DCMAKE_VERBOSE_MAKEFILE=ON '
+# Turn multithreading via OpenMP ON or OFF.
+configopts += '-DENABLE_MULTITHREADING=ON '
+# Turn MPI support ON or OFF.
+configopts += '-DENABLE_DISTRIBUTION=ON '
+# Building examples
+configopts += '-DBUILD_EXAMPLES=ON '
+# Enable or disable testing
+configopts += '-DENABLE_TESTING=OFF ' # Building the tests fails with the deprecated API option on.
+# Precision: 1, 2 or 4 (the latter not supported in all configurations)
+configopts += '-DFLOAT_PRECISION=2 '
+# Deprecated V3 API?
+configopts += '-DENABLE_DEPRECATED_API=ON '
+configopts += '-DDISABLE_DEPRECATION_WARNINGS=OFF '
+
+postinstallcmds = [
+    'cd %(installdir)s && ln -s quest/bin bin',
+    'cd %(installdir)s && ln -s quest/lib lib',
+    'cd %(installdir)s && ln -s quest/include include',
+    'mkdir -p %(installdir)s/share/licenses/QuEST', 
+    'cd ../QuEST-%(version)s; cp AUTHORS.txt LICENCE.txt README.md %(installdir)s/share/licenses/QuEST',
+    'cd ../QuEST-%(version)s; cp -r examples %(installdir)s',
+]
+
+sanity_check_paths = {
+    'files': ['lib/libQuEST.%s' % SHLIB_EXT] +
+             ['include/quest.h'],
+    'dirs':  ['examples'],
+}
+
+moduleclass = 'lib'
