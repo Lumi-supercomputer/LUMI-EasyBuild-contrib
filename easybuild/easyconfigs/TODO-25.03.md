@@ -50,3 +50,7 @@ to be done.
 Tried to build a new Rust version, but it turned out that the resulting compiler 
 couldn't link.
 
+## Siesta
+
+Haven't had a look at it yet as it may require some testing also.
+
