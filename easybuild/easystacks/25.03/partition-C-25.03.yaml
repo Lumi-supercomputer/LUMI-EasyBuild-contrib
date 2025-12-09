@@ -155,6 +155,11 @@ easyconfigs:
   - CGAL-5.6.3-cpeGNU-25.03-OpenFOAM.eb
   - OpenFOAM-v2506-cpeGNU-25.03.eb
 #
+# QuEST
+#
+  - QuEST-3.7.0-cpeGNU-25.03-prec2-hybrid.eb
+  - QuEST-4.2.0-cpeGNU-25.03-prec2-hybrid.eb
+#
 # R
 #
  - Info-ZIP-3.0-6.0-cpeGNU-25.03.eb
