@@ -1,0 +1,25 @@
+name = 'pybind11'
+version = '2.12.0'
+
+homepage = 'https://pybind11.readthedocs.io'
+description = """pybind11 is a lightweight header-only library that exposes C++ types in Python and vice versa,
+ mainly to create Python bindings of existing C++ code."""
+
+toolchain = {'name': 'cpeAMD', 'version': '24.03'}
+
+source_urls = ['https://github.com/pybind/pybind11/archive/']
+sources = ['v%(version)s.tar.gz']
+
+builddependencies = [
+    ('buildtools-python', '%(toolchain_version)s', '-cray-python%(pyshortver)s', True),
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+    ('cray-python', EXTERNAL_MODULE),
+    ('Boost', '1.83.0'),
+]
+
+skipsteps = ['test']
+
+moduleclass = 'lib'
