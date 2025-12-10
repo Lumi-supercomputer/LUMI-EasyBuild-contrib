@@ -33,10 +33,12 @@
 -  Boost, SuperLU, SuperLU_DIST, ParMETIS, SCOTCH, MUMPS, MATIO.  
 -  Python3, HDF5 (parallel), NetCDF (parallel) from the Cray PE.
 
+
 ### Version 13.4.1 for cpeGNU (archived)
 
 -   The EasyConfig file is developed in LUST, with currently some fewer options as the
     one in the EasyBuilders repository, and without GPU support.
+
 
 ### Version 12.18.1 for cpeGNU 22.12 (archived)
     
@@ -44,6 +46,18 @@
 
 -   Based more on the Cray scripts for installing the former TPSL and some other libraries.
 
+
 ### Version 13.4.1 for cpeGNU 23.04
 
 - Update based on the easyconfig from version 13.4.1 
+
+
+### Version 15.1.1 for cpeGNU 24.03
+
+-   No information available on how this EasyConfig was built.
+
+    The version was purpose-built for a specific user, but the EasyConfig can be used as a
+    template to create your own installation.
+    
+-   For 25.03: It turned out that the variables used to point to netCDF were the wrong ones;
+    they have been changed.

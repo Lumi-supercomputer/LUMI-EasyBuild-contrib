@@ -191,7 +191,7 @@ easyconfigs:
   - MUMPS-5.6.1-cpeGNU-25.03-noOpenMP.eb
   - MUMPS-5.8.1-cpeGNU-25.03-static-OpenMP.eb
   - MUMPS-5.8.1-cpeGNU-25.03-static-noOpenMP.eb
-  #Trilinos itself does not yet build.
+  - Trilinos-15.1.1-cpeGNU-25.03-OpenMP.eb
 #
 # UppASD
 #
