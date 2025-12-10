@@ -62,6 +62,11 @@ the container on which we test. So let's wait for a LUMI update to see what need
 to be done.
 
 
+## PETSc
+
+GPU versions still to be done.
+
+
 ## Rust
 
 Tried to build a new Rust version (1.91.1), but it turned out that the resulting compiler 

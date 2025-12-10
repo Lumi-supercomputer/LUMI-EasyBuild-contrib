@@ -114,6 +114,13 @@ easyconfigs:
   - mpiFileUtils-0.12-cpeCray-25.03.eb
   - mpiFileUtils-0.12-cpeAOCC-25.03.eb
 #
+# MUMPS
+#
+  - MUMPS-5.6.1-cpeGNU-25.03-OpenMP.eb
+  - MUMPS-5.6.1-cpeGNU-25.03-noOpenMP.eb
+  - MUMPS-5.8.1-cpeGNU-25.03-static-OpenMP.eb
+  - MUMPS-5.8.1-cpeGNU-25.03-static-noOpenMP.eb
+#
 # NCO
 #
   - CppUnit-1.15.1-cpeGNU-25.03.eb
@@ -145,8 +152,11 @@ easyconfigs:
 #
 # PETSc with and without Hypre.
 #
+  - MUMPS-5.6.1-cpeGNU-25.03-OpenMP.eb
   - Hypre-2.33.0-cpeGNU-25.03.eb
-  #TODO: PETSc
+  - SuperLU-7.0.1-cpeGNU-25.03-OpenMP.eb
+  - SuperLU_DIST-9.2.0-cpeGNU-25.03-OpenMP-CPU.eb
+  - PETSc-3.24.2-cpeGNU-25.03-OpenMP-CPU.eb
 #
 # Other versions of PLUMED
 #
@@ -205,6 +215,13 @@ easyconfigs:
   - zfp-1.0.1-cpeGNU-25.03.eb
 # Leading to VTK which has not yet been ported to 25.03
 #
+# Yambo
+#
+  - MUMPS-5.6.1-cpeGNU-25.03-OpenMP.eb
+  - Hypre-2.33.0-cpeGNU-25.03.eb
+  - SuperLU-7.0.1-cpeGNU-25.03-OpenMP.eb
+  - SuperLU_DIST-9.2.0-cpeGNU-25.03-OpenMP-CPU.eb
+  - PETSc-3.24.2-cpeGNU-25.03-OpenMP-CPU.eb
 
 ################################################################################
 #
