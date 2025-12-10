@@ -1,5 +1,13 @@
 # TODO's
 
+## GROMACS
+
+Could use a version update to the latest 2025 release.
+
+As soon as 2026 comes out, we should have a look at the HIP version also, probably
+together with Paul from AMD.
+
+
 ## hipfort
 
 HipFORT now seems to be an official product with the version numbering also changed
@@ -26,6 +34,15 @@ version that worked so far for us. It requires a special Cargo feature that only
 appeared in newer versions of Rust.
 
 
+## MUMPS for Trilinos
+
+MUMPS 5.6.1 builds with static and shared libraries.
+
+The build of 5.8.1 following the EasyBuilders EasyConfig does not seem to work
+and also builds static libraries only. With the old shared-pord patch it does
+build, but still only static libraries.
+
+
 ## Neko
 
 I believe this EasyConfig was contributed by the authors, as it contains lots of
@@ -47,10 +64,21 @@ to be done.
 
 ## Rust
 
-Tried to build a new Rust version, but it turned out that the resulting compiler 
+Tried to build a new Rust version (1.91.1), but it turned out that the resulting compiler 
 couldn't link.
+
 
 ## Siesta
 
 Haven't had a look at it yet as it may require some testing also.
 
+
+## Trilinos
+
+Could use a version update. Note that a lot of packages are deprecated in version 16,
+so for 17 the package list will definitely need to be adapted.
+
+-   In version 15, there was an error in the settings that point to netCDF: The 
+    `_PREFIX` environment variables should be used and not the `_DIR` ones.
+    
+    Yet even with this change, the build still fails.
