@@ -1,0 +1,57 @@
+easyblock = 'PythonBundle'
+
+name = 'SciPy-bundle'
+version = '1.14.1-1.26.4'
+
+homepage = 'http://www.scipy.org'
+description = "Bundle of Python packages for scientific software"
+
+toolchain = {'name': 'cpeAMD', 'version': '24.03'}
+
+builddependencies = [
+    ('cray-python', EXTERNAL_MODULE),
+    ('buildtools-python', '%(toolchain_version)s', '-cray-python%(pyshortver)s', True),
+    ('buildtools', '%(toolchain_version)s', '', True),
+    ('Cython', '3.0.10'),
+    ('pybind11', '2.12.0'),
+]
+
+dependencies = [
+    ('cray-python', EXTERNAL_MODULE),
+]
+
+exts_default_options = {
+    'source_urls': [PYPI_SOURCE],
+    'use_pip': True,
+    'sanity_pip_check': False,
+}
+
+exts_list = [
+#meson-python==0.18.0 pyproject-metadata==0.10.0
+    ('flit_core', '3.11.0'),
+    ('pyproject_metadata', '0.10.0'),
+    ('meson_python', '0.18.0', {'modulename': 'mesonpy', 'source_tmpl': 'meson_python-0.18.0-py3-none-any.whl'}),
+#    ('h5py', '3.11.0', {
+#        'preinstallopts':  'HDF5_MPI="ON" H5PY_SETUP_REQUIRES=0 CC=cc',
+#        'installopts': '--verbose',
+#    }),
+    ('numpy', '1.26.4', {
+        'source_urls': ['https://github.com/numpy/numpy/releases/download/v%(version)s'],
+        'sources': [SOURCELOWER_TAR_GZ],
+        'preinstallopts': 'export PKG_CONFIG_PATH=${CRAY_LIBSCI_PREFIX}/lib/pkgconfig:$PKG_CONFIG_PATH && CFLAGS="-fopenmp" FFLAGS="-fopenmp" CC=amdclang CXX=amdclang++',
+        'installopts': '-Csetup-args=-Dblas=sci_mp -Csetup-args=-Dlapack=sci_mp',
+        'use_pip': True,
+        'easyblock': 'PythonPackage',
+    }),
+    ('pythran', '0.16.1'),
+    ('scipy', '1.14.1', { # Higher versions require meson update
+        'source_urls': ['https://github.com/scipy/scipy/releases/download/v%(version)s'],
+        'sources': [SOURCELOWER_TAR_GZ],
+        'preinstallopts': 'export PKG_CONFIG_PATH=${CRAY_LIBSCI_PREFIX}/lib/pkgconfig:$PKG_CONFIG_PATH && CFLAGS="-fopenmp" FFLAGS="-fopenmp" FC=amdflang CC=amdclang CXX=amdclang++',
+        'installopts': '-Csetup-args=-Dblas=sci_mp -Csetup-args=-Dlapack=sci_mp -Csetup-args=-Dfortran_std=none -Ccompile-args="-j16"',
+        'use_pip': True,
+        'easyblock': 'PythonPackage',
+    }),
+]
+
+moduleclass = 'math'
