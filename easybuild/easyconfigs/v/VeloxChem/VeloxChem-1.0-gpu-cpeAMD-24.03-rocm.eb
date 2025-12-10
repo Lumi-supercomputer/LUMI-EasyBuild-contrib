@@ -23,7 +23,7 @@ dependencies = [
     ('numpy', '2.3.5'),
     ('magma', '2.8.0', '-rocm'),
     ('libxc', '7.0.0'),
-    ('SciPy-bundle', '24.03'),
+    ('SciPy-bundle', '1.14.1-1.26.4'),
 ]
 
 use_pip = True
@@ -35,7 +35,7 @@ exts_default_options = {
 }
 
 exts_list = [
-    ('wheel', '0.45.1'), # without sanity check for scikit-build fails
+    ('wheel', '0.45.1'), # without it sanity check for scikit-build fails
     ('geometric', '1.1'),
     ('h5py', '3.11.0', {
         'preinstallopts':  'HDF5_MPI="ON" H5PY_SETUP_REQUIRES=0 CC=cc',
