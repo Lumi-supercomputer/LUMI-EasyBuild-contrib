@@ -45,6 +45,8 @@ local_libxc6_version =       '6.2.2'         # https://gitlab.com/libxc/libxc/-/
 local_libxc7_version =       '7.0.0'         # https://gitlab.com/libxc/libxc/-/releases
 local_libxsmm_version =      '1.17'          # https://github.com/libxsmm/libxsmm/releases
 
+local_MATIO_version =        '1.5.29'        # https://github.com/tbeu/matio/releases
+
 local_NCO_version =          '5.3.4'         # https://github.com/nco/nco/releases
 local_ncview_version =       '2.1.9'         # https://cirrus.ucsd.edu/~pierce/ncview/
 

@@ -180,6 +180,15 @@ easyconfigs:
   - SuperLU_MT-4.0.1-cpeGNU-25.03-OpenMP.eb
   - SuperLU_DIST-9.2.0-cpeGNU-25.03-OpenMP-CPU.eb
 #
+# Trilinos
+#
+  - MATIO-1.5.29-cpeGNU-25.03.eb
+  - MUMPS-5.6.1-cpeGNU-25.03-OpenMP.eb
+  - MUMPS-5.6.1-cpeGNU-25.03-noOpenMP.eb
+  - MUMPS-5.8.1-cpeGNU-25.03-static-OpenMP.eb
+  - MUMPS-5.8.1-cpeGNU-25.03-static-noOpenMP.eb
+  #Trilinos itself does not yet build.
+#
 # VTK
 #
   - Silo-4.11.1-cpeGNU-25.03.eb
