@@ -82,3 +82,28 @@ so for 17 the package list will definitely need to be adapted.
     `_PREFIX` environment variables should be used and not the `_DIR` ones.
     
     Yet even with this change, the build still fails.
+    
+    
+### WRF-SFIRE
+
+This was contributed by EPICURE. 
+
+The build process is a mess, requiring an in-place build process in the installation 
+directories with a very nonstandard build process that actually requires interactive use
+of the configure tool and partly also requires setting a lot of environment variables
+while configuring and building.
+
+The code is not compatible with GCC 14 unless some errors are disabled which also has to
+be done by editing `--Wno-implicit-function-declaration` into the flags passed to the C
+compile in `configure.wrf` (the `CFLAGS_LOCAL` line.
+
+Currently building still fails in the Fortran part of the code where in various places
+module files are not found even though at least the ones in the first error messages
+seem to exist.
+
+Unfortunately the build process also does not exit at the first error, so it is not 
+clear if files that are found at the end but not found when they were needed, where
+generated later on in the build process.
+
+Basically this is debugging a build process and not really LUST work.
+

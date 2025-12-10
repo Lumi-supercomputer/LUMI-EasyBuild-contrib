@@ -148,6 +148,10 @@ easyconfigs:
   - Hypre-2.33.0-cpeGNU-25.03.eb
   #TODO: PETSc
 #
+# Other versions of PLUMED
+#
+  - PLUMED-2.9.4-cpeGNU-25.03-cray-python-3.11.7.eb
+#
 # OpenFOAM
 #
   - Zoltan-3.901-cpeGNU-25.03.eb
@@ -189,6 +193,10 @@ easyconfigs:
   - MUMPS-5.8.1-cpeGNU-25.03-static-noOpenMP.eb
   #Trilinos itself does not yet build.
 #
+# UppASD
+#
+  - UppASD-6.0.2-cpeGNU-25.03.eb
+#
 # VTK
 #
   - Silo-4.11.1-cpeGNU-25.03.eb
@@ -198,10 +206,10 @@ easyconfigs:
 # Leading to VTK which has not yet been ported to 25.03
 #
 
+################################################################################
 #
-# Other versions of PLUMED
+# Packages that require manual downloads
 #
-  - PLUMED-2.9.4-cpeGNU-25.03-cray-python-3.11.7.eb
 #
 # NAMD
 #
