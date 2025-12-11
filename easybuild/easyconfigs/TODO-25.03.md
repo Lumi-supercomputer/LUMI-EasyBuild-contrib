@@ -89,7 +89,7 @@ so for 17 the package list will definitely need to be adapted.
     Yet even with this change, the build still fails.
     
     
-### WRF-SFIRE
+## WRF-SFIRE
 
 This was contributed by EPICURE. 
 
@@ -112,3 +112,15 @@ generated later on in the build process.
 
 Basically this is debugging a build process and not really LUST work.
 
+
+## Yambo
+
+Yambo 5.2.4 compiles and is a minor update of the version offered in 24.03.
+
+However, moving to 5.3.0 results in issues. During the compilation a Fortran modulefile
+is needed that does not exist yet. Further investigation is needed to find out what is
+happening here. It likely fails to compile the internal DevXlib properly at the right
+moment. There is an error message from chmod in the output where it says it fails to 
+find `*devXliba` files.
+
+Checking the Spack recipe did not help us as that one also does not yet support 5.3.0.
