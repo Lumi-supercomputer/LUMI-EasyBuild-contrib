@@ -1,3 +1,7 @@
+#DOC This cpeAMD version is meant specifically for VeloxChem. Note that using the AMD
+#DOC compilers for Python packages is only for people who really understand compiler
+#DOC incompatibilities as precompiled Python packages and Python itself is usually 
+#DOC compiled with the GNU compilers.
 easyblock = 'PythonPackage'
 
 name = 'Cython'
@@ -29,6 +33,11 @@ dependencies = [
 use_pip = True
 pip_verbose = True
 preinstallopts = 'CC=amdclang CXX=amdclang++'
+
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/Cython',
+    'cp CHANGES.rst COPYING.txt INSTALL.txt LICENSE.txt README.rst USAGE.txt %(installdir)s/share/licenses/Cython'
+]
 
 sanity_check_paths = {
     'files': [

@@ -29,6 +29,11 @@ dependencies = [
 use_pip = True
 pip_verbose = True
 
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/Cython',
+    'cp CHANGES.rst COPYING.txt INSTALL.txt LICENSE.txt README.rst USAGE.txt %(installdir)s/share/licenses/Cython'
+]
+
 sanity_check_paths = {
     'files': [
         'bin/cygdb',
