@@ -29,7 +29,7 @@ makes some of the same mistakes.
 Hence some serious patching is needed.
 
 
-### Version 4.2.2 for cpeGNU 24.03
+### Version 4.2.2 for cpeGNU 24.03 and later
 
 -   The EasyConfig is developed by LUST.
 
