@@ -5,9 +5,18 @@ name = 'VeloxChem'
 version = '1.0-gpu'
 versionsuffix = '-rocm'
 
-homepage = 'https://veloxchem.org/docs/intro.html'
-description = """VeloxChem is a Python-based open source quantum chemistry software developed i
-for computing molecular properties and a variety of spectroscopies from response theory."""
+homepage = 'https://veloxchem.org/'
+
+whatis = [
+    'Description: VeloxChem: Python-based quantum chemistry software for computing molecular properties and spectroscopies from response theory',
+]
+
+description = """
+VeloxChem is a Python-based open source quantum chemistry software developed
+for computing molecular properties and a variety of spectroscopies from 
+response theory. It supports massively parallel calculations in 
+high-performance computing (HPC) environments.
+"""
 
 toolchain = {'name': 'cpeAMD', 'version': '24.03'}
 
@@ -65,9 +74,18 @@ exts_list = [
     }),
 ]
 
+# Further license information could be added in the future, but is a lot of work as there are 
+# many packages included.
+
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/VeloxChem',
+    'cd ../../VeloxChem/VeloxChem && cp AUTHORS.rst LICENSE LICENSE-THIRD-PARTY README.rst %(installdir)s/share/licenses/VeloxChem',
+]
+
+
 sanity_check_paths = {
     'files': ['bin/vlx'],
-    'dirs': ['lib/python%(pyshortver)s/site-packages'],
+    'dirs':  ['lib/python%(pyshortver)s/site-packages'],
 }
 
 moduleclass = 'chem'
