@@ -1,0 +1,63 @@
+#DOC Generates static and shared libraries. The shared library uses the multi-threaded BLAS library.
+easyblock = "CMakeMake"
+
+local_ParMETIS_version =     '4.0.3'         # https:/http://glaros.dtc.umn.edu/gkhome/metis/parmetis/download
+
+name =          'SuperLU'
+version =       '7.0.1'
+versionsuffix = '-OpenMP'
+
+homepage = 'https://crd-legacy.lbl.gov/~xiaoye/SuperLU/'
+
+whatis = [
+    'Description: SuperLU is a general purpose library for the direct solution of large, sparse, nonsymmetric systems of linear equations on high performance machines.'
+]
+
+description = """
+SuperLU is a general purpose library for the
+direct solution of large, sparse, nonsymmetric systems
+of linear equations on high performance machines.
+The library is written in C and is callable from either C or Fortran program.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '25.03'}
+toolchainopts = {'pic': True, 'openmp': True}
+
+github_account = 'xiaoyeli'
+source_urls =    [GITHUB_LOWER_SOURCE]
+sources =        ["v%(version)s.tar.gz"]
+checksums =      ['86dcca1e086f8b8079990d07f00eb707fc9ef412cf3b2ce808b37956f0de2cb8']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+    ('ParMETIS', local_ParMETIS_version),
+]
+
+local_common_configopts = ' '.join([
+    '-DTPL_ENABLE_METISLIB=ON',
+    '-DTPL_METIS_INCLUDE_DIRS="${EBROOTPARMETIS}/include"',
+    '-DTPL_METIS_LIBRARIES="${EBROOTPARMETIS}/lib/libparmetis.a;${EBROOTPARMETIS}/lib/libmetis.a"',
+    '-DTPL_ENABLE_INTERNAL_BLASLIB=OFF',
+])
+
+configopts = [
+    '-DBUILD_SHARED_LIBS=ON  ' + local_common_configopts,      
+    '-DBUILD_SHARED_LIBS=OFF ' + local_common_configopts,      
+]
+
+runtest = " test"
+
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cd ../%(namelower)s-%(version)s && cp License.txt README %(installdir)s/share/licenses/%(name)s',   
+]
+
+sanity_check_paths = {
+    'files': ['lib/libsuperlu.a', 'lib/libsuperlu.%s' % SHLIB_EXT],
+    'dirs':  ['include']
+}
+
+moduleclass = 'numlib'

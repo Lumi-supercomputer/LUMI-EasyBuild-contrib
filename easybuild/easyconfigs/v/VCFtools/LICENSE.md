@@ -11,3 +11,6 @@ This information is also available in the
 [README.md file](https://github.com/vcftools/vcftools/blob/master/README.md) and the
 [LICENSE file](https://github.com/vcftools/vcftools/blob/master/LICENSE)
 in the VCFtools GitHub repository.
+
+From LUMI/25.03 on, these two files can also be found in
+`$EBROOTVCFTOOLS/share/licenses/VCFtools` after installing and loading the module.

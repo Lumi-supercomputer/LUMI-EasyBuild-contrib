@@ -1,0 +1,90 @@
+# Based on a easyconfig by the Juelich Supercomputing Centre
+# Adapted for LUMI by Orian Louant
+#
+#DOC This version uses the `cray-hdf5-parallel` and `cray-netcdf-hdf5parallel` modules.
+
+easyblock = 'CMakeMake'
+
+local_zlib_version =         '1.3.1'         # https://zlib.net/
+
+local_SZ_version =           '2.1.12.5'      # https://github.com/szcompressor/SZ/releases
+
+name =          'SZ'
+version =       local_SZ_version
+versionsuffix = '-hdf5-parallel'
+
+homepage = 'https://szcompressor.org'
+
+whatis = ['SZ is a modular parametrizable lossy compressor framework for scientific data']
+
+description = """
+SZ is a modular parametrizable lossy compressor framework for scientific data
+(floating point and integers). It has applications in simulations, AI and
+instruments. It is a production quality software and a research platform for
+lossy compression.
+ 
+SZ can be used for classic use-cases: visualization, accelerating I/O,
+reducing memory and storage footprint and more advanced use-cases like
+compression of DNN models and training sets, acceleration of computation,
+checkpoint/restart, reducing streaming intensity and running efficiently large
+problems that cannot fit in memory. Other use-cases will augment this list as
+users find new opportunities to benefit from lossy compression of scientific
+data.
+"""
+
+software_license_urls = ['https://github.com/szcompressor/SZ/blob/master/copyright-and-BSD-license.txt']
+
+toolchain = {'name': 'cpeGNU', 'version': '25.03'}
+toolchainopts = {'pic': True}
+
+# https://github.com/szcompressor/SZ2/archive/refs/tags/v2.1.12.5.tar.gz
+sources = [{
+    'download_filename': f'v{version}.tar.gz',
+    'filename':          SOURCE_TAR_GZ,
+    'source_urls':       ['https://github.com/szcompressor/SZ2/archive/refs/tags'],
+}]
+checksums = ['57511afe995c84daa1a2ea3024cae15946539575eb8121248dbcd6f56ce65fc3']
+
+builddependencies = [
+    ('buildtools',          '%(toolchain_version)s', '', True),
+    ('craype-accel-host',   EXTERNAL_MODULE),
+]
+
+dependencies = [
+    ('zlib',                     local_zlib_version),
+    ('cray-hdf5-parallel',       EXTERNAL_MODULE),
+    ('cray-netcdf-hdf5parallel', EXTERNAL_MODULE),
+]
+
+start_dir = f'SZ2-{version}'
+
+preconfigopts = 'module rm rocm cray-libsci && '
+prebuildopts = preconfigopts
+
+preconfigopts += ' && '.join([
+    'export PKG_CONFIG_PATH=$CRAY_MPICH_PREFIX/lib/pkgconfig:$PKG_CONFIG_PATH',
+    '; '.join([
+        'pushd %(builddir)s/SZ2-%(version)s/NetCDFReader',
+        'sed -i "s/IMPORTED_TARGET netcdf/IMPORTED_TARGET netcdf_parallel/" CMakeLists.txt',
+        'popd',
+    ]),
+]) + ' && '
+
+configopts = ' '.join([
+    '-DBUILD_FORTRAN=ON',
+    '-DBUILD_HDF5_FILTER=ON',
+    '-DBUILD_NETCDF_READER=ON',
+    '-DBUILD_OPENMP=ON',
+])
+
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cd ../SZ2-%(version)s && cp copyright-and-BSD-license.txt %(installdir)s/share/licenses/%(name)s',   
+]
+
+sanity_check_paths = {
+    'files': ['lib/libSZ.%s' % SHLIB_EXT],
+    'dirs': ['include', 'lib'],
+}
+
+moduleclass = 'data'

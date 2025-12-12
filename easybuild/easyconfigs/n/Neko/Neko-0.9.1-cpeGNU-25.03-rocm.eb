@@ -1,0 +1,60 @@
+# Updated for 25.03 by Kurt Lust.
+easyblock = 'ConfigureMake'
+
+name =          'Neko'
+version =       '0.9.1'
+versionsuffix = '-rocm'
+
+homepage = 'https://github.com/ExtremeFLOW/neko'
+
+whatis = [
+    "Description: Neko is a portable framework for high-order spectral element flow simulations."    
+]
+
+description = """
+Neko is a portable framework for high-order spectral element flow simulations. 
+Written in modern Fortran, Neko adopts an object-oriented approach, allowing 
+multi-tier abstractions of the solver stack and facilitating various hardware 
+backends ranging from general-purpose processors, CUDA and HIP enabled 
+accelerators to SX-Aurora vector processors. Neko has its roots in the 
+spectral element code Nek5000 from UChicago/ANL, from where many of the 
+namings, code structure and numerical methods are adopted.
+
+Neko is currently maintained and developed at KTH Royal Institute of 
+Technology.
+"""
+
+docurls = [
+    'https://github.com/ExtremeFLOW/neko/tree/develop/doc',
+]
+
+toolchain = {'name': 'cpeGNU', 'version': '25.03'}
+toolchainopts = {'openmp': True}
+
+# https://github.com/ExtremeFLOW/neko/releases/download/v1.0.0/neko-1.0.0.tar.gz
+source_urls = ["https://github.com/ExtremeFLOW/neko/releases/download/v%(version)s"]
+sources =     ["neko-%(version)s.tar.gz"]
+checksums =   ['098bee5cb807d10cdf2fb56111ba8cbc592882a87e4dae18caf9dbda894611ef']
+
+dependencies = [
+    ('rocm/6.3.4',   EXTERNAL_MODULE),
+    ('json-fortran', '9.0.5'),
+]
+
+preconfigopts = ' '.join([
+    'CFLAGS="-O2 -fopenmp"',   # The -ftree-vectorize added by EasyBuild causes issues with MPI_WaitAll
+    'FCFLAGS="-O2 -fopenmp"',  # The -ftree-vectorize added by EasyBuild causes issues with MPI_WaitAll
+    'HIP_HIPCC_FLAGS="-O2 -D__HIP_PLATFORM_AMD__ --offload-arch=gfx90a"',
+    'LDFLAGS="-Wl,-fuse-ld=bfd $PE_MPICH_GTL_DIR_amd_gfx90a $PE_MPICH_GTL_LIBS_amd_gfx942"',
+    #'LDFLAGS="-Wl,-fuse-ld=bfd -L/opt/cray/pe/mpich/8.1.32/gtl/lib -lmpi_gtl_hsa"', # Equivalent to the previous line.
+    'JSON_Fortran_CFLAGS="-I$EBROOTJSONMINFORTRAN/include/"'
+])
+
+configopts  = '--enable-device-mpi --with-hip'
+
+sanity_check_paths = {
+    'files': ['bin/neko', 'bin/makeneko', 'lib/libneko.a'],
+    'dirs':  ['bin', 'lib', 'lib64', 'include'],
+}
+
+moduleclass = 'phys'

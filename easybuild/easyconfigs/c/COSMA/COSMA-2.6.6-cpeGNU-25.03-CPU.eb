@@ -1,0 +1,78 @@
+# contributed by Peter Larsson (LUST)
+# Bump to the latest version and CPE version by Radim Janalik (CSCS)
+
+easyblock = 'CMakeMake'
+
+local_bzip2_version =        '1.0.8'         # http://www.bzip.org/downloads.html
+
+local_COSMA26_version =      '2.6.6'         # https://github.com/eth-cscs/COSMA/releases
+
+name =          'COSMA'
+version =       local_COSMA26_version
+versionsuffix = '-CPU'
+
+homepage = 'https://github.com/eth-cscs/COSMA'
+
+whatis = [
+    'Description: COSMA is a communication-optimal, GPU-accelerated, '
+    'matrix-matrix multiplication algorithm'
+]
+
+description = """
+COSMA is a parallel, high-performance, GPU-accelerated, matrix-matrix 
+multiplication algorithm that is communication-optimal for all combinations 
+of matrix dimensions, number of processors and memory sizes, without the 
+need for any parameter tuning. The key idea behind COSMA is to first derive 
+a tight optimal sequential schedule and only then parallelize it, preserving 
+I/O optimality between processes. 
+"""
+
+docurls = [
+    'Manual: https://github.com/eth-cscs/COSMA'
+]
+
+toolchain = {'name': 'cpeGNU', 'version': '25.03'}
+toolchainopts = {'opt': True}
+
+sources =     [{
+    'filename'   : SOURCELOWER_TAR_GZ,
+    'git_config' : {
+        'url'          : 'https://github.com/eth-cscs',
+        'repo_name'    : '%(name)s',
+        'tag'          : f'v{local_COSMA26_version}',
+        'recursive'    : True,
+        'keep_git_dir' : True, 
+    },
+}]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', SYSTEM), # For CMake
+    ('bzip2',      local_bzip2_version),
+]
+
+local_base_configopts = ' '.join([
+    '-DCMAKE_INSTALL_LIBDIR=lib',
+    '-DCOSMA_BLAS=CRAY_LIBSCI',
+    '-DCOSMA_SCALAPACK=CRAY_LIBSCI',
+    '-DCOSMA_WITH_TESTS=NO',
+    '-DCOSMA_WITH_BENCHMARKS=NO',
+    '-DCOSMA_WITH_APPS=NO',
+    '-DCOSMA_WITH_PROFILING=NO',
+])
+
+configopts = [
+    local_base_configopts + ' -DBUILD_SHARED_LIBS=NO',
+    local_base_configopts + ' -DBUILD_SHARED_LIBS=YES',
+]
+
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cd ../%(name)s && cp ATTRIBUTIONS.md INSTALL.md LICENSE README.md %(installdir)s/share/licenses/%(name)s',   
+]
+
+sanity_check_paths = {
+    'files': ['lib/libcosma.%s' % SHLIB_EXT, 'lib/libcosta.%s' % SHLIB_EXT],
+    'dirs':  [''],
+}
+
+moduleclass = 'math'

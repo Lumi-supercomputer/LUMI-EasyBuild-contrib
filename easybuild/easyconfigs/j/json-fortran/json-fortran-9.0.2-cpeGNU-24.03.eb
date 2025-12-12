@@ -2,10 +2,10 @@
 
 easyblock = 'CMakeMake'
 
-local_jsonc_version = '9.0.2'
+local_jsonfortran_version = '9.0.2'
 
 name = 'json-fortran'
-version = local_jsonc_version
+version = local_jsonfortran_version
 
 homepage = 'https://github.com/jacobwilliams/json-fortran'
 

@@ -14,6 +14,11 @@
 -   [kokkos-kernels package in Spack](https://packages.spack.io/package.html?name=kokkos-kernels)
 
 
-### Version 4.5.1 for cpeGNU and cpeAMD with ROCm 6.0.3
+### Version 4.5.01 for cpeGNU and cpeAMD with ROCm 6.0.3
 
 -   The EasyConfig is a LUST development.
+
+
+### Version 4.6.02 for cpeGNU and cpeAMD with ROCm 6.3.4
+
+-   The EasyConfig is a trivial port of the 4.5.01 one with some beautifications.

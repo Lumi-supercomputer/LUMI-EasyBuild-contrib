@@ -1,0 +1,36 @@
+easyblock = 'CMakeMake'
+
+local_libspatialindex_version = '2.1.0'      # https://github.com/libspatialindex/libspatialindex/releases
+
+name =    'libspatialindex'
+version = local_libspatialindex_version
+
+homepage = 'https://libspatialindex.org'
+
+whatis = [
+    'Description: C++ implementation of R*-tree, an MVR-tree and a TPR-tree with C API'
+]
+
+description = """
+C++ implementation of R*-tree, an MVR-tree and a TPR-tree with C API
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '25.03'}
+
+source_urls = ['https://github.com/%(name)s/%(name)s/releases/download/%(version)s/']
+sources =     ['spatialindex-src-%(version)s.tar.gz']
+checksums =   ['b36e2f8ac4c91a6d292f11d5925d584e13674015afd2132ed2870f1b5ec7b9ad']
+
+builddependencies = [
+    ('buildtools',        '%(toolchain_version)s', '', True),
+    ('craype-accel-host', EXTERNAL_MODULE),
+]
+
+preconfigopts = prebuildopts = 'module rm rocm && '
+
+sanity_check_paths = {
+    'files': ['lib/%s.%s' % (name, SHLIB_EXT)],
+    'dirs':  ['include/spatialindex'],
+}
+
+moduleclass = 'lib'

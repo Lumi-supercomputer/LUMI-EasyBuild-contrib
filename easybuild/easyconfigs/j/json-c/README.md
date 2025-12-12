@@ -43,4 +43,8 @@
 
 -   Version derived from the 0.17 EasyConfigs for CPE 24.03, but now using the SYSTEM
     toolchain specifically for use with a special version of libfabric used by Open MPI 5.    
-    
+
+
+### Version 0.18 for CPE 25.03
+
+-   Trivial port of the EasyConfig for 0.17 in 24.03.

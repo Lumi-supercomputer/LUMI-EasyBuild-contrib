@@ -1,0 +1,242 @@
+easyconfigs:
+#
+# ADIOS2
+#
+  - SZ-2.1.12.5-cpeGNU-25.03-hdf5.eb
+  - SZ-2.1.12.5-cpeGNU-25.03-hdf5-parallel.eb
+  - zfp-1.0.1-cpeGNU-25.03.eb
+  - OpenPGM-5.2.122-cpeGNU-25.03.eb
+  - libsodium-1.0.20-cpeGNU-25.03.eb
+  - ZeroMQ-4.3.5-cpeGNU-25.03.eb
+  - yaml-cpp-0.8.0-cpeGNU-25.03.eb
+  - ADIOS2-2.10.2-cpeGNU-25.03-noMPI-hdf5.eb
+  - ADIOS2-2.10.2-cpeGNU-25.03-MPI-hdf5-parallel.eb
+#
+# amd-aocl (AOCL)
+#
+  - aocl-utils-5.1-cpeGNU-25.03.eb
+  - aocl-utils-5.1-cpeGNU-25.03.eb
+  - BLIS-5.1-cpeGNU-25.03-amd.eb
+  - BLIS-5.1-cpeGNU-25.03-amd-ILP64.eb
+  - BLIS-5.1-cpeCray-25.03-amd.eb
+  - BLIS-5.1-cpeCray-25.03-amd-ILP64.eb
+  - libFLAME-5.1-cpeGNU-25.03-amd.eb
+  - libFLAME-5.1-cpeCray-25.03-amd.eb
+  - libFLAME-5.1-cpeGNU-25.03-amd-ILP64.eb
+  - libFLAME-5.1-cpeCray-25.03-amd-ILP64.eb
+  - ScaLAPACK-5.1-cpeGNU-25.03-amd.eb
+  - ScaLAPACK-5.1-cpeCray-25.03-amd.eb
+  - amd-aocl-5.1-cpeGNU-25.03.eb
+  - amd-aocl-5.1-cpeCray-25.03.eb
+#
+# aria2
+#
+  - CppUnit-1.15.1-cpeGNU-25.03.eb
+  - CppUnit-1.15.1-cpeCray-25.03.eb
+  #- CppUnit-1.15.1-cpeAOCC-25.03.eb
+  - c-ares-1.34.5-cpeGNU-25.03.eb
+  - c-ares-1.34.5-cpeCray-25.03.eb
+  #- c-ares-1.34.5-cpeAOCC-25.03.eb
+  - aria2-1.37-cpeGNU-25.03.eb
+  - aria2-1.37-cpeCray-25.03.eb
+  #- aria2-1.37-cpeAOCC-25.03.eb
+#
+# BCFtools and related bio-informatics tools
+#
+  - HTSlib-1.22.1-cpeGNU-25.03.eb
+  - BCFtools-1.22-cpeGNU-25.03.eb
+  - SAMtools-1.22.1-cpeGNU-25.03.eb
+  - STAR-2.7.11b-cpeGNU-25.03.eb
+  - VCFtools-0.1.17-cpeGNU-25.03.eb
+#
+# CDO
+#
+  - json-c-0.18-cpeGNU-25.03.eb
+  - json-c-0.18-cpeCray-25.03.eb
+  #- json-c-0.18-cpeAOCC-25.03.eb
+  - CMOR-3.13.0-cpeGNU-25.03.eb
+  - CMOR-3.13.0-cpeCray-25.03.eb
+  - ecCodes-2.42.0-cpeGNU-25.03.eb
+  - ecCodes-2.42.0-cpeCray-25.03.eb
+  - CDO-2.5.4-cpeGNU-25.03.eb
+  - CDO-2.5.4-cpeCray-25.03.eb
+#
+# CP2K
+#
+  - COSMA-2.6.6-cpeGNU-25.03-CPU.eb
+  - COSMA-2.7.0-cpeGNU-25.03-CPU.eb
+  - PLUMED-2.9.4-cpeGNU-25.03-noPython.eb
+  - ELPA-2024.05.001-cpeGNU-25.03-CPU.eb
+  - Libint-CP2K-2.7.2-cpeGNU-25.03.eb
+  - libvori-220621-cpeGNU-25.03.eb
+  - libxc-6.2.2-cpeGNU-25.03.eb
+  - libxsmm-1.17-cpeGNU-25.03.eb
+  - spglib-2.6.0-cpeGNU-25.03.eb
+  - CP2K-2024.3-cpeGNU-25.03-CPU.eb
+# Other versions of CP2K not ported yet.
+#
+# Cython
+#
+  - Cython-3.1.2-cpeGNU-25.03.eb
+# On LUMI-G also used for CuPy.
+#
+# feh (image viewer)
+#
+  - libexif-0.6.25-cpeGNU-25.03.eb
+  - Imlib2-1.12.5-cpeGNU-25.03.eb
+  - feh-3.11.2-cpeGNU-25.03.eb
+#
+# fpocket
+#
+  - fpocket-4.2.2-cpeGNU-25.03.eb
+#
+# GDAL
+#
+  - HDF-4.2.16-2-cpeGNU-25.03.eb
+  - GEOS-3.14.1-cpeGNU-25.03.eb
+  - libgeotiff-1.7.4-cpeGNU-25.03.eb
+  - Xerces-C++-3.3.0-cpeGNU-25.03.eb
+  - GDAL-3.12.0-cpeGNU-25.03-noPython.eb
+  - GDAL-3.12.0-cpeGNU-25.03-cray-python-3.11.7.eb
+#
+# GROMACS
+#
+# TODO
+#
+# LAMMPS
+#
+  - PLUMED-2.9.4-cpeGNU-25.03-noPython.eb
+  - LAMMPS-22Jul2025_update2-cpeGNU-25.03-CPU.eb
+#
+# mpiFileUtils
+#
+  - mpiFileUtils-0.12-cpeGNU-25.03.eb
+  - mpiFileUtils-0.12-cpeCray-25.03.eb
+  - mpiFileUtils-0.12-cpeAOCC-25.03.eb
+#
+# MUMPS
+#
+  - MUMPS-5.6.1-cpeGNU-25.03-OpenMP.eb
+  - MUMPS-5.6.1-cpeGNU-25.03-noOpenMP.eb
+  - MUMPS-5.8.1-cpeGNU-25.03-static-OpenMP.eb
+  - MUMPS-5.8.1-cpeGNU-25.03-static-noOpenMP.eb
+#
+# NCO
+#
+  - CppUnit-1.15.1-cpeGNU-25.03.eb
+  - CppUnit-1.15.1-cpeCray-25.03.eb
+  #- CppUnit-1.15.1-cpeAOCC-25.03.eb
+  - libdap-3.21.1-cpeGNU-25.03.eb
+  - libdap-3.21.1-cpeCray-25.03.eb
+# libdap was used in NCO but have trouble with it in 25.03
+  - Java-21.0.8.eb
+  - Java-21.eb
+  - ANTLR-2.7.7-cpeGNU-25.03-cray-python3.11.eb
+  - ANTLR-2.7.7-cpeCray-25.03-cray-python3.11.eb
+  - ESMF-8.8.1-cpeGNU-25.03-noMPI.eb
+  - ESMF-8.8.1-cpeGNU-25.03-MPI-PIO.eb
+  - ESMF-8.8.1-cpeCray-25.03-noMPI.eb
+  - ESMF-8.8.1-cpeCray-25.03-MPI-PIO.eb
+  - NCO-5.3.4-cpeGNU-25.03.eb
+  - NCO-5.3.4-cpeCray-25.03.eb
+#
+# ncview
+#
+  - ncview-2.1.11-cpeGNU-25.03.eb
+  - ncview-2.1.11-cpeCray-25.03.eb
+  #- ncview-2.1.11-cpeAOCC-25.03.eb
+#
+# OpenBLAS
+#
+  - OpenBLAS-0.3.30-cpeGNU-25.03.eb
+#
+# PETSc with and without Hypre.
+#
+  - MUMPS-5.6.1-cpeGNU-25.03-OpenMP.eb
+  - Hypre-2.33.0-cpeGNU-25.03.eb
+  - SuperLU-7.0.1-cpeGNU-25.03-OpenMP.eb
+  - SuperLU_DIST-9.2.0-cpeGNU-25.03-OpenMP-CPU.eb
+  - PETSc-3.24.2-cpeGNU-25.03-OpenMP-CPU.eb
+#
+# Other versions of PLUMED
+#
+  - PLUMED-2.9.4-cpeGNU-25.03-cray-python-3.11.7.eb
+#
+# OpenFOAM
+#
+  - Zoltan-3.901-cpeGNU-25.03.eb
+  - OpenFOAM-13-cpeGNU-25.03-master.eb
+  - CGAL-5.6.3-cpeGNU-25.03-OpenFOAM.eb
+  - OpenFOAM-v2506-cpeGNU-25.03.eb
+#
+# QuEST
+#
+  - QuEST-3.7.0-cpeGNU-25.03-prec2-hybrid.eb
+  - QuEST-4.2.0-cpeGNU-25.03-prec2-hybrid.eb
+#
+# R
+#
+ - Info-ZIP-3.0-6.0-cpeGNU-25.03.eb
+ - R-4.5.1-cpeGNU-25.03-OpenMP-raw.eb
+ - R-4.5.1-cpeGNU-25.03-OpenMP.eb
+#
+# STRUMPACK
+#
+  - zfp-1.0.1-cpeGNU-25.03.eb
+  - STRUMPACK-7.2.0-cpeGNU-25.03-OpenMP.eb
+  - STRUMPACK-8.0.0-cpeGNU-25.03-OpenMP.eb
+#
+# SuperLU single- and multi-threaded and distributed
+#
+  - SuperLU-6.0.1-cpeGNU-25.03-OpenMP.eb
+  - SuperLU-7.0.1-cpeGNU-25.03.eb
+  - SuperLU-7.0.1-cpeGNU-25.03-OpenMP.eb
+  - SuperLU_MT-4.0.1-cpeGNU-25.03-OpenMP.eb
+  - SuperLU_DIST-9.2.0-cpeGNU-25.03-OpenMP-CPU.eb
+#
+# Trilinos
+#
+  - MATIO-1.5.29-cpeGNU-25.03.eb
+  - MUMPS-5.6.1-cpeGNU-25.03-OpenMP.eb
+  - MUMPS-5.6.1-cpeGNU-25.03-noOpenMP.eb
+  - MUMPS-5.8.1-cpeGNU-25.03-static-OpenMP.eb
+  - MUMPS-5.8.1-cpeGNU-25.03-static-noOpenMP.eb
+  - Trilinos-15.1.1-cpeGNU-25.03-OpenMP.eb
+#
+# UppASD
+#
+  - UppASD-6.0.2-cpeGNU-25.03.eb
+#
+# VTK
+#
+  - Silo-4.11.1-cpeGNU-25.03.eb
+  - Conduit-0.9.4-cpeGNU-25.03.eb
+  - Catalyst-2.0.0-cpeGNU-25.03.eb
+  - zfp-1.0.1-cpeGNU-25.03.eb
+# Leading to VTK which has not yet been ported to 25.03
+#
+# Yambo
+#
+  - MUMPS-5.6.1-cpeGNU-25.03-OpenMP.eb
+  - Hypre-2.33.0-cpeGNU-25.03.eb
+  - SuperLU-7.0.1-cpeGNU-25.03-OpenMP.eb
+  - SuperLU_DIST-9.2.0-cpeGNU-25.03-OpenMP-CPU.eb
+  - PETSc-3.24.2-cpeGNU-25.03-OpenMP-CPU.eb
+  - Yambo-5.2.4-cpeGNU-25.03.eb
+################################################################################
+#
+# Packages that require manual downloads
+#
+#
+# NAMD
+#
+  - NAMD-3.0.2-cpeGNU-25.03-mpi-crayshasta.eb
+  - NAMD-3.0.2-cpeGNU-25.03-ofi-crayshasta.eb
+#
+# VASP
+#
+ - DFTD4-3.7.0-cpeGNU-25.03.eb
+ - Wannier90-3.1.0-cpeGNU-25.03.eb
+ #- VASP-6.5.0-cpeGNU-25.03-build01.eb
+ #- VASP-6.5.0-cpeGNU-25.03-build02.eb
+#

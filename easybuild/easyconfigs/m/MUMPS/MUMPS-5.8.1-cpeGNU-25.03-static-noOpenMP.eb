@@ -1,0 +1,51 @@
+#DOC MUMPS compiled with the single-threaded LibSci libraries, as a static library only for now.
+
+
+local_SCOTCH7_version =      '7.0.8'         # https://gforge.inria.fr/projects/scotch/
+local_METIS_version =        '5.1.0'         # https:/http://glaros.dtc.umn.edu/gkhome/metis/metis/download
+
+name =          'MUMPS'
+version =       '5.8.1'
+versionsuffix = '-static-noOpenMP'
+
+homepage = 'https://graal.ens-lyon.fr/MUMPS/'
+
+whatis = [
+    'Description: A parallel sparse direct solver',
+]
+
+description = """
+MUMPS stands for MUltifrontal Massively Parallel sparse direct Solver.
+
+Both static and shared libraries are provided. This version is using the
+single-threaded LibSci.
+"""
+
+docurls = [
+    'User guide downloadable from https://mumps-solver.org/index.php?page=doc'
+]
+
+toolchain = {'name': 'cpeGNU', 'version': '25.03'}
+toolchainopts = {'pic': True, 'usempi': True, 'openmp': False, 'gfortran9-compat': True}
+
+source_urls = ['http://mumps-solver.org/']
+sources = ['%(name)s_%(version)s.tar.gz']
+
+checksums = [
+    {'MUMPS_%(version)s.tar.gz'             : 'e91b6dcd93597a34c0d433b862cf303835e1ea05f12af073b06c32f652f3edd8'},
+]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+    ('SCOTCH', local_SCOTCH7_version),
+    ('METIS',  local_METIS_version),
+]
+
+max_parallel = 1
+
+buildopts = 'all SONAME_VERSION="%(version)s"'
+
+moduleclass = 'math'

@@ -26,3 +26,13 @@
 
     Note that the main author, Pieter Ghysels, has left the national labs and is
     now working for AMD. It remains to be seen how this package will further evolve. 
+
+    
+### Version 7.2.0 CPU for cpeGNU 25.03
+
+-   The EasyConfig is a straightforward port of the one for 7.0.1 in 24.03.
+
+
+### Version 8.0.0 CPU for cpeGNU 25.03
+
+-   The EasyConfig is a straightforward port of the one for 7.2.0 for 25.03.

@@ -11,18 +11,23 @@
 
 ## EasyBuild
 
-  * [h5py support in the EasyBuilders repository](https://github.com/easybuilders/easybuild-easyconfigs/tree/develop/easybuild/easyconfigs/h/h5py)
+-   [h5py support in the EasyBuilders repository](https://github.com/easybuilders/easybuild-easyconfigs/tree/develop/easybuild/easyconfigs/h/h5py)
 
-  * [h5py support in the CSCS repository](https://github.com/eth-cscs/production/tree/master/easybuild/easyconfigs/h/h5py)
+-   [h5py support in the CSCS repository](https://github.com/eth-cscs/production/tree/master/easybuild/easyconfigs/h/h5py)
+
 
 ### Version 3.6.0 for CPE GNU 22.08
 
-  * Is taken from the CSCS repository
+-   Is taken from the CSCS repository
+
 
 ### Version 3.7.0 for CPE 22.08
 
-  * Based on CSCS version with additional information added
+-   Based on CSCS version with additional information added
 
-### Version 3.11.0 for CPE 24.03
 
-  * Based on previous easyconfigs
+### Version 3.11.0 for CPE 24.03 and 25.03
+
+-   Based on previous easyconfigs
+    
+-   Stuck to 3.11.0 for 25.03 also to avoid NumPy version issues.

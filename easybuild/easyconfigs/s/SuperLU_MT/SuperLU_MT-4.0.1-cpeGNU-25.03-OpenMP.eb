@@ -1,0 +1,73 @@
+# Written by Kurt Lust
+#DOC Builds both static and shared libraries based on OpenMP. Due to the way the build process
+#DOC works, the shared one also links to the multi-threaded LibSci for BLAS.
+easyblock = "CMakeMake"
+
+name =          'SuperLU_MT'
+version =       '4.0.1'
+versionsuffix = '-OpenMP'
+
+homepage = 'https://crd-legacy.lbl.gov/~xiaoye/SuperLU/'
+
+whatis = [
+    'Description: SuperLU_MT is a multithreaded general purpose library for the direct solution of large, sparse, ' +
+    'nonsymmetric systems of linear equations on high performance machines.'
+]
+
+description = """
+SuperLU_MT contains a set of subroutines to solve a sparse linear system 
+A*X=B. It uses Gaussian elimination with partial pivoting (GEPP). 
+The columns of A may be preordered before factorization; the 
+preordering for sparsity is completely separate from the factorization.
+
+SuperLU_MT is a parallel extension to the serial SuperLU library.
+SuperLU_MT is implemented in ANSI C, with multithreading extension,
+for example, using POSIX threads or OpenMP. Currently, only the LU
+factorization routine, which is the most time-consuming part of the
+solution process, is parallelized on machines with a shared address space.
+The other routines, such as column preordering and the forward and
+back substitutions are performed sequentially.
+The library provides functionality for both real and complex
+matrices, in both single and double precision.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '25.03'}
+toolchainopts = {'pic': True, 'openmp': True}
+
+github_account = 'xiaoyeli'
+source_urls =    [GITHUB_LOWER_SOURCE]
+sources =        ["v%(version)s.tar.gz"]
+checksums =      ['b6de5c8ebf8fa6c7c0d607f0607f522454315632ae55b70babf908b94e9602cb']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+]
+
+local_common_configopts = ' '.join([
+    '-DPLAT=_OPENMP',
+    '-DTPL_ENABLE_INTERNAL_BLASLIB=OFF',
+])
+
+configopts = [
+    '-DBUILD_SHARED_LIBS=ON  ' + local_common_configopts,      
+    '-DBUILD_SHARED_LIBS=OFF ' + local_common_configopts,      
+]
+
+# Some tests run longer than default 1500s timeout on fairly big machine (36 cores).
+# Include only first four tests, which should be fairly small to run
+pretestopts = 'export ARGS="$ARGS --tests-regex pdtest_[21]x1_[13]_2_8_20_SP" && '
+
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cd ../%(namelower)s-%(version)s && cp License.txt README %(installdir)s/share/licenses/%(name)s',   
+]
+
+sanity_check_paths = {
+    'files': ['lib/libsuperlu_mt_OPENMP.a', 'lib/libsuperlu_mt_OPENMP.%s' % SHLIB_EXT],
+    'dirs':  ['include']
+}
+
+moduleclass = 'numlib'

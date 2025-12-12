@@ -42,3 +42,15 @@
     SZ version 3. `github.com/szcompressor/SZ` is now empty repo. 
     The source is now at `github.com/szcompressor/SZ2`
 
+-   Changed the name of the one using `cray-hdf5` for the 25.03 stack so that the 
+    difference between the two variants becomes clearer just from the name.
+
+
+### 2.1.12.5 for CPE 25.03
+
+-   Mostly a trivial port of the EasyConfig for this version for 24.03, but we
+    corrected the download location as that has changed.
+    
+    The change in the download location with with an effective name change to SZ2,
+    which we did not implement in EasyBuild but which did require several other 
+    corrections also in the EasyConfig.

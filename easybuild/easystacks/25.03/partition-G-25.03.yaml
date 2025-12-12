@@ -1,0 +1,81 @@
+easyconfigs:
+#
+# ADIOS2
+#
+  - SZ-2.1.12.5-cpeGNU-25.03-hdf5.eb
+  - SZ-2.1.12.5-cpeGNU-25.03-hdf5-parallel.eb
+  - zfp-1.0.1-cpeGNU-25.03.eb
+  - OpenPGM-5.2.122-cpeGNU-25.03.eb
+  - libsodium-1.0.20-cpeGNU-25.03.eb
+  - ZeroMQ-4.3.5-cpeGNU-25.03.eb
+  - yaml-cpp-0.8.0-cpeGNU-25.03.eb
+  - ADIOS2-2.10.2-cpeGNU-25.03-noMPI-hdf5.eb
+  - ADIOS2-2.10.2-cpeGNU-25.03-MPI-hdf5-parallel.eb
+#
+# Cython and CuPy
+#
+  - Cython-3.1.2-cpeGNU-25.03.eb
+  - CuPy-13.5.1-cpeGNU-25.03-rocm.eb
+#
+# ecCodes
+#
+  - ecCodes-2.42.0-cpeGNU-25.03.eb
+  - ecCodes-2.42.0-cpeCray-25.03.eb
+#
+# GROMACS
+#
+  - AdaptiveCpp-25.02.0-cpeAMD-25.03-rocm.eb
+  - HeFFTe-2.4.1-cpeAMD-25.03-rocm.eb
+  - GROMACS-2025.1-cpeAMD-25.03-VkFFT-rocm.eb
+  - GROMACS-2025.1-cpeAMD-25.03-HeFFTe-rocm.eb
+#
+# Kokkos
+#
+  - Kokkos-4.6.02-cpeGNU-25.03-rocm.eb
+  - Kokkos-kernels-4.6.02-cpeGNU-25.03-rocm.eb
+  - Kokkos-4.6.02-cpeAMD-25.03-rocm.eb
+  - Kokkos-kernels-4.6.02-cpeAMD-25.03-rocm.eb
+#
+# LAMMPS
+#
+  - PLUMED-2.9.4-cpeAMD-25.03-noPython.eb
+  #- LAMMPS-22Jul2025_update2-cpeAMD-25.03-rocm.eb # Does not yet build.
+#
+# mpiFileUtils
+#
+  - mpiFileUtils-0.12-cpeGNU-25.03.eb
+  - mpiFileUtils-0.12-cpeCray-25.03.eb
+  - mpiFileUtils-0.12-cpeAMD-25.03.eb
+#
+# NAMD
+#
+  - Charm++-8.0.0-cpeGNU-25.03-mpi-crayshasta-smp.eb
+  - NAMD-3.0.2-cpeGNU-25.03-rocm-gpu-offload.eb
+  - Charm++-8.0.0-cpeGNU-25.03-multicore.eb
+  - NAMD-3.0.2-cpeGNU-25.03-rocm-gpu-resident.eb
+# NAMD GPU resident is broken.
+#
+# Neko
+#
+  - json-fortran-9.0.5-cpeGNU-25.03.eb
+  - json-fortran-8.3.0-cpeCray-25.03.eb
+  - Neko-0.9.1-cpeGNU-25.03-rocm.eb
+  - Neko-0.9.1-cpeCray-25.03-rocm.eb
+  # Neko 1.0.0 was out but did not compile.
+#
+# OpenBLAS
+#
+  - OpenBLAS-0.3.30-cpeGNU-25.03.eb
+#
+# PyFR
+#
+  - h5py-3.11.0-cpeGNU-25.03.eb
+  - h5py-3.11.0-cpeGNU-25.03-parallel.eb
+  - libspatialindex-2.1.0-cpeGNU-25.03.eb
+  - PyFR-2.1-cpeGNU-25.03-rocm.eb
+#
+# QuEST
+#
+  - QuEST-3.7.0-cpeGNU-25.03-prec2-rocm.eb
+  - QuEST-4.2.0-cpeGNU-25.03-prec2-rocm.eb
+#

@@ -1,0 +1,83 @@
+easyblock = 'ConfigureMake'
+
+local_libxml2_version =      '2.13.4'        # http://xmlsoft.org/sources/
+local_SQLite_version =       '3.47.2'        # https://www.sqlite.org/
+local_zlib_version =         '1.3.1'         # https://zlib.net/
+
+local_cares_version =        '1.34.5'        # https://github.com/c-ares/c-ares/releases
+local_CppUnit =              '1.15.1'        # https://dev-www.libreoffice.org/src/
+
+local_aria2_version =        '1.37.0'        # https://github.com/aria2/aria2/releases
+
+name =    'aria2'
+version = local_aria2_version
+
+homepage = 'https://aria2.github.io'
+
+whatis = [
+    'Description: aria2 is a lightweight multi-protocol & multi-source command-line download utility.'
+]
+
+description = """
+aria2 is a lightweight multi-protocol & multi-source command-line download 
+utility. It supports HTTP/HTTPS, FTP, SFTP, BitTorrent and Metalink. aria2 
+can be manipulated via built-in JSON-RPC and XML-RPC interfaces.
+"""
+
+docurls = [
+    'Man page for the ares2 command in section 1',    
+]
+
+software_license_urls = ['https://raw.githubusercontent.com/aria2/aria2/release-%(version)s/COPYING']
+
+toolchain = {'name': 'cpeAMD', 'version': '25.03'}
+
+source_urls = ['https://github.com/aria2/aria2/releases/download/release-%(version)s']
+sources =     [SOURCE_TAR_GZ]
+checksums =   ['8e7021c6d5e8f8240c9cc19482e0c8589540836747744724d86bf8af5a21f0e8']
+
+builddependencies = [
+    # Main software stack
+    ('buildtools',          '%(toolchain_version)s',   '', True),
+    ('craype-network-none', EXTERNAL_MODULE),
+    ('craype-accel-host',   EXTERNAL_MODULE),
+    # Contrib 
+    ('CppUnit',             local_CppUnit),
+]
+
+dependencies = [
+    # Main software stack
+    ('zlib',    local_zlib_version),
+    ('libxml2', local_libxml2_version),
+    ('SQLite',  local_SQLite_version),
+    # Contrib
+    ('c-ares',  local_cares_version),
+]
+
+# One of the tests does not work but it is not clear what the cause is, and it breaks the build.
+skipsteps = ['test']
+
+preconfigopts = 'module unload rocm cray-libsci && '
+prebuildopts = preconfigopts
+
+configopts = "--without-gnutls --with-openssl --enable-libaria2 --enable-static"
+
+#runtest = 'check'
+
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cp AUTHORS COPYING NEWS README %(installdir)s/share/licenses/%(name)s',   
+]
+
+sanity_check_paths = {
+    'files': ['bin/aria2c', 'lib/libaria2.a', 'lib/libaria2.%s' % SHLIB_EXT, 
+              'share/man/man1/aria2c.1'],
+    'dirs':  ['share'],
+}
+
+sanity_check_commands = [
+    'aria2c --help',
+    'pkg-config --libs libaria2',
+]
+
+moduleclass = 'tools'

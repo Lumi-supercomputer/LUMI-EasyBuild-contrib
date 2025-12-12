@@ -1,0 +1,63 @@
+easyblock = 'CMakeMake'
+
+name =          'Kokkos'
+version =       '4.6.02'
+versionsuffix = '-rocm'
+
+homepage = 'https://kokkos.org/'
+
+whatis = [
+    "Description: Kokkos C++ Performance Portability Programming Ecosystem: The Programming Model - Parallel Execution and Memory Abstraction"
+]
+
+description = """
+Kokkos C++ Performance Portability Programming Ecosystem: The Programming 
+Model - Parallel Execution and Memory Abstraction
+"""
+
+toolchain = {'name': 'cpeAMD', 'version': '25.03'}
+toolchainopts = {'verbose': False, 'openmp': True}
+
+sources = [{
+    'filename': '%(name)s-%(version)s.tar.gz',
+    'git_config': {
+        'url': 'https://github.com/kokkos',
+        'repo_name': '%(namelower)s',
+        'commit': '%(version)s',
+    }
+}]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+    ('rocm',        EXTERNAL_MODULE),
+]
+
+preconfigopts = 'module unload craype-accel-amd-gfx90a && '
+
+configopts = ' '.join([
+    '-D CMAKE_CXX_COMPILER=${ROCM_PATH}/bin/hipcc',
+    '-D BUILD_SHARED_LIBS=ON',
+    '-D Kokkos_ENABLE_ROCM=ON',
+    '-D Kokkos_ENABLE_HIP=ON',
+    '-D Kokkos_ENABLE_OPENMP=ON',
+    '-D Kokkos_ARCH_ZEN3=ON',
+    '-D Kokkos_ARCH_AMD_GFX90A=ON',
+    '-D OpenMP_CXX_FLAGS=-fopenmp',
+    '-D Kokkos_ENABLE_DEPRECATION_WARNINGS=ON',
+    '-D Kokkos_ENABLE_HIP_MULTIPLE_KERNEL_INSTANTIATIONS=ON',
+])
+
+prebuildopts = 'module unload craype-accel-amd-gfx90a && '
+
+sanity_check_paths = {
+    'files': ['lib/libkokkoscore.%s' % SHLIB_EXT,
+              'lib/libkokkoscontainers.%s' % SHLIB_EXT,
+              'include/KokkosCore_config.h'],
+    'dirs': ['lib', 'include'],
+}
+
+moduleclass = 'lib'
+

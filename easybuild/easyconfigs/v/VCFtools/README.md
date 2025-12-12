@@ -31,3 +31,9 @@ and response on issues raised seems to be slow also.
 -   For the version for 22.06, a patch was developed based on a recent
     bug fix in the GitHub repository (and basically the only change
     since this release or in 3 years).
+
+    
+### Version 0.1.17 from 25.03 on
+
+-   Trivial update of the 0.1.16 EasyConfig for 24.03, but the patch was
+    no longer needed as this is now corrected already in VCFtools.

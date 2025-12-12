@@ -25,6 +25,10 @@
 
 -   The EasyConfig is a direct port of the EasyBuilders one,
     but we also copy the license files.
-    
-    
+
+
+### Version 1.12.5 in 25.03
+
+-   The EasyConfig is a straightforward update of the 1.12.3 one for 24.03,
+    but we made it a bit more conforming to our standards.
     

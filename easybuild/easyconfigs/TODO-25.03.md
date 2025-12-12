@@ -1,0 +1,126 @@
+# TODO's
+
+## GROMACS
+
+Could use a version update to the latest 2025 release.
+
+As soon as 2026 comes out, we should have a look at the HIP version also, probably
+together with Paul from AMD.
+
+
+## hipfort
+
+HipFORT now seems to be an official product with the version numbering also changed
+to the version of ROCm it is meant to be used for.
+
+Hence the old EasyConfigs likely don't work anymore. It doesn't make sense to 
+replace them now though, but for 25.03 we should use the last 6.3 version.
+
+
+## LAMMPS for GPU
+
+LAMMPS for GPU does not yet build. It complains it cannot find the HIP runtime and 
+that a compiler flag should be specified, but that flag is specified...
+
+
+## Rust and HyperQueue
+
+Tried to build Rust 1.91.1. It builds without issues with our EasyConfig, but the
+resulting compiler fails to link programs properly (at least when I then tried it
+with HyperQueue).
+
+HyperQueue 0.24.0 on the other hand doesn't build with Rust 1.80.1, our previous
+version that worked so far for us. It requires a special Cargo feature that only
+appeared in newer versions of Rust.
+
+
+## MUMPS for Trilinos
+
+MUMPS 5.6.1 builds with static and shared libraries.
+
+The build of 5.8.1 following the EasyBuilders EasyConfig does not seem to work
+and also builds static libraries only. With the old shared-pord patch it does
+build, but still only static libraries.
+
+
+## Neko
+
+I believe this EasyConfig was contributed by the authors, as it contains lots of
+unnecessary preconfigopts.
+
+1.0.0 compiles with neither the GNU compilers (known issue with the C API according
+to the release notes) and with the Cray compilers (issues with recent Cray Fortan
+compilers also mentioned in the release notes).
+
+So keep an eye on the evolution and eventual bug fixes.
+
+
+## nvtop
+
+The issues that we run into are likely due to libraries that are on LUMI but not in
+the container on which we test. So let's wait for a LUMI update to see what needs
+to be done.
+
+
+## PETSc
+
+GPU versions still to be done.
+
+
+## Rust
+
+Tried to build a new Rust version (1.91.1), but it turned out that the resulting compiler 
+couldn't link.
+
+
+## Siesta
+
+Haven't had a look at it yet as it may require some testing also.
+
+
+## Trilinos
+
+Could use a version update. Note that a lot of packages are deprecated in version 16,
+so for 17 the package list will definitely need to be adapted.
+
+-   In version 15, there was an error in the settings that point to netCDF: The 
+    `_PREFIX` environment variables should be used and not the `_DIR` ones.
+    
+    Yet even with this change, the build still fails.
+    
+    
+## WRF-SFIRE
+
+This was contributed by EPICURE. 
+
+The build process is a mess, requiring an in-place build process in the installation 
+directories with a very nonstandard build process that actually requires interactive use
+of the configure tool and partly also requires setting a lot of environment variables
+while configuring and building.
+
+The code is not compatible with GCC 14 unless some errors are disabled which also has to
+be done by editing `--Wno-implicit-function-declaration` into the flags passed to the C
+compile in `configure.wrf` (the `CFLAGS_LOCAL` line.
+
+Currently building still fails in the Fortran part of the code where in various places
+module files are not found even though at least the ones in the first error messages
+seem to exist.
+
+Unfortunately the build process also does not exit at the first error, so it is not 
+clear if files that are found at the end but not found when they were needed, where
+generated later on in the build process.
+
+Basically this is debugging a build process and not really LUST work.
+
+
+## Yambo
+
+Yambo 5.2.4 compiles and is a minor update of the version offered in 24.03.
+
+However, moving to 5.3.0 results in issues. During the compilation a Fortran modulefile
+is needed that does not exist yet. Further investigation is needed to find out what is
+happening here. It likely fails to compile the internal DevXlib properly at the right
+moment. There is an error message from chmod in the output where it says it fails to 
+find `*devXliba` files.
+
+Checking the Spack recipe did not help us as that one also does not yet support 5.3.0.

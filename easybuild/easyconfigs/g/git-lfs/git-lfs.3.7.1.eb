@@ -1,0 +1,42 @@
+# author: jg (cscs)
+# Ported to LUMI by Kurt Lust (LUST and University of Antwerpen)
+easyblock = "Tarball"
+
+name =    'git-lfs'
+version = '3.7.1'
+
+homepage = 'https://git-lfs.github.com/'
+
+whatis = [
+    'Description: Git Large File Storage (LFS) extension for git'
+]
+
+description = """
+Git Large File Storage (LFS) replaces large files such as
+audio samples, videos, datasets, and graphics with text pointers inside Git,
+while storing the file contents on a remote server like GitHub.com or GitHub
+Enterprise.
+"""
+
+toolchain = SYSTEM
+
+source_urls = ['https://github.com/%(name)s/%(name)s/releases/download/v%(version)s/']
+sources =     ['%(name)s-linux-amd64-v%(version)s.tar.gz']
+checksums =   ['1c0b6ee5200ca708c5cebebb18fdeb0e1c98f1af5c1a9cba205a4c0ab5a5ec08']
+
+# create a bin directory and move the executable there
+# remove exec permission for the provided installation script
+postinstallcmds = [
+    "mkdir %(installdir)s/bin && mv %(installdir)s/git-lfs %(installdir)s/bin && chmod og-x %(installdir)s/install.sh"
+]
+
+sanity_check_paths = {
+    'files': ["bin/git-lfs"],
+    'dirs':  ['']
+}
+
+sanity_check_commands = [
+    'git-lfs --version'
+]
+
+moduleclass = 'tools'

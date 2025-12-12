@@ -1,0 +1,52 @@
+#DOC! User installation is possible in `partit0on/common`, making a single installation
+#DOC! available in all regular partitions.
+easyblock = 'PackedBinary'
+
+name =          'unicore-uftp'
+version =       '2.2.2'
+versionsuffix = '-Java-%(javaver)s'
+
+homepage = 'https://github.com/UNICORE-EU'
+
+whatis = [
+    'Description: UNICORE client for UFTP (Java-based)'
+]
+
+description = """
+This module provides the UNICORE Java-based client for UFTP.
+
+This is offered as-is as we have no access to a UFTP server to test the
+package. There are also no plans to offer a UFTP server service on LUMI.
+"""
+
+docurls = [
+    'Web-based manual: https://uftp-docs.readthedocs.io/en/latest/user-docs/uftp-client/index.html'    
+]
+
+toolchain = SYSTEM
+
+# https://github.com/UNICORE-EU/uftp-javaclient/releases/download/1.8.0/uftp-client-1.8.0-all.zip
+source_urls = ['https://github.com/UNICORE-EU/uftp-javaclient/releases/download/%(version)s']
+sources =     ['uftp-client-%(version)s-all.zip']
+checksums =   ['ee66c61037f59e5af315f401ccd49dd2d305f2fd3344babe6935c87be6165214']
+
+dependencies = [
+    ('Java', '21', '', SYSTEM)
+]
+
+postinstallcmds = [
+    'chmod +x %(installdir)s/bin/uftp',
+    'mkdir -p %(installdir)s/share/licenses/%(name)s && cd %(installdir)s && mv CHANGES.md LICENSE README %(installdir)s/share/licenses/%(name)s'
+]
+
+sanity_check_paths = {
+    'files': ['bin/uftp'],
+    'dirs':  ['bin', 'lib'],
+}
+
+sanity_check_commands = [
+    ('uftp', '--version'),
+    ('uftp', '--help'),
+]
+
+moduleclass = 'tools'

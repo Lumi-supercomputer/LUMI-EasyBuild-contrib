@@ -1,3 +1,5 @@
+#DOC! User installation is possible in `partit0on/common`, making a single installation
+#DOC! available in all regular partitions.
 easyblock = 'ModuleRC'
 
 name =    'Java'

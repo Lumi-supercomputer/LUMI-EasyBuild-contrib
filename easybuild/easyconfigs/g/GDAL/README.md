@@ -39,3 +39,13 @@ to sometimes fail so the build process has to be entirely sequential and can tak
     
 -   The EasyConfig is a trivial port of the 3.5.2 one, with the usual version updates 
     and aligning the structure a bit more to other recent LUMI easyconfigs.
+
+
+### GDAL 3.9.0 for 24.03
+
+-   The EasyConfigs are a straightforward port of those for 3.5.3 in 23.09
+
+
+### GDAL 3.12.0 for 25.03
+
+-   The EasyConfigs are a straightforward port of those for 3.9.0 in 24.03.

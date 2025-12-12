@@ -20,8 +20,18 @@
 -   Trivial version bump
 
 
-### Version 1.21.0 fro CPE 23.09 and later
+### Version 1.21.0 for CPE 23.09 and later
 
 -   Trivial version bump, but started using variables for versions for easier updating.
 
+
+### Version 1.27.0 for CPE 24.03
+
+-   Trivial port of the EasyConfig for 1.21.0 for 23.09.
+
+
+### Version 1.34.5 for CPE 25.03 and later
+
+-   Trivial port of the EasyConfig for 1.27.0 for 24.03, but with a change of download
+    instructions.
     
