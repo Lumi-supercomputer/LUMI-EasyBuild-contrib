@@ -20,7 +20,6 @@ dependencies = [
     ('cray-hdf5-parallel', EXTERNAL_MODULE),
     ('rocm', EXTERNAL_MODULE),
     ('cray-python', EXTERNAL_MODULE),
-    ('numpy', '2.3.5'),
     ('magma', '2.8.0', '-rocm'),
     ('libxc', '7.0.0'),
     ('SciPy-bundle', '1.14.1-1.26.4'),
