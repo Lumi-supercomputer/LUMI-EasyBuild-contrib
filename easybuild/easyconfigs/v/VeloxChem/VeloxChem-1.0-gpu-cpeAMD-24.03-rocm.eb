@@ -1,0 +1,73 @@
+easyblock = 'PythonBundle'
+#easyblock = 'PythonPackage'
+
+name = 'VeloxChem'
+version = '1.0-gpu'
+versionsuffix = '-rocm'
+
+homepage = 'https://veloxchem.org/docs/intro.html'
+description = """VeloxChem is a Python-based open source quantum chemistry software developed i
+for computing molecular properties and a variety of spectroscopies from response theory."""
+
+toolchain = {'name': 'cpeAMD', 'version': '24.03'}
+
+builddependencies = [
+    ('cray-python', EXTERNAL_MODULE),
+    ('buildtools-python', '%(toolchain_version)s', '-cray-python%(pyshortver)s', True),
+]
+
+dependencies = [
+    ('cray-hdf5-parallel', EXTERNAL_MODULE),
+    ('rocm', EXTERNAL_MODULE),
+    ('cray-python', EXTERNAL_MODULE),
+    ('magma', '2.8.0', '-rocm'),
+    ('libxc', '7.0.0'),
+    ('SciPy-bundle', '1.14.1-1.26.4'),
+]
+
+use_pip = True
+
+exts_default_options = {
+    'source_urls': [PYPI_SOURCE],
+    'use_pip': True,
+    'sanity_pip_check': False,
+}
+
+exts_list = [
+    ('wheel', '0.45.1'), # without it sanity check for scikit-build fails
+    ('geometric', '1.1'),
+    ('h5py', '3.11.0', {
+        'preinstallopts':  'HDF5_MPI="ON" H5PY_SETUP_REQUIRES=0 CC=cc',
+        'installopts': '--verbose',
+    }),
+    ('networkx', '3.5', {'source_tmpl': 'networkx-3.5-py3-none-any.whl'}), # this is false dependency for geometric
+    ('psutil', '7.1.3', {'source_tmpl': 'psutil-7.1.3-cp36-abi3-manylinux2010_x86_64.manylinux_2_12_x86_64.manylinux_2_28_x86_64.whl'}),
+    ('pathspec', '0.12.1'),
+    ('scikit-build-core', '0.11.6', {'source_tmpl': 'scikit_build_core-0.11.6-py3-none-any.whl'}),
+    ('scikit-build', '0.18.1', {'modulename': 'skbuild', 'source_tmpl': 'scikit_build-0.18.1-py3-none-any.whl'}),
+    (name, version, {
+        'modulename': 'veloxchem',
+        'sources': [{
+            'filename': '%(name)s-%(version)s.tar.gz',
+            'git_config': {
+                'url': 'https://github.com/VeloxChem', 
+                'repo_name': '%(name)s',
+                'commit': 'gpu',
+            }
+         }],
+        'prebuildopts': 'cp src/Makefile.setup_hip src/Makefile.setup && ',
+        'buildcmd': 'make -j16 MAGMA_HOME=${EBROOTMAGMA} LIBXC_HOME=${EBROOTLIBXC} CXX=${ROCM_PATH}/bin/amdclang++ DEVICE_LIB="-L${ROCM_PATH}/lib -lhipblas" -C src',
+        'postinstallcmds': [
+            'cp build/python/veloxchem/veloxchemlib.so %(installdir)s/lib/python%(pyshortver)s/site-packages/veloxchem/',
+            'cp -r build/python/veloxchem/basis %(installdir)s/lib/python%(pyshortver)s/site-packages/veloxchem/',
+        ],
+        'use_pip': True,
+    }),
+]
+
+sanity_check_paths = {
+    'files': ['bin/vlx'],
+    'dirs': ['lib/python%(pyshortver)s/site-packages'],
+}
+
+moduleclass = 'chem'
