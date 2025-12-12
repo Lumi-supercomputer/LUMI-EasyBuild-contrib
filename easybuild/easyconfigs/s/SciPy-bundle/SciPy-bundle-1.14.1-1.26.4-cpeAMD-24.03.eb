@@ -4,7 +4,18 @@ name = 'SciPy-bundle'
 version = '1.14.1-1.26.4'
 
 homepage = 'http://www.scipy.org'
-description = "Bundle of Python packages for scientific software"
+
+whatis = [
+    'Description: SciPy-bundle bundles NumPy and SciPy and their dependencies'
+]
+
+description = """
+This bundle provides NumPy and Scipy and some necessary dependencies,
+compiled with the AMD compiler, so it uses the AMD clang OpenMP runtime
+rather than the GNU OpenMP runtime that is used by the regular NumPy
+in the Cray Python distribution. It is meant to work with other packages
+compiled with the AMD clang compilers to avoid OpenMP runtime conflicts.
+"""
 
 toolchain = {'name': 'cpeAMD', 'version': '24.03'}
 
@@ -53,5 +64,7 @@ exts_list = [
         'easyblock': 'PythonPackage',
     }),
 ]
+
+# PythonBundle does not allow a postinstallcmds to copy license information.
 
 moduleclass = 'math'
