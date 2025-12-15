@@ -47,7 +47,7 @@ Note that ESMF uses a custom EasyBlock which needs adaptations for Cray systems.
     also using the updated EasyBlock.
 
 
-### Version 8.6.0 for LUMI/24.03
+### Version 8.8.1 for LUMI/25.03
 
   * ESMF was originally in the pre-installed software stack but was moved to contrib
     with 25.03 as we started to need too many variants and intermediate upgrades.

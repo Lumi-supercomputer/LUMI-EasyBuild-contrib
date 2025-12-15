@@ -35,3 +35,8 @@ matrix distributions, which cannot be used directly with a ScaLAPACK interface.
 
 -   The EasyConfig is a trivial port of the 1.5.4 one with GPU support.
 
+
+### Version 1.6.1 for CPE 24.03 with GPU support
+
+-   The EasyConfig is a trivial port of the 1.5.5 one for 23.09
+
