@@ -32,7 +32,7 @@
   * The GUI functionality is not installed as LUMI doesn't currenbtly offer
     all needed packages.
 
-### UppASD-6.0.2 with cpeGNU-22.12, cpeAOCC-22.12 and cpeCray-23.03
+### UppASD-6.0.2 with cpeGNU-22.12 and later
 
 -   Derived from the previous ones.
 
