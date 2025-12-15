@@ -1,0 +1,57 @@
+easyblock = 'ConfigureMake'
+
+name = 'open-ofi-xccl'
+version = '1.14.0'
+versionsuffix = '-libfabric-2.3.0-rocm-6.2.2'
+
+homepage = 'https://github.com/HewlettPackard/open-ofi-xccl'
+
+whatis = [
+    'Description: AWS OFI RCCL is a plug-in which enables EC2 developers to use libfabric as a network provider.'
+]
+
+description = """
+Machine learning frameworks running on top of AMD GPUs use a library called 
+RCCL which provides standard collective communication routines for an arbitrary 
+number of GPUs installed across single or multiple nodes.
+
+This module implements a plug-in which maps RCCLs connection-oriented transport 
+APIs to libfabric's connection-less reliable interface. This allows RCCL 
+applications to take benefit of libfabric's transport layer services like 
+reliable message support and operating system bypass.
+"""
+
+
+# The plugin build needs access to MPI directory
+toolchain = SYSTEM
+
+sources = [{
+    'filename': '%(name)s-%(version)s.tar.gz',
+    'git_config': {
+        #'url': 'https://github.com/HewlettPackard',
+        'url': 'https://github.com/ryanhankins',
+        'repo_name': '%(name)s',
+        #'commit': '%(version)s'
+        'commit': 'origin/v1.14.x-xccl'
+    }
+}]
+
+dependencies = [
+    ('rocm', '6.2.2'),
+    ('libfabric', '2.3.0'), 
+]
+
+preconfigopts = ' ./autogen.sh && '
+configopts = (
+    'CC=$(which amdclang) CXX=$(which amdclang++) LDFLAGS="$PE_MPICH_GTL_DIR_amd_gfx90a $PE_MPICH_GTL_LIBS_amd_gfx90a"'
+    ' --with-libfabric=${EBROOTLIBFABRIC} '
+    ' --with-rocm=${ROCM_PATH} '
+    ' --with-mpi=${CRAY_MPICH_BASEDIR}/rocm-compiler/5.0 '
+)
+
+sanity_check_paths = {
+    'files': ['lib/librccl-net.so.0.0.0'],
+    'dirs':  ['bin', 'lib']
+}
+
+moduleclass = 'devel'
