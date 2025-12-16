@@ -10,9 +10,9 @@ local_oneTBB_version =       '2021.13.0'     # https://github.com/uxlfoundation/
 local_libunwind_version  =   '1.6.2'         # http://download.savannah.nongnu.org/releases/libunwind/
 local_zlib_version =         '1.3.1'         # https://zlib.net/
 
-name = 'tau'
+name = 'TAU'
 version = '2.34'
-versionsuffix = f'-cray-python-{local_craypython_version}'
+versionsuffix = f'-cray-python-{local_craypython_version}-mpi'
 
 whatis = [
     'Description: TAU - Tuning and Analysis Utilities'
@@ -34,20 +34,19 @@ builddependencies = [
 ]
 
 dependencies = [
-    ('Boost',					local_Boost_version),  # Dyninst dependency
-    ('cray-dyninst',				EXTERNAL_MODULE),
-    ('cray-mpich', 				EXTERNAL_MODULE),
+    ('Boost',                                   local_Boost_version),  # Dyninst dependency
+    ('cray-dyninst',                            EXTERNAL_MODULE),
+    ('cray-mpich',                              EXTERNAL_MODULE),
     (f'cray-python/{local_craypython_version}', EXTERNAL_MODULE),
-    ('libunwind', 				local_libunwind_version),
-    ('oneTBB',                   	   	local_oneTBB_version), # Dyninst dependency
-    ('papi',      				EXTERNAL_MODULE),
-    ('rocm', 	   			    	EXTERNAL_MODULE),
-    ('zlib',      				local_zlib_version),
+    ('libunwind',                               local_libunwind_version),
+    ('oneTBB',                                  local_oneTBB_version), # Dyninst dependency
+    ('papi',                                    EXTERNAL_MODULE),
+    ('zlib',                                    local_zlib_version),
 ]
 
 sources = [{
     'source_urls': ['https://www.cs.uoregon.edu/research/tau/tau_releases/'],
-    'filename': SOURCE_TAR_GZ,
+    'filename': SOURCELOWER_TAR_GZ,
     'extract_cmd': 'tar zxvf %s --strip-components=2',
 },
 {
@@ -73,9 +72,6 @@ configopts = ' '.join([
     '-mpiinc=$CRAY_MPICH_PREFIX/include',
     '-mpilib=$CRAY_MPICH_PREFIX/lib',
     '-openmp',
-    '-rocm=$ROCM_PATH',
-    '-rocprofiler=$ROCM_PATH',
-    '-hip=$ROCM_PATH',
     '-pthread',
     '-papi=$CRAY_PAPI_PREFIX',
     '-python',
