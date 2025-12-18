@@ -6,13 +6,13 @@ local_craypython_version = '3.11.7'
 
 local_Boost_version =        '1.83.0'        # https://www.boost.org/
 local_oneTBB_version =       '2021.13.0'     # https://github.com/uxlfoundation/oneTBB/releases
-
+local_libbfd =               '2.42'          # https://ftp.gnu.org/gnu/binutils/
 local_libunwind_version  =   '1.6.2'         # http://download.savannah.nongnu.org/releases/libunwind/
 local_zlib_version =         '1.3.1'         # https://zlib.net/
 
 name = 'TAU'
 version = '2.34'
-versionsuffix = f'-cray-python-{local_craypython_version}-mpi'
+versionsuffix = f'-cray-python-{local_craypython_version}-noMpi-rocm'
 
 whatis = [
     'Description: TAU - Tuning and Analysis Utilities'
@@ -27,7 +27,7 @@ homepage = 'https://www.cs.uoregon.edu/research/tau/home.php'
 docurls = 'https://www.cs.uoregon.edu/research/tau/docs.php'
 
 toolchain = {'name': 'cpeGNU', 'version': '24.03'}
-toolchainopts = {'usempi': True, 'openmp': True}
+toolchainopts = {'openmp': True}
 
 builddependencies = [
     ('buildtools',	      '%(toolchain_version)s', '', True),
@@ -36,11 +36,12 @@ builddependencies = [
 dependencies = [
     ('Boost',                                   local_Boost_version),  # Dyninst dependency
     ('cray-dyninst',                            EXTERNAL_MODULE),
-    ('cray-mpich',                              EXTERNAL_MODULE),
     (f'cray-python/{local_craypython_version}', EXTERNAL_MODULE),
     ('libunwind',                               local_libunwind_version),
+    ('libbfd',                                  local_libbfd),
     ('oneTBB',                                  local_oneTBB_version), # Dyninst dependency
     ('papi',                                    EXTERNAL_MODULE),
+    ('rocm',                                    EXTERNAL_MODULE),
     ('zlib',                                    local_zlib_version),
 ]
 
@@ -48,12 +49,6 @@ sources = [{
     'source_urls': ['https://www.cs.uoregon.edu/research/tau/tau_releases/'],
     'filename': SOURCELOWER_TAR_GZ,
     'extract_cmd': 'tar zxvf %s --strip-components=2',
-},
-{
-    'source_urls': ['http://tau.uoregon.edu/'],
-    'filename': 'ext-%(version)s.tgz',
-    'download_filename': 'ext.tgz',
-    'extract_cmd': 'tar zxvf %s'
 }]
 
 buildininstalldir = True             # Source code is part of the build, paths to src are hard-coded during configure
@@ -65,13 +60,13 @@ configopts = ' '.join([
     '-cc=cc',
     '-fortran=ftn',
     '-arch=craycnl',
-    '-bfd=download',                 # build its own binutils from the ext.tgz source
+    '-bfd=$EBROOTLIBBFD',
     '-unwind=$EBROOTLIBUNWIND',
     '-zlib=$EBROOTZLIB',
-    '-mpi',
-    '-mpiinc=$CRAY_MPICH_PREFIX/include',
-    '-mpilib=$CRAY_MPICH_PREFIX/lib',
     '-openmp',
+    '-rocm=$ROCM_PATH',
+    '-rocprofiler=$ROCM_PATH',
+    '-hip=$ROCM_PATH',
     '-pthread',
     '-papi=$CRAY_PAPI_PREFIX',
     '-python',
