@@ -43,6 +43,7 @@ easyconfigs:
 #
 # mpiFileUtils
 #
+  - lustre-includes-2.15.1.eb # Though we may just want this in common.
   - mpiFileUtils-0.12-cpeGNU-25.03.eb
   - mpiFileUtils-0.12-cpeCray-25.03.eb
   - mpiFileUtils-0.12-cpeAMD-25.03.eb

@@ -3,6 +3,7 @@ easyconfigs:
 # ADIOS2
 #
   - SZ-2.1.12.5-cpeGNU-25.03-hdf5.eb
+  - SZ-2.1.12.5-cpeGNU-25.03-hdf5.eb
   - SZ-2.1.12.5-cpeGNU-25.03-hdf5-parallel.eb
   - zfp-1.0.1-cpeGNU-25.03.eb
   - OpenPGM-5.2.122-cpeGNU-25.03.eb
@@ -15,7 +16,7 @@ easyconfigs:
 # amd-aocl (AOCL)
 #
   - aocl-utils-5.1-cpeGNU-25.03.eb
-  - aocl-utils-5.1-cpeGNU-25.03.eb
+  - aocl-utils-5.1-cpeCray-25.03.eb
   - BLIS-5.1-cpeGNU-25.03-amd.eb
   - BLIS-5.1-cpeGNU-25.03-amd-ILP64.eb
   - BLIS-5.1-cpeCray-25.03-amd.eb
@@ -110,6 +111,7 @@ easyconfigs:
 #
 # mpiFileUtils
 #
+  - lustre-includes-2.15.1.eb # Though we may just want this in common.
   - mpiFileUtils-0.12-cpeGNU-25.03.eb
   - mpiFileUtils-0.12-cpeCray-25.03.eb
   - mpiFileUtils-0.12-cpeAOCC-25.03.eb
@@ -176,9 +178,9 @@ easyconfigs:
 #
 # R
 #
- - Info-ZIP-3.0-6.0-cpeGNU-25.03.eb
- - R-4.5.1-cpeGNU-25.03-OpenMP-raw.eb
- - R-4.5.1-cpeGNU-25.03-OpenMP.eb
+  - Info-ZIP-3.0-6.0-cpeGNU-25.03.eb
+  - R-4.5.1-cpeGNU-25.03-OpenMP-raw.eb
+  - R-4.5.1-cpeGNU-25.03-OpenMP.eb
 #
 # STRUMPACK
 #
@@ -235,8 +237,8 @@ easyconfigs:
 #
 # VASP
 #
- - DFTD4-3.7.0-cpeGNU-25.03.eb
- - Wannier90-3.1.0-cpeGNU-25.03.eb
- #- VASP-6.5.0-cpeGNU-25.03-build01.eb
- #- VASP-6.5.0-cpeGNU-25.03-build02.eb
+  - DFTD4-3.7.0-cpeGNU-25.03.eb
+  - Wannier90-3.1.0-cpeGNU-25.03.eb
+  #- VASP-6.5.0-cpeGNU-25.03-build01.eb
+  #- VASP-6.5.0-cpeGNU-25.03-build02.eb
 #
