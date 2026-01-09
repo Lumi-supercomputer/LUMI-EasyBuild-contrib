@@ -1,0 +1,54 @@
+easyblock = 'ConfigureMake'
+
+name = 'aws-ofi-nccl'
+version = 'a1a626a'
+versionsuffix = '-rocm'
+
+homepage = 'https://github.com/aws/aws-ofi-nccl'
+
+whatis = [
+    'Description: AWS OFI NCCL is a plug-in which enables libfabric as a network provider while running NCCL/RCCL based applications.' 
+]
+
+description = """
+Machine learning frameworks running on top of AMD GPUs use a library called 
+RCCL which provides standard collective communication routines for an arbitrary 
+number of GPUs installed across single or multiple nodes.
+
+This module implements a plug-in which maps RCCLs connection-oriented transport 
+APIs to libfabric's connection-less reliable interface. This allows RCCL 
+applications to take benefit of libfabric's transport layer services like 
+reliable message support and operating system bypass.
+"""
+
+# The plugin build needs access to MPI directory
+
+toolchain = SYSTEM
+
+sources = [{
+    'filename': '%(name)s-%(version)s.tar.gz',
+    'git_config': {
+        'url': 'https://github.com/aws',
+        'repo_name': '%(name)s',
+        'commit': '%(version)s'
+    }
+}]
+
+dependencies = [
+    ('rocm', 'EXTERNAL_MODULE'),
+    ('libfabric/1.22.0', 'EXTERNAL_MODULE'), # Cray branch
+]
+
+preconfigopts = ' ./autogen.sh && '
+configopts = (
+    ' --with-libfabric=/opt/cray/libfabric/$(pkg-config --modversion libfabric) '
+    ' --with-rocm=${ROCM_PATH} '
+    ' --with-mpi=${CRAY_MPICH_BASEDIR}/rocm-compiler/6.0 '
+)
+
+sanity_check_paths = {
+    'files': ['lib/librccl-net.so', 'lib/librccl-net-ofi.so'],
+    'dirs':  ['lib']
+}
+
+moduleclass = 'devel'
