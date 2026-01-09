@@ -1,9 +1,0 @@
-easyconfigs:
-#
-# # git-lfs
-#
-  - git-lfs.3.7.1.eb
-#
-# HyperQueue
-#
-  - HyperQueue-0.24.0-bindist-noPython.eb

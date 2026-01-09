@@ -72,8 +72,8 @@ easyconfigs:
   - libvori-220621-cpeGNU-25.03.eb
   - libxc-6.2.2-cpeGNU-25.03.eb
   - libxsmm-1.17-cpeGNU-25.03.eb
-  - spglib-2.6.0-cpeGNU-25.03.eb
-  - CP2K-2024.3-cpeGNU-25.03-CPU.eb
+#  - spglib-2.6.0-cpeGNU-25.03.eb # Still downloads googletest during the CMake process so will not work on the TDS.
+#  - CP2K-2024.3-cpeGNU-25.03-CPU.eb # Needs spglib so cannot work yet on the TDS.
 # Other versions of CP2K not ported yet.
 #
 # Cython
@@ -97,6 +97,7 @@ easyconfigs:
   - GEOS-3.14.1-cpeGNU-25.03.eb
   - libgeotiff-1.7.4-cpeGNU-25.03.eb
   - Xerces-C++-3.3.0-cpeGNU-25.03.eb
+  - SWIG-4.4.0-cpeGNU-25.03.eb
   - GDAL-3.12.0-cpeGNU-25.03-noPython.eb
   - GDAL-3.12.0-cpeGNU-25.03-cray-python-3.11.7.eb
 #
@@ -107,14 +108,14 @@ easyconfigs:
 # LAMMPS
 #
   - PLUMED-2.9.4-cpeGNU-25.03-noPython.eb
-  - LAMMPS-22Jul2025_update2-cpeGNU-25.03-CPU.eb
+  #- LAMMPS-22Jul2025_update2-cpeGNU-25.03-CPU.eb # Still issues on the TDS: It tries to download some packages.
 #
 # mpiFileUtils
 #
   - lustre-includes-2.15.1.eb # Though we may just want this in common.
   - mpiFileUtils-0.12-cpeGNU-25.03.eb
   - mpiFileUtils-0.12-cpeCray-25.03.eb
-  - mpiFileUtils-0.12-cpeAOCC-25.03.eb
+#  - mpiFileUtils-0.12-cpeAOCC-25.03.eb # Temporarily disabled as cpeAOCC was still building on the TDS.
 #
 # MUMPS
 #
@@ -232,7 +233,9 @@ easyconfigs:
 #
 # NAMD
 #
+  - Charm++-8.0.0-cpeGNU-25.03-mpi-crayshasta.eb
   - NAMD-3.0.2-cpeGNU-25.03-mpi-crayshasta.eb
+  - Charm++-8.0.0-cpeGNU-25.03-ofi-crayshasta.eb
   - NAMD-3.0.2-cpeGNU-25.03-ofi-crayshasta.eb
 #
 # VASP
