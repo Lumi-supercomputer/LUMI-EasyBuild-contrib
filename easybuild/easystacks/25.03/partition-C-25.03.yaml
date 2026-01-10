@@ -225,7 +225,7 @@ easyconfigs:
   - SuperLU-7.0.1-cpeGNU-25.03-OpenMP.eb
   - SuperLU_DIST-9.2.0-cpeGNU-25.03-OpenMP-CPU.eb
   - PETSc-3.24.2-cpeGNU-25.03-OpenMP-CPU.eb
-  - Yambo-5.2.4-cpeGNU-25.03.eb
+#  - Yambo-5.2.4-cpeGNU-25.03.eb # Fails in the sanity checks after one and a half hour of compiling... Basically EasyBuild fails to notice that the build failed.
 ################################################################################
 #
 # Packages that require manual downloads
