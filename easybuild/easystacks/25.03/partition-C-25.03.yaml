@@ -34,13 +34,13 @@ easyconfigs:
 #
   - CppUnit-1.15.1-cpeGNU-25.03.eb
   - CppUnit-1.15.1-cpeCray-25.03.eb
-  #- CppUnit-1.15.1-cpeAOCC-25.03.eb
+  - CppUnit-1.15.1-cpeAOCC-25.03.eb
   - c-ares-1.34.5-cpeGNU-25.03.eb
   - c-ares-1.34.5-cpeCray-25.03.eb
-  #- c-ares-1.34.5-cpeAOCC-25.03.eb
+  - c-ares-1.34.5-cpeAOCC-25.03.eb
   - aria2-1.37-cpeGNU-25.03.eb
   - aria2-1.37-cpeCray-25.03.eb
-  #- aria2-1.37-cpeAOCC-25.03.eb
+  - aria2-1.37-cpeAOCC-25.03.eb
 #
 # BCFtools and related bio-informatics tools
 #
@@ -54,7 +54,7 @@ easyconfigs:
 #
   - json-c-0.18-cpeGNU-25.03.eb
   - json-c-0.18-cpeCray-25.03.eb
-  #- json-c-0.18-cpeAOCC-25.03.eb
+  - json-c-0.18-cpeAOCC-25.03.eb
   - CMOR-3.13.0-cpeGNU-25.03.eb
   - CMOR-3.13.0-cpeCray-25.03.eb
   - ecCodes-2.42.0-cpeGNU-25.03.eb
@@ -115,7 +115,7 @@ easyconfigs:
   - lustre-includes-2.15.1.eb # Though we may just want this in common.
   - mpiFileUtils-0.12-cpeGNU-25.03.eb
   - mpiFileUtils-0.12-cpeCray-25.03.eb
-#  - mpiFileUtils-0.12-cpeAOCC-25.03.eb # Temporarily disabled as cpeAOCC was still building on the TDS.
+  - mpiFileUtils-0.12-cpeAOCC-25.03.eb # Temporarily disabled as cpeAOCC was still building on the TDS.
 #
 # MUMPS
 #
@@ -128,7 +128,7 @@ easyconfigs:
 #
   - CppUnit-1.15.1-cpeGNU-25.03.eb
   - CppUnit-1.15.1-cpeCray-25.03.eb
-  #- CppUnit-1.15.1-cpeAOCC-25.03.eb
+  - CppUnit-1.15.1-cpeAOCC-25.03.eb
   - libdap-3.21.1-cpeGNU-25.03.eb
   - libdap-3.21.1-cpeCray-25.03.eb
 # libdap was used in NCO but have trouble with it in 25.03
@@ -147,7 +147,7 @@ easyconfigs:
 #
   - ncview-2.1.9-cpeGNU-25.03.eb
   - ncview-2.1.9-cpeCray-25.03.eb
-  #- ncview-2.1.9-cpeAOCC-25.03.eb
+  - ncview-2.1.9-cpeAOCC-25.03.eb
 #
 # OpenBLAS
 #
