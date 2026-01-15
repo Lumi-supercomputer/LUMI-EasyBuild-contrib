@@ -13,10 +13,10 @@
 
 easyblock = 'EB_Score_minus_P_minus_CPE'
 
-local_ScoreP_version =       '9.2'           # https://www.vi-hps.org/projects/score-p/
+local_ScoreP_version =       '9.4'           # https://www.vi-hps.org/projects/score-p/
 
-local_CubeLib_version =      '4.9'           # https://www.scalasca.org/scalasca/software/cube-4.x/download.html
-local_CubeWriter_version =   '4.9'           # https://www.scalasca.org/scalasca/software/cube-4.x/download.html
+local_CubeLib_version =      '4.9.1'         # https://www.scalasca.org/scalasca/software/cube-4.x/download.html
+local_CubeWriter_version =   '4.9.1'         # https://www.scalasca.org/scalasca/software/cube-4.x/download.html
 local_GOTCHA_version =       '1.0.8'         # https://gotcha.readthedocs.io/en/latest/
 local_libunwind_version  =   '1.8.1'         # http://download.savannah.nongnu.org/releases/libunwind/
 local_libbfd_version =       '2.45'          # https://ftp.gnu.org/gnu/binutils/
@@ -25,7 +25,6 @@ local_OTF2_version =         '3.1.1'         # https://www.vi-hps.org/projects/s
 
 name =          'Score-P'
 version =       local_ScoreP_version
-versionsuffix = '-rocm'
 
 homepage = 'https://www.score-p.org'
 
@@ -49,7 +48,7 @@ toolchainopts = {'pic': True, 'usempi': True, 'openmp': True}
 source_urls = ['http://perftools.pages.jsc.fz-juelich.de/cicd/scorep/tags/scorep-%(version)s']
 sources =     ['scorep-%(version)s.tar.gz']
 checksums = [
-    'be3eaee99cdd0145e518c1aa959126df45e25b61579a007d062748b2844c499c',  # scorep-9.2.tar.gz
+    'bea58d8c47a7512eca0a5858179377f3f0861f30eafb342a29aa97c05de8f623',  # scorep-9.4.tar.gz
 ]
 
 builddependencies = [
@@ -63,31 +62,27 @@ dependencies = [
     ('libunwind',       local_libunwind_version),
     ('OPARI2',          local_OPARI2_version),
     ('OTF2',            local_OTF2_version),
-    # Support for SHMEM
+    # Support for SHMEM disabled for now, due to potential installcheck failure with
+    # libpgas-shmem.so.3 not being found
     ('cray-openshmemx', EXTERNAL_MODULE),
     ('cray-pmi',        EXTERNAL_MODULE),
     ('libbfd',          local_libbfd_version),
     # Hardware counter support (optional):
     ('papi',            EXTERNAL_MODULE),
-    # Support for HIP adapter.
-    ('rocm',            EXTERNAL_MODULE),
     # Library wrapping
     ('GOTCHA',          local_GOTCHA_version),
 ]
 
-configopts  = '--enable-shared --disable-static --with-machine-name=LUMI-cpeCray-25.03-rocm '
+configopts  = '--enable-shared --disable-static --with-machine-name=LUMI-cpeCray-25.03 '
 configopts += '--with-libpmi=/opt/cray/pe/pmi/default '
 configopts += '--with-papi-header=$CRAY_PAPI_PREFIX/include --with-papi-lib=$CRAY_PAPI_PREFIX/lib '
-# Add CFLAGS to prevent error of roctracer check due to path issues
-configopts += '--with-rocm=$ROCM_PATH CFLAGS="-isystem ${ROCM_PATH}/include/roctracer" '
-# Disable LLVM IR plug-in, to avoid issues because of minor version differences
-# of ROCm & Cray LLVM. LLVM IR plugin is not available for Cray compilers anyway.
-configopts += '--disable-llvm-plugin '
 # Cray CPE 25.03 doesn't correctly rpath libpgas-shmem.so, and doesn't provide the LD_LIBRARY_PATH
 # for it. Since some libraries link to it (due to libtool removing the --as-needed and --no-as-needed),
 # we need to add the rpath to avoid build checks failing as shared libraries are not self-contained anymore.
 configopts += 'LDFLAGS="-Wl,-rpath=$CRAYLIBS_X86_64" '
 configopts += 'LDFLAGS_FOR_BUILD_SCORE="-Wl,-rpath=$CRAYLIBS_X86_64" '
+
+buildopts = " V=1 VERBOSE=1 "
 
 postinstallcmds = [
     'make installcheck V=1 VERBOSE=1',
