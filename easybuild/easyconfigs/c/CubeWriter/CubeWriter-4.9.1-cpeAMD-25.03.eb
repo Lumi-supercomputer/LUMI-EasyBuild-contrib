@@ -13,7 +13,7 @@
 
 easyblock = 'EB_Score_minus_P_minus_CPE'
 
-local_CubeWriter_version =   '4.9'           # https://www.scalasca.org/scalasca/software/cube-4.x/download.html
+local_CubeWriter_version =   '4.9.1'         # https://www.scalasca.org/scalasca/software/cube-4.x/download.html
 
 local_zlib_version =         '1.3.1'         # https://zlib.net/
 
@@ -42,7 +42,7 @@ toolchain = {'name': 'cpeAMD', 'version': '25.03'}
 source_urls = ['http://perftools.pages.jsc.fz-juelich.de/cicd/cubew/tags/cubew-%(version)s']
 sources = ['cubew-%(version)s.tar.gz']
 checksums = [
-    '4ef74e81c569bf53117459cba5a1ea52b5dac739493fa83be39678840cd2acdd',  # cubew-4.9.tar.gz
+    'c2e43089bb24bf27bb07eb1a3b4114df8040372e4ba247788d99bc872d23d8ea',  # cubew-4.9.1.tar.gz
 ]
 
 builddependencies = [

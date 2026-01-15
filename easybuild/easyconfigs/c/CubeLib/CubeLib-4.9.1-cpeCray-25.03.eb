@@ -13,7 +13,7 @@
 
 easyblock = 'EB_Score_minus_P_minus_CPE'
 
-local_CubeLib_version =      '4.9'         # https://www.scalasca.org/scalasca/software/cube-4.x/download.html
+local_CubeLib_version =      '4.9.1'       # https://www.scalasca.org/scalasca/software/cube-4.x/download.html
 
 local_zlib_version =         '1.3.1'       # https://zlib.net/
 
@@ -44,7 +44,7 @@ toolchainopts = {'pic': True}
 source_urls = ['http://perftools.pages.jsc.fz-juelich.de/cicd/cubelib/tags/cubelib-%(version)s']
 sources = [SOURCELOWER_TAR_GZ]
 checksums = [
-    'a0658f5bf3f74bf7dcf465ab6e30476751ad07eb93618801bdcf190ba3029443',  # cubelib-4.9.tar.gz
+    'd82a899af07ec6c34c88665a0dfddbbc33a760031b1a79f12d168301e8ea1e46',  # cubelib-4.9.1.tar.gz
 ]
 
 builddependencies = [
