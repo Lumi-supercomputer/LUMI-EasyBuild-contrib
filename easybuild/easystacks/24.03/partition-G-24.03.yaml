@@ -1,0 +1,150 @@
+easyconfigs:
+#
+# ADIOS2
+# Currently broken due to issues with SZ.
+#
+#  - SZ-2.1.12.5-cpeGNU-24.03.eb
+#  - SZ-2.1.12.5-cpeGNU-24.03-hdf5-parallel.eb
+  - zfp-1.0.1-cpeGNU-24.03.eb
+  - OpenPGM-5.2.122-cpeGNU-24.03.eb
+  - libsodium-1.0.19-cpeGNU-24.03.eb
+  - ZeroMQ-4.3.5-cpeGNU-24.03.eb
+  - yaml-cpp-0.8.0-cpeGNU-24.03.eb
+#  - ADIOS2-2.10.1-cpeGNU-24.03.eb # As SZ is missing
+#  - ADIOS2-2.10.1-cpeGNU-24.03-hdf5-parallel.eb # As SZ is missing
+#
+# CP2K
+# Currently spglib fails so CP2K can also not be compiled.
+#
+  - COSMA-2.6.6-cpeGNU-24.03-rocm.eb
+  - ELPA-2024.05.001-cpeGNU-24.03-CPU.eb
+  - SPLA-1.6.1-cpeGNU-24.03-rocm.eb
+  - SpFFT-1.1.0-cpeGNU-24.03-rocm.eb
+  - Libint-CP2K-2.7.2-cpeGNU-24.03.eb
+  - libvori-220621-cpeGNU-24.03.eb
+  - libxc-6.2.2-cpeGNU-24.03.eb
+  - libxsmm-1.17-cpeGNU-24.03.eb
+#  - spglib-2.5.0-cpeGNU-24.03.eb
+#  - CP2K-2024.2-cpeGNU-24.03-rocm.eb
+#
+# Cython and CuPy
+#
+  - Cython-3.0.10-cpeGNU-24.03.eb
+#  - CuPy-13.2.0-cpeGNU-24.03-rocm.eb # Fails
+#  - CuPy-13.2.0-cpeGNU-24.03-rocm6.2.2.eb   # Cannot test on the TDS as ROCm 6.2.2 cannot be installed
+#  - CuPy-13.4.1-cpeGNU-24.03-rocm-6.2.2.eb  # Cannot test on the TDS as ROCm 6.2.2 cannot be installed
+#
+# ecCodes
+#
+  - ecCodes-2.35.1-cpeGNU-24.03.eb
+  - ecCodes-2.35.1-cpeCray-24.03.eb
+#
+# ELPA
+# 
+#  - ELPA-2024.05.001-cpeCray-24.03-rocm.eb
+  - ELPA-2024.05.001-cpeGNU-24.03-rocm.eb
+  - ELPA-2025.06.001-cpeGNU-24.03-rocm.eb
+#
+# GPAW
+# Does not yet work as we cannot yet build CuPy and ELPA
+#
+  - Cython-3.0.10-cpeGNU-24.03.eb
+#  - CuPy-13.2.0-cpeGNU-24.03-rocm.eb
+  - ELPA-2024.05.001-cpeGNU-24.03-rocm.eb
+  - libxc-6.2.2-cpeGNU-24.03.eb
+#  - GPAW-24.6.0-cpeGNU-24.03-rocm.eb
+#
+# GROMACS
+#
+  - AdaptiveCpp-24.06.0-cpeAMD-24.03-rocm.eb
+  - AdaptiveCpp-24.10.0-cpeAMD-24.03-rocm.eb
+  - HeFFTe-2.4.0-cpeAMD-24.03-rocm.eb
+  - GROMACS-2025.1-cpeAMD-24.03-VkFFT-rocm.eb
+  - GROMACS-2025.1-cpeAMD-24.03-HeFFTe-rocm.eb
+#
+# Kokkos
+#
+  - Kokkos-4.5.01-cpeGNU-24.03-rocm.eb
+  - Kokkos-kernels-4.5.01-cpeGNU-24.03-rocm.eb
+  - Kokkos-4.5.01-cpeAMD-24.03-rocm.eb
+  - Kokkos-kernels-4.5.01-cpeAMD-24.03-rocm.eb
+#
+# LAMMPS
+# Cannot be installed as PLUMED fails to build
+#  - PLUMED-2.8.4-cpeAMD-24.03-noPython.eb
+#  - LAMMPS-2Aug2023_update3-cpeAMD-24.03-rocm.eb 
+#
+# mpiFileUtils
+#
+  - lustre-includes-2.15.1.eb # Though we may just want this in common.
+  - mpiFileUtils-0.11.1-cpeGNU-24.03.eb
+  - mpiFileUtils-0.11.1-cpeCray-24.03.eb
+  - mpiFileUtils-0.11.1-cpeAMD-24.03.eb
+#
+# Magma libraries
+#
+  - magma-2.8.0-cpeGNU-24.03-rocm.eb
+#  - magma-2.8.0-cpeGNU-24.03-rocm6.2.2.eb
+#  - magma-2.8.0-cpeCray-24.03-rocm.eb # Does not build.
+  - magma-2.8.0-cpeAMD-24.03-rocm.eb
+#
+# NAMD
+# One version builds, the other does not.
+#
+  - Charm++-8.0.0-cpeGNU-24.03-mpi-crayshasta-smp.eb
+  - NAMD-3.0.2-cpeGNU-24.03-rocm-gpu-offload.eb
+  - Charm++-8.0.0-cpeGNU-24.03-multicore.eb
+#  - NAMD-3.0.2-cpeGNU-24.03-rocm-gpu-resident.eb # This version fails to build
+# NAMD GPU resident is broken.
+#
+# Neko
+#
+  - json-fortran-9.0.2-cpeGNU-24.03.eb
+#  - json-fortran-8.3.0-cpeGNU-24.03.eb
+  - json-fortran-8.3.0-cpeCray-24.03.eb
+  - Neko-0.8.1-cpeGNU-24.03-rocm.eb
+#  - Neko-0.8.1-cpeCray-24.03-rocm.eb # Does not rebuild after the update.
+#
+# OpenBLAS
+#
+  - OpenBLAS-0.3.24-cpeGNU-24.03.eb
+#
+# OpenMPI
+# Cannot be tested on the TDS as it requires ROCm 6.2.2
+#  - OpenMPI-5.0.8-cpeGNU-24.03-rocm.eb
+#
+# PETSc
+#
+  - MUMPS-5.6.1-cpeGNU-24.03-OpenMP.eb
+  - Hypre-2.31.0-cpeGNU-24.03.eb
+  - SuperLU-6.0.1-cpeGNU-24.03-OpenMP.eb
+  - SuperLU_DIST-9.0.0-cpeGNU-24.03-OpenMP.eb
+#  - Kokkos-4.5.01-cpeGNU-24.03-rocm.eb
+#  - Kokkos-kernels-4.5.01-cpeGNU-24.03-rocm.eb
+#  - PETSc-3.21.5-cpeGNU-24.03-rocm.eb # Fails and has a reference to a Kokkos version for which we have no EasyConfig.
+#
+# PyFR
+#
+  - h5py-3.11.0-cpeGNU-24.03.eb
+  - h5py-3.11.0-cpeGNU-24.03-parallel.eb
+  - libspatialindex-1.9.3-cpeGNU-24.03.eb
+#  - PyFR-2.0.3-cpeGNU-24.03-rocm.eb # Too many sources to download manually, so postponed
+#
+# Siesta
+#
+  - ELPA-2024.05.001-cpeGNU-24.03-rocm.eb
+  - Siesta-4.1.5-cpeGNU-24.03-rocm.eb
+#
+# QuEST
+#
+  - QuEST-3.7.0-cpeGNU-24.03-prec2-rocm.eb
+#
+# VeloxChem
+#
+  - magma-2.8.0-cpeAMD-24.03-rocm.eb
+  - Cython-3.0.10-cpeAMD-24.03.eb
+  - pybind11-2.12.0-cpeAMD-24.03.eb
+  - SciPy-bundle-1.14.1-1.26.4-cpeAMD-24.03.eb
+  - libxc-7.0.0-cpeAMD-24.03.eb
+  - VeloxChem-1.0-gpu-cpeAMD-24.03-rocm.eb
+#
