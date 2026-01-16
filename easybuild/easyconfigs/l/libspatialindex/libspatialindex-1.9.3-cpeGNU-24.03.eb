@@ -15,9 +15,10 @@ C++ implementation of R*-tree, an MVR-tree and a TPR-tree with C API
 
 toolchain = {'name': 'cpeGNU', 'version': '24.03'}
 
+# https://github.com/libspatialindex/libspatialindex/releases/download/1.9.3/spatialindex-src-1.9.3.tar.gz
 source_urls = ['https://github.com/%(name)s/%(name)s/releases/download/%(version)s/']
-sources = ['spatialindex-src-%(version)s.tar.gz']
-checksums = ['47d8779e32477b330e46b62fb7e62cb812caee5d8e684c35cb635a42a749f3fc']
+sources =     ['spatialindex-src-%(version)s.tar.gz']
+checksums =   ['47d8779e32477b330e46b62fb7e62cb812caee5d8e684c35cb635a42a749f3fc']
 
 builddependencies = [
     ('buildtools',        '%(toolchain_version)s', '', True),
