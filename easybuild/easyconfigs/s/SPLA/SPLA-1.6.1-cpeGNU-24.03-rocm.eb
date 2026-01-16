@@ -30,9 +30,10 @@ docurls = [
 toolchain = {'name': 'cpeGNU', 'version': '24.03'}
 toolchainopts = {'openmp': True, 'opt': True, 'pic': True, 'usempi': True}
 
+# https://github.com/eth-cscs/spla/archive/v1.6.1.tar.gz
 source_urls = ['https://github.com/eth-cscs/%(namelower)s/archive']
-sources = ['v%(version)s.tar.gz']
-checksums = ['62b51e6ce05c41cfc1c6f6600410f9549a209c50f0331e1db41047f94493e02f']
+sources =     ['v%(version)s.tar.gz']
+checksums =   ['62b51e6ce05c41cfc1c6f6600410f9549a209c50f0331e1db41047f94493e02f']
 
 builddependencies = [
     ('buildtools', '%(toolchain_version)s', '', True),
