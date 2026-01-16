@@ -38,9 +38,9 @@ easyconfigs:
   - c-ares-1.34.5-cpeGNU-25.03.eb
   - c-ares-1.34.5-cpeCray-25.03.eb
   - c-ares-1.34.5-cpeAOCC-25.03.eb
-  - aria2-1.37-cpeGNU-25.03.eb
-  - aria2-1.37-cpeCray-25.03.eb
-  - aria2-1.37-cpeAOCC-25.03.eb
+  - aria2-1.37.0-cpeGNU-25.03.eb
+  - aria2-1.37.0-cpeCray-25.03.eb
+  - aria2-1.37.0-cpeAOCC-25.03.eb
 #
 # BCFtools and related bio-informatics tools
 #
