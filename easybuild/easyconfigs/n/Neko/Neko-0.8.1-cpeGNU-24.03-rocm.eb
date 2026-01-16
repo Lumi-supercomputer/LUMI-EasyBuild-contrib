@@ -29,7 +29,7 @@ checksums =   ['ac8162bc18e7112fd21b49c5a9c36f45c7b84896e90738be36a182990798baec
 
 dependencies = [
     ('rocm/6.0.3', EXTERNAL_MODULE),
-    ('json-fortran', '8.3.0'),
+    ('json-fortran', '9.0.2'),
 ]
 
 preconfigopts = 'FC=ftn MPIFC=ftn MPICC=cc CC=cc CFLAGS="-O2 -fopenmp" FCFLAGS="-O2 -fopenmp" HIP_HIPCC_FLAGS="-O2 -D__HIP_PLATFORM_AMD__ --offload-arch=gfx90a" LDFLAGS="-Wl,-fuse-ld=bfd -L/opt/cray/pe/mpich/8.1.29/gtl/lib -lmpi_gtl_hsa" JSON_Fortran_CFLAGS="-I$EBROOTJSONMINFORTRAN/include/" '
