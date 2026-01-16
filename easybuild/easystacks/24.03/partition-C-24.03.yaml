@@ -1,0 +1,337 @@
+easyconfigs:
+#
+# ADIOS2
+#
+  - SZ-2.1.12.5-cpeGNU-24.03.eb
+  - SZ-2.1.12.5-cpeGNU-24.03-hdf5-parallel.eb
+  - zfp-1.0.1-cpeGNU-24.03.eb
+  - OpenPGM-5.2.122-cpeGNU-24.03.eb
+  - libsodium-1.0.20-cpeGNU-24.03.eb
+  - ZeroMQ-4.3.5-cpeGNU-24.03.eb
+  - yaml-cpp-0.8.0-cpeGNU-24.03.eb
+  - ADIOS2-2.10.2-cpeGNU-24.03.eb
+  - ADIOS2-2.10.2-cpeGNU-24.03-hdf5-parallel.eb
+#
+# amd-aocl (AOCL)
+#
+  - aocl-utils-4.2-cpeGNU-24.03.eb
+  - aocl-utils-4.2-cpeCray-24.03.eb
+  - BLIS-4.2-cpeGNU-24.03-amd.eb
+  - BLIS-4.2-cpeGNU-24.03-amd-ILP64.eb
+  - BLIS-4.2-cpeCray-24.03-amd.eb
+  - BLIS-4.2-cpeCray-24.03-amd-ILP64.eb
+  - libFLAME-4.2-cpeGNU-24.03-amd.eb
+  - libFLAME-4.2-cpeCray-24.03-amd.eb
+  - libFLAME-4.2-cpeGNU-24.03-amd-ILP64.eb
+  - libFLAME-4.2-cpeCray-24.03-amd-ILP64.eb
+  - ScaLAPACK-4.2-cpeGNU-24.03-amd.eb
+  - ScaLAPACK-4.2-cpeCray-24.03-amd.eb
+  - amd-aocl-4.2-cpeGNU-24.03.eb
+  - amd-aocl-4.2-cpeCray-24.03.eb
+#
+# aria2
+#
+  - CppUnit-1.15.1-cpeGNU-24.03.eb
+  - CppUnit-1.15.1-cpeCray-24.03.eb
+  - CppUnit-1.15.1-cpeAOCC-24.03.eb
+  - c-ares-1.27.0-cpeGNU-24.03.eb
+  - c-ares-1.27.0-cpeCray-24.03.eb
+  - c-ares-1.27.0-cpeAOCC-24.03.eb
+  - aria2-1.37.0-cpeGNU-24.03.eb
+  - aria2-1.37.0-cpeCray-24.03.eb
+  - aria2-1.37.0-cpeAOCC-24.03.eb
+#
+# arpack-ng
+#
+  - arpack-ng-3.9.1-cpeGNU-24.03-OpenMP.eb
+#
+# BCFtools and related bio-informatics tools
+#
+  - HTSlib-1.19.1-cpeGNU-24.03.eb
+  - BCFtools-1.19-cpeGNU-24.03.eb
+  - SAMtools-1.20-cpeGNU-24.03.eb
+  - STAR-2.7.11b-cpeGNU-24.03.eb
+  - VCFtools-0.1.16-cpeGNU-24.03.eb
+#
+# CDO
+#
+  - json-c-0.17-cpeGNU-24.03.eb
+  - json-c-0.17-cpeCray-24.03.eb
+  - json-c-0.17-cpeAOCC-24.03.eb
+  - CMOR-3.8.0-cpeGNU-24.03.eb
+  - CMOR-3.8.0-cpeCray-24.03.eb
+  - ecCodes-2.35.1-cpeGNU-24.03.eb
+  - ecCodes-2.35.1-cpeCray-24.03.eb
+  - CDO-2.4.3-cpeGNU-24.03.eb
+  - CDO-2.4.3-cpeCray-24.03.eb
+#
+# CP2K
+#
+  - COSMA-2.6.6-cpeGNU-24.03-CPU.eb
+  - PLUMED-2.9.4-cpeGNU-24.03-noPython.eb
+  - ELPA-2024.05.001-cpeGNU-24.03-CPU.eb
+  - Libint-CP2K-2.7.2-cpeGNU-24.03.eb
+  - libvori-220621-cpeGNU-24.03.eb
+  - libxc-6.2.2-cpeGNU-24.03.eb
+  - libxsmm-1.17-cpeGNU-24.03.eb
+#  - spglib-2.6.0-cpeGNU-24.03.eb # Still downloads googletest during the CMake process so will not work on the TDS.
+#  - CP2K-2024.2-cpeGNU-24.03-CPU.eb # Needs spglib so cannot work yet on the TDS.
+#  - CP2K-2024.2-cpeGNU-24.03-libcp2k-CPU.eb
+# Other versions of CP2K not ported yet.
+#
+# Cython
+#
+  - Cython-3.0.10-cpeGNU-24.03.eb
+# On LUMI-G also used for CuPy.
+#
+# dlb
+#
+  - dlb-3.5.3-cpeCray-24.03.eb
+  - dlb-3.5.3-cpeGNU-24.03.eb
+#
+# Extrae
+#
+  - binutils-2.45-cpeGNU-24.03.eb
+  - binutils-2.45-cpeCray-24.03.eb
+  - binutils-2.45-cpeAOCC-24.03.eb
+  - Extrae-4.3.2-cpeAOCC-24.03.eb
+  - Extrae-4.3.2-cpeCray-24.03.eb
+  - Extrae-4.3.2-cpeGNU-24.03.eb
+#
+# feh (image viewer)
+#
+  - libexif-0.6.25-cpeGNU-24.03.eb
+  - Imlib2-1.5.1-cpeGNU-24.03.eb
+  - feh-2.26-cpeGNU-24.03.eb
+  - feh-3.10.3-cpeGNU-24.03.eb
+#
+# fpocket
+#
+  - fpocket-4.2.2-cpeGNU-24.03.eb
+#
+# GDAL
+#
+  - HDF-4.2.16-2-cpeGNU-24.03.eb
+  - GEOS-3.12.1-cpeGNU-24.03.eb
+  - libgeotiff-1.7.3-cpeGNU-24.03.eb
+  - Xerces-C++-3.2.5-cpeGNU-24.03.eb
+  - SWIG-4.1.1-cpeGNU-24.03.eb
+  - GDAL-3.9.0-cpeGNU-24.03-noPython.eb
+  - GDAL-3.9.0-cpeGNU-24.03-cray-python-3.11.7.eb
+#
+# GPAW
+#
+  - libxc-6.2.2-cpeGNU-24.03.eb
+  - libxc-7.0.0-cpeGNU-24.03.eb
+  - libvdwxc-0.4.0-cpuGNU-24.03.eb
+  - GPAW-24.6.0-cpeGNU-24.03.eb
+  - GPAW-25.1.0-cpeGNU-24.03.eb
+#
+# GROMACS
+#
+  - PLUMED-2.9.3-cpeCray-24.03-noPython.eb
+  - PLUMED-2.9.3-cpeGNU-24.03-cray-python-3.11.7.eb
+  - PLUMED-2.9.3-cpeGNU-24.03-noPython.eb
+  - GROMACS-2024.3-cpeCray-24.03-CPU.eb
+  - GROMACS-2024.3-cpeCray-24.03-PLUMED-2.9.3-noPython-CPU.eb
+  - GROMACS-2024.3-cpeGNU-24.03-CPU.eb
+  - GROMACS-2024.3-cpeGNU-24.03-PLUMED-2.9.3-cray-python-3.11.7-CPU.eb
+  - GROMACS-2024.3-cpeGNU-24.03-PLUMED-2.9.3-noPython-CPU.eb
+  - GROMACS-2024.3-cpeGNU-24.03-QMMM-PLUMED-2.9.3-noPython-CPU.eb
+  - GROMACS-2025.1-cpeGNU-24.03-CPU.eb
+#
+# LAMMPS
+#
+  - PLUMED-2.9.4-cpeGNU-24.03-noPython.eb
+  #- LAMMPS-2Aug2023_update3-cpeGNU-24.03-CPU.eb # Still issues on the TDS: It tries to download some packages.
+#
+# matplotlib
+#
+  - matplotlib-3.10.1-cpeGNU-24.03.eb # Don't try this on the TDS without proper preparation...
+#
+# MicroHH
+#
+  - MicroHH-2.0.1-cpeGNU-24.03.eb
+#
+# mpiFileUtils
+#
+  - lustre-includes-2.15.1.eb # Though we may just want this in common.
+  - mpiFileUtils-0.11.1-cpeGNU-24.03.eb
+  - mpiFileUtils-0.11.1-cpeCray-24.03.eb
+  - mpiFileUtils-0.11.1-cpeAOCC-24.03.eb # Temporarily disabled as cpeAOCC was still building on the TDS.
+#
+# MUMPS
+#
+  - MUMPS-5.6.1-cpeGNU-24.03-OpenMP.eb
+  - MUMPS-5.6.1-cpeGNU-24.03-noOpenMP.eb
+#
+# NCO
+#
+  - CppUnit-1.15.1-cpeGNU-24.03.eb
+  - CppUnit-1.15.1-cpeCray-24.03.eb
+  - CppUnit-1.15.1-cpeAOCC-24.03.eb
+  - libdap-3.21.0-27-cpeGNU-24.03.eb
+  - libdap-3.21.0-27-cpeCray-24.03.eb
+# libdap was used in NCO but have trouble with it in 24.03
+  - Java-21.0.8.eb
+  - Java-21.eb
+  - ANTLR-2.7.7-cpeGNU-24.03-cray-python3.11.eb
+  - ANTLR-2.7.7-cpeCray-24.03-cray-python3.11.eb
+  - ESMF-8.8.1-cpeCray-24.03-MPI-PIO.eb
+  - NCO-5.2.7-cpeGNU-24.03.eb
+  - NCO-5.2.7-cpeCray-24.03.eb
+#
+# ncview
+#
+  - ncview-2.1.9-cpeGNU-24.03.eb
+  - ncview-2.1.9-cpeCray-24.03.eb
+  - ncview-2.1.9-cpeAOCC-24.03.eb
+#
+# OpenBLAS
+#
+  - OpenBLAS-0.3.24-cpeGNU-24.03.eb
+#
+# PETSc with and without Hypre.
+#
+  - MUMPS-5.6.1-cpeGNU-24.03-OpenMP.eb
+  - Hypre-2.31.0-cpeGNU-24.03.eb
+  - SuperLU-6.0.1-cpeGNU-24.03-OpenMP.eb
+  - SuperLU_DIST-9.0.0-cpeGNU-24.03-OpenMP.eb
+  - PETSc-3.21.5-cpeGNU-24.03-OpenMP-CPU.eb
+#
+# Other versions of PLUMED
+#
+  - PLUMED-2.8.4-cpeAMD-24.03-noPython.eb
+  - PLUMED-2.8.4-cpeGNU-24.03-noPython.eb
+  - PLUMED-2.9.1-cpeAMD-24.03-noPython.noGit.eb
+  - PLUMED-2.9.1-cpeCray-24.03-noPython.noGit.eb
+  - PLUMED-2.9.1-cpeGNU-24.03-noPython.noGit.eb#
+# OpenFOAM
+#
+  - Zoltan-3.901-cpeGNU-24.03.eb
+  - CGAL-5.6.3-cpeGNU-24.03-OpenFOAM.eb
+  - OpenFOAM-12-cpeGNU-24.03-master.eb
+  - OpenFOAM-12-cpeGNU-24.03-patch-20250206.eb
+  - OpenFOAM-12-cpeGNU-24.03.eb
+  - OpenFOAM-13-cpeGNU-24.03-master.eb
+  - OpenFOAM-13-cpeGNU-24.03-patch-20250911.eb
+  - OpenFOAM-13-cpeGNU-24.03.eb
+  - OpenFOAM-v2506-cpeGNU-24.03.eb
+#
+# QuEST
+#
+  - QuEST-3.7.0-cpeGNU-24.03-prec2-hybrid.eb
+#
+# R
+#
+  - Info-ZIP-3.0-6.0-cpeGNU-24.03.eb
+  - R-4.4.1-cpeGNU-24.03-OpenMP-raw.eb
+  - R-4.4.1-cpeGNU-24.03-OpenMP.eb
+#
+# Scalasca - restrict to the newest version for now
+#
+  - CubeLib-4.9-cpeAOCC-24.03.eb
+  - CubeLib-4.9-cpeCray-24.03.eb
+  - CubeLib-4.9-cpeGNU-24.03.eb
+  - OTF2-3.1.1-cpeAOCC-24.03.eb
+  - OTF2-3.1.1-cpeCray-24.03.eb
+  - OTF2-3.1.1-cpeGNU-24.03.eb
+  - Scalasca-2.6.2-cpeAOCC-24.03.eb
+  - Scalasca-2.6.2-cpeCray-24.03.eb
+  - Scalasca-2.6.2-cpeGNU-24.03.eb
+#
+# Score-P - Restrict to newest version for now
+#
+  - CubeLib-4.9-cpeAOCC-24.03.eb
+  - CubeLib-4.9-cpeCray-24.03.eb
+  - CubeLib-4.9-cpeGNU-24.03.eb
+  - CubeWriter-4.9-cpeAOCC-24.03.eb
+  - CubeWriter-4.9-cpeCray-24.03.eb
+  - CubeWriter-4.9-cpeGNU-24.03.eb
+  - OPARI2-2.0.9-cpeAOCC-24.03.eb
+  - OPARI2-2.0.9-cpeCray-24.03.eb
+  - OPARI2-2.0.9-cpeGNU-24.03.eb
+  - OTF2-3.1.1-cpeAOCC-24.03.eb
+  - OTF2-3.1.1-cpeCray-24.03.eb
+  - OTF2-3.1.1-cpeGNU-24.03.eb
+  - libbfd-2.42-cpeAOCC-24.03.eb
+  - libbfd-2.42-cpeCray-24.03.eb
+  - libbfd-2.42-cpeGNU-24.03.eb
+  - GOTCHA-1.0.8-cpeAOCC-24.03.eb
+  - GOTCHA-1.0.8-cpeCray-24.03.eb
+  - GOTCHA-1.0.8-cpeGNU-24.03.eb
+  - Score-P-9.3-cpeAOCC-24.03.eb
+  - Score-P-9.3-cpeCray-24.03.eb
+  - Score-P-9.3-cpeGNU-24.03.eb
+#
+# STRUMPACK
+#
+  - zfp-1.0.1-cpeGNU-24.03.eb
+  - STRUMPACK-7.0.1-cpeGNU-24.03-OpenMP.eb
+#
+# SuperLU single- and multi-threaded and distributed
+#
+  - SuperLU-6.0.1-cpeGNU-24.03-OpenMP.eb
+  - SuperLU_DIST-9.0.0-cpeGNU-24.03-OpenMP.eb
+#
+# Trilinos
+#
+  - MATIO-1.5.27-cpeGNU-24.03.eb
+  - MUMPS-5.6.1-cpeGNU-24.03-OpenMP.eb
+  - MUMPS-5.6.1-cpeGNU-24.03-noOpenMP.eb
+  - Trilinos-15.1.1-cpeGNU-24.03-OpenMP.eb
+#
+# UppASD
+#
+  - UppASD-6.0.2-cpeGNU-24.03.eb
+  - UppASD-6.0.2-cpeCray-24.03.eb
+#
+# VTK and VisIt
+#
+  - Silo-4.11.1-cpeGNU-24.03.eb
+  - Conduit-0.9.2-cpeGNU-24.03.eb
+  - Catalyst-2.0.0-cpeGNU-24.03.eb
+  - zfp-1.0.1-cpeGNU-24.03.eb
+  - VTK-9.2.6-cpeGNU-24.03.eb
+  - VisIt-3.4.1-cpeGNU-24.03.eb
+#
+# WRF-SFIRE and matching WPS
+#
+  - WRF-SFIRE-W4.4-S0.1-cpeGNU-24.03.eb
+  - WPS-v4.4-cpeGNU-24.03-WRF-SFIRE-W4.4-S0.1.eb
+#
+# Yambo
+#
+  - libxc-6.2.2-cpeGNU-24.03.eb
+  - MUMPS-5.6.1-cpeGNU-24.03-OpenMP.eb
+  - Hypre-2.31.0-cpeGNU-24.03.eb
+  - SuperLU-6.0.1-cpeGNU-24.03-OpenMP.eb
+  - SuperLU_DIST-9.0.0-cpeGNU-24.03-OpenMP.eb
+  - PETSc-3.21.5-cpeGNU-24.03-OpenMP-CPU.eb
+  - Yambo-5.2.3-cpeGNU-24.03.eb
+#
+################################################################################
+#
+# Packages that require manual downloads
+#
+#
+# NAMD
+#
+  - Charm++-8.0.0-cpeGNU-24.03-mpi-crayshasta.eb
+  - NAMD-3.0-cpeGNU-24.03-mpi-crayshasta.eb
+  - Charm++-8.0.0-cpeGNU-24.03-ofi-crayshasta.eb
+  - NAMD-3.0-cpeGNU-24.03-ofi-crayshasta.eb
+#
+# VASP
+#
+  - DFTD4-3.4.0-cpeGNU-24.03.eb
+  - Wannier90-3.1.0-cpeGNU-24.03.eb
+  #- VASP-6.4.3-cpeGNU-24.03-build02.eb
+  #- VASP-6.5.0-cpeGNU-24.03-build01.eb
+  #- VASP-6.5.0-cpeGNU-24.03-build02.eb
+  #- VASP-6.5.1-cpeGNU-24.03-build02.eb
+#
+######
+#
+# TODO
+#
