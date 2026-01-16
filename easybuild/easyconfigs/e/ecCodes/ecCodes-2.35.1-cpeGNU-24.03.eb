@@ -32,7 +32,7 @@ the Python 3 interface is distributed separately on PyPi.
 toolchain = {'name': 'cpeGNU', 'version': '24.03'}
 toolchainopts = {'openmp': True, 'verbose': False}
 
-# https://confluence.ecmwf.int/download/attachments/45757960/eccodes-2.23.0-Source.tar.gz?api=v2
+# https://confluence.ecmwf.int/download/attachments/45757960/eccodes-2.35.1-Source.tar.gz
 source_urls = ['https://confluence.ecmwf.int/download/attachments/45757960/']
 sources =     ['%(namelower)s-%(version)s-Source.tar.gz']
 checksums =   ['b1a74ce1ddfe2752e16a794b6a9b76de655138761d6d571e2554b70ec75d712e']

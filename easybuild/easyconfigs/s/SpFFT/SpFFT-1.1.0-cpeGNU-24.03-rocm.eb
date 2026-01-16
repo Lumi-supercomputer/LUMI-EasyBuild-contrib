@@ -44,9 +44,10 @@ docurls = [
 toolchain = {'name': 'cpeGNU', 'version': '24.03'}
 toolchainopts = {'openmp': True, 'opt': True, 'pic': True}
 
+# https://github.com/eth-cscs/SpFFT/archive/v1.1.0.tar.gz
 source_urls = ['https://github.com/eth-cscs/%(name)s/archive']
-sources = ['v%(version)s.tar.gz']
-checksums = ['d4673b3135aebfa1c440723226fe976d518ff881285b3d4787f1aa8210eac81e']
+sources =     ['v%(version)s.tar.gz']
+checksums =   ['d4673b3135aebfa1c440723226fe976d518ff881285b3d4787f1aa8210eac81e']
 
 builddependencies = [
     ('buildtools', '%(toolchain_version)s', '', True),
