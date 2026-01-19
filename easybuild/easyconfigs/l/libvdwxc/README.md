@@ -12,7 +12,7 @@ The libvdwxc package entered the software stack as a dependency for GPAW.
 -   [libvdwxc support in the EasyBuilders repository](https://github.com/easybuilders/easybuild-easyconfigs/tree/develop/easybuild/easyconfigs/l/libvdwxc)
 
 
-### libvdwxc 0.4.0 for cpuGNU 24.03
+### libvdwxc 0.4.0 for cpeGNU 24.03
 
 -   EasyConfig file from the EasyBuilders repository adapted for LUMI
 
