@@ -29,3 +29,11 @@ OPARI2 is currently used by Score-P and TAU.
 
 -   The EasyConfig was prepared by Jan André Reuter of JSC based on EasyConfigs in use
     at JSC.
+
+
+### Version 2.0.9 from CPE 24.03 on
+
+-   Trivial port of the EasyConfig for 2.0.8 also used in 24.03
+
+-   Added license information to the installation
+

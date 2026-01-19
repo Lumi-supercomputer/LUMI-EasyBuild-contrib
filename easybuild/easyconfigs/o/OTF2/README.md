@@ -28,8 +28,16 @@ it will avoid copying during unification of parallel event streams.
 
     Compilation is done via the custom EasyBlock for Score-P.
 
+
 ### Version 3.0.3 for CPE 24.03
 
 -   Reuse of EasyConfigs of CPE 23.09 with the inclusion of Python to build the Python bindings.
 
 -   Included license information in the software installation also.
+
+
+### Version 3.1.1 for 24.03
+
+-   Trivial port of the EasyConfig for 3.0.3 also in 24.03, but with a small change to the
+    sanity checks.
+
