@@ -21,6 +21,7 @@ engines.
 | PLUMED  | 2019   | 2020   | 2021   | 2022   | 2023   | 2024   |
 |:--------|:-------|:-------|:-------|:-------|:-------|:-------| 
 | 2.9.3   |        | 2020.7 | 2021.7 | 2022.5 | 2023.5 | 2024.3 |
+| 2.9.3   |        | 2020.7 | 2021.7 | 2022.5 | 2023.5 | 2024.3 |
 | 2.9.2   |        | 2020.7 | 2021.7 | 2022.5 | 2023.5 | 2024.2 |
 | 2.9.0   |        | 2020.7 | 2021.7 | 2022.5 | 2023   |        |
 | 2.8.3   | 2019.6 | 2020.7 | 2021.7 | 2022.5 |        |        |
@@ -195,3 +196,13 @@ engines.
     that may improve readability of the EasyConfig.
 
 
+### 2024.6 for cpeGNU 25.03
+
+-   Straightforward port of the EasyConfig for 2024.3 for cpeGNU/24.03.
+
+    We did rewrite the options the way we did in 2025.1 for cpeGNU/24.03.
+
+
+### 2025.4 for cpeGNU 25.03
+
+-   Straightforward port of the EasyConfig for 2025.1 for cpeGNU/24.03.
