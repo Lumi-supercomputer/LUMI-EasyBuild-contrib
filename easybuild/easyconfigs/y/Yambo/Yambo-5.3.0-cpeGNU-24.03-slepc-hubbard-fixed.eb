@@ -1,0 +1,99 @@
+easyblock = 'ConfigureMake'
+
+local_libxc_version   = '6.2.2'
+local_PETSc_version   = '3.21.5'
+local_SLEPc_version   = '3.21.0'
+local_devXlib_version = '0.8.5'
+
+name = 'Yambo'
+version = '5.3.0'
+versionsuffix = '-slepc-hubbard-fixed'
+
+homepage = 'http://www.yambo-code.org'
+
+whatis = ['Description: Yambo, "Yet Another Many-Body cOde"']
+
+description = """
+YAMBO is an open-source code released within the GPL licence implementing
+first-principles methods based on Green's function theory to describe
+excited-state properties of realistic materials.These methods include the GW
+approximation, the Bethe-Salpeter equation (BSE), electron-phonon interaction
+and non-equilibrium Green's function theory (NEGF).
+
+YAMBO relies on previously computed ground-state properties and for this reason
+it is interfaced with other density functional theory (DFT) codes.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '24.03'}
+toolchainopts = {'openmp': True, 'usempi': True, 'gfortran9-compat': True}
+
+source_urls = ['https://github.com/yambo-code/yambo/archive/refs/tags/']
+sources = ['%(version)s.tar.gz']
+#checksums = ['a6168d1fa820af857ac51217bd6ad26dda4cc89c07e035bd7dc230038ae1ab9c']
+
+patches = ['yambo_5.3.0_hubbard.patch']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+    ('cray-libsci',              EXTERNAL_MODULE),
+    ('cray-fftw',                EXTERNAL_MODULE),
+    ('cray-hdf5-parallel',       EXTERNAL_MODULE),
+    ('cray-netcdf-hdf5parallel', EXTERNAL_MODULE),
+    ('libxc',                    local_libxc_version),
+    ('PETSc',                    local_PETSc_version, '-OpenMP'),
+    ('SLEPc',                    local_SLEPc_version, '-OpenMP'),
+    ('deviceXlib',               local_devXlib_version, '-OpenMP'),
+]
+
+preconfigopts = ' && '.join([
+    'sed -i "s/-ansi/-traditional/" configure',
+    'sed -i "s/\*ftn\* |//" configure',
+    'rm -rf %(installdir)s/*',
+    'export CPP="cpp -P"',
+    'export FPP="cpp -P -traditional"',
+]) + ' && '
+
+configopts = ' '.join([
+    '--enable-hdf5-par-io',
+    '--enable-msgs-comps',
+    '--enable-open-mp',
+    '--enable-mpi',
+    '--with-blas-libs="-L$CRAY_LIBSCI_PREFIX/lib -lsci_gnu_mp"',
+    '--with-lapack-libs="-L$CRAY_LIBSCI_PREFIX/lib -lsci_gnu_mp"',
+    '--with-blacs-libs="-L$CRAY_LIBSCI_PREFIX/lib -lsci_gnu_mp"',
+    '--enable-par-linalg',
+    '--enable-slepc-linalg',
+    '--with-scalapack-libs="-L$CRAY_LIBSCI_PREFIX/lib -lsci_gnu_mpi_mp"',
+    '--with-fft-path="$FFTW_ROOT"',
+    '--with-fft-libs="-L$EBROOTFFTW/lib -lfftw3_mpi -lfftw3_omp"',
+    '--with-fft-libdir="$EBROOTFFTW/lib"',
+    '--with-fft-includedir="$EBROOTFFTW/include"',
+    '--with-netcdf-path="$EBROOTNETCDF"',
+    '--with-netcdff-path="$EBROOTNETCDFMINFORTRAN"',
+    '--with-hdf5-path="$EBROOTHDF5"',
+    '--with-libxc-path="$EBROOTLIBXC"',
+    '--with-libxc-libs="-L$EBROOTLIBXC/lib64 -lxcf90 -lxcf03 -lxc"',
+    '--with-libxc-libdir="$EBROOTLIBXC/lib64"',
+    '--with-libxc-includedir="$EBROOTLIBXC/include"',
+    '--with-petsc-path="$EBROOTPETSC"',
+    '--with-slepc-path="$EBROOTSLEPC"',
+    '--with-devxlib-path="$EBROOTDEVICEXLIB"',
+])
+
+prebuildopts = 'unset LIBS && '
+
+buildopts = 'all'
+
+skipsteps = ['install']
+
+keeppreviousinstall = True
+
+sanity_check_paths = {
+    'files': ['bin/yambo'],
+    'dirs': ['bin']
+}
+
+moduleclass = 'phys'

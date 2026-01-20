@@ -1,0 +1,55 @@
+easyblock = 'ConfigureMake'
+
+name = 'deviceXlib'
+version = '0.8.5'
+versionsuffix = '-OpenMP'
+
+homepage = 'https://gitlab.com/max-centre/components/devicexlib'
+
+whatis = [
+    'Library wrapping device-oriented routines and utilities'
+]
+
+description = '''
+    deviceXlib is a library that wraps device-oriented routines and utilities, such as device data allocation, host-device data transfers.
+'''
+
+toolchain = {'name': 'cpeGNU', 'version': '24.03'}
+toolchainopts = {'usempi': True, 'openmp': True}
+
+sources = [{
+        'filename': 'devxlib-%s.tar.gz' % version,
+        'git_config': {
+            'url': 'https://gitlab.com/max-centre/components',
+            'repo_name': 'devicexlib',
+            'commit': version,
+            'clone_into': 'devxlib',
+        },
+}]
+
+builddependencies = [
+    ('buildtools', '', '%(toolchain_version)s', True),
+]
+
+dependencies = [
+    ('rocm', EXTERNAL_MODULE),
+]
+
+configopts  = 'MPIF90=ftn F90=ftn FC=ftn LIBDIRS=$CRAY_LIBSCI_PREFIX/lib '
+configopts += 'FFLAGS="-O3 -g -fallow-argument-mismatch -fopenmp -cpp -fopenmp" '
+configopts += 'F90FLAGS="-O3 -g -fallow-argument-mismatch -fopenmp -cpp -fopenmp" '
+configopts += 'LDFLAGS="-fopenmp" '
+configopts += '--enable-openmp '
+configopts += '--enable-parallel '
+configopts += '--enable-rocblas=no '
+configopts += '--enable-cublas=no '
+configopts += '--with-blas-libs=-lsci_gnu_mpi_mp '
+
+build_cmd_targets = 'all'
+
+sanity_check_paths = {
+    'files': ['lib/libdevXlib.a'],
+    'dirs':  ['lib'],
+}
+
+moduleclass = 'lib'
