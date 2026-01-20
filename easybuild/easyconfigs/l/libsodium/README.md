@@ -29,3 +29,9 @@
 ### Version 1.0.20 from CPE 25.03 on
 
 -   Trivial version bump of the 1.0.19 EasyConfig for 24.03.
+
+
+### Version 1.0.21 from CPE 25.09 on
+
+-   Trivial version bump of the 1.0.20 EasyConfig for 25.03.
+
