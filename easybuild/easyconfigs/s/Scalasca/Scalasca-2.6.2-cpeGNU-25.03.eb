@@ -11,12 +11,12 @@
 # http://apps.fz-juelich.de/unite/
 ##
 
-easyblock = 'ConfigureMake'
+easyblock = 'EB_Score_minus_P_minus_CPE'
 
 local_Scalasca_version =     '2.6.2'         # https://www.scalasca.org/scalasca/software/scalasca-2.x/download.html
 
-local_CubeLib_version =      '4.9'           # https://www.scalasca.org/scalasca/software/cube-4.x/download.html
-local_CubeWriter_version =   '4.9'           # https://www.scalasca.org/scalasca/software/cube-4.x/download.html
+local_CubeLib_version =      '4.9.1'         # https://www.scalasca.org/scalasca/software/cube-4.x/download.html
+local_CubeWriter_version =   '4.9.1'         # https://www.scalasca.org/scalasca/software/cube-4.x/download.html
 local_OTF2_version =         '3.1.1'         # https://www.vi-hps.org/projects/score-p/
 
 name =    'Scalasca'
