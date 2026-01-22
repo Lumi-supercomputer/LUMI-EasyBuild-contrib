@@ -62,8 +62,7 @@ dependencies = [
     ('libunwind',       local_libunwind_version),
     ('OPARI2',          local_OPARI2_version),
     ('OTF2',            local_OTF2_version),
-    # Support for SHMEM disabled for now, due to potential installcheck failure with
-    # libpgas-shmem.so.3 not being found
+    # Support for SHMEM
     ('cray-openshmemx', EXTERNAL_MODULE),
     ('cray-pmi',        EXTERNAL_MODULE),
     ('libbfd',          local_libbfd_version),
