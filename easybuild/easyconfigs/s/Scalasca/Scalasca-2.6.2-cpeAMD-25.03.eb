@@ -1,0 +1,87 @@
+##
+# This is an easyconfig file for EasyBuild, see https://github.com/easybuilders/easybuild
+# Copyright:: Copyright 2013-2023 Juelich Supercomputing Centre, Germany
+# Authors::   Bernd Mohr <b.mohr@fz-juelich.de>
+#             Markus Geimer <m.geimer@fz-juelich.de>
+#             Christian Feld <c.feld@fz-juelich.de>
+#             Jan André Reuter <j.reuter@fz-juelich.de>
+# License::   3-clause BSD
+#
+# This work is based on experiences from the UNITE project
+# http://apps.fz-juelich.de/unite/
+##
+
+easyblock = 'EB_Score_minus_P_minus_CPE'
+
+local_Scalasca_version =     '2.6.2'         # https://www.scalasca.org/scalasca/software/scalasca-2.x/download.html
+
+local_CubeLib_version =      '4.9.1'         # https://www.scalasca.org/scalasca/software/cube-4.x/download.html
+local_CubeWriter_version =   '4.9.1'         # https://www.scalasca.org/scalasca/software/cube-4.x/download.html
+local_OTF2_version =         '3.1.1'         # https://www.vi-hps.org/projects/score-p/
+
+name =    'Scalasca'
+version = local_Scalasca_version
+
+homepage = 'https://www.scalasca.org/'
+
+whatis = [
+    'Description: Scalasca is a tool to measure and analyse program runtime behaviour'
+]
+
+description = """
+Scalasca is a software tool that supports the performance optimization of
+parallel programs by measuring and analysing their runtime behaviour. The
+analysis identifies potential performance bottlenecks -- in particular
+those concerning communication and synchronization -- and offers guidance
+in exploring their causes.
+"""
+
+docurls = [
+    f'PDF manual at https://perftools.pages.jsc.fz-juelich.de/cicd/scalasca/tags/scalasca-{version}/manual/html/',
+     'Web links to documentation of the latest version on https://scalasca.org/scalasca/front_content.php?idart=1071',
+]
+
+toolchain = {'name': 'cpeAMD', 'version': '25.03'}
+toolchainopts = {'pic': True, 'usempi': True, 'openmp': True}
+
+source_urls = ['https://perftools.pages.jsc.fz-juelich.de/cicd/scalasca/tags/scalasca-%(version)s/']
+sources =     [SOURCELOWER_TAR_GZ]
+checksums = [
+    '17e72fd908be43879955e4ed49c2732d4dbda7d295fec2d8b3af7ddafe1202a0',  # scalasca-2.6.2.tar.gz
+]
+
+builddependencies = [
+    ('CubeWriter', local_CubeWriter_version),
+]
+
+dependencies = [
+    ('CubeLib', local_CubeLib_version),
+    ('OTF2',    local_OTF2_version),
+]
+
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cp AUTHORS ChangeLog COPYING OPEN_ISSUES README %(installdir)s/share/licenses/%(name)s',   
+]
+
+sanity_check_paths = {
+    'files': ['bin/scalasca', ('lib/libpearl.replay.a', 'lib64/libpearl.replay.a')],
+    'dirs': [],
+} 
+
+# note that modextrapaths can be used for relative paths only
+modextrapaths = {
+    # Ensure that local metric documentation is found by CubeGUI
+    'CUBE_DOCPATH': 'share/doc/scalasca/patterns',
+}
+
+modextravars = {
+    # Specifies an optional list of colon separated paths identifying
+    # suitable file systems for tracing. If set, the file system of
+    # trace measurements has to match at least one of the specified
+    # file systems.
+    'SCAN_TRACE_FILESYS': '/scratch:/projappl:/flash'
+}
+
+moduleclass = 'perf'
+
