@@ -1,5 +1,11 @@
 # GROMACS user instructions
 
+!!! Bug "Severe issues with many GROMACS versions in 25.03."
+    Our efforts to compile GROMACS with the GNU compilers for 25.03 have run into issues
+    in several combinations, running from crashes in `libtool` to internal compiler crashes
+    in gcc. 
+
+
 ## A note about the GPU versions.
 
 There exist two different versions of GROMACS for AMD GPUs.
