@@ -4,7 +4,7 @@ Packages marked with (M) are packages that pull in the others as dependencies.
 
 | Package | Download | EasyBuild | CSCS | Remarks |
 |:--------|:---------|:----------|:-----|:--------|
-| [ADIOS2](https://adios2.readthedocs.io/) | [Use .tar.gz](https://adios2.readthedocs.io/) | / | / |  |
+| [ADIOS2](https://adios2.readthedocs.io/) | [Use .tar.gz](https://github.com/ornladios/ADIOS2/releases) | / | / |  |
 | [ANTLRv2](https://www.antlr2.org/) | [Use .tar.gz](https://www.antlr2.org/download.html) | [EB ANTLR](https://github.com/easybuilders/easybuild-easyconfigs/tree/main/easybuild/easyconfigs/a/ANTLR) | [CSCS ANTLR](https://github.com/eth-cscs/production/tree/master/easybuild/easyconfigs/a/ANTLR) |  |
 | [aria2](https://aria2.github.io/) | [Use .tar.gz](https://github.com/aria2/aria2/releases) | [EB aria2](https://github.com/easybuilders/easybuild-easyconfigs/tree/develop/easybuild/easyconfigs/a/aria2) | / |  |
 | [BCFtools](http://www.htslib.org/) (M) | [Use .tar.bz2](https://github.com/samtools/bcftools/releases) | [EB BCFtools](https://github.com/easybuilders/easybuild-easyconfigs/tree/develop/easybuild/easyconfigs/b/BCFtools) | / |  |
@@ -51,7 +51,7 @@ Packages marked with (M) are packages that pull in the others as dependencies.
 | [Score-P](https://www.vi-hps.org/projects/score-p/) | [Download Score-P](https://www.vi-hps.org/projects/score-p/)  | [EB Score-P](https://github.com/easybuilders/easybuild-easyconfigs/tree/develop/easybuild/easyconfigs/s/Score-P) | [EB Score-P](https://github.com/eth-cscs/production/tree/master/easybuild/easyconfigs/s/Score-P) | |
 | [spglib](https://spglib.github.io/spglib/) | [Use .tar.gz](https://github.com/spglib/spglib/tags) | [EB spglib](https://github.com/easybuilders/easybuild-easyconfigs/tree/develop/easybuild/easyconfigs/s/spglib) | [CSCS spglib](https://github.com/easybuilders/CSCS/tree/master/easybuild/easyconfigs/s/spglib) |  |  |
 | [STAR](https://github.com/alexdobin/STAR) | [Use .tar.gz](https://github.com/alexdobin/STAR/releases) | [EB STAR](https://github.com/easybuilders/easybuild-easyconfigs/tree/develop/easybuild/easyconfigs/s/STAR) | / |  |
-| [SZ](https://szcompressor.org) | [Use "Source cocde" .tar.gz](https://github.com/szcompressor/SZ/releases) | / | / |  |
+| [SZ](https://szcompressor.org) | [Version 2](https://github.com/szcompressor/SZ2/releases) / [Version 3](https://github.com/szcompressor/SZ3/releases) | / | / |  |
 | [UppASD](https://github.com/UppASD/UppASD) | [Use v... .tar.gz](https://github.com/UppASD/UppASD/releases)  | / | / | Originally contributed, now maintained by LUST |
 | [VCFtools](https://vcftools.github.io/) | [Use vcftools-*.tar.gz](https://github.com/vcftools/vcftools/releases) | [EB VCFtools](https://github.com/easybuilders/easybuild-easyconfigs/tree/develop/easybuild/easyconfigs/v/VCFtools) | / |  |
 | [yaml-cpp](https://github.com/jbeder/yaml-cpp) | [yaml-cpp](https://github.com/jbeder/yaml-cpp/releases) | [EB yaml-cpp](https://github.com/easybuilders/easybuild-easyconfigs/tree/develop/easybuild/easyconfigs/y/yaml-cpp) | / |  |
