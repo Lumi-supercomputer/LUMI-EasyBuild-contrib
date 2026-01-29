@@ -37,13 +37,10 @@ software_license_urls = ['https://github.com/szcompressor/SZ/blob/master/copyrig
 toolchain = {'name': 'cpeGNU', 'version': '25.03'}
 toolchainopts = {'pic': True}
 
-# https://github.com/szcompressor/SZ2/archive/refs/tags/v2.1.12.5.tar.gz
-sources = [{
-    'download_filename': f'v{version}.tar.gz',
-    'filename':          SOURCE_TAR_GZ,
-    'source_urls':       ['https://github.com/szcompressor/SZ2/archive/refs/tags'],
-}]
-checksums = ['57511afe995c84daa1a2ea3024cae15946539575eb8121248dbcd6f56ce65fc3']
+# https://github.com/szcompressor/SZ2/releases/download/v2.1.12.5/SZ-2.1.12.5.tar.gz
+source_urls = ['https://github.com/szcompressor/SZ2/releases/download/v%(version)s']
+sources =     ['SZ-%(version)s.tar.gz']
+checksums =   ['32a820daf6019156a777300389d2392e4498a5c9daffce7be754cd0a5ba8729c']
 
 builddependencies = [
     ('buildtools',          '%(toolchain_version)s', '', True),
@@ -57,8 +54,6 @@ dependencies = [
     ('cray-netcdf', EXTERNAL_MODULE),
 ]
 
-start_dir = f'SZ2-{version}'
-
 preconfigopts = 'module rm rocm cray-libsci && '
 prebuildopts = preconfigopts
 
@@ -71,7 +66,7 @@ configopts = ' '.join([
 
 postinstallcmds = [
     'mkdir -p %(installdir)s/share/licenses/%(name)s',
-    'cd ../SZ2-%(version)s && cp copyright-and-BSD-license.txt %(installdir)s/share/licenses/%(name)s',   
+    'cd ../SZ-%(version)s && cp copyright-and-BSD-license.txt %(installdir)s/share/licenses/%(name)s',   
 ]
 
 sanity_check_paths = {
