@@ -7,7 +7,7 @@
 # Instructions to run regression tests at the bottom of this file.
 easyblock = 'ConfigureMake'
 
-local_crayfftw_version =    '3.3.10.1'
+local_crayfftw_version =    '3.3.10.7'
 
 local_Boost_version =        '1.83.0'        # https://www.boost.org/
 local_GSL_version =          '2.7.1'         # https://ftp.gnu.org/gnu/gsl/

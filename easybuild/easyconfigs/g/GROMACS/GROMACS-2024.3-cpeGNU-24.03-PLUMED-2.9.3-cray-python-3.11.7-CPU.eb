@@ -29,7 +29,7 @@
 #
 easyblock = 'CMakeMake'
 
-local_crayfftw_version =    '3.3.10.1'
+local_crayfftw_version =    '3.3.10.7'
 local_craypython_version =  '3.11.7'
 
 local_PLUMED2_9_version =    '2.9.3'         # https://github.com/plumed/plumed2/releases

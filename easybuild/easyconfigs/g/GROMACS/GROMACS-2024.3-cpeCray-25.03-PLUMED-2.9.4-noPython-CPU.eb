@@ -19,9 +19,9 @@
 #
 easyblock = 'CMakeMake'
 
-local_crayfftw_version =    '3.3.10.7'
+local_crayfftw_version =     '3.3.10.10'
 
-local_PLUMED2_9_version =    '2.9.3'         # https://github.com/plumed/plumed2/releases
+local_PLUMED2_9_version =    '2.9.4'         # https://github.com/plumed/plumed2/releases
 
 name =          'GROMACS'
 version =       '2024.3'
@@ -69,7 +69,7 @@ fragmentation. Hence it may require some experimenting to find the optimal page
 size.
 """
 
-toolchain = {'name': 'cpeGNU', 'version': '24.03'}
+toolchain = {'name': 'cpeCray', 'version': '25.03'}
 toolchainopts = {'opt': True, 'usempi': True, 'verbose': False, 'pic': True, 'openmp': True}
 
 source_urls = ['https://ftp.gromacs.org/pub/gromacs/']

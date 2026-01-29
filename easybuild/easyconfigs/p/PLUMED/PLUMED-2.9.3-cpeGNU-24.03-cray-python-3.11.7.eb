@@ -12,7 +12,7 @@
 #
 easyblock = 'ConfigureMake'
 
-local_crayfftw_version =    '3.3.10.1'
+local_crayfftw_version =    '3.3.10.7'
 local_craypython_version =  '3.11.7'
 
 local_Boost_version =        '1.83.0'        # https://www.boost.org/
