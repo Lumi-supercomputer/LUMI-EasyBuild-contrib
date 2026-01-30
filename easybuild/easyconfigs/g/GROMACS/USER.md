@@ -1,9 +1,12 @@
 # GROMACS user instructions
 
-!!! Bug "Severe issues with many GROMACS versions in 25.03."
-    Our efforts to compile GROMACS with the GNU compilers for 25.03 have run into issues
-    in several combinations, running from crashes in `libtool` to internal compiler crashes
-    in gcc. 
+!!! Bug "Severe issues with GROMACS after the January 2026 system update"
+    Hugepages support on LUMI is broken after the January 2026 system update.
+    EasyBuild recipes for 24.03 have been adapted to no longer load the 
+    `cray-hugepages8M` module when compiling. Users should not load the
+    `cray-hugepages` modules anymore when running GROMACS as one can expect
+    random crashes. It looks like even memory corruption that creates
+    wrong results could happen.
 
 
 ## A note about the GPU versions.
