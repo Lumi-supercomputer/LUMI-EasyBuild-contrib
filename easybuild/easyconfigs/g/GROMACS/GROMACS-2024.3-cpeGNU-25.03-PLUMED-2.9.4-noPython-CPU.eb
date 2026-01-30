@@ -13,14 +13,15 @@
 #
 # Adapted by Kurt Lust (kurt.lust@uantwerpen.be) for the LUMI consortium
 #
+#
 #DOC Replaces the earlier version with PLUMED 2.9.2 as that turned out to be 
 #DOC a release with issues.
 #
 easyblock = 'CMakeMake'
 
-local_crayfftw_version =    '3.3.10.7'
+local_crayfftw_version =     '3.3.10.10'
 
-local_PLUMED2_9_version =    '2.9.3'         # https://github.com/plumed/plumed2/releases
+local_PLUMED2_9_version =    '2.9.4'         # https://github.com/plumed/plumed2/releases
 
 name =          'GROMACS'
 version =       '2024.3'
@@ -30,7 +31,7 @@ homepage = 'http://www.gromacs.org'
 
 whatis = [
     'Description: GROMACS is a versatile package to perform molecular dynamics, i.e. simulate the Newtonian equations of motion for systems with hundreds to millions of particles.',
-    f'Extensions: Includes PLUMED {local_PLUMED2_9_version}',
+    'Extensions: Includes PLUMED %s' % local_PLUMED2_9_version,
 ]
 
 description = """
@@ -44,7 +45,7 @@ Binaries included:
 * gmx_d: Compiled with support for OpenMP and using double precision arithmetic.
 * gmx_mpi_d: Compiled with support for MPI and OpenMP and using double precision
   arithmetic.
-
+  
 Note that since PLUMED is incompatible with Thread-MPI, this feature has been
 turned off.
 
@@ -59,16 +60,11 @@ turn bash command completion on for GROMACS. Note that unloading the module will
 not turn this off, so it may have consequences for things you do later on or
 conflict with the command completion of a different version of GROMACS.
 
-Contrary to previous versions of this module, hugepages support has been disabled 
-as it causes stability issues on SUSE 15SP6, the OS on LUMI after the January 2026
-update.
-
-The gmxapi support needed to interface with Python is turned off in this build as 
-one would need a Python distribution built with the Cray compilers for it to work due
-to runtime conflicts between the GNU and Cray OpenMP runtimes.
+Contrary to previous versions, hugepages support has been disabled as it causes
+stability issues on SUSE 15SP6, the OS on LUMI after the January 2026 update.
 """
 
-toolchain = {'name': 'cpeCray', 'version': '24.03'}
+toolchain = {'name': 'cpeGNU', 'version': '25.03'}
 toolchainopts = {'opt': True, 'usempi': True, 'verbose': False, 'pic': True, 'openmp': True}
 
 source_urls = ['https://ftp.gromacs.org/pub/gromacs/']
@@ -96,7 +92,6 @@ local_common_opts = ' '.join([
     '-DGMX_BUILD_OWN_FFTW=OFF',    # We already use cray-fftw for PLUMED and would have conflics otherwise
     '-DGMX_DEFAULT_SUFFIX=ON',
     '-DGMX_THREAD_MPI=OFF',        # According to the PLUMED manual, PLUMED is not compatible with Thread-MPI and it should be turned off.
-    '-DGMXAPI=off',                # Do not build GMXAPI as there are runtime conflicts with GNU-compiled Python distributions due to the different OpenMP runtime.
 ])
 
 preconfigopts = ' cd ../gromacs-%(version)s && plumed-patch -p -e gromacs-%(version)s -m shared && cd - && '
