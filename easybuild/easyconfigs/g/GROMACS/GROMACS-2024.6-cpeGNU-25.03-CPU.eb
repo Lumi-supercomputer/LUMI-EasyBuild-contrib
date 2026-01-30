@@ -16,7 +16,7 @@
 easyblock = 'CMakeMake'
 
 name =          'GROMACS'
-version =       '2025.4'
+version =       '2024.6'
 versionsuffix = '-CPU'
 
 homepage = 'http://www.gromacs.org'
@@ -54,12 +54,12 @@ docurls = [
     f'Web-based documentation on https://manual.gromacs.org/{version}/index.html'
 ]
 
-toolchain = {'name': 'cpeCray', 'version': '25.03'}
+toolchain = {'name': 'cpeGNU', 'version': '25.03'}
 toolchainopts = {'opt': True, 'usempi': True, 'verbose': False, 'pic': True, 'openmp': True}
 
 source_urls = ['https://ftp.gromacs.org/pub/gromacs/']
 sources =     [SOURCELOWER_TAR_GZ]
-checksums =   ['ca17720b4a260eb73649211e9f6a940ee7543452129844213c3accb0a927a5c3']
+checksums =   ['7cbad81f51c71a144d646515a7249aa74940b3f68071f51410e3a9473f05b339']
 
 builddependencies = [
     ('buildtools',         '%(toolchain_version)s', '', True), # For CMake
@@ -67,23 +67,23 @@ builddependencies = [
 ]
 
 local_common_opts= ' '.join( [
-    '-DCMAKE_BUILD_TYPE=Release',    # General CMake options: Release build
-    '-DCMAKE_INSTALL_LIBDIR=lib',    # General CMake options: USe lib intead of lib64 for consistency with autotools-installed softwware
+    '-DCMAKE_BUILD_TYPE=Release',    # General CMake option: Release build
+    '-DCMAKE_INSTALL_LIBDIR=lib',    # General CMake option: Use lib instead of lib64 for consistency
     '-DGMX_OPENMP=ON -DGMX_GPU=OFF', # Build type: No GPU, OpenMP for CPU, MPI specified elsewhere
     '-DBUILD_SHARED_LIBS=ON',        # Required to be able to build GMXAPI
     '-DGMX_SIMD=AVX2_256',
     '-DGMX_CYCLE_SUBCOUNTERS=ON',
-    '-DGMX_BUILD_OWN_FFTW=ON',       # We don't use Cray FFTW at the moment.
+    '-DGMX_BUILD_OWN_FFTW=ON',
     '-DGMX_DEFAULT_SUFFIX=ON',
 ])
 
 configopts = [
     # single precision
-    local_common_opts + ' -DGMX_MPI=OFF',
-    local_common_opts + ' -DGMX_MPI=ON',
+    local_common_opts + '-DGMX_MPI=OFF',
+    local_common_opts + '-DGMX_MPI=ON',
     # double precision
-    local_common_opts + ' -DGMX_MPI=OFF -DGMX_DOUBLE=ON',
-    local_common_opts + ' -DGMX_MPI=ON  -DGMX_DOUBLE=ON',
+    local_common_opts + '-DGMX_MPI=OFF -DGMX_DOUBLE=ON',
+    local_common_opts + '-DGMX_MPI=ON  -DGMX_DOUBLE=ON',
 ]
 
 #onlytcmod = True
