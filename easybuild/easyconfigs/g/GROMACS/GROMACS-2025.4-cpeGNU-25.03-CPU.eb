@@ -54,7 +54,7 @@ docurls = [
     f'Web-based documentation on https://manual.gromacs.org/{version}/index.html'
 ]
 
-toolchain = {'name': 'cpeCray', 'version': '25.03'}
+toolchain = {'name': 'cpeGNU', 'version': '25.03'}
 toolchainopts = {'opt': True, 'usempi': True, 'verbose': False, 'pic': True, 'openmp': True}
 
 source_urls = ['https://ftp.gromacs.org/pub/gromacs/']
