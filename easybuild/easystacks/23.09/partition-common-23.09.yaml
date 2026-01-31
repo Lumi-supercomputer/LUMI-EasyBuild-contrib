@@ -1,0 +1,14 @@
+easyconfigs:
+#
+# # git-lfs
+#
+  - git-lfs.3.4.0.eb
+#
+# HyperQueue
+#
+  - Rust-1.80.1.eb
+#  - HyperQueue-0.19.0.eb # Strange build error, looks like Rust doesn't work anymore.
+#
+# lustre-includes (for mpi-fileutils)
+#
+  - lustre-includes-2.15.1.eb
