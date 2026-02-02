@@ -50,13 +50,8 @@ NOTES:
     line completion. Note that unloading the module will not disable command
     completion again.
 
-This module is compiled with support for huge pages via the cray-hugepages modules.
-Using those can significantly lower the cost of memory access. However, to benefit
-from this you will have to load a suitable cray-hugepages module, e.g.,
-$ module load cray-hugepages8M
-However, if the size is too large, you may get out-of-memory messages due to memory
-fragmentation. Hence it may require some experimenting to find the optimal page
-size.
+Contrary to previous versions, hugepages support has been disabled as it causes
+stability issues on SUSE 15SP6, the OS on LUMI after the January 2026 update.
 """
 
 toolchain = {'name': 'cpeGNU', 'version': '25.03'}
@@ -76,7 +71,7 @@ checksums =   ['3068ab5e28cbae38b582d128fecac14c820762244d8eb87ad6030f04f96ecd78
 
 builddependencies = [
     ('buildtools',         '%(toolchain_version)s', '', SYSTEM), # For CMake and xxd
-#    ('craype-hugepages8M', EXTERNAL_MODULE),
+    # ('craype-hugepages8M', EXTERNAL_MODULE), # Hugepages causes issues on SUSE 15SP6.
     ('craype-accel-host',  EXTERNAL_MODULE),  # Avoid enabling OpenMP offload
 ]
 
