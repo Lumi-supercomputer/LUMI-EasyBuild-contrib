@@ -1,0 +1,192 @@
+easyconfigs:
+#
+# ADIOS2
+#
+  - SZ-2.1.12-cpeGNU-23.09.eb
+  - zfp-1.0.0-cpeGNU-23.09.eb
+  - libsodium-1.0.19-cpeGNU-23.09.eb
+#  - ZeroMQ-4.3.5-cpeGNU-23.09.eb
+#  - ADIOS2-2.9.1-cpeGNU-23.09.eb
+#
+# aria2
+#
+  - CppUnit-1.15.1-cpeGNU-23.09.eb
+  - CppUnit-1.15.1-cpeCray-23.09.eb
+  - CppUnit-1.15.1-cpeAOCC-23.09.eb
+  - c-ares-1.21.0-cpeGNU-23.09.eb
+  - c-ares-1.21.0-cpeCray-23.09.eb
+  - c-ares-1.21.0-cpeAOCC-23.09.eb
+  - aria2-1.36.0-cpeGNU-23.09.eb
+  - aria2-1.36.0-cpeCray-23.09.eb
+  - aria2-1.36.0-cpeAOCC-23.09.eb
+#
+# BCFtools and related bio-informatics tools
+#
+  - HTSlib-1.18-cpeGNU-23.09.eb
+  - BCFtools-1.18-cpeGNU-23.09.eb
+  - SAMtools-1.18-cpeGNU-23.09.eb
+  - VCFtools-0.1.16-cpeGNU-23.09.eb
+#
+# CDO
+#
+  - json-c-0.16-cpeGNU-23.09.eb
+  - json-c-0.16-cpeCray-23.09.eb
+  - json-c-0.16-cpeAOCC-23.09.eb
+  - CMOR-3.7.3-cpeGNU-23.09.eb
+  - CMOR-3.7.3-cpeCray-23.09.eb
+  - ecCodes-2.32.0-cpeGNU-23.09.eb
+  - ecCodes-2.32.0-cpeCray-23.09.eb
+  - CDO-2.3.0-cpeGNU-23.09.eb
+  - CDO-2.3.0-cpeCray-23.09.eb
+#
+# DL_POLY_4
+#
+  - DL_POLY_4-5.1.0-cpeGNU-23.09.eb
+#
+# GDAL
+#
+  - HDF-4.2.16-2-cpeGNU-23.09.eb
+  - GEOS-3.12.1-cpeGNU-23.09.eb
+  - libgeotiff-1.7.1-cpeGNU-23.09.eb
+  - Xerces-C++-3.2.5-cpeGNU-23.09.eb
+  - GDAL-3.5.3-cpeGNU-23.09-noPython.eb
+  - GDAL-3.5.3-cpeGNU-23.09-cray-python-3.10.10.eb
+#
+# GROMACS: Archived
+#
+#
+# mpiFileUtils
+#
+  - lustre-includes-2.15.1.eb # Though we may just want this in common.
+  - mpiFileUtils-0.11.1-cpeGNU-23.09.eb
+  - mpiFileUtils-0.11.1-cpeCray-23.09.eb
+  - mpiFileUtils-0.11.1-cpeAOCC-23.09.eb # Temporarily disabled as cpeAOCC was still building on the TDS.
+#
+# MUMPS
+#
+  - MUMPS-5.5.1-cpeCray-23.09.eb
+  - MUMPS-5.5.1-cpeGNU-23.09.eb
+#
+# NCO - Does not build anymore as we archived ANTLR. So Archiving NCO.
+#
+#  - CppUnit-1.15.1-cpeGNU-23.09.eb
+#  - CppUnit-1.15.1-cpeCray-23.09.eb
+#  - CppUnit-1.15.1-cpeAOCC-23.09.eb
+#  - NCO-5.1.8-cpeGNU-23.09.eb
+#  - NCO-5.1.8-cpeCray-23.09.eb
+#
+# ncview
+#
+  - ncview-2.1.9-cpeGNU-23.09.eb
+  - ncview-2.1.9-cpeCray-23.09.eb
+  - ncview-2.1.9-cpeAOCC-23.09.eb
+#
+# PETSc with and without Hypre.
+#
+  - MUMPS-5.5.1-cpeGNU-23.09.eb
+  - Hypre-2.26.0-cpeGNU-23.09.eb
+  - SuperLU-6.0.0-cpeGNU-23.09-OpenMP.eb
+  - SuperLU_DIST-8.1.2-cpeGNU-23.09-OpenMP.eb
+  - PETSc-3.19.5-cpeGNU-23.09.eb
+#
+# PLUMED
+#
+  - PLUMED-2.8.3-cpeGNU-23.09-noPython.eb
+  - PLUMED-2.9.0-cpeGNU-23.09-noPython.eb
+#
+# OpenFOAM
+#
+  - CGAL-4.12.2-cpeGNU-23.09-OpenFOAM.eb
+  - OpenFOAM-10-cpeGNU-23.09-20230119.eb
+  - OpenFOAM-v2312-cpeGNU-23.09.eb
+#
+# QuEST
+#
+  - QuEST-3.7.0-cpeGNU-23.09-hybrid-prec2.eb
+  - QuEST-3.7.0-cpeGNU-23.09-prec2-rocm.eb
+#
+# R
+#
+  - Info-ZIP-3.0-6.0-cpeGNU-23.09.eb
+  - R-4.3.2-cpeGNU-23.09-raw.eb
+  - R-4.3.2-cpeGNU-23.09.eb
+#
+# Scalasca - restrict to the newest version for now
+#
+  - CubeLib-4.8.2-cpeAOCC-23.09.eb
+  - CubeLib-4.8.2-cpeCray-23.09.eb
+  - CubeLib-4.8.2-cpeGNU-23.09.eb
+  - OTF2-3.0.3-cpeAOCC-23.09.eb
+  - OTF2-3.0.3-cpeCray-23.09.eb
+  - OTF2-3.0.3-cpeGNU-23.09.eb
+  - Scalasca-2.6.1-cpeAOCC-23.09.eb
+  - Scalasca-2.6.1-cpeCray-23.09.eb
+  - Scalasca-2.6.1-cpeGNU-23.09.eb
+#
+# Score-P - Restrict to newest version for now
+#
+  - CubeLib-4.8.2-cpeAOCC-23.09.eb
+  - CubeLib-4.8.2-cpeCray-23.09.eb
+  - CubeLib-4.8.2-cpeGNU-23.09.eb
+  - CubeWriter-4.8.2-cpeAOCC-23.09.eb
+  - CubeWriter-4.8.2-cpeCray-23.09.eb
+  - CubeWriter-4.8.2-cpeGNU-23.09.eb
+  - OPARI2-2.0.8-cpeAOCC-23.09.eb
+  - OPARI2-2.0.8-cpeCray-23.09.eb
+  - OPARI2-2.0.8-cpeGNU-23.09.eb
+  - OTF2-3.0.3-cpeAOCC-23.09.eb
+  - OTF2-3.0.3-cpeCray-23.09.eb
+  - OTF2-3.0.3-cpeGNU-23.09.eb
+  - libbfd-2.42-cpeAOCC-23.09.eb
+  - libbfd-2.42-cpeCray-23.09.eb
+  - libbfd-2.42-cpeGNU-23.09.eb
+  - Score-P-8.4-cpeAOCC-23.09.eb
+  - Score-P-8.4-cpeCray-23.09.eb
+  - Score-P-8.4-cpeGNU-23.09.eb
+#
+# SuperLU single- and multi-threaded and distributed
+#
+  - SuperLU-6.0.0-cpeGNU-23.09-OpenMP.eb
+  - SuperLU-6.0.0-cpeCray-23.09-OpenMP.eb
+  - SuperLU_DIST-8.1.2-cpeGNU-23.09-OpenMP.eb
+  - SuperLU_DIST-8.1.2-cpeCray-23.09-OpenMP.eb
+#
+# UppASD
+#
+  - UppASD-6.0.2-cpeGNU-23.09.eb
+  - UppASD-6.0.2-cpeCray-23.09.eb
+#
+# Yambo
+#
+  - libxc-6.2.2-cpeGNU-23.09.eb
+  - MUMPS-5.5.1-cpeGNU-23.09.eb
+  - Hypre-2.26.0-cpeGNU-23.09.eb
+  - SuperLU-6.0.0-cpeGNU-23.09-OpenMP.eb
+  - SuperLU_DIST-8.1.2-cpeGNU-23.09-OpenMP.eb
+  - PETSc-3.19.5-cpeGNU-23.09.eb
+  - Yambo-5.2.3-cpeGNU-23.09.eb
+#
+################################################################################
+#
+# Packages that require manual downloads
+#
+#
+# NAMD
+#
+  - Charm++-6.10.2-cpeGNU-23.09-MPI.eb
+#  - NAMD-2.14-cpeGNU-23.09-MPI.eb # Not tested as I did not have the source file.
+#
+# VASP: Does not build anymore because of the unpatched EasyBuild 4.8.2 MesonNinja
+# EasyBlock.
+#
+  - DFTD4-3.4.0-cpeGNU-23.09.eb        # TODO: Archive
+  - Wannier90-3.1.0-cpeGNU-23.09.eb    # TODO: Archive
+  #- VASP-6.4.3-cpeGNU-23.09-build02.eb # TODO: Archive
+  #- VASP-6.5.0-cpeGNU-23.09-build01.eb # TODO: Archive
+  #- VASP-6.5.0-cpeGNU-23.09-build02.eb # TODO: Archive
+  #- VASP-6.5.1-cpeGNU-23.09-build02.eb # TODO: Archive
+#
+######
+#
+# TODO
+#
