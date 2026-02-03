@@ -22,8 +22,9 @@ diff --git a/exts/dbcsr/src/acc/cuda_hip/acc_error.cpp b/exts/dbcsr/src/acc/cuda
  
 -extern "C" void c_dbcsr_acc_clear_errors() { ACC(GetLastError)(); }
 +extern "C" void c_dbcsr_acc_clear_errors() { (void)ACC(GetLastError)(); }
---- exts/dbcsr/src/acc/hip/acc_hip.cpp	2024-09-09 16:02:31.549190000 +0300
-+++ exts/dbcsr/src/acc/hip/acc_hip.cpp	2026-02-03 15:23:18.331078680 +0200
+diff --git a/exts/dbcsr/src/acc/hip/acc_hip.cpp b/exts/dbcsr/src/acc/hip/acc_hip.cpp
+--- a/exts/dbcsr/src/acc/hip/acc_hip.cpp	2024-09-09 16:02:31.549190000 +0300
++++ b/exts/dbcsr/src/acc/hip/acc_hip.cpp	2026-02-03 15:23:18.331078680 +0200
 @@ -15,7 +15,7 @@
  hipError_t hipFreeHost(void* ptr) { return hipHostFree(ptr); }
  #endif
