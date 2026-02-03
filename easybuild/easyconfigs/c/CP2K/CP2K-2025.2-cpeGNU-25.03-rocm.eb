@@ -46,7 +46,7 @@ source_urls = ['https://github.com/%(namelower)s/%(namelower)s/releases/download
 sources = [SOURCELOWER_TAR_BZ2]
 patches = [
     ('LUMIG-20252.psmp', '%(builddir)s/%(namelower)s-%(version)s/arch'),
-    "CP2K-2025.2_rocm.patch"
+    ('CP2K-2025.2_rocm.patch', 1)
 ]
 checksums = [
     {'cp2k-2025.2.tar.bz2': 'c8392a4e123304644ec8d241443796277c6ed7ae977452317e779f3c387c2e19'},
