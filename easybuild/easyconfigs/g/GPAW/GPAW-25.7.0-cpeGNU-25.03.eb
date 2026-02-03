@@ -1,0 +1,71 @@
+#DOC This is a version of GPAW built with libvdwxc for LUMI-C.
+easyblock = "PythonPackage"
+
+local_gpaw_setups_version = '24.11.0'  # https://gpaw.readthedocs.io/setups/setups.html#setup-releases
+
+name = 'GPAW'
+version = '25.7.0'
+
+homepage = 'https://wiki.fysik.dtu.dk/gpaw/'
+description = """GPAW is a density-functional theory (DFT) Python code based on the projector-augmented wave (PAW)
+ method and the atomic simulation environment (ASE). It uses real-space uniform grids and multigrid methods or
+ atom-centered basis-functions."""
+
+toolchain = {'name': 'cpeGNU', 'version': '25.03'}
+toolchainopts = {'usempi': True, 'openmp': True}
+
+sources = [{
+     'filename': SOURCELOWER_TAR_GZ,
+     'source_urls': [PYPI_LOWER_SOURCE],
+},
+{
+     'filename': 'gpaw-setups-' + local_gpaw_setups_version + '.tar.gz',
+     'source_urls': ['https://wiki.fysik.dtu.dk/gpaw-files/'],
+},
+{
+     'filename': 'gpaw_data-1.0.1.tar.gz',
+     'source_urls': ['https://pypi.python.org/packages/source/g/gpaw-data'],
+}
+]
+patches = [
+   {'name': 'GPAW-%(version)s-siteconfig-cpu.patch', 'level': 1},
+   {'name': 'GPAW-%(version)s-fix-dependency-versions.patch', 'level': 1},
+]
+
+builddependencies = [
+    # Provides wheel
+    ('buildtools-python', '%(toolchain_version)s', '-cray-python%(pyshortver)s', True),
+]
+
+dependencies = [
+    ('cray-python/3.11.7', EXTERNAL_MODULE),
+    ('cray-fftw/3.3.10.7', EXTERNAL_MODULE),
+    ('libxc', '7.0.0', '-FHC'),
+    ('libvdwxc', '0.5.0'),
+]
+
+preinstallopts = 'GPAW_CONFIG=siteconfig-lumi-cpu.py '
+
+download_dep_fail = False
+use_pip = True
+use_pip_for_deps = True
+pip_verbose = True
+pip_ignore_installed = False
+pip_no_index = False
+sanity_pip_check = True
+
+postinstallcmds = ['cp -rp ../gpaw-setups-' + local_gpaw_setups_version + ' %(installdir)s/']
+
+sanity_check_paths = {
+    'files': ['bin/gpaw%s' % x for x in ['', '-analyse-basis', '-basis', '-plot-parallel-timings',
+                                         '-runscript', '-setup', '-upfplot']],
+    'dirs': ['lib/python%(pyshortver)s/site-packages'],
+}
+
+sanity_check_commands = [
+    "gpaw info"
+]
+
+modextravars = {'GPAW_SETUP_PATH': '%(installdir)s/gpaw-setups-' + local_gpaw_setups_version}
+
+moduleclass = 'chem'
