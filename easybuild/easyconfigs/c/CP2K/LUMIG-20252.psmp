@@ -20,10 +20,11 @@ DFLAGS  += -D__OFFLOAD_GEMM
 DFLAGS  += -D__HDF5
 #DFLAGS  += -D__SPLA
 CXXSTD   = c++17
+OPTFLAG  = O2
 
-CFLAGS   = $(DFLAGS) -O3 -fopenmp -fopenmp-simd -mavx2 -mfma -fomit-frame-pointer -std=c11
-CXXFLAGS = $(DFLAGS) -std=$(CXXSTD) -O3 -fopenmp -fopenmp-simd -mavx2 -mfma -fomit-frame-pointer
-FCFLAGS  = $(DFLAGS) -O3 -g -fopenmp -fopenmp-simd -ftree-vectorize -fomit-frame-pointer -funroll-loops -mavx2 -mfma -fallow-argument-mismatch
+CFLAGS   = $(DFLAGS) -$(OPTFLAG) -fopenmp -fopenmp-simd -mavx2 -mfma -fomit-frame-pointer -std=c11
+CXXFLAGS = $(DFLAGS) -std=$(CXXSTD) -$(OPTFLAG) -fopenmp -fopenmp-simd -mavx2 -mfma -fomit-frame-pointer
+FCFLAGS  = $(DFLAGS) -$(OPTFLAG) -g -fopenmp -fopenmp-simd -ftree-vectorize -fomit-frame-pointer -funroll-loops -mavx2 -mfma -fallow-argument-mismatch
 HIPINC  = -I${ROCM_PATH}/include
 CFLAGS  += $(HIPINC)
 CXXFLAGS += $(HIPINC)
