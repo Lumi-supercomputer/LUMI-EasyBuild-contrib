@@ -25,7 +25,7 @@ CXXSTD   =-std=c++17
 OPTFLAG  =-O2
 
 CFLAGS   = $(DFLAGS) $(OPTFLAG) -fopenmp -fopenmp-simd -mavx2 -mfma -fomit-frame-pointer -std=c11
-CXXFLAGS = $(DFLAGS) $(CXXSTD) $(OPTFLAG) -fopenmp -fopenmp-simd -mavx2 -mfma -fomit-frame-pointer
+CXXFLAGS = $(DFLAGS) $(CXXSTD) $(OPTFLAG) -fopenmp -fopenmp-simd -mavx2 -mfma -fomit-frame-pointer -Wno-error=unused-result
 FCFLAGS  = $(DFLAGS) $(OPTFLAG) -g -fopenmp -fopenmp-simd -ftree-vectorize -fomit-frame-pointer -funroll-loops -mavx2 -mfma -fallow-argument-mismatch
 HIPINC  = -I${ROCM_PATH}/include
 CFLAGS  += $(HIPINC)
