@@ -20,13 +20,13 @@ DFLAGS  += -D__OFFLOAD_GEMM
 DFLAGS  += -D__HDF5
 DFLAGS  += -D__DBCSR_DISABLE_HOST_ALLOC
 #DFLAGS  += -D__SPLA
-CXXSTD   =c++17
+CXXSTD   =-std=c++17
 #Down from O3 because of errors
-OPTFLAG  =O2
+OPTFLAG  =-O2
 
-CFLAGS   = $(DFLAGS) -$(OPTFLAG) -fopenmp -fopenmp-simd -mavx2 -mfma -fomit-frame-pointer -std=c11
-CXXFLAGS = $(DFLAGS) -std=$(CXXSTD) -$(OPTFLAG) -fopenmp -fopenmp-simd -mavx2 -mfma -fomit-frame-pointer
-FCFLAGS  = $(DFLAGS) -$(OPTFLAG) -g -fopenmp -fopenmp-simd -ftree-vectorize -fomit-frame-pointer -funroll-loops -mavx2 -mfma -fallow-argument-mismatch
+CFLAGS   = $(DFLAGS) $(OPTFLAG) -fopenmp -fopenmp-simd -mavx2 -mfma -fomit-frame-pointer -std=c11
+CXXFLAGS = $(DFLAGS) $(CXXSTD) $(OPTFLAG) -fopenmp -fopenmp-simd -mavx2 -mfma -fomit-frame-pointer
+FCFLAGS  = $(DFLAGS) $(OPTFLAG) -g -fopenmp -fopenmp-simd -ftree-vectorize -fomit-frame-pointer -funroll-loops -mavx2 -mfma -fallow-argument-mismatch
 HIPINC  = -I${ROCM_PATH}/include
 CFLAGS  += $(HIPINC)
 CXXFLAGS += $(HIPINC)
@@ -101,6 +101,6 @@ LDFLAGS += -L$(EBROOTLIBINTMINCP2K)/lib -lint2
 
 GPUVER         = Mi250
 OFFLOAD_CC     = hipcc
-OFFLOAD_FLAGS  = -fPIE -D__HIP_PLATFORM_AMD__ --offload-arch=gfx90a -$(OPTFLAG) -std=$(CXXSTD) $(DFLAGS)
+OFFLOAD_FLAGS  = -fPIE -D__HIP_PLATFORM_AMD__ --offload-arch=gfx90a $(OPTFLAG) $(CXXSTD) $(DFLAGS)
 OFFLOAD_TARGET = hip
 LIBS          += -L${ROCM_PATH}/lib -lrocblas -lamdhip64 -lhipfft -lhipblas -lstdc++
