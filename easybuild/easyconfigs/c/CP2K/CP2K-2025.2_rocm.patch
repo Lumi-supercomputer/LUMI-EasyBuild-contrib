@@ -1,14 +1,15 @@
-diff -ruN dbcsr/src/acc/hip/acc_hip.h dbcsr/src/acc/hip/acc_hip.h
---- dbcsr/src/acc/hip/acc_hip.h
-+++ dbcsr/src/acc/hip/acc_hip.h
+diff --git a/exts/dbcsr/src/acc/hip/acc_hip.h b/exts/dbcsr/src/acc/hip/acc_hip.h
+index 1234567..89abcde 100644
+--- a/exts/dbcsr/src/acc/hip/acc_hip.h
++++ b/exts/dbcsr/src/acc/hip/acc_hip.h
 @@ -91,7 +91,11 @@
  
  #ifdef __HIP_PLATFORM_AMD__
  
 -extern unsigned int hipHostAllocDefault;
 +/* hipHostAllocDefault is a macro in HIP.
-+ * Do NOT redeclare it as a variable.
-+ * This breaks device compilation.
++ * Redeclaring it as a variable breaks HIP device compilation.
++ * See ROCm clang error on gfx90a.
 + */
  
  #endif /* __HIP_PLATFORM_AMD__ */
