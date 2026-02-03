@@ -82,7 +82,7 @@ files_to_copy = [
 ]
 
 sanity_check_paths = {
-    'files': ['arch/LUMIG-20242.psmp', 'bin/%(namelower)s.psmp'],
+    'files': ['arch/LUMIG-20252.psmp', 'bin/%(namelower)s.psmp'],
     'dirs': ['data', 'tests'],
 }
 
