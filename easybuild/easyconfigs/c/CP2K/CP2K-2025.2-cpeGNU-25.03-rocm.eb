@@ -50,7 +50,8 @@ patches = [
 ]
 checksums = [
     {'cp2k-2025.2.tar.bz2': 'c8392a4e123304644ec8d241443796277c6ed7ae977452317e779f3c387c2e19'},
-    {'LUMIG-20252.psmp': '36b2eec66a53d2c1753d7026868407f93122b60442e58cf1fdd2f3f280bd1ba6'},
+    {'LUMIG-20252.psmp': 'ac5c366fc1fad9c5fbd1f47ea2e159d3b0d2b6d9045cd9398b1c6edbe6e1bd59'},
+    {'CP2K-2025.2_rocm.patch': 'ffc2ee1ec5833fc30c68e8e9d885323c18019445e54071cea1d0eddeaae34145'},
 ]
 
 builddependencies = [
