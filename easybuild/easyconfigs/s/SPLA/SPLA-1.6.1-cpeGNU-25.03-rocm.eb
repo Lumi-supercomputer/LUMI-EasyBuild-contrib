@@ -27,7 +27,7 @@ docurls = [
     'Documentation: https://spla.readthedocs.io/en/latest/',
 ]
 
-toolchain = {'name': 'cpeGNU', 'version': '24.03'}
+toolchain = {'name': 'cpeGNU', 'version': '25.03'}
 toolchainopts = {'openmp': True, 'opt': True, 'pic': True, 'usempi': True}
 
 # https://github.com/eth-cscs/spla/archive/v1.6.1.tar.gz
