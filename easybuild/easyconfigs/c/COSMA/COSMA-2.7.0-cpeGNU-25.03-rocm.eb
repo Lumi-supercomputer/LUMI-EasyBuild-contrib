@@ -1,0 +1,75 @@
+# contributed by Peter Larsson (LUST)
+# Bump to the latest version and CPE version by Radim Janalik (CSCS)
+
+easyblock = 'CMakeMake'
+
+name =    'COSMA'
+version = '2.7.0'
+versionsuffix = '-rocm'
+
+homepage = 'https://github.com/eth-cscs/COSMA'
+
+whatis = [
+    'Description: COSMA is a communication-optimal, GPU-accelerated, '
+    'matrix-matrix multiplication algorithm'
+]
+
+description = """
+COSMA is a parallel, high-performance, GPU-accelerated, matrix-matrix 
+multiplication algorithm that is communication-optimal for all combinations 
+of matrix dimensions, number of processors and memory sizes, without the 
+need for any parameter tuning. The key idea behind COSMA is to first derive 
+a tight optimal sequential schedule and only then parallelize it, preserving 
+I/O optimality between processes. 
+"""
+
+docurls = [
+    'Manual: https://github.com/eth-cscs/COSMA'
+]
+
+toolchain = {'name': 'cpeGNU', 'version': '25.03'}
+toolchainopts = {'opt': True}
+
+sources =     [{
+    'filename'   : SOURCELOWER_TAR_GZ,
+    'git_config' : {
+        'url'          : 'https://github.com/eth-cscs',
+        'repo_name'    :'%(name)s',
+        'tag'          :'v2.6.6',
+        'recursive'    : True,
+        'keep_git_dir' : True, 
+    },
+}]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True), # For CMake
+    ('bzip2',      '1.0.8'),
+]
+
+dependencies = [
+    ('rocm', EXTERNAL_MODULE),
+]
+
+local_base_configopts = ' '.join([
+    '-DCOSMA_BLAS=ROCM', 
+    '-DCOSMA_SCALAPACK=CRAY_LIBSCI',
+    '-DCOSMA_WITH_TESTS=NO',
+    '-DCOSMA_WITH_BENCHMARKS=NO',
+    '-DCOSMA_WITH_APPS=NO',
+    '-DCOSMA_WITH_PROFILING=NO',
+    '-DCOSMA_WITH_GPU_AWARE_MPI=ON',
+])
+
+configopts = [
+    local_base_configopts,
+    local_base_configopts + ' -DBUILD_SHARED_LIBS=YES',
+]
+
+prebuildopts = 'export CPATH=$ROCM_PATH/include/rocblas:$CPATH && '
+
+sanity_check_paths = {
+    'files': ['lib64/libcosma.%s' % SHLIB_EXT, 'lib64/libcosta.%s' % SHLIB_EXT],
+    'dirs':  [''],
+}
+
+moduleclass = 'math'
