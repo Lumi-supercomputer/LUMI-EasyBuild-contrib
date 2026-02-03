@@ -8,3 +8,4 @@ diff --git a/exts/dbcsr/src/acc/cuda_hip/acc_error.cpp b/exts/dbcsr/src/acc/cuda
 +    /* hipGetLastError returns hipError_t marked nodiscard */
 +    (void)ACC(GetLastError)();
  }
+
