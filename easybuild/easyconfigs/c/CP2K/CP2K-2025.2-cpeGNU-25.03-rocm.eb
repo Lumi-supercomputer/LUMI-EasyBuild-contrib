@@ -48,7 +48,7 @@ patches = [
 ]
 checksums = [
     {'cp2k-2025.2.tar.bz2': 'c8392a4e123304644ec8d241443796277c6ed7ae977452317e779f3c387c2e19'},
-    {'LUMIG-20242.psmp': '36b2eec66a53d2c1753d7026868407f93122b60442e58cf1fdd2f3f280bd1ba6'},
+    {'LUMIG-20252.psmp': '36b2eec66a53d2c1753d7026868407f93122b60442e58cf1fdd2f3f280bd1ba6'},
 ]
 
 builddependencies = [
@@ -71,11 +71,11 @@ dependencies = [
     ('spglib',      local_spglib_version),
 ]
 
-buildopts = "ARCH=LUMIG-20242 VERSION=psmp"
+buildopts = "ARCH=LUMIG-20252 VERSION=psmp"
 
 files_to_copy = [
-    (['./arch/LUMIG-20242.psmp'], 'arch'),
-    (['./exe/LUMIG-20242/*'], 'bin'),
+    (['./arch/LUMIG-20252.psmp'], 'arch'),
+    (['./exe/LUMIG-20252/*'], 'bin'),
     (['./data'], '.'),
     (['./tests'], '.'),
     (['./tools'], '.')
