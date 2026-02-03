@@ -2,7 +2,7 @@ diff --git a/exts/dbcsr/src/acc/hip/acc_hip.h b/exts/dbcsr/src/acc/hip/acc_hip.h
 index 1234567..89abcde 100644
 --- a/exts/dbcsr/src/acc/hip/acc_hip.h
 +++ b/exts/dbcsr/src/acc/hip/acc_hip.h
-@@ -91,7 +91,11 @@
+@@ -94,7 +94,11 @@
 -extern unsigned int hipHostAllocDefault;
 +/* hipHostAllocDefault is a macro in HIP.
 + * Redeclaring it as a variable breaks HIP device compilation.
