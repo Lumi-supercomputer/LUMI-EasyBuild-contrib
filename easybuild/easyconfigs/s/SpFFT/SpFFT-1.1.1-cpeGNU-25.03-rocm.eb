@@ -47,7 +47,7 @@ toolchainopts = {'openmp': True, 'opt': True, 'pic': True}
 # https://github.com/eth-cscs/SpFFT/archive/v1.1.0.tar.gz
 source_urls = ['https://github.com/eth-cscs/%(name)s/archive']
 sources =     ['v%(version)s.tar.gz']
-checksums =   ['d4673b3135aebfa1c440723226fe976d518ff881285b3d4787f1aa8210eac81e']
+checksums = ['675a048124a96b8c7f89d59d3ac0355833e28b38622e76c4d478ee91b25d766c']
 
 builddependencies = [
     ('buildtools', '%(toolchain_version)s', '', True),
