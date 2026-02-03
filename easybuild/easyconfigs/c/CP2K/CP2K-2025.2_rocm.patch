@@ -1,0 +1,13 @@
+--- a/dbcsr/src/acc/hip/acc_hip.h
++++ b/dbcsr/src/acc/hip/acc_hip.h
+@@ -91,7 +91,11 @@
+ 
+ #ifdef __HIP_PLATFORM_AMD__
+ 
+-extern unsigned int hipHostAllocDefault;
++/* hipHostAllocDefault is a macro in HIP.
++ * Do NOT redeclare it as a variable.
++ * This breaks device compilation.
++ */
+ 
+ #endif /* __HIP_PLATFORM_AMD__ */
