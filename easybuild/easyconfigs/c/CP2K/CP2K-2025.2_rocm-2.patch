@@ -7,3 +7,4 @@ diff --git a/exts/dbcsr/src/acc/cuda_hip/acc_error.cpp b/exts/dbcsr/src/acc/cuda
  
 -extern "C" void c_dbcsr_acc_clear_errors() { ACC(GetLastError)(); }
 +extern "C" void c_dbcsr_acc_clear_errors() { (void)ACC(GetLastError)(); }
+
