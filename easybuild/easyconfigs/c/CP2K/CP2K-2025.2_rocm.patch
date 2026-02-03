@@ -1,10 +1,15 @@
 diff --git a/exts/dbcsr/src/acc/hip/acc_hip.h b/exts/dbcsr/src/acc/hip/acc_hip.h
-index 1234567..89abcde 100644
---- a/exts/dbcsr/src/acc/hip/acc_hip.h
-+++ b/exts/dbcsr/src/acc/hip/acc_hip.h
-@@ -94,7 +94,11 @@
+--- a/exts/dbcsr/src/acc/hip/acc_hip.h	2024-09-09 16:02:31.549190000 +0300
++++ b/exts/dbcsr/src/acc/hip/acc_hip.h	2026-02-03 14:25:15.241187530 +0200
+@@ -91,7 +91,10 @@
+ 
+ extern hipError_t hipHostAlloc(void** ptr, size_t size, unsigned int flags);
+ extern hipError_t hipHostAlloc(void** ptr, size_t size, unsigned int flags);
 -extern unsigned int hipHostAllocDefault;
 +/* hipHostAllocDefault is a macro in HIP.
 + * Redeclaring it as a variable breaks HIP device compilation.
 + * See ROCm clang error on gfx90a.
 + */
+ extern hipError_t hipFreeHost(void* ptr);
+ extern hiprtcResult hiprtcGetLowLevelCode(hiprtcProgram prog, char* code);
+ extern hiprtcResult hiprtcGetLowLevelCodeSize(hiprtcProgram prog, size_t* codeSizeRet);
