@@ -72,7 +72,7 @@ dependencies = [
     ('spglib',      local_spglib_version),
 ]
 
-prebuildopts = "export HIPCC_COMPILE_FLAGS_APPEND='-UhipHostAllocDefault'"
+prebuildopts = "export HIPCC_COMPILE_FLAGS_APPEND='-UhipHostAllocDefault'; "
 buildopts = "ARCH=LUMIG-20252 VERSION=psmp"
 
 files_to_copy = [
