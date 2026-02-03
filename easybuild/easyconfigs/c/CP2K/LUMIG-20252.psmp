@@ -20,7 +20,7 @@ DFLAGS  += -D__OFFLOAD_GEMM
 DFLAGS  += -D__HDF5
 #DFLAGS  += -D__SPLA
 CXXSTD   = c++17
-OPTFLAG  = O2
+OPTFLAG  = O2 #Down from 03 due to errors
 
 CFLAGS   = $(DFLAGS) -$(OPTFLAG) -fopenmp -fopenmp-simd -mavx2 -mfma -fomit-frame-pointer -std=c11
 CXXFLAGS = $(DFLAGS) -std=$(CXXSTD) -$(OPTFLAG) -fopenmp -fopenmp-simd -mavx2 -mfma -fomit-frame-pointer
@@ -99,6 +99,6 @@ LDFLAGS += -L$(EBROOTLIBINTMINCP2K)/lib -lint2
 
 GPUVER         = Mi250
 OFFLOAD_CC     = hipcc
-OFFLOAD_FLAGS  = -fPIE -D__HIP_PLATFORM_AMD__ --offload-arch=gfx90a -O3 -std=$(CXXSTD) $(DFLAGS)
+OFFLOAD_FLAGS  = -fPIE -D__HIP_PLATFORM_AMD__ --offload-arch=gfx90a -$(OPTFLAG) -std=$(CXXSTD) $(DFLAGS)
 OFFLOAD_TARGET = hip
 LIBS          += -L${ROCM_PATH}/lib -lrocblas -lamdhip64 -lhipfft -lhipblas -lstdc++
