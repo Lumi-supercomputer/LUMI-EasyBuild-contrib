@@ -1,0 +1,10 @@
+diff --git a/exts/dbcsr/src/acc/cuda_hip/acc_error.cpp b/exts/dbcsr/src/acc/cuda_hip/acc_error.cpp
+--- a/exts/dbcsr/src/acc/cuda_hip/acc_error.cpp
++++ b/exts/dbcsr/src/acc/cuda_hip/acc_error.cpp
+@@ -27,7 +27,9 @@
+ extern C void c_dbcsr_acc_clear_errors()
+ {
+-    ACC(GetLastError)();
++    /* hipGetLastError returns hipError_t marked nodiscard */
++    (void)ACC(GetLastError)();
+ }
