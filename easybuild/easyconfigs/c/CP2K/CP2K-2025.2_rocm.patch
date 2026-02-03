@@ -1,5 +1,6 @@
---- a/dbcsr/src/acc/hip/acc_hip.h
-+++ b/dbcsr/src/acc/hip/acc_hip.h
+diff -ruN dbcsr/src/acc/hip/acc_hip.h dbcsr/src/acc/hip/acc_hip.h
+--- dbcsr/src/acc/hip/acc_hip.h
++++ dbcsr/src/acc/hip/acc_hip.h
 @@ -91,7 +91,11 @@
  
  #ifdef __HIP_PLATFORM_AMD__
