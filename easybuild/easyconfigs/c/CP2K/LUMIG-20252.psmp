@@ -20,8 +20,9 @@ DFLAGS  += -D__OFFLOAD_GEMM
 DFLAGS  += -D__HDF5
 DFLAGS  += -D__DBCSR_DISABLE_HOST_ALLOC
 #DFLAGS  += -D__SPLA
-CXXSTD   = c++11
-OPTFLAG  = O2 #Down from 03 due to errors
+CXXSTD   =c++17
+#Down from O3 because of errors
+OPTFLAG  =O2
 
 CFLAGS   = $(DFLAGS) -$(OPTFLAG) -fopenmp -fopenmp-simd -mavx2 -mfma -fomit-frame-pointer -std=c11
 CXXFLAGS = $(DFLAGS) -std=$(CXXSTD) -$(OPTFLAG) -fopenmp -fopenmp-simd -mavx2 -mfma -fomit-frame-pointer
