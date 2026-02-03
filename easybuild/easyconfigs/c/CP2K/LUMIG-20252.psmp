@@ -21,7 +21,7 @@ DFLAGS  += -D__HDF5
 #DFLAGS  += -D__SPLA
 
 CFLAGS   = $(DFLAGS) -O3 -fopenmp -fopenmp-simd -mavx2 -mfma -fomit-frame-pointer -std=c11
-CXXFLAGS = $(DFLAGS) -std=c++11 -O3 -fopenmp -fopenmp-simd -mavx2 -mfma -fomit-frame-pointer
+CXXFLAGS = $(DFLAGS) -std=c++17 -O3 -fopenmp -fopenmp-simd -mavx2 -mfma -fomit-frame-pointer
 FCFLAGS  = $(DFLAGS) -O3 -g -fopenmp -fopenmp-simd -ftree-vectorize -fomit-frame-pointer -funroll-loops -mavx2 -mfma -fallow-argument-mismatch
 HIPINC  = -I${ROCM_PATH}/include
 CFLAGS  += $(HIPINC)
