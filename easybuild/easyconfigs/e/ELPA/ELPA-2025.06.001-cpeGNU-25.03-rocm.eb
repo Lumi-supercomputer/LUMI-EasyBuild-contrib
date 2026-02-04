@@ -1,6 +1,5 @@
 # Contributed by Luca Marsella (CSCS)
 # Some adaptations by Kurt Lust (University of Antwerpen and LUMI consortium)
-# and Joachim Sødequist (DeiC and LUMI consortium)
 # GPU version adapted for LUMI
 easyblock = 'ConfigureMake'
 
@@ -66,6 +65,9 @@ configopts = ' '.join([
     '--disable-openmp',
     '--with-mpi=yes',
     '--enable-cuda-aware-mpi',
+# Disable hipblas because detection of the v3 api is a completly broken test
+# copy-pasted from the rocblas one, with the wrong include and floating point type.
+#    '--enable-marshalling-hipblas-library',
 ])
 
 prebuildopts = 'export CPATH=$ROCM_PATH/include/hipblas && make clean && '
