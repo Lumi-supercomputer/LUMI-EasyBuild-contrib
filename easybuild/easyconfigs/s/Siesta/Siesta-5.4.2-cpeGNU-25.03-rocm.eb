@@ -52,7 +52,7 @@ dependencies = [
     ('libxc',                local_libxc_version, '-FHC'),
 ]
 
-prebuildopts = 'cd Obj && ../Src/obj_setup.sh && '
+# prebuildopts = 'cd Obj && ../Src/obj_setup.sh && '
 buildopts = ' '.join( [
     '-DSIESTA_WITH_IPO=ON',
     '-DSIESTA_WITH_OPENMP=ON',
