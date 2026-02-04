@@ -1,3 +1,7 @@
+#DOC EasyConfig meant to be used with the 23.09 compilers. It is the last version
+#DOC ROCm(tm) based on LLVM 17 which is the LLVM version used in cce 17.0.1 in
+#DOC CPE 23.09.
+#DOC Install in `LUMI/25.03 partition/CrayEnv`.
 easyblock = 'EB_rocmrpms'
 name = 'rocm'
 version = '6.1.3'
