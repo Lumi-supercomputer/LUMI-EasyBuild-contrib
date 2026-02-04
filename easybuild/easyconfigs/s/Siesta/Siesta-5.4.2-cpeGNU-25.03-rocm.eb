@@ -52,7 +52,7 @@ dependencies = [
     ('libxc',                local_libxc_version, '-FHC'),
 ]
 
-prebuildopts = 'cd Obj && ../Src/obj_setup.sh && '
+# prebuildopts = 'cd Obj && ../Src/obj_setup.sh && '
 
 postinstallcmds = [
     'mkdir -p %(installdir)s/share/licenses/%(name)s && ' +
