@@ -1,5 +1,6 @@
 # Contributed by Luca Marsella (CSCS)
 # Some adaptations by Kurt Lust (University of Antwerpen and LUMI consortium)
+# and Joachim Sødequist (DeiC and LUMI consortium)
 # GPU version adapted for LUMI
 easyblock = 'ConfigureMake'
 
