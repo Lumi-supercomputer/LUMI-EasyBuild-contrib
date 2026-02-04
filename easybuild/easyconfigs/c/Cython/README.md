@@ -20,7 +20,7 @@ These EasyConfigs are meant to be used when the version of Cython in
 - This recipe allows using Cython 3.0 in contrast to Cython 0.29 in cray-python/3.11.7.
 
 
-### Cython 3.1.2 for cpeGNU 25.03
+### Cython 3.1.2 for cpeGNU 25.03 and cpeAMD 25.03
 
 -   Cray Python comes with Cython but the version is too old for some packages.
 
