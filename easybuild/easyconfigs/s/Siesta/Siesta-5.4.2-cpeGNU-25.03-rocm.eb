@@ -1,4 +1,4 @@
-easyblock = 'MakeCp'
+easyblock = 'CMakeMake'
 
 local_METIS_version     = '5.1.0'
 local_ELPA_version      = '2025.06.001'
@@ -53,8 +53,9 @@ dependencies = [
 ]
 
 # prebuildopts = 'cd Obj && ../Src/obj_setup.sh && '
-buildopts = ' '.join( ['-DSIESTA_WITH_IPO=ON ',
-            '-DSIESTA_WITH_OPENMP=ON'
+buildopts = ' '.join( [
+    '-DSIESTA_WITH_IPO=ON',
+    '-DSIESTA_WITH_OPENMP=ON',
 ])
 
 postinstallcmds = [
@@ -62,7 +63,6 @@ postinstallcmds = [
     'cp COPYING AUTHORS NOTICE.txt README.md ReleaseNotes.md %(installdir)s/share/licenses/%(name)s'
 ]
 
-pretestopts = 'OMP_NUM_THREADS=4'
 runtest = True  # defaults to ctest
 
 files_to_copy = [
