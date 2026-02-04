@@ -30,8 +30,9 @@ docurls = [
 toolchain = {'name': 'cpeGNU', 'version': '25.03'}
 toolchainopts = {'usempi': True, 'precise': True, 'openmp': False}
 
+# https://gitlab.com/siesta-project/siesta/-/archive/5.4.2/siesta-5.4.2.tar.gz
 # https://gitlab.com/siesta-project/siesta/-/releases/v4.1.5/downloads/siesta-4.1.5.tar.gz
-source_urls = ['https://gitlab.com/siesta-project/siesta/-/releases/v%(version)s/downloads']
+source_urls = ['https://gitlab.com/siesta-project/siesta/-/archive/%(version)s']
 sources = [SOURCELOWER_TAR_GZ]
 
 patches = [
