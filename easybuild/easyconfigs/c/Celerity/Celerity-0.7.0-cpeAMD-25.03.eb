@@ -1,0 +1,75 @@
+# EasyConfig developed by Bert Jorissen (Univeristy of Antwerp - EPICURE) for LUMI.
+
+easyblock = 'CMakeMake'
+
+local_AdaptiveCpp_version = '25.02.0'
+
+name = 'Celerity'
+version = '0.7.0'
+
+homepage = 'https://github.com/celerity/celerity-runtime'
+
+whatis = [
+	'Description: A high-level C++ accelerator for clusters, on LUMI.',
+]
+
+description = """
+The Celerity distributed runtime and API aims to bring the power and ease of use of SYCL to multi-GPU systems and distributed memory clusters, with transparent scaling.
+
+Programming modern accelerators is already challenging in and of itself. Combine it with the distributed memory semantics of a cluster, and the complexity can become so daunting that many leave it unattempted. Celerity wants to relieve you of some of this burden, allowing you to target accelerator clusters with programs that look like they are written for a single device.
+"""
+
+docurls = [
+	"https://celerity.github.io/"
+]
+
+import os as local_os
+local_partition = local_os.getenv('LUMI_STACK_PARTITION')
+
+toolchain = {'name': 'cpeAMD', 'version': '25.03'}
+toolchainopts = {'usempi': True, 'openmp': True}
+
+
+sources = [{
+    'filename': SOURCE_TAR_XZ,
+    'git_config': {
+        'url': 'https://github.com/celerity',
+        'repo_name': 'celerity-runtime',
+        'commit': '8341c514069fb4e9b34eb4043851676df174a721',
+        'recursive': True,
+        'keep_git_dir': True,
+    },
+}]
+
+patches = [
+	# Patch for MPICH MPI_DataType
+	'celerity-runtime-MPICH.patch'
+]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', SYSTEM), # For CMake
+]
+
+
+dependencies = [
+	('AdaptiveCpp', local_AdaptiveCpp_version, '-rocm')
+]
+
+configopts = ''
+configopts += ' -DCMAKE_BUILD_TYPE=Release'
+configopts += ' -DCMAKE_CXX_COMPILER=$EBROOTADAPTIVECPP/bin/acpp'
+configopts += ' -DCMAKE_C_COMPILER=/opt/rocm-6.3.4/bin/amdclang'
+configopts += ' -DCMAKE_CXX_STANDARD=20'
+
+parallel=56
+buildopts = ''
+buildopts += ' --target install'
+buildopts += ' --verbose'
+
+build_cmd = 'cmake --build .'
+sanity_check_paths = {
+	'files': ['lib/libcelerity_runtime.a'],
+	'dirs': ['lib', 'include'],
+}
+
+moduleclass = 'lib'
