@@ -1,0 +1,92 @@
+easyblock = 'PythonBundle'
+
+name = 'SciPy-bundle'
+version = '1.14.1-1.26.4'
+
+homepage = 'http://www.scipy.org'
+
+whatis = [
+    'Description: SciPy-bundle bundles NumPy and SciPy and their dependencies'
+]
+
+description = """
+This bundle provides NumPy and Scipy and some necessary dependencies,
+compiled with the AMD compiler, so it uses the AMD clang OpenMP runtime
+rather than the GNU OpenMP runtime that is used by the regular NumPy
+in the Cray Python distribution. It is meant to work with other packages
+compiled with the AMD clang compilers to avoid OpenMP runtime conflicts.
+"""
+
+toolchain = {'name': 'cpeAMD', 'version': '25.03'}
+
+builddependencies = [
+    ('cray-python', EXTERNAL_MODULE),
+    ('buildtools-python', '%(toolchain_version)s', '-cray-python%(pyshortver)s', True),
+    ('buildtools', '%(toolchain_version)s', '', True),
+    ('Cython', '3.1.2'),
+    ('pybind11', '2.12.0'),
+]
+
+dependencies = [
+    ('cray-python', EXTERNAL_MODULE),
+]
+
+exts_default_options = {
+    'source_urls': [PYPI_SOURCE],
+    'use_pip': True,
+    'sanity_pip_check': False,
+}
+
+local_flit_core_version = '3.11.0'
+local_pyproject_metadata_version = '0.10.0'
+local_meson_python_version = '0.18.0'
+local_NumPy_version = '1.26.4'
+local_pythran_version = '0.16.1'
+local_SciPy_version = '1.14.1'
+
+exts_list = [
+#meson-python==0.18.0 pyproject-metadata==0.10.0
+    ('flit_core',          local_flit_core_version),
+    ('pyproject_metadata', local_pyproject_metadata_version),
+    ('meson_python',       local_meson_python_version, {
+        'modulename':  'mesonpy', 
+        'source_tmpl': f'meson_python-{local_meson_python_version}-py3-none-any.whl',
+    }),
+#    ('h5py', '3.11.0', {
+#        'preinstallopts':  'HDF5_MPI="ON" H5PY_SETUP_REQUIRES=0 CC=cc',
+#        'installopts': '--verbose',
+#    }),
+    ('numpy',              local_NumPy_version, {
+        'easyblock':      'PythonPackage',
+        'source_urls':    ['https://github.com/numpy/numpy/releases/download/v%(version)s'],
+        'sources':        [SOURCELOWER_TAR_GZ],
+        'preinstallopts': 'export PKG_CONFIG_PATH=${CRAY_LIBSCI_PREFIX}/lib/pkgconfig:$PKG_CONFIG_PATH && CFLAGS="-fopenmp" FFLAGS="-fopenmp" CC=amdclang CXX=amdclang++',
+        'installopts':    '-Csetup-args=-Dblas=sci_mp -Csetup-args=-Dlapack=sci_mp',
+        'use_pip':        True,
+    }),
+    ('pythran',            local_pythran_version),
+    ('scipy',              local_SciPy_version, { # Higher versions require meson update
+        'easyblock':      'PythonPackage',
+        'source_urls':    ['https://github.com/scipy/scipy/releases/download/v%(version)s'],
+        'sources':        [SOURCELOWER_TAR_GZ],
+        'preinstallopts': 'export PKG_CONFIG_PATH=${CRAY_LIBSCI_PREFIX}/lib/pkgconfig:$PKG_CONFIG_PATH && CFLAGS="-fopenmp" FFLAGS="-fopenmp" FC=amdflang CC=amdclang CXX=amdclang++',
+        'installopts':    '-Csetup-args=-Dblas=sci_mp -Csetup-args=-Dlapack=sci_mp -Csetup-args=-Dfortran_std=none -Ccompile-args="-j16"',
+        'use_pip':        True,
+    }),
+]
+
+postinstallcmds = [
+    'echo "Executing postinstallcmds from $PWD"',
+    'mkdir -p %(installdir)s/share/licenses/flit-core',
+    f'cd ../../flit_core/flit_core-{local_flit_core_version} && cp LICENSE README.rst %(installdir)s/share/licenses/flit-core',
+    'mkdir -p %(installdir)s/share/licenses/pyproject-metadata',
+    f'cd ../../pyproject_metadata/pyproject_metadata-{local_pyproject_metadata_version} && cp LICENSE README.md %(installdir)s/share/licenses/pyproject-metadata',
+    'mkdir -p %(installdir)s/share/licenses/NumPy',
+    f'cd ../../numpy/numpy-{local_NumPy_version} && cp CITATION.bib INSTALL.rst LICENSES_bundled.txt LICENSE.txt README.md THANKS.txt %(installdir)s/share/licenses/NumPy',
+    'mkdir -p %(installdir)s/share/licenses/phytran',
+    f'cd ../../pythran/pythran-{local_pythran_version} && cp AUTHORS LICENSE README.rst %(installdir)s/share/licenses/phytran',   
+    'mkdir -p %(installdir)s/share/licenses/SciPy',
+    f'cd ../../scipy/scipy-{local_SciPy_version} && cp CITATION.bib LICENSES_bundled.txt LICENSE.txt README.rst %(installdir)s/share/licenses/SciPy',
+]
+
+moduleclass = 'math'
