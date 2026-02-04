@@ -53,10 +53,10 @@ dependencies = [
 ]
 
 # prebuildopts = 'cd Obj && ../Src/obj_setup.sh && '
-buildopts = ' '.join( [
+""" buildopts = ' '.join( [
     '-DSIESTA_WITH_IPO=ON',
     '-DSIESTA_WITH_OPENMP=ON',
-])
+]) """
 
 postinstallcmds = [
     'mkdir -p %(installdir)s/share/licenses/%(name)s && ' +
