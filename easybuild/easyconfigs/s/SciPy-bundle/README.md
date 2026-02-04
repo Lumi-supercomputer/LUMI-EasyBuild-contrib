@@ -25,3 +25,7 @@ hurts both Python performance and filesystem performance for other users.
 
     These version were taken specifically for the compatibility with the VeloxChem package that
     uses them.
+
+### Version 1.14.1-1.26.4 for cpeAMD 25.03
+
+- Simple update of the cpeAMD 24.03 version to cpeAMD 25.03
