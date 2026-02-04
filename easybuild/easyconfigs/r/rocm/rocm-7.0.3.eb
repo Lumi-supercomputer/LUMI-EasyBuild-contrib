@@ -1,3 +1,10 @@
+#DOC ROCm(tm) 7.0.3, offered as is. RCCL does not work and there is no matching 
+#DOC MPI library (GTL and Fortran support broken for sure, more may be broken).
+#DOC LUST cannot fix any issues with this and will also not develop a software
+#DOC stack for it unless there would be a Cray PE for it at some time. It is 
+#DOC likely only useful for single GPU runs on LUMI.
+#DOC
+#DOC Installation in partition/CrayEnv is recommended.
 easyblock = 'EB_rocmrpms'
 name = 'rocm'
 version = '7.0.3'
