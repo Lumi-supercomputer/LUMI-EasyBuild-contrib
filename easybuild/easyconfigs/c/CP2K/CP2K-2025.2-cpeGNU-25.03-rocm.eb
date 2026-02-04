@@ -1,7 +1,7 @@
 # contributed by Luca Marsella (CSCS)
 # modified for LUMI-G by Peter Larsson
 # Updated to version 2024.1 by Radim Janalik (CSCS)
-# Update to version 2025.2 and  by Tor Skovsgaard (DeiC)
+# Update to version 2025.2 and DBCSR patch by Tor Skovsgaard (DeiC)
 #
 #DOC CP2K 2024.1 release compiled with AMD GPU support enabled for CP2K 
 #DOC itself and several of the libraries (SpFFT, SpLA). Cray Programming 
