@@ -52,18 +52,18 @@ dependencies = [
     ('libxc',                local_libxc_version, '-FHC'),
 ]
 
-# prebuildopts = 'cd Obj && ../Src/obj_setup.sh && '
-""" buildopts = ' '.join( [
+prebuildopts = 'cd Obj && ../Src/obj_setup.sh && '
+buildopts = ' '.join( [
     '-DSIESTA_WITH_IPO=ON',
     '-DSIESTA_WITH_OPENMP=ON',
-]) """
+])
 
 postinstallcmds = [
     'mkdir -p %(installdir)s/share/licenses/%(name)s && ' +
     'cp COPYING AUTHORS NOTICE.txt README.md ReleaseNotes.md %(installdir)s/share/licenses/%(name)s'
 ]
 
-runtest = True  # defaults to ctest
+#runtest = True  # defaults to ctest
 
 files_to_copy = [
     (['./Obj/siesta'], './bin/'),
