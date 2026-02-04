@@ -35,7 +35,7 @@ source_urls = ['https://gitlab.com/siesta-project/siesta/-/archive/%(version)s']
 sources = [SOURCELOWER_TAR_GZ]
 
 patches = [
-    'arch_make.patch'
+    ('arch_make.patch', 1),
 ]
 
 checksums = [
