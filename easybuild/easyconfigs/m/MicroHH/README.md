@@ -21,3 +21,8 @@ the time of writing).
 -   When having trouble after a system update, it may be a good idea to move Boost 
     to the regular depencencies as now many system libraries are used that may or
     may not be present after a system update.
+
+-   `MicroHH-2.0.1-cpeGNU-24.03.eb`: version for the Cray Programming Environment 
+    with GNU compiler version 24.03.
+-   `MicroHH-2.0.1-cpeGNU-25.03.eb`: version for the Cray Programming Environment 
+    with GNU compiler version 25.03.
