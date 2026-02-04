@@ -54,6 +54,8 @@ dependencies = [
     ('ELPA',                 local_ELPA_version, versionsuffix),
 ]
 
+prebuildopts = 'cd Obj && ../Src/obj_setup.sh && '
+
 postinstallcmds = [
     'mkdir -p %(installdir)s/share/licenses/%(name)s && ' +
     'cp COPYING AUTHORS NOTICE.txt README.md ReleaseNotes.md %(installdir)s/share/licenses/%(name)s'
