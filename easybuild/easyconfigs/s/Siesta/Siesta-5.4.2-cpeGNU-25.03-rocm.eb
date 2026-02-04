@@ -53,8 +53,9 @@ dependencies = [
 ]
 
 # prebuildopts = 'cd Obj && ../Src/obj_setup.sh && '
-buildopts = '-DSIESTA_WITH_IPO=ON ' +
+buildopts = ' '.join( ['-DSIESTA_WITH_IPO=ON ',
             '-DSIESTA_WITH_OPENMP=ON'
+])
 
 postinstallcmds = [
     'mkdir -p %(installdir)s/share/licenses/%(name)s && ' +
