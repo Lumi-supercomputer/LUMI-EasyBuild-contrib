@@ -53,11 +53,16 @@ dependencies = [
 ]
 
 # prebuildopts = 'cd Obj && ../Src/obj_setup.sh && '
+buildopts = '-DSIESTA_WITH_IPO=ON ' +
+            '-DSIESTA_WITH_OPENMP=ON'
 
 postinstallcmds = [
     'mkdir -p %(installdir)s/share/licenses/%(name)s && ' +
     'cp COPYING AUTHORS NOTICE.txt README.md ReleaseNotes.md %(installdir)s/share/licenses/%(name)s'
 ]
+
+pretestopts = 'OMP_NUM_THREADS=4'
+runtest = True  # defaults to ctest
 
 files_to_copy = [
     (['./Obj/siesta'], './bin/'),
