@@ -53,3 +53,8 @@ there is no proper install procedure.
 
 -   EasyConfig contributed by the EPICURE project, based on earlier WPS EasyConfigs.
 
+-   `WPS-v4.4-cpeGNU-24.03-WRF-SFIRE-W4.4-S0.1.eb`: The EasyConfig is intended to be used
+    together with the WRF-SFIRE version W4.4-S0.1. Built for the Cray PE GNU toolchain version 24.03.
+
+-   `WPS-v4.4-cpeGNU-25.03-WRF-SFIRE-W4.4-S0.1.eb`: The EasyConfig is intended to be used
+    together with the WRF-SFIRE version W4.4-S0.1. Built for the Cray PE GNU toolchain version 25.03.
