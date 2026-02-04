@@ -12,5 +12,6 @@ It is based on the Weather Research and Forecasting (WRF) model and includes add
 
 ### Version W4.4-SO.1
 
--   The EasyConfig is developed by LUST and the EPICURE project, based on 
-    an EasyConfig for WRF developed by LUST.
+-   `WRF-SFIRE-W4.4-S0.1-cpeGNU-24.03.eb`: The EasyConfig is developed by LUST and the EPICURE project, based on 
+    an EasyConfig for WRF developed by LUST. 
+-   `WRF-SFIRE-W4.4-S0.1-cpeGNU-25.03.eb`: Same as above, but compiled with the Cray Programming Environment 25.03.

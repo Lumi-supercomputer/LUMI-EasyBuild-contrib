@@ -1,0 +1,131 @@
+# Created by Orian Louant for the LUMI consortium
+# Updated for WRF-SFIRE by Maciej Szpindler and Bert Jorissen
+# This EasyConfig was partly developed by the EPICURE project (https://epicure-hpc.eu/).
+
+easyblock = 'CmdCp'
+
+local_JasPer_version =       '4.2.5'         # https://github.com/jasper-software/jasper/releases
+local_libpng_version =       '1.6.47'        # http://www.libpng.org/pub/png/libpng.html
+local_libtirpc_version =     '1.3.6'         # https://sourceforge.net/projects/libtirpc/files/libtirpc/
+local_Perl_version =         '5.40.0'        # https://www.perl.org/get.html
+local_zlib_version =         '1.3.1'         # https://zlib.net/
+
+name          = 'WRF-SFIRE'
+version       = 'W4.4-S0.1'
+
+local_configuration  = [
+#    ('WRF_EM_CORE',                  '0'),
+#    ('WRF_CHEM',                     '0'),
+#    ('WRF_KPP',                      '0'),
+#    ('WRFIO_NCD_LARGE_FILE_SUPPORT', '0'),
+    ('NETCDF',                       '${NETCDF_DIR}'),
+    ('FLEX_LIB_DIR',                 '$EBROOTFLEX/lib'),
+    ('YACC_PATH',                    '$EBROOTBYACC/bin'),
+    ('HDF5',                         '$CRAY_HDF5_PARALLEL_PREFIX'),
+    ('PHDF5',			             '$CRAY_HDF5_PARALLEL_PREFIX'),
+    ('RPC_INCLUDES',                 '$EBROOTLIBTIRPC'),
+    ('JASPERLIB',	   	             '$EBROOTJASPER/lib'),
+    ('JASPERINC',                    '$EBROOTJASPER/include'),
+]
+
+local_compile_targets = [
+     'em_real'
+]
+
+homepage = 'https://wiki.openwfm.org/'
+
+whatis = [
+    'Description: A coupled weather-fire forecasting model built on top of Weather Research and Forecasting (WRF).'
+]
+
+description = """
+WRF-Chem is the Weather Research and Forecasting (WRF) model coupled with
+Chemistry. The model simulates the emission, transport, mixing, and chemical
+transformation of trace gases and aerosols simultaneously with the meteorology.
+The model is used for investigation of regional-scale air quality, field program
+analysis, and cloud-scale interactions between clouds and chemistry.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '25.03'}
+
+#https://github.com/openwfm/WRF-SFIRE/archive/refs/tags/W4.4-S0.1.tar.gz
+#W4.4-S0.1
+#source_urls = ['https://github.com/openwfm/WRF-SFIRE/archive']
+sources = [{
+    'filename': '%(version)s.tar.gz',
+    'git_config': {
+        'url': 'https://github.com/openwfm',
+        'repo_name': 'WRF-SFIRE',
+        'tag': '%(version)s',
+        'recursive': True,
+        'keep_git_dir': True,
+    }
+}]
+
+patches = [
+    'configure.patch',
+    'grib2.patch', # Update to work with JasPer 4.0.0 and force GRIB2
+    'mpi_dtype.patch', # MPICH MPI_DTPYE fix for LUMI
+    'vectorization.patch', #optimizations by Veselin
+]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+    ('Perl',       local_Perl_version),
+]
+
+dependencies = [
+    ('cray-hdf5-parallel',       EXTERNAL_MODULE),
+    ('cray-netcdf-hdf5parallel', EXTERNAL_MODULE),
+    ('JasPer',                   local_JasPer_version),
+    ('libtirpc',                 local_libtirpc_version),
+    ('libpng',                   local_libpng_version),
+    ('zlib',                     local_zlib_version)
+]
+
+unpack_options    = '--strip-components=1'
+buildininstalldir = True
+
+local_configure_cmds = """./configure <<'EOF'
+35
+1
+EOF
+sed -i s/gcc/cc/ configure.wrf && \
+sed -i s/mpicc/cc/ configure.wrf && \
+sed -i s/gfortran/ftn/ configure.wrf && \
+sed -i s/mpif90/ftn/ configure.wrf && \
+sed -i '/^LDFLAGS_LOCAL/s/$/ -lpng/' configure.wrf && \
+sed -i '/^CPP/ s/$/  -Wno-error=implicit-function-declaration -Wno-error=implicit-int/'  configure.wrf && \
+sed -i '/^SCC/ s/$/  -Wno-error=implicit-function-declaration -Wno-error=implicit-int/'  configure.wrf && \
+sed -i '/^CCOMP/ s/$/  -Wno-error=implicit-function-declaration -Wno-error=implicit-int/'  configure.wrf && \
+sed -i '/^DM_CC/ s/$/  -Wno-error=implicit-function-declaration -Wno-error=implicit-int/'  configure.wrf"""
+# https://www.gnu.org/software/gcc/gcc-14/porting_to.html -- CPP14 converts warning to error as in C99-standards
+#sed -i s//-fallow-argument-mismatch -fallow-invalid-boz/ configure.wrf"""
+#sed -i 's/-ll //' chem/KPP/kpp/kpp-2.1/src/Makefile && \
+#sed -i 's/#  YACC=/YACC=${YACC_PATH}\//' chem/KPP/configure_kpp"""
+
+local_preconfigure_cmds = ' && '.join(['export ' + x[0] + '=' + x[1] for x in local_configuration])
+local_build_cmds        = ' && '.join(['./compile -j 1 %s' % x for x in local_compile_targets]) # max 1 parallel jobs
+
+cmds_map = [
+    ('%(version)s.tar.gz',
+     ' && '.join([
+        local_preconfigure_cmds,
+        local_configure_cmds,
+        local_build_cmds
+    ])),
+]
+
+files_to_copy = None
+
+sanity_check_paths = {
+    'files': ['main/%s' % x for x in ['wrf.exe', 'ndown.exe', 'tc.exe', 'real.exe', 'libwrflib.a']],
+    'dirs':  ['main', 'run']
+}
+
+modextrapaths = {
+    'PATH'            : 'main',
+    'LD_LIBRARY_PATH' : 'main',
+}
+
+moduleclass = 'geo'
