@@ -47,7 +47,7 @@ dependencies = [
     ('cray-fftw',            EXTERNAL_MODULE),
     ('METIS',                local_METIS_version),
     ('ELPA',                 local_ELPA_version, versionsuffix),
-    ('ScaLAPACK',            local_SCALAPACK_version),
+    ('ScaLAPACK',            local_SCALAPACK_version, '-amd'),
     ('libxc',                local_libxc_version, '-FHC'),
 ]
 
