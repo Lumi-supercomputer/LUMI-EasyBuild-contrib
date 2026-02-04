@@ -4,7 +4,8 @@
 #DOC stack for it unless there would be a Cray PE for it at some time. It is 
 #DOC likely only useful for single GPU runs on LUMI.
 #DOC
-#DOC Installation in partition/CrayEnv is recommended.
+#DOC Installation in a LUMI software stack in `partition/G`,
+#DOC but don't use it with any other software in that stack as it may not work.
 easyblock = 'EB_rocmrpms'
 name = 'rocm'
 version = '7.0.3'
