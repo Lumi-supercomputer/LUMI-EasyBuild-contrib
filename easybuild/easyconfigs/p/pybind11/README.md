@@ -32,3 +32,7 @@ for all users of LUMI.
 ### Version 2.12.0 for cpeAMD in 24.03
 
 -   The EasyConfig is a LUST development.
+
+### Version 2.12.0 for cpeAMD in 25.03
+
+-  Simple update of the 24.03 EasyConfig
