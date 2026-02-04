@@ -110,4 +110,10 @@ future toolchains.
             
 -   Otherwise a rather trivial port of the corresponding 2024.2 versions for LUMI/24.03.   
         
-    
+### Version 2025.2 for 25.03 GPU
+
+-	DBCSR - a dependency that is shipped with CP2K - contains code that is not compatible with newer versions of rocm so this has been patched in CP2K-2025.2-rocm-dbcsr.patch to enable compilation of CP2K for GPU.
+
+- A few updates to the PSMP-file concerning flags.
+
+- Otherwise a trivial port of the corresponding 2024.2 version for LUMI/24.03
