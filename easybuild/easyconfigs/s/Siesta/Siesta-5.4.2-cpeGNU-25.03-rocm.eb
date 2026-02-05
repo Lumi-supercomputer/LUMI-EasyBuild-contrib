@@ -58,11 +58,11 @@ dependencies = [
 #     '-DSIESTA_WITH_OPENMP=ON',
 # ])
 
-buildininstalldir = True
+# buildininstalldir = True
 
 postinstallcmds = [
     'mkdir -p %(installdir)s/share/licenses/%(name)s && cd ../siesta-%(version)s/ && ' +
-    'cp COPYING AUTHORS NOTICE.txt README.md ReleaseNotes.md %(installdir)s/share/licenses/%(name)s'
+    'cp COPYING AUTHORS NOTICE.txt README.md %(installdir)s/share/licenses/%(name)s'
 ]
 
 #runtest = True  # defaults to ctest
