@@ -58,6 +58,8 @@ dependencies = [
 #     '-DSIESTA_WITH_OPENMP=ON',
 # ])
 
+buildininstalldir = True
+
 postinstallcmds = [
     'pwd && ls && mkdir -p %(installdir)s/share/licenses/%(name)s && ' +
     'cp COPYING AUTHORS NOTICE.txt README.md ReleaseNotes.md %(installdir)s/share/licenses/%(name)s'
