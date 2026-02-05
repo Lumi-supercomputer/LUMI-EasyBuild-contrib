@@ -28,7 +28,7 @@ docurls = [
 ]
 
 toolchain = {'name': 'cpeGNU', 'version': '25.03'}
-toolchainopts = {'usempi': True, 'precise': True, 'openmp': False}
+toolchainopts = {'usempi': True, 'precise': True, 'openmp': True}
 
 # https://gitlab.com/siesta-project/siesta/-/releases/5.4.2/downloads/siesta-5.4.2.tar.gz
 source_urls = ['https://gitlab.com/siesta-project/siesta/-/releases/%(version)s/downloads/']
@@ -52,13 +52,10 @@ dependencies = [
     ('libxc',                local_libxc_version, '-FHC'),
 ]
 
-# prebuildopts = 'cd Obj && ../Src/obj_setup.sh && '
-# buildopts = ' '.join( [
-#     '-DSIESTA_WITH_IPO=ON',
-#     '-DSIESTA_WITH_OPENMP=ON',
-# ])
-
-# buildininstalldir = True
+configopts = ' '.join( [
+    '-DSIESTA_WITH_IPO=ON',
+    '-DSIESTA_WITH_OPENMP=ON',
+])
 
 postinstallcmds = [
     'mkdir -p %(installdir)s/share/licenses/%(name)s && cd ../siesta-%(version)s/ && ' +
