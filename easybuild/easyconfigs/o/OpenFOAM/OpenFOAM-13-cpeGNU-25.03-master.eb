@@ -50,10 +50,13 @@ builddependencies = [
     ('buildtools', '%(toolchain_version)s', '', True),
 ]
 
+# Note that there may be something wrong with these dependencies as METIS comes in twice in a 
+# different version: According to EasyBuild, OpenFOAM needs the -idx32-fp64 version of METIS,
+# but METIS also comes in through Zoltan in its -idx32-fp32 version.
 dependencies = [
     ('cray-fftw', EXTERNAL_MODULE),
     ('SCOTCH',    '7.0.8'),
-    ('METIS',     '5.1.0'),
+    ('METIS',     '5.1.0', '-idx32-fp64'), # To correspond with WM_LABEL_SIZE (for idx) and WM_PRECISION_OPTION (for fp) in etc/bashrc
     ('Zoltan',    '3.901'), # depends on ParMETIS
 ]
 
