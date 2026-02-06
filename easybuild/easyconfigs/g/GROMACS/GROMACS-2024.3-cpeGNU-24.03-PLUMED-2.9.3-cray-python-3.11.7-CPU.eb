@@ -29,7 +29,7 @@
 #
 easyblock = 'CMakeMake'
 
-local_crayfftw_version =    '3.3.10.1'
+local_crayfftw_version =    '3.3.10.7'
 local_craypython_version =  '3.11.7'
 
 local_PLUMED2_9_version =    '2.9.3'         # https://github.com/plumed/plumed2/releases
@@ -65,13 +65,9 @@ turn bash command completion on for GROMACS. Note that unloading the module will
 not turn this off, so it may have consequences for things you do later on or
 conflict with the command completion of a different version of GROMACS.
 
-This module is compiled with support for huge pages via the cray-hugepages modules.
-Using those can significantly lower the cost of memory access. However, to benefit
-from this you will have to load a suitable cray-hugepages module, e.g.,
-$ module load cray-hugepages8M
-However, if the size is too large, you may get out-of-memory messages due to memory
-fragmentation. Hence it may require some experimenting to find the optimal page
-size.
+Contrary to previous versions of this module, hugepages support has been disabled 
+as it causes stability issues on SUSE 15SP6, the OS on LUMI after the January 2026
+update.
 """
 
 toolchain = {'name': 'cpeGNU', 'version': '24.03'}
@@ -86,7 +82,7 @@ local_pyshortver = '.'.join( local_craypython_version.split('.')[:2] )
 builddependencies = [
     ('buildtools',         '%(toolchain_version)s', '',                                True), # For CMake
     ('buildtools-python',  '%(toolchain_version)s', f'-cray-python{local_pyshortver}', True), # wheel
-    ('craype-hugepages8M',                          EXTERNAL_MODULE),
+    # ('craype-hugepages8M', EXTERNAL_MODULE), # Hugepages causes issues on SUSE 15SP6.
 ]
 
 dependencies = [

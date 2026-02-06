@@ -4,6 +4,9 @@ Rust is offered "as is", without support from the LUMI User Support Team as it
 is not a typical HPC language and as we don't have the personpower to build up
 proper knowledge about Rust. 
 
+We currently do not plan to provide new versions and the one remaining version
+is known to have some issues also after recent system updates.
+
 The Rust compiler is known to conflict with the Cray PE in certain circumstances
 and recent versions are also incompatible with the system GCC of LUMI causing the
 bootstrap procedure during installation to fail.

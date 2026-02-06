@@ -21,6 +21,7 @@ engines.
 | PLUMED  | 2019   | 2020   | 2021   | 2022   | 2023   | 2024   |
 |:--------|:-------|:-------|:-------|:-------|:-------|:-------| 
 | 2.9.3   |        | 2020.7 | 2021.7 | 2022.5 | 2023.5 | 2024.3 |
+| 2.9.3   |        | 2020.7 | 2021.7 | 2022.5 | 2023.5 | 2024.3 |
 | 2.9.2   |        | 2020.7 | 2021.7 | 2022.5 | 2023.5 | 2024.2 |
 | 2.9.0   |        | 2020.7 | 2021.7 | 2022.5 | 2023   |        |
 | 2.8.3   | 2019.6 | 2020.7 | 2021.7 | 2022.5 |        |        |
@@ -195,3 +196,30 @@ engines.
     that may improve readability of the EasyConfig.
 
 
+### 2024.03 with PLUMED 2.9.4, with and without Python, for cpeGNU 25.03
+
+-   Straightforward port of the corresponding EasyConfigs with PLUMED 2.9.3 for 24.03.
+
+-   Due to issues with cray-hugepages, we had to disable hugepages support (also in all older
+    easyconfigs)
+
+
+### 2024.6 for cpeGNU 25.03 and cpeCray 25.03
+
+-   Almost traightforward port of the EasyConfig for 2024.3 for cpeGNU/24.03.
+
+    We did rewrite the options the way we did in 2025.1 for cpeGNU/24.03.
+
+-   As CMake kept whining about Python in the cpeCray version, even though the Python 
+    interfaces are not activated, we included cray-python it as a build dependency.
+
+-   Due to issues with cray-hugepages, we had to disable hugepages support (also in all older
+    easyconfigs)
+
+
+### 2025.4 for cpeGNU 25.03 and cpeCray 25.03
+
+-   Straightforward port of the EasyConfig for 2025.1 for cpeGNU/24.03.
+
+-   Due to issues with cray-hugepages, we had to disable hugepages support (also in all older
+    easyconfigs)
