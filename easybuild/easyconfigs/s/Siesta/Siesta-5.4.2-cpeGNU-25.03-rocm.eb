@@ -1,4 +1,6 @@
-#DOC Siesta 5.4.2 for LUMI/25.03 sometimes fails finding libfdf. Rerunning the easybuild install usually fixes this.
+# Updated from 4.1.5 for LUMI/24.03 to 5.4.2 for LUMI/25.03 by Tor Skovsgaard (DeiC)
+#
+#DOC Siesta 5.4.2 for LUMI/25.03 sometimes fails finding libfdf when building. Rerunning the easybuild install usually fixes this.
 
 easyblock = 'CMakeMake'
 
