@@ -1,5 +1,14 @@
 # GROMACS user instructions
 
+!!! Bug "Severe issues with GROMACS after the January 2026 system update"
+    Hugepages support on LUMI is broken after the January 2026 system update.
+    EasyBuild recipes for 24.03 have been adapted to no longer load the 
+    `cray-hugepages8M` module when compiling. Users should not load the
+    `cray-hugepages` modules anymore when running GROMACS as one can expect
+    random crashes. It looks like even memory corruption that creates
+    wrong results could happen.
+
+
 ## A note about the GPU versions.
 
 There exist two different versions of GROMACS for AMD GPUs.

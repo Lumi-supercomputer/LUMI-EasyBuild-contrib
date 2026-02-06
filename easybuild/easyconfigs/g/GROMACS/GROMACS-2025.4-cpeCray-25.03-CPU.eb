@@ -13,24 +13,16 @@
 #
 # Adapted by Kurt Lust (kurt.lust@uantwerpen.be) for the LUMI consortium
 #
-#DOC Replaces the earlier version with PLUMED 2.9.2 as that turned out to be 
-#DOC a release with issues.
-#
 easyblock = 'CMakeMake'
 
-local_crayfftw_version =    '3.3.10.7'
-
-local_PLUMED2_9_version =    '2.9.3'         # https://github.com/plumed/plumed2/releases
-
 name =          'GROMACS'
-version =       '2024.3'
-versionsuffix = f'-PLUMED-{local_PLUMED2_9_version}-noPython-CPU'
+version =       '2025.4'
+versionsuffix = '-CPU'
 
 homepage = 'http://www.gromacs.org'
 
 whatis = [
     'Description: GROMACS is a versatile package to perform molecular dynamics, i.e. simulate the Newtonian equations of motion for systems with hundreds to millions of particles.',
-    f'Extensions: Includes PLUMED {local_PLUMED2_9_version}',
 ]
 
 description = """
@@ -45,61 +37,45 @@ Binaries included:
 * gmx_mpi_d: Compiled with support for MPI and OpenMP and using double precision
   arithmetic.
 
-Note that since PLUMED is incompatible with Thread-MPI, this feature has been
-turned off.
-
 The module sets the environment variables that would otherwise be set by running
-the script $EBROOTGROMACS/bin/GMXRC. So running this script should not be
+the script $EBROOTGROMACS/bin/GMXRC. So running this script snould not be
 necessary in most cases.
-
-It is compiled with support for PLUMED.
 
 The module also defines the shell function gromacs-completion that can be used to
 turn bash command completion on for GROMACS. Note that unloading the module will
 not turn this off, so it may have consequences for things you do later on or
 conflict with the command completion of a different version of GROMACS.
 
-Contrary to previous versions of this module, hugepages support has been disabled 
-as it causes stability issues on SUSE 15SP6, the OS on LUMI after the January 2026
-update.
-
-The gmxapi support needed to interface with Python is turned off in this build as 
-one would need a Python distribution built with the Cray compilers for it to work due
-to runtime conflicts between the GNU and Cray OpenMP runtimes.
+Contrary to previous versions, hugepages support has been disabled as it causes
+stability issues on SUSE 15SP6, the OS on LUMI after the January 2026 update.
 """
 
-toolchain = {'name': 'cpeCray', 'version': '24.03'}
+docurls = [
+    f'Web-based documentation on https://manual.gromacs.org/{version}/index.html'
+]
+
+toolchain = {'name': 'cpeCray', 'version': '25.03'}
 toolchainopts = {'opt': True, 'usempi': True, 'verbose': False, 'pic': True, 'openmp': True}
 
 source_urls = ['https://ftp.gromacs.org/pub/gromacs/']
 sources =     [SOURCELOWER_TAR_GZ]
-checksums =   ['bbda056ee59390be7d58d84c13a9ec0d4e3635617adf2eb747034922cba1f029']
+checksums =   ['ca17720b4a260eb73649211e9f6a940ee7543452129844213c3accb0a927a5c3']
 
 builddependencies = [
     ('buildtools',         '%(toolchain_version)s', '', True), # For CMake
     # ('craype-hugepages8M', EXTERNAL_MODULE), # Hugepages causes issues on SUSE 15SP6.
 ]
 
-dependencies = [
-    (f'cray-fftw/{local_crayfftw_version}', EXTERNAL_MODULE),
-    ('PLUMED',   local_PLUMED2_9_version,   '-noPython'),
-]
-
-local_common_opts = ' '.join([
-    '-DCMAKE_BUILD_TYPE=Release',
-    '-DCMAKE_INSTALL_LIBDIR=lib',  # Install in lib instead of lib64 for consistency with autotools installations
-    '-DBUILD_SHARED_LIBS=ON',      # Required to be able to build GMXAPI
-    '-DGMX_OPENMP=ON',
-    '-DGMX_GPU=OFF',               # CPU build
-    '-DGMX_SIMD=AVX2_256',         # Force AVX2_256, as this is best for Zen3 (the manual claims that AVX2_128 is best for Zen2 and we don't want GROMACS to take that when cross-compiling).
+local_common_opts= ' '.join( [
+    '-DCMAKE_BUILD_TYPE=Release',    # General CMake options: Release build
+    '-DCMAKE_INSTALL_LIBDIR=lib',    # General CMake options: USe lib intead of lib64 for consistency with autotools-installed softwware
+    '-DGMX_OPENMP=ON -DGMX_GPU=OFF', # Build type: No GPU, OpenMP for CPU, MPI specified elsewhere
+    '-DBUILD_SHARED_LIBS=ON',        # Required to be able to build GMXAPI
+    '-DGMX_SIMD=AVX2_256',
     '-DGMX_CYCLE_SUBCOUNTERS=ON',
-    '-DGMX_BUILD_OWN_FFTW=OFF',    # We already use cray-fftw for PLUMED and would have conflics otherwise
+    '-DGMX_BUILD_OWN_FFTW=ON',       # We don't use Cray FFTW at the moment.
     '-DGMX_DEFAULT_SUFFIX=ON',
-    '-DGMX_THREAD_MPI=OFF',        # According to the PLUMED manual, PLUMED is not compatible with Thread-MPI and it should be turned off.
-    '-DGMXAPI=off',                # Do not build GMXAPI as there are runtime conflicts with GNU-compiled Python distributions due to the different OpenMP runtime.
 ])
-
-preconfigopts = ' cd ../gromacs-%(version)s && plumed-patch -p -e gromacs-%(version)s -m shared && cd - && '
 
 configopts = [
     # single precision
@@ -110,15 +86,8 @@ configopts = [
     local_common_opts + ' -DGMX_MPI=ON  -DGMX_DOUBLE=ON',
 ]
 
+#onlytcmod = True
 skipsteps = ['test']
-
-# Ensure that plumed is indeed present using sanity_check_commands
-sanity_check_commands = [
-    'gmx       mdrun -h |& grep plumed',
-    'gmx_mpi   mdrun -h |& grep plumed',
-    'gmx_d     mdrun -h |& grep plumed',
-    'gmx_mpi_d mdrun -h |& grep plumed',
-]
 
 # This does what GMXRC.bash does except that it does not enable the command completion.
 modextravars = {

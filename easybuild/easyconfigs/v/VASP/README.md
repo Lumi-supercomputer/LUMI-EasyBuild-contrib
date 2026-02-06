@@ -56,3 +56,14 @@ specifically for LUMI.
 ### 6.5.1 for LUMI/24.03
 
 -   build02: Contributed by a user and a trivial port of the 6.5.0 EasyConfig.
+
+### 6.5.1 for LUMI/25.03
+
+- build01
+
+  - Plain build with high optimization, but no source code modifications.
+
+- build02
+
+    - A few patches to the source code to improve slow VASP startup times by improving the disk I/O on LUMI. This is the recommended version.
+
