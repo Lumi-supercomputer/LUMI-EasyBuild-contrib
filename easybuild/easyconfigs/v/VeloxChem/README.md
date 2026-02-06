@@ -15,3 +15,7 @@
 -   This version is built with cpeAMD as that gives much better performance than 
     when built with the GNU compilers, which come with other issues also as really
     OpenMP is used also.
+
+### 1.0 for cpeAMD 25.03
+
+-  Simple update of the cpeAMD 24.03 recipe
