@@ -1,3 +1,5 @@
+#DOC Siesta 5.4.2 for LUMI/25.03 sometimes fails finding libfdf. Rerunning the easybuild install usually fixes this.
+
 easyblock = 'CMakeMake'
 
 local_METIS_version     = '5.1.0'
@@ -28,7 +30,7 @@ docurls = [
 ]
 
 toolchain = {'name': 'cpeGNU', 'version': '25.03'}
-toolchainopts = {'usempi': True, 'precise': True, 'openmp': True}
+toolchainopts = {'usempi': True, 'precise': True, 'openmp': False}
 
 # https://gitlab.com/siesta-project/siesta/-/releases/5.4.2/downloads/siesta-5.4.2.tar.gz
 source_urls = ['https://gitlab.com/siesta-project/siesta/-/releases/%(version)s/downloads/']
@@ -46,6 +48,7 @@ dependencies = [
     ('cray-netcdf',          EXTERNAL_MODULE),
     ('cray-parallel-netcdf', EXTERNAL_MODULE),
     ('cray-fftw',            EXTERNAL_MODULE),
+    ('cray-libsci',          EXTERNAL_MODULE),
     ('METIS',                local_METIS_version),
     ('ELPA',                 local_ELPA_version, versionsuffix),
     ('ScaLAPACK',            local_SCALAPACK_version, '-amd'),
@@ -54,15 +57,12 @@ dependencies = [
 
 configopts = ' '.join( [
     '-DSIESTA_WITH_IPO=ON',
-    '-DSIESTA_WITH_OPENMP=ON',
 ])
 
 postinstallcmds = [
     'mkdir -p %(installdir)s/share/licenses/%(name)s && cd ../siesta-%(version)s/ && ' +
     'cp COPYING AUTHORS NOTICE.txt README.md %(installdir)s/share/licenses/%(name)s'
 ]
-
-#runtest = True  # defaults to ctest
 
 files_to_copy = [
     (['./Obj/siesta'], './bin/'),
