@@ -1,0 +1,3580 @@
+diff --git a/configure2.old b/AmberTools/src/configure2
+index 26dd891..9c7f6b0 100755
+--- a/configure2.old
++++ b/AmberTools/src/configure2
+@@ -1632,7 +1632,7 @@ gnu)
+     elif [ "$openmp" = 'yes' ]; then
+         pmemd_foptflags="$pmemd_foptflags $omp_flag"
+     fi
+-    pmemd_coptflags="-std=c++11 $coptflags"
++    pmemd_coptflags="-std=c++14 $coptflags"
+     if [ "$optimise" = 'no' ]; then
+         pmemd_foptflags="-O0 $pmemd_foptflags"
+         pmemd_coptflags="-O0 $pmemd_coptflags"
+@@ -1674,7 +1674,7 @@ gnu)
+       else
+         pmemd_cu_defines='-DCUDA'
+       fi
+-      pmemd_cu_extra=" --std c++11 "
++      pmemd_cu_extra=" --std c++14 "
+       pmemd_cu_libs="./cuda/cuda.a -L\$(CUDA_HOME)/lib64 -L\$(CUDA_HOME)/lib -lcurand -lcufft -lcudart -lcudadevrt -lgfortran $fc_cxx_link_flag"
+       pbsa_cu_libs="-L\$(CUDA_HOME)/lib64 -L\$(CUDA_HOME)/lib -lcublas -lcusparse -lcudart $fc_cxx_link_flag"
+      # CUDA 10.x puts libcusparse inside CUDA_HOME/target/x86_64-linux/lib
+@@ -1697,7 +1697,7 @@ gnu)
+         # 2-18-2020 srb  this looks an oversight:
+         # should be pmemd_coptflags="$pmemd_coptflags -DMPICH_IGNORE_CXX_SEEK"
+         # TODO investigate
+-        pmemd_coptflags="-std=c++11 $coptflags -DMPICH_IGNORE_CXX_SEEK"
++        pmemd_coptflags="-std=c++14 $coptflags -DMPICH_IGNORE_CXX_SEEK"
+       fi
+       if [ "$nccl" = 'yes' ]; then
+         pmemd_cu_includes="$pmemd_cu_includes -I\$(NCCL_HOME)/include"
+@@ -1713,7 +1713,7 @@ gnu)
+       if [ "$gti" = 'yes' ]; then
+         pmemd_cu_defines="$pmemd_cu_defines -DGTI"
+       fi
+-      pmemd_cu_extra=" --std c++11 "
++      pmemd_cu_extra=" --std c++14 "
+       pmemd_cu_libs="-L\$(HIP_HOME)/lib64 -L\$(HIP_HOME)/lib -lhiprand -lhipfft -lrocfft -lamdhip64 -lgfortran $fc_cxx_link_flag"
+       pbsa_cu_libs="-L\$(HIP_HOME)/lib64 -L\$(HIP_HOME)/lib -lhipblas -lhipsparse -lamdhip64 $fc_cxx_link_flag"
+       # HIP-TODO: Enable -ffast-math for DPFP when it's proven that the compiler enables
+@@ -1731,7 +1731,7 @@ gnu)
+         # 2-18-2020 srb  this looks an oversight:
+         # should be pmemd_coptflags="$pmemd_coptflags -DMPICH_IGNORE_CXX_SEEK"
+         # TODO investigate
+-        pmemd_coptflags="-std=c++11 $coptflags -DMPICH_IGNORE_CXX_SEEK"
++        pmemd_coptflags="-std=c++14 $coptflags -DMPICH_IGNORE_CXX_SEEK"
+       fi
+       if [ "$nccl" = 'yes' ]; then
+         #TODO(dominic)
+@@ -2064,7 +2064,7 @@ intel)
+       else
+         pmemd_cu_defines='-DCUDA'
+       fi
+-      pmemd_cu_extra=" --std c++11 "
++      pmemd_cu_extra=" --std c++14 "
+       pmemd_cu_libs="./cuda/cuda.a -L\$(CUDA_HOME)/lib64 -L\$(CUDA_HOME)/lib -lcurand -lcufft -lcudart -lcudadevrt $fc_cxx_link_flag"
+       pbsa_cu_libs="-L\$(CUDA_HOME)/lib64 -L\$(CUDA_HOME)/lib -lcublas -lcusparse -lcudart $fc_cxx_link_flag"
+       if [ "$optimise" = 'yes' ]; then
+@@ -2097,7 +2097,7 @@ intel)
+       if [ "$gti" = 'yes' ]; then
+         pmemd_cu_defines="$pmemd_cu_defines -DGTI"
+       fi
+-      pmemd_cu_extra=" --std c++11 "
++      pmemd_cu_extra=" --std c++14 "
+       pmemd_cu_libs="-L\$(HIP_HOME)/lib64 -L\$(HIP_HOME)/lib -lhiprand -lhipfft -lrocfft -lamdhip64 -lgfortran $fc_cxx_link_flag"
+       pbsa_cu_libs="-L\$(HIP_HOME)/lib64 -L\$(HIP_HOME)/lib -lhipblas -lhipsparse -lamdhip64 $fc_cxx_link_flag"
+       # HIP-TODO: Enable -ffast-math for DPFP when it's proven that the compiler enables
+@@ -2172,7 +2172,7 @@ pgi)
+     pytraj='no_pytraj'
+     cflags="$pic $CFLAGS"
+     if [ -z "$CXX" ]; then cplusplus=pgc++; else cplusplus="$CXX"; fi
+-    cxxflags="$pic $CXXFLAGS -std=c++11"
++    cxxflags="$pic $CXXFLAGS -std=c++14"
+     if [ -z "$FC" ]; then fc=pgf90; else fc="$FC"; fi
+     ld="$fc"
+     fflags="$pic $FFLAGS"
+@@ -2190,8 +2190,8 @@ pgi)
+         cnooptflags=""
+         coptflags=""
+         cxxflags="$cxxflags -O0"
+-        cxxnooptflags="-std=c++11"
+-        cxxoptflags="$pic -std=c++11"
++        cxxnooptflags="-std=c++14"
++        cxxoptflags="$pic -std=c++14"
+         fflags="$fflags -O0"
+         fnooptflags=""
+         foptflags=""
+@@ -2199,622 +2199,622 @@ pgi)
+     else
+         cnooptflags=""
+         coptflags="-O2"
+-        cxxnooptflags="-std=c++11"
+-        cxxoptflags="$pic -O2 -std=c++11"
+-        fnooptflags="-O1"
+-        foptflags="-fast -O3"
+-    fi
+-
+-    extract_and_emit_compiler_versions '-V'
++            cxxnooptflags="-std=c++14"
++            cxxoptflags="$pic -O2 -std=c++14"
++            fnooptflags="-O1"
++            foptflags="-fast -O3"
++        fi
+ 
+-    # 16.5 <= PGI version:  pgf90-Warning--pgcpplibs is no longer supported.
+-    if [ "$cc_version_major" -ge 16 ] ; then
+-        fc_cxx_link_flag="-pgc++libs"
+-    else
+-        fc_cxx_link_flag="-pgcpplibs"
+-    fi
++        extract_and_emit_compiler_versions '-V'
+ 
+-    # RISM requires ISO_C_BINDING support.
+-    if [ "$rism" != 'no' ]; then
+-        if ( [ "$cc_version_major" -eq 9 -a "$cc_version_minor" -eq 0 \
+-                -a "$cc_version_patch" -le 3 ] ) \
+-                || [ "$cc_version_major" -le 8 ] ; then
+-            echo "Error: RISM requires PGI compiler version 9.0-4 or higher."
+-            echo "       Please re-run configure with the '-nofftw3' flag to use this compiler:"
+-            echo "            `mod_command_args '-rism' '-nofftw3'`"
+-            exit 1
++        # 16.5 <= PGI version:  pgf90-Warning--pgcpplibs is no longer supported.
++        if [ "$cc_version_major" -ge 16 ] ; then
++            fc_cxx_link_flag="-pgc++libs"
++        else
++            fc_cxx_link_flag="-pgcpplibs"
+         fi
+-    fi
+ 
+-    # 12.6 < PGI version < 13.6 will not compile FFTW3 with SSE
+-    if [ "$has_fftw3" = 'yes' -a "$sse" = 'yes' ] ; then
+-        turn_off_sse='no'
+-        if [ "$cc_version_major" -eq 12 -a "$cc_version_minor" -gt 6 ] ; then
+-            turn_off_sse='yes'
+-        elif [ "$cc_version_major" -eq 13 -a "$cc_version_minor" -lt 6 ] ; then
+-            turn_off_sse='yes'
++        # RISM requires ISO_C_BINDING support.
++        if [ "$rism" != 'no' ]; then
++            if ( [ "$cc_version_major" -eq 9 -a "$cc_version_minor" -eq 0 \
++                    -a "$cc_version_patch" -le 3 ] ) \
++                    || [ "$cc_version_major" -le 8 ] ; then
++                echo "Error: RISM requires PGI compiler version 9.0-4 or higher."
++                echo "       Please re-run configure with the '-nofftw3' flag to use this compiler:"
++                echo "            `mod_command_args '-rism' '-nofftw3'`"
++                exit 1
++            fi
+         fi
+-        if [ "$turn_off_sse" = 'yes' ] ; then
+-            echo "Error: PGI versions in-between 12.6 and 13.6 cannot compile FFTW3 with SSE."
+-            echo "       Re-run configure with either '-nosse' to disable SSE or '-nofftw3' to"
+-            echo "       disable FFTW3 (and any programs that require FFTW3)."
+-            exit 1
++
++        # 12.6 < PGI version < 13.6 will not compile FFTW3 with SSE
++        if [ "$has_fftw3" = 'yes' -a "$sse" = 'yes' ] ; then
++            turn_off_sse='no'
++            if [ "$cc_version_major" -eq 12 -a "$cc_version_minor" -gt 6 ] ; then
++                turn_off_sse='yes'
++            elif [ "$cc_version_major" -eq 13 -a "$cc_version_minor" -lt 6 ] ; then
++                turn_off_sse='yes'
++            fi
++            if [ "$turn_off_sse" = 'yes' ] ; then
++                echo "Error: PGI versions in-between 12.6 and 13.6 cannot compile FFTW3 with SSE."
++                echo "       Re-run configure with either '-nosse' to disable SSE or '-nofftw3' to"
++                echo "       disable FFTW3 (and any programs that require FFTW3)."
++                exit 1
++            fi
+         fi
+-    fi
+ 
+-    # Debugging options
+-    if [ "$debug" = 'yes' ]; then
+-        cflags="$cflags -g"
+-        cxxflags="$cxxflags -g"
+-        fflags="$fflags -g"
+-    fi
++        # Debugging options
++        if [ "$debug" = 'yes' ]; then
++            cflags="$cflags -g"
++            cxxflags="$cxxflags -g"
++            fflags="$fflags -g"
++        fi
+ 
+-    if [ "$openmp" = 'yes' ]; then
+-        echo "Warning: OpenMP is not yet well tested for pgi."
+-        omp_flag="-mp -DOPENMP"
+-        flibs_arch="$flibs_arch -mp"
+-    fi
++        if [ "$openmp" = 'yes' ]; then
++            echo "Warning: OpenMP is not yet well tested for pgi."
++            omp_flag="-mp -DOPENMP"
++            flibs_arch="$flibs_arch -mp"
++        fi
+ 
+-    if [ "$sse" = 'yes' ]; then
+-        foptflags="$foptflags -fastsse"
+-    fi
++        if [ "$sse" = 'yes' ]; then
++            foptflags="$foptflags -fastsse"
++        fi
+ 
+-    if [ "$cuda" = "yes" ]; then
+-        echo "Error: cuda is not available for pgi."
+-        echo "       Please re-run configure without CUDA flags to use this compiler:"
+-        echo "            `mod_command_args '-cuda' ''`"
+-        exit 1
+-    fi
++        if [ "$cuda" = "yes" ]; then
++            echo "Error: cuda is not available for pgi."
++            echo "       Please re-run configure without CUDA flags to use this compiler:"
++            echo "            `mod_command_args '-cuda' ''`"
++            exit 1
++        fi
+ 
+-    #PMEMD Specifics
+-    # As of Amber20 pmemd requires Fortran 2008 intrinsic norm2
+-    # which is not availabe in 18.4
+-    if [ "$cc_version_major" -le 18 ] ; then
+-        echo "Warning: As of Amber20 PGI version 18 and earlier compilers cannot build pmemd."
+-        echo "         Enabling building of AmberTools but not Amber."
+-        buildamber=''
+-    fi
+-    pmemd_fpp_flags='-DPUBFFT'
+-    if [ "$FC" = 'ftn' ]; then # Cray compiler wrapper
+-        pmemd_foptflags='-O4 -fastsse -Munroll -Mnoframe -Mscalarsse -Mvect=sse -Mcache_align'
+-    else
+-        pmemd_foptflags=$foptflags
+-    fi
+-    pmemd_coptflags=$coptflags
++        #PMEMD Specifics
++        # As of Amber20 pmemd requires Fortran 2008 intrinsic norm2
++        # which is not availabe in 18.4
++        if [ "$cc_version_major" -le 18 ] ; then
++            echo "Warning: As of Amber20 PGI version 18 and earlier compilers cannot build pmemd."
++            echo "         Enabling building of AmberTools but not Amber."
++            buildamber=''
++        fi
++        pmemd_fpp_flags='-DPUBFFT'
++        if [ "$FC" = 'ftn' ]; then # Cray compiler wrapper
++            pmemd_foptflags='-O4 -fastsse -Munroll -Mnoframe -Mscalarsse -Mvect=sse -Mcache_align'
++        else
++            pmemd_foptflags=$foptflags
++        fi
++        pmemd_coptflags=$coptflags
+ 
+-    if [ "$debug" = 'yes' ]; then
+-        pmemd_foptflags="-g $pmemd_foptflags"
+-        pmemd_coptflags="-g $pmemd_coptflags"
+-    fi
++        if [ "$debug" = 'yes' ]; then
++            pmemd_foptflags="-g $pmemd_foptflags"
++            pmemd_coptflags="-g $pmemd_coptflags"
++        fi
+ 
+-    ;;
++        ;;
+ 
+ #################### cray #######
+-cray)
+-    test -z "$pic" && pic="-fpic"
+-    if [ "$intelmpi" = 'yes' ]; then
+-      echo "Intel MPI requires the intel compilers."
+-      exit 1
+-    fi
+-    ld='ftn'
+-    flibs_arch=""
+-    flibsf_arch=
+-    cc=cc
+-    cflags="$pic"
+-    ambercflags=""
+-    cplusplus=CC
+-    cxxflags="$pic"
+-    ambercxxflags=""
+-    fc=ftn
+-    fflags="$pic"
+-    # The -lstdc++ flag gives lots of duplicate symbol errors with cray
+-    fc_cxx_link_flag=""
+-
+-    if [ "$openmp" = 'yes' ]; then
+-      omp_flag="-DOPENMP"
+-      #flibs_arch="$flibs_arch -fopenmp"
+-      #flibsf_arch="$flibsf_arch -fopenmp
+-      cray_omp_flag=""
+-    elif [ "$mpi" = 'no' ]; then
+-      #Note OMP is required for PMEMD MPI now so leave it on if mpi is true.
+-      # OMP is enabled by default. Disable.
+-      cray_omp_flag="-h noomp"
+-    fi
++    cray)
++        test -z "$pic" && pic="-fpic"
++        if [ "$intelmpi" = 'yes' ]; then
++          echo "Intel MPI requires the intel compilers."
++          exit 1
++        fi
++        ld='ftn'
++        flibs_arch=""
++        flibsf_arch=
++        cc=cc
++        cflags="$pic"
++        ambercflags=""
++        cplusplus=CC
++        cxxflags="$pic"
++        ambercxxflags=""
++        fc=ftn
++        fflags="$pic"
++        # The -lstdc++ flag gives lots of duplicate symbol errors with cray
++        fc_cxx_link_flag=""
++
++        if [ "$openmp" = 'yes' ]; then
++          omp_flag="-DOPENMP"
++          #flibs_arch="$flibs_arch -fopenmp"
++          #flibsf_arch="$flibsf_arch -fopenmp
++          cray_omp_flag=""
++        elif [ "$mpi" = 'no' ]; then
++          #Note OMP is required for PMEMD MPI now so leave it on if mpi is true.
++          # OMP is enabled by default. Disable.
++          cray_omp_flag="-h noomp"
++        fi
+ 
+-    # If -noopt has been requested, force lack of optimisation;
+-    # otherwise, use the default levels. Since cflags, cxxflags
+-    # and fflags are used everywhere, and *optflags and
+-    # *nooptflags are not (some parts of Amber and AmberTools use
+-    # neither *optflags nor *nooptflags), we'll put -O0 in cflags
+-    # and so forth instead.
+-    # NOTE: In order for GNU-like defines to work (e.g.
+-    #       -D_FILE_OFFSET_BITS etc.) cray compilers need '-h gnu'.
+-    #       Also, the fortran compile requires '-emf' to force
+-    #       the build of module files with all-lowercase names.
+-    if [ "$optimise" = 'no' ]; then
+-      cflags="$cflags -O0 $cray_omp_flag -h gnu"
+-      cnooptflags=""
+-      coptflags=""
+-      cxxflags="$cxxflags -O0 $cray_omp_flag -h gnu"
+-      cxxnooptflags=""
+-      cxxoptflags="$pic"
+-      fflags="$fflags -O0 $cray_omp_flag -emf"
+-      fnooptflags=""
+-      foptflags=""
+-    else
+-      # cray compilers have equivalent of -O3 on by default
+-      cflags="$cflags $cray_omp_flag -h gnu"
+-      cnooptflags=""
+-      coptflags=""
+-      cxxflags="$cxxflags $cray_omp_flag -h gnu"
+-      cxxnooptflags=""
+-      cxxoptflags="$pic"
+-      fflags="$fflags $cray_omp_flag -emf"
+-      fnooptflags=""
+-      foptflags=""
+-    fi
++        # If -noopt has been requested, force lack of optimisation;
++        # otherwise, use the default levels. Since cflags, cxxflags
++        # and fflags are used everywhere, and *optflags and
++        # *nooptflags are not (some parts of Amber and AmberTools use
++        # neither *optflags nor *nooptflags), we'll put -O0 in cflags
++        # and so forth instead.
++        # NOTE: In order for GNU-like defines to work (e.g.
++        #       -D_FILE_OFFSET_BITS etc.) cray compilers need '-h gnu'.
++        #       Also, the fortran compile requires '-emf' to force
++        #       the build of module files with all-lowercase names.
++        if [ "$optimise" = 'no' ]; then
++          cflags="$cflags -O0 $cray_omp_flag -h gnu"
++          cnooptflags=""
++          coptflags=""
++          cxxflags="$cxxflags -O0 $cray_omp_flag -h gnu"
++          cxxnooptflags=""
++          cxxoptflags="$pic"
++          fflags="$fflags -O0 $cray_omp_flag -emf"
++          fnooptflags=""
++          foptflags=""
++        else
++          # cray compilers have equivalent of -O3 on by default
++          cflags="$cflags $cray_omp_flag -h gnu"
++          cnooptflags=""
++          coptflags=""
++          cxxflags="$cxxflags $cray_omp_flag -h gnu"
++          cxxnooptflags=""
++          cxxoptflags="$pic"
++          fflags="$fflags $cray_omp_flag -emf"
++          fnooptflags=""
++          foptflags=""
++        fi
+ 
+-    # Debugging options
+-    if [ "$debug" = 'yes' ]; then
+-      cflags="$cflags -g"
+-      cxxflags="$cxxflags -g"
+-      fflags="$fflags -g"
+-    fi
++        # Debugging options
++        if [ "$debug" = 'yes' ]; then
++          cflags="$cflags -g"
++          cxxflags="$cxxflags -g"
++          fflags="$fflags -g"
++        fi
+ 
+-    extract_and_emit_compiler_versions '-V'
++        extract_and_emit_compiler_versions '-V'
+ 
+-    # Set alignment of fortran compiler
+-    fcreal8="-s real64"
++        # Set alignment of fortran compiler
++        fcreal8="-s real64"
+ 
+-    # For now, fftw3 is not compiled and rism is disabled.
+-    if [ "$rism" != 'no' ]; then
+-      echo "Error: RISM currently not built with cray compilers."
+-      echo "       Please re-run configure with the '-nofftw3' flag to use this compiler:"
+-      echo "            `mod_command_args '-rism' '-nofftw3'`"
+-      exit 1
+-    fi
++        # For now, fftw3 is not compiled and rism is disabled.
++        if [ "$rism" != 'no' ]; then
++          echo "Error: RISM currently not built with cray compilers."
++          echo "       Please re-run configure with the '-nofftw3' flag to use this compiler:"
++          echo "            `mod_command_args '-rism' '-nofftw3'`"
++          exit 1
++        fi
+ 
+-    if [ "$cygwin" = 'yes' -o "$windows" = 'yes' ]; then
+-      echo "Error: cygwin not supported with cray compilers."
+-      exit 1
+-    fi
++        if [ "$cygwin" = 'yes' -o "$windows" = 'yes' ]; then
++          echo "Error: cygwin not supported with cray compilers."
++          exit 1
++        fi
+ 
+-    # The bundled NetCDF will not build with cray compilers. Require external.
+-    if [ "$bintraj" = 'yes' -a -z "$netcdf_dir" ] ; then
+-      echo "Error: Bundled NetCDF cannot be used with cray compilers."
+-      echo "       Please re-run configure with the '--with-netcdf <DIR>' flag to"
+-      echo "       specify system NetCDF to use. On cray systems you can usually"
+-      echo "       load the system NetCDF with 'module load cray-netcdf' or"
+-      echo "       'module load netcdf'."
+-      exit 1
+-    fi
+-    # For some reason if static linking of NetCDF is not forced you end up
+-    # with lots of missing symbols.
+-    netcdfstatic='yes'
+-
+-    # Currently xleap on cray will not build due to errors like
+-    #/usr/lib64/libX11.a(ClDisplay.o): In function `XCloseDisplay':
+-    #/usr/src/packages/BUILD/libX11-1.1.5/src/ClDisplay.c:78: undefined reference to `xcb_disconnect'
+-    if [ "$noX11" = 'false' ] ; then
+-      echo "Error: Cannot build XLEaP with cray compilers."
+-      echo "       Please re-run configure with the '-noX11' flag to use this compiler."
+-      exit 1
+-    fi
++        # The bundled NetCDF will not build with cray compilers. Require external.
++        if [ "$bintraj" = 'yes' -a -z "$netcdf_dir" ] ; then
++          echo "Error: Bundled NetCDF cannot be used with cray compilers."
++          echo "       Please re-run configure with the '--with-netcdf <DIR>' flag to"
++          echo "       specify system NetCDF to use. On cray systems you can usually"
++          echo "       load the system NetCDF with 'module load cray-netcdf' or"
++          echo "       'module load netcdf'."
++          exit 1
++        fi
++        # For some reason if static linking of NetCDF is not forced you end up
++        # with lots of missing symbols.
++        netcdfstatic='yes'
++
++        # Currently xleap on cray will not build due to errors like
++        #/usr/lib64/libX11.a(ClDisplay.o): In function `XCloseDisplay':
++        #/usr/src/packages/BUILD/libX11-1.1.5/src/ClDisplay.c:78: undefined reference to `xcb_disconnect'
++        if [ "$noX11" = 'false' ] ; then
++          echo "Error: Cannot build XLEaP with cray compilers."
++          echo "       Please re-run configure with the '-noX11' flag to use this compiler."
++          exit 1
++        fi
+ 
+-    freeformat_flag="-f free"
++        freeformat_flag="-f free"
+ 
+-    #PMEMD Specifics
+-    # PMEMD right now with cray requires external FFTW3 library
+-    cat > conftest.f90 <<EOF
+-program conftest
+-include 'fftw3.f'
+-       write(*,'(a)') 'gotcha!'
+-end program conftest
+-EOF
+-    echo ""
+-    echo "Checking for external FFTW3 library (required for PMEMD w/ $compiler compilers)"
+-    $fc $fflags $fnooptflags -o conftest$suffix conftest.f90
+-    echo "     $fc $fflags $fnooptflags -o conftest$suffix conftest.f90"
+-    ./conftest$suffix | grep "gotcha!" > /dev/null
+-    status=$?
+-    if [ $status -gt 0 ]; then
+-      echo "Error: FFTW3 library not found."
+-      echo "       Ensure FFTW3 library can be found by your compiler."
+-      echo "       On cray systems this can usually be done with 'module load fftw'"
+-      exit 1
+-    fi
+-    echo "OK"
+-    /bin/rm -f conftest.f90 conftest$objsuffix conftest$suffix
++        #PMEMD Specifics
++        # PMEMD right now with cray requires external FFTW3 library
++        cat > conftest.f90 <<EOF
++    program conftest
++    include 'fftw3.f'
++           write(*,'(a)') 'gotcha!'
++    end program conftest
++    EOF
++        echo ""
++        echo "Checking for external FFTW3 library (required for PMEMD w/ $compiler compilers)"
++        $fc $fflags $fnooptflags -o conftest$suffix conftest.f90
++        echo "     $fc $fflags $fnooptflags -o conftest$suffix conftest.f90"
++        ./conftest$suffix | grep "gotcha!" > /dev/null
++        status=$?
++        if [ $status -gt 0 ]; then
++          echo "Error: FFTW3 library not found."
++          echo "       Ensure FFTW3 library can be found by your compiler."
++          echo "       On cray systems this can usually be done with 'module load fftw'"
++          exit 1
++        fi
++        echo "OK"
++        /bin/rm -f conftest.f90 conftest$objsuffix conftest$suffix
+ 
+-    #pmemd_fpp_flags='-DPUBFFT'
+-    pmemd_fpp_flags='-DFFTW_FFT'
+-    pmemd_foptflags="$foptflags $cray_omp_flag -emf"
+-    pmemd_coptflags="$coptflags  $cray_omp_flag -h gnu"
++        #pmemd_fpp_flags='-DPUBFFT'
++        pmemd_fpp_flags='-DFFTW_FFT'
++        pmemd_foptflags="$foptflags $cray_omp_flag -emf"
++        pmemd_coptflags="$coptflags  $cray_omp_flag -h gnu"
+ 
+-    if [ "$debug" = 'yes' ]; then
+-        pmemd_foptflags="-g $pmemd_foptflags"
+-        pmemd_coptflags="-g $pmemd_coptflags"
+-    fi
++        if [ "$debug" = 'yes' ]; then
++            pmemd_foptflags="-g $pmemd_foptflags"
++            pmemd_coptflags="-g $pmemd_coptflags"
++        fi
+ 
+-    #CUDA Specifics
+-    if [ "$cuda" = 'yes' ]; then
+-      pmemd_cu_includes='-I$(CUDA_HOME)/include -IB40C'
+-      pmemd_cu_defines='-DCUDA'
+-      pmemd_cu_libs="./cuda/cuda.a -L\$(CUDA_HOME)/lib64 -L\$(CUDA_HOME)/lib -lcurand -lcufft -lcudart $fc_cxx_link_flag"
+-      pbsa_cu_libs="-L\$(CUDA_HOME)/lib64 -L\$(CUDA_HOME)/lib -lcublas -lcusparse -lcudart $fc_cxx_link_flag"
+-      if [ "$optimise" = 'no' ]; then
+-        nvcc="$nvcc -use_fast_math -O0 "
+-      else
+-        nvcc="$nvcc -use_fast_math -O3 "
+-      fi
+-      if [ "$mpi" = 'yes' ]; then
+-        mpi_inc=`(mpicc -show 2>&1) | awk 'BEGIN{i=0} {while (i < NF) {if ( substr($i, 1, 2) == "-I" ) {printf("%s ", $i);}; i++;}}'`
+-        pmemd_cu_includes="$pmemd_cu_includes $mpi_inc"
+-        pmemd_cu_defines="$pmemd_cu_defines -DMPI -DMPICH_IGNORE_CXX_SEEK"
+-        pmemd_coptflags="$coptflags -DMPICH_IGNORE_CXX_SEEK"
+-      fi
+-    fi
++        #CUDA Specifics
++        if [ "$cuda" = 'yes' ]; then
++          pmemd_cu_includes='-I$(CUDA_HOME)/include -IB40C'
++          pmemd_cu_defines='-DCUDA'
++          pmemd_cu_libs="./cuda/cuda.a -L\$(CUDA_HOME)/lib64 -L\$(CUDA_HOME)/lib -lcurand -lcufft -lcudart $fc_cxx_link_flag"
++          pbsa_cu_libs="-L\$(CUDA_HOME)/lib64 -L\$(CUDA_HOME)/lib -lcublas -lcusparse -lcudart $fc_cxx_link_flag"
++          if [ "$optimise" = 'no' ]; then
++            nvcc="$nvcc -use_fast_math -O0 "
++          else
++            nvcc="$nvcc -use_fast_math -O3 "
++          fi
++          if [ "$mpi" = 'yes' ]; then
++            mpi_inc=`(mpicc -show 2>&1) | awk 'BEGIN{i=0} {while (i < NF) {if ( substr($i, 1, 2) == "-I" ) {printf("%s ", $i);}; i++;}}'`
++            pmemd_cu_includes="$pmemd_cu_includes $mpi_inc"
++            pmemd_cu_defines="$pmemd_cu_defines -DMPI -DMPICH_IGNORE_CXX_SEEK"
++            pmemd_coptflags="$coptflags -DMPICH_IGNORE_CXX_SEEK"
++          fi
++        fi
+ 
+-    #HIP Specifics
+-    if [ "$hip" = 'yes' ]; then
+-      pmemd_cu_includes='-I$(HIP_HOME)/hipfft/include -I$(HIP_HOME)/include/hiprand -I$(HIP_HOME)/include/rocrand -I$(HIP_HOME)/include'
+-      pmemd_cu_defines='-DCUDA -DAMBER_PLATFORM_AMD -D__HIP_PLATFORM_AMD__'
+-      if [ "$gti" = 'yes' ]; then
+-        pmemd_cu_defines="$pmemd_cu_defines -DGTI"
+-      fi
+-      pmemd_cu_extra=" --std c++11 "
+-      pmemd_cu_libs="-L\$(HIP_HOME)/lib64 -L\$(HIP_HOME)/lib -lhiprand -lhipfft -lrocfft -lamdhip64 -lgfortran $fc_cxx_link_flag"
+-      pbsa_cu_libs="-L\$(HIP_HOME)/lib64 -L\$(HIP_HOME)/lib -lhipblas -lhipsparse -lamdhip64 $fc_cxx_link_flag"
+-      # HIP-TODO: Enable -ffast-math for DPFP when it's proven that the compiler enables
+-      # correct optimizations for DP (and remove EXTRAFLAGS=-ffast-math from hip_spfp_libs, src/pmemd/src/Makefile)
+-      nvcc="$nvcc -fPIC" # -ffast-math
+-      if [ "$optimise" = 'no' ]; then
+-        nvcc="$nvcc -O0 "
+-      else
+-        nvcc="$nvcc -O3 "
+-      fi
+-      if [ "$mpi" = 'yes' ]; then
+-        mpi_inc=`(mpicc -show 2>&1) | awk 'BEGIN{i=0} {while (i < NF) {if ( substr($i, 1, 2) == "-I" ) {printf("%s ", $i);}; i++;}}'`
+-        pmemd_cu_includes="$pmemd_cu_includes $mpi_inc"
+-        pmemd_cu_defines="$pmemd_cu_defines -DMPI -DMPICH_IGNORE_CXX_SEEK"
+-        pmemd_coptflags="$coptflags -DMPICH_IGNORE_CXX_SEEK"
+-      fi
+-    fi
+-    ;;
++        #HIP Specifics
++        if [ "$hip" = 'yes' ]; then
++          pmemd_cu_includes='-I$(HIP_HOME)/hipfft/include -I$(HIP_HOME)/include/hiprand -I$(HIP_HOME)/include/rocrand -I$(HIP_HOME)/include'
++          pmemd_cu_defines='-DCUDA -DAMBER_PLATFORM_AMD -D__HIP_PLATFORM_AMD__'
++          if [ "$gti" = 'yes' ]; then
++            pmemd_cu_defines="$pmemd_cu_defines -DGTI"
++          fi
++          pmemd_cu_extra=" --std c++14 "
++          pmemd_cu_libs="-L\$(HIP_HOME)/lib64 -L\$(HIP_HOME)/lib -lhiprand -lhipfft -lrocfft -lamdhip64 -lgfortran $fc_cxx_link_flag"
++          pbsa_cu_libs="-L\$(HIP_HOME)/lib64 -L\$(HIP_HOME)/lib -lhipblas -lhipsparse -lamdhip64 $fc_cxx_link_flag"
++          # HIP-TODO: Enable -ffast-math for DPFP when it's proven that the compiler enables
++          # correct optimizations for DP (and remove EXTRAFLAGS=-ffast-math from hip_spfp_libs, src/pmemd/src/Makefile)
++          nvcc="$nvcc -fPIC" # -ffast-math
++          if [ "$optimise" = 'no' ]; then
++            nvcc="$nvcc -O0 "
++          else
++            nvcc="$nvcc -O3 "
++          fi
++          if [ "$mpi" = 'yes' ]; then
++            mpi_inc=`(mpicc -show 2>&1) | awk 'BEGIN{i=0} {while (i < NF) {if ( substr($i, 1, 2) == "-I" ) {printf("%s ", $i);}; i++;}}'`
++            pmemd_cu_includes="$pmemd_cu_includes $mpi_inc"
++            pmemd_cu_defines="$pmemd_cu_defines -DMPI -DMPICH_IGNORE_CXX_SEEK"
++            pmemd_coptflags="$coptflags -DMPICH_IGNORE_CXX_SEEK"
++          fi
++        fi
++        ;;
+ 
+ #################### clang ####
+-clang)
+-    if [ "$intelmpi" = 'yes' ]; then
+-        echo "Intel MPI must be used with the Intel compilers."
+-        exit 1
+-    fi
++    clang)
++        if [ "$intelmpi" = 'yes' ]; then
++            echo "Intel MPI must be used with the Intel compilers."
++            exit 1
++        fi
+ 
+-    flibs_arch="-lgfortran -w"
+-    flibsf_arch=
+-    if [ -z "$CC" ]; then cc=clang; else cc="$CC"; fi
+-    cflags="$pic"
+-    ambercflags=""
+-    if [ -z "$CXX" ]; then cplusplus=clang++; else cplusplus="$CXX"; fi
+-    cxxflags="$pic"
+-    ambercxxflags=""
+-    if [ -z "$FC" ]; then fc=gfortran; else fc="$FC"; fi
+-    ld="$fc"
+-    fflags="$pic"
+-    warnflag="-Wall -Wno-unused-function"
+-    fwarnflag="$warnflag"
+-    # If -noopt has been requested, force lack of optimisation;
+-    # otherwise, use the default levels. Since cflags, cxxflags
+-    # and fflags are used everywhere, and *optflags and
+-    # *nooptflags are not (some parts of Amber and AmberTools use
+-    # neither *optflags nor *nooptflags), we'll put -O0 in cflags
+-    # and so forth instead.
+-    if [ "$optimise" = 'no' ]; then
+-      cflags="$cflags -O0"
+-      cnooptflags=""
+-      coptflags=""
+-      cxxflags="$cxxflags -O0"
+-      cxxnooptflags=""
+-      cxxoptflags="$pic"
+-      fflags="$fflags -O0"
+-      fnooptflags=""
+-      foptflags=""
+-    else
+-      cnooptflags=
+-      coptflags="-O3"
+-      cxxnooptflags=
+-      cxxoptflags="$pic -O3"
+-      fnooptflags="-O0"
+-      foptflags="-O3 -mtune=native"
+-    fi
++        flibs_arch="-lgfortran -w"
++        flibsf_arch=
++        if [ -z "$CC" ]; then cc=clang; else cc="$CC"; fi
++        cflags="$pic"
++        ambercflags=""
++        if [ -z "$CXX" ]; then cplusplus=clang++; else cplusplus="$CXX"; fi
++        cxxflags="$pic"
++        ambercxxflags=""
++        if [ -z "$FC" ]; then fc=gfortran; else fc="$FC"; fi
++        ld="$fc"
++        fflags="$pic"
++        warnflag="-Wall -Wno-unused-function"
++        fwarnflag="$warnflag"
++        # If -noopt has been requested, force lack of optimisation;
++        # otherwise, use the default levels. Since cflags, cxxflags
++        # and fflags are used everywhere, and *optflags and
++        # *nooptflags are not (some parts of Amber and AmberTools use
++        # neither *optflags nor *nooptflags), we'll put -O0 in cflags
++        # and so forth instead.
++        if [ "$optimise" = 'no' ]; then
++          cflags="$cflags -O0"
++          cnooptflags=""
++          coptflags=""
++          cxxflags="$cxxflags -O0"
++          cxxnooptflags=""
++          cxxoptflags="$pic"
++          fflags="$fflags -O0"
++          fnooptflags=""
++          foptflags=""
++        else
++          cnooptflags=
++          coptflags="-O3"
++          cxxnooptflags=
++          cxxoptflags="$pic -O3"
++          fnooptflags="-O0"
++          foptflags="-O3 -mtune=native"
++        fi
+ 
+-    if [ "$is_mac" = 'yes' ]; then
+-        fc_cxx_link_flag="-lc++"
+-        for x in `gfortran -print-search-dirs | grep libraries | \
+-                  sed -e "s/libraries: =//g" -e "s/:/ /g"`; do
+-            test -f $x/libgfortran.dylib && break
+-        done
+-        flibs_arch="-L$x $flibs_arch"
+-
+-        # mac/clang -- won't work for 10.14; not yet tested on earlier
+-        # OSX versions
+-        #if [ "$skippython" = "no" ]; then
+-        #    cpptrajcxxflags="-stdlib=libstdc++ $cpptrajcxxflags"
+-        #    cpptrajldflags="-stdlib=libstdc++ -L/usr/lib/"
+-        #fi
+-    fi
++        if [ "$is_mac" = 'yes' ]; then
++            fc_cxx_link_flag="-lc++"
++            for x in `gfortran -print-search-dirs | grep libraries | \
++                      sed -e "s/libraries: =//g" -e "s/:/ /g"`; do
++                test -f $x/libgfortran.dylib && break
++            done
++            flibs_arch="-L$x $flibs_arch"
++
++            # mac/clang -- won't work for 10.14; not yet tested on earlier
++            # OSX versions
++            #if [ "$skippython" = "no" ]; then
++            #    cpptrajcxxflags="-stdlib=libstdc++ $cpptrajcxxflags"
++            #    cpptrajldflags="-stdlib=libstdc++ -L/usr/lib/"
++            #fi
++        fi
+ 
+-    # Debugging options
+-    if [ "$debug" = 'yes' ]; then
+-      cflags="$cflags -g"
+-      cxxflags="$cxxflags -g"
+-      fflags="$fflags -g"
+-    fi
++        # Debugging options
++        if [ "$debug" = 'yes' ]; then
++          cflags="$cflags -g"
++          cxxflags="$cxxflags -g"
++          fflags="$fflags -g"
++        fi
+ 
+-    fcreal8="-fdefault-real-8"
++        fcreal8="-fdefault-real-8"
+ 
+-    if [ "$openmp" = 'yes' ]; then
+-        echo "OpenMP and clang are not currently compatible"
+-        exit 1
++        if [ "$openmp" = 'yes' ]; then
++            echo "OpenMP and clang are not currently compatible"
++            exit 1
+ 
+-        # In case clang starts supporting OpenMP soon, keep the code here.
+-        omp_flag="-fopenmp -DOPENMP"
+-        flibs_arch="$flibs_arch -fopenmp"
+-        flibsf_arch="$flibsf_arch -fopenmp"
+-    fi
++            # In case clang starts supporting OpenMP soon, keep the code here.
++            omp_flag="-fopenmp -DOPENMP"
++            flibs_arch="$flibs_arch -fopenmp"
++            flibsf_arch="$flibsf_arch -fopenmp"
++        fi
+ 
+-    freeformat_flag=-ffree-form
++        freeformat_flag=-ffree-form
+ 
+ #WARNING - PMEMD.MPI will likely not work with CLANG because it REQUIRES
+ #          OpenMP support. It looks like there is an openmp version of
+ #          clang but it all horribly confusing as to what version one
+ #          needs etc - so for now we just leave as is. - Ross.
+ 
+-    #PMEMD Specifics
+-    pmemd_fpp_flags='-DPUBFFT -DGNU_HACKS'
+-    pmemd_foptflags="$foptflags"
+-    pmemd_coptflags="$coptflags"
++        #PMEMD Specifics
++        pmemd_fpp_flags='-DPUBFFT -DGNU_HACKS'
++        pmemd_foptflags="$foptflags"
++        pmemd_coptflags="$coptflags"
+ 
+-    if [ "$debug" = 'yes' ]; then
+-        pmemd_foptflags="-g $pmemd_foptflags"
+-        pmemd_coptflags="-g $pmemd_coptflags"
+-    fi
++        if [ "$debug" = 'yes' ]; then
++            pmemd_foptflags="-g $pmemd_foptflags"
++            pmemd_coptflags="-g $pmemd_coptflags"
++        fi
+ 
+-    #CUDA Specifics
+-    if [ "$cuda" = 'yes' ]; then
+-      pmemd_cu_includes='-I$(CUDA_HOME)/include -IB40C'
+-      pmemd_cu_defines='-DCUDA'
+-      pmemd_cu_libs="./cuda/cuda.a -L\$(CUDA_HOME)/lib64 -L\$(CUDA_HOME)/lib -lcurand -lcufft -lcudart $fc_cxx_link_flag"
+-      pbsa_cu_libs="-L\$(CUDA_HOME)/lib64 -L\$(CUDA_HOME)/lib -lcublas -lcusparse -lcudart $fc_cxx_link_flag"
+-      if [ "$optimise" = 'no' ]; then
+-        nvcc="$nvcc -use_fast_math -O0 "
+-      else
+-        nvcc="$nvcc -use_fast_math -O3 "
+-      fi
+-      if [ "$mpi" = 'yes' ]; then
+-        mpi_inc=`(mpicc -show 2>&1) | awk 'BEGIN{i=0} {while (i < NF) {if ( substr($i, 1, 2) == "-I" ) {printf("%s ", $i);}; i++;}}'`
+-        pmemd_cu_includes="$pmemd_cu_includes $mpi_inc"
+-        pmemd_cu_defines="$pmemd_cu_defines -DMPI -DMPICH_IGNORE_CXX_SEEK"
+-        pmemd_coptflags="$coptflags -DMPICH_IGNORE_CXX_SEEK"
+-      fi
+-    fi
++        #CUDA Specifics
++        if [ "$cuda" = 'yes' ]; then
++          pmemd_cu_includes='-I$(CUDA_HOME)/include -IB40C'
++          pmemd_cu_defines='-DCUDA'
++          pmemd_cu_libs="./cuda/cuda.a -L\$(CUDA_HOME)/lib64 -L\$(CUDA_HOME)/lib -lcurand -lcufft -lcudart $fc_cxx_link_flag"
++          pbsa_cu_libs="-L\$(CUDA_HOME)/lib64 -L\$(CUDA_HOME)/lib -lcublas -lcusparse -lcudart $fc_cxx_link_flag"
++          if [ "$optimise" = 'no' ]; then
++            nvcc="$nvcc -use_fast_math -O0 "
++          else
++            nvcc="$nvcc -use_fast_math -O3 "
++          fi
++          if [ "$mpi" = 'yes' ]; then
++            mpi_inc=`(mpicc -show 2>&1) | awk 'BEGIN{i=0} {while (i < NF) {if ( substr($i, 1, 2) == "-I" ) {printf("%s ", $i);}; i++;}}'`
++            pmemd_cu_includes="$pmemd_cu_includes $mpi_inc"
++            pmemd_cu_defines="$pmemd_cu_defines -DMPI -DMPICH_IGNORE_CXX_SEEK"
++            pmemd_coptflags="$coptflags -DMPICH_IGNORE_CXX_SEEK"
++          fi
++        fi
+ 
+-    #HIP Specifics
+-    if [ "$hip" = 'yes' ]; then
+-      pmemd_cu_includes='-I$(HIP_HOME)/hipfft/include -I$(HIP_HOME)/include/hiprand -I$(HIP_HOME)/include/rocrand -I$(HIP_HOME)/include'
+-      pmemd_cu_defines='-DCUDA -DAMBER_PLATFORM_AMD -D__HIP_PLATFORM_AMD__'
+-      if [ "$gti" = 'yes' ]; then
+-        pmemd_cu_defines="$pmemd_cu_defines -DGTI"
+-      fi
+-      pmemd_cu_extra=" --std c++11 "
+-      pmemd_cu_libs="-L\$(HIP_HOME)/lib64 -L\$(HIP_HOME)/lib -lhiprand -lhipfft -lrocfft -lamdhip64 -lgfortran $fc_cxx_link_flag"
+-      pbsa_cu_libs="-L\$(HIP_HOME)/lib64 -L\$(HIP_HOME)/lib -lhipblas -lhipsparse -lamdhip64 $fc_cxx_link_flag"
+-      # HIP-TODO: Enable -ffast-math for DPFP when it's proven that the compiler enables
+-      # correct optimizations for DP (and remove EXTRAFLAGS=-ffast-math from hip_spfp_libs, src/pmemd/src/Makefile)
+-      nvcc="$nvcc -fPIC" # -ffast-math
+-      if [ "$optimise" = 'no' ]; then
+-        nvcc="$nvcc -O0 "
+-      else
+-        nvcc="$nvcc -O3 "
+-      fi
+-      if [ "$mpi" = 'yes' ]; then
+-        mpi_inc=`(mpicc -show 2>&1) | awk 'BEGIN{i=0} {while (i < NF) {if ( substr($i, 1, 2) == "-I" ) {printf("%s ", $i);}; i++;}}'`
+-        pmemd_cu_includes="$pmemd_cu_includes $mpi_inc"
+-        pmemd_cu_defines="$pmemd_cu_defines -DMPI -DMPICH_IGNORE_CXX_SEEK"
+-        pmemd_coptflags="$coptflags -DMPICH_IGNORE_CXX_SEEK"
+-      fi
+-    fi
++        #HIP Specifics
++        if [ "$hip" = 'yes' ]; then
++          pmemd_cu_includes='-I$(HIP_HOME)/hipfft/include -I$(HIP_HOME)/include/hiprand -I$(HIP_HOME)/include/rocrand -I$(HIP_HOME)/include'
++          pmemd_cu_defines='-DCUDA -DAMBER_PLATFORM_AMD -D__HIP_PLATFORM_AMD__'
++          if [ "$gti" = 'yes' ]; then
++            pmemd_cu_defines="$pmemd_cu_defines -DGTI"
++          fi
++          pmemd_cu_extra=" --std c++14 "
++          pmemd_cu_libs="-L\$(HIP_HOME)/lib64 -L\$(HIP_HOME)/lib -lhiprand -lhipfft -lrocfft -lamdhip64 -lgfortran $fc_cxx_link_flag"
++          pbsa_cu_libs="-L\$(HIP_HOME)/lib64 -L\$(HIP_HOME)/lib -lhipblas -lhipsparse -lamdhip64 $fc_cxx_link_flag"
++          # HIP-TODO: Enable -ffast-math for DPFP when it's proven that the compiler enables
++          # correct optimizations for DP (and remove EXTRAFLAGS=-ffast-math from hip_spfp_libs, src/pmemd/src/Makefile)
++          nvcc="$nvcc -fPIC" # -ffast-math
++          if [ "$optimise" = 'no' ]; then
++            nvcc="$nvcc -O0 "
++          else
++            nvcc="$nvcc -O3 "
++          fi
++          if [ "$mpi" = 'yes' ]; then
++            mpi_inc=`(mpicc -show 2>&1) | awk 'BEGIN{i=0} {while (i < NF) {if ( substr($i, 1, 2) == "-I" ) {printf("%s ", $i);}; i++;}}'`
++            pmemd_cu_includes="$pmemd_cu_includes $mpi_inc"
++            pmemd_cu_defines="$pmemd_cu_defines -DMPI -DMPICH_IGNORE_CXX_SEEK"
++            pmemd_coptflags="$coptflags -DMPICH_IGNORE_CXX_SEEK"
++          fi
++        fi
+ 
+-    extract_and_emit_compiler_versions "-v"
+-    ;;
++        extract_and_emit_compiler_versions "-v"
++        ;;
+ #################### unknown choice #######
+-*)
+-    echo "Error: Architecture/compiler '$compiler' is not supported!"
+-    echo "       Usage: ./configure [flags] compiler"
+-    echo "       Type './configure -help' for more details."
+-    exit 1
+-    ;;
++    *)
++        echo "Error: Architecture/compiler '$compiler' is not supported!"
++        echo "       Usage: ./configure [flags] compiler"
++        echo "       Type './configure -help' for more details."
++        exit 1
++        ;;
+ 
+-esac
++    esac
+ 
+-test -z "$readline" && cflags="$cflags -DNO_READLINE"
++    test -z "$readline" && cflags="$cflags -DNO_READLINE"
+ 
+ # If -intelmpi is specified, make sure mpiicpc, mpiicc, and mpiifort exist
+-if [ "$intelmpi" = 'yes' ]; then
+-    if [ -z "$MPIF90" ]; then
+-        mpiifort=`which mpiifort 2>/dev/null`
+-    else
+-        mpiifort="$MPIF90"
+-    fi
+-    if [ -z "$MPICC" ]; then
+-        mpiicc=`which mpiicc 2>/dev/null`
+-    else
+-        mpiicc="$MPICC"
+-    fi
+-    if [ -z "$MPICXX" ]; then
+-        mpiicpc=`which mpiicpc 2>/dev/null`
+-    else
+-        mpiicpc="$MPICXX"
+-    fi
+-    if [ -z "$mpiifort" -o -z "$mpiicc" -o -z "$mpiicpc" ]; then
+-        inerr='yes'
+-        echo "Cannot find Intel MPI compiler wrappers; Intel MPI must not be"
+-        echo "installed or correctly configured"
+-        exit 1
++    if [ "$intelmpi" = 'yes' ]; then
++        if [ -z "$MPIF90" ]; then
++            mpiifort=`which mpiifort 2>/dev/null`
++        else
++            mpiifort="$MPIF90"
++        fi
++        if [ -z "$MPICC" ]; then
++            mpiicc=`which mpiicc 2>/dev/null`
++        else
++            mpiicc="$MPICC"
++        fi
++        if [ -z "$MPICXX" ]; then
++            mpiicpc=`which mpiicpc 2>/dev/null`
++        else
++            mpiicpc="$MPICXX"
++        fi
++        if [ -z "$mpiifort" -o -z "$mpiicc" -o -z "$mpiicpc" ]; then
++            inerr='yes'
++            echo "Cannot find Intel MPI compiler wrappers; Intel MPI must not be"
++            echo "installed or correctly configured"
++            exit 1
++        fi
+     fi
+-fi
+ 
+ # Link the $AMBERHOME/lib and $AMBERHOME/lib64 directories together if they're
+ # not already created. Some OSes (like SuSE) will build NetCDF to lib64. This
+ # will make sure they're all found by the linker
+-cd $amberprefix
+-if [ ! -d lib ]; then
+-    mkdir lib
+-fi
+-if [ ! -d lib/perl/mm_pbsa ]; then
+-    mkdir -p lib/perl/mm_pbsa
+-fi
+-if [ ! -x lib64 ]; then
+-    ln -s lib lib64
+-fi
++    cd $amberprefix
++    if [ ! -d lib ]; then
++        mkdir lib
++    fi
++    if [ ! -d lib/perl/mm_pbsa ]; then
++        mkdir -p lib/perl/mm_pbsa
++    fi
++    if [ ! -x lib64 ]; then
++        ln -s lib lib64
++    fi
+ 
+-cd $AMBERHOME/AmberTools/src
++    cd $AMBERHOME/AmberTools/src
+ 
+ #--------------------------------------------------------------------------
+ #  Configure the MKL or GOTO etc libraries for BLAS/LAPACK.
+ #--------------------------------------------------------------------------
+-if [ "$mkl_type" = 'mkl' ] ; then
+-  lapack=skip
+-  blas=skip
+-  flibs="-larpack "
+-  flibsf="-larpack "
+-  fppflags="$fppflags -DMKL"
+-  # Determine MKL home directory
+-  mklroot=''
+-  if [ ! -z "$MKLROOT" ] ; then
+-    mklroot=$MKLROOT
+-  elif [ ! -z "$MKL_HOME" ] ; then
+-    mklroot=$MKL_HOME
+-  fi
+-  echo ""
+-  if [ ! -z "$mklroot" ] ; then
+-    echo "Using MKL for BLAS/LAPACK in $mklroot"
+-    mklinc="-I$mklroot/include"
+-  else
+-    echo "Using MKL for BLAS/LAPACK"
+-  fi
+-  # Determine how we are linking MKL
+-  link_type='mkl'
+-  if  [ "$compiler" = 'intel' ] ; then
+-    if [ "$cc_version_major" -lt 11 -o "$fc_version_major" -lt 11 ] ; then
+-      link_type='line'
+-    fi
+-  else
+-    link_type='line'
+-  fi
+-  # We always link to the sequential version of MKL since typically
+-  # one runs an MPI thread for each core.  However, if openmp is
+-  # specified, for example to turn on SMP diagonalizers for QMMM
+-  # then we link to the threaded version of MKL and inside the code
+-  # the number of threads for vector functions etc will be set to 1.
+-  # Always link static version of MKL - just easier from an end
+-  # user perspective.
+-  if [ "$link_type" = 'line' ] ; then
+-    # ----- Link line advisor style. Requires MKLROOT ------
+-    if [ -z "$mklroot" ] ; then
+-      echo "Error: MKLROOT/MKL_HOME not set." > /dev/stderr
+-      exit 1
+-    fi
+-    mkll="$mklroot/lib/32"
+-    mkl_procstring="ia32" # TODO can probably be deprecated
+-    mklinterfacelayer='libmkl_intel.a'
+-    if [ "$is_mac" = 'yes' ] ; then
+-      mkll="$mklroot/lib"
+-      if [ "$x86_64" = 'yes' ]; then
+-        mklinterfacelayer='libmkl_intel_lp64.a'
++    if [ "$mkl_type" = 'mkl' ] ; then
++      lapack=skip
++      blas=skip
++      flibs="-larpack "
++      flibsf="-larpack "
++      fppflags="$fppflags -DMKL"
++      # Determine MKL home directory
++      mklroot=''
++      if [ ! -z "$MKLROOT" ] ; then
++        mklroot=$MKLROOT
++      elif [ ! -z "$MKL_HOME" ] ; then
++        mklroot=$MKL_HOME
+       fi
+-    elif [ "$x86_64" = 'yes' ]; then
+-      if [ -d "$mklroot/lib/em64t" ]; then
+-        mkll="$mklroot/lib/em64t"
+-        mkl_procstring="em64t"
++      echo ""
++      if [ ! -z "$mklroot" ] ; then
++        echo "Using MKL for BLAS/LAPACK in $mklroot"
++        mklinc="-I$mklroot/include"
+       else
+-        mkll="$mklroot/lib/intel64"
+-        mkl_procstring="intel64"
++        echo "Using MKL for BLAS/LAPACK"
+       fi
+-      # lp64 is 32 bit integers on 64 bit platforms
+-      mklinterfacelayer='libmkl_intel_lp64.a'
+-    fi
+-    # Determing threading interface if necessary
+-    mklthread="$mkll/libmkl_sequential.a"
+-    mklomp=''
+-    if [ "$openmp" = 'yes' ] ; then
+-      if [ "$compiler" = 'intel' ] ; then
+-        mklthread="$mkll/libmkl_intel_thread.a"
+-        mklomp='-liomp5'
+-      elif [ "$compiler" = 'pgi' ] ; then
+-        mklthread="$mkll/libmkl_pgi_thread.a"
+-        mklomp='-pgf90libs -mp'
++      # Determine how we are linking MKL
++      link_type='mkl'
++      if  [ "$compiler" = 'intel' ] ; then
++        if [ "$cc_version_major" -lt 11 -o "$fc_version_major" -lt 11 ] ; then
++          link_type='line'
++        fi
+       else
+-        mklthread="$mkll/libmkl_gnu_thread.a"
+-        mklomp='-lgomp'
++        link_type='line'
+       fi
+-      if [ "$is_mac" = 'yes' -a "$compiler" != 'intel' ] ; then
+-        echo "Warning: OpenMP MKL not supported on OSX without Intel compilers. Using sequential."
++      # We always link to the sequential version of MKL since typically
++      # one runs an MPI thread for each core.  However, if openmp is
++      # specified, for example to turn on SMP diagonalizers for QMMM
++      # then we link to the threaded version of MKL and inside the code
++      # the number of threads for vector functions etc will be set to 1.
++      # Always link static version of MKL - just easier from an end
++      # user perspective.
++      if [ "$link_type" = 'line' ] ; then
++        # ----- Link line advisor style. Requires MKLROOT ------
++        if [ -z "$mklroot" ] ; then
++          echo "Error: MKLROOT/MKL_HOME not set." > /dev/stderr
++          exit 1
++        fi
++        mkll="$mklroot/lib/32"
++        mkl_procstring="ia32" # TODO can probably be deprecated
++        mklinterfacelayer='libmkl_intel.a'
++        if [ "$is_mac" = 'yes' ] ; then
++          mkll="$mklroot/lib"
++          if [ "$x86_64" = 'yes' ]; then
++            mklinterfacelayer='libmkl_intel_lp64.a'
++          fi
++        elif [ "$x86_64" = 'yes' ]; then
++          if [ -d "$mklroot/lib/em64t" ]; then
++            mkll="$mklroot/lib/em64t"
++            mkl_procstring="em64t"
++          else
++            mkll="$mklroot/lib/intel64"
++            mkl_procstring="intel64"
++          fi
++          # lp64 is 32 bit integers on 64 bit platforms
++          mklinterfacelayer='libmkl_intel_lp64.a'
++        fi
++        # Determing threading interface if necessary
+         mklthread="$mkll/libmkl_sequential.a"
+         mklomp=''
++        if [ "$openmp" = 'yes' ] ; then
++          if [ "$compiler" = 'intel' ] ; then
++            mklthread="$mkll/libmkl_intel_thread.a"
++            mklomp='-liomp5'
++          elif [ "$compiler" = 'pgi' ] ; then
++            mklthread="$mkll/libmkl_pgi_thread.a"
++            mklomp='-pgf90libs -mp'
++          else
++            mklthread="$mkll/libmkl_gnu_thread.a"
++            mklomp='-lgomp'
++          fi
++          if [ "$is_mac" = 'yes' -a "$compiler" != 'intel' ] ; then
++            echo "Warning: OpenMP MKL not supported on OSX without Intel compilers. Using sequential."
++            mklthread="$mkll/libmkl_sequential.a"
++            mklomp=''
++          fi
++        fi
++        # Set link flags
++        if [ "$gnuld" = 'yes' ]; then
++          echo "GNU linker assumed."
++          flibs_mkl="-Wl,--start-group $mkll/$mklinterfacelayer $mklthread $mkll/libmkl_core.a -Wl,--end-group $mklomp -lpthread"
++        else
++          echo "Non-GNU linker assumed."
++          flibs_mkl="-L$mkll $mkll/$mklinterfacelayer $mklthread $mkll/libmkl_core.a -lpthread"
++        fi
++        # GNU compilers with MKL requires -ldl
++        if [ "$compiler" = 'gnu' ]; then
++          flibs_mkl="$flibs_mkl -ldl"
++        fi
++      else
++        # ----- Use simple flag for Intel compilers ------------
++        if [ "$openmp" = 'yes' ]; then
++          flibs_mkl='-mkl'
++        else
++          flibs_mkl='-mkl=sequential'
++        fi
+       fi
++    elif [ "$gotolib" = 'yes' ]; then
++        lapack=skip
++        blas=skip
++        flibs="-larpack $GOTO -lpthread"
++        flibsf="-larpack $GOTO -lpthread"
++    elif [ "$macAccelerate" = 'yes' ] ; then
++        lapack=skip
++        blas=skip
++        flibs="-larpack "
++        flibsf="-larpack "
++        flibs_arch="$flibs_arch -framework Accelerate"
++        flibsf_arch="$flibsf_arch -framework Accelerate"
+     fi
+-    # Set link flags
+-    if [ "$gnuld" = 'yes' ]; then
+-      echo "GNU linker assumed."
+-      flibs_mkl="-Wl,--start-group $mkll/$mklinterfacelayer $mklthread $mkll/libmkl_core.a -Wl,--end-group $mklomp -lpthread"
+-    else
+-      echo "Non-GNU linker assumed."
+-      flibs_mkl="-L$mkll $mkll/$mklinterfacelayer $mklthread $mkll/libmkl_core.a -lpthread"
+-    fi
+-    # GNU compilers with MKL requires -ldl
+-    if [ "$compiler" = 'gnu' ]; then
+-      flibs_mkl="$flibs_mkl -ldl"
+-    fi
+-  else
+-    # ----- Use simple flag for Intel compilers ------------
+-    if [ "$openmp" = 'yes' ]; then
+-      flibs_mkl='-mkl'
+-    else
+-      flibs_mkl='-mkl=sequential'
+-    fi
+-  fi
+-elif [ "$gotolib" = 'yes' ]; then
+-    lapack=skip
+-    blas=skip
+-    flibs="-larpack $GOTO -lpthread"
+-    flibsf="-larpack $GOTO -lpthread"
+-elif [ "$macAccelerate" = 'yes' ] ; then
+-    lapack=skip
+-    blas=skip
+-    flibs="-larpack "
+-    flibsf="-larpack "
+-    flibs_arch="$flibs_arch -framework Accelerate"
+-    flibsf_arch="$flibsf_arch -framework Accelerate"
+-fi
+ 
+ #--------------------------------------------------------------------------
+ #  Support platforms without <sys/dir.h> but with <dirent.h>
+ #  usually a non-Linux Unix with a non-native compiler.
+ #--------------------------------------------------------------------------
+-if [ ! -r /usr/include/sys/dir.h  -a -r /usr/include/dirent.h ]; then
+-    if [ "$cygwin" != 'yes' ]; then
+-       cflags="$cflags -DSYSV"
+-       pmemd_coptflags="$pmemd_coptflags -DSYSV"
++    if [ ! -r /usr/include/sys/dir.h  -a -r /usr/include/dirent.h ]; then
++        if [ "$cygwin" != 'yes' ]; then
++           cflags="$cflags -DSYSV"
++           pmemd_coptflags="$pmemd_coptflags -DSYSV"
++        fi
+     fi
+-fi
+ 
+ #--------------------------------------------------------------------------
+ #  Check for large file support:
+ #--------------------------------------------------------------------------
+-if [ "$lfs" = 'yes' ]; then
+-    cflags="$cflags -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE"
+-    pmemd_coptflags="$pmemd_coptflags -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE"
+-fi
++    if [ "$lfs" = 'yes' ]; then
++        cflags="$cflags -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE"
++        pmemd_coptflags="$pmemd_coptflags -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE"
++    fi
+ 
+ #--------------------------------------------------------------------------
+ #  Test various compilers, linking, MPI etc.
+@@ -2824,113 +2824,113 @@ fi
+ #  Test if the C compiler works:
+ #--------------------------------------------------------------------------
+ 
+-cat <<EOF >testp.c
++    cat <<EOF >testp.c
+ #include <stdio.h>
+-int main()
+-{
+-   printf( "testing a C program\n" );
+-}
+-EOF
++    int main()
++    {
++       printf( "testing a C program\n" );
++    }
++    EOF
+ 
+-echo ""
+-echo "Testing the $cc compiler:"
+-echo "     $cc $cflags $cnooptflags -o testp$suffix testp.c"
+-$cc $cflags $cnooptflags -o testp$suffix testp.c
+-$wine ./testp$suffix | grep "testing a C program" > /dev/null
+-status=$?
+-
+-if [ $status -gt 0 ]; then
+-    echo "Error: Unable to compile a C program using $cc $cflags $cnooptflags"
+-    echo "       Please check your compiler settings or configure flags."
+-    exit 1
+-fi
+-echo "OK"
+-/bin/rm -f testp.c testp$objsuffix testp$suffix
++    echo ""
++    echo "Testing the $cc compiler:"
++    echo "     $cc $cflags $cnooptflags -o testp$suffix testp.c"
++    $cc $cflags $cnooptflags -o testp$suffix testp.c
++    $wine ./testp$suffix | grep "testing a C program" > /dev/null
++    status=$?
++
++    if [ $status -gt 0 ]; then
++        echo "Error: Unable to compile a C program using $cc $cflags $cnooptflags"
++        echo "       Please check your compiler settings or configure flags."
++        exit 1
++    fi
++    echo "OK"
++    /bin/rm -f testp.c testp$objsuffix testp$suffix
+ 
+ #--------------------------------------------------------------------------
+ #  Test if the C++ compiler works:
+ #--------------------------------------------------------------------------
+-echo ""
+-echo "Testing the $cplusplus compiler:"
+-echo "     $cplusplus $cxxflags -o testp$suffix testp.cpp"
+-  cat > testp.cpp <<EOF
++    echo ""
++    echo "Testing the $cplusplus compiler:"
++    echo "     $cplusplus $cxxflags -o testp$suffix testp.cpp"
++      cat > testp.cpp <<EOF
+ #include <cstdio>
+-int main() { printf("Testing\n"); return 0; }
+-EOF
+-$cplusplus $cxxflags -o testp$suffix testp.cpp
+-$wine ./testp$suffix | grep "Testing" > /dev/null
+-status=$?
+-if [ $status -gt 0 ] ; then
+-  echo "Error: Unable to compile a C program using $cplusplus $cxxflags"
+-  echo "       Please check your compiler settings or configure flags."
+-    exit 1
+-fi
+-echo "OK"
+-/bin/rm -f testp.cpp testp$objsuffix testp$suffix
++    int main() { printf("Testing\n"); return 0; }
++    EOF
++    $cplusplus $cxxflags -o testp$suffix testp.cpp
++    $wine ./testp$suffix | grep "Testing" > /dev/null
++    status=$?
++    if [ $status -gt 0 ] ; then
++      echo "Error: Unable to compile a C program using $cplusplus $cxxflags"
++      echo "       Please check your compiler settings or configure flags."
++        exit 1
++    fi
++    echo "OK"
++    /bin/rm -f testp.cpp testp$objsuffix testp$suffix
+ 
+ #--------------------------------------------------------------------------
+ #  Test if the Fortran compiler works:
+ #--------------------------------------------------------------------------
+ 
+-cat <<EOF >testp.f
+-      program testf
+-      write(6,*) 'testing a Fortran program'
+-      end program testf
+-EOF
++    cat <<EOF >testp.f
++          program testf
++          write(6,*) 'testing a Fortran program'
++          end program testf
++    EOF
+ 
+-echo ""
+-echo "Testing the $fc compiler:"
+-echo "     $fc $fflags $fnooptflags -o testp$suffix testp.f $extra_ftest"
+-$fc $fflags $fnooptflags -o testp$suffix testp.f $extra_ftest
+-$wine ./testp$suffix | grep "testing a Fortran program" > /dev/null
+-status=$?
+-
+-if [ $status -gt 0 ]; then
+-    echo "Error: Unable to compile a Fortran program using $fc $fflags $fnooptflags"
+-    echo "       Please check your compiler settings and configure flags."
+-    exit 1
+-fi
+-echo "OK"
+-/bin/rm -f testp.f testp$objsuffix testp$suffix
++    echo ""
++    echo "Testing the $fc compiler:"
++    echo "     $fc $fflags $fnooptflags -o testp$suffix testp.f $extra_ftest"
++    $fc $fflags $fnooptflags -o testp$suffix testp.f $extra_ftest
++    $wine ./testp$suffix | grep "testing a Fortran program" > /dev/null
++    status=$?
++
++    if [ $status -gt 0 ]; then
++        echo "Error: Unable to compile a Fortran program using $fc $fflags $fnooptflags"
++        echo "       Please check your compiler settings and configure flags."
++        exit 1
++    fi
++    echo "OK"
++    /bin/rm -f testp.f testp$objsuffix testp$suffix
+ 
+ #--------------------------------------------------------------------------
+ # Test mixed C/Fortran compilation.
+ #--------------------------------------------------------------------------
+-cat > testp.c <<EOF
++    cat > testp.c <<EOF
+ #include <stdio.h>
+-extern void hello_();
+-int main(int argc, char **argv) {
+-  printf("Hello from c.\n");
+-  hello_();
+-  return 0;
+-}
+-EOF
+-cat > testp.f <<EOF
+-      subroutine hello
+-      print *,"Hello from f."
+-      end
+-EOF
+-echo ""
+-echo "Testing mixed C/Fortran compilation:"
+-echo "     $cc $cflags $cnooptflags -c -o testp.c$objsuffix testp.c"
+-$cc $cflags $cnooptflags -c -o testp.c$objsuffix testp.c
+-echo "     $fc $fflags $fnooptflags -c -o testp.f$objsuffix testp.f"
+-$fc $fflags $fnooptflags -c -o testp.f$objsuffix testp.f
+-echo "     $cc $cflags -o testp$suffix testp.c$objsuffix testp.f$objsuffix $flibs_arch $extra_ftest"
+-$cc $cflags -o testp$suffix testp.c$objsuffix testp.f$objsuffix $flibs_arch $extra_ftest
+-if [ $? -ne 0 ] ; then
+-  echo "Error: Unabled to compile mixed C/Fortran code."
+-  echo "       Please check your compiler settings and configure flags."
+-  exit 1
+-fi
+-$wine ./testp$suffix | grep " Hello from f." > /dev/null
+-if [ $? -gt 0 ]; then
+-    echo "Error: Unable to execute binary from mixed C/Fortran code."
+-    echo "       Please check your compiler settings and configure flags."
+-    exit 1
+-fi
+-echo "OK"
+-/bin/rm -f testp.c testp.f testp.c$objsuffix testp.f$objsuffix testp$suffix
++    extern void hello_();
++    int main(int argc, char **argv) {
++      printf("Hello from c.\n");
++      hello_();
++      return 0;
++    }
++    EOF
++    cat > testp.f <<EOF
++          subroutine hello
++          print *,"Hello from f."
++          end
++    EOF
++    echo ""
++    echo "Testing mixed C/Fortran compilation:"
++    echo "     $cc $cflags $cnooptflags -c -o testp.c$objsuffix testp.c"
++    $cc $cflags $cnooptflags -c -o testp.c$objsuffix testp.c
++    echo "     $fc $fflags $fnooptflags -c -o testp.f$objsuffix testp.f"
++    $fc $fflags $fnooptflags -c -o testp.f$objsuffix testp.f
++    echo "     $cc $cflags -o testp$suffix testp.c$objsuffix testp.f$objsuffix $flibs_arch $extra_ftest"
++    $cc $cflags -o testp$suffix testp.c$objsuffix testp.f$objsuffix $flibs_arch $extra_ftest
++    if [ $? -ne 0 ] ; then
++      echo "Error: Unabled to compile mixed C/Fortran code."
++      echo "       Please check your compiler settings and configure flags."
++      exit 1
++    fi
++    $wine ./testp$suffix | grep " Hello from f." > /dev/null
++    if [ $? -gt 0 ]; then
++        echo "Error: Unable to execute binary from mixed C/Fortran code."
++        echo "       Please check your compiler settings and configure flags."
++        exit 1
++    fi
++    echo "OK"
++    /bin/rm -f testp.c testp.f testp.c$objsuffix testp.f$objsuffix testp$suffix
+ 
+ #--------------------------------------------------------------------------
+ # Determine if machine is 32 bit or 64 bit
+@@ -2939,92 +2939,92 @@ echo "OK"
+ # this will not catch everything. Especially if someone is using a 32 bit
+ # compatibility compiler on a x86_64 machine.
+ #--------------------------------------------------------------------------
+-cat > test_pointer_size.c <<EOF
++    cat > test_pointer_size.c <<EOF
+ #include <stdio.h>
+ 
+-int main()
+-{
+-          printf ("%d\n", (int )sizeof(void*));
+-          return 0;
+-}
+-EOF
+-echo ""
+-echo "Testing pointer size:"
+-echo "     $cc $cflags $cnooptflags -o test_pointer_size$suffix test_pointer_size.c"
+-$cc $cflags $cnooptflags -o test_pointer_size$suffix test_pointer_size.c
+-$wine ./test_pointer_size$suffix | grep "4" > /dev/null
+-status=$?
+-
+-if [ $status -eq 0 ]; then
+-      #Align doubles on 32 bit machines. Needed for cuda to work on 32 bit machine.
+-      echo "Detected 32 bit operating system."
+-      pmemd_coptflags="$pmemd_coptflags -malign-double"
+-else
+-      echo "Detected 64 bit operating system."
+-fi
+-/bin/rm -f test_pointer_size.c test_pointer_size$suffix
++    int main()
++    {
++              printf ("%d\n", (int )sizeof(void*));
++              return 0;
++    }
++    EOF
++    echo ""
++    echo "Testing pointer size:"
++    echo "     $cc $cflags $cnooptflags -o test_pointer_size$suffix test_pointer_size.c"
++    $cc $cflags $cnooptflags -o test_pointer_size$suffix test_pointer_size.c
++    $wine ./test_pointer_size$suffix | grep "4" > /dev/null
++    status=$?
++
++    if [ $status -eq 0 ]; then
++          #Align doubles on 32 bit machines. Needed for cuda to work on 32 bit machine.
++          echo "Detected 32 bit operating system."
++          pmemd_coptflags="$pmemd_coptflags -malign-double"
++    else
++          echo "Detected 64 bit operating system."
++    fi
++    /bin/rm -f test_pointer_size.c test_pointer_size$suffix
+ 
+ #--------------------------------------------------------------------------
+ #  Test if lex/flex is available and works
+ #--------------------------------------------------------------------------
+ 
+-  echo ""
+-  printf "Testing $lex: "
+-  cat <<EOF >testp.l
+-%{
++      echo ""
++      printf "Testing $lex: "
++      cat <<EOF >testp.l
++    %{
+ 
+ 
+-%}
+-%%
++    %}
++    %%
+ 
+-ddm[=\ ][^\ \n\t,]+         { ECHO; ddm = 1;}
++    ddm[=\ ][^\ \n\t,]+         { ECHO; ddm = 1;}
+ 
+-%%
+-EOF
++    %%
++    EOF
+ 
+-$lex -t testp.l | grep ddm  > /dev/null
+-status=$?
++    $lex -t testp.l | grep ddm  > /dev/null
++    status=$?
+ 
+-if [ $status -gt 0 ]; then
+-    echo ""
+-    echo "Error: Unable to run $lex; this is required for NAB and antechamber."
+-    echo "       Please check your PATH, or install the program."
+-    echo ""
+-    exit 1
+-else
+-    echo "OK"
+-fi
+-/bin/rm -f testp.l
++    if [ $status -gt 0 ]; then
++        echo ""
++        echo "Error: Unable to run $lex; this is required for NAB and antechamber."
++        echo "       Please check your PATH, or install the program."
++        echo ""
++        exit 1
++    else
++        echo "OK"
++    fi
++    /bin/rm -f testp.l
+ 
+ #--------------------------------------------------------------------------
+ #  Test if bison is available and works
+ #--------------------------------------------------------------------------
+ 
+-  printf "\nTesting bison: "
+-  cat <<EOF >testp.y
+-%{
+-static int curItemNo, curValueNo, itemIndex;
+-%}
+-%token NUMBER
+-%%
+-term: NUMBER  { curItemNo = 1; }
++      printf "\nTesting bison: "
++      cat <<EOF >testp.y
++    %{
++    static int curItemNo, curValueNo, itemIndex;
++    %}
++    %token NUMBER
++    %%
++    term: NUMBER  { curItemNo = 1; }
+ 
+-%%
+-EOF
++    %%
++    EOF
+ 
+-bison -y testp.y
+-status=$?
++    bison -y testp.y
++    status=$?
+ 
+-if [ $status -gt 0 ]; then
+-    echo ""
+-    echo "Error: Unable to run bison."
+-    echo "       Please check your PATH, or install the program."
+-    echo ""
+-    exit 1
+-else
+-    echo "OK"
+-fi
+-/bin/rm -f testp.y y.tab.c
++    if [ $status -gt 0 ]; then
++        echo ""
++        echo "Error: Unable to run bison."
++        echo "       Please check your PATH, or install the program."
++        echo ""
++        exit 1
++    else
++        echo "OK"
++    fi
++    /bin/rm -f testp.y y.tab.c
+ 
+ #--------------------------------------------------------------------------
+ #  Support platforms without a C <complex.h> by building c9x-complex.
+@@ -3032,1065 +3032,1065 @@ fi
+ #  it must occur after the compiler testing which uses flibs_arch.
+ #--------------------------------------------------------------------------
+ 
+-c9xcomplex='skip'
++    c9xcomplex='skip'
+ 
+ #  following workaround should no longer be needed on any current platform:
+-if false; then
+-    c9xcomplex='libmc.a'
+-    cflags="$cflags -DUSE_AMBER_C9XCOMPLEX"
+-    pmemd_coptflags="$pmemd_coptflags -DUSE_AMBER_C9XCOMPLEX"
+-    flibs_arch="$flibs_arch -L\$(LIBDIR) -lmc"
+-fi
++    if false; then
++        c9xcomplex='libmc.a'
++        cflags="$cflags -DUSE_AMBER_C9XCOMPLEX"
++        pmemd_coptflags="$pmemd_coptflags -DUSE_AMBER_C9XCOMPLEX"
++        flibs_arch="$flibs_arch -L\$(LIBDIR) -lmc"
++    fi
+ 
+ #--------------------------------------------------------------------------
+ #  Configure NetCDF
+ #--------------------------------------------------------------------------
+-if [ "$bintraj" = 'yes' ]; then
+-  printf "\nChecking NetCDF...\n"
+-  netcdf_flag='-lnetcdf'
+-  cflags="$cflags -DBINTRAJ"
+-  pmemd_coptflags="$pmemd_coptflags -DBINTRAJ"
+-  fppflags="$fppflags -DBINTRAJ"
+-  if [ "$netcdf_dir" = '' ]; then
+-    # Use bundled NetCDF library.
+-    if [ "$netcdfstatic" != 'no' ] ; then
+-      echo "Error: -netcdfstatic requires an external NetCDF specified via"
+-      echo "       the --with-netcdf option."
+-      exit 1
+-    fi
+-    # Initially set full paths for use with test_netcdf_compile.
+-    printf "\tUsing bundled NetCDF library.\n"
+-    netcdfflagc="$amberprefix/lib/libnetcdf.a"               # For C
+-    netcdfflagf="$amberprefix/lib/libnetcdff.a $netcdfflagc" # For Fortran
+-    netcdfinc="-I$amberprefix/include"
+-    netcdf="$amberprefix/include/netcdf.mod"
+-    # If any file not yet present, trigger the build.
+-    if [ ! -e "$netcdf" -o ! -e "$netcdfflagc" -o ! -e "$amberprefix/lib/libnetcdff.a" ] ; then
+-      build_netcdf='build_netcdf'
+-      printf "\tStarting NetCDF build.\n"
+-    else
+-      # Test compilation. If it fails, assume NetCDF needs to be rebuilt
+-      test_netcdf_compile
+-      if [ $? -gt 0 ] ; then
+-        build_netcdf='build_netcdf'
+-        printf "\tNetCDF must be rebuilt.\n"
+-        /bin/rm $amberprefix/lib/libnetcdf* $amberprefix/include/netcdf.*
+-      fi
+-    fi
+-    if [ ! -z "$build_netcdf" ] ; then
+-      if [ $make_cmd_jobs -gt 1 ] ; then
+-        printf "\tUsing %i jobs to build NetCDF\n" $make_cmd_jobs
+-      fi
+-      # NetCDF C configure/build
+-      cd netcdf-4.6.1
+-      printf "\tConfiguring NetCDF C interface (may be time-consuming)...\n"
+-      $make_cmd clean > /dev/null 2>&1
+-      if [ "$mic" = 'yes' ]; then
+-        ./configure --host=x86_64-k1om-linux --build=x86_64-unknown-linux \
+-                    CC="$cc -mmic" CFLAGS="$cflags $cnooptflags" LDFLAGS="$ldflags -mmic" \
+-                    --prefix=$amberprefix --disable-shared --disable-netcdf-4 --disable-dap \
+-                    --disable-doxygen > ../netcdf_config.log 2>&1
+-      else
+-        ./configure CC="$cc" CFLAGS="$cflags $cnooptflags" LDFLAGS="$ldflags" \
+-                    --prefix=$amberprefix --disable-netcdf-4 --disable-dap $windows_hostflag \
+-                    --disable-shared --disable-doxygen > ../netcdf_config.log 2>&1
+-      fi
+-      ncerror=$?
+-      if [ $ncerror -gt 0 ]; then
+-          echo "Error: NetCDF C configure returned $ncerror"
+-          echo "       NetCDF configure failed!  Check the netcdf_config.log file"
+-          echo "       in the $AMBERHOME/AmberTools/src directory."
++    if [ "$bintraj" = 'yes' ]; then
++      printf "\nChecking NetCDF...\n"
++      netcdf_flag='-lnetcdf'
++      cflags="$cflags -DBINTRAJ"
++      pmemd_coptflags="$pmemd_coptflags -DBINTRAJ"
++      fppflags="$fppflags -DBINTRAJ"
++      if [ "$netcdf_dir" = '' ]; then
++        # Use bundled NetCDF library.
++        if [ "$netcdfstatic" != 'no' ] ; then
++          echo "Error: -netcdfstatic requires an external NetCDF specified via"
++          echo "       the --with-netcdf option."
+           exit 1
+-      fi
+-      # The NetCDF C interface MUST be present prior to configuring the
+-      # Fortran interface, so build it now.
+-      printf "\tCompiling the NetCDF C interface (may be time-consuming)...\n"
+-      $make_cmd -j $make_cmd_jobs install > netcdf.c.compile.log 2>&1
+-      if [ $? -ne 0 ]; then
+-        echo "Error: NetCDF C compile failed."
+-        echo "       Check $AMBERHOME/AmberTools/src/netcdf-4.6.1/netcdf.c.compile.log"
+-        echo "       for errors."
+-        exit 1
+-      fi
+-      # Because of some strange error in the NetCDF C build framework on cygwin
+-      # the NetCDF utilities get built but not moved to the bin directory. If
+-      # this happens try to at least move ncdump since some tests use it.
+-      if [ "$cygwin" = 'yes' ] ; then
+-        if [ ! -f "$amberprefix/bin/ncdump.exe" ] ; then
+-          if [ -f "ncdump/.libs/ncdump.exe" ] ; then
+-            /bin/mv ncdump/.libs/ncdump.exe $amberprefix/bin/
++        fi
++        # Initially set full paths for use with test_netcdf_compile.
++        printf "\tUsing bundled NetCDF library.\n"
++        netcdfflagc="$amberprefix/lib/libnetcdf.a"               # For C
++        netcdfflagf="$amberprefix/lib/libnetcdff.a $netcdfflagc" # For Fortran
++        netcdfinc="-I$amberprefix/include"
++        netcdf="$amberprefix/include/netcdf.mod"
++        # If any file not yet present, trigger the build.
++        if [ ! -e "$netcdf" -o ! -e "$netcdfflagc" -o ! -e "$amberprefix/lib/libnetcdff.a" ] ; then
++          build_netcdf='build_netcdf'
++          printf "\tStarting NetCDF build.\n"
++        else
++          # Test compilation. If it fails, assume NetCDF needs to be rebuilt
++          test_netcdf_compile
++          if [ $? -gt 0 ] ; then
++            build_netcdf='build_netcdf'
++            printf "\tNetCDF must be rebuilt.\n"
++            /bin/rm $amberprefix/lib/libnetcdf* $amberprefix/include/netcdf.*
++          fi
++        fi
++        if [ ! -z "$build_netcdf" ] ; then
++          if [ $make_cmd_jobs -gt 1 ] ; then
++            printf "\tUsing %i jobs to build NetCDF\n" $make_cmd_jobs
++          fi
++          # NetCDF C configure/build
++          cd netcdf-4.6.1
++          printf "\tConfiguring NetCDF C interface (may be time-consuming)...\n"
++          $make_cmd clean > /dev/null 2>&1
++          if [ "$mic" = 'yes' ]; then
++            ./configure --host=x86_64-k1om-linux --build=x86_64-unknown-linux \
++                        CC="$cc -mmic" CFLAGS="$cflags $cnooptflags" LDFLAGS="$ldflags -mmic" \
++                        --prefix=$amberprefix --disable-shared --disable-netcdf-4 --disable-dap \
++                        --disable-doxygen > ../netcdf_config.log 2>&1
++          else
++            ./configure CC="$cc" CFLAGS="$cflags $cnooptflags" LDFLAGS="$ldflags" \
++                        --prefix=$amberprefix --disable-netcdf-4 --disable-dap $windows_hostflag \
++                        --disable-shared --disable-doxygen > ../netcdf_config.log 2>&1
++          fi
++          ncerror=$?
++          if [ $ncerror -gt 0 ]; then
++              echo "Error: NetCDF C configure returned $ncerror"
++              echo "       NetCDF configure failed!  Check the netcdf_config.log file"
++              echo "       in the $AMBERHOME/AmberTools/src directory."
++              exit 1
++          fi
++          # The NetCDF C interface MUST be present prior to configuring the
++          # Fortran interface, so build it now.
++          printf "\tCompiling the NetCDF C interface (may be time-consuming)...\n"
++          $make_cmd -j $make_cmd_jobs install > netcdf.c.compile.log 2>&1
++          if [ $? -ne 0 ]; then
++            echo "Error: NetCDF C compile failed."
++            echo "       Check $AMBERHOME/AmberTools/src/netcdf-4.6.1/netcdf.c.compile.log"
++            echo "       for errors."
++            exit 1
++          fi
++          # Because of some strange error in the NetCDF C build framework on cygwin
++          # the NetCDF utilities get built but not moved to the bin directory. If
++          # this happens try to at least move ncdump since some tests use it.
++          if [ "$cygwin" = 'yes' ] ; then
++            if [ ! -f "$amberprefix/bin/ncdump.exe" ] ; then
++              if [ -f "ncdump/.libs/ncdump.exe" ] ; then
++                /bin/mv ncdump/.libs/ncdump.exe $amberprefix/bin/
++              else
++                echo "Warning: 'ncdump' program not found. Some tests may fail if 'ncdump' not present."
++              fi
++            fi
++          fi
++          # NetCDF Fortran configure/build
++          cd ../netcdf-fortran-4.4.4
++          # The NetCDF Fortran config script will need access to the C library.
++          export LD_LIBRARY_PATH="$amberprefix/lib:$LD_LIBRARY_PATH"
++          printf "\tConfiguring NetCDF Fortran interface (may be time-consuming)...\n"
++          $make_cmd clean > /dev/null 2>&1
++          if [ "$mic" = 'yes' ]; then
++            ./configure --host=x86_64-k1om-linux --build=x86_64-unknown-linux \
++                         CC="$cc" CFLAGS="$cflags $cnooptflags -mmic" \
++                         LDFLAGS="-L$amberprefix/lib $ldflags -mmic" \
++                         CPPFLAGS="-I$amberprefix/include" \
++                         FC="$fc" FCFLAGS="$fflags $foptflags -mmic" \
++                         F77="$fc" FFLAGS="$fflags $foptflags -mmic" \
++                         --disable-shared --disable-doxygen \
++                         --prefix=$amberprefix >> ../netcdf_config.log 2>&1
++
++            cd fortran
++            cp nfconfig.in nfconfig.inc-orig
++            sed s/"#undef NF_INT1_IS_C_SIGNED_CHAR"/"#define NF_INT1_IS_C_SIGNED_CHAR 1"/ nfconfig.inc-orig >nfconfig.tmp1
++            sed s/"#undef NF_INT2_IS_C_SHORT"/"#define NF_INT2_IS_C_SHORT 1"/ nfconfig.tmp1 >nfconfig.tmp2
++            sed s/"#undef NF_INT_IS_C_INT"/"#define NF_INT_IS_C_INT 1"/ nfconfig.tmp2 >nfconfig.tmp3
++            sed s/"#undef NF_REAL_IS_C_FLOAT"/"#define NF_REAL_IS_C_FLOAT 1"/ nfconfig.tmp3 >nfconfig.tmp4
++            sed s/"#undef NF_DOUBLEPRECISION_IS_C_DOUBLE"/"#define NF_DOUBLEPRECISION_IS_C_DOUBLE 1"/ nfconfig.tmp4 >nfconfig.in
++            cp  nfconfig.in nfconfig.inc
++            cd ..
+           else
+-            echo "Warning: 'ncdump' program not found. Some tests may fail if 'ncdump' not present."
++            ./configure  CC="$cc" CFLAGS="$cflags $cnooptflags" \
++                         LDFLAGS="-L$amberprefix/lib $ldflags" \
++                         CPPFLAGS="-I$amberprefix/include" \
++                         FC="$fc" FCFLAGS="$fflags $foptflags" \
++                         F77="$fc" FFLAGS="$fflags $foptflags" --disable-shared  --disable-doxygen \
++                         --prefix=$amberprefix $windows_hostflag >> ../netcdf_config.log 2>&1
++          fi
++          ncerror=$?
++          if [ $ncerror -gt 0 ]; then
++              echo "Error: NetCDF Fortran configure returned $ncerror"
++              echo "       NetCDF configure failed!  Check the netcdf_config.log file"
++              echo "       in the $AMBERHOME/AmberTools/src directory."
++              exit 1
+           fi
++          # Build the fortran interface
++          printf "\tCompiling the NetCDF Fortran interface (may be time-consuming)...\n"
++          $make_cmd -j $make_cmd_jobs install > netcdf.fortran.compile.log 2>&1
++          if [ $? -ne 0 ]; then
++            echo "Error: NetCDF Fortran compile failed."
++            echo "       Check $AMBERHOME/AmberTools/src/netcdf-fortran-4.4.4/netcdf.fortran.compile.log"
++            echo "       for errors."
++            exit 1
++          fi
++          cd ../
++          if [ "$mic" = 'no' ]; then
++            # Test compilation.
++            test_netcdf_compile verbose
++            if [ $? -gt 0 ] ; then
++              echo "Error: NetCDF build failed."
++              exit 1
++            fi
++          fi
++          echo "NetCDF build succeeded."
++        else
++          printf "\tUsing existing NetCDF in '$amberprefix'\n"
+         fi
+-      fi
+-      # NetCDF Fortran configure/build
+-      cd ../netcdf-fortran-4.4.4
+-      # The NetCDF Fortran config script will need access to the C library.
+-      export LD_LIBRARY_PATH="$amberprefix/lib:$LD_LIBRARY_PATH"
+-      printf "\tConfiguring NetCDF Fortran interface (may be time-consuming)...\n"
+-      $make_cmd clean > /dev/null 2>&1
+-      if [ "$mic" = 'yes' ]; then
+-        ./configure --host=x86_64-k1om-linux --build=x86_64-unknown-linux \
+-                     CC="$cc" CFLAGS="$cflags $cnooptflags -mmic" \
+-                     LDFLAGS="-L$amberprefix/lib $ldflags -mmic" \
+-                     CPPFLAGS="-I$amberprefix/include" \
+-                     FC="$fc" FCFLAGS="$fflags $foptflags -mmic" \
+-                     F77="$fc" FFLAGS="$fflags $foptflags -mmic" \
+-                     --disable-shared --disable-doxygen \
+-                     --prefix=$amberprefix >> ../netcdf_config.log 2>&1
+-
+-        cd fortran
+-        cp nfconfig.in nfconfig.inc-orig
+-        sed s/"#undef NF_INT1_IS_C_SIGNED_CHAR"/"#define NF_INT1_IS_C_SIGNED_CHAR 1"/ nfconfig.inc-orig >nfconfig.tmp1
+-        sed s/"#undef NF_INT2_IS_C_SHORT"/"#define NF_INT2_IS_C_SHORT 1"/ nfconfig.tmp1 >nfconfig.tmp2
+-        sed s/"#undef NF_INT_IS_C_INT"/"#define NF_INT_IS_C_INT 1"/ nfconfig.tmp2 >nfconfig.tmp3
+-        sed s/"#undef NF_REAL_IS_C_FLOAT"/"#define NF_REAL_IS_C_FLOAT 1"/ nfconfig.tmp3 >nfconfig.tmp4
+-        sed s/"#undef NF_DOUBLEPRECISION_IS_C_DOUBLE"/"#define NF_DOUBLEPRECISION_IS_C_DOUBLE 1"/ nfconfig.tmp4 >nfconfig.in
+-        cp  nfconfig.in nfconfig.inc
+-        cd ..
++        # Restore relative paths for config.h
++        netcdfflagc="\$(LIBDIR)/libnetcdf.a"               # for C
++        netcdfflagf="\$(LIBDIR)/libnetcdff.a $netcdfflagc" # for Fortran
++        netcdfinc="-I\$(INCDIR)"
++        netcdf="\$(INCDIR)/netcdf.mod"
+       else
+-        ./configure  CC="$cc" CFLAGS="$cflags $cnooptflags" \
+-                     LDFLAGS="-L$amberprefix/lib $ldflags" \
+-                     CPPFLAGS="-I$amberprefix/include" \
+-                     FC="$fc" FCFLAGS="$fflags $foptflags" \
+-                     F77="$fc" FFLAGS="$fflags $foptflags" --disable-shared  --disable-doxygen \
+-                     --prefix=$amberprefix $windows_hostflag >> ../netcdf_config.log 2>&1
+-      fi
+-      ncerror=$?
+-      if [ $ncerror -gt 0 ]; then
+-          echo "Error: NetCDF Fortran configure returned $ncerror"
+-          echo "       NetCDF configure failed!  Check the netcdf_config.log file"
+-          echo "       in the $AMBERHOME/AmberTools/src directory."
+-          exit 1
+-      fi
+-      # Build the fortran interface
+-      printf "\tCompiling the NetCDF Fortran interface (may be time-consuming)...\n"
+-      $make_cmd -j $make_cmd_jobs install > netcdf.fortran.compile.log 2>&1
+-      if [ $? -ne 0 ]; then
+-        echo "Error: NetCDF Fortran compile failed."
+-        echo "       Check $AMBERHOME/AmberTools/src/netcdf-fortran-4.4.4/netcdf.fortran.compile.log"
+-        echo "       for errors."
+-        exit 1
+-      fi
+-      cd ../
+-      if [ "$mic" = 'no' ]; then
+-        # Test compilation.
++        # A NetCDF directory was specified. Check that library exists and compiles
++        printf "\tUsing external NetCDF in '$netcdf_dir'\n"
++        netcdfinc="-I"$netcdf_dir"/include"
++        if [ "${netcdf_dir}" != '/usr' -a "$netcdf_dir" != '/usr/' ]; then
++            netcdf_flag="-L${netcdf_dir}/lib $netcdf_flag"
++        fi
++        netcdf=$netcdf_dir"/include/netcdf.mod"
++        if [ "$netcdfstatic" = 'no' ] ; then
++          if [ "${netcdf_dir}" != '/usr' -a "${netcdf_dir}" != '/usr/' ]; then
++              netcdfflagc="-L${netcdf_dir}/lib -lnetcdf"
++              netcdfflagf="-L${netcdf_dir}/lib -lnetcdff -lnetcdf"
++          else
++              netcdfflagc="-lnetcdf"
++              netcdfflagf="-lnetcdff -lnetcdf"
++          fi
++        else # Force static linking to netcdf
++          printf "\tForcing static linking to external NetCDF\n"
++          netcdfflagc=$netcdf_dir"/lib/libnetcdf.a"
++          if [ ! -e "$netcdfflagc" ]; then
++            echo "Error: '$netcdfflagc' not found."
++            exit 1
++          fi
++          netcdfflagf=$netcdf_dir"/lib/libnetcdff.a"
++          if [ ! -e "$netcdfflagf" ]; then
++            echo "Error: '$netcdfflagf' not found."
++            exit 1
++          fi
++          netcdfflagf="$netcdfflagf $netcdfflagc"
++        fi
++        # Test netcdf compilation
+         test_netcdf_compile verbose
+-        if [ $? -gt 0 ] ; then
+-          echo "Error: NetCDF build failed."
++        if [ $? -gt 0 ]; then
++          echo "Error: Could not compile using NetCDF in '$netcdf_dir'"
+           exit 1
+         fi
++        echo "OK"
+       fi
+-      echo "NetCDF build succeeded."
+     else
+-      printf "\tUsing existing NetCDF in '$amberprefix'\n"
+-    fi
+-    # Restore relative paths for config.h
+-    netcdfflagc="\$(LIBDIR)/libnetcdf.a"               # for C
+-    netcdfflagf="\$(LIBDIR)/libnetcdff.a $netcdfflagc" # for Fortran
+-    netcdfinc="-I\$(INCDIR)"
+-    netcdf="\$(INCDIR)/netcdf.mod"
+-  else
+-    # A NetCDF directory was specified. Check that library exists and compiles
+-    printf "\tUsing external NetCDF in '$netcdf_dir'\n"
+-    netcdfinc="-I"$netcdf_dir"/include"
+-    if [ "${netcdf_dir}" != '/usr' -a "$netcdf_dir" != '/usr/' ]; then
+-        netcdf_flag="-L${netcdf_dir}/lib $netcdf_flag"
+-    fi
+-    netcdf=$netcdf_dir"/include/netcdf.mod"
+-    if [ "$netcdfstatic" = 'no' ] ; then
+-      if [ "${netcdf_dir}" != '/usr' -a "${netcdf_dir}" != '/usr/' ]; then
+-          netcdfflagc="-L${netcdf_dir}/lib -lnetcdf"
+-          netcdfflagf="-L${netcdf_dir}/lib -lnetcdff -lnetcdf"
+-      else
+-          netcdfflagc="-lnetcdf"
+-          netcdfflagf="-lnetcdff -lnetcdf"
+-      fi
+-    else # Force static linking to netcdf
+-      printf "\tForcing static linking to external NetCDF\n"
+-      netcdfflagc=$netcdf_dir"/lib/libnetcdf.a"
+-      if [ ! -e "$netcdfflagc" ]; then
+-        echo "Error: '$netcdfflagc' not found."
+-        exit 1
+-      fi
+-      netcdfflagf=$netcdf_dir"/lib/libnetcdff.a"
+-      if [ ! -e "$netcdfflagf" ]; then
+-        echo "Error: '$netcdfflagf' not found."
+-        exit 1
+-      fi
+-      netcdfflagf="$netcdfflagf $netcdfflagc"
+-    fi
+-    # Test netcdf compilation
+-    test_netcdf_compile verbose
+-    if [ $? -gt 0 ]; then
+-      echo "Error: Could not compile using NetCDF in '$netcdf_dir'"
+-      exit 1
++        netcdf=''
++        netcdfflagf=''
++        netcdfflagc=''
++        netcdfinc=''
+     fi
+-    echo "OK"
+-  fi
+-else
+-    netcdf=''
+-    netcdfflagf=''
+-    netcdfflagc=''
+-    netcdfinc=''
+-fi
+ 
+ #--------------------------------------------------------------------------
+ #  Configure Protocol Buffers
+ #--------------------------------------------------------------------------
+-if [ "$protobuf" = 'yes' ]; then
+-  printf "\nChecking protobuf...\n"
+-  protobuf_flag='-lprotobuf -std=c++11 -lpthread'
++    if [ "$protobuf" = 'yes' ]; then
++      printf "\nChecking protobuf...\n"
++      protobuf_flag='-lprotobuf -std=c++14 -lpthread'
+ #  cflags="$cflags -DPROTOBUF"
+ #  fppflags="$fppflags -DPROTOBUF"
+-  if [ "$protobuf_dir" = '' ]; then
+-    # Initially set full paths for use with test_protobuf_compile.
+-    printf "\tUsing bundled protobuf library.\n"
+-    protobufflag="$amberprefix/lib/libprotobuf.a -std=c++11 -lpthread "
+-    protobufinc="-I$amberprefix/include"
+-    protocloc="$amberprefix/bin/protoc"
+-    # If any file/directory not yet present, trigger the build.
+-    if [ ! -d "$amberprefix/include/google/protobuf" -o ! -e "$amberprefix/lib/libprotobuf.a" ] ; then
+-      build_protobuf='build_protobuf'
+-      printf "\tStarting protobuf build.\n"
+-    else
+-      # Test compilation. If it fails, assume protobuf needs to be rebuilt
+-      test_protobuf_compile
+-      if [ $? -gt 0 ] ; then
+-        build_protobuf='build_protobuf'
+-        printf "\tprotobuf must be rebuilt.\n"
+-        /bin/rm $amberprefix/lib/libproto{buf,c}*
+-        /bin/rm -Rf $amberprefix/include/google/protobuf
+-      fi
+-    fi
+-    if [ ! -z "$build_protobuf" ] ; then
+-      if [ $make_cmd_jobs -gt 1 ] ; then
+-        printf "\tUsing %i jobs to build protobuf\n" $make_cmd_jobs
+-      fi
+-      # protobuf configure/build
+-      cd protobuf-3.14.0
+-      printf "\tConfiguring protobuf interface (may be time-consuming)...\n"
+-      $make_cmd clean > /dev/null 2>&1
+-      if [ "$mic" = 'yes' ]; then
+-        ./configure --host=x86_64-k1om-linux --build=x86_64-unknown-linux \
+-                    CC="$cc -mmic" CFLAGS="$cflags $cnooptflags" LDFLAGS="-L$amberprefix/lib $ldflags -mmic" \
+-                    CXX="$cplusplus -mmic" CXXFLAGS="$cxxflags $cxxnooptflags" \
+-                    --prefix=$amberprefix > ../protobuf_config.log 2>&1
+-      else
+-        ./configure CC="$cc" CFLAGS="$cflags $cnooptflags" \
+-                    LDFLAGS="-L$amberprefix/lib $ldflags" \
+-                    CXX="$cplusplus" CXXFLAGS="$cxxflags $cxxnooptflags" \
+-                    --prefix=$amberprefix $windows_hostflag > ../protobuf_config.log 2>&1
+-      fi
+-      pberror=$?
+-      if [ $pberror -gt 0 ]; then
+-          echo "Error: protobuf configure returned $pberror"
+-          echo "       protobuf configure failed!  Check the protobuf_config.log file"
+-          echo "       in the $AMBERHOME/AmberTools/src directory."
+-          exit 1
+-      fi
+-      # Build protobuf now.
+-      printf "\tCompiling the protobuf interface (may be time-consuming)...\n"
+-      $make_cmd -j $make_cmd_jobs install > protobuf.compile.log 2>&1
+-      if [ $? -ne 0 ]; then
+-        echo "Error: protobuf compile failed."
+-        echo "       Check $AMBERHOME/AmberTools/src/protobuf-3.14.0/protobuf.compile.log"
+-        echo "       for errors."
+-        exit 1
+-      fi
+-      # Because of some strange error in the protobuf build framework on cygwin
+-      # the protobuf utilities get built but not moved to the bin directory. If
+-      # this happens try to at least move protoc since the tcpb compilation uses it.
+-      if [ "$cygwin" = 'yes' ] ; then
+-        if [ ! -f "$amberprefix/bin/protoc.exe" ] ; then
+-          if [ -f "protoc/.libs/protoc.exe" ] ; then
+-            /bin/mv protoc/.libs/protoc.exe $amberprefix/bin/
++      if [ "$protobuf_dir" = '' ]; then
++        # Initially set full paths for use with test_protobuf_compile.
++        printf "\tUsing bundled protobuf library.\n"
++        protobufflag="$amberprefix/lib/libprotobuf.a -std=c++14 -lpthread "
++        protobufinc="-I$amberprefix/include"
++        protocloc="$amberprefix/bin/protoc"
++        # If any file/directory not yet present, trigger the build.
++        if [ ! -d "$amberprefix/include/google/protobuf" -o ! -e "$amberprefix/lib/libprotobuf.a" ] ; then
++          build_protobuf='build_protobuf'
++          printf "\tStarting protobuf build.\n"
++        else
++          # Test compilation. If it fails, assume protobuf needs to be rebuilt
++          test_protobuf_compile
++          if [ $? -gt 0 ] ; then
++            build_protobuf='build_protobuf'
++            printf "\tprotobuf must be rebuilt.\n"
++            /bin/rm $amberprefix/lib/libproto{buf,c}*
++            /bin/rm -Rf $amberprefix/include/google/protobuf
++          fi
++        fi
++        if [ ! -z "$build_protobuf" ] ; then
++          if [ $make_cmd_jobs -gt 1 ] ; then
++            printf "\tUsing %i jobs to build protobuf\n" $make_cmd_jobs
++          fi
++          # protobuf configure/build
++          cd protobuf-3.14.0
++          printf "\tConfiguring protobuf interface (may be time-consuming)...\n"
++          $make_cmd clean > /dev/null 2>&1
++          if [ "$mic" = 'yes' ]; then
++            ./configure --host=x86_64-k1om-linux --build=x86_64-unknown-linux \
++                        CC="$cc -mmic" CFLAGS="$cflags $cnooptflags" LDFLAGS="-L$amberprefix/lib $ldflags -mmic" \
++                        CXX="$cplusplus -mmic" CXXFLAGS="$cxxflags $cxxnooptflags" \
++                        --prefix=$amberprefix > ../protobuf_config.log 2>&1
+           else
+-            echo "Warning: 'protoc' program not found. TCPB compilation may fail if 'protoc' is not present."
++            ./configure CC="$cc" CFLAGS="$cflags $cnooptflags" \
++                        LDFLAGS="-L$amberprefix/lib $ldflags" \
++                        CXX="$cplusplus" CXXFLAGS="$cxxflags $cxxnooptflags" \
++                        --prefix=$amberprefix $windows_hostflag > ../protobuf_config.log 2>&1
++          fi
++          pberror=$?
++          if [ $pberror -gt 0 ]; then
++              echo "Error: protobuf configure returned $pberror"
++              echo "       protobuf configure failed!  Check the protobuf_config.log file"
++              echo "       in the $AMBERHOME/AmberTools/src directory."
++              exit 1
++          fi
++          # Build protobuf now.
++          printf "\tCompiling the protobuf interface (may be time-consuming)...\n"
++          $make_cmd -j $make_cmd_jobs install > protobuf.compile.log 2>&1
++          if [ $? -ne 0 ]; then
++            echo "Error: protobuf compile failed."
++            echo "       Check $AMBERHOME/AmberTools/src/protobuf-3.14.0/protobuf.compile.log"
++            echo "       for errors."
++            exit 1
++          fi
++          # Because of some strange error in the protobuf build framework on cygwin
++          # the protobuf utilities get built but not moved to the bin directory. If
++          # this happens try to at least move protoc since the tcpb compilation uses it.
++          if [ "$cygwin" = 'yes' ] ; then
++            if [ ! -f "$amberprefix/bin/protoc.exe" ] ; then
++              if [ -f "protoc/.libs/protoc.exe" ] ; then
++                /bin/mv protoc/.libs/protoc.exe $amberprefix/bin/
++              else
++                echo "Warning: 'protoc' program not found. TCPB compilation may fail if 'protoc' is not present."
++              fi
++            fi
+           fi
++          cd ../
++          echo "protobuf build succeeded."
++        else
++          printf "\tUsing existing protobuf in '$amberprefix'\n"
++        fi
++        # Restore relative paths for config.h
++        protobufflag="\$(LIBDIR)/libprotobuf.a -std=c++14 -lpthread "
++        protobufinc="-I\$(INCDIR)"
++        protocloc="\$(BINDIR)/protoc"
++      else
++        # A protobuf directory was specified. Check that library exists and compiles
++        printf "\tUsing external protobuf in '$protobuf_dir'\n"
++        protobufinc="-I"$protobuf_dir"/include"
++        if [ "${protobuf_dir}" != '/usr' -a "$protobuf_dir" != '/usr/' ]; then
++            protobuf_flag="-L${protobuf_dir}/lib $protobuf_flag"
+         fi
++        protobufflag="${protobuf_dir}/lib/libprotobuf.a -std=c++14 -lpthread"
++        protocloc="${protobuf_dir}/bin/protoc"
++        # Test protobuf compilation
++        test_protobuf_compile verbose
++        if [ $? -gt 0 ]; then
++          echo "Error: Could not compile using protobuf in '$protobuf_dir'"
++          exit 1
++        fi
++        echo "OK"
+       fi
+-      cd ../
+-      echo "protobuf build succeeded."
+     else
+-      printf "\tUsing existing protobuf in '$amberprefix'\n"
+-    fi
+-    # Restore relative paths for config.h
+-    protobufflag="\$(LIBDIR)/libprotobuf.a -std=c++11 -lpthread "
+-    protobufinc="-I\$(INCDIR)"
+-    protocloc="\$(BINDIR)/protoc"
+-  else
+-    # A protobuf directory was specified. Check that library exists and compiles
+-    printf "\tUsing external protobuf in '$protobuf_dir'\n"
+-    protobufinc="-I"$protobuf_dir"/include"
+-    if [ "${protobuf_dir}" != '/usr' -a "$protobuf_dir" != '/usr/' ]; then
+-        protobuf_flag="-L${protobuf_dir}/lib $protobuf_flag"
+-    fi
+-    protobufflag="${protobuf_dir}/lib/libprotobuf.a -std=c++11 -lpthread"
+-    protocloc="${protobuf_dir}/bin/protoc"
+-    # Test protobuf compilation
+-    test_protobuf_compile verbose
+-    if [ $? -gt 0 ]; then
+-      echo "Error: Could not compile using protobuf in '$protobuf_dir'"
+-      exit 1
++        protobufflag=''
++        protobufinc=''
++        protocloc=''
+     fi
+-    echo "OK"
+-  fi
+-else
+-    protobufflag=''
+-    protobufinc=''
+-    protocloc=''
+-fi
+ 
+ #------------------------------------------------------------------------------
+ #  Set up the static flags:
+ #------------------------------------------------------------------------------
+-if [ "$static" = 'yes' ]; then
+-    flibs="$flibs $staticflag"
+-    ldflags="$ldflags $staticflag"
+-fi
++    if [ "$static" = 'yes' ]; then
++        flibs="$flibs $staticflag"
++        ldflags="$ldflags $staticflag"
++    fi
+ 
+ #--------------------------------------------------------------------------
+ #  Check for Zlib and Bzlib (currently only cpptraj)
+ #--------------------------------------------------------------------------
+ #   Zlib
+-cat > testp.c <<EOF
++    cat > testp.c <<EOF
+ #include <stdio.h>
+ #include "zlib.h"
+-int main() { gzFile fp; printf( "testing a C program\n" ); return 0; }
+-EOF
+-echo ""
+-printf "Checking for zlib: "
+-$cc $AMBERBUILDFLAGS $cflags $ldflags -lz -o testp$suffix testp.c 2> zlib.compile.err
+-status=$?
+-if [ $status -eq 0 ] ; then
+-  if [ -f "testp$suffix" -a -z "$wine" ] ; then
+-    $wine ./testp | grep "testing a C program" > /dev/null
++    int main() { gzFile fp; printf( "testing a C program\n" ); return 0; }
++    EOF
++    echo ""
++    printf "Checking for zlib: "
++    $cc $AMBERBUILDFLAGS $cflags $ldflags -lz -o testp$suffix testp.c 2> zlib.compile.err
+     status=$?
+-  fi
+-fi
+-if [ $status -ne 0 ]; then
+-  echo ""
+-  echo "Warning: Could not link to zlib. Ensure zlib libraries/headers are installed."
+-  echo "Warning: Failed command:"
+-  echo "     $cc $AMBERBUILDFLAGS $cflags $ldflags -lz -o testp$suffix testp.c"
+-  echo "Warning: Check zlib.compile.err for error details."
+-  echo "Warning: Gzip compression/decompression not available."
+-  zlib=''
+-else
+-  echo "OK"
+-  zlib='-lz'
+-  cflags="$cflags -DHASGZ"
+-  /bin/rm -f zlib.compile.err
+-fi
+-/bin/rm -f testp.c testp$objsuffix testp$suffix
++    if [ $status -eq 0 ] ; then
++      if [ -f "testp$suffix" -a -z "$wine" ] ; then
++        $wine ./testp | grep "testing a C program" > /dev/null
++        status=$?
++      fi
++    fi
++    if [ $status -ne 0 ]; then
++      echo ""
++      echo "Warning: Could not link to zlib. Ensure zlib libraries/headers are installed."
++      echo "Warning: Failed command:"
++      echo "     $cc $AMBERBUILDFLAGS $cflags $ldflags -lz -o testp$suffix testp.c"
++      echo "Warning: Check zlib.compile.err for error details."
++      echo "Warning: Gzip compression/decompression not available."
++      zlib=''
++    else
++      echo "OK"
++      zlib='-lz'
++      cflags="$cflags -DHASGZ"
++      /bin/rm -f zlib.compile.err
++    fi
++    /bin/rm -f testp.c testp$objsuffix testp$suffix
+ 
+ #   Bzlib
+-cat > testp.c <<EOF
++    cat > testp.c <<EOF
+ #include <stdio.h>
+ #include "bzlib.h"
+-int main()
+-{ BZFILE *infile; printf( "testing a C program\n" ); return 0; }
+-EOF
+-echo ""
+-printf "Checking for libbz2: "
+-$cc $AMBERBUILDFLAGS $cflags $ldflags -lbz2 -o testp$suffix testp.c 2> bzlib.compile.err
+-status=$?
+-if [ $status -eq 0 ] ; then
+-  if [ -f "testp$suffix" -a -z "$wine" ] ; then
+-    $wine ./testp | grep "testing a C program" > /dev/null
++    int main()
++    { BZFILE *infile; printf( "testing a C program\n" ); return 0; }
++    EOF
++    echo ""
++    printf "Checking for libbz2: "
++    $cc $AMBERBUILDFLAGS $cflags $ldflags -lbz2 -o testp$suffix testp.c 2> bzlib.compile.err
+     status=$?
+-  fi
+-fi
+-if [ $status -ne 0 ]; then
+-  echo ""
+-  echo "Warning: Could not link to libbz2. Ensure libbz2 libraries/headers are installed."
+-  echo "Warning: Failed command:"
+-  echo "     $cc $AMBERBUILDFLAGS $cflags $ldflags -lbz2 -o testp$suffix testp.c"
+-  echo "Warning: Check bzlib.compile.err for error details."
+-  echo "Warning: Bzip2 compression/decompression not available."
+-  bzlib=''
+-else
+-  echo "OK"
+-  bzlib='-lbz2'
+-  cflags="$cflags -DHASBZ2"
+-  /bin/rm -f bzlib.compile.err
+-fi
+-/bin/rm -f testp.c testp$objsuffix testp$suffix
++    if [ $status -eq 0 ] ; then
++      if [ -f "testp$suffix" -a -z "$wine" ] ; then
++        $wine ./testp | grep "testing a C program" > /dev/null
++        status=$?
++      fi
++    fi
++    if [ $status -ne 0 ]; then
++      echo ""
++      echo "Warning: Could not link to libbz2. Ensure libbz2 libraries/headers are installed."
++      echo "Warning: Failed command:"
++      echo "     $cc $AMBERBUILDFLAGS $cflags $ldflags -lbz2 -o testp$suffix testp.c"
++      echo "Warning: Check bzlib.compile.err for error details."
++      echo "Warning: Bzip2 compression/decompression not available."
++      bzlib=''
++    else
++      echo "OK"
++      bzlib='-lbz2'
++      cflags="$cflags -DHASBZ2"
++      /bin/rm -f bzlib.compile.err
++    fi
++    /bin/rm -f testp.c testp$objsuffix testp$suffix
+ 
+ #-------------------------------------------------------------------------------
+ #  Set RISM & NAB flags that depend on MPI/serial build
+ #-------------------------------------------------------------------------------
+-if [ "$cygwin" = 'yes' ]; then
+-    rism='no'
+-fi
+-if [ "$mpi" = "yes" ]; then
+-    #NAB
+-    nablibsff="-lsff_mpi"
+-
+-    #RISM
+-    #preprocessor flag for RISM in NAB
+-    rismsff=""
+-    #RISM library for NAB to link to
+-    nablibrism=""
+-    #name and path of the amber_rism_interface object to link to
+-    sff_rism_interface=""
+-    #run the NAB-RISM and 1D-RISM tests
+-    testrismsff=""
+-
+-    #preprocessor flag for RISM in SANDER
+-    rismsander=""
+-    #RISM library for SANDER to link to
+-    flibs_rismsander=""
+-    #name and path of the amber_rism_interface object to link to
+-    sander_rism_interface=""
+-    if [ "$rism" = "default" ];then
++    if [ "$cygwin" = 'yes' ]; then
+         rism='no'
+-    elif [ "$rism" = "yes" ]; then
+-        #turn on sander/RISM w/ FFTW
+-        if [ -z "$XTRA_FLIBS" ]; then
+-            if [ `false` ]; then
+-                # This is the old code for determining XTRA_FLIBS, based on
+-                # figuring out what worked for each MPI vendor... Disable this
+-                # in favor of a hopefully more general approach
+-                # try to determine the MPI vendor to automatically set
+-                # XTRA_FLIBS. We currently know what to do with OpenMPI and
+-                # MPICH. Others may be added later
+-                printf "\nDetermining MPI vendor... "
+-                mpi_vendor=`mpiexec -version 2>&1 | head -1 | cut -d' ' -f1,2`
+-                #echo "|||$mpi_vendor|||"
+-                if [ "$mpi_vendor" = "mpiexec (OpenRTE)" ]; then
+-                    export XTRA_FLIBS="-lmpi_usempif08 -lmpi_mpifh"
+-                    echo "Found OpenMPI. Setting XTRA_FLIBS=$XTRA_FLIBS"
+-                elif [ "$mpi_vendor" = "HYDRA build" ]; then
+-                    export XTRA_FLIBS=-lfmpich
+-                    echo "Found MPICH. Setting XTRA_FLIBS=$XTRA_FLIBS"
++    fi
++    if [ "$mpi" = "yes" ]; then
++        #NAB
++        nablibsff="-lsff_mpi"
++
++        #RISM
++        #preprocessor flag for RISM in NAB
++        rismsff=""
++        #RISM library for NAB to link to
++        nablibrism=""
++        #name and path of the amber_rism_interface object to link to
++        sff_rism_interface=""
++        #run the NAB-RISM and 1D-RISM tests
++        testrismsff=""
++
++        #preprocessor flag for RISM in SANDER
++        rismsander=""
++        #RISM library for SANDER to link to
++        flibs_rismsander=""
++        #name and path of the amber_rism_interface object to link to
++        sander_rism_interface=""
++        if [ "$rism" = "default" ];then
++            rism='no'
++        elif [ "$rism" = "yes" ]; then
++            #turn on sander/RISM w/ FFTW
++            if [ -z "$XTRA_FLIBS" ]; then
++                if [ `false` ]; then
++                    # This is the old code for determining XTRA_FLIBS, based on
++                    # figuring out what worked for each MPI vendor... Disable this
++                    # in favor of a hopefully more general approach
++                    # try to determine the MPI vendor to automatically set
++                    # XTRA_FLIBS. We currently know what to do with OpenMPI and
++                    # MPICH. Others may be added later
++                    printf "\nDetermining MPI vendor... "
++                    mpi_vendor=`mpiexec -version 2>&1 | head -1 | cut -d' ' -f1,2`
++                    #echo "|||$mpi_vendor|||"
++                    if [ "$mpi_vendor" = "mpiexec (OpenRTE)" ]; then
++                        export XTRA_FLIBS="-lmpi_usempif08 -lmpi_mpifh"
++                        echo "Found OpenMPI. Setting XTRA_FLIBS=$XTRA_FLIBS"
++                    elif [ "$mpi_vendor" = "HYDRA build" ]; then
++                        export XTRA_FLIBS=-lfmpich
++                        echo "Found MPICH. Setting XTRA_FLIBS=$XTRA_FLIBS"
++                    else
++                        echo
++                        echo "Error: MPI vendor auto detect failed. Could not set XTRA_FLIBS."
++                        echo "       To compile 3D-RISM support in MPI NAB you must set"
++                        echo "       XTRA_FLIBS to the name of the Fortran MPI libraries for"
++                        echo "       your MPI distribution. For example:"
++                        echo "       OpenMPI:"
++                        echo "           export XTRA_FLIBS=-lmpi_f77"
++                        echo "       MPICH:"
++                        echo "           export XTRA_FLIBS=-lfmpich"
++                        echo
++                        echo "       To omit 3D-RISM support, re-configure with the -norism flag:"
++                        echo "            `mod_command_args '-rism' '-norism'`"
++                        exit 1
++                    fi
+                 else
+-                    echo
+-                    echo "Error: MPI vendor auto detect failed. Could not set XTRA_FLIBS."
+-                    echo "       To compile 3D-RISM support in MPI NAB you must set"
+-                    echo "       XTRA_FLIBS to the name of the Fortran MPI libraries for"
+-                    echo "       your MPI distribution. For example:"
+-                    echo "       OpenMPI:"
+-                    echo "           export XTRA_FLIBS=-lmpi_f77"
+-                    echo "       MPICH:"
+-                    echo "           export XTRA_FLIBS=-lfmpich"
+-                    echo
+-                    echo "       To omit 3D-RISM support, re-configure with the -norism flag:"
+-                    echo "            `mod_command_args '-rism' '-norism'`"
+-                    exit 1
++                    XTRA_FLIBS=`(mpif90 -show 2>&1) | awk 'BEGIN{i=0} {while (i < NF) {if ( substr($i, 1, 2) == "-l" ) {printf("%s ", $i);}; i++;}}'`
++                    echo "Setting XTRA_FLIBS=\"$XTRA_FLIBS\" from mpif90 flags"
+                 fi
+             else
+-                XTRA_FLIBS=`(mpif90 -show 2>&1) | awk 'BEGIN{i=0} {while (i < NF) {if ( substr($i, 1, 2) == "-l" ) {printf("%s ", $i);}; i++;}}'`
+-                echo "Setting XTRA_FLIBS=\"$XTRA_FLIBS\" from mpif90 flags"
++                echo
++                echo "XTRA_FLIBS set: $XTRA_FLIBS"
+             fi
+-        else
+-            echo
+-            echo "XTRA_FLIBS set: $XTRA_FLIBS"
++            rismsff="-DRISMSFF"
++            nablibrism="-lrism_mpi"
++            sff_rism_interface="../rism/amber_rism_interface.NAB.o"
++            testrismsff="testrism"
++            rismsander="-DRISMSANDER"
++            flibs_rismsander="-lrism_mpi"
++            sander_rism_interface="../rism/amber_rism_interface.SANDER.o"
+         fi
++    else
++
++      #NAB
++        nablibsff="-lsff"
++
++      #RISM
+         rismsff="-DRISMSFF"
+-        nablibrism="-lrism_mpi"
++        nablibrism="-lrism"
+         sff_rism_interface="../rism/amber_rism_interface.NAB.o"
+         testrismsff="testrism"
++        flibs_rismsander="-lrism"
+         rismsander="-DRISMSANDER"
+-        flibs_rismsander="-lrism_mpi"
+         sander_rism_interface="../rism/amber_rism_interface.SANDER.o"
++        if [ "$rism" = "default" ]; then
++            rism='yes'
++        elif [ "$rism" = 'no' ]; then
++            rismsff=""
++            nablibrism=""
++            sff_rism_interface=""
++            testrismsff=""
++            rismsander=""
++            flibs_rismsander=""
++            sander_rism_interface=""
++        fi
++        if [ -n "$XTRA_FLIBS" ]; then
++            echo
++            echo "Error: Please unset XTRA_FLIBS for serial compilation."
++            echo "       For example:"
++            echo "       export -n XTRA_FLIBS="
++            exit 1
++        fi
+     fi
+-else
+-
+-  #NAB
+-    nablibsff="-lsff"
+-
+-  #RISM
+-    rismsff="-DRISMSFF"
+-    nablibrism="-lrism"
+-    sff_rism_interface="../rism/amber_rism_interface.NAB.o"
+-    testrismsff="testrism"
+-    flibs_rismsander="-lrism"
+-    rismsander="-DRISMSANDER"
+-    sander_rism_interface="../rism/amber_rism_interface.SANDER.o"
+-    if [ "$rism" = "default" ]; then
+-        rism='yes'
+-    elif [ "$rism" = 'no' ]; then
+-        rismsff=""
+-        nablibrism=""
+-        sff_rism_interface=""
+-        testrismsff=""
+-        rismsander=""
+-        flibs_rismsander=""
+-        sander_rism_interface=""
+-    fi
+-    if [ -n "$XTRA_FLIBS" ]; then
+-        echo
+-        echo "Error: Please unset XTRA_FLIBS for serial compilation."
+-        echo "       For example:"
+-        echo "       export -n XTRA_FLIBS="
+-        exit 1
+-    fi
+-fi
+ 
+ #--------------------------------------------------------------------------
+ #  Configure fftw-3.3:
+ #--------------------------------------------------------------------------
+-fftw3inc=''
+-
+-if [ "$mkl_type" = 'mkl' -a "$mkl_fftw" = 'yes' ] ; then
+-  echo
+-  echo "Using FFTW from Intel MKL. Use '-nomklfftw' to prevent this."
+-  printf "Checking that we can use FFTW from Intel MKL: "
+-  if [ ! -z "$mklroot" ] ; then
+-    fftw3inc="-I$mklroot/include/fftw"
+-  fi
+-  fftw3=''
++    fftw3inc=''
++
++    if [ "$mkl_type" = 'mkl' -a "$mkl_fftw" = 'yes' ] ; then
++      echo
++      echo "Using FFTW from Intel MKL. Use '-nomklfftw' to prevent this."
++      printf "Checking that we can use FFTW from Intel MKL: "
++      if [ ! -z "$mklroot" ] ; then
++        fftw3inc="-I$mklroot/include/fftw"
++      fi
++      fftw3=''
+ 
+-  echo "Configuring PMEMD for the MKL FFTW..."
+-  pmemd_fpp_flags="$pmemd_fppflags -DFFTW_FFT -DMKL_FFTW_FFT "
+-  pmemd_coptflags="$pmemd_coptflags -DFFTW_FFT "
+-  pmemd_foptflags="$pmemd_foptflags -I$MKLROOT/include/fftw"
+-  pmemd_coptflags="$pmemd_coptflags -I$MKLROOT/include/fftw"
++      echo "Configuring PMEMD for the MKL FFTW..."
++      pmemd_fpp_flags="$pmemd_fppflags -DFFTW_FFT -DMKL_FFTW_FFT "
++      pmemd_coptflags="$pmemd_coptflags -DFFTW_FFT "
++      pmemd_foptflags="$pmemd_foptflags -I$MKLROOT/include/fftw"
++      pmemd_coptflags="$pmemd_coptflags -I$MKLROOT/include/fftw"
+ 
+-  # Test that FFTW from MKL works
+-  cat > testp.cpp <<EOF
++      # Test that FFTW from MKL works
++      cat > testp.cpp <<EOF
+ #include <cstdio>
+ #include <fftw3.h>
+-int main() {
+-  fftw_complex* array = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * 32);
+-  if (array == 0) return 1;
+-  fftw_free(array);
+-  printf("Testing\n"); return 0;
+-}
+-EOF
+-  #echo "$cplusplus -o testp $cxxflags $fftw3inc testp.cpp $flibs_mkl $omp_flag"
+-  $cplusplus -o testp $cxxflags $fftw3inc testp.cpp $flibs_mkl $omp_flag
+-  if [ $? -ne 0 ] ; then
+-    echo ""
+-    echo "Error: Could not compile with FFTW from MKL."
+-    exit 1
+-  fi
+-  ./testp > /dev/null
+-  if [ $? -ne 0 ] ; then
+-    echo ""
+-    echo "Error: Could not run binary with FFTW from MKL."
+-    exit 1
+-  fi
+-  echo "OK"
+-  /bin/rm -f testp testp.cpp
+-  flibs_fftw3="$flibs_mkl $omp_flag"
+-
+-elif [ "$has_fftw3" = 'yes' ]; then
+-    printf "\nConfiguring fftw-3.3 (may be time-consuming)..."
+-    enable_mpi=""
+-    enable_debug=""
+-    enable_sse="--enable-sse=no --enable-sse2=no --enable-avx=no"
+-    mpicc=""
+-    if [ "$mpi" = "yes" ]; then
+-        enable_mpi="--enable-mpi=yes"
+-    fi
+-    if [ "$intelmpi" = "yes" ]; then
+-        mpicc="MPICC=mpiicc"
+-    fi
+-    if [ "$debug" = "yes" ]; then
+-        enable_debug="--enable-debug=yes --enable-debug-malloc=yes --enable-debug-alignment=yes"
+-    fi
+-    if [ "$sse" = "yes" ]; then
+-        enable_sse="--enable-sse2=yes" # --enable-avx=yes"
+-    fi
+-    if [ "$mic" = 'yes' ]; then
+-      echo "   --configuring for mic (native mode)..."
+-      echo
+-      cd fftw-3.3 && \
+-      ./configure --disable-doc --prefix=$amberprefix --libdir=$amberprefix/lib \
+-        --enable-static --host=x86_64-k1om-linux \
+-      --build=x86_64-unknown-linux \
+-       $enable_mpi $mpicc $enable_debug \
+-        CC="$cc -mmic" CFLAGS="$cflags $coptflags " \
+-        F77="$fc -mmic" FFLAGS="$fflags $foptflags " \
+-        FLIBS="$flibs_arch" \
+-        > ../fftw3_config.log 2>&1
+-      ncerror=$?
+-    else
+-      cd fftw-3.3 && \
+-        ./configure --disable-doc --prefix=$amberprefix --libdir=$amberprefix/lib \
+-        --enable-static $enable_mpi $mpicc $enable_debug $enable_sse\
+-        CC="$cc" CFLAGS="$cflags $coptflags" \
+-        F77="$fc" FFLAGS="$fflags $foptflags" \
+-        FLIBS="$flibs_arch" \
+-        > ../fftw3_config.log 2>&1
+-      ncerror=$?
+-    fi
+-    if [ $ncerror -gt 0 ]; then
+-        echo "Error: FFTW configure returned $ncerror"
+-        echo "       FFTW configure failed! Check the fftw3_config.log file"
+-        echo "       in the $AMBERHOME/AmberTools/src directory."
++    int main() {
++      fftw_complex* array = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * 32);
++      if (array == 0) return 1;
++      fftw_free(array);
++      printf("Testing\n"); return 0;
++    }
++    EOF
++      #echo "$cplusplus -o testp $cxxflags $fftw3inc testp.cpp $flibs_mkl $omp_flag"
++      $cplusplus -o testp $cxxflags $fftw3inc testp.cpp $flibs_mkl $omp_flag
++      if [ $? -ne 0 ] ; then
++        echo ""
++        echo "Error: Could not compile with FFTW from MKL."
+         exit 1
+-    else
+-        echo "OK"
+-    fi
+-    # Build FFTW3
+-    printf "Compiling the FFTW3 interface (may be time-consuming)..."
+-    make install > fftw3.compile.log 2>&1
+-    if [ $? -ne 0 ]; then
+-      printf "\nError: FFTW3 compile failed.\n"
+-      printf "       Check $AMBERHOME/AmberTools/src/fftw-3.3.8/fftw3.compile.log\n"
+-      exit 1
+-    else
+-      printf "OK\n"
+-   fi
+-    cd ..
+-    flibs_fftw3="-lfftw3"
+-    fftw3="\$(LIBDIR)/libfftw3.a"
+-    if [ "$mpi" = 'yes' ]; then
+-        flibs_fftw3="-lfftw3_mpi $flibs_fftw3"
+-        fftw3="\$(LIBDIR)/libfftw3_mpi.a \$(LIBDIR)/libfftw3.a"
+-    fi
+-
+-elif [ "$mdgx" = 'yes' ]; then
+-    printf "\nConfiguring fftw-3.3 for mdgx (may be time-consuming)..."
+-    enable_mpi=""
+-    enable_debug=""
+-    enable_sse="--enable-sse=no --enable-sse2=no --enable-avx=no"
+-    if [ "$debug" = "yes" ]; then
+-        enable_debug="--enable-debug=yes --enable-debug-malloc=yes --enable-debug-alignment=yes"
+-    fi
+-    if [ "$sse" = "yes" ]; then
+-        enable_sse="--enable-sse2=yes" # --enable-avx=yes"
+-    fi
+-    cd fftw-3.3 && \
+-        ./configure --prefix=$amberprefix --libdir=$amberprefix/lib \
+-        --enable-static --disable-fortran \
+-        $enable_debug $enable_sse\
+-        CC="$cc" CFLAGS="$cflags $coptflags" \
+-        > ../fftw3_config.log 2>&1
+-    ncerror=$?
+-    if [ $ncerror -gt 0 ]; then
+-        echo "Error: FFTW configure returned $ncerror"
+-        echo "       FFTW configure failed! Check the fftw3_config.log file"
+-        echo "       in the $AMBERHOME/AmberTools/src directory."
++      fi
++      ./testp > /dev/null
++      if [ $? -ne 0 ] ; then
++        echo ""
++        echo "Error: Could not run binary with FFTW from MKL."
+         exit 1
++      fi
++      echo "OK"
++      /bin/rm -f testp testp.cpp
++      flibs_fftw3="$flibs_mkl $omp_flag"
++
++    elif [ "$has_fftw3" = 'yes' ]; then
++        printf "\nConfiguring fftw-3.3 (may be time-consuming)..."
++        enable_mpi=""
++        enable_debug=""
++        enable_sse="--enable-sse=no --enable-sse2=no --enable-avx=no"
++        mpicc=""
++        if [ "$mpi" = "yes" ]; then
++            enable_mpi="--enable-mpi=yes"
++        fi
++        if [ "$intelmpi" = "yes" ]; then
++            mpicc="MPICC=mpiicc"
++        fi
++        if [ "$debug" = "yes" ]; then
++            enable_debug="--enable-debug=yes --enable-debug-malloc=yes --enable-debug-alignment=yes"
++        fi
++        if [ "$sse" = "yes" ]; then
++            enable_sse="--enable-sse2=yes" # --enable-avx=yes"
++        fi
++        if [ "$mic" = 'yes' ]; then
++          echo "   --configuring for mic (native mode)..."
++          echo
++          cd fftw-3.3 && \
++          ./configure --disable-doc --prefix=$amberprefix --libdir=$amberprefix/lib \
++            --enable-static --host=x86_64-k1om-linux \
++          --build=x86_64-unknown-linux \
++           $enable_mpi $mpicc $enable_debug \
++            CC="$cc -mmic" CFLAGS="$cflags $coptflags " \
++            F77="$fc -mmic" FFLAGS="$fflags $foptflags " \
++            FLIBS="$flibs_arch" \
++            > ../fftw3_config.log 2>&1
++          ncerror=$?
++        else
++          cd fftw-3.3 && \
++            ./configure --disable-doc --prefix=$amberprefix --libdir=$amberprefix/lib \
++            --enable-static $enable_mpi $mpicc $enable_debug $enable_sse\
++            CC="$cc" CFLAGS="$cflags $coptflags" \
++            F77="$fc" FFLAGS="$fflags $foptflags" \
++            FLIBS="$flibs_arch" \
++            > ../fftw3_config.log 2>&1
++          ncerror=$?
++        fi
++        if [ $ncerror -gt 0 ]; then
++            echo "Error: FFTW configure returned $ncerror"
++            echo "       FFTW configure failed! Check the fftw3_config.log file"
++            echo "       in the $AMBERHOME/AmberTools/src directory."
++            exit 1
++        else
++            echo "OK"
++        fi
++        # Build FFTW3
++        printf "Compiling the FFTW3 interface (may be time-consuming)..."
++        make install > fftw3.compile.log 2>&1
++        if [ $? -ne 0 ]; then
++          printf "\nError: FFTW3 compile failed.\n"
++          printf "       Check $AMBERHOME/AmberTools/src/fftw-3.3.8/fftw3.compile.log\n"
++          exit 1
++        else
++          printf "OK\n"
++       fi
++        cd ..
++        flibs_fftw3="-lfftw3"
++        fftw3="\$(LIBDIR)/libfftw3.a"
++        if [ "$mpi" = 'yes' ]; then
++            flibs_fftw3="-lfftw3_mpi $flibs_fftw3"
++            fftw3="\$(LIBDIR)/libfftw3_mpi.a \$(LIBDIR)/libfftw3.a"
++        fi
++
++    elif [ "$mdgx" = 'yes' ]; then
++        printf "\nConfiguring fftw-3.3 for mdgx (may be time-consuming)..."
++        enable_mpi=""
++        enable_debug=""
++        enable_sse="--enable-sse=no --enable-sse2=no --enable-avx=no"
++        if [ "$debug" = "yes" ]; then
++            enable_debug="--enable-debug=yes --enable-debug-malloc=yes --enable-debug-alignment=yes"
++        fi
++        if [ "$sse" = "yes" ]; then
++            enable_sse="--enable-sse2=yes" # --enable-avx=yes"
++        fi
++        cd fftw-3.3 && \
++            ./configure --prefix=$amberprefix --libdir=$amberprefix/lib \
++            --enable-static --disable-fortran \
++            $enable_debug $enable_sse\
++            CC="$cc" CFLAGS="$cflags $coptflags" \
++            > ../fftw3_config.log 2>&1
++        ncerror=$?
++        if [ $ncerror -gt 0 ]; then
++            echo "Error: FFTW configure returned $ncerror"
++            echo "       FFTW configure failed! Check the fftw3_config.log file"
++            echo "       in the $AMBERHOME/AmberTools/src directory."
++            exit 1
++        else
++            echo "    fftw-3.3 configure succeeded."
++        fi
++        cd ..
++        flibs_fftw3="-lfftw3"
++        fftw3="\$(LIBDIR)/libfftw3.a"
++
+     else
+-        echo "    fftw-3.3 configure succeeded."
++        echo ""
++        echo "Skipping configuration of FFTW3"
++        fftw3=""
+     fi
+-    cd ..
+-    flibs_fftw3="-lfftw3"
+-    fftw3="\$(LIBDIR)/libfftw3.a"
+-
+-else
+-    echo ""
+-    echo "Skipping configuration of FFTW3"
+-    fftw3=""
+-fi
+ 
+ #--------------------------------------------------------------------------
+ # Definitions for MDGX cuda
+ #--------------------------------------------------------------------------
+-if [ "$mdgx" = 'yes' ] && [ "$cuda" = 'yes' ]; then
+-    mdgx_cu_includes="-I\$(CUDA_HOME)/include"
+-    mdgx_cu_libs="-L\$(CUDA_HOME)/lib64 -L\$(CUDA_HOME)/lib -L\$(CUDA_HOME)/lib64/stubs -lcurand -lcudart -lcudadevrt -lnvidia-ml -lgfortran -lstdc++"
+-    mdgx_cu_defines="-DCUDA"
+-fi
++    if [ "$mdgx" = 'yes' ] && [ "$cuda" = 'yes' ]; then
++        mdgx_cu_includes="-I\$(CUDA_HOME)/include"
++        mdgx_cu_libs="-L\$(CUDA_HOME)/lib64 -L\$(CUDA_HOME)/lib -L\$(CUDA_HOME)/lib64/stubs -lcurand -lcudart -lcudadevrt -lnvidia-ml -lgfortran -lstdc++"
++        mdgx_cu_defines="-DCUDA"
++    fi
+ 
+ #--------------------------------------------------------------------------
+ # Definitions for MDGX hip
+ #--------------------------------------------------------------------------
+-if [ "$mdgx" = 'yes' ] && [ "$hip" = 'yes' ]; then
+-    mdgx_cu_includes="-I\$(HIP_HOME)/include -I\$(HIP_HOME)/hiprand/include -I\$(HIP_HOME)/rocrand/include"
+-    mdgx_cu_defines="-DCUDA"
+-    mdgx_cu_defines="$mdgx_cu_defines -fPIC -DAMBER_PLATFORM_AMD -D__HIP_PLATFORM_AMD__"
+-    mdgx_cu_libs="-L\$(HIP_HOME)/lib64 -L\$(HIP_HOME)/lib -L\$(HIP_HOME)/lib64/stubs -lhiprand -lamdhip64 -lgfortran -lstdc++"
+-fi
++    if [ "$mdgx" = 'yes' ] && [ "$hip" = 'yes' ]; then
++        mdgx_cu_includes="-I\$(HIP_HOME)/include -I\$(HIP_HOME)/hiprand/include -I\$(HIP_HOME)/rocrand/include"
++        mdgx_cu_defines="-DCUDA"
++        mdgx_cu_defines="$mdgx_cu_defines -fPIC -DAMBER_PLATFORM_AMD -D__HIP_PLATFORM_AMD__"
++        mdgx_cu_libs="-L\$(HIP_HOME)/lib64 -L\$(HIP_HOME)/lib -L\$(HIP_HOME)/lib64/stubs -lhiprand -lamdhip64 -lgfortran -lstdc++"
++    fi
+ 
+ #--------------------------------------------------------------------------
+ #  Enable parallel mdgx. If mdgx is no from fftw3, leave it at no.
+ #--------------------------------------------------------------------------
+-if [ "$mpi" = 'yes' -a "$mdgx" = 'yes' ]; then
+-    mdgx='parallel'
+-fi
++    if [ "$mpi" = 'yes' -a "$mdgx" = 'yes' ]; then
++        mdgx='parallel'
++    fi
+ 
+ #--------------------------------------------------------------------------
+ #  Configure boost
+ #--------------------------------------------------------------------------
+-if [ "$gpu_offload" = "no" ]; then
+-  printf "\nConfiguring boost (may be time-consuming)..."
+-  cd boost
+-  if [ "$compiler" = 'intel' ]; then
+-      # We had installed boost with gnu even when the user requested intel.
+-      # This caused build failures when using some intel approaches to change
+-      # its gnu compatibility.  After bootstrapping with toolset intel-linux
+-      # b2 install will use intel-linux.compile.c++ (boost_1_64_0).
+-      ./bootstrap.sh --prefix=$amberprefix --with-toolset=intel-linux > ../boost_config.log
+-      ncerror=$?
+-  else
+-      ./bootstrap.sh --prefix=$amberprefix > ../boost_config.log
+-      ncerror=$?
+-  fi
++    if [ "$gpu_offload" = "no" ]; then
++      printf "\nConfiguring boost (may be time-consuming)..."
++      cd boost
++      if [ "$compiler" = 'intel' ]; then
++          # We had installed boost with gnu even when the user requested intel.
++          # This caused build failures when using some intel approaches to change
++          # its gnu compatibility.  After bootstrapping with toolset intel-linux
++          # b2 install will use intel-linux.compile.c++ (boost_1_64_0).
++          ./bootstrap.sh --prefix=$amberprefix --with-toolset=intel-linux > ../boost_config.log
++          ncerror=$?
++      else
++          ./bootstrap.sh --prefix=$amberprefix > ../boost_config.log
++          ncerror=$?
++      fi
+ 
+-  if [ $ncerror -gt 0 ]; then
+-      printf "\nError: Boost bootstrap returned $ncerror\n"
+-      printf "       Check $AMBEHROME/src/boost_config.log\n"
+-      printf "       memembed and moft will not be built\n"
+-      has_boost=''
+-  else
+-      printf "OK\n"
+-      printf "Compiling boost (may be time-consuming)..."
+-      ./b2 --with-program_options --with-iostreams --with-regex \
+-           --with-system --with-timer --with-chrono --with-filesystem \
+-           --with-graph --with-thread link=static install >> ../boost_config.log
+-      if [ $? -ne 0 ]; then
+-         printf "\nError: Boost compile failed.\n"
+-         printf "       Check $AMBERHOME/AmberTools/src/boost_config.log\n"
+-         printf "       memembed and moft will not be built\n"
+-         has_boost=''
++      if [ $ncerror -gt 0 ]; then
++          printf "\nError: Boost bootstrap returned $ncerror\n"
++          printf "       Check $AMBEHROME/src/boost_config.log\n"
++          printf "       memembed and moft will not be built\n"
++          has_boost=''
+       else
+-         printf "OK\n"
+-         has_boost='yes'
++          printf "OK\n"
++          printf "Compiling boost (may be time-consuming)..."
++          ./b2 --with-program_options --with-iostreams --with-regex \
++               --with-system --with-timer --with-chrono --with-filesystem \
++               --with-graph --with-thread link=static install >> ../boost_config.log
++          if [ $? -ne 0 ]; then
++             printf "\nError: Boost compile failed.\n"
++             printf "       Check $AMBERHOME/AmberTools/src/boost_config.log\n"
++             printf "       memembed and moft will not be built\n"
++             has_boost=''
++          else
++             printf "OK\n"
++             has_boost='yes'
++          fi
+       fi
+-  fi
+-  cd ..
+-fi
++      cd ..
++    fi
+ 
+ #--------------------------------------------------------------------------
+ #  Configure XBLAS
+ #--------------------------------------------------------------------------
+-if [ "$rism" = "yes" ]; then
+-    printf "\nConfiguring XBLAS (may be time-consuming)..."
+-    xblas="\$(LIBDIR)/libxblas-amb.a"
+-    cd xblas
+-    CC="$cc" FC="$fc" CFLAGS="$cflags $coptflags" ./configure --prefix="$amberprefix/lib" > ../xblas_config.log 2>&1
+-    ncerror=$?
+-    if [ $ncerror -gt 0 ]; then
+-        echo "Error: XBLAS configure returned $ncerror"
+-        echo "       XBLAS configure failed!  Check the xblas_config.log file"
+-        echo "       in the $AMBERHOME/AmberTools/src directory."
+-        exit 1
+-    else
+-        echo "OK"
+-    fi
+-    # Build XBLAS
+-    printf "Compiling XBLAS (may be time-consuming)..."
+-    make -j 1 lib-amb > xblas.compile.log 2>&1
+-    if [ $? -ne 0 ]; then
+-      printf "\nError: XBBLAS compile failed.\n"
+-      printf "       Check $AMBERHOME/AmberTools/src/xblas/xblas.compile.log\n"
+-      exit 1
++    if [ "$rism" = "yes" ]; then
++        printf "\nConfiguring XBLAS (may be time-consuming)..."
++        xblas="\$(LIBDIR)/libxblas-amb.a"
++        cd xblas
++        CC="$cc" FC="$fc" CFLAGS="$cflags $coptflags" ./configure --prefix="$amberprefix/lib" > ../xblas_config.log 2>&1
++        ncerror=$?
++        if [ $ncerror -gt 0 ]; then
++            echo "Error: XBLAS configure returned $ncerror"
++            echo "       XBLAS configure failed!  Check the xblas_config.log file"
++            echo "       in the $AMBERHOME/AmberTools/src directory."
++            exit 1
++        else
++            echo "OK"
++        fi
++        # Build XBLAS
++        printf "Compiling XBLAS (may be time-consuming)..."
++        make -j 1 lib-amb > xblas.compile.log 2>&1
++        if [ $? -ne 0 ]; then
++          printf "\nError: XBBLAS compile failed.\n"
++          printf "       Check $AMBERHOME/AmberTools/src/xblas/xblas.compile.log\n"
++          exit 1
++        else
++          printf "OK\n"
++          /bin/mv libxblas-amb.a $amberprefix/lib
++        fi
++        cd ..
+     else
+-      printf "OK\n"
+-      /bin/mv libxblas-amb.a $amberprefix/lib
++        xblas=""
+     fi
+-    cd ..
+-else
+-    xblas=""
+-fi
+ 
+ #--------------------------------------------------------------------------
+ # Configure PUPIL support
+ #--------------------------------------------------------------------------
+-pupillibs="-lm -lc -L\${PUPIL_PATH}/lib -lPUPIL -lPUPILBlind"
+-if [ "$is_mac" = 'no' ]; then
+-    pupillibs="-lrt $pupillibs"
+-fi
++    pupillibs="-lm -lc -L\${PUPIL_PATH}/lib -lPUPIL -lPUPILBlind"
++    if [ "$is_mac" = 'no' ]; then
++        pupillibs="-lrt $pupillibs"
++    fi
+ 
+ #------------------------------------------------------------------------------
+ #  Set up the mpi compilers:
+ #------------------------------------------------------------------------------
+-if [ "$mpi" = 'yes' ]; then
+-  if [ "$intelmpi" = 'yes' ]; then
+-      if [ -z "$MPICC" ]; then cc="mpiicc"; else cc="$MPICC"; fi
+-      if [ -z "$MPICXX" ]; then cplusplus="mpiicpc"; else cplusplus="$MPICXX"; fi
+-      if [ -z "$MPIF90" ]; then fc="mpiifort"; else fc="$MPIF90"; fi
+-  else
+-      if [ -z "$MPICC" ]; then cc="mpicc"; else cc="$MPICC"; fi
+-      if [ -z "$MPICXX" ]; then cplusplus="mpicxx"; else cplusplus="$MPICXX"; fi
+-      if [ -z "$MPIF90" ]; then fc="mpif90"; else fc="$MPIF90"; fi
+-  fi
+-  ld="$fc"
+-  mpi_flag="-DMPI "
+-fi
++    if [ "$mpi" = 'yes' ]; then
++      if [ "$intelmpi" = 'yes' ]; then
++          if [ -z "$MPICC" ]; then cc="mpiicc"; else cc="$MPICC"; fi
++          if [ -z "$MPICXX" ]; then cplusplus="mpiicpc"; else cplusplus="$MPICXX"; fi
++          if [ -z "$MPIF90" ]; then fc="mpiifort"; else fc="$MPIF90"; fi
++      else
++          if [ -z "$MPICC" ]; then cc="mpicc"; else cc="$MPICC"; fi
++          if [ -z "$MPICXX" ]; then cplusplus="mpicxx"; else cplusplus="$MPICXX"; fi
++          if [ -z "$MPIF90" ]; then fc="mpif90"; else fc="$MPIF90"; fi
++      fi
++      ld="$fc"
++      mpi_flag="-DMPI "
++    fi
+ 
+ #------------------------------------------------------------------------------
+ #  Check Parallel NetCDF if it was specified
+ #------------------------------------------------------------------------------
+-  # If parallel netcdf specified, check that as well.
+-if [ "$bintraj" = 'yes' ]; then
+-  if [ "$mpi" = 'yes' -a ! -z "$pnetcdf_dir" ] ; then
+-    printf "\nChecking parallel NetCDF...\n"
+-    printf "\tUsing parallel NetCDF from '$pnetcdf_dir'\n"
+-    pnetcdflib="-L$pnetcdf_dir/lib -lpnetcdf"
+-    pnetcdfinc="-I$pnetcdf_dir/include"
+-    pnetcdfdef="-DHAS_PNETCDF"
+-    cat > testp.cpp <<EOF
++      # If parallel netcdf specified, check that as well.
++    if [ "$bintraj" = 'yes' ]; then
++      if [ "$mpi" = 'yes' -a ! -z "$pnetcdf_dir" ] ; then
++        printf "\nChecking parallel NetCDF...\n"
++        printf "\tUsing parallel NetCDF from '$pnetcdf_dir'\n"
++        pnetcdflib="-L$pnetcdf_dir/lib -lpnetcdf"
++        pnetcdfinc="-I$pnetcdf_dir/include"
++        pnetcdfdef="-DHAS_PNETCDF"
++        cat > testp.cpp <<EOF
+ #include <cstdio>
+ #include <pnetcdf.h>
+-void unused() {int ncid; ncmpi_open(MPI_COMM_WORLD, "foo.nc", NC_NOWRITE, MPI_INFO_NULL, &ncid);}
+-int main() { printf("Testing\n"); printf("%s\n",ncmpi_strerror(0)); return 0; }
+-EOF
+-    COMPILELINE="$cplusplus $pnetcdfinc -o testp testp.cpp $pnetcdflib"
+-    $COMPILELINE > /dev/null 2> compile.err
+-    err=$?
+-    if [ $err -eq 0 ] ; then
+-      ./testp | grep "Testing" > /dev/null
+-      err=$?
+-    fi
+-    if [ $err -ne 0 ] ; then
+-      echo "Error: Unable to compile with parallel NetCDF using:"
+-      echo "       $COMPILELINE"
+-      echo "  Please check your compiler settings or configure flags. Error follows:"
+-      echo "  --------------------"
+-      cat compile.err
+-      echo "  --------------------"
+-      echo ""
+-      exit 1
++    void unused() {int ncid; ncmpi_open(MPI_COMM_WORLD, "foo.nc", NC_NOWRITE, MPI_INFO_NULL, &ncid);}
++    int main() { printf("Testing\n"); printf("%s\n",ncmpi_strerror(0)); return 0; }
++    EOF
++        COMPILELINE="$cplusplus $pnetcdfinc -o testp testp.cpp $pnetcdflib"
++        $COMPILELINE > /dev/null 2> compile.err
++        err=$?
++        if [ $err -eq 0 ] ; then
++          ./testp | grep "Testing" > /dev/null
++          err=$?
++        fi
++        if [ $err -ne 0 ] ; then
++          echo "Error: Unable to compile with parallel NetCDF using:"
++          echo "       $COMPILELINE"
++          echo "  Please check your compiler settings or configure flags. Error follows:"
++          echo "  --------------------"
++          cat compile.err
++          echo "  --------------------"
++          echo ""
++          exit 1
++        fi
++        /bin/rm -f testp testp.cpp compile.err
++        echo "OK"
++      fi
+     fi
+-    /bin/rm -f testp testp.cpp compile.err
+-    echo "OK"
+-  fi
+-fi
+ 
+ #------------------------------------------------------------------------------
+ #  SANDER API: If serial, it is being built. Otherwise, check that it works.
+ #              Since sander does not currently build with cray compilers,
+ #              disable completely
+ #------------------------------------------------------------------------------
+-sanderapi_lib=""
+-sanderapi_def=""
+-sanderapi_dep=""
+-if [ "$build_sanderapi" != 'build_sanderapi' ] ; then
+-  echo ""
+-  echo "SANDER API build will be skipped."
+-  echo ""
+-fi
+-if [ "$installtype" != 'serial' ] ; then
+-  build_sanderapi='skip_sanderapi'
+-fi
+-if [ "$build_sanderapi" = 'build_sanderapi' ] ; then
+-  if [ "$cygwin" = 'yes' ] ; then
+-    echo ""
+-    echo "Warning: SANDER API currently not supported on Cygwin."
+-    echo ""
+-    build_sanderapi='skip_sanderapi'
+-  elif [ "$compiler" = 'cray' ] ; then
+-    echo ""
+-    echo "Warning: SANDER API currently not supported with cray compilers."
+-    echo ""
+-    build_sanderapi='skip_sanderapi'
+-  fi
+-fi
++    sanderapi_lib=""
++    sanderapi_def=""
++    sanderapi_dep=""
++    if [ "$build_sanderapi" != 'build_sanderapi' ] ; then
++      echo ""
++      echo "SANDER API build will be skipped."
++      echo ""
++    fi
++    if [ "$installtype" != 'serial' ] ; then
++      build_sanderapi='skip_sanderapi'
++    fi
++    if [ "$build_sanderapi" = 'build_sanderapi' ] ; then
++      if [ "$cygwin" = 'yes' ] ; then
++        echo ""
++        echo "Warning: SANDER API currently not supported on Cygwin."
++        echo ""
++        build_sanderapi='skip_sanderapi'
++      elif [ "$compiler" = 'cray' ] ; then
++        echo ""
++        echo "Warning: SANDER API currently not supported with cray compilers."
++        echo ""
++        build_sanderapi='skip_sanderapi'
++      fi
++    fi
+ # Only build sander API if not CUDA or HIP.
+-if [ "$build_sanderapi" = 'build_sanderapi' -a "$gpu_offload" = 'no' ] ; then
+-  sanderapi_lib="-L\$(LIBDIR) -lsander"
+-  sanderapi_def="-DUSE_SANDERLIB"
+-  sanderapi_dep="\$(LIBDIR)/libsander\$(SHARED_SUFFIX)"
+-fi
+-if [ ! -z "$sanderapi_def" -a "$installtype" != 'serial' ] ; then
+-  printf "\nChecking that the SANDER API is present and usable...\n"
+-  err=0
+-  if [ ! -f "$amberprefix/lib/libsander.so" ]  && [ ! -f "$amberprefix/lib/libsander.dylib" ] ; then
+-    echo "  Warning: $amberprefix/lib/libsander.{so,dylib} not present."
+-    err=1
+-  else
+-    cat > testp.cpp <<EOF
++    if [ "$build_sanderapi" = 'build_sanderapi' -a "$gpu_offload" = 'no' ] ; then
++      sanderapi_lib="-L\$(LIBDIR) -lsander"
++      sanderapi_def="-DUSE_SANDERLIB"
++      sanderapi_dep="\$(LIBDIR)/libsander\$(SHARED_SUFFIX)"
++    fi
++    if [ ! -z "$sanderapi_def" -a "$installtype" != 'serial' ] ; then
++      printf "\nChecking that the SANDER API is present and usable...\n"
++      err=0
++      if [ ! -f "$amberprefix/lib/libsander.so" ]  && [ ! -f "$amberprefix/lib/libsander.dylib" ] ; then
++        echo "  Warning: $amberprefix/lib/libsander.{so,dylib} not present."
++        err=1
++      else
++        cat > testp.cpp <<EOF
+ #include <cstdio>
+ #include "sander.h"
+-int main() {
+-  if (is_setup()) sander_cleanup();
+-  printf("Testing\n"); return 0;
+-}
+-EOF
+-    COMPILELINE="$cplusplus -I$amberprefix/include -o testp testp.cpp -L$amberprefix/lib -lsander"
+-    $COMPILELINE > /dev/null 2> compile.err
+-    err=$?
+-    if [ $err -eq 0 ] ; then
+-      ./testp | grep "Testing" > /dev/null
+-      err=$?
++    int main() {
++      if (is_setup()) sander_cleanup();
++      printf("Testing\n"); return 0;
++    }
++    EOF
++        COMPILELINE="$cplusplus -I$amberprefix/include -o testp testp.cpp -L$amberprefix/lib -lsander"
++        $COMPILELINE > /dev/null 2> compile.err
++        err=$?
++        if [ $err -eq 0 ] ; then
++          ./testp | grep "Testing" > /dev/null
++          err=$?
++        fi
++        if [ $err -ne 0 ] ; then
++          echo "  Warning: Compilation with the SANDER API failed. Error follows:"
++          echo "  --------------------"
++          cat compile.err
++          echo "  --------------------"
++        else
++          echo "OK"
++          /bin/rm -f testp testp.cpp compile.err
++        fi
++      fi
++      if [ $err -ne 0 ] ; then
++        echo "  Warning: Cannot compile with the SANDER API."
++        echo "           To enable the SANDER API it is recommended that you build"
++        echo "           or rebuild in serial."
++        sanderapi_lib=""
++        sanderapi_def=""
++        sanderapi_dep=""
++      fi
+     fi
+-    if [ $err -ne 0 ] ; then
+-      echo "  Warning: Compilation with the SANDER API failed. Error follows:"
+-      echo "  --------------------"
+-      cat compile.err
+-      echo "  --------------------"
+-    else
+-      echo "OK"
+-      /bin/rm -f testp testp.cpp compile.err
++    if [ -z "$sanderapi_lib" ] ; then
++      pysander='skip'
+     fi
+-  fi
+-  if [ $err -ne 0 ] ; then
+-    echo "  Warning: Cannot compile with the SANDER API."
+-    echo "           To enable the SANDER API it is recommended that you build"
+-    echo "           or rebuild in serial."
+-    sanderapi_lib=""
+-    sanderapi_def=""
+-    sanderapi_dep=""
+-  fi
+-fi
+-if [ -z "$sanderapi_lib" ] ; then
+-  pysander='skip'
+-fi
+ 
+ #-----------------------------------------------------------------------------
+ #  Configure EMIL
+ #-----------------------------------------------------------------------------
+-emil=""; emillib=""
+-if [ "$build_emil" = 'yes' ]; then
++    emil=""; emillib=""
++    if [ "$build_emil" = 'yes' ]; then
+ 
+-      emil="EMIL"
++          emil="EMIL"
+ 
+-      ###add emil linking for sander, pmemd and eventually everything else
+-      fppflags="$fppflags -DEMIL"
++          ###add emil linking for sander, pmemd and eventually everything else
++          fppflags="$fppflags -DEMIL"
+ 
+-      ###gfortran (at least) needs stdc++ on the command line **AFTER** libemil.a
+-      emillib="\$(LIBDIR)/libemil.a $fc_cxx_link_flag"
++          ###gfortran (at least) needs stdc++ on the command line **AFTER** libemil.a
++          emillib="\$(LIBDIR)/libemil.a $fc_cxx_link_flag"
+ 
+-      ###emil needs a different MPI flag... -DMPI will create problems with the C++ MPI headers
+-      if [ "$mpi" = 'yes' ]; then
+-          emil_mpiflags="-DUSE_MPI"
+-      else
+-          emil_mpiflags=""
+-      fi
++          ###emil needs a different MPI flag... -DMPI will create problems with the C++ MPI headers
++          if [ "$mpi" = 'yes' ]; then
++              emil_mpiflags="-DUSE_MPI"
++          else
++              emil_mpiflags=""
++          fi
+ 
+-fi
++    fi
+ 
+ #-------------------------------------------------------------------------------
+ # Configure CPPTRAJ
+ #-------------------------------------------------------------------------------
+ 
+-printf "\nConfiguring CPPTRAJ..."
+-cwd=`pwd`
+-if [ "$usingprefix" = 'True' ] ; then
+-  CPPTRAJHOME=$amberprefix
+-else
+-  CPPTRAJHOME=$amberhome
+-fi
+-CPPTRAJOPTS=""
+-if [ "$intelmpi" = 'yes' ] ; then
+-  CPPTRAJOPTS="$CPPTRAJOPTS -intelmpi"
+-elif [ "$mpi" = 'yes' ] ; then
+-  CPPTRAJOPTS="$CPPTRAJOPTS -mpi"
+-fi
+-if [ ! -z "$build_netcdf" -o "$netcdfstatic" = 'yes' ] ; then
+-  CPPTRAJOPTS="$CPPTRAJOPTS -libstatic"
+-fi
+-if [ "$openmp" = 'yes' ]   ; then CPPTRAJOPTS="$CPPTRAJOPTS -openmp" ; fi
+-if [ "$cuda" = 'yes' ]     ; then CPPTRAJOPTS="$CPPTRAJOPTS -cuda" ; fi
+-if [ "$hip" = 'yes' ]      ; then CPPTRAJOPTS="$CPPTRAJOPTS -hip" ; fi
+-if [ "$windows" = 'yes' ]  ; then CPPTRAJOPTS="$CPPTRAJOPTS -windows" ; fi
+-if [ "$CXX" = 'CC' ]       ; then CPPTRAJOPTS="$CPPTRAJOPTS -cray" ; fi
+-if [ "$debug" = 'yes' ]    ; then CPPTRAJOPTS="$CPPTRAJOPTS -debug" ; fi
+-if [ "$optimise" = 'no' ]  ; then CPPTRAJOPTS="$CPPTRAJOPTS -noopt" ; fi
+-if [ -z "$zlib" ]          ; then CPPTRAJOPTS="$CPPTRAJOPTS -nozlib" ; fi
+-if [ -z "$bzlib" ]         ; then CPPTRAJOPTS="$CPPTRAJOPTS -nobzlib" ; fi
+-if [ "$static" = 'yes' ]   ; then CPPTRAJOPTS="$CPPTRAJOPTS -static" ; fi
+-if [ ! -z "$pnetcdf_dir" ] ; then CPPTRAJOPTS="$CPPTRAJOPTS --with-pnetcdf=$pnetcdf_dir" ; fi
+-if [ "$has_fftw3" = 'yes' ]; then
+-  if [ "$mkl_type" != 'mkl' -o "$mkl_fftw" = 'no' ] ; then
+-    CPPTRAJOPTS="$CPPTRAJOPTS -fftw3 --with-fftw3=$CPPTRAJHOME"
+-  fi
+-fi
+-if [ -z "$sanderapi_lib" -o "$static" = 'yes' ] ; then
+-  CPPTRAJOPTS="$CPPTRAJOPTS -nosanderlib"
+-else
+-  CPPTRAJOPTS="$CPPTRAJOPTS --with-sanderlib=$CPPTRAJHOME"
+-fi
+-if [ ! -z "$netcdf_dir" ] ; then
+-  CPPTRAJOPTS="$CPPTRAJOPTS --with-netcdf=$netcdf_dir"
+-else
+-  CPPTRAJOPTS="$CPPTRAJOPTS --with-netcdf=$CPPTRAJHOME"
+-fi
+-if [ "$macAccelerate" = 'yes' ] ; then
+-  CPPTRAJOPTS="$CPPTRAJOPTS -macAccelerate"
+-elif [ "$mkl_type" = 'mkl' ] ; then
+-  CPPTRAJOPTS="$CPPTRAJOPTS -mkl"
+-elif [ "$gotolib" = 'yes' ] ; then
+-  CPPTRAJOPTS="$CPPTRAJOPTS -openblas -lblas=$GOTO --requires-pthread"
+-else # TODO use libsci for cray?
+-  CPPTRAJOPTS="$CPPTRAJOPTS --with-blas=$CPPTRAJHOME --with-lapack=$CPPTRAJHOME"
+-fi
+-cd cpptraj && NVCCFLAGS=$nvccflags CXXFLAGS=$cpptrajcxxflags LDFLAGS=$cpptrajldflags \
+-  ./configure $CPPTRAJOPTS --prefix=$CPPTRAJHOME \
+-  --requires-flink --with-arpack=$CPPTRAJHOME \
+-  -shared --skip-checks --nobuildlibs $compiler > $cwd/cpptraj_config.log 2>&1
+-if [ "$?" -ne 0 ] ; then
+-  echo ""
+-  echo "CPPTRAJ configure failed. Check '$cwd/cpptraj_config.log' for details."
+-  exit 1
+-fi
+-cd $cwd
+-echo "OK"
++    printf "\nConfiguring CPPTRAJ..."
++    cwd=`pwd`
++    if [ "$usingprefix" = 'True' ] ; then
++      CPPTRAJHOME=$amberprefix
++    else
++      CPPTRAJHOME=$amberhome
++    fi
++    CPPTRAJOPTS=""
++    if [ "$intelmpi" = 'yes' ] ; then
++      CPPTRAJOPTS="$CPPTRAJOPTS -intelmpi"
++    elif [ "$mpi" = 'yes' ] ; then
++      CPPTRAJOPTS="$CPPTRAJOPTS -mpi"
++    fi
++    if [ ! -z "$build_netcdf" -o "$netcdfstatic" = 'yes' ] ; then
++      CPPTRAJOPTS="$CPPTRAJOPTS -libstatic"
++    fi
++    if [ "$openmp" = 'yes' ]   ; then CPPTRAJOPTS="$CPPTRAJOPTS -openmp" ; fi
++    if [ "$cuda" = 'yes' ]     ; then CPPTRAJOPTS="$CPPTRAJOPTS -cuda" ; fi
++    if [ "$hip" = 'yes' ]      ; then CPPTRAJOPTS="$CPPTRAJOPTS -hip" ; fi
++    if [ "$windows" = 'yes' ]  ; then CPPTRAJOPTS="$CPPTRAJOPTS -windows" ; fi
++    if [ "$CXX" = 'CC' ]       ; then CPPTRAJOPTS="$CPPTRAJOPTS -cray" ; fi
++    if [ "$debug" = 'yes' ]    ; then CPPTRAJOPTS="$CPPTRAJOPTS -debug" ; fi
++    if [ "$optimise" = 'no' ]  ; then CPPTRAJOPTS="$CPPTRAJOPTS -noopt" ; fi
++    if [ -z "$zlib" ]          ; then CPPTRAJOPTS="$CPPTRAJOPTS -nozlib" ; fi
++    if [ -z "$bzlib" ]         ; then CPPTRAJOPTS="$CPPTRAJOPTS -nobzlib" ; fi
++    if [ "$static" = 'yes' ]   ; then CPPTRAJOPTS="$CPPTRAJOPTS -static" ; fi
++    if [ ! -z "$pnetcdf_dir" ] ; then CPPTRAJOPTS="$CPPTRAJOPTS --with-pnetcdf=$pnetcdf_dir" ; fi
++    if [ "$has_fftw3" = 'yes' ]; then
++      if [ "$mkl_type" != 'mkl' -o "$mkl_fftw" = 'no' ] ; then
++        CPPTRAJOPTS="$CPPTRAJOPTS -fftw3 --with-fftw3=$CPPTRAJHOME"
++      fi
++    fi
++    if [ -z "$sanderapi_lib" -o "$static" = 'yes' ] ; then
++      CPPTRAJOPTS="$CPPTRAJOPTS -nosanderlib"
++    else
++      CPPTRAJOPTS="$CPPTRAJOPTS --with-sanderlib=$CPPTRAJHOME"
++    fi
++    if [ ! -z "$netcdf_dir" ] ; then
++      CPPTRAJOPTS="$CPPTRAJOPTS --with-netcdf=$netcdf_dir"
++    else
++      CPPTRAJOPTS="$CPPTRAJOPTS --with-netcdf=$CPPTRAJHOME"
++    fi
++    if [ "$macAccelerate" = 'yes' ] ; then
++      CPPTRAJOPTS="$CPPTRAJOPTS -macAccelerate"
++    elif [ "$mkl_type" = 'mkl' ] ; then
++      CPPTRAJOPTS="$CPPTRAJOPTS -mkl"
++    elif [ "$gotolib" = 'yes' ] ; then
++      CPPTRAJOPTS="$CPPTRAJOPTS -openblas -lblas=$GOTO --requires-pthread"
++    else # TODO use libsci for cray?
++      CPPTRAJOPTS="$CPPTRAJOPTS --with-blas=$CPPTRAJHOME --with-lapack=$CPPTRAJHOME"
++    fi
++    cd cpptraj && NVCCFLAGS=$nvccflags CXXFLAGS=$cpptrajcxxflags LDFLAGS=$cpptrajldflags \
++      ./configure $CPPTRAJOPTS --prefix=$CPPTRAJHOME \
++      --requires-flink --with-arpack=$CPPTRAJHOME \
++      -shared --skip-checks --nobuildlibs $compiler > $cwd/cpptraj_config.log 2>&1
++    if [ "$?" -ne 0 ] ; then
++      echo ""
++      echo "CPPTRAJ configure failed. Check '$cwd/cpptraj_config.log' for details."
++      exit 1
++    fi
++    cd $cwd
++    echo "OK"
+ 
+ #-------------------------------------------------------------------------------
+ # Configure Quick
+ #-------------------------------------------------------------------------------
+-quick_flibsf=''
+-quick_fppflags=''
+-if [ "$quick" = 'yes' ]; then
+-  printf "\nConfiguring QUICK..."
+-  cwd=`pwd`
+-  if [ "$usingprefix" = 'True' ] ; then
+-    QUICKHOME=$amberprefix
+-  else
+-    QUICKHOME=$amberhome
+-  fi
+-  QUICKOPTS="--cew"  # always build with cEw support when in Amber
+-  if [ "$mpi" = 'yes' ] && [ "$cuda" = 'yes' ] ; then
+-    QUICKOPTS="$QUICKOPTS --cudampi"
+-  elif [ "$mpi" = 'yes' ] && [ "$cuda" = 'no' ] ; then
+-    QUICKOPTS="$QUICKOPTS --mpi"
+-  elif [ "$mpi" = 'no' ] && [ "$cuda" = 'yes' ] ; then
+-    QUICKOPTS="$QUICKOPTS --cuda"
+-  else
+-    QUICKOPTS="$QUICKOPTS --serial"
+-  fi
+-  if [ "$debug" = 'yes' ] ; then
+-    QUICKOPTS="$QUICKOPTS --debug"
+-  fi
+-  if [ "$compiler" != 'gnu' ] ; then
+-    if [ "$compiler" != 'intel' ] ; then
+-      if [ "$compiler" != 'pgi' ] ; then
++    quick_flibsf=''
++    quick_fppflags=''
++    if [ "$quick" = 'yes' ]; then
++      printf "\nConfiguring QUICK..."
++      cwd=`pwd`
++      if [ "$usingprefix" = 'True' ] ; then
++        QUICKHOME=$amberprefix
++      else
++        QUICKHOME=$amberhome
++      fi
++      QUICKOPTS="--cew"  # always build with cEw support when in Amber
++      if [ "$mpi" = 'yes' ] && [ "$cuda" = 'yes' ] ; then
++        QUICKOPTS="$QUICKOPTS --cudampi"
++      elif [ "$mpi" = 'yes' ] && [ "$cuda" = 'no' ] ; then
++        QUICKOPTS="$QUICKOPTS --mpi"
++      elif [ "$mpi" = 'no' ] && [ "$cuda" = 'yes' ] ; then
++        QUICKOPTS="$QUICKOPTS --cuda"
++      else
++        QUICKOPTS="$QUICKOPTS --serial"
++      fi
++      if [ "$debug" = 'yes' ] ; then
++        QUICKOPTS="$QUICKOPTS --debug"
++      fi
++      if [ "$compiler" != 'gnu' ] ; then
++        if [ "$compiler" != 'intel' ] ; then
++          if [ "$compiler" != 'pgi' ] ; then
++            echo ""
++            echo "QUICK can only be compiled with gnu, intel, or pgi."
++            echo "You may use the --skip-quick flag to skip the QUICK installation."
++            exit 1
++          fi
++        fi
++      fi
++
++      echo "cd quick && NVCCFLAGS=$nvccflags ./configure $QUICKOPTS --shared --amber $QUICKverbose --prefix $QUICKHOME $compiler"
++
++      cd quick && NVCCFLAGS=$nvccflags \
++        ./configure $QUICKOPTS --shared --amber $QUICKverbose --prefix $QUICKHOME $compiler > $cwd/quick_config.log 2>&1
++      if [ "$?" -ne 0 ] ; then
+         echo ""
+-        echo "QUICK can only be compiled with gnu, intel, or pgi."
+-        echo "You may use the --skip-quick flag to skip the QUICK installation."
++        echo "QUICK configure failed. Check '$cwd/quick_config.log' for details."
+         exit 1
+       fi
++      cd $cwd
++      # Setting up QUICK compilation flags for Sander, PMEMD and SQM
++      if [ "$mpi" = 'yes' ] && [ "$cuda" = 'yes' ]; then
++          quick_flibsf="-L$AMBERHOME/lib -lquick-cudampi -lcew_mpi -L$CUDA_HOME/lib64 -lcuda -lcudart -lcudadevrt -lcublas -lcusolver -lxc-cuda"
++          quick_fppflags="-DQUICK -I$AMBERHOME/AmberTools/src/quick/build/include/cudampi"
++      elif [ "$mpi" = 'no' ] && [ "$cuda" = 'yes' ]; then
++          quick_flibsf="-L$AMBERHOME/lib -lquick-cuda -lcew -L$CUDA_HOME/lib64 -lcuda -lcudart -lcudadevrt -lcublas -lcusolver -lxc-cuda"
++          quick_fppflags="-DQUICK -I$AMBERHOME/AmberTools/src/quick/build/include/cuda"
++      elif [ "$mpi" = 'yes' ] && [ "$cuda" = 'no' ]; then
++          quick_flibsf="-L$AMBERHOME/lib -lquick-mpi -lcew_mpi -lblas-quick -lxc"
++          quick_fppflags="-DQUICK -I$AMBERHOME/AmberTools/src/quick/build/include/mpi"
++      else
++          quick_flibsf="-L$AMBERHOME/lib -lquick -lcew -lblas-quick -lxc"
++          quick_fppflags="-DQUICK -I$AMBERHOME/AmberTools/src/quick/build/include/serial"
++      fi
++      echo "OK"
++    else
++      printf "\nSkipping QUICK..."
+     fi
+-  fi
+-
+-  echo "cd quick && NVCCFLAGS=$nvccflags ./configure $QUICKOPTS --shared --amber $QUICKverbose --prefix $QUICKHOME $compiler"
+-
+-  cd quick && NVCCFLAGS=$nvccflags \
+-    ./configure $QUICKOPTS --shared --amber $QUICKverbose --prefix $QUICKHOME $compiler > $cwd/quick_config.log 2>&1
+-  if [ "$?" -ne 0 ] ; then
+-    echo ""
+-    echo "QUICK configure failed. Check '$cwd/quick_config.log' for details."
+-    exit 1
+-  fi
+-  cd $cwd
+-  # Setting up QUICK compilation flags for Sander, PMEMD and SQM
+-  if [ "$mpi" = 'yes' ] && [ "$cuda" = 'yes' ]; then
+-      quick_flibsf="-L$AMBERHOME/lib -lquick-cudampi -lcew_mpi -L$CUDA_HOME/lib64 -lcuda -lcudart -lcudadevrt -lcublas -lcusolver -lxc-cuda"
+-      quick_fppflags="-DQUICK -I$AMBERHOME/AmberTools/src/quick/build/include/cudampi"
+-  elif [ "$mpi" = 'no' ] && [ "$cuda" = 'yes' ]; then
+-      quick_flibsf="-L$AMBERHOME/lib -lquick-cuda -lcew -L$CUDA_HOME/lib64 -lcuda -lcudart -lcudadevrt -lcublas -lcusolver -lxc-cuda"
+-      quick_fppflags="-DQUICK -I$AMBERHOME/AmberTools/src/quick/build/include/cuda"
+-  elif [ "$mpi" = 'yes' ] && [ "$cuda" = 'no' ]; then
+-      quick_flibsf="-L$AMBERHOME/lib -lquick-mpi -lcew_mpi -lblas-quick -lxc"
+-      quick_fppflags="-DQUICK -I$AMBERHOME/AmberTools/src/quick/build/include/mpi"
+-  else
+-      quick_flibsf="-L$AMBERHOME/lib -lquick -lcew -lblas-quick -lxc"
+-      quick_fppflags="-DQUICK -I$AMBERHOME/AmberTools/src/quick/build/include/serial"
+-  fi
+-  echo "OK"
+-else
+-  printf "\nSkipping QUICK..."
+-fi
+ 
+ #-------------------------------------------------------------------------------
+ # Set flags for tcpb-cpp
+ #-------------------------------------------------------------------------------
+-tcpb_cxxflags=''
+-tcpb_ldflags=''
+-tcpb_flibsf=''
+-tcpb_fppflags=''
+-if [ "$tcpb" = 'yes' ]; then
+-  tcpb_cxxflags="-std=c++11 -pthread"
++    tcpb_cxxflags=''
++    tcpb_ldflags=''
++    tcpb_flibsf=''
++    tcpb_fppflags=''
++    if [ "$tcpb" = 'yes' ]; then
++  tcpb_cxxflags="-std=c++14 -pthread"
+   tcpb_ldflags="-lprotobuf"
+   tcpb_flibsf="-ltcpb"
+   tcpb_fppflags="-DTCPB"
