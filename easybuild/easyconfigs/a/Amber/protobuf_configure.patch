@@ -1,0 +1,13 @@
+diff --git a/original.configure b/AmberTools/src/protobuf-3.14.0/configure
+index 383ab42..b4b08ee 100755
+--- a/original.configure
++++ b/AmberTools/src/protobuf-3.14.0/configure
+@@ -18352,7 +18352,7 @@ fi
+ 
+ # Add -std=c++11 if necesssary. It is important for us to do this before the
+ # libatomic check below, since that also depends on C++11.
+-  ax_cxx_compile_alternatives="11 0x"    ax_cxx_compile_cxx11_required=true
++  ax_cxx_compile_alternatives="14 1y"    ax_cxx_compile_cxx14_required=true
+   ac_ext=cpp
+ ac_cpp='$CXXCPP $CPPFLAGS'
+ ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'

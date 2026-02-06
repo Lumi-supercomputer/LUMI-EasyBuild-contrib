@@ -1,0 +1,20 @@
+diff --git a/cpptraj_cmake.original b/AmberTools/src/cpptraj/src/CMakeLists.txt
+index c768666..953a670 100644
+--- a/cpptraj_cmake.original
++++ b/AmberTools/src/cpptraj/src/CMakeLists.txt
+@@ -204,12 +204,12 @@ endif()
+ # Check for C++11 support
+ set(HAS_C11_SUPPORT FALSE)
+ foreach(cxxfeat ${CMAKE_CXX_COMPILE_FEATURES})
+-  if(${cxxfeat} STREQUAL cxx_std_11)
++  if(${cxxfeat} STREQUAL cxx_std_14)
+     # C++11 support found
+-    message(STATUS "Found C++11 support: ${cxxfeat}")
++    message(STATUS "Found C++14 support: ${cxxfeat}")
+     add_definitions(-DC11_SUPPORT)
+     set(HAS_C11_SUPPORT TRUE)
+-    set_property(TARGET cpptraj PROPERTY CXX_STANDARD 11)
++    set_property(TARGET cpptraj PROPERTY CXX_STANDARD 14)
+     break()
+   endif()
+ endforeach()
