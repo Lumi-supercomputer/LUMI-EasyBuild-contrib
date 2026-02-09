@@ -1,0 +1,36 @@
+diff --git a/exts/dbcsr/src/acc/hip/acc_hip.h b/exts/dbcsr/src/acc/hip/acc_hip.h
+--- a/exts/dbcsr/src/acc/hip/acc_hip.h	2024-09-09 16:02:31.549190000 +0300
++++ b/exts/dbcsr/src/acc/hip/acc_hip.h	2026-02-03 14:25:15.241187530 +0200
+@@ -91,7 +91,10 @@
+ 
+ extern hipError_t hipHostAlloc(void** ptr, size_t size, unsigned int flags);
+ extern hipError_t hipHostAlloc(void** ptr, size_t size, unsigned int flags);
+-extern unsigned int hipHostAllocDefault;
++/* hipHostAllocDefault is a macro in HIP.
++ * Redeclaring it as a variable breaks HIP device compilation.
++ * See ROCm clang error on gfx90a.
++ */
+ extern hipError_t hipFreeHost(void* ptr);
+ extern hiprtcResult hiprtcGetLowLevelCode(hiprtcProgram prog, char* code);
+ extern hiprtcResult hiprtcGetLowLevelCodeSize(hiprtcProgram prog, size_t* codeSizeRet);
+diff --git a/exts/dbcsr/src/acc/cuda_hip/acc_error.cpp b/exts/dbcsr/src/acc/cuda_hip/acc_error.cpp
+--- a/exts/dbcsr/src/acc/cuda_hip/acc_error.cpp
++++ b/exts/dbcsr/src/acc/cuda_hip/acc_error.cpp
+@@ -27,4 +27,4 @@
+   return 0;
+ }
+ 
+-extern "C" void c_dbcsr_acc_clear_errors() { ACC(GetLastError)(); }
++extern "C" void c_dbcsr_acc_clear_errors() { (void)ACC(GetLastError)(); }
+diff --git a/exts/dbcsr/src/acc/hip/acc_hip.cpp b/exts/dbcsr/src/acc/hip/acc_hip.cpp
+--- a/exts/dbcsr/src/acc/hip/acc_hip.cpp	2024-09-09 16:02:31.549190000 +0300
++++ b/exts/dbcsr/src/acc/hip/acc_hip.cpp	2026-02-03 15:23:18.331078680 +0200
+@@ -15,7 +15,7 @@
+ hipError_t hipFreeHost(void* ptr) { return hipHostFree(ptr); }
+ #endif
+ 
+-unsigned int hipHostAllocDefault = hipHostMallocDefault;
++/*unsigned int hipHostAllocDefault = hipHostMallocDefault;*/
+ 
+ hiprtcResult hiprtcGetLowLevelCode(hiprtcProgram prog, char* code) { return hiprtcGetCode(prog, code); }
+ 

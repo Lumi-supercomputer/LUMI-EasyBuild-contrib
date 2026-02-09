@@ -1,0 +1,98 @@
+# contributed by Luca Marsella (CSCS)
+# modified for LUMI-G by Peter Larsson
+# Updated to version 2024.1 by Radim Janalik (CSCS)
+# Update to version 2025.2 and DBCSR patch by Tor Skovsgaard (DeiC)
+#
+#DOC CP2K 2024.1 release compiled with AMD GPU support enabled for CP2K 
+#DOC itself and several of the libraries (SpFFT, SpLA). Cray Programming 
+#DOC Environment 23.09.
+easyblock = 'MakeCp'
+
+local_ELPA_version         = '2024.05.001'
+local_Libint_CP2K_version  = '2.7.2'
+local_libvori_version      = '220621'
+local_libxc_version        = '7.0.0'
+local_libxsmm_version      = '1.17'
+local_spglib_version       = '2.6.0'
+local_COSMA_version        = '2.7.0'
+local_SPLA_version         = '1.6.1'
+local_SpFFT_version        = '1.1.1'
+local_GSL_version          = '2.8'
+
+name = 'CP2K'
+version = '2025.2'
+versionsuffix = '-rocm'
+
+homepage = 'http://www.cp2k.org/'
+
+whatis = [
+    'Description: CP2K is a program to perform atomistic and molecular '
+    'simulations of solid state, liquid, molecular and biological systems.'
+]
+
+description = """
+CP2K is a freely available (GPL) program, written in Fortran 95, to
+perform atomistic and molecular simulations of solid state, liquid,
+molecular and biological systems. It provides a general framework for
+different methods such as e.g. density functional theory (DFT) using a
+mixed Gaussian and plane waves approach (GPW), and classical pair and
+many-body potentials.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '25.03'}
+toolchainopts = {'openmp': True, 'usempi': True}
+
+source_urls = ['https://github.com/%(namelower)s/%(namelower)s/releases/download/v%(version)s']
+sources = [SOURCELOWER_TAR_BZ2]
+patches = [
+    ('LUMIG-20252.psmp', '%(builddir)s/%(namelower)s-%(version)s/arch'),
+    ('CP2K-2025.2-rocm-dbcsr.patch', 1),
+]
+checksums = [
+    {'cp2k-2025.2.tar.bz2': 'c8392a4e123304644ec8d241443796277c6ed7ae977452317e779f3c387c2e19'},
+    {'LUMIG-20252.psmp': 'ac5c366fc1fad9c5fbd1f47ea2e159d3b0d2b6d9045cd9398b1c6edbe6e1bd59'},
+    {'CP2K-2025.2_rocm.patch': 'ffc2ee1ec5833fc30c68e8e9d885323c18019445e54071cea1d0eddeaae34145'},
+]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+    ('cray-fftw',   EXTERNAL_MODULE),
+    ('cray-hdf5',   EXTERNAL_MODULE),
+    ('rocm',        EXTERNAL_MODULE),
+    ('ELPA',        local_ELPA_version,  '-CPU'),
+    ('COSMA',       local_COSMA_version, versionsuffix),
+    ('SPLA',        local_SPLA_version,  versionsuffix),
+    ('SpFFT',       local_SpFFT_version, versionsuffix),
+    ('GSL',         local_GSL_version,   '-OpenMP'),
+    ('Libint-CP2K', local_Libint_CP2K_version),
+    ('libvori',     local_libvori_version),
+    ('libxc',       local_libxc_version, "-FHC"),
+    ('libxsmm',     local_libxsmm_version),
+    ('spglib',      local_spglib_version),
+]
+
+buildopts = "ARCH=LUMIG-20252 VERSION=psmp"
+
+files_to_copy = [
+    (['./arch/LUMIG-20252.psmp'], 'arch'),
+    (['./exe/LUMIG-20252/*'], 'bin'),
+    (['./data'], '.'),
+    (['./tests'], '.'),
+    (['./tools'], '.')
+]
+
+sanity_check_paths = {
+    'files': ['arch/LUMIG-20252.psmp', 'bin/%(namelower)s.psmp'],
+    'dirs': ['data', 'tests'],
+}
+
+# set custom CP2K_DATA_DIR
+modextravars = {
+    'CP2K_DATA_DIR': '%(installdir)s/data'
+}
+
+moduleclass = 'chem'
+
