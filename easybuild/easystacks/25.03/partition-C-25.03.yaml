@@ -115,6 +115,10 @@ easyconfigs:
   - PLUMED-2.9.4-cpeGNU-25.03-noPython.eb
   #- LAMMPS-22Jul2025_update2-cpeGNU-25.03-CPU.eb # Still issues on the TDS: It tries to download some packages.
 #
+# MicroHH
+#
+#  - MicroHH-2.0.1-cpeGNU-25.03.eb # Needs to be tested on a compute node.
+#
 # mpiFileUtils
 #
   - lustre-includes-2.15.1.eb # Though we may just want this in common.

@@ -12,6 +12,24 @@ easyconfigs:
   - ADIOS2-2.10.2-cpeGNU-25.03-noMPI-hdf5.eb
   - ADIOS2-2.10.2-cpeGNU-25.03-MPI-hdf5-parallel.eb
 #
+# Celerity
+#
+  - AdaptiveCpp-25.02.0-cpeAMD-25.03-rocm.eb
+  - Celerity-0.7.0-cpeAMD-25.03.eb
+#
+# CP2K
+#
+  - COSMA-2.7.0-cpeGNU-25.03-rocm.eb
+  - ELPA-2024.05.001-cpeGNU-25.03-CPU.eb
+  - SPLA-1.6.1-cpeGNU-25.03-rocm.eb
+  - SpFFT-1.1.1-cpeGNU-25.03-rocm.eb
+  - Libint-CP2K-2.7.2-cpeGNU-25.03.eb
+  - libvori-220621-cpeGNU-25.03.eb
+  - libxc-7.0.0-cpeGNU-25.03-FHC.eb
+  - libxsmm-1.17-cpeGNU-25.03.eb
+  - spglib-2.6.0-cpeGNU-25.03.eb
+  - CP2K-2025.2-cpeGNU-25.03-rocm.eb
+#
 # Cython and CuPy
 #
   - Cython-3.1.2-cpeGNU-25.03.eb
@@ -79,4 +97,12 @@ easyconfigs:
 #
   - QuEST-3.7.0-cpeGNU-25.03-prec2-rocm.eb
   - QuEST-4.2.0-cpeGNU-25.03-prec2-rocm.eb
+#
+# VeloxChem (unfinished)
+#
+  - Cython-3.1.2-cpeAMD-25.03.eb
+  - pybind11-2.12.0-cpeAMD-25.03.eb
+  - SciPy-bundle-1.14.1-1.26.4-cpeAMD-25.03.eb
+  - libxc-7.0.0-cpeAMD-25.03-FHC.eb
+  #- VeloxChem-1.0-gpu-cpeAMD-25.03-rocm.eb
 #
