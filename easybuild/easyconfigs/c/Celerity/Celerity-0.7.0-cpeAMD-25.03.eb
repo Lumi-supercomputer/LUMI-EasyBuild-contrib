@@ -1,4 +1,5 @@
 # EasyConfig developed by Bert Jorissen (Univeristy of Antwerp - EPICURE) for LUMI.
+#DOC It may be safer to compile this EasyConfig on a LUMI-G GPU node.
 
 easyblock = 'CMakeMake'
 
@@ -50,7 +51,6 @@ builddependencies = [
     ('buildtools', '%(toolchain_version)s', '', SYSTEM), # For CMake
 ]
 
-
 dependencies = [
 	('AdaptiveCpp', local_AdaptiveCpp_version, '-rocm')
 ]
@@ -61,7 +61,7 @@ configopts += ' -DCMAKE_CXX_COMPILER=$EBROOTADAPTIVECPP/bin/acpp'
 configopts += ' -DCMAKE_C_COMPILER=/opt/rocm-6.3.4/bin/amdclang'
 configopts += ' -DCMAKE_CXX_STANDARD=20'
 
-parallel=56
+max_parallel=56
 buildopts = ''
 buildopts += ' --target install'
 buildopts += ' --verbose'
