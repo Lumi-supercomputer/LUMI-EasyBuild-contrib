@@ -223,3 +223,7 @@ engines.
 
 -   Due to issues with cray-hugepages, we had to disable hugepages support (also in all older
     easyconfigs)
+
+### 2026.0 for cpeAMD 25.03
+
+-   Updated for Gromacs 2026.0. Gromacs 2026.0 has suport for SYCL and HIP. For SYCL we have a straightforward update of previous     easyconfigs. HIP support requires some extra flags. 

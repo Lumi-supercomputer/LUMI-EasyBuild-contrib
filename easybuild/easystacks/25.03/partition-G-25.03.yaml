@@ -12,6 +12,30 @@ easyconfigs:
   - ADIOS2-2.10.2-cpeGNU-25.03-noMPI-hdf5.eb
   - ADIOS2-2.10.2-cpeGNU-25.03-MPI-hdf5-parallel.eb
 #
+# Amber: Cannot test as sources cannot be downloaded automatically.
+#
+  - arpack-ng-3.9.1-cpeGNU-25.03-OpenMP.eb
+  #- Amber-24.0-cpeGNU-25.03-AmberTools-24.0-rocm.eb
+  #- Amber-24.0-cpeGNU-25.03-AmberTools-24.0-rocm-cray-python-3.11.7.eb
+#
+# Celerity
+#
+  - AdaptiveCpp-25.02.0-cpeAMD-25.03-rocm.eb
+  - Celerity-0.7.0-cpeAMD-25.03.eb
+#
+# CP2K
+#
+  - COSMA-2.7.0-cpeGNU-25.03-rocm.eb
+  - ELPA-2024.05.001-cpeGNU-25.03-CPU.eb
+  - SPLA-1.6.1-cpeGNU-25.03-rocm.eb
+  - SpFFT-1.1.1-cpeGNU-25.03-rocm.eb
+  - Libint-CP2K-2.7.2-cpeGNU-25.03.eb
+  - libvori-220621-cpeGNU-25.03.eb
+  - libxc-7.0.0-cpeGNU-25.03-FHC.eb
+  - libxsmm-1.17-cpeGNU-25.03.eb
+  - spglib-2.6.0-cpeGNU-25.03.eb
+  - CP2K-2025.2-cpeGNU-25.03-rocm.eb
+#
 # Cython and CuPy
 #
   - Cython-3.1.2-cpeGNU-25.03.eb
@@ -28,6 +52,13 @@ easyconfigs:
   - HeFFTe-2.4.1-cpeAMD-25.03-rocm.eb
   - GROMACS-2025.1-cpeAMD-25.03-VkFFT-rocm.eb
   - GROMACS-2025.1-cpeAMD-25.03-HeFFTe-rocm.eb
+  - GROMACS-2026.0-cpeAMD-25.03-HeFFTe-rocm-hip.eb
+  - GROMACS-2026.0-cpeAMD-25.03-VkFFT-rocm-hip.eb
+  - GROMACS-2026.0-cpeAMD-25.03-VkFFT-rocm-sycl.eb
+#
+# hipfort
+#
+  - hipfort-0.4-0-cpeCray-25.03.eb
 #
 # Kokkos
 #
@@ -68,6 +99,16 @@ easyconfigs:
 #
   - OpenBLAS-0.3.30-cpeGNU-25.03.eb
 #
+# PETSc
+#
+  - MUMPS-5.6.1-cpeGNU-25.03-OpenMP.eb
+  - Hypre-2.33.0-cpeGNU-25.03.eb
+  - SuperLU-7.0.1-cpeGNU-25.03-OpenMP.eb
+  - SuperLU_DIST-9.2.0-cpeGNU-25.03-OpenMP-CPU.eb
+  - Kokkos-4.6.02-cpeGNU-25.03-rocm.eb
+  - Kokkos-kernels-4.6.02-cpeGNU-25.03-rocm.eb
+  - PETSc-3.24.4-cpeGNU-25.03-rocm.eb
+#
 # PyFR
 #
   - h5py-3.11.0-cpeGNU-25.03.eb
@@ -79,4 +120,12 @@ easyconfigs:
 #
   - QuEST-3.7.0-cpeGNU-25.03-prec2-rocm.eb
   - QuEST-4.2.0-cpeGNU-25.03-prec2-rocm.eb
+#
+# VeloxChem (unfinished)
+#
+  - Cython-3.1.2-cpeAMD-25.03.eb
+  - pybind11-2.12.0-cpeAMD-25.03.eb
+  - SciPy-bundle-1.14.1-1.26.4-cpeAMD-25.03.eb
+  - libxc-7.0.0-cpeAMD-25.03-FHC.eb
+  #- VeloxChem-1.0-gpu-cpeAMD-25.03-rocm.eb
 #

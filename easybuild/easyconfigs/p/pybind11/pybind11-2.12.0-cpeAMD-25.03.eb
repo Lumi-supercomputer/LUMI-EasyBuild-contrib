@@ -1,0 +1,44 @@
+#DOC This cpeAMD version is meant specifically for VeloxChem. Note that using the AMD
+#DOC compilers for Python packages is only for people who really understand compiler
+#DOC incompatibilities as precompiled Python packages and Python itself is usually 
+#DOC compiled with the GNU compilers.
+name = 'pybind11'
+
+local_Boost_version =        '1.88.0'        # https://www.boost.org/
+
+version = '2.12.0'
+
+homepage = 'https://pybind11.readthedocs.io'
+
+whatis = [
+    'Description: pybind11: A lightweight header-only library that exposes C++ types in Python and vice-versa'
+]
+
+description = """
+pybind11 is a lightweight header-only library that exposes C++ types in Python
+and vice versa,  mainly to create Python bindings of existing C++ code.
+"""
+
+toolchain = {'name': 'cpeAMD', 'version': '25.03'}
+
+source_urls = ['https://github.com/pybind/pybind11/archive/']
+sources = ['v%(version)s.tar.gz']
+
+builddependencies = [
+    ('buildtools-python', '%(toolchain_version)s', '-cray-python%(pyshortver)s', True),
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+    ('cray-python', EXTERNAL_MODULE),
+    ('Boost',       local_Boost_version),
+]
+
+skipsteps = ['test']
+
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/pybind11',
+    'cd ../%(namelower)s-%(version)s && cp LICENSE README.rst SECURITY.md %(installdir)s/share/licenses/pybind11'    
+]
+
+moduleclass = 'lib'

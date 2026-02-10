@@ -1,0 +1,145 @@
+# Version updated by Emanuele Vitali for LUST
+#
+#DOC Amber with the matching version of AmberTools, and support for Cray Python.
+easyblock = 'CMakeMake'
+
+local_craypython_version =   '3.11.7'
+
+local_Amber_version      = '24'
+local_AmberTools_version = '24'
+
+local_arpack_ng_version  =   '3.9.1'         # https://github.com/opencollab/arpack-ng/tags
+
+local_Boost_version =        '1.88.0'        # https://www.boost.org/
+local_Perl_version =         '5.40.0'        # https://www.perl.org/get.html
+local_zlib_version =         '1.3.1'         # https://zlib.net/
+local_bzip2_version =        '1.0.8'         # http://www.bzip.org/downloads.html
+
+# Patch levels from https://ambermd.org/AmberPatches.php and https://ambermd.org/ATPatches.php
+local_patchlevels = (0, 0)  # (AmberTools, Amber)
+
+name = 'Amber'
+version = '%s.%s' % (local_Amber_version, local_patchlevels[1])
+versionsuffix = '-AmberTools-%s.%s-rocm-cray-python-%s' % (local_AmberTools_version, local_patchlevels[0], local_craypython_version)
+
+homepage = 'https://ambermd.org/amber.html'
+
+description = """
+Amber (originally Assisted Model Building with Energy Refinement) is software
+for performing molecular dynamics and structure prediction.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '25.03'}
+toolchainopts = {'usempi': True, 'openmp': True}
+
+sources = [
+    {'filename': '%%(name)s%s.tar.bz2' % local_Amber_version},
+    {'filename': 'AmberTools%s.tar.bz2' % local_AmberTools_version, 'alt_location': 'AmberTools'},
+]
+
+patches = [
+     'AmberTools-20_fix_missing_MPI_LIBRARY_error.patch',
+     'Amber-22_remove_undeclared_redundant_variable.patch',
+     'Amber-24_remove_open-pal-link.patch',
+     'Amber-24_cusparse_LinearSolvers_ugly_fix.patch',
+     'AmberTools-24_pythonbuild_dirty_hack.patch',
+     'Amber-24-patch_wrappers_c.patch',
+     'Amber-24-patch_peptide_c.patch',
+     'Amber-24-cmakelists_protobuf_ugly.patch',
+     'Amber-24-cpptraj_configure_ugly.patch',
+     'Amber-24-protobuf_configure.patch',
+     'Amber-24-configure2_cpp11to14.patch',
+     'Amber-24-nlopc_cmake11to14.patch',
+     'Amber-24-cpptraj_cmake.patch',
+     'Amber-24-compilationOptionsc++bump.patch',
+]
+
+checksums = [
+    '74a7dbc4530f6302ae1efe723ba54d0fcdb03bce2b7231663ce5afc2c5660076', # Amber24.tar.bz2
+    '52fb4fb3370a89b7ce738a2dc3e513c2fc1943fde4b4381846d9e75cc48d840f', # AmberTools24.tar.bz2
+    '210b0fb2a33e9cf00e8deb991420a027095d569ef752b1b9442915ec9f378be3', # AmberTools-20_fix_missing_MPI_LIBRARY_error.patch
+    'b94900c2178dd6dbf2824b17074980a3e5e6e71b38c0b2b30e1f147e4e1ac8cb', # Amber-22_remove_undeclared_redundant_variable.patch
+    '5878b2cb0525a4501b2679dd17fe3321ddc5a9d389f0d73d51c8ae3f6e705a5e', # Amber-24_remove_open-pal-link.patch
+    '576fb8416b8a0427702d85dc785047d7c70234c780a74a1ae06cb298bc3d72fa', # Amber-24_cusparse_LinearSolvers_ugly_fix.patch
+    'cb466158590cb635c656ec76f64c0e2f3b98eee7971f6a68e6d061ed523cfed7', # AmberTools-24_pythonbuild_dirty_hack.patch
+    'a2bf7e1259e97806944828a4c974735b289c79a27d909a41625470d38b154e00', # Amber-24-patch_wrappers_c.patch
+    '3bb4b562864eaf4fb6b7d80fee79c15068e7697bbee0458355350881aa9ab01a', # Amber-24-patch_peptide_c.patch
+    '43692bb2294fa589a74055e99cde317c02113697ad1b760c3810e6d4b4c45ae1', # Amber-24-cmakelists_protobuf_ugly.patch
+    'afc5c8a9402f3506210ad2df4fe5cdd0ae38f325a2946b7d653ab4d6aadbd1ab', # Amber-24-cpptraj_configure_ugly.patch
+    'f9eab7a9486f8bfda8bf1cc92e71f627df8ce3f7fc808c5d448b7730d4a8708c', # Amber-24-protobuf_configure.patch
+    '56e4fc44fd63a43fc2db75d2299d674edc16c437fe6ac9b8cb957d1dc22aa3d4', # Amber-24-configure2_cpp11to14.patch
+    '34bb57390e8884c0ec96c0fbe628582be358d5045218e35bc784854c4586f284', # Amber-24-nlopc_cmake11to14.patch
+    'bf9c3364cc2453894bf0baf2982ba9e3aacbaf132fbd7b447176c75c432598ce', # Amber-24-cpptraj_cmake.patch
+    'c01c4def814ee49267fe3638e76e9f1974e2d2e4d895752e5b8266b5ed7f451b', # Amber-24-compilationOptionsc++bump.patch
+]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+    ('Boost',      local_Boost_version),
+]
+
+dependencies = [
+    (f'cray-python/{local_craypython_version}', EXTERNAL_MODULE),
+    ('cray-fftw',                               EXTERNAL_MODULE),
+    ('cray-hdf5-parallel',                      EXTERNAL_MODULE),
+    ('cray-parallel-netcdf',                    EXTERNAL_MODULE),
+    ('cray-netcdf-hdf5parallel',                EXTERNAL_MODULE),
+    ('rocm',                                    EXTERNAL_MODULE),
+    ('zlib',      local_zlib_version),
+    ('bzip2',     local_bzip2_version),
+    ('Perl',      local_Perl_version),
+    ('arpack-ng', local_arpack_ng_version,      '-OpenMP'),
+]
+
+configopts = ' '.join([ 
+    '-D COMPILER=CRAY',
+    '-D CMAKE_CXX_STANDARD="14"',
+    '-D CMAKE_CXX_FLAGS="-O3 -ftree-vectorize -fno-math-errno -fopenmp"',
+    '-D CMAKE_C_FLAGS="-O3 -ftree-vectorize -fno-math-errno -fopenmp"',
+    '-D CMAKE_Fortran_FLAGS="-O3 -ftree-vectorize -fno-math-errno -fopenmp" ',
+    '-D BOOST_ROOT=$EBROOTBOOST',
+    '-D Boost_NO_SYSTEM_PATHS=ON ' 
+    '-D MPI=ON',
+    '-D OPENMP=ON',
+    '-D USE_FFT=ON',
+    '-D BUILD_PYTHON=ON',
+    '-D SKIP_PYTHON_PACKAGE_CHECKS=ON',
+    '-D CHECK_UPDATES=OFF',
+    '-D APPLY_UPDATES=FALSE',
+    '-D DOWNLOAD_MINICONDA=OFF',
+    '-D HIP=ON',
+    '-D GPU_TARGETS="gfx90a"',
+    '-D AMDGPU_TARGETS="gfx90a"',
+    '-D HIP_WARP64=ON',
+    '-D CUDA_NVCC_FLAGS="--offload-arch=gfx90a -std=c++14 -I$CRAY_MPICH_DIR/include"',
+    '-D CMAKE_HIP_ARCHITECTURES="gfx90a"',
+    '-D GTI=TRUE',
+    '-D VKFFT=ON',
+    '-D HIP_RDC=ON',
+    '-D HIP_TOOLKIT_ROOT_DIR=$ROCM_PATH',
+    '-D HIPCUDA_EMULATE_VERSION="10.1"',
+    '-D FORCE_EXTERNAL_LIBS="netcdf;fftw;blas;lapack;pnetcdf;arpack"',
+    '-D TRUST_SYSTEM_LIBS=TRUE',
+    '-D BLAS_LIBRARIES=$CRAY_LIBSCI_PREFIX_DIR/lib/libsci_gnu_mp.so',
+    '-D LAPACK_LIBRARIES=$CRAY_LIBSCI_PREFIX_DIR/lib/libsci_gnu_mp.so',
+    '-D NetCDF_INCLUDES=$CRAY_NETCDF_HDF5PARALLEL_PREFIX/include',
+    '-D NetCDF_INCLUDES_F90=$CRAY_NETCDF_HDF5PARALLEL_PREFIX/include',
+    '-D NetCDF_LIBRARIES_F90=$CRAY_NETCDF_HDF5PARALLEL_PREFIX/lib/libnetcdff.so',
+    '-D NetCDF_LIBRARIES_F77=$CRAY_NETCDF_HDF5PARALLEL_PREFIX/lib/libnetcdff.so ' 
+    '-D NetCDF_LIBRARIES_C=$CRAY_NETCDF_HDF5PARALLEL_PREFIX/lib/libnetcdf.so',
+    '-D PnetCDF_LIBRARY=$CRAY_PARALLEL_NETCDF_PREFIX/lib/libpnetcdf.so',
+    '-D PnetCDF_INCLUDE_DIR=$CRAY_PARALLEL_NETCDF_PREFIX/include',
+    '-D ARPACK_LIBRARY=$EBROOTARPACKMINNG/lib/libarpack.so',
+    '-D MVAPICH2GDR_GPU_DIRECT_COMM=ON',
+])
+
+sanity_check_paths = {
+    'files': ['bin/pmemd.hip'],
+    'dirs':  [''],
+}
+
+modextravars = {
+    'AMBERHOME' : '%(installdir)s',
+}
+
+moduleclass = 'chem'

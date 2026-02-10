@@ -109,11 +109,16 @@ easyconfigs:
   - GROMACS-2024.3-cpeGNU-25.03-PLUMED-2.9.4-noPython-CPU.eb
   - PLUMED-2.9.4-cpeGNU-25.03-cray-python-3.11.7.eb
   - GROMACS-2024.3-cpeGNU-25.03-PLUMED-2.9.4-cray-python-3.11.7-CPU.eb
+  - GROMACS-2026.0-cpeGNU-25.03-CPU.eb
 #
 # LAMMPS
 #
   - PLUMED-2.9.4-cpeGNU-25.03-noPython.eb
   #- LAMMPS-22Jul2025_update2-cpeGNU-25.03-CPU.eb # Still issues on the TDS: It tries to download some packages.
+#
+# MicroHH
+#
+#  - MicroHH-2.0.1-cpeGNU-25.03.eb # Needs to be tested on a compute node.
 #
 # mpiFileUtils
 #
@@ -231,6 +236,11 @@ easyconfigs:
   - SuperLU_DIST-9.2.0-cpeGNU-25.03-OpenMP-CPU.eb
   - PETSc-3.24.2-cpeGNU-25.03-OpenMP-CPU.eb
 #  - Yambo-5.2.4-cpeGNU-25.03.eb # Fails in the sanity checks after one and a half hour of compiling... Basically EasyBuild fails to notice that the build failed.
+#
+# WRF-SFIRE and WPS
+#
+  - WRF-SFIRE-W4.4-S0.1-cpeGNU-25.03.eb
+  - WPS-v4.4-cpeGNU-25.03-WRF-SFIRE-W4.4-S0.1.eb
 ################################################################################
 #
 # Packages that require manual downloads

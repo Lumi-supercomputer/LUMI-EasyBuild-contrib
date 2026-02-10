@@ -1,0 +1,106 @@
+
+CC       = cc
+CXX      = CC
+FC       = ftn
+LD       = ftn
+AR       = ar -r
+DFLAGS   = -D__FFTW3 -D__parallel -D__SCALAPACK
+DFLAGS  += -D__LIBXSMM
+DFLAGS  += -D__OFFLOAD_HIP -D__HIP_PLATFORM_AMD__
+DFLAGS  += -D__DBCSR_ACC
+DFLAGS  += -D__DBCSR_DISABLE_WORKSHARE
+DFLAGS  += -D__LIBXC
+DFLAGS  += -D__COSMA
+DFLAGS  += -D__ELPA
+DFLAGS  += -D__GSL
+DFLAGS  += -D__SPGLIB
+DFLAGS  += -D__LIBVORI
+DFLAGS  += -D__LIBINT
+DFLAGS  += -D__OFFLOAD_GEMM
+DFLAGS  += -D__HDF5
+DFLAGS  += -D__DBCSR_DISABLE_HOST_ALLOC
+#DFLAGS  += -D__SPLA
+CXXSTD   =-std=c++17
+#Down from O3 because of errors
+OPTFLAG  =-O3
+
+CFLAGS   = $(DFLAGS) $(OPTFLAG) -fopenmp -fopenmp-simd -mavx2 -mfma -fomit-frame-pointer -std=c11
+CXXFLAGS = $(DFLAGS) $(CXXSTD) $(OPTFLAG) -fopenmp -fopenmp-simd -mavx2 -mfma -fomit-frame-pointer
+FCFLAGS  = $(DFLAGS) $(OPTFLAG) -g -fopenmp -fopenmp-simd -ftree-vectorize -fomit-frame-pointer -funroll-loops -mavx2 -mfma -fallow-argument-mismatch
+HIPINC  = -I${ROCM_PATH}/include
+CFLAGS  += $(HIPINC)
+CXXFLAGS += $(HIPINC)
+LDFLAGS  = $(FCFLAGS)
+LIBS    += -lfftw3 -lfftw3_omp -lhdf5 -lhdf5_hl -ldl
+
+#libxc
+FCFLAGS  += -I$(EBROOTLIBXC)/include
+CFLAGS   += -I$(EBROOTLIBXC)/include
+CXXFLAGS += -I$(EBROOTLIBXC)/include
+LIBS     += -L$(EBROOTLIBXC)/lib -lxcf03 -lxc
+
+#libxsmm
+FCFLAGS  += -I$(EBROOTLIBXSMM)/include
+CFLAGS   += -I$(EBROOTLIBXSMM)/include
+CXXFLAGS += -I$(EBROOTLIBXSMM)/include
+LIBS     += -L$(EBROOTLIBXSMM)/lib -lxsmmf -lxsmm
+
+#libcosma
+FCFLAGS += -I$(EBROOTCOSMA)/include
+CXXFLAGS += -I$(EBROOTCOSMA)/include
+CFLAGS += -I$(EBROOTCOSMA)/include
+LIBS +=  -L$(EBROOTCOSMA)/lib -lcosma_prefixed_pxgemm -lcosma -lcosta -lTiled-MM
+
+#elpa
+FCFLAGS += -I$(ELPA_OPENMP_INCLUDE_DIR)/elpa -I$(ELPA_OPENMP_INCLUDE_DIR)/modules 
+CFLAGS += -I$(ELPA_OPENMP_INCLUDE_DIR)/elpa -I$(ELPA_OPENMP_INCLUDE_DIR)/modules 
+CXXFLAGS += -I$(ELPA_OPENMP_INCLUDE_DIR)/elpa -I$(ELPA_OPENMP_INCLUDE_DIR)/modules 
+LIBS += -L$(EBROOTELPA)/lib -lelpa 
+
+#libgsl
+FCFLAGS += -I$(EBROOTGSL)/include
+CFLAGS += -I$(EBROOTGSL)/include
+CXXFLAGS += -I$(EBROOTGSL)/include
+LIBS += -L$(EBROOTGSL)/lib -lgsl
+
+#libSPGLIB
+FCFLAGS += -I$(EBROOTSPGLIB)/include
+CFLAGS += -I$(EBROOTSPGLIB)/include
+CXXFLAGS += -I$(EBROOTSPGLIB)/include
+LIBS += -L$(EBROOTSPGLIB)/lib -lsymspg
+
+#libspla is at this moment broken, it creates a segfault in the runtime. 
+##libspfft
+#FCFLAGS += -I$(EBROOTSPFFT)/include
+#FCFLAGS += -I$(EBROOTSPFFT)/include
+#FCFLAGS += -I$(EBROOTSPFFT)/include
+#LIBS += -I$(EBROOTSPFFT)/lib -lspfft
+#
+##libspla
+#FCFLAGS += -I$(EBROOTSPLA)/include/spla
+#FCFLAGS += -I$(EBROOTSPLA)/include/spla
+#FCFLAGS += -I$(EBROOTSPLA)/include/spla
+#LIBS += -I$(EBROOTSPLA)/lib -lspla
+
+#libvori
+LIBS += -L$(EBROOTLIBVORI)/lib -lvori
+
+#libintcp2k
+FCFLAGS += -I$(EBROOTLIBINTMINCP2K)/include -I$(EBROOTLIBINTMINCP2K)/include/libint2
+CFLAGS += -I$(EBROOTLIBINTMINCP2K)/include -I$(EBROOTLIBINTMINCP2K)/include/libint2
+CXXFLAGS += -I$(EBROOTLIBINTMINCP2K)/include -I$(EBROOTLIBINTMINCP2K)/include/libint2
+LDFLAGS += -L$(EBROOTLIBINTMINCP2K)/lib -lint2
+
+
+
+
+
+
+
+
+
+GPUVER         = Mi250
+OFFLOAD_CC     = hipcc
+OFFLOAD_FLAGS  = -fPIE -D__HIP_PLATFORM_AMD__ --offload-arch=gfx90a $(OPTFLAG) $(CXXSTD) $(DFLAGS)
+OFFLOAD_TARGET = hip
+LIBS          += -L${ROCM_PATH}/lib -lrocblas -lamdhip64 -lhipfft -lhipblas -lstdc++

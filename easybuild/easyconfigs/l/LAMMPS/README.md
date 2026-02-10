@@ -64,4 +64,11 @@
 
 -   **During the configure step, some extra files are being downloaded for which we 
     have no solution yet in the EasyConfig.**
-    
+
+
+### 22Jul2025_update3 for cpeAMD
+
+-   Update of the previous GPU version (2Aug2023_update3 in 24.03).
+
+-   Needed to use the `craype` module from 25.09, so this is a dirty EasyConfig that
+    may fail in the future. This was done to work around a bug in the compiler wrappers.
