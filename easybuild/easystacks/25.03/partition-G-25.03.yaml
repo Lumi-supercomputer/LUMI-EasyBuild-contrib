@@ -56,6 +56,10 @@ easyconfigs:
   - GROMACS-2026.0-cpeAMD-25.03-VkFFT-rocm-hip.eb
   - GROMACS-2026.0-cpeAMD-25.03-VkFFT-rocm-sycl.eb
 #
+# hipfort
+#
+  - hipfort-0.4-0-cpeCray-25.03.eb
+#
 # Kokkos
 #
   - Kokkos-4.6.02-cpeGNU-25.03-rocm.eb
@@ -94,6 +98,16 @@ easyconfigs:
 # OpenBLAS
 #
   - OpenBLAS-0.3.30-cpeGNU-25.03.eb
+#
+# PETSc
+#
+  - MUMPS-5.6.1-cpeGNU-25.03-OpenMP.eb
+  - Hypre-2.33.0-cpeGNU-25.03.eb
+  - SuperLU-7.0.1-cpeGNU-25.03-OpenMP.eb
+  - SuperLU_DIST-9.2.0-cpeGNU-25.03-OpenMP-CPU.eb
+  - Kokkos-4.6.02-cpeGNU-25.03-rocm.eb
+  - Kokkos-kernels-4.6.02-cpeGNU-25.03-rocm.eb
+  - PETSc-3.24.4-cpeGNU-25.03-rocm.eb
 #
 # PyFR
 #
