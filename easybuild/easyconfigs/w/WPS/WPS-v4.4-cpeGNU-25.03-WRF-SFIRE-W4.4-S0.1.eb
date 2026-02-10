@@ -1,0 +1,119 @@
+# Created by Orian Louant for the LUMI consortium
+# Addapted by Bert Jorissen (University of Antwerp - EPICURE)
+# Updated for WPS
+
+easyblock = 'CmdCp'
+
+
+local_JasPer_version =       '4.2.5'         # https://github.com/jasper-software/jasper/releases
+local_libpng_version =       '1.6.47'        # http://www.libpng.org/pub/png/libpng.html
+local_libtirpc_version =     '1.3.6'         # https://sourceforge.net/projects/libtirpc/files/libtirpc/
+local_Perl_version =         '5.40.0'        # https://www.perl.org/get.html
+local_zlib_version =         '1.3.1'         # https://zlib.net/
+
+local_WRF_SFIRE_version =    'W4.4-S0.1'
+
+name          = 'WPS'
+version       = 'v4.4'
+versionsuffix = f'-WRF-SFIRE-{local_WRF_SFIRE_version}'
+
+local_configuration  = [
+    ('NETCDF',                       '${NETCDF_DIR}'),
+    ('FLEX_LIB_DIR',                 '$EBROOTFLEX/lib'),
+    ('YACC_PATH',                    '$EBROOTBYACC/bin'),
+    ('HDF5',                         '$CRAY_HDF5_PARALLEL_PREFIX'),
+    ('PHDF5',			             '$CRAY_HDF5_PARALLEL_PREFIX'),
+    ('RPC_INCLUDES',                 '$EBROOTLIBTIRPC'),
+    ('JASPERLIB',	   	             '$EBROOTJASPER/lib'),
+    ('JASPERINC',                    '$EBROOTJASPER/include'),
+    ('WRF_DIR',                      '$EBROOTWRFMINSFIRE'),
+]
+
+local_compile_targets = [
+    '',
+]
+
+
+homepage = 'http://www.wrf-model.org'
+
+whatis = [
+    'Description: A coupled weather-fire forecasting model built on top of Weather Research and Forecasting (WRF).'
+]
+
+description = """
+WRF Preprocessing System (WPS) for WRF. The Weather Research and Forecasting (WRF) Model is
+a next-generation mesoscale numerical weather prediction system designed to serve both operational
+forecasting and atmospheric research needs.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '25.03'}
+
+sources = [{
+    'filename': '%(version)s.tar.gz',
+    'git_config': {
+        'url': 'https://github.com/wrf-model',
+        'repo_name': 'WPS',
+        'tag': '%(version)s',
+        'recursive': True,
+        'keep_git_dir': True,
+    }
+}]
+
+patches = [
+    'wps.patch',
+]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+    ('Perl',       local_Perl_version),
+]
+
+dependencies = [
+    ('cray-hdf5-parallel',       EXTERNAL_MODULE),
+    ('cray-netcdf-hdf5parallel', EXTERNAL_MODULE),
+    ('JasPer',                   local_JasPer_version),
+    ('libtirpc',                 local_libtirpc_version),
+    ('libpng',                   local_libpng_version),
+    ('zlib',                     local_zlib_version),
+    ('WRF-SFIRE',                local_WRF_SFIRE_version),
+]
+
+unpack_options    = '--strip-components=1'
+buildininstalldir = True
+
+local_configure_cmds = """./configure <<'EOF'
+3
+EOF
+sed -i s/gcc/cc/ configure.wps && \
+sed -i s/mpicc/cc/ configure.wps && \
+sed -i s/gfortran/ftn/ configure.wps && \
+sed -i s/mpif90/ftn/ configure.wps && \
+sed -i '/^LDFLAGS/ s/$/ -lgomp -lpng/' configure.wps && \
+sed -i '/^CPP/ s/$/  -Wno-error=implicit-function-declaration -Wno-error=implicit-int/'  configure.wps && \
+sed -i '/^SCC/ s/$/  -Wno-error=implicit-function-declaration -Wno-error=implicit-int/'  configure.wps && \
+sed -i '/^DM_CC/ s/$/  -Wno-error=implicit-function-declaration -Wno-error=implicit-int/'  configure.wps"""
+
+local_preconfigure_cmds = ' && '.join(['export ' + x[0] + '=' + x[1] for x in local_configuration])
+local_build_cmds        = ' && '.join(['./compile %s' % x for x in local_compile_targets]) # max 20 parallel jobs
+
+cmds_map = [
+    ('%(version)s.tar.gz',
+     ' && '.join([
+        local_preconfigure_cmds,
+        local_configure_cmds,
+        local_build_cmds
+    ])),
+]
+
+files_to_copy = None
+
+sanity_check_paths = {
+    'files': ['geogrid.exe',  'ungrib.exe', 'metgrid.exe'],
+    'dirs':  []
+}
+
+modextrapaths = {
+    'PATH'            : '',
+}
+
+moduleclass = 'geo'
