@@ -1,7 +1,9 @@
 easyblock = 'CMakeMake'
 
+local_arpack_ng_version  =   '3.9.1'         # https://github.com/opencollab/arpack-ng/tags
+
 name =          'arpack-ng'
-version =       '3.9.1'
+version =       local_arpack_ng_version
 versionsuffix = '-OpenMP'
 
 homepage = 'https://github.com/opencollab/arpack-ng'

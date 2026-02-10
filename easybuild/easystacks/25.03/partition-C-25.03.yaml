@@ -109,6 +109,7 @@ easyconfigs:
   - GROMACS-2024.3-cpeGNU-25.03-PLUMED-2.9.4-noPython-CPU.eb
   - PLUMED-2.9.4-cpeGNU-25.03-cray-python-3.11.7.eb
   - GROMACS-2024.3-cpeGNU-25.03-PLUMED-2.9.4-cray-python-3.11.7-CPU.eb
+  - GROMACS-2026.0-cpeGNU-25.03-CPU.eb
 #
 # LAMMPS
 #
