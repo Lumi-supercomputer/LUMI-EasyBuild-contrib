@@ -14,7 +14,7 @@
 -   [CP2K in the EasyBuilders repository](https://github.com/easybuilders/easybuild-easyconfigs/tree/develop/easybuild/easyconfigs/c/CP2K)
 
 
-### Brief descriptions of available EasyConfigs (up to 23.09)
+### Brief descriptions of archived EasyConfigs (up to 23.09)
 
 -   `CP2K-9.1-cpeGNU-21.08.eb`: The EasyConfig file is a direct port of the CSCS one.
 
