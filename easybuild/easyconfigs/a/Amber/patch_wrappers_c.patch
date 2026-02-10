@@ -1,0 +1,13 @@
+diff --git a/wrappers.c.orig b/tmp/vitaliem/easybuild/build/Amber/24.0/cpeGNU-25.03-AmberTools-24.0-rocm/amber24_src/AmberTools/src/mdgx/Wrappers.c
+index e2f265e..5c78d16 100644
+--- a/wrappers.c.orig
++++ b/tmp/vitaliem/easybuild/build/Amber/24.0/cpeGNU-25.03-AmberTools-24.0-rocm/amber24_src/AmberTools/src/mdgx/Wrappers.c
+@@ -118,7 +118,7 @@ void InitBasicTrajcon(trajcon *tj)
+ #ifdef MPI
+   MPI_Comm_rank(MPI_COMM_WORLD, &tj->tid);
+   MPI_Comm_size(MPI_COMM_WORLD, &tj->nthreads);
+-  DefineMPITypes(&tj);
++  DefineMPITypes(tj);
+ #else
+   tj->tid = 0;
+   tj->nthreads = 1;

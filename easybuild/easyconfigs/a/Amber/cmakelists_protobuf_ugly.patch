@@ -1,0 +1,25 @@
+diff --git a/cmakeold b/AmberTools/src/protobuf-3.14.0/cmake/CMakeLists.txt
+index 77c9432..4369d39 100644
+--- a/cmakeold
++++ b/AmberTools/src/protobuf-3.14.0/cmake/CMakeLists.txt
+@@ -21,9 +21,9 @@ project(protobuf C CXX)
+ 
+ # Add c++11 flags
+ if (CYGWIN)
+-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
++  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++14")
+ else()
+-  set(CMAKE_CXX_STANDARD 11)
++  set(CMAKE_CXX_STANDARD 14)
+   set(CMAKE_CXX_STANDARD_REQUIRED ON)
+   set(CMAKE_CXX_EXTENSIONS OFF)
+ endif()
+@@ -154,7 +154,7 @@ set(protobuf_LINK_LIBATOMIC false)
+ if (NOT MSVC)
+   include(CheckCXXSourceCompiles)
+   set(OLD_CMAKE_REQUIRED_FLAGS ${CMAKE_REQUIRED_FLAGS})
+-  set(CMAKE_REQUIRED_FLAGS ${CMAKE_REQUIRED_FLAGS} -std=c++11)
++  set(CMAKE_REQUIRED_FLAGS ${CMAKE_REQUIRED_FLAGS} -std=c++14)
+   check_cxx_source_compiles("
+     #include <atomic>
+     int main() {
