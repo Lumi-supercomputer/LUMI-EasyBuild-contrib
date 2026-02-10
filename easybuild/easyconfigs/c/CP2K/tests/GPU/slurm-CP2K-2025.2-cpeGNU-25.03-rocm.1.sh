@@ -16,7 +16,6 @@ export OMP_STACKSIZE=512M
 export MPICH_OFI_NIC_POLICY=GPU
 export MPICH_GPU_SUPPORT_ENABLED=1
 
-init-lumi-h
 module load LUMI/25.03
 module load partition/G
 module load CP2K/2025.2-cpeGNU-25.03-rocm
