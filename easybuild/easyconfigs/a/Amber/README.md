@@ -51,7 +51,7 @@ Amber 24 has native support for AMD GPUs.
     EasyBuild cannot download these files automatically as a registration is required.
 
 
-## Amber 24 for cpeGNU 23.09 with GPU support
+## Amber 24 for cpeGNU 23.09 and later with GPU support
 
 -   This corresponds to the EasyConfig
     `Amber-24.0-cpeGNU-23.09-AmberTools-24.0-rocm.eb`.
@@ -65,3 +65,7 @@ Amber 24 has native support for AMD GPUs.
 
     EasyBuild cannot download these files automatically as a registration is
     required.
+
+-   For the build in 25.03, a lot of patching was needed as the Boost library that is
+    used in that toolchain requires the C++14 standard while Amber has C++11 hardcoded
+    in many places.

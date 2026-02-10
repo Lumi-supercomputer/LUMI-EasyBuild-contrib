@@ -1,15 +1,19 @@
+# Version updated by Emanuele Vitali for LUST
+#
 #DOC Amber with the matching version of AmberTools, and support for Cray Python.
 easyblock = 'CMakeMake'
 
-local_craypython_version =  '3.11.7'
+local_craypython_version =   '3.11.7'
 
 local_Amber_version      = '24'
 local_AmberTools_version = '24'
-local_arpack_ng_version  = '3.9.1'
-local_Boost_version      = '1.88.0'
-local_Perl_version       = '5.40.0' 
-local_zlib_version       = '1.3.1'
-local_bzip2_version      = '1.0.8'
+
+local_arpack_ng_version  =   '3.9.1'         # https://github.com/opencollab/arpack-ng/tags
+
+local_Boost_version =        '1.88.0'        # https://www.boost.org/
+local_Perl_version =         '5.40.0'        # https://www.perl.org/get.html
+local_zlib_version =         '1.3.1'         # https://zlib.net/
+local_bzip2_version =        '1.0.8'         # http://www.bzip.org/downloads.html
 
 # Patch levels from https://ambermd.org/AmberPatches.php and https://ambermd.org/ATPatches.php
 local_patchlevels = (0, 0)  # (AmberTools, Amber)
@@ -39,15 +43,15 @@ patches = [
      'Amber-24_remove_open-pal-link.patch',
      'Amber-24_cusparse_LinearSolvers_ugly_fix.patch',
      'AmberTools-24_pythonbuild_dirty_hack.patch',
-     'patch_wrappers_c.patch',
-     'patch_peptide_c.patch',
-     'cmakelists_protobuf_ugly.patch',
-     'cpptraj_configure_ugly.patch',
-     'protobuf_configure.patch',
-     'configure2_cpp11to14.patch',
-     'nlopc_cmake11to14.patch',
-     'cpptraj_cmake.patch',
-     'compilationOptionsc++bump.patch',
+     'Amber-24-patch_wrappers_c.patch',
+     'Amber-24-patch_peptide_c.patch',
+     'Amber-24-cmakelists_protobuf_ugly.patch',
+     'Amber-24-cpptraj_configure_ugly.patch',
+     'Amber-24-protobuf_configure.patch',
+     'Amber-24-configure2_cpp11to14.patch',
+     'Amber-24-nlopc_cmake11to14.patch',
+     'Amber-24-cpptraj_cmake.patch',
+     'Amber-24-compilationOptionsc++bump.patch',
 ]
 
 checksums = [
@@ -58,6 +62,15 @@ checksums = [
     '5878b2cb0525a4501b2679dd17fe3321ddc5a9d389f0d73d51c8ae3f6e705a5e', # Amber-24_remove_open-pal-link.patch
     '576fb8416b8a0427702d85dc785047d7c70234c780a74a1ae06cb298bc3d72fa', # Amber-24_cusparse_LinearSolvers_ugly_fix.patch
     'cb466158590cb635c656ec76f64c0e2f3b98eee7971f6a68e6d061ed523cfed7', # AmberTools-24_pythonbuild_dirty_hack.patch
+    'a2bf7e1259e97806944828a4c974735b289c79a27d909a41625470d38b154e00', # Amber-24-patch_wrappers_c.patch
+    '3bb4b562864eaf4fb6b7d80fee79c15068e7697bbee0458355350881aa9ab01a', # Amber-24-patch_peptide_c.patch
+    '43692bb2294fa589a74055e99cde317c02113697ad1b760c3810e6d4b4c45ae1', # Amber-24-cmakelists_protobuf_ugly.patch
+    'afc5c8a9402f3506210ad2df4fe5cdd0ae38f325a2946b7d653ab4d6aadbd1ab', # Amber-24-cpptraj_configure_ugly.patch
+    'f9eab7a9486f8bfda8bf1cc92e71f627df8ce3f7fc808c5d448b7730d4a8708c', # Amber-24-protobuf_configure.patch
+    '56e4fc44fd63a43fc2db75d2299d674edc16c437fe6ac9b8cb957d1dc22aa3d4', # Amber-24-configure2_cpp11to14.patch
+    '34bb57390e8884c0ec96c0fbe628582be358d5045218e35bc784854c4586f284', # Amber-24-nlopc_cmake11to14.patch
+    'bf9c3364cc2453894bf0baf2982ba9e3aacbaf132fbd7b447176c75c432598ce', # Amber-24-cpptraj_cmake.patch
+    'c01c4def814ee49267fe3638e76e9f1974e2d2e4d895752e5b8266b5ed7f451b', # Amber-24-compilationOptionsc++bump.patch
 ]
 
 builddependencies = [

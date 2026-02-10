@@ -3,6 +3,7 @@
 local_ADIOS2_version =       '2.10.2'        # https://github.com/ornladios/ADIOS2/releases
 local_ANTLR_NCO_version =    '2.7.7'         # Looks like NCO requires an antique version.
 local_aria2_version =        '1.37.0'        # https://github.com/aria2/aria2/releases
+local_arpack_ng_version  =   '3.9.1'         # https://github.com/opencollab/arpack-ng/tags
 
 local_BCFtools_version =     '1.22'          # https://github.com/samtools/bcftools/releases
 
