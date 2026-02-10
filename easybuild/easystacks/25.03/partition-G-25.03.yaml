@@ -12,6 +12,12 @@ easyconfigs:
   - ADIOS2-2.10.2-cpeGNU-25.03-noMPI-hdf5.eb
   - ADIOS2-2.10.2-cpeGNU-25.03-MPI-hdf5-parallel.eb
 #
+# Amber: Cannot test as sources cannot be downloaded automatically.
+#
+  - arpack-ng-3.9.1-cpeGNU-25.03-OpenMP.eb
+  #- Amber-24.0-cpeGNU-25.03-AmberTools-24.0-rocm.eb
+  #- Amber-24.0-cpeGNU-25.03-AmberTools-24.0-rocm-cray-python-3.11.7.eb
+#
 # Celerity
 #
   - AdaptiveCpp-25.02.0-cpeAMD-25.03-rocm.eb
@@ -46,6 +52,9 @@ easyconfigs:
   - HeFFTe-2.4.1-cpeAMD-25.03-rocm.eb
   - GROMACS-2025.1-cpeAMD-25.03-VkFFT-rocm.eb
   - GROMACS-2025.1-cpeAMD-25.03-HeFFTe-rocm.eb
+  - GROMACS-2026.0-cpeAMD-25.03-HeFFTe-rocm-hip.eb
+  - GROMACS-2026.0-cpeAMD-25.03-VkFFT-rocm-hip.eb
+  - GROMACS-2026.0-cpeAMD-25.03-VkFFT-rocm-sycl.eb
 #
 # Kokkos
 #
