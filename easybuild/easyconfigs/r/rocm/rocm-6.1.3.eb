@@ -320,11 +320,13 @@ modextravars = {
 modluafooter = """
 append_path("PE_PRODUCT_LIST", "CRAY_ROCM")
 prepend_path("PE_PKGCONFIG_LIBS", "rocm-%(version_major_minor)s")
-LmodMessage('Warning For advanced users: This module comes with the asan and debug libraries installed' ..
-        'However, to make sure that in the runtime the libraries are correctly loaded from this module' ..
-        'and not from /opt/rocm, we have hardcoded the correct paths in the module libraries and executables.' ..
-        'If you need to use the asan or debug versions of the libraries you will have to LD_PRELOAD ' ..
-        'them instead of just prepending LD_LIBRARY_PATH')
+if mode() == "load" then
+    LmodMessage( '\\nWarning For advanced users: This module comes with the asan and debug libraries installed.\\n' ..
+                 'However, to make sure that in the runtime the libraries are correctly loaded from this module\\n' ..
+                 'and not from /opt/rocm, we have hardcoded the correct paths in the module libraries and executables.\\n' ..
+                 'If you need to use the asan or debug versions of the libraries you will have to LD_PRELOAD\\n' ..
+                 'them instead of just prepending LD_LIBRARY_PATH.\\n' )
+end
 """
 
 moduleclass = 'devel'
