@@ -1,7 +1,13 @@
 # This EasyConfig was contributed by the EPICURE project (https://epicure-hpc.eu/).
 #DOC CPU version, compile for `partition/C` and run on LUMI-C.
-#DOC This script needs to be compiled in an interactive job in the CPU partition
-#DOC as otherwise the build will fail in the testing step.
+#DOC The test step does want to start job steps, so
+#DOC either compile anywhere but disable the test step using
+#DOC `eb MicroHH-2.0.1-cpeGNU-25.03.eb --skip-test-step` or
+#DOC allocate a node with `srun -N1 -t15:00 -A project_46YXXXXXX -pstandard --pty bash`
+#DOC and compile in that environment. It is essential that you do not use a `-n` or
+#DOC `-c` flag with that `srun` command. The test phase should be quick. If it hangs
+#DOC for more than two minutes or so during the `testing...` step then you made a 
+#DOC mistake somewhere and `srun` got stuck.
 easyblock = 'CMakeMake'
 
 local_Boost_version = '1.88.0'
@@ -63,8 +69,8 @@ test_cmd += 'cp %(builddir)s/%(namelower)s/cases/drycblles/drycblles.ini . && '
 test_cmd += 'pip install netcdf4 && python drycblles_input.py && '
 test_cmd += 'sed -i "/^savetime/ s/1800/300/g" drycblles.ini && '
 test_cmd += 'sed -i "/^endtime/ s/10800/300/g" drycblles.ini && '
-test_cmd += 'srun -n 1 microhh init drycblles && '
-test_cmd += 'srun -n 1 microhh run drycblles && '
+test_cmd += 'srun -n 1 -c 1 --overlap microhh init drycblles && '
+test_cmd += 'srun -n 1 -c 1 --overlap microhh run drycblles && '
 test_cmd += '[ -f drycblles.default.0000000.nc ]'
 
 install_cmd  = 'mkdir -p %(installdir)s/bin && '
