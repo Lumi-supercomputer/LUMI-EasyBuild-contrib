@@ -14,11 +14,11 @@ toolchainopts = {'pic': True, 'openmp': False}
 source_urls = ['https://launchpad.net/libvdwxc/stable/%(version)s/+download/']
 sources = [SOURCE_TAR_GZ]
 patches = [
-   {'name': 'libvdwxc-0.5.0-configure-with-cpuGNU2503.patch', 'level': 0},
+   {'name': 'libvdwxc-0.5.0-configure-with-cpeGNU2503.patch', 'level': 0},
 ]
 checksums = [
     {'libvdwxc-0.5.0.tar.gz': '29fb70efd58aff51524d2172a87e8f88e760b696b0ddb9aa5878432bdffa3c2f'},
-    {'libvdwxc-0.5.0-configure-with-cpuGNU2503.patch':
+    {'libvdwxc-0.5.0-configure-with-cpeGNU2503.patch':
      'd114d665f3a10f934b65df5c655cf17c5191018ee25f4fb057fb4ff8e02fcec4'},
 ]
 
