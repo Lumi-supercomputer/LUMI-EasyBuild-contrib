@@ -1,7 +1,9 @@
 #DOC This is a version of GPAW built with libvdwxc for LUMI-C.
 easyblock = "PythonPackage"
 
-local_gpaw_setups_version = '24.11.0'  # https://gpaw.readthedocs.io/setups/setups.html#setup-releases
+local_gpaw_data_version = '1.0.1'  # https://gpaw.readthedocs.io/setups/setups.html#setup-releases
+local_libxc_version     = '7.0.0'  # https://libxc.gitlab.io/changes/
+local_libvdwxc_version  = '0.5.0'  # https://launchpad.net/libvdwxc/stable/
 
 name = 'GPAW'
 version = '25.7.0'
@@ -17,16 +19,8 @@ toolchainopts = {'usempi': True, 'openmp': True}
 sources = [{
      'filename': SOURCELOWER_TAR_GZ,
      'source_urls': [PYPI_LOWER_SOURCE],
-},
-{
-     'filename': 'gpaw-setups-' + local_gpaw_setups_version + '.tar.gz',
-     'source_urls': ['https://wiki.fysik.dtu.dk/gpaw-files/'],
-},
-{
-     'filename': 'gpaw_data-1.0.1.tar.gz',
-     'source_urls': ['https://pypi.python.org/packages/source/g/gpaw-data'],
-}
-]
+}]
+
 patches = [
    {'name': 'GPAW-%(version)s-siteconfig-cpu.patch', 'level': 1},
    {'name': 'GPAW-%(version)s-fix-dependency-versions.patch', 'level': 1},
@@ -38,13 +32,15 @@ builddependencies = [
 ]
 
 dependencies = [
-    ('cray-python/3.11.7', EXTERNAL_MODULE),
-    ('cray-fftw/3.3.10.7', EXTERNAL_MODULE),
-    ('libxc', '7.0.0', '-FHC'),
-    ('libvdwxc', '0.5.0'),
+    ('cray-python/3.11.7',  EXTERNAL_MODULE),
+    ('cray-fftw/3.3.10.10', EXTERNAL_MODULE),
+    ('libxc',               local_libxc_version, '-FHC'),
+    ('libvdwxc',            local_libvdwxc_version),
+    ('gpaw-data',           local_gpaw_data_version),
 ]
 
-preinstallopts = 'GPAW_CONFIG=siteconfig-lumi-cpu.py '
+prebuildopts = 'GPAW_CONFIG=siteconfig-lumi-cpu.py '
+preinstallopts = prebuildopts
 
 download_dep_fail = False
 use_pip = True
@@ -53,8 +49,6 @@ pip_verbose = True
 pip_ignore_installed = False
 pip_no_index = False
 sanity_pip_check = True
-
-postinstallcmds = ['cp -rp ../gpaw-setups-' + local_gpaw_setups_version + ' %(installdir)s/']
 
 sanity_check_paths = {
     'files': ['bin/gpaw%s' % x for x in ['', '-analyse-basis', '-basis', '-plot-parallel-timings',
@@ -65,7 +59,5 @@ sanity_check_paths = {
 sanity_check_commands = [
     "gpaw info"
 ]
-
-modextravars = {'GPAW_SETUP_PATH': '%(installdir)s/gpaw-setups-' + local_gpaw_setups_version}
 
 moduleclass = 'chem'
