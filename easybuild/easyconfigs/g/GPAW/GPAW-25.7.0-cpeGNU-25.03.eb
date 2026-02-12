@@ -20,10 +20,14 @@ sources = [{
      'filename': SOURCELOWER_TAR_GZ,
      'source_urls': [PYPI_LOWER_SOURCE],
 }]
-
 patches = [
    {'name': 'GPAW-%(version)s-siteconfig-cpu.patch', 'level': 1},
    {'name': 'GPAW-%(version)s-fix-dependency-versions.patch', 'level': 1},
+]
+checksums = [
+    {'gpaw-25.7.0.tar.gz': '93ac829bba36be74eab0d7deef5eb798613c04edbce196837208d206cf39c431'},
+    {'GPAW-25.7.0-siteconfig-cpu.patch': '12682be6f65a990ddd1c17a21f14c9f8fa681890f410d356bf5474255f5f2912'},
+    {'GPAW-25.7.0-fix-dependency-versions.patch': '018c57be8afec4efd4cbc8011fe4f93889c8f6d81fea5dffb5df5af2870d6603'},
 ]
 
 builddependencies = [

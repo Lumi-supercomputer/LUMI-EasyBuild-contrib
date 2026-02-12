@@ -23,11 +23,16 @@ sources = [{
      'filename': SOURCELOWER_TAR_GZ,
      'source_urls': [PYPI_LOWER_SOURCE],
 }]
-
 patches = [
    {'name': 'GPAW-%(version)s-siteconfig-gpu.patch', 'level': 1},
    {'name': 'GPAW-%(version)s-Elpa-2025.patch', 'level': 1},
    {'name': 'GPAW-%(version)s-fix-dependency-versions.patch', 'level': 1},
+]
+checksums = [
+    {'gpaw-25.7.0.tar.gz': '93ac829bba36be74eab0d7deef5eb798613c04edbce196837208d206cf39c431'},
+    {'GPAW-25.7.0-siteconfig-gpu.patch': '5ec04d6d3ed55bb7ac5462d38ac9438c49c8e9e6e7e341f1fafd50cfb837460e'},
+    {'GPAW-25.7.0-Elpa-2025.patch': 'ad2c778528aa502802fb4d748034cbdefcf0ef6490319b6189b0922b079cb058'},
+    {'GPAW-25.7.0-fix-dependency-versions.patch': '018c57be8afec4efd4cbc8011fe4f93889c8f6d81fea5dffb5df5af2870d6603'},
 ]
 
 builddependencies = [
