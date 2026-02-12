@@ -1,10 +1,14 @@
 #DOC This is a version of GPAW built for LUMI-G.
 easyblock = "PythonPackage"
 
-local_gpaw_setups_version = '24.11.0'  # https://gpaw.readthedocs.io/setups/setups.html#setup-releases
+local_gpaw_data_version = '1.0.1'  # https://gpaw.readthedocs.io/setups/setups.html#setup-releases
+local_libxc_version     = '7.0.0'  # https://libxc.gitlab.io/changes/
+local_libvdwxc_version  = '0.5.0'  # https://launchpad.net/libvdwxc/stable/
+local_cupy_version      = '13.5.1'
+local_elpa_version      = '2025.06.001'
 
-name =          'GPAW'
-version =       '25.7.0'
+name = 'GPAW'
+version = '25.7.0'
 versionsuffix = '-rocm'
 
 homepage = 'https://wiki.fysik.dtu.dk/gpaw/'
@@ -13,21 +17,13 @@ description = """GPAW is a density-functional theory (DFT) Python code based on 
  atom-centered basis-functions."""
 
 toolchain = {'name': 'cpeGNU', 'version': '25.03'}
-toolchainopts = {'usempi': True, 'openmp': True}
+toolchainopts = {'usempi': True, 'openmp': False}
 
 sources = [{
      'filename': SOURCELOWER_TAR_GZ,
      'source_urls': [PYPI_LOWER_SOURCE],
-},
-{
-     'filename': 'gpaw-setups-' + local_gpaw_setups_version + '.tar.gz',
-     'source_urls': ['https://wiki.fysik.dtu.dk/gpaw-files/'],
-},
-{
-     'filename': 'gpaw_data-1.0.1.tar.gz',
-     'source_urls': ['https://pypi.python.org/packages/source/g/gpaw-data'],
-}
-]
+}]
+
 patches = [
    {'name': 'GPAW-%(version)s-siteconfig-gpu.patch', 'level': 1},
    {'name': 'GPAW-%(version)s-Elpa-2025.patch', 'level': 1},
@@ -40,15 +36,17 @@ builddependencies = [
 ]
 
 dependencies = [
-    ('cray-python/3.11.7', EXTERNAL_MODULE),
+    ('cray-python/3.11.7',  EXTERNAL_MODULE),
     ('cray-fftw/3.3.10.10', EXTERNAL_MODULE),
-    ('rocm/6.3.4', EXTERNAL_MODULE),
-    ('CuPy', '13.5.1', '-rocm'),
-    ('libxc', '7.0.0', '-FHC'),
-    ('ELPA', '2025.06.001', '-rocm'),
+    ('rocm/6.3.4',          EXTERNAL_MODULE),
+    ('libxc',               local_libxc_version, '-FHC'),
+    ('gpaw-data',           local_gpaw_data_version),
+    ('CuPy',                local_cupy_version, '-rocm'),
+    ('ELPA',                local_elpa_version, '-rocm'),
 ]
 
-preinstallopts = 'GPAW_CONFIG=siteconfig-lumi-gpu.py '
+prebuildopts = 'GPAW_CONFIG=siteconfig-lumi-gpu.py '
+preinstallopts = prebuildopts
 
 download_dep_fail = False
 use_pip = True
@@ -57,8 +55,6 @@ pip_verbose = True
 pip_ignore_installed = False
 pip_no_index = False
 sanity_pip_check = True
-
-postinstallcmds = ['cp -rp ../gpaw-setups-' + local_gpaw_setups_version + ' %(installdir)s/']
 
 sanity_check_paths = {
     'files': ['bin/gpaw%s' % x for x in ['', '-analyse-basis', '-basis', '-plot-parallel-timings',
@@ -69,7 +65,5 @@ sanity_check_paths = {
 sanity_check_commands = [
     "gpaw info"
 ]
-
-modextravars = {'GPAW_SETUP_PATH': '%(installdir)s/gpaw-setups-' + local_gpaw_setups_version}
 
 moduleclass = 'chem'
