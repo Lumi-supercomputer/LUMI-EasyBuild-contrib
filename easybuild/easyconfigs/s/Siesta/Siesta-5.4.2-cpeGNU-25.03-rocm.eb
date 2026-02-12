@@ -52,7 +52,7 @@ dependencies = [
     ('cray-fftw',            EXTERNAL_MODULE),
     ('METIS',                local_METIS_version),
     ('ELPA',                 local_ELPA_version, versionsuffix),
-#    ('libxc',                local_libxc_version, '-FHC'),
+    ('libxc',                local_libxc_version, '-FHC'),
 ]
 
 configopts = ' '.join( [
