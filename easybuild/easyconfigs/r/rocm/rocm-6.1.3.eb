@@ -288,6 +288,10 @@ done
 sed -i "s/enable-new-dtags/disable-new-dtags/" ./llvm/bin/rocm.cfg
 
 popd
+
+pushd %(installdir)s
+find . -type f -perm /111 -exec chmod go+rx '{}' \;
+popd
 """
 
 pkg_config = """
