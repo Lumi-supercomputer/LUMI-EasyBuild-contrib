@@ -118,14 +118,16 @@ easyconfigs:
 #
 # MicroHH
 #
-#  - MicroHH-2.0.1-cpeGNU-25.03.eb # Needs to be tested on a compute node.
+  - MicroHH-2.0.1-cpeGNU-25.03.eb:
+      options:
+        skip-test-step: True
 #
 # mpiFileUtils
 #
   - lustre-includes-2.15.1.eb # Though we may just want this in common.
   - mpiFileUtils-0.12-cpeGNU-25.03.eb
   - mpiFileUtils-0.12-cpeCray-25.03.eb
-  - mpiFileUtils-0.12-cpeAOCC-25.03.eb # Temporarily disabled as cpeAOCC was still building on the TDS.
+  - mpiFileUtils-0.12-cpeAOCC-25.03.eb
 #
 # MUMPS
 #
