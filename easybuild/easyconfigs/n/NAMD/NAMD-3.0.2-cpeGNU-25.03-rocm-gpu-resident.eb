@@ -78,7 +78,7 @@ toolchain = {'name': 'cpeGNU', 'version': '25.03'}
 toolchainopts = {'dynamic': False}
 
 sources =   ['NAMD_%(version)s_Source.tar.gz']
-checksums = ['4809360bdbe4f67aebd56847210537a24f6c785c381e501341260a7812879da4']
+checksums = ['0916700dec3342165b7ba2c3b5f99dcff767879d2a4931b5028dba47acd68bd5']
 
 download_instructions  = f'Manually obtain {sources[0]} at'
 download_instructions += ' https://www.ks.uiuc.edu/Development/Download/download.cgi?PackageName=NAMD'
