@@ -1,7 +1,7 @@
 easyblock = 'ConfigureMake'
 
 name = 'aws-ofi-nccl'
-version = 'a1a626a'
+version = '1.18.0'
 versionsuffix = '-rocm'
 
 homepage = 'https://github.com/aws/aws-ofi-nccl'
@@ -30,20 +30,20 @@ sources = [{
     'git_config': {
         'url': 'https://github.com/aws',
         'repo_name': '%(name)s',
-        'commit': '%(version)s'
+        'commit': 'v%(version)s'
     }
 }]
 
 dependencies = [
-    ('rocm', 'EXTERNAL_MODULE'),
-    ('libfabric/1.22.0', 'EXTERNAL_MODULE'), # Cray branch
+    ('rocm', EXTERNAL_MODULE),
+    ('libfabric/1.22.0', EXTERNAL_MODULE), # Cray branch
 ]
 
 preconfigopts = ' ./autogen.sh && '
 configopts = (
+    ' CC=gcc-14 CXX=g++-14 '
     ' --with-libfabric=/opt/cray/libfabric/$(pkg-config --modversion libfabric) '
     ' --with-rocm=${ROCM_PATH} '
-    ' --with-mpi=${CRAY_MPICH_BASEDIR}/rocm-compiler/6.0 '
 )
 
 sanity_check_paths = {
