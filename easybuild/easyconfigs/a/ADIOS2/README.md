@@ -44,3 +44,10 @@
 
 -   Trivial port of the 2.10.1 EasyConfig for 24.03, but added a versionsuffix
     to the version using `cray-hdf5` to make the differences clearer from the name.
+
+
+### Version 2.11.0 for CPE 25.09
+
+-   Mostly a trivial port of the 2.10.2 EasyConfig for 25.03, but changed the name of
+    the download to a more meaningful name rather than just v2.11.0.tar.gz.
+

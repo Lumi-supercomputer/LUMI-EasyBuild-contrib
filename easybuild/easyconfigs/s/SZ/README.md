@@ -51,6 +51,6 @@
 -   Mostly a trivial port of the EasyConfig for this version for 24.03, but we
     corrected the download location as that has changed.
     
-    The change in the download location with with an effective name change to SZ2,
+    The change in the download location with an effective name change to SZ2,
     which we did not implement in EasyBuild but which did require several other 
     corrections also in the EasyConfig.
