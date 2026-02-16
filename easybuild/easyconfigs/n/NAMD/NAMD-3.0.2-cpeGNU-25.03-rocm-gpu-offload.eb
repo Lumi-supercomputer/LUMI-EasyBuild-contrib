@@ -83,8 +83,8 @@ toolchainopts = {'dynamic': False}
 sources = ['NAMD_%(version)s_Source.tar.gz']
 patches = ['NAMD_hip_lumi-rocm-6.3.4.patch']
 checksums = [
-    {'NAMD_3.0.2_Source.tar.gz':       '4809360bdbe4f67aebd56847210537a24f6c785c381e501341260a7812879da4'},
-    {'NAMD_hip_lumi-rocm-6.3.4.patch': 'c1c6d0d04fdb60c0bcd360abaea11d15b6c6d25b928b60d29f618a1b9dc2b272'},
+    {'NAMD_3.0.2_Source.tar.gz':       '0916700dec3342165b7ba2c3b5f99dcff767879d2a4931b5028dba47acd68bd5'},
+    {'NAMD_hip_lumi-rocm-6.3.4.patch': 'd84a3d49234e0b8ec44a97fedd39c9085812b872a41ef645239e26522125aa6a'},
 ]
 
 download_instructions  = f'Manually obtain {sources[0]} at'
