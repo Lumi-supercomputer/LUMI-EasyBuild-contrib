@@ -1,30 +1,25 @@
-diff --git a/NAMD_3.0_Source/arch/Linux-x86_64.hip b/NAMD_3.0_Source/arch/Linux-x86_64.hip
-index 98a2090..c177886 100644
---- a/NAMD_3.0.2_Source/arch/Linux-x86_64.hip
-+++ b/NAMD_3.0.2_Source/arch/Linux-x86_64.hip
-@@ -8,11 +8,17 @@ HIPDIR  = $(ROCMDIR)
+diff -Naur a/NAMD_3.0.2_Source/arch/Linux-x86_64.hip b/NAMD_3.0.2_Source/arch/Linux-x86_64.hip
+--- a/NAMD_3.0.2_Source/arch/Linux-x86_64.hip	2026-02-16 16:56:24.378697375 +0100
++++ b/NAMD_3.0.2_Source/arch/Linux-x86_64.hip	2026-02-16 16:57:52.758772676 +0100
+@@ -8,7 +8,7 @@
  #endif
  
  ifeq ($(PLATFORM),)
 -    PLATFORM = $(shell $(HIPDIR)/bin/hipconfig -P)
 +    PLATFORM =amd#$(shell hipconfig -P)
  endif
+ 
+ # assign ROCMV version number as "{major}.{minor}"
+@@ -26,7 +26,11 @@
+ 
  CUDADIR = $(HIPDIR)
  export HIP_PLATFORM=$(PLATFORM)
 -HIPCCOPTS = -std=c++17 -O3 -fPIE -fexpensive-optimizations -ffast-math $(shell export HIP_PLATFORM=$(PLATFORM); $(HIPDIR)/bin/hipconfig --cpp_config) 
 +HIPCCOPTS = -std=c++17 -O3 -fPIE -fexpensive-optimizations -ffast-math -D__HIP_PLATFORM_HCC__=/opt/rocm-6.3.4clang -D__HIP_PLATFORM_AMD__=amd
 +
-+#$(shell export HIP_PLATFORM=$(PLATFORM); $(HIPDIR)/bin/hipconfig --cpp_config) 
-+
-+
++#$(shell export HIP_PLATFORM=$(PLATFORM); $(HIPDIR)/bin/hipconfig --cpp_config)
 +
 +
  ifneq ($(HIPCUB_DIR),)
      HIPCCOPTS += -I$(HIPCUB_DIR)
  endif
-@@ -54,4 +60,4 @@ endif
- CUDAOBJS = $(CUDAOBJSRAW)
- CUDA = $(CUDAFLAGS) -I. $(shell export HIP_PLATFORM=$(PLATFORM); $(HIPDIR)/bin/hipconfig --cpp_config) 
- CUDACC = $(HIPCC)
--CUDACCOPTS = $(HIPCCOPTS) $(CUDAFLAGS)
-+CUDACCOPTS = $(HIPCCOPTS) $(CUDAFLAGS) 
