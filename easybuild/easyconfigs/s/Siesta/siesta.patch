@@ -1,0 +1,11 @@
+--- siesta_init.F	2025-12-16 12:10:34.000000000 +0200
++++ siesta_init.F	2026-02-17 15:29:54.164891451 +0200
+@@ -358,7 +358,7 @@
+ #ifdef MPI
+       call gridxc_init(comm=MPI_COMM_ID(MPI_Comm_World))
+ #else
+-      call gridxc_init()
++      call gridxc_init(MPI_COMM_WORLD)
+ #endif
+ 
+ !     Write exchange-correlation functional to .cml file
