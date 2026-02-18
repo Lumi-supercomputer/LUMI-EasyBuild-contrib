@@ -1,0 +1,77 @@
+# Updated from 4.1.5 for LUMI/24.03 to 5.4.2 for LUMI/25.03 by Tor Skovsgaard (DeiC)
+#
+#DOC Siesta 5.4.2 for LUMI/25.03 sometimes fails finding libfdf when building. Rerunning the easybuild install usually fixes this.
+
+easyblock = 'CMakeMake'
+
+local_METIS_version     = '5.1.0'
+local_ELPA_version      = '2025.06.001'
+local_SCALAPACK_version = '5.1'
+local_libxc_version     = '7.0.0'
+
+name =          'Siesta'
+version =       '5.4.2'
+versionsuffix = '-rocm'
+
+homepage = 'https://siesta-project.org/siesta/'
+
+whatis = [
+    'Description: SIESTA is both a method and its computer program implementation, to perform ' +
+    'efficient electronic  structure calculations and ab initio molecular dynamics ' +
+    'simulations of molecules and solids.'
+]
+
+description = """
+SIESTA is both a method and its computer program implementation, to perform 
+efficient electronic  structure calculations and ab initio molecular dynamics 
+simulations of molecules and solids.
+"""
+
+docurls = [
+    'Web-based documentation on https://docs.siesta-project.org/'
+]
+
+toolchain = {'name': 'cpeGNU', 'version': '25.03'}
+toolchainopts = {'usempi': True, 'precise': True, 'openmp': False}
+
+# https://gitlab.com/siesta-project/siesta/-/releases/5.4.2/downloads/siesta-5.4.2.tar.gz
+source_urls = ['https://gitlab.com/siesta-project/siesta/-/releases/%(version)s/downloads/']
+sources = [SOURCELOWER_TAR_GZ]
+patches = [
+    ('arch_make_5.4.2.patch', 1),
+]
+checksums = [
+    {'siesta-5.4.2.tar.gz': '63d41b6b96e53b8ffa96750a80052ac61ee9550331604920f9040e2486a29b8d'},
+]
+
+dependencies = [
+    ('cray-hdf5',            EXTERNAL_MODULE),
+    ('cray-netcdf',          EXTERNAL_MODULE),
+    ('cray-parallel-netcdf', EXTERNAL_MODULE),
+    ('cray-fftw',            EXTERNAL_MODULE),
+    ('METIS',                local_METIS_version),
+    ('ELPA',                 local_ELPA_version, versionsuffix),
+    ('libxc',                local_libxc_version, '-NoFHC'),
+]
+
+configopts = ' '.join( [
+    '-DSIESTA_WITH_IPO=ON',
+    '-DSIESTA_WITH_MPI=ON',
+    '-DMPI_Fortran_COMPILER=ftn',
+])
+
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s && cd ../siesta-%(version)s/ && ' +
+    'cp COPYING AUTHORS NOTICE.txt README.md %(installdir)s/share/licenses/%(name)s'
+]
+
+files_to_copy = [
+    (['./Obj/siesta'], './bin/'),
+]
+
+sanity_check_paths = {
+    'files': ['bin/siesta'],
+    'dirs':  ['bin'],
+}
+
+moduleclass = 'phys'
