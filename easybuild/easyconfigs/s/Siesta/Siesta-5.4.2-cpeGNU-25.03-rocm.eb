@@ -38,11 +38,10 @@ toolchainopts = {'usempi': True, 'precise': True, 'openmp': False}
 source_urls = ['https://gitlab.com/siesta-project/siesta/-/releases/%(version)s/downloads/']
 sources = [SOURCELOWER_TAR_GZ]
 patches = [
-    ('arch_make.patch', 1),
+    ('arch_make_5.4.2.patch', 1),
 ]
 checksums = [
     {'siesta-5.4.2.tar.gz': '63d41b6b96e53b8ffa96750a80052ac61ee9550331604920f9040e2486a29b8d'},
-    {'arch_make.patch': 'ceb50d774d8464deb09e5da268b4333fc2d6ba1cbe9f535eefe9d7c0c3e6463e'},
 ]
 
 dependencies = [
