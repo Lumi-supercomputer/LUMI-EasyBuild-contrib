@@ -13,6 +13,6 @@ are compatible with the GPU driver on LUMI:
     that became available after the January 2026 system update.
 
 -   `rocm/7.0.3` is offered as-is. RCCL does not work and there is also no matching
-    MPI library. ROCm(tm|) 7 support will only come with the 26.03 version of the 
+    MPI library. ROCm(tm) 7 support will only come with the 26.03 version of the 
     HPE Cray Programming Environment, but it remains to be seen how the RCCL issues
     can get solved.
