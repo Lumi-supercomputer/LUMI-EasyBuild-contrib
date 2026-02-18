@@ -39,7 +39,6 @@ source_urls = ['https://gitlab.com/siesta-project/siesta/-/releases/%(version)s/
 sources = [SOURCELOWER_TAR_GZ]
 patches = [
     ('arch_make.patch', 1),
-    ('siesta.patch', 1),
 ]
 checksums = [
     {'siesta-5.4.2.tar.gz': '63d41b6b96e53b8ffa96750a80052ac61ee9550331604920f9040e2486a29b8d'},
@@ -53,7 +52,7 @@ dependencies = [
     ('cray-fftw',            EXTERNAL_MODULE),
     ('METIS',                local_METIS_version),
     ('ELPA',                 local_ELPA_version, versionsuffix),
-    ('libxc',                local_libxc_version, '-FHC'),
+    ('libxc',                local_libxc_version, '-NoFHC'),
 ]
 
 configopts = ' '.join( [
