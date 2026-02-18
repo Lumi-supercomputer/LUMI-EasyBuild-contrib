@@ -52,7 +52,7 @@ diff -Naur siesta/Obj/arch.make siesta-5.4.2/Obj/arch.make
 +FFTW_INCFLAGS = -I${FFTW_INC}
 +FFTW_LIBS = -L{$FFTW_DIR} -lfftw3f -lfftw3 
 +
-+MPI = yes
++MPI_INTERFACE = libmpi_f90.a 
 +
 +MPI_INCLUDE = .
 +
