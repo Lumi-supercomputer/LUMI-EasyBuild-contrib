@@ -56,6 +56,8 @@ dependencies = [
 
 configopts = ' '.join( [
     '-DSIESTA_WITH_IPO=ON',
+    '-DSIESTA_WITH_MPI=ON',
+    '-DMPI_Fortran_COMPILER=ftn',
 ])
 
 postinstallcmds = [
