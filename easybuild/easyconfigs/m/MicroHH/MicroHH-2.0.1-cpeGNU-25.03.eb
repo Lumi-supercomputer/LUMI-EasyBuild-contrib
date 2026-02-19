@@ -1,0 +1,90 @@
+# This EasyConfig was contributed by the EPICURE project (https://epicure-hpc.eu/).
+#DOC CPU version, compile for `partition/C` and run on LUMI-C.
+#DOC The test step does want to start job steps, so
+#DOC either compile anywhere but disable the test step using
+#DOC `eb MicroHH-2.0.1-cpeGNU-25.03.eb --skip-test-step` or
+#DOC allocate a node with `srun -N1 -t15:00 -A project_46YXXXXXX -pstandard --pty bash`
+#DOC and compile in that environment. It is essential that you do not use a `-n` or
+#DOC `-c` flag with that `srun` command. The test phase should be quick. If it hangs
+#DOC for more than two minutes or so during the `testing...` step then you made a 
+#DOC mistake somewhere and `srun` got stuck.
+easyblock = 'CMakeMake'
+
+local_Boost_version = '1.88.0'
+name = 'MicroHH'
+version = '2.0.1'
+
+homepage = 'https://microhh.org/'
+
+whatis = [
+	'Description: For the simulation of turbulent flows in the atmosphere'
+]
+
+description = """
+MicroHH is a computational fluid dynamics code designed to simulate turbulent
+flows in the atmosphere using Direct Numerical Simulation (DNS) and Large-Eddy
+Simulation (LES) techniques. Its capabilities span a range from highly
+idealized flows to realistic atmospheric boundary layers, incorporating all
+relevant processes, such as moist thermodynamics, radiation, land surface
+processes, and microphysics. The code is written in C++/CUDA and runs on
+both CPUs and GPUs.
+
+The version is this module is for CPU only (as CUDA cannot be used on other
+than NVIDIA GPUs as it is NVIDIA-proprietary technology).
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '25.03'}
+
+sources = [{
+        'filename': SOURCE_TAR_XZ,
+        'git_config': {
+                'url': 'https://github.com/microhh',
+                'repo_name': 'microhh',
+                'tag': '%(version)s',
+                'recursive': True,
+                'keep_git_dir': True,
+        },
+}]
+
+patches = [
+	('MicroHH-config-default.patch', 1),
+]
+ 
+builddependencies = [
+	('buildtools', '%(toolchain_version)s', '', True),
+	('Boost',      local_Boost_version),
+]
+
+dependencies = [
+	('cray-fftw',   EXTERNAL_MODULE),
+	('cray-hdf5',	EXTERNAL_MODULE),
+	('cray-netcdf', EXTERNAL_MODULE),
+    ('cray-python', EXTERNAL_MODULE),
+]
+
+configopts =  '-DUSEMPI=TRUE'
+
+test_cmd  = 'cp %(builddir)s/%(namelower)s/cases/drycblles/drycblles_input.py . && '
+test_cmd += 'cp %(builddir)s/%(namelower)s/cases/drycblles/drycblles.ini . && '
+test_cmd += 'pip install netcdf4 && python drycblles_input.py && '
+test_cmd += 'sed -i "/^savetime/ s/1800/300/g" drycblles.ini && '
+test_cmd += 'sed -i "/^endtime/ s/10800/300/g" drycblles.ini && '
+test_cmd += 'srun -n 1 -c 1 --overlap microhh init drycblles && '
+test_cmd += 'srun -n 1 -c 1 --overlap microhh run drycblles && '
+test_cmd += '[ -f drycblles.default.0000000.nc ]'
+
+install_cmd  = 'mkdir -p %(installdir)s/bin && '
+install_cmd += 'cp microhh %(installdir)s/bin && '
+install_cmd += 'cp -r %(builddir)s/%(namelower)s/cases %(installdir)s/cases'
+
+postinstallcmds = [
+    'mkdir -p %(installdir)s/lib/python%(pyshortver)s',
+    'cp -r %(builddir)s/%(namelower)s/python %(installdir)s/lib/python%(pyshortver)s/site-packages',
+]
+
+sanity_check_paths = {
+    'files': ['bin/microhh'],
+    'dirs':  ['bin', 'cases', 'lib/python%(pyshortver)s/site-packages'],
+}
+
+moduleclass = 'cae'

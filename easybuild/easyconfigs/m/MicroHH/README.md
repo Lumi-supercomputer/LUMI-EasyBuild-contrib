@@ -24,5 +24,8 @@ the time of writing).
 
 -   `MicroHH-2.0.1-cpeGNU-24.03.eb`: version for the Cray Programming Environment 
     with GNU compiler version 24.03.
+
 -   `MicroHH-2.0.1-cpeGNU-25.03.eb`: version for the Cray Programming Environment 
     with GNU compiler version 25.03.
+
+    This version also adds some testing in the "testing" step.
