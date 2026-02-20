@@ -23,6 +23,7 @@ sources = [{
 
 dependencies = [
     ('rocm/6.3.4', EXTERNAL_MODULE),
+    ('cray-mpich/9.0.1', EXTERNAL_MODULE)
 ]
 
 preconfigopts  = 'export CMAKE_PREFIX_PATH="$ROCM_PATH:$CRAY_MPICH_PREFIX:$CMAKE_PREFIX_PATH" && '
