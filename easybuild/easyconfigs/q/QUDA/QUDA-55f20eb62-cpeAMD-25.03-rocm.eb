@@ -1,7 +1,7 @@
 easyblock = 'CMakeMake'
 
 name = 'QUDA'
-version = '07822b6'
+version = '55f20eb62'
 versionsuffix = '-rocm'
 
 homepage = 'https://lattice.github.io/quda/'
@@ -9,7 +9,7 @@ homepage = 'https://lattice.github.io/quda/'
 description = """QUDA is a library for performing calculations in lattice QCD on GPUs."""
 
 
-toolchain = {'name': 'cpeAMD', 'version': '24.03'}
+toolchain = {'name': 'cpeAMD', 'version': '25.03'}
 toolchainopts = {'usempi': True, 'openmp': True}
 
 sources = [{
@@ -17,35 +17,34 @@ sources = [{
     'git_config': {
         'url': 'https://github.com/lattice',
         'repo_name': 'quda',
-        'commit': '07822b6'
+        'commit': version,
     }
 }]
 
 dependencies = [
-    ('rocm', '6.2.2', '', SYSTEM),
+    ('rocm/6.3.4', EXTERNAL_MODULE),
 ]
 
-builddependencies = [
-    ('buildtools',   '%(toolchain_version)s',   '', True),
-]
-
-preconfigopts = 'export CMAKE_PREFIX_PATH="$ROCM_PATH:$CRAY_MPICH_PREFIX:$CMAKE_PREFIX_PATH" && '
+preconfigopts  = 'export CMAKE_PREFIX_PATH="$ROCM_PATH:$CRAY_MPICH_PREFIX:$CMAKE_PREFIX_PATH" && '
+preconfigopts += 'export MPI_CFLAGS="-O2 -frelaxed-template-template-args -fopenmp -fgpu-rdc -I${MPICH_DIR}/include" && '
+preconfigopts += 'export MPI_CXXFLAGS="$MPI_CFLAGS -std=c++17" && '
+preconfigopts += 'export MPI_LDFLAGS="-L${MPICH_DIR}/lib -lmpi -L${ROCM_PATH}/lib -fopenmp ${PE_MPICH_GTL_DIR_amd_gfx90a} ${PE_MPICH_GTL_LIBS_amd_gfx90a}" && '
 
 configopts  = '-D CMAKE_C_COMPILER=$(which amdclang) '
 configopts += '-D CMAKE_CXX_COMPILER=$(which amdclang++) '
 configopts += '-D MPI_C_COMPILER=$(which cc) '
 configopts += '-D MPI_CXX_COMPILER=$(which CC) '
+configopts += '-D CMAKE_CXX_FLAGS="${MPI_CXXFLAGS}" '
+configopts += '-D CMAKE_C_FLAGS="${MPI_CFLAGS}" '
 configopts += '-D CMAKE_C_STANDARD=99 '
-configopts += '-D CMAKE_EXE_LINKER_FLAGS="${PE_MPICH_GTL_DIR_amd_gfx90a} ${PE_MPICH_GTL_LIBS_amd_gfx90a}" '
-configopts += '-D CMAKE_SHARED_LINKER_FLAGS="${PE_MPICH_GTL_DIR_amd_gfx90a} ${PE_MPICH_GTL_LIBS_amd_gfx90a}" '
+configopts += '-D CMAKE_EXE_LINKER_FLAGS="${MPI_LDFLAGS}" '
+configopts += '-D CMAKE_SHARED_LINKER_FLAGS="${MPI_LDFLAGS}" '
 configopts += '-D ROCM_PATH=${ROCM_PATH} '
 configopts += '-D AMDGPU_TARGETS="gfx90a" '
-configopts += '-D GPU_TARGETS="gfx90a" '
 configopts += '-D QUDA_GPU_ARCH="gfx90a" '
 configopts += '-D BUILD_SHARED_LIBS=ON '
 configopts += '-D QUDA_TARGET_TYPE="HIP" '
 configopts += '-D QUDA_MPI=ON '
-configopts += '-D QUDA_COVDEV=OFF '
 configopts += '-D QUDA_DIRAC_NDEG_TWISTED_CLOVER=OFF '
 configopts += '-D QUDA_DIRAC_NDEG_TWISTED_MASS=OFF '
 configopts += '-D QUDA_DIRAC_DOMAIN_WALL=OFF '
