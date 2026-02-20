@@ -1,7 +1,8 @@
 easyblock = 'CMakeMake'
 
 name =    'rocSHMEM'
-version = '6.4.2'
+version = '3.0.0'
+local_tag = 'rocm-7.0.0'
 
 homepage = 'https://rocm.docs.amd.com/projects/rocSHMEM/en/latest/'
 
@@ -20,12 +21,13 @@ sources = [{
     'git_config': {
         'url': 'https://github.com/ROCM',
         'repo_name': '%(name)s',
-        'commit': 'rocm-%(version)s',
+        'commit': local_tag,
     }
 }]
 
 dependencies = [
     ('rocm', EXTERNAL_MODULE),
+    ('cray-mpich/9.0.1', EXTERNAL_MODULE)
 ]
 
 
@@ -35,18 +37,14 @@ builddependencies = [
 
 configopts  = '-DROCM_PATH=$ROCM_PATH '
 configopts += '-DMPI_ROOT=$MPICH_DIR '
-configopts += '-DCMAKE_CXX_COMPILER=CC '
+configopts += '-DCMAKE_CXX_COMPILER=$(which hipcc) '
 configopts += '-DDEBUG=OFF '
 configopts += '-DPROFILE=OFF '
-configopts += '-DUSE_GPU_IB=OFF '
-configopts += '-DUSE_RO=OFF '
-configopts += '-DUSE_DC=OFF '
+configopts += '-DUSE_RO=ON '
 configopts += '-DUSE_IPC=ON '
-configopts += '-DUSE_COHERENT_HEAP=ON '
 configopts += '-DUSE_THREADS=OFF '
 configopts += '-DUSE_WF_COAL=OFF '
-configopts += '-DUSE_SINGLE_NODE=ON '
-configopts += '-DUSE_HOST_SIDE_HDP_FLUSH=OFF '
+configopts += '-DUSE_SINGLE_NODE=OFF '
 configopts += '-DBUILD_LOCAL_GPU_TARGET_ONLY=ON '
 configopts += '-DBUILD_UNIT_TESTS=OFF '
 configopts += '-DAMDGPU_TARGETS=gfx90a '
