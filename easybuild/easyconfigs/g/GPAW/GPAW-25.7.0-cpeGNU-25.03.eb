@@ -1,0 +1,67 @@
+#DOC This is a version of GPAW built with libvdwxc for LUMI-C.
+easyblock = "PythonPackage"
+
+local_gpaw_data_version = '1.0.1'  # https://gpaw.readthedocs.io/setups/setups.html#setup-releases
+local_libxc_version     = '7.0.0'  # https://libxc.gitlab.io/changes/
+local_libvdwxc_version  = '0.5.0'  # https://launchpad.net/libvdwxc/stable/
+
+name = 'GPAW'
+version = '25.7.0'
+
+homepage = 'https://wiki.fysik.dtu.dk/gpaw/'
+description = """GPAW is a density-functional theory (DFT) Python code based on the projector-augmented wave (PAW)
+ method and the atomic simulation environment (ASE). It uses real-space uniform grids and multigrid methods or
+ atom-centered basis-functions."""
+
+toolchain = {'name': 'cpeGNU', 'version': '25.03'}
+toolchainopts = {'usempi': True, 'openmp': True}
+
+sources = [{
+     'filename': SOURCELOWER_TAR_GZ,
+     'source_urls': [PYPI_LOWER_SOURCE],
+}]
+patches = [
+   {'name': 'GPAW-%(version)s-siteconfig-cpu.patch', 'level': 1},
+   {'name': 'GPAW-%(version)s-fix-dependency-versions.patch', 'level': 1},
+]
+checksums = [
+    {'gpaw-25.7.0.tar.gz': '93ac829bba36be74eab0d7deef5eb798613c04edbce196837208d206cf39c431'},
+    {'GPAW-25.7.0-siteconfig-cpu.patch': '12682be6f65a990ddd1c17a21f14c9f8fa681890f410d356bf5474255f5f2912'},
+    {'GPAW-25.7.0-fix-dependency-versions.patch': '018c57be8afec4efd4cbc8011fe4f93889c8f6d81fea5dffb5df5af2870d6603'},
+]
+
+builddependencies = [
+    # Provides wheel
+    ('buildtools-python', '%(toolchain_version)s', '-cray-python%(pyshortver)s', True),
+]
+
+dependencies = [
+    ('cray-python/3.11.7',  EXTERNAL_MODULE),
+    ('cray-fftw/3.3.10.10', EXTERNAL_MODULE),
+    ('libxc',               local_libxc_version, '-FHC'),
+    ('libvdwxc',            local_libvdwxc_version),
+    ('gpaw-data',           local_gpaw_data_version),
+]
+
+prebuildopts = 'GPAW_CONFIG=siteconfig-lumi-cpu.py '
+preinstallopts = prebuildopts
+
+download_dep_fail = False
+use_pip = True
+use_pip_for_deps = True
+pip_verbose = True
+pip_ignore_installed = False
+pip_no_index = False
+sanity_pip_check = True
+
+sanity_check_paths = {
+    'files': ['bin/gpaw%s' % x for x in ['', '-analyse-basis', '-basis', '-plot-parallel-timings',
+                                         '-runscript', '-setup', '-upfplot']],
+    'dirs': ['lib/python%(pyshortver)s/site-packages'],
+}
+
+sanity_check_commands = [
+    "gpaw info"
+]
+
+moduleclass = 'chem'
