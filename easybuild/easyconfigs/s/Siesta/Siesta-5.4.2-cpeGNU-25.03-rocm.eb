@@ -51,13 +51,16 @@ dependencies = [
     ('cray-fftw',            EXTERNAL_MODULE),
     ('METIS',                local_METIS_version),
     ('ELPA',                 local_ELPA_version, versionsuffix),
-    ('libxc',                local_libxc_version, '-NoFHC'),
+    ('libxc',                local_libxc_version, '-FHC'),
 ]
 
 configopts = ' '.join( [
     '-DSIESTA_WITH_IPO=ON',
     '-DSIESTA_WITH_MPI=ON',
     '-DMPI_Fortran_COMPILER=ftn',
+    '-DBLAS_LIBRARY=NONE',
+    '-DLAPACK_LIBRARY=NONE',
+    '-DSCALAPACK_LIBRARY=NONE',
 ])
 
 postinstallcmds = [
