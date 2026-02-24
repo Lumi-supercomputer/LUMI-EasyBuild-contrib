@@ -69,7 +69,6 @@ CFLAGS += -I$(EBROOTSPGLIB)/include
 CXXFLAGS += -I$(EBROOTSPGLIB)/include
 LIBS += -L$(EBROOTSPGLIB)/lib -lsymspg
 
-#libspla is at this moment broken, it creates a segfault in the runtime. 
 #libspfft
 FCFLAGS += -I$(EBROOTSPFFT)/include
 FCFLAGS += -I$(EBROOTSPFFT)/include
