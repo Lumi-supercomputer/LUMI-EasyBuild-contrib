@@ -51,7 +51,7 @@ deps = [
     ('cray-python',   EXTERNAL_MODULE),
     ('cray-libsci',   EXTERNAL_MODULE),
     ('Boost',         local_Boost_version),
-    ('lumi-CrayPath', lumi_CrayPath_version, '', SYSTEM),  # Specific for 25.09 as we don't want the default MPI etc.
+    #('lumi-CrayPath', lumi_CrayPath_version, '', SYSTEM),  # Specific for 25.09 as we don't want the default MPI etc.
 ]
 
 # These options are taken from CSC installation developed by Rasmus adapted for AMD toolchain 
