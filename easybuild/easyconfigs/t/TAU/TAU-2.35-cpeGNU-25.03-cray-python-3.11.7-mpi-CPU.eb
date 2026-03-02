@@ -83,6 +83,11 @@ prebuildopts = ['PATH=$PATH:%(installdir)s/craycnl/bin/']
 build_cmd = 'make install'
 install_cmd = ' '  # Empty string would get passed as None-like resulting in default
 
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cp COPYRIGHT CREDITS LICENSE README README.gpu README.sampling %(installdir)s/share/licenses/%(name)s',
+]
+
 sanity_check_paths = {
     'files': ['craycnl/bin/tau_exec'],
     'dirs': []
