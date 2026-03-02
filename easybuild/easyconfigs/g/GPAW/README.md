@@ -38,3 +38,25 @@
 
 -   GPU device selection is patched compared to the upstream code version.
 
+
+### 25.1.0 for CPU in 24.03
+
+-   Adding libvdwxc as a dependency
+
+-   Otherwise a rather straightforward adaptation of 24.6.0, but it needed a partly different
+    set of patches to install.
+
+
+### 25.7.0 for CPU in 25.03
+
+-   A fairly straightforward adaptation of the EasyConfig for 25.1.0 in 24.03, and we can do with
+    fewer patches.
+
+
+### 25.7.0 for GPU in 25.03
+
+-   Based on 24.06.0 for 24.03.
+
+-   Adding the `gpaw-data` dependency.
+
+-   And again a different set of patches needed...

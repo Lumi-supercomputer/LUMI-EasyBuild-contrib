@@ -95,4 +95,7 @@ multithread version or the singlethread version?
 -   Added license information for the 25.03 versions.
 
 
+### 2025.06.001 for GPU and CPU
+
+-   The EasyConfigs are based on those of previous versions.
   
