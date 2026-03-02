@@ -45,7 +45,7 @@ tested and reliable set of LDA, GGA, and meta-GGA  functionals.
     to 25.03 as well.
 
 
-### Version 7.0.0 for cpeGNU 24.03
+### Version 7.0.0 for cpeGNU 24.03, 25.03, 25.09
 
 -   Derived from the 6.2.2 EasyConfig.
 
@@ -57,3 +57,11 @@ tested and reliable set of LDA, GGA, and meta-GGA  functionals.
     easyconfigs.
     
     The `-NoFHC` version is required for some VASP configurations.
+
+-   For 25.09
+
+    -   Switched to the new set of EasyConfig parameters.
+
+    -   For CP2K: We checked how CP2K builds `libvxc` leading to the `-FHC-KXC` variant which is 
+        basically the former `-KXC` variant. We may have been building CP2K with the wrong variant
+        for a while...
