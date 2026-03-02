@@ -42,4 +42,9 @@ configopts = ' '.join([
 
 prebuildopts = ['PATH=$PATH:%(installdir)s/x86_64/bin/']
 
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cp LICENSE %(installdir)s/share/licenses/%(name)s',
+]
+
 moduleclass = 'perf'
