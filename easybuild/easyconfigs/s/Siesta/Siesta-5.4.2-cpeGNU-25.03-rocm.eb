@@ -1,6 +1,14 @@
 # Updated from 4.1.5 for LUMI/24.03 to 5.4.2 for LUMI/25.03 by Tor Skovsgaard (DeiC)
 #
-#DOC Siesta 5.4.2 for LUMI/25.03 sometimes fails finding libfdf when building. Rerunning the easybuild install usually fixes this.
+#DOC Checksums for Siesta seem to be a bit unreliable. If you get a checksum error,
+#DOC you may want to use the `--ignore-checksums` option of EasyBuild. It looks like
+#DOC sometimes changes happen in the repository without changing the version number.
+#DOC
+#DOC Siesta 5.4.2 for LUMI/25.03 sometimes fails finding libfdf when building.
+#DOC Rerunning the easybuild install usually fixes this. This could be a timing-related
+#DOC error but it is also a strange thing as a good installation process shouldn't be
+#DOC looking for other software anymore in the install phase, but do so in the configure
+#DOC phase.
 
 easyblock = 'CMakeMake'
 
@@ -41,7 +49,8 @@ patches = [
     ('arch_make_5.4.2.patch', 1),
 ]
 checksums = [
-    {'siesta-5.4.2.tar.gz': '63d41b6b96e53b8ffa96750a80052ac61ee9550331604920f9040e2486a29b8d'},
+    {'siesta-5.4.2.tar.gz':   '9cd855bd2702b69785588931aa06e4c1b1036f11b5ef7b01ecc29a7218a38d3f'},
+    {'arch_make_5.4.2.patch': '21cd8d60793752764069014c7718a78971730b4f1a08468c3eed518a5ff41fc5'},
 ]
 
 dependencies = [
@@ -66,10 +75,6 @@ configopts = ' '.join( [
 postinstallcmds = [
     'mkdir -p %(installdir)s/share/licenses/%(name)s && cd ../siesta-%(version)s/ && ' +
     'cp COPYING AUTHORS NOTICE.txt README.md %(installdir)s/share/licenses/%(name)s'
-]
-
-files_to_copy = [
-    (['./Obj/siesta'], './bin/'),
 ]
 
 sanity_check_paths = {
