@@ -42,7 +42,7 @@ sources =     [{
     'git_config' : {
         'url'          : 'https://github.com/eth-cscs',
         'repo_name'    :'%(name)s',
-        'tag'          :'v2.6.6',
+        'tag'          :'v%(version)s',
         'recursive'    : True,
         'keep_git_dir' : True, 
     },
