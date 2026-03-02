@@ -1,0 +1,94 @@
+# Created for LUMI by Orian Louant
+easyblock = 'EB_Libint'
+
+local_LibInt_CP2K_version = '2.7.2'
+
+local_Boost_version =        '1.90.0'        # https://www.boost.org/
+local_GMP_version =          '6.3.0'         # https://ftp.gnu.org/gnu/gmp/
+local_Eigen_version =        '3.4.0'         # https://gitlab.com/libeigen/eigen/-/releases
+
+local_lmax = 6
+
+name =           'Libint-CP2K'
+version =        local_LibInt_CP2K_version
+version_suffix = f'-lmax-{local_lmax}'
+
+homepage = 'https://github.com/evaleev/libint'
+
+whatis = [
+    'Description: Libint is a library for computing Gaussian integrals in quantum mechanics',
+]
+
+description = """
+Libint in a library for the evaluation of molecular integrals of many-body
+operators over Gaussian functions.
+
+Libint-CP2K is a version specifically configured for CP2K.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '25.09'}
+toolchain_opts = {'opt': True, 'pic': True}
+
+source_urls = ['https://github.com/evaleev/libint/archive']
+sources =     ['v%(version)s.tar.gz']
+
+patches = [
+    'Libint-2.7.2_remove-test-permute.patch',
+    'Libint-2.7.2_remove-test-eri.patch',
+    'Libint-2.7.2_update-catch-hpp-fix-MINSIGSTKSZ.patch',
+]
+
+checksums = [
+    {'v2.7.2.tar.gz'                                       : 'fd0466ce9eb6786b8c5bbe3d510e387ed44b198a163264dfd7e60b337e295fd9'},
+    {'Libint-2.7.2_remove-test-permute.patch'              : 'b019e66a2a3dc7e83ee8a60aa1ae78955a8af4df90ab07b7e57d2ee004ce3677'},
+    {'Libint-2.7.2_remove-test-eri.patch'                  : '4dd7b2993b6fdebb57e5c14faa9bf46117ae42100c686ace82fe26b7cb0312ab'},
+    {'Libint-2.7.2_update-catch-hpp-fix-MINSIGSTKSZ.patch' : 'd974418064b3ea3be914d95ae23c64f307f33d205b0ab3c79fd6ecf9fc6b57fd'},
+]
+
+build_deps = [
+    ('buildtools',          '%(toolchain_version)s', '', True),
+    ('craype-network-none', EXTERNAL_MODULE),
+    ('craype-accel-host',   EXTERNAL_MODULE),
+    ('cray-python', EXTERNAL_MODULE),
+    ('Eigen',               local_Eigen_version, '', True),
+    ('Boost',               local_Boost_version),
+    ('GMP',                 local_GMP_version),
+]
+
+#
+# Values are based on compiler.config in
+# https://github.com/cp2k/libint-cp2k/releases/download/v2.6.0/libint-v2.6.0-cp2k-lmax-6.tgz
+# The formulas are valid for lmax from 4 till 7, all values available in the original 
+# downloads of specially configured libint-versions for CP2K. 
+#
+local_eri_max_am = '%s,%s' % (local_lmax, local_lmax - 1)
+local_eri23_max_am = '%s,%s' % (local_lmax + 2, local_lmax + 1)
+
+pre_configure_opts = 'module unload rocm cray-libsci && '
+pre_build_opts = pre_configure_opts
+
+with_fortran = True # EasyBlock option, and CP2K uses --enable-fortran when building this package.
+libint_compiler_configopts = ' '.join([
+    #'--with-cartgauss-ordering=standard',       # Default value, but just to stress...
+    #'--with-shgauss-ordering=standard',         # Default value, but just to stress...
+    #'--with-shell-set=standard',                # Default value, but just to stress...
+    '--enable-eri=1', 
+    '--enable-eri2=1',
+    '--enable-eri3=1',
+    f'--with-max-am={local_lmax}',               # Support Gaussians of angular momentum up to N. Can specify values for each derivative levels as a list N0,N1,N2...
+    f'--with-eri-max-am={local_eri_max_am}',     # Compile with support for up to N-th derivatives of electron repulsion integrals. Can specify values for each derivative levels as a list N0,N1,N2...
+    f'--with-eri2-max-am={local_eri23_max_am}',  # Compile with support for up to N-th derivatives of 2-center electron repulsion integrals. Can specify values for each derivative levels as a list N0,N1,N2...
+    f'--with-eri3-max-am={local_eri23_max_am}',  # Compile with support for up to N-th derivatives of 3-center electron repulsion integrals. Can specify values for each derivative levels as a list N0,N1,N2...
+    '--enable-generic-code',
+    '--disable-unrolling',
+])
+
+with_fortran = True
+run_test = False
+
+post_install_cmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cd ../libint-%(version)s && cp CHANGES CITATION COPYING.LESSER INSTALL LICENSE README.md %(installdir)s/share/licenses/%(name)s',   
+]
+
+env_mod_category = 'chem'
