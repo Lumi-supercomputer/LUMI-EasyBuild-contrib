@@ -1,0 +1,74 @@
+#DOC This is a version of GPAW built for LUMI-G.
+easyblock = "PythonPackage"
+
+local_gpaw_data_version = '1.0.1'  # https://gpaw.readthedocs.io/setups/setups.html#setup-releases
+local_libxc_version     = '7.0.0'  # https://libxc.gitlab.io/changes/
+local_libvdwxc_version  = '0.5.0'  # https://launchpad.net/libvdwxc/stable/
+local_cupy_version      = '13.5.1'
+local_elpa_version      = '2025.06.001'
+
+name = 'GPAW'
+version = '25.7.0'
+versionsuffix = '-rocm'
+
+homepage = 'https://wiki.fysik.dtu.dk/gpaw/'
+description = """GPAW is a density-functional theory (DFT) Python code based on the projector-augmented wave (PAW)
+ method and the atomic simulation environment (ASE). It uses real-space uniform grids and multigrid methods or
+ atom-centered basis-functions."""
+
+toolchain = {'name': 'cpeGNU', 'version': '25.03'}
+toolchainopts = {'usempi': True, 'openmp': False}
+
+sources = [{
+     'filename': SOURCELOWER_TAR_GZ,
+     'source_urls': [PYPI_LOWER_SOURCE],
+}]
+patches = [
+   {'name': 'GPAW-%(version)s-siteconfig-gpu.patch', 'level': 1},
+   {'name': 'GPAW-%(version)s-Elpa-2025.patch', 'level': 1},
+   {'name': 'GPAW-%(version)s-fix-dependency-versions.patch', 'level': 1},
+]
+checksums = [
+    {'gpaw-25.7.0.tar.gz': '93ac829bba36be74eab0d7deef5eb798613c04edbce196837208d206cf39c431'},
+    {'GPAW-25.7.0-siteconfig-gpu.patch': '5ec04d6d3ed55bb7ac5462d38ac9438c49c8e9e6e7e341f1fafd50cfb837460e'},
+    {'GPAW-25.7.0-Elpa-2025.patch': 'ad2c778528aa502802fb4d748034cbdefcf0ef6490319b6189b0922b079cb058'},
+    {'GPAW-25.7.0-fix-dependency-versions.patch': '018c57be8afec4efd4cbc8011fe4f93889c8f6d81fea5dffb5df5af2870d6603'},
+]
+
+builddependencies = [
+    # Provides wheel
+    ('buildtools-python', '%(toolchain_version)s', '-cray-python%(pyshortver)s', True),
+]
+
+dependencies = [
+    ('cray-python/3.11.7',  EXTERNAL_MODULE),
+    ('cray-fftw/3.3.10.10', EXTERNAL_MODULE),
+    ('rocm/6.3.4',          EXTERNAL_MODULE),
+    ('libxc',               local_libxc_version, '-FHC'),
+    ('gpaw-data',           local_gpaw_data_version),
+    ('CuPy',                local_cupy_version, '-rocm'),
+    ('ELPA',                local_elpa_version, '-rocm'),
+]
+
+prebuildopts = 'GPAW_CONFIG=siteconfig-lumi-gpu.py '
+preinstallopts = prebuildopts
+
+download_dep_fail = False
+use_pip = True
+use_pip_for_deps = True
+pip_verbose = True
+pip_ignore_installed = False
+pip_no_index = False
+sanity_pip_check = True
+
+sanity_check_paths = {
+    'files': ['bin/gpaw%s' % x for x in ['', '-analyse-basis', '-basis', '-plot-parallel-timings',
+                                         '-runscript', '-setup', '-upfplot']],
+    'dirs': ['lib/python%(pyshortver)s/site-packages'],
+}
+
+sanity_check_commands = [
+    "gpaw info"
+]
+
+moduleclass = 'chem'
