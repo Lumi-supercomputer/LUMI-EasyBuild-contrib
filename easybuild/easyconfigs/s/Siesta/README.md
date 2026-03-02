@@ -23,3 +23,6 @@
 
 -   The EasyConfig is developed by LUST using `MakeCp` rather 
     then adapting the software-specific easyblock from EasyBuild.
+
+### Siesta 5.4.2 for cpeGNU 25.03, GPU Version
+-  The EasyConfig was adapted by changing MakeCp into CMakeMake inspired by the recipe in the Easybuild repositories
