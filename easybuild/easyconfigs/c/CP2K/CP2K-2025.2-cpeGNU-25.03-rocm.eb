@@ -19,8 +19,8 @@ local_SPLA_version         = '1.6.1'
 local_SpFFT_version        = '1.1.1'
 local_GSL_version          = '2.8'
 
-name = 'CP2K'
-version = '2025.2'
+name =          'CP2K'
+version =       '2025.2'
 versionsuffix = '-rocm'
 
 homepage = 'http://www.cp2k.org/'
@@ -50,7 +50,7 @@ patches = [
 ]
 checksums = [
     {'cp2k-2025.2.tar.bz2':          'c8392a4e123304644ec8d241443796277c6ed7ae977452317e779f3c387c2e19'},
-    {'LUMIG-20252.psmp':             '895d4205a9b5257b74e8f4d5f506638e12977c46e4a600e762edb41ee282773c'},
+    {'LUMIG-20252.psmp':             'e401553099932a757ed161a266a14eaa40ccf29036cd77ea37ba2d00e633c8d2'},
     {'CP2K-2025.2-rocm-dbcsr.patch': 'ffc2ee1ec5833fc30c68e8e9d885323c18019445e54071cea1d0eddeaae34145'},
 ]
 

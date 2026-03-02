@@ -19,7 +19,8 @@ DFLAGS  += -D__LIBINT
 DFLAGS  += -D__OFFLOAD_GEMM
 DFLAGS  += -D__HDF5
 DFLAGS  += -D__DBCSR_DISABLE_HOST_ALLOC
-#DFLAGS  += -D__SPLA
+DFLAGS  += -D__SPLA
+DFLAGS  += -D__SPFFT
 CXXSTD   =-std=c++17
 #Down from O3 because of errors
 OPTFLAG  =-O3
@@ -69,18 +70,17 @@ CFLAGS += -I$(EBROOTSPGLIB)/include
 CXXFLAGS += -I$(EBROOTSPGLIB)/include
 LIBS += -L$(EBROOTSPGLIB)/lib -lsymspg
 
-#libspla is at this moment broken, it creates a segfault in the runtime. 
-##libspfft
-#FCFLAGS += -I$(EBROOTSPFFT)/include
-#FCFLAGS += -I$(EBROOTSPFFT)/include
-#FCFLAGS += -I$(EBROOTSPFFT)/include
-#LIBS += -I$(EBROOTSPFFT)/lib -lspfft
-#
-##libspla
-#FCFLAGS += -I$(EBROOTSPLA)/include/spla
-#FCFLAGS += -I$(EBROOTSPLA)/include/spla
-#FCFLAGS += -I$(EBROOTSPLA)/include/spla
-#LIBS += -I$(EBROOTSPLA)/lib -lspla
+#libspfft
+FCFLAGS += -I$(EBROOTSPFFT)/include
+FCFLAGS += -I$(EBROOTSPFFT)/include
+FCFLAGS += -I$(EBROOTSPFFT)/include
+LIBS += -I$(EBROOTSPFFT)/lib -lspfft
+
+#libspla
+FCFLAGS += -I$(EBROOTSPLA)/include/spla
+FCFLAGS += -I$(EBROOTSPLA)/include/spla
+FCFLAGS += -I$(EBROOTSPLA)/include/spla
+LIBS += -I$(EBROOTSPLA)/lib -lspla
 
 #libvori
 LIBS += -L$(EBROOTLIBVORI)/lib -lvori
