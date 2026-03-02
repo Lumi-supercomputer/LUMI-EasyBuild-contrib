@@ -37,3 +37,10 @@
     included recursively in the GitHub repository, and cloning the whole thing from GitHub
     is simply easier then assembling the unpacked sources from different source files.
     
+-   For 25.09:
+
+    -   Stuck to 2.7.0 even though there was a 2.7.1. That one however did not create some of
+        the shared libraries (the `costa` ones) while it did generate the static equivalents.
+
+    -   Switched to new set of EasyConfig parameters and also added more comments explaining
+        choices.

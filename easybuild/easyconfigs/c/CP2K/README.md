@@ -84,7 +84,7 @@ future toolchains.
             is the preferred version. COSMA 2.7.0 was available when this EasyConfig 
             was developed, but we stock to the last 2.6 version to be on the safe side.
     
-        -   [libxsmm 1.17](https://github.com/cp2k/cp2k/blob/v2024.3/tools/toolchain/scripts/stage3/install_libxc.sh#L9)
+        -   [libxsmm 1.17](https://github.com/cp2k/cp2k/blob/v2024.3/tools/toolchain/scripts/stage4/install_libxsmm.sh#L9)
             should be OK.
             
     -   [Stage 5](https://github.com/cp2k/cp2k/tree/v2024.3/tools/toolchain/scripts/stage5)
@@ -117,3 +117,66 @@ future toolchains.
 - A few updates to the PSMP-file concerning flags.
 
 - Otherwise a trivial port of the corresponding 2024.2 version for LUMI/24.03
+
+-   Dependency check in the code of CP2K:
+
+    -   [stage 2](https://github.com/cp2k/cp2k/tree/v2025.2/tools/toolchain/scripts/stage2)
+
+        -   [GMP 6.3.0](https://github.com/cp2k/cp2k/blob/v2025.2/tools/toolchain/scripts/stage2/install_gmp.sh)
+
+    -   [stage 3](https://github.com/cp2k/cp2k/tree/v2025.2/tools/toolchain/scripts/stage3)
+        
+		-   [Libint 2.6.0](https://github.com/cp2k/cp2k/blob/v2025.2/tools/toolchain/scripts/stage3/install_libint.sh#L15).
+		    We've used Libint 2.7.2 (regular release) before so will stick to that one for now.
+		    The decision to switch to 2.7.2 in an earlier version of the EasyConfigs was likely taken
+		    because that was also used in the EasyBuilders repository for an already older version of 
+		    CP2K. There are much newer versions around though, but support for CP2K in EasyBuild is 
+            currently very outdated.
+
+        -   It was tested with [libxc 7.0.0](https://github.com/cp2k/cp2k/blob/v2025.2/tools/toolchain/scripts/stage3/install_libxc.sh#L9).
+            
+    -   [Stage 4](https://github.com/cp2k/cp2k/tree/v2025.2/tools/toolchain/scripts/stage4)
+
+        -   [COSMA 2.7.0](https://github.com/cp2k/cp2k/blob/v2025.2/tools/toolchain/scripts/stage4/install_cosma.sh#L9)
+            is the preferred version.
+    
+        -   [libxsmm commit e0c4a2389afba36c453233ad7de07bd92c715bec](https://github.com/cp2k/cp2k/blob/v2025.2/tools/toolchain/scripts/stage3/install_libxc.sh#L9)
+            rather than a regular version.
+            
+    -   [Stage 5](https://github.com/cp2k/cp2k/tree/v2025.2/tools/toolchain/scripts/stage5)
+        
+    		-   The version was tested by the developers with [ELPA 2024.05.001](https://github.com/cp2k/cp2k/blob/v2025.2/tools/toolchain/scripts/stage5/install_elpa.sh#L10).
+       		 	Even though there are much newer versions, we will stick to that version.
+       		 	
+    -   [Stage 6](https://github.com/cp2k/cp2k/tree/v2025.2/tools/toolchain/scripts/stage6)
+    
+        -   [GSL 2.8](https://github.com/cp2k/cp2k/blob/v2025.2/tools/toolchain/scripts/stage6/install_gsl.sh#L9)
+            
+        -   Tested with [PLUMED 2.9.3](https://github.com/cp2k/cp2k/blob/v2025.2/tools/toolchain/scripts/stage6/install_plumed.sh#L9)
+            but we stick to the bugfix release 2.9.4.
+        
+    -   [Stage 7](https://github.com/cp2k/cp2k/tree/v2025.2/tools/toolchain/scripts/stage7)
+    
+        -   Tested with [libvori 220621](https://github.com/cp2k/cp2k/blob/v2025.2/tools/toolchain/scripts/stage7/install_libvori.sh#L10).
+        
+        -   Tested with [spglib 2.5.0](https://github.com/cp2k/cp2k/blob/v2025.2/tools/toolchain/scripts/stage7/install_spglib.sh#L8).
+            CP2K seems to be slow upgrading that one. We build with 2.6.0 but consider reverting to 
+            2.5.0 is users report issues. the ChangeLog of spglib also does not mention anything too scary.
+
+    -   [Stage 8](https://github.com/cp2k/cp2k/tree/v2025.2/tools/toolchain/scripts/stage8)
+
+        -   [SPLA 1.6.1](https://github.com/cp2k/cp2k/blob/v2025.2/tools/toolchain/scripts/stage8/install_spla.sh#L9)
+
+        -   [SpFFT 1.1.1](https://github.com/cp2k/cp2k/blob/v2025.2/tools/toolchain/scripts/stage8/install_spfft.sh#L9).
+            But does this make sense without Sirius?
+
+    -   [Stage 9](https://github.com/cp2k/cp2k/tree/v2025.2/tools/toolchain/scripts/stage9)
+
+        -   [DBCSR 2.8.0](https://github.com/cp2k/cp2k/blob/v2025.2/tools/toolchain/scripts/stage9/install_dbcsr.sh#L9)
+
+            This package however also ships with CP2K in the exts subdirectory and is not an additional download
+            going on in the background, so there is no real need to make it an external dependency. 
+
+-   Otherwise a rather trivial port of the corresponding 2024.2 versions for LUMI/24.03.   
+        
+
