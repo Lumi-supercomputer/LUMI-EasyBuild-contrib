@@ -1,0 +1,60 @@
+easyblock = 'ConfigureMake'
+
+name =          'Neko'
+version =       '1.0.1'
+versionsuffix = '-rocm'
+
+homepage = 'https://github.com/ExtremeFLOW/neko'
+
+whatis = [
+    "Description: Neko is a portable framework for high-order spectral element flow simulations."    
+]
+
+description = """
+Neko is a portable framework for high-order spectral element flow simulations. 
+Written in modern Fortran, Neko adopts an object-oriented approach, allowing 
+multi-tier abstractions of the solver stack and facilitating various hardware 
+backends ranging from general-purpose processors, CUDA and HIP enabled 
+accelerators to SX-Aurora vector processors. Neko has its roots in the 
+spectral element code Nek5000 from UChicago/ANL, from where many of the 
+namings, code structure and numerical methods are adopted.
+
+Neko is currently maintained and developed at KTH Royal Institute of 
+Technology.
+"""
+
+docurls = [
+    'https://github.com/ExtremeFLOW/neko/tree/develop/doc',
+]
+
+toolchain = {'name': 'cpeCray', 'version': '25.03'}
+toolchainopts = {'openmp': True}
+
+# https://github.com/ExtremeFLOW/neko/releases/download/v1.0.0/neko-1.0.0.tar.gz
+source_urls = ["https://github.com/ExtremeFLOW/neko/releases/download/v%(version)s"]
+sources =     ["neko-%(version)s.tar.gz"]
+
+dependencies = [
+    ('rocm/6.3.4',   EXTERNAL_MODULE),
+    ('cray-mpich/9.0.0', EXTERNAL_MODULE),
+    ('json-fortran', '8.3.0'),
+]
+
+# This is taken from https://github.com/ExtremeFLOW/neko/discussions/665#discussioncomment-15727594
+# with -fopenmp option added
+preconfigopts = ' '.join([
+    'CFLAGS="-O3 -fopenmp"',   
+    'FCFLAGS="-O0 -fopenmp"',  
+    'HIP_HIPCC_FLAGS="-O3 -D__HIP_PLATFORM_AMD__ --offload-arch=gfx90a"',
+    'LDFLAGS="$PE_MPICH_GTL_DIR_amd_gfx90a $PE_MPICH_GTL_LIBS_amd_gfx90a"',
+    'JSON_Fortran_CFLAGS="-I$EBROOTJSONMINFORTRAN/include/"'
+])
+
+configopts  = '--enable-openmp --enable-device-mpi --with-hip=$ROCM_PATH'
+
+sanity_check_paths = {
+    'files': ['bin/neko', 'bin/makeneko', 'lib/libneko.a'],
+    'dirs':  ['bin', 'lib', 'lib64', 'include'],
+}
+
+moduleclass = 'phys'
