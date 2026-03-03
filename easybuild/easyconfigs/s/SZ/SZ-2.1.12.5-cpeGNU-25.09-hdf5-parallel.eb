@@ -11,7 +11,7 @@ local_SZ_version =           '2.1.12.5'      # https://github.com/szcompressor/S
 
 name =          'SZ'
 version =       local_SZ_version
-versionsuffix = '-hdf5-parallel'
+version_suffix = '-hdf5-parallel'
 
 homepage = 'https://szcompressor.org'
 
@@ -35,33 +35,29 @@ data.
 software_license_urls = ['https://github.com/szcompressor/SZ/blob/master/copyright-and-BSD-license.txt']
 
 toolchain = {'name': 'cpeGNU', 'version': '25.09'}
-toolchainopts = {'pic': True}
+toolchain_opts = {'pic': True}
 
 # https://github.com/szcompressor/SZ2/archive/refs/tags/v2.1.12.5.tar.gz
-sources = [{
-    'download_filename': f'v{version}.tar.gz',
-    'filename':          SOURCE_TAR_GZ,
-    'source_urls':       ['https://github.com/szcompressor/SZ2/archive/refs/tags'],
-}]
-checksums = ['57511afe995c84daa1a2ea3024cae15946539575eb8121248dbcd6f56ce65fc3']
+# https://github.com/szcompressor/SZ2/releases/download/v2.1.12.5/SZ-2.1.12.5.tar.gz
+source_urls = ['https://github.com/szcompressor/SZ2/releases/download/v%(version)s']
+sources =     ['SZ-%(version)s.tar.gz']
+checksums =   ['32a820daf6019156a777300389d2392e4498a5c9daffce7be754cd0a5ba8729c']
 
-builddependencies = [
+build_deps = [
     ('buildtools',          '%(toolchain_version)s', '', True),
     ('craype-accel-host',   EXTERNAL_MODULE),
 ]
 
-dependencies = [
+deps = [
     ('zlib',                     local_zlib_version),
     ('cray-hdf5-parallel', EXTERNAL_MODULE),
     ('cray-netcdf-hdf5parallel', EXTERNAL_MODULE),
 ]
 
-start_dir = f'SZ2-{version}'
+pre_configure_opts = 'module rm rocm cray-libsci && '
+pre_build_opts = pre_configure_opts
 
-preconfigopts = 'module rm rocm cray-libsci && '
-prebuildopts = preconfigopts
-
-preconfigopts += ' && '.join([
+pre_configure_opts += ' && '.join([
     'export PKG_CONFIG_PATH=$CRAY_MPICH_PREFIX/lib/pkgconfig:$PKG_CONFIG_PATH',
     '; '.join([
         'pushd %(builddir)s/SZ2-%(version)s/NetCDFReader',
@@ -70,16 +66,16 @@ preconfigopts += ' && '.join([
     ]),
 ]) + ' && '
 
-configopts = ' '.join([
+configure_opts = ' '.join([
     '-DBUILD_FORTRAN=ON',
     '-DBUILD_HDF5_FILTER=ON',
     '-DBUILD_NETCDF_READER=ON',
     '-DBUILD_OPENMP=ON',
 ])
 
-postinstallcmds = [
+post_install_cmds = [
     'mkdir -p %(installdir)s/share/licenses/%(name)s',
-    'cd ../SZ2-%(version)s && cp copyright-and-BSD-license.txt %(installdir)s/share/licenses/%(name)s',   
+    'cd ../SZ-%(version)s && cp copyright-and-BSD-license.txt %(installdir)s/share/licenses/%(name)s',   
 ]
 
 sanity_check_paths = {
@@ -87,4 +83,4 @@ sanity_check_paths = {
     'dirs': ['include', 'lib'],
 }
 
-moduleclass = 'data'
+env_mod_category = 'data'
