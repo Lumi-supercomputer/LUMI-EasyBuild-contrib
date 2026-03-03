@@ -5,7 +5,7 @@ easyblock = 'CMakeMake'
 local_Boost_version =        '1.90.0'        # https://www.boost.org/
 local_HeFFTe_version =       '2.4.1'
 # Specific for 25.09:
-lumi_CrayPath_version =      '0.1'
+local_CrayPath_version =     '0.1'
 
 name =           'GROMACS'
 version =        '2026.0'
@@ -52,7 +52,7 @@ deps = [
     ('cray-libsci',   EXTERNAL_MODULE),
     ('HeFFTe',        local_HeFFTe_version,  '-rocm'),
     ('Boost',         local_Boost_version),
-    #('lumi-CrayPath', lumi_CrayPath_version, '',      SYSTEM),  # Specific for 25.09 as we don't want the default MPI etc.
+    #('lumi-CrayPath', local_CrayPath_version, '',      SYSTEM),  # Specific for 25.09 as we don't want the default MPI etc.
 ]
 
 # These options are taken from CSC installation developed by Rasmus adapted for AMD toolchain 
