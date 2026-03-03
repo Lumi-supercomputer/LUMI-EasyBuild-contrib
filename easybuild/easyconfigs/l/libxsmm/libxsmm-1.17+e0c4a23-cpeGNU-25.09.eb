@@ -1,0 +1,77 @@
+# contributed by Luca Marsella (CSCS)
+# Modified by Peter Larsson for LUMI
+# Bump to the latest version and CPE version by Radim Janalik (CSCS)
+easyblock = 'ConfigureMake'
+
+local_libxsmm_version =      '1.17'          # https://github.com/libxsmm/libxsmm/releases
+local_commit =               'e0c4a23'       # Long commit: e0c4a2389afba36c453233ad7de07bd92c715bec
+
+name =    'libxsmm'
+version = f'{local_libxsmm_version}+{local_commit}'
+
+homepage = 'https://readthedocs.org/projects/libxsmm'
+
+whatis = [
+    'Description: Library targeting Intel Architecture for specialized dense and sparse matrix operations, and deep learning primitives'
+]
+
+description = """
+Library targeting Intel Architecture for specialized dense and sparse matrix
+operations, and deep learning primitives.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '25.09'}
+toolchain_opts = {'usempi': True, 'openmp': True}
+
+#source_urls = ['https://github.com/%(name)s/%(name)s/archive/']
+#sources =     ['%(version)s.tar.gz']
+#checksums =   ['8b642127880e92e8a75400125307724635ecdf4020ca4481e5efe7640451bb92']
+sources = [
+    { 
+        'filename': f'{name}-{version}.tar.xz',
+        'git_config': {
+            'url':       'https://github.com/libxsmm',
+            'repo_name': 'libxsmm',
+            'commit':    local_commit,
+            #'clone_into': 'mbd',            
+        }
+    }
+]
+checksums = ['6f5d78b5c62f2e4745cbb25a3c200ed93429a6fe18c84b1c8f2a130d6688e381']
+
+build_deps = [
+    ('buildtools',          '%(toolchain_version)s', '', True),
+    ('craype-network-none', EXTERNAL_MODULE),
+    ('craype-accel-host',   EXTERNAL_MODULE),
+]
+
+# WRAP=0 comes from https://github.com/cp2k/cp2k/blob/v2025.2/tools/toolchain/scripts/stage4/install_libxsmm.sh#L66
+# To consider: I cannot find how MIC and OPT would be used in the Makefile, so they may be irrelevant. But then
+# it does no harm to leave them here either.
+local_common_install_opts = 'PREFIX=%(installdir)s WRAP=0 AVX=2 DBG=0 JIT=1 MALLOC=0 MIC=0 OPT=3 OMP=1 PREFETCH=1'
+
+install_opts = [
+    local_common_install_opts, 
+    local_common_install_opts + ' STATIC=0',
+]
+
+pre_install_opts = 'module unload rocm && '
+
+skip_steps = ['configure', 'build']
+maxparallel = 1
+
+post_install_cmds = [
+    'cd %(installdir)s/lib; mkdir -p pkgconfig; mv *.pc pkgconfig',
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cp LICENSE.md README.md SECURITY.md %(installdir)s/share/licenses/%(name)s',   
+]
+
+sanity_check_paths = {
+    'files': [
+        'bin/libxsmm_gemm_generator', 'include/libxsmm.h', 
+        'lib/libxsmm.a', 'lib/libxsmm.%s' % SHLIB_EXT
+    ],
+    'dirs': ['share']
+}
+
+env_mod_category = 'chem'

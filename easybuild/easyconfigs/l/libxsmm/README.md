@@ -27,3 +27,12 @@
 
 -   Created for PyFR as it requires a recent version of libxsmm but no release
     exists. Use the date of the commit as the version.
+
+
+### libxsmm 1.17+20c4a23
+
+-   Created for CP2K in 25.09, as we noticed that they were using a newer commit in their
+    toolchain scripts.
+
+-   Added `WRAP=0` to the make options as that is actually the only variable that CP2K sets in
+    its build scripts.

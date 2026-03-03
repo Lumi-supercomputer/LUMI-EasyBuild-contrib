@@ -90,7 +90,8 @@ future toolchains.
     -   [Stage 5](https://github.com/cp2k/cp2k/tree/v2024.3/tools/toolchain/scripts/stage5)
         
     		-   The version was tested by the developers with [ELPA 2024.03.001](https://github.com/cp2k/cp2k/blob/v2024.3/tools/toolchain/scripts/stage5/install_elpa.sh#L10).
-       		 	We've used 2024.05.001 before with users not reporting problems so stick to that one.
+       		 	We've used 2024.05.001 before with users not reporting problems.
+                For this build, we try the 2025.06.001 GPU version instead.
        		 	
     -   [Stage 6](https://github.com/cp2k/cp2k/tree/v2024.3/tools/toolchain/scripts/stage6)
     

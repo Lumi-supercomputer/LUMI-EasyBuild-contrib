@@ -6,6 +6,9 @@
 
     -   [Installation instructions on the GitLab](https://gitlab.mpcdf.mpg.de/elpa/elpa/blob/master/INSTALL.md)
 
+-   The [ElLPA manual](https://elpa.mpcdf.mpg.de/userguide/elpa_userguide.pdf) also has very good
+    installation instructions.
+
 
 ## General information
 
@@ -98,4 +101,7 @@ multithread version or the singlethread version?
 ### 2025.06.001 for GPU and CPU
 
 -   The EasyConfigs are based on those of previous versions.
-  
+
+-   For the GPU version in 25.09, we used 
+    `--with-AMD-gpu-support-only=no` as it was not clear why this was turned on before
+    and it only seems to give less versatility.
