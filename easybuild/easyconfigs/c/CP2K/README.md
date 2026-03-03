@@ -108,7 +108,13 @@ future toolchains.
         -   Tested with [spglib 2.5.0](https://github.com/cp2k/cp2k/blob/v2024.3/tools/toolchain/scripts/stage7/install_spglib.sh#L8).
             CP2K seems to be slow upgrading that one. We build with 2.7.0 but consider reverting to 
             2.5.0 if users report issues. the ChangeLog of spglib also does not mention anything too scary.
-            
+
+    -   [Stage 8](https://github.com/cp2k/cp2k/tree/v2025.2/tools/toolchain/scripts/stage8)
+
+        -   Tested with [SPLA 1.6.1](https://github.com/cp2k/cp2k/blob/v2025.2/tools/toolchain/scripts/stage8/install_spla.sh#L9)
+
+        -   Tested with [SpFFT 1.1.1](https://github.com/cp2k/cp2k/blob/v2025.2/tools/toolchain/scripts/stage8/install_spfft.sh#L9)
+
 -   Otherwise a rather trivial port of the corresponding 2024.2 versions for LUMI/24.03.   
         
 ### Version 2025.2 for 25.03 GPU
