@@ -11,3 +11,13 @@ easyconfigs:
   - yaml-cpp-0.8.0-cpeGNU-25.09.eb
   - ADIOS2-2.11.0-cpeGNU-25.09-noMPI-hdf5.eb
   - ADIOS2-2.11.0-cpeGNU-25.09-MPI-hdf5-parallel.eb
+  # #
+# GROMACS
+#
+  - PLUMED-2.9.4-cpeGNU-25.09-noPython.eb
+  - GROMACS-2024.3-cpeGNU-25.09-PLUMED-2.9.4-noPython-CPU.eb
+  - PLUMED-2.9.4-cpeGNU-25.09-cray-python-3.11.7.eb
+  - GROMACS-2024.3-cpeGNU-25.09-PLUMED-2.9.4-cray-python-3.11.7-CPU.eb
+  - GROMACS-2024.6-cpeGNU-25.09-CPU.eb
+  - GROMACS-2025.4-cpeGNU-25.09-CPU.eb
+  - GROMACS-2026.0-cpeGNU-25.09-CPU.eb

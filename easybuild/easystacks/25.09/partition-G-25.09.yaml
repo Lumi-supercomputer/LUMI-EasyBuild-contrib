@@ -1,0 +1,11 @@
+easyconfigs:
+#
+# GROMACS
+#
+  #- AdaptiveCpp-25.02.0-cpeAMD-25.09-rocm.eb
+  - HeFFTe-2.4.1-cpeAMD-25.09-rocm.eb
+  #- GROMACS-2025.1-cpeAMD-25.09-VkFFT-rocm.eb
+  #- GROMACS-2025.1-cpeAMD-25.09-HeFFTe-rocm.eb
+  - GROMACS-2026.0-cpeAMD-25.09-HeFFTe-rocm-hip.eb
+  - GROMACS-2026.0-cpeAMD-25.09-VkFFT-rocm-hip.eb
+  #- GROMACS-2026.0-cpeAMD-25.09-VkFFT-rocm-sycl.eb
