@@ -31,34 +31,34 @@ natural images, regularly sampled terrain surfaces, etc. zfp compression of 1D
 arrays is possible but generally discouraged.
 """
 
-docurls = ['https://zfp.readthedocs.io/en/release1.0.1/']
+doc_urls = ['https://zfp.readthedocs.io/en/release1.0.1/']
 software_license_urls = ['https://github.com/LLNL/zfp/blob/develop/LICENSE']
 
 toolchain = {'name': 'cpeGNU', 'version': '25.09'}
-toolchainopts = {'pic': True}
+toolchain_opts = {'pic': True}
 
 source_urls = ['https://github.com/LLNL/zfp/archive']
 sources =     ['%(version)s.tar.gz']
 checksums =   ['4984db6a55bc919831966dd17ba5e47ca7ac58668f4fd278ebd98cd2200da66f']
 
-builddependencies = [
+build_deps = [
     ('buildtools',          '%(toolchain_version)s', '', True),
     ('craype-network-none', EXTERNAL_MODULE),
     ('craype-accel-host',   EXTERNAL_MODULE),
 ]
 
-dependencies = [
+deps = [
     ('cray-python', EXTERNAL_MODULE),
 ]
 
 # Remove previous install: the reason is that when forcing rebuild (-f flag),
 # the build failed if a previous install already exists at configure stage.
-preconfigopts  = 'rm -rf %(installdir)s/* && '
-preconfigopts += 'module unload rocm cray-libsci && '
+pre_configure_opts  = 'rm -rf %(installdir)s/* && '
+pre_configure_opts += 'module unload rocm cray-libsci && '
 
-prebuildopts = 'module unload rocm cray-libsci && '
+pre_build_opts = 'module unload rocm cray-libsci && '
 
-configopts = ' '.join([
+configure_opts = ' '.join([
     '-DBUILD_SHARED_LIBS:BOOL=ON',
     '-DBUILD_EXAMPLES:BOOL=OFF',
     '-DBUILD_TESTING:BOOL=OFF',
@@ -71,7 +71,7 @@ configopts = ' '.join([
 ])
 
 # create pkgconfig file
-postinstallcmds = [
+post_install_cmds = [
     "mkdir -p %(installdir)s/lib/pkgconfig",
     """echo -e "prefix=%(installdir)s
 libdir=\${prefix}/lib64
@@ -91,8 +91,8 @@ sanity_check_paths = {
     'dirs':  ['lib/pkgconfig'],
 }
 
-modextrapaths = {
+env_mod_extra_paths = {
     'PYTHONPATH': 'lib/python%(pyshortver)s/site-packages',
 }
 
-moduleclass = 'lib'
+env_mod_category = 'lib'

@@ -17,7 +17,7 @@ local_ADIOS2_version =       '2.11.0'        # https://github.com/ornladios/ADIO
 
 name =          'ADIOS2'
 version =       local_ADIOS2_version
-versionsuffix = '-MPI-hdf5-parallel'
+version_suffix = '-MPI-hdf5-parallel'
 
 local_pybind11_cmake_prefix = 'lib/python%(pyshortver)s/site-packages/pybind11/share/cmake'
 
@@ -48,11 +48,11 @@ processed outside of the running simulation. ADIOS2 is
    designed to provide scalable I/O on the largest supercomputers in the world.
 """
 
-docurls = ['https://adios2.readthedocs.io/en/latest/index.html']
+doc_urls = ['https://adios2.readthedocs.io/en/latest/index.html']
 software_license_urls = ['https://github.com/ornladios/ADIOS2/blob/master/LICENSE']
 
 toolchain = {'name': 'cpeGNU', 'version': '25.09'}
-toolchainopts = {'pic': True}
+toolchain_opts = {'pic': True}
 
 # https://github.com/ornladios/ADIOS2/archive/refs/tags/v2.11.0.tar.gz
 sources = [{
@@ -62,12 +62,12 @@ sources = [{
 }]
 checksums = ['0a2bd745e3f39745f07587e4a5f92d72f12fa0e2be305e7957bdceda03735dbf',]
 
-builddependencies = [
+build_deps = [
     ('buildtools',          '%(toolchain_version)s', '', True),
     ('craype-accel-host',   EXTERNAL_MODULE),
 ]
 
-dependencies = [
+deps = [
     ('cray-python', EXTERNAL_MODULE),
     ('cray-hdf5-parallel', EXTERNAL_MODULE),
     # Central stack
@@ -84,12 +84,12 @@ dependencies = [
     ('yaml-cpp',           local_yaml_cpp_version),
 ]
 
-preconfigopts  = 'export CMAKE_PREFIX_PATH=${EBROOTPYTHON}/%s:$CMAKE_PREFIX_PATH && ' % local_pybind11_cmake_prefix
-preconfigopts += 'module unload cray-libsci rocm && '
+pre_configure_opts  = 'export CMAKE_PREFIX_PATH=${EBROOTPYTHON}/%s:$CMAKE_PREFIX_PATH && ' % local_pybind11_cmake_prefix
+pre_configure_opts += 'module unload cray-libsci rocm && '
 
-preinstallopts = pretestopts = prebuildopts = 'module unload cray-libsci rocm && '
+pre_install_opts = pre_test_opts = pre_build_opts = 'module unload cray-libsci rocm && '
 
-configopts = ' '.join([
+configure_opts = ' '.join([
     '-DADIOS2_USE_Fortran=ON',
     '-DADIOS2_USE_MPI=ON',
     
@@ -140,10 +140,10 @@ configopts = ' '.join([
     '-DADIOS2_USE_Profiling=ON',  # Profiling needed for VisIt
 ])
 
-runtest = False
+run_test = False
 
 # create pkgconfig files
-postinstallcmds = [
+post_install_cmds = [
     'mkdir %(installdir)s/lib/pkgconfig',
     """echo -e "Name: adios2
 Description: ADIOS2 I/O library
@@ -182,20 +182,20 @@ sanity_check_paths = {
     'dirs': ['include/adios2', 'lib/python%(pyshortver)s'],
 }
 
-modextrapaths = {
+env_mod_extra_paths = {
     'PYTHONPATH': 'lib/python%(pyshortver)s/site-packages',
 }
 
-modextravars = {
+env_mod_extra_vars = {
     'ADIOS2_PKGCONFIG_LIBS':         'adios2',
     'ADIOS2_CXX_PKGCONFIG_LIBS':     'adios2_cxx',
     'ADIOS2_FORTRAN_PKGCONFIG_LIBS': 'adios2_f',
 }
 
-modluafooter = """
+env_mod_lua_footer = """
 prepend_path("PE_PKGCONFIG_LIBS",         "adios2")
 prepend_path("PE_CXX_PKGCONFIG_LIBS",     "adios2_cxx")
 prepend_path("PE_FORTRAN_PKGCONFIG_LIBS", "adios2_f")
 """
 
-moduleclass = 'data'
+env_mod_category = 'data'

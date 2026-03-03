@@ -25,7 +25,7 @@ responsibility.
 """
 
 toolchain = {'name': 'cpeGNU', 'version': '25.09'}
-toolchainopts = {'pic': True}
+toolchain_opts = {'pic': True}
 
 source_urls = ['https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/openpgm/']
 sources =     ['libpgm-%(version)s.tar.gz']
@@ -38,18 +38,18 @@ checksums = [
     'f28a9a577606f35f21562fe6b274df155a7f3f60ce333a91f93fd011ccec6e36',
 ]
 
-builddependencies = [
+build_deps = [
     ('cray-python', EXTERNAL_MODULE),
     ('craype-network-none', EXTERNAL_MODULE),
     ('craype-accel-host',   EXTERNAL_MODULE)
 ]
 
-preconfigopts = 'module unload rocm cray-libsci && '
-prebuildopts = preconfigopts
+pre_configure_opts = 'module unload rocm cray-libsci && '
+pre_build_opts = pre_configure_opts
 
 start_dir = 'pgm'
 
-postinstallcmds = [
+post_install_cmds = [
     'mkdir -p %(installdir)s/share/licenses/%(name)s',
     'cp COPYING LICENSE README %(installdir)s/share/licenses/%(name)s',   
 ]
@@ -59,4 +59,4 @@ sanity_check_paths = {
     'dirs':  ['include'],
 }
 
-moduleclass = 'system'
+env_mod_category = 'system'

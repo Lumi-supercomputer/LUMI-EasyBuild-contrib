@@ -26,7 +26,7 @@ asynchronous message-processing tasks. It has a score of language APIs and runs
 on most operating systems.
 """
 
-docurls = ['https://zeromq.org/get-started/']
+doc_urls = ['https://zeromq.org/get-started/']
 
 toolchain = {'name': 'cpeGNU', 'version': '25.09'}
 
@@ -34,25 +34,25 @@ source_urls = ['https://github.com/zeromq/libzmq/releases/download/v%(version)s/
 sources =     [SOURCELOWER_TAR_GZ]
 checksums =   ['6653ef5910f17954861fe72332e68b03ca6e4d9c7160eb3a8de5a5a913bfab43']
 
-builddependencies = [
+build_deps = [
     ('buildtools',          '%(toolchain_version)s', '', True),
     ('craype-network-none', EXTERNAL_MODULE),
     ('craype-accel-host',   EXTERNAL_MODULE),
 ]
 
-dependencies = [
+deps = [
     ('OpenPGM',   local_OpenPGM_version),
     ('libsodium', local_libsodium_version),
 ]
 
 # Compilation warnings in GCC 11, cf. https://github.com/zeromq/libzmq/issues/4178
 # Needto disable warnings as errors.
-configopts = '--with-pic --with-pgm --with-libsodium --disable-Werror'
+configure_opts = '--with-pic --with-pgm --with-libsodium --disable-Werror'
 
-preconfigopts = 'module unload cray-libsci rocm && '
-prebuildopts = preconfigopts
+pre_configure_opts = 'module unload cray-libsci rocm && '
+pre_build_opts = pre_configure_opts
 
-postinstallcmds = [
+post_install_cmds = [
     'mkdir -p %(installdir)s/share/licenses/%(name)s',
     'cp AUTHORS ChangeLog INSTALL LICENSE NEWS README.md %(installdir)s/share/licenses/%(name)s',   
 ]
@@ -62,4 +62,4 @@ sanity_check_paths = {
     'dirs':  ['include', 'lib'],
 }
 
-moduleclass = 'devel'
+env_mod_category = 'devel'

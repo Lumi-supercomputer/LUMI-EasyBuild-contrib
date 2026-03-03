@@ -22,3 +22,5 @@
 -   Trivial port of the 0.7.0 recipe.
 
 -   Added the license information in May 2025.
+
+-   For 25.09, we needed to add `-DCMAKE_POLICY_VERSION_MINIMUM=3.5` to use CMake 4.

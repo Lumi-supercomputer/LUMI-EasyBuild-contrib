@@ -25,11 +25,11 @@ Its goal is to provide all of the core operations needed to build higher-level
 cryptographic tools.
 """
 
-docurls = ['https://doc.libsodium.org/']
+doc_urls = ['https://doc.libsodium.org/']
 software_license_urls = ['https://github.com/jedisct1/libsodium/blob/master/LICENSE']
 
 toolchain = {'name': 'cpeGNU', 'version': '25.09'}
-toolchainopts = {'pic': True}
+toolchain_opts = {'pic': True}
 
 source_urls = [
     'https://download.libsodium.org/libsodium/releases/',
@@ -40,16 +40,16 @@ source_urls = [
 sources =   [SOURCE_TAR_GZ]
 checksums = ['9e4285c7a419e82dedb0be63a72eea357d6943bc3e28e6735bf600dd4883feaf']
 
-builddependencies = [
+build_deps = [
     ('buildtools',          '%(toolchain_version)s', '', True),
     ('craype-network-none', EXTERNAL_MODULE),
     ('craype-accel-host',   EXTERNAL_MODULE),
 ]
 
-preconfigopts = 'module unload cray-libsci rocm && '
-prebuildopts = preconfigopts
+pre_configure_opts = 'module unload cray-libsci rocm && '
+pre_build_opts = pre_configure_opts
 
-postinstallcmds = [
+post_install_cmds = [
     'mkdir -p %(installdir)s/share/licenses/%(name)s',
     'cp AUTHORS LICENSE README.markdown THANKS %(installdir)s/share/licenses/%(name)s',   
 ]
@@ -59,4 +59,4 @@ sanity_check_paths = {
     'dirs':  ['include/sodium', 'lib/pkgconfig'],
 }
 
-moduleclass = 'lib'
+env_mod_category = 'lib'
