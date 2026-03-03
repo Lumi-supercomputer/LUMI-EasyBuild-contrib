@@ -23,3 +23,5 @@ gcc is the only compiler people use!
 -   Trivial port of the previous EasyConfig
 
 -   Cleaned up a bit for 25.03.
+
+-   Switched to the new set of EasyConfig parameters for 25.09.
