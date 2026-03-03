@@ -1,0 +1,53 @@
+# contributed by Anton Kozhevnikov and Simon Pintarelli (CSCS)
+# Modified for LUMI by Peter Larsson
+# Bump to the latest version and CPE version by Radim Janalik (CSCS)
+
+easyblock = 'CMakeMake'
+
+local_spglib_version =       '2.7.0'         # https://github.com/spglib/spglib/tags
+
+name =    'spglib'
+version = local_spglib_version
+
+homepage = 'https://spglib.github.io/spglib/'
+
+whatis = [
+    'Description: Spglib is a library for finding and handling crystal symmetries written in C'
+]
+
+description = """
+Spglib is a library for finding and handling crystal symmetries written in C.
+"""
+
+doc_urls = [
+    'C-API: https://spglib.github.io/spglib/api.html',
+]
+
+toolchain = {'name': 'cpeGNU', 'version': '25.09'}
+toolchain_opts = {'openmp': True, 'usempi': False}
+
+source_urls = ['https://github.com/spglib/%(name)s/archive/']
+sources =     ['v%(version)s.tar.gz']
+checksums =   ['b22fc9abae9716c574fbc6d55cfc53ed654a714fccc5657a26ff5d18114bd8bd'] 
+
+build_deps = [
+    ('buildtools',         '%(toolchain_version)s', '', True),
+    ('craype-network-none', EXTERNAL_MODULE),
+    ('craype-accel-host',   EXTERNAL_MODULE),
+]
+
+post_install_cmds = [
+    'cd %(installdir)s/include && mkdir spglib && ln -s ../spglib.h spglib/',
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cd ../%(namelower)s-%(version)s && cp CITATION.cff COPYING ChangeLog.md Contributing.md README.md %(installdir)s/share/licenses/%(name)s',   
+]
+
+pre_configure_opts = 'module unload rocm && '
+pre_install_opts = pre_test_opts = pre_build_opts = pre_configure_opts
+
+sanity_check_paths = {
+    'files': ['include/spglib.h', 'lib/libsymspg.%s' % SHLIB_EXT],
+    'dirs':  [],
+}
+
+env_mod_category = 'chem'

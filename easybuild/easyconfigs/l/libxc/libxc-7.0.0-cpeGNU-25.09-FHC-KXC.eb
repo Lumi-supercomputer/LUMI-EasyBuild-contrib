@@ -34,7 +34,7 @@ from your use of Libxc, please cite:
       density functional theory", Software X 7, 1 (2018)
 """
 
-docurls = [
+doc_urls = [
     'Manual: https://libxc.gitlab.io/manual/',
     'Available functionals: https://libxc.gitlab.io/functionals/'
 ]

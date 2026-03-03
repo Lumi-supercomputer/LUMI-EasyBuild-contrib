@@ -25,7 +25,7 @@ ELPA provides static and shared libraries with and without OpenMP support
 and with and without MPI. GPU kernels are not included in this module.
 """
 
-docurls = [
+doc_urls = [
     'Manual pages in section 1 and 3'
 ]
 

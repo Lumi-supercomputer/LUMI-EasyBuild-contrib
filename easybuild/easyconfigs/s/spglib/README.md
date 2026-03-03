@@ -45,3 +45,7 @@ There are the python, fortran, rust, and ruby interfaces.
 
 -   Almost trivial port, but took care to add license information to the installation.
 
+
+### Version 2.7.0 for 25.09
+
+-   Almost trivial port of the EasyConfig for 2.6.0 in 25.03.

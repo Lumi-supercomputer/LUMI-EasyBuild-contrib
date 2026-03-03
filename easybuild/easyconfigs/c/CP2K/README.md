@@ -105,9 +105,9 @@ future toolchains.
     
         -   Tested with [libvori 220621](https://github.com/cp2k/cp2k/blob/v2024.3/tools/toolchain/scripts/stage7/install_libvori.sh#L10).
         
-        -   Tested with [spglib 2.3.1](https://github.com/cp2k/cp2k/blob/v2024.3/tools/toolchain/scripts/stage7/install_spglib.sh#L8).
-            CP2K seems to be slow upgrading that one. We build with 2.6.0 but consider reverting to 
-            2.3.1 is users report issues. the ChangeLog of spglib also does not mention anything too scary.
+        -   Tested with [spglib 2.5.0](https://github.com/cp2k/cp2k/blob/v2024.3/tools/toolchain/scripts/stage7/install_spglib.sh#L8).
+            CP2K seems to be slow upgrading that one. We build with 2.7.0 but consider reverting to 
+            2.5.0 if users report issues. the ChangeLog of spglib also does not mention anything too scary.
             
 -   Otherwise a rather trivial port of the corresponding 2024.2 versions for LUMI/24.03.   
         
