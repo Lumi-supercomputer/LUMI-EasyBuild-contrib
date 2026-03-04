@@ -37,7 +37,6 @@ sources =     ["neko-%(version)s.tar.gz"]
 
 dependencies = [
     ('rocm/6.3.4',   EXTERNAL_MODULE),
-    ('cray-mpich/9.0.1', EXTERNAL_MODULE),
     ('json-fortran', '9.0.5'),
 ]
 
@@ -49,7 +48,7 @@ preconfigopts = ' '.join([
     'JSON_Fortran_CFLAGS="-I$EBROOTJSONMINFORTRAN/include/"'
 ])
 
-configopts  = '--enable-device-mpi --with-hip'
+configopts  = '--enable-openmp --enable-device-mpi --with-hip'
 
 sanity_check_paths = {
     'files': ['bin/neko', 'bin/makeneko', 'lib/libneko.a'],
