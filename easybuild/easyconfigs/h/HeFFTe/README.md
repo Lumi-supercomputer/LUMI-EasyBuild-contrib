@@ -28,3 +28,5 @@
 -   Direct port of the 2.4.0 EasyConfig for 24.03 with some refinements in the 
     documentation.
 
+-   For 25.09: As the cpeAMD module already loads ROCm, there is no need to load the
+    `rocm` module explicitly (and the same actually holds for older toolchains.)

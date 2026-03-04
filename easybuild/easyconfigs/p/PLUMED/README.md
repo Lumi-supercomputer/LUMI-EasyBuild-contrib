@@ -168,8 +168,9 @@ and `--enable-external-lapack` are used.
     buggy.
     
  
-### 2.9.4 for cpe 25.03
+### 2.9.4 for cpe 25.03 and 25.09
 
 -   Another bugfix release and hence a rather trivial port, but the sources were not made
     available in the usual way.
 
+-   For 25.09, we switched to the new EasyConfig parameter set.
