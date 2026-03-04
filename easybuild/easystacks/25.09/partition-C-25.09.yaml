@@ -1,0 +1,13 @@
+easyconfigs:
+#
+# ADIOS2
+#
+  - SZ-2.1.12.5-cpeGNU-25.09-hdf5.eb
+  - SZ-2.1.12.5-cpeGNU-25.09-hdf5-parallel.eb
+  - zfp-1.0.1-cpeGNU-25.09.eb
+  - OpenPGM-5.2.122-cpeGNU-25.09.eb
+  - libsodium-1.0.21-cpeGNU-25.09.eb
+  - ZeroMQ-4.3.5-cpeGNU-25.09.eb
+  - yaml-cpp-0.8.0-cpeGNU-25.09.eb
+  - ADIOS2-2.11.0-cpeGNU-25.09-noMPI-hdf5.eb
+  - ADIOS2-2.11.0-cpeGNU-25.09-MPI-hdf5-parallel.eb
