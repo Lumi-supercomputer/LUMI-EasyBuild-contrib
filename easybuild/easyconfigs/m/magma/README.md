@@ -31,3 +31,7 @@
 
 -   Specific version with ROCm 6.2.2 needed for CuPy with ROCm 6.2.2 which in turn
     is needed for GPAW.
+
+### Version 2.8.0 for 25.03
+
+-   Update of 24.03 recipe
