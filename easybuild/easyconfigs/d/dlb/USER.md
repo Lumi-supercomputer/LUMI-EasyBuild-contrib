@@ -3,7 +3,7 @@
 
 ## Installing DLB
 
-The installation procedure is described on the [EasyBuild page][EasyBuild].
+The installation procedure is described on the [EasyBuild page](https://docs.lumi-supercomputer.eu/software/installing/easybuild/).
 The step by step procedure to install DLB 3.6.1 is:
 
 1. Load the LUMI software environment: `module load LUMI/25.03`.
@@ -36,8 +36,8 @@ the EasyBuild command:
 $ eb -S dlb
 ```
 
-or checking the [LUMI-EasyBuild-contrib](DLB-LUMI-EasyBuild-contrib)
-repository on GitHub directly.
+or checking the list further down this page.
+<!-- USER.md is processed in the LUMI Software Library, but you won't see the list in GitHub -->
 
 
 ## TALP example (MPI + OpenMP profiling)
@@ -112,7 +112,3 @@ dlb_preload="$EBROOTDLB/lib/libdlb_mpi.so"
 # Launch application preloading DLB
 srun <binding options> env LD_PRELOAD="$dlb_preload" ./your_application
 ```
-
-
-[EasyBuild]: https://docs.lumi-supercomputer.eu/software/installing/easybuild/
-[DLB-LUMI-EasyBuild-contrib]: https://github.com/Lumi-supercomputer/LUMI-EasyBuild-contrib/tree/main/easybuild/easyconfigs/d/dlb
