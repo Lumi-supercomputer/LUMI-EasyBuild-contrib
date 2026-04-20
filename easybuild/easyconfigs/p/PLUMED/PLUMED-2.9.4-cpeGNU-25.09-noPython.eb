@@ -5,19 +5,20 @@
 #DOC Another mostly bug fix release.
 #
 # Instructions to run regression tests at the bottom of this file.
+easybuild_version = '5.2.0'
 easyblock = 'ConfigureMake'
 
-local_crayfftw_version =     '3.3.10.10'
+local_crayfftw_version =     '3.3.10.11'
 
-local_Boost_version =        '1.88.0'        # https://www.boost.org/
+local_Boost_version =        '1.90.0'        # https://www.boost.org/
 local_GSL_version =          '2.8'           # https://ftp.gnu.org/gnu/gsl/
 local_zlib_version =         '1.3.1'         # https://zlib.net/
 
 local_PLUMED2_9_version =    '2.9.4'         # https://github.com/plumed/plumed2/releases
 
-name =          'PLUMED'
-version =       local_PLUMED2_9_version
-versionsuffix = '-noPython'
+name =           'PLUMED'
+version =        local_PLUMED2_9_version
+version_suffix = '-noPython'
 
 homepage = 'https://www.plumed.org'
 
@@ -48,8 +49,8 @@ Contrary to previous versions, hugepages support has been disabled as it causes
 stability issues on SUSE 15SP6, the OS on LUMI after the January 2026 update.
 """
 
-toolchain = {'name': 'cpeCray', 'version': '25.03'}
-toolchainopts = {'usempi': 'True', 'openmp': True, 'strict': True}
+toolchain = {'name': 'cpeGNU', 'version': '25.09'}
+toolchain_opts = {'usempi': 'True', 'openmp': True, 'strict': True}
 
 # For some reason the 2.9.4 release is only releases as a tag and not in the 
 # regular release way of other releases.
@@ -63,25 +64,26 @@ sources = [{
 #sources =     [SOURCE_TGZ]
 checksums =   ['3068ab5e28cbae38b582d128fecac14c820762244d8eb87ad6030f04f96ecd78']
 
-builddependencies = [
+build_deps = [
     ('buildtools',         '%(toolchain_version)s', '', SYSTEM), # For CMake
-    ('craype-hugepages2M', EXTERNAL_MODULE),  # Hugepages causes issues on SUSE 15SP6, but 2M seems to work. Comment out in case of crashes.
+    ('craype-hugepages2M', EXTERNAL_MODULE),  # Other hugepages causes issues on SUSE 15SP6, but 2M seems stable. Outcomment in case of issues.
     ('craype-accel-host',  EXTERNAL_MODULE),  # Avoid enabling OpenMP offload
 ]
 
-dependencies = [
+deps = [
     (f'cray-fftw/{local_crayfftw_version}', EXTERNAL_MODULE),
     ('Boost',     local_Boost_version),
     ('zlib',      local_zlib_version),
     ('GSL',       local_GSL_version,        '-OpenMP'),
+    #('lumi-CrayPath', lumi_CrayPath_version, '',      SYSTEM),  # Specific for 25.09 as we don't want the default MPI etc, but doesn't make sense to load it now if PLUMED is used as a dependency
 ]
 
-preconfigopts = prebuildopts = 'module rm rocm && '
+pre_configure_opts = pre_build_opts = 'module rm rocm && '
 
 # This is a trick to avoid multiple LibSci linking problem
-preconfigopts += 'export LDSHARED="CC -fopenmp -shared" && '
+pre_configure_opts += 'export LDSHARED="CC -fopenmp -shared" && '
 
-configopts = ' '.join([
+configure_opts = ' '.join([
     '--enable-modules=all',
     '--exec-prefix=%(installdir)s',
     '--enable-boost_graph',
@@ -95,7 +97,7 @@ configopts = ' '.join([
     #'--disable-xdrfile',  # This option does no longer exist.
 ])
 
-postinstallcmds = [
+post_install_cmds = [
     # Uncomment the next two lines if you want to install the regression tests with PLUMED,
     # but see the bottom of this file for a better approach
     #'sed -e "s|-mpirun|-srun|" -e "s| -np | -n |" -i regtest/scripts/run',
@@ -112,7 +114,7 @@ sanity_check_paths = {
 # Check if the requested features are indeed enabled. It turns out the the return code
 # of plumed config has can actually be used for that easily. And it would also catch
 # the crashes that we had when compiling with Cray BLAS.
-sanity_check_commands = [
+sanity_check_cmds = [
     'plumed --no-mpi config has mpi',
     'plumed --no-mpi config has fftw',
     'plumed --no-mpi config has zlib',
@@ -122,7 +124,7 @@ sanity_check_commands = [
     'plumed --no-mpi config has asmjit',
 ]
 
-modextravars = {
+env_mod_extra_vars = {
     'PLUMED_KERNEL': '%(installdir)s/lib/libplumedKernel.so',
     'PLUMED_ROOT':   '%(installdir)s/lib/%(namelower)s',
     'PLUMED_VIM':    '%(installdir)s/lib/%(namelower)s/vim',
@@ -137,14 +139,14 @@ local_bash_completion = """
 
 local_csh_completion = '"echo \'Not implemented\'"'
 
-modluafooter = """
+env_mod_lua_footer = """
 set_shell_function( 'plumed-completion', %(bash_completion)s, %(csh_completion)s )
 """ % {
     'bash_completion': local_bash_completion,
     'csh_completion':  local_csh_completion,
 }
 
-moduleclass = 'chem'
+env_mod_category = 'chem'
 
 # --------------------
 # RUN REGRESSION TESTS

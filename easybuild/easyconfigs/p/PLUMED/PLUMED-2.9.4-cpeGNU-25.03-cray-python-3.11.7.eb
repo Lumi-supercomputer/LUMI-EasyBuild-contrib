@@ -71,7 +71,7 @@ checksums =   ['3068ab5e28cbae38b582d128fecac14c820762244d8eb87ad6030f04f96ecd78
 
 builddependencies = [
     ('buildtools',         '%(toolchain_version)s', '', SYSTEM), # For CMake and xxd
-    # ('craype-hugepages8M', EXTERNAL_MODULE), # Hugepages causes issues on SUSE 15SP6.
+    ('craype-hugepages2M', EXTERNAL_MODULE),  # Hugepages causes issues on SUSE 15SP6. 2M seems safe though.
     ('craype-accel-host',  EXTERNAL_MODULE),  # Avoid enabling OpenMP offload
 ]
 
