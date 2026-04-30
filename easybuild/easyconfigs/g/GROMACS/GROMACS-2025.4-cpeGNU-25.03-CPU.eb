@@ -63,7 +63,7 @@ checksums =   ['ca17720b4a260eb73649211e9f6a940ee7543452129844213c3accb0a927a5c3
 
 builddependencies = [
     ('buildtools',         '%(toolchain_version)s', '', True), # For CMake
-    # ('craype-hugepages8M', EXTERNAL_MODULE), # Hugepages causes issues on SUSE 15SP6.
+    ('craype-hugepages2M', EXTERNAL_MODULE), # Hugepages causes issues on SUSE 15SP6, but 2M should be safe. Comment out in case of crashes.
 ]
 
 local_common_opts= ' '.join( [

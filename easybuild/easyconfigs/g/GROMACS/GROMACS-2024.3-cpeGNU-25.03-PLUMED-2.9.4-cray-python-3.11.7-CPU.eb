@@ -81,7 +81,7 @@ local_pyshortver = '.'.join( local_craypython_version.split('.')[:2] )
 builddependencies = [
     ('buildtools',         '%(toolchain_version)s', '',                                True), # For CMake
     ('buildtools-python',  '%(toolchain_version)s', f'-cray-python{local_pyshortver}', True), # wheel
-    # ('craype-hugepages8M', EXTERNAL_MODULE), # Hugepages causes issues on SUSE 15SP6.
+    ('craype-hugepages2M', EXTERNAL_MODULE), # Hugepages causes issues on SUSE 15SP6, but 2M should be safe. Comment out in case of crashes.
 ]
 
 dependencies = [
