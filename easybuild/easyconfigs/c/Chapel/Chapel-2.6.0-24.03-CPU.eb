@@ -1,0 +1,120 @@
+#created by Emanuele Vitali and adapted by Jorik van Kemenade (LUST)
+#DOC Chapel without GPU support.
+#DOC Tricky version that can work in CrayEnv also. It claims to use the SYSTEM toolchain,
+#DOC but under the hood it is using the Cray compiler to build Chapel. You should be able
+#DOC to install it even for CrayEnv (by using `module load LUMI partition/CrayEnv EasyBuild-user`,
+#DOC but it will only work for the CPU target that you find here close to the top of the
+#DOC EasyBuild recipe.
+easyblock = 'ConfigureMake'
+
+local_CPUtarget_module = 'craype-x86-milan'
+local_CPE_version =      '24.03'
+
+name =    'Chapel'
+version = '2.6.0'
+versionsuffix = 'beta'
+
+homepage = 'https://chapel-lang.org/'
+
+whatis = [
+    'Description: Compiler for the Chapel programming language'
+]
+
+description = """
+Chapel, the Cascade High Productivity Language, is a parallel programming
+language that was developed by Cray,[3] and later by Hewlett Packard Enterprise
+which acquired Cray. It was being developed as part of the Cray Cascade project,
+a participant in DARPA's High Productivity Computing Systems (HPCS) program,
+which had the goal of increasing supercomputer productivity by 2010.
+Its development still continues as an open source project.
+"""
+
+docurls = [
+    'Web-based documentation at https://chapel-lang.org/learn/'
+]
+
+toolchain = SYSTEM
+source_urls = ['https://github.com/%(namelower)s-lang/%(namelower)s/releases/download/%(version)s']
+sources = ['%(namelower)s-%(version)s.tar.gz']
+
+checksums  = [
+    'e469c35be601cf1f59af542ab885e8a14aa2b087b79af0d5372a4421976c74b6' , #tarball
+    ]
+
+builddependencies = [
+    (local_CPUtarget_module, EXTERNAL_MODULE),
+    ('buildtools',           local_CPE_version),
+    ('systools',             local_CPE_version),
+]
+
+local_patch_cmds = ' && '.join([
+    # Patch hwloc so that it links properly to our ncurses.
+    'sed -e \'s|(RUNTIME_LFLAGS)|(RUNTIME_LFLAGS) -L$(EBROOTSYSLIBS) -lncursesw -ltinfow|\' -i third-party/hwloc/Makefile',
+    # Patch the install script as it looks like lib/cmake/chpl does not exist, or maybe this
+    # is only generated in special cases.
+    'sed -e \'s|\(myinstalldir  lib/cmake/chpl.*\)|if [ -d lib/cmake/chpl ]; then \\1; fi|\' -i util/buildRelease/install.sh',
+    # Install script calls make but does not do a parallel make unfortunately.
+    # This will speed it up a bit.
+    'sed -e \'s|"$MAKE"|"$MAKE" -j 16|\' -i util/buildRelease/install.sh',
+])
+
+
+# The Chapel config is currently recognised correctly on LUMI
+# the only prerequisite is that we set CHPL_LLVM to "bundled".
+# To hav reliable and reproducable builds, we specificy all options.
+local_chapel_config = ' && '.join([
+    'export CHPL_TARGET_PLATFORM=hpe-cray-ex',
+    'export CHPL_TARGET_COMPILER=llvm',
+    'export CHPL_TARGET_ARCH=x86_64',
+    'export CHPL_TARGET_CPU=x86-milan',
+    'export CHPL_LOCALE_MODEL=flat',
+    'export CHPL_COMM=ofi',
+    'export CHPL_LIBFABRIC=system',
+    'export CHPL_COMM_OFI_OOB=pmi2',
+    'export CHPL_TASKS=qthreads',
+    'export CHPL_LAUNCHER=slurm-srun',
+    'export CHPL_TIMERS=generic',
+    'export CHPL_UNWIND=none',
+    'export CHPL_TARGET_MEM=jemalloc',
+    'export CHPL_ATOMICS=cstdlib',
+    'export CHPL_NETWORK_ATOMICS=ofi',
+    'export CHPL_GMP=none',
+    'export CHPL_HWLOC=bundled',
+    'export CHPL_RE2=none',
+    'export CHPL_LLVM=bundled',
+    'export CHPL_AUX_FILESYS=none',
+])
+
+# Not sure if the configure step does anything useful as we still need to set some parameters
+# in prebuildopts, but let's make sure it also runs in the correct environment.
+preconfigopts = f'module load {local_CPUtarget_module} && ' + local_chapel_config + ' &&  '
+preinstallopts = prebuildopts = preconfigopts
+
+postinstallcmds = [
+    'pwd',
+    'ls',
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cp ACKNOWLEDGEMENTS.md CHANGES.md CONTRIBUTORS.md COPYRIGHT LICENSE LICENSE.chapel README.files README.rst %(installdir)s/share/licenses/%(name)s',
+]
+
+sanity_check_paths = {
+    'files': ['bin/chpl'],
+    'dirs':  [],
+}
+
+sanity_check_commands = [
+    "chpl --version",
+]
+
+# Note: The list of environment variables needed here will differ between configurations and
+# is derived from the directory structure in lib/chapel/2.5/rungime/lib
+modextravars = {
+    'CHPL_HOME': '%(installdir)s/%(namelower)s-%(version)s',
+}
+
+modextrapaths = {
+    'PATH'    : 'util',
+    'MANPATH' : 'man',
+}
+
+moduleclass = 'lang'
