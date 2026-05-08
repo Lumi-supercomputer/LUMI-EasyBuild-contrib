@@ -1,0 +1,44 @@
+easyblock = 'CMakeMake'
+
+name = 'blaspp'
+version = '2024.05.31'
+versionsuffix = '-rocm'
+
+homepage = 'https://icl.utk.edu/slate/'
+
+description = """
+    BLAS++ is a C++ wrapper around CPU and GPU BLAS (basic linear algebra subroutines), developed as part of the SLATE project.
+"""
+
+toolchain = {'name': 'cpeCray', 'version': '24.03'}
+toolchainopts = {'openmp': False}
+
+source_urls = ['https://github.com/icl-utk-edu/%(name)s/archive/refs/tags']
+sources = ['v%(version)s.tar.gz']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+    ('rocm',      EXTERNAL_MODULE),
+    ('cray-libsci', EXTERNAL_MODULE),
+]
+
+configopts = ' '.join([
+    '-D blas=LibSci',
+    '-D blas_int=int32',
+    '-D gpu_backend=hip',
+    '-D use_openmp=OFF',
+    '-D CMAKE_CXX_STANDARD=17',
+])
+
+sanity_check_paths = {
+    'files': [
+      'lib64/libblaspp.so',
+      'include/blas.hh',
+    ],
+    'dirs': ['include/blas'],
+}
+
+moduleclass = 'lib'
