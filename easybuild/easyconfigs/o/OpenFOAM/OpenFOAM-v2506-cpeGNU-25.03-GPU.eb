@@ -3,6 +3,7 @@ easyblock = 'Binary'
 local_Boost_version   =      '1.88.0'        # https://www.boost.org/
 local_SCOTCH7_version =      '7.0.8'         # https://gforge.inria.fr/projects/scotch/
 local_PETSc_version   =      '3.24.4'
+local_petsc4foam_hash =      'cb1badc4978306e7001a4654dcdf53f284a92365'
 
 local_CGAL_5_version =       '5.6.3'         # https://www.cgal.org/
 
@@ -48,27 +49,26 @@ Allrun scripts require some additional tweaking.
 
 toolchain = {'name': 'cpeGNU', 'version': '25.03'}
 
-source_urls = [
-    'https://dl.%(namelower)s.com/source/%(version)s',
-    'https://gitlab.com/petsc/petsc4foam/-/archive/main/petsc4foam-main.tar.gz?ref_type=heads',
+#source_urls = [
+#    'https://dl.%(namelower)s.com/source/%(version)s',
+#    'https://gitlab.com/petsc/petsc4foam/-/archive/main/petsc4foam-main.tar.gz?ref_type=heads',
+#    'https://gitlab.com/petsc/petsc4foam/-/archive/cb1badc4978306e7001a4654dcdf53f284a92365/petsc4foam-cb1badc4978306e7001a4654dcdf53f284a92365.tar.gz'
+#]
+
+sources = [
+    {
+        'filename': '%(name)s-%(version)s.tgz',
+        'source_urls': ['https://dl.%(namelower)s.com/source/%(version)s'],
+    },
+    {
+        'filename': f'petsc4foam-{local_petsc4foam_hash}.tar.gz',
+        'source_urls': [f'https://gitlab.com/petsc/petsc4foam/-/archive/{local_petsc4foam_hash}'],
+        'extract_cmd': 'mkdir %(installdir)s/modules/petsc4foam && tar xfvz %s -C %(installdir)s/modules/petsc4foam',
+    }
 ]
 
-sources = [SOURCE_TGZ]
-checksums = ['63d26f48ae7ee9a7806a0ceb339ef8a0ba485a4714d54fbfb31e78e1a4849965']
+#checksums = ['63d26f48ae7ee9a7806a0ceb339ef8a0ba485a4714d54fbfb31e78e1a4849965']
 
-exts_list = [
-    ('petsc4foam', 'main', {
-        'sources': {
-            'filename': '%(name)s.tar.gz',
-            'git_config': {
-                'url': 'https://gitlab.com/petsc',
-                'repo_name': 'petsc4foam',
-                'commit': 'cb1badc4',
-                'clone_into': '%(installdir)s/modules',
-            }
-        },
-    })
-]
 
 builddependencies = [
     ('buildtools', '%(toolchain_version)s', '', True),
@@ -79,7 +79,7 @@ dependencies = [
     ('cray-fftw', EXTERNAL_MODULE),
     ('SCOTCH',    local_SCOTCH7_version),
     ('PETSc',     local_PETSc_version,   '-GPU'),
-#    ('CGAL',      local_CGAL_5_version,  '-OpenFOAM'),
+    ('CGAL',      local_CGAL_5_version,  '-OpenFOAM'),
 ]
 
 unpack_options = '--strip-components=1'
@@ -88,7 +88,8 @@ buildininstalldir = 'True'
 
 install_cmd  = "source etc/bashrc WM_COMPILER=Cray WM_MPLIB=CRAY-MPICH MPICH_DIR=${CRAY_MPICH_PREFIX} "
 install_cmd += "&& cp ./wmake/rules/General/cgal-no-mpfr ./wmake/rules/General/cgal "
-install_cmd += "&& rm -rf ./modules/external-solver && tar -xvf petsc4foam.tar.gz ./modules/external-solver/ "
+install_cmd += "&& mv ./modules/external-solver ./modules/external-solver-original " 
+install_cmd += "&& ln -s ./modules/petsc4foam ./modules/external-solver "
 install_cmd += "&& export FOAM_EXTRA_CXXFLAGS='-D_GLIBCXX_USE_CXX11_ABI=0' "  # This has to be set after sourcing etc/bashrc!
 install_cmd += "&& ./bin/tools/foamConfigurePaths -boost boost-system -boost-path ${EBROOTBOOST} -fftw fftw-system -fftw-path ${FFTW_ROOT} -scotch scotch-system -scotch-path ${EBROOTSCOTCH} -cgal cgal-system -cgal-path ${EBROOTCGAL} "
 install_cmd += "&& ./Allwmake -j 16"
