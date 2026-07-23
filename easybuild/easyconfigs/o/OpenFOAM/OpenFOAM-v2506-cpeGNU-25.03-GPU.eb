@@ -90,6 +90,8 @@ install_cmd  = "source etc/bashrc WM_COMPILER=Cray WM_MPLIB=CRAY-MPICH MPICH_DIR
 install_cmd += "&& cp ./wmake/rules/General/cgal-no-mpfr ./wmake/rules/General/cgal "
 install_cmd += "&& mv ./modules/external-solver ./modules/external-solver-original " 
 install_cmd += "&& ln -s ./modules/petsc4foam ./modules/external-solver "
+install_cmd += "&& sed -i 's/petsc_version.*/petsc_version=petsc-system/' ./etc/config.sh/petsc "
+install_cmd += "&& sed -i 's/export PETSC_ARCH_PATH.*/export PETSC_ARCH_PATH=${EBROOTPETSC}/' ./etc/config.sh/petsc "
 install_cmd += "&& export FOAM_EXTRA_CXXFLAGS='-D_GLIBCXX_USE_CXX11_ABI=0' "  # This has to be set after sourcing etc/bashrc!
 install_cmd += "&& ./bin/tools/foamConfigurePaths -boost boost-system -boost-path ${EBROOTBOOST} -fftw fftw-system -fftw-path ${FFTW_ROOT} -scotch scotch-system -scotch-path ${EBROOTSCOTCH} -cgal cgal-system -cgal-path ${EBROOTCGAL} "
 install_cmd += "&& ./Allwmake -j 16"
