@@ -2,7 +2,7 @@ easyblock = 'ConfigureMake'
 
 name = 'aws-ofi-nccl'
 version = '1.20.0'
-versionsuffix = '-rocm7'
+versionsuffix = '-rocm'
 
 homepage = 'https://github.com/aws/aws-ofi-nccl'
 
