@@ -5,7 +5,7 @@ easyblock= 'ConfigureMake'
 name = 'URANOS'
 version = '20260515'
 
-omepage = 'https://github.com/uranos-gpu/uranos-gpu'
+homepage = 'https://github.com/uranos-gpu/uranos-gpu'
 
 whatis = [
     "Description: URANOS is a Navier-Stokes solver for compressible flows with optional GPU acceleration."
