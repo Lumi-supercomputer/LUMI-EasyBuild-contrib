@@ -24,4 +24,4 @@
 
 - Added license information to the 24.03 version in May 2025.
 
--   For 26.03, a cpeCray version was added and the sanity checks were improved.
+-   For 26.03, a cpeCray and cpeAMD versions were added and the sanity checks were improved.
