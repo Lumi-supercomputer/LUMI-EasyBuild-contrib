@@ -59,6 +59,7 @@ deps = [
 ]
 
 pre_configure_opts = 'module unload cray-libsci cray-mpich xpmem rocm && '
+pre_install_opts = pre_test_opts = pre_build_opts = pre_configure_opts
 
 # Note: It uses zfp also but there seems to be no way to get an external one.
 configure_opts = ' '.join([
