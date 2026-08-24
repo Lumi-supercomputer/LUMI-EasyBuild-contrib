@@ -59,7 +59,7 @@
 
 -   26.03:
 
-    -   Added a cpeCray version
+    -   Added a cpeCray and cpeAMD version
 
     -   Build both static and shared libraries
 

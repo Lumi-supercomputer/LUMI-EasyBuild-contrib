@@ -41,4 +41,4 @@
 
 -   Trivial version bump of the 1.0.21 EasyConfig for 25.09.
 
--   Added improved sanity checks and a cpeCray version.
+-   Added improved sanity checks and a cpeCray and cpeAMD version.

@@ -1,0 +1,89 @@
+easyblock = 'CMakeMake'
+
+# ADIOS2 requires a very specific version of Blosc2.
+local_Blosc2_2_version =     '2.23.1'        # https://github.com/Blosc/c-blosc2/releases
+
+# Central stack dependencies
+local_lz4_version =          '1.10.0'        # https://github.com/lz4/lz4/releases
+local_zstd_version =         '1.5.7'         # https://github.com/facebook/zstd/releases
+
+name =    'Blosc2'
+version = local_Blosc2_2_version
+
+homepage = 'https://www.blosc.org/'
+
+whatis = [
+    'Description: Blosc2, an extremely fast, multi-threaded, meta-compressor library'
+]
+
+description = """
+Blosc2 is a high-performance compressor and data format optimized for binary
+data, including numerical arrays, tensors, and other structured formats. It
+provides a flexible framework of codecs and filters, enabling developers to
+balance compression speed and ratio for specific use cases, from high-throughput
+data pipelines to persistent storage. As the successor to the original Blosc
+library (released in 2010), Blosc2 is built on a mature foundation and is
+integrated into many popular scientific computing libraries, such as PyTables,
+h5py, and Zarr.
+
+C-Blosc2 is the latest major version of C-Blosc, and is backward compatible with
+both the C-Blosc1 API and its in-memory format. However, the reverse thing is
+generally not true for the format; buffers generated with C-Blosc2 are not
+format-compatible with C-Blosc1 (i.e. forward compatibility is not supported).
+In case you want to ensure full API compatibility with C-Blosc1 API, define
+the BLOSC1_COMPAT symbol.
+"""
+
+docurls = [
+    'Documentation in the GitHub at https://github.com/Blosc/c-blosc2'
+]
+
+toolchain = {'name': 'cpeAMD', 'version': '26.03'}
+toolchain_opts = {'pic': True}
+
+sources = [{
+    'download_filename': 'v%(version)s.tar.gz', 
+    'filename':          SOURCE_TAR_GZ,
+    'source_urls':       ['https://github.com/Blosc/c-blosc2/archive/']
+}]
+checksums = ['3a1a55d1e3794fb2b51a12e722d611b3e577443abb7ff9951666511f576ea3da']
+
+build_deps = [
+    ('buildtools', '%(toolchain_version)s', '', SYSTEM),
+]
+
+deps = [
+    # Central stack packages
+    ('lz4',  local_lz4_version),
+    ('zstd', local_zstd_version), # Will actually bring in lz4 (and zlib) in our configuration.
+]
+
+pre_configure_opts = 'module unload cray-libsci cray-mpich xpmem && '
+pre_install_opts = pre_test_opts = pre_build_opts = pre_configure_opts
+
+# Note: It uses zfp also but there seems to be no way to get an external one.
+configure_opts = ' '.join([
+    '-DBUILD_STATIC=ON',         # This is actually the default
+    '-DBUILD_SHARED=ON',         # This is actually the default
+    '-DPREFER_EXTERNAL_LZ4=ON',
+    '-DPREFER_EXTERNAL_ZSTD=ON',
+    '-DPREFER_EXTERNAL_ZLIB=ON' # Fails with the external zlib.
+])
+
+post_install_cmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cd ../c-blosc2-%(version)s && cp LICENSE.txt README.rst THANKS.rst %(installdir)s/share/licenses/%(name)s',   
+]
+
+sanity_check_paths = {
+    'files': ['include/blosc2/blosc2-export.h', 'include/blosc2.h', 'lib/libblosc2.a',
+              f'lib/libblosc2.{SHLIB_EXT}'],
+    'dirs':  [],
+}
+
+sanity_check_cmds = [
+    'pkg-config --validate blosc2',
+    f'pkg-config --exact-version={version} blosc2'
+]
+
+env_mod_category = 'lib'
