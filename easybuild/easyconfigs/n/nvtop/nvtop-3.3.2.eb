@@ -1,9 +1,10 @@
 # Created for LUMI by Orian Louant
+# Updated by Kurt Lust.
 
 easyblock = 'CMakeMake'
 
-name = 'nvtop'
-version = '3.0.2'
+name =    'nvtop'
+version = '3.3.2'
 
 homepage = 'https://github.com/Syllo/nvtop'
 
@@ -12,9 +13,9 @@ whatis = [
 ]
 
 description = """
- NVTOP stands for Neat Videocard TOP, a (h)top like task monitor for AMD, Intel
- and NVIDIA GPUs. It can handle multiple GPUs and print information about them
- in a htop-familiar way.
+NVTOP stands for Neat Videocard TOP, a (h)top like task monitor for AMD, Intel
+and NVIDIA GPUs. It can handle multiple GPUs and print information about them
+in a htop-familiar way.
 """
 
 software_license_urls = ['https://github.com/Syllo/nvtop/blob/master/COPYING']
@@ -33,25 +34,27 @@ patches = [
 ]
 
 checksums = [
-    '63fa45a2d675fe5320704850c216da6a6bb2edaf09821c26b3800fa7744bae00', # 3.0.2.tar.gz
+    '48a295f3b3a917cc851d1aa8b185c09fde3a1b1e741fc57d7fa96b3671271630', # 3.3.2.tar.gz
     '52f5b345625535c8708cbf46fc9c95e163e1f3455bc964ab426e94c2c54b5a83', # libudev.h
 ]
 
-builddependencies = [
+build_deps = [
     ('buildtools', local_LUMI_version),
     ('syslibs',    local_LUMI_version, '-static'),
 ]
 
 # The 26.03 container generates an error message in tgmath.h and Gemini suggests this correction:
 # We apply it as it may also occur when the system is upgraded to SLES 15 SP7.
-preconfigopts  = "sed -i 's/#include <tgmath.h>/#include <math.h>/g' ../nvtop-%(version)s/src/plot.c && "
-preconfigopts += "sed -i 's/#include <tgmath.h>/#include <math.h>/g' ../nvtop-%(version)s/src/interface.c && "
+pre_configure_opts  = "sed -i 's/#include <tgmath.h>/#include <math.h>/g' ../nvtop-%(version)s/src/plot.c && "
+pre_configure_opts += "sed -i 's/#include <tgmath.h>/#include <math.h>/g' ../nvtop-%(version)s/src/interface.c && "
 
-configopts  = ' -DUDEV_LIBRARY=/usr/lib64/libudev.so.1'
-configopts += ' -DUDEV_INCLUDE_DIR=%(builddir)s'
-configopts += ' -DCURSES_INCLUDE_PATH=$EBROOTSYSLIBS/include'
+configure_opts = ' '.join([
+    '-DUDEV_LIBRARY=/usr/lib64/libudev.so.1',
+    '-DUDEV_INCLUDE_DIR=%(builddir)s',
+    '-DCURSES_INCLUDE_PATH=$EBROOTSYSLIBS/include',
+])
 
-postinstallcmds = [
+post_install_cmds = [
     'mkdir -p %(installdir)s/share/licenses/%(name)s',
     'cd ../%(namelower)s-%(version)s && cp COPYING README.markdown %(installdir)s/share/licenses/%(name)s',   
 ]
@@ -61,8 +64,8 @@ sanity_check_paths = {
     'dirs':  []
 }
 
-sanity_check_commands = [
-  'nvtop --version',
+sanity_check_cmds = [
+    'nvtop --version',
 ]
 
-moduleclass = 'tools'
+env_mod_category = 'tools'
