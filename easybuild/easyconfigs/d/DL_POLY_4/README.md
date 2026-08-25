@@ -3,7 +3,8 @@
 DL_POLY is a general purpose classical molecular dynamics (MD) simulation 
 software developed at Daresbury Laboratory (UK).
 
--   [Home page](https://www.scd.stfc.ac.uk/Pages/DL_POLY.aspx)
+-   [Home page](https://www.scd.stfc.ac.uk/Pages/DL_POLY.aspx) if it works, seems to have
+    disappeared.
 
 -   [Documentation](https://ccp5.gitlab.io/dl-poly/)
     
@@ -11,10 +12,12 @@ software developed at Daresbury Laboratory (UK).
     
     -   [Release tags](https://gitlab.com/ccp5/dl-poly/-/releases)
     
--   [GitHub repository](https://github.com/ccp5UK/dl-poly/)
+-   [GitHub (mirror) repository](https://github.com/ccp5UK/dl-poly/)
     
     -   [GitHub releases via tags](https://github.com/ccp5UK/dl-poly/tags)
-    
+
+It looks like this whole package is currently a mess, with only pre-releases but no regular releases
+since May 2022, so LUST cannot offer much support.
     
 Note that there is also an older version, DL_POLY_Classic, also available
 in [a GitLab repository](https://gitlab.com/DL_POLY_Classic/dl_poly).
@@ -52,7 +55,7 @@ in [a GitLab repository](https://gitlab.com/DL_POLY_Classic/dl_poly).
     on Archer2 at the time of the development of the EasyConfig).**
     
 
-### Version 5.1.0 for cpeGNU/23.09
+### Version 5.1.0 for cpeGNU/23.09 and later
 
 -   Trivial port of the EasyConfig developed for cpeCray, but it needs a particular
     flag with gfortran to avoid type mismatch errors.
@@ -61,8 +64,17 @@ in [a GitLab repository](https://gitlab.com/DL_POLY_Classic/dl_poly).
     remains unused, despite examples in the `utils` subdirectory claiming
     the opposite...
     
+-   For 26.03, we switched to EB6-compatible parameters.
+
+    Tried the Cray compiler also, but the code did not compile.
     
-### Version 5.2.0-pre for cpeGNU/223.09
+
+### Version 5.2.0-pre for cpeGNU/23.09
 
 -   Trivial port of the EasyConfig for 5.1.0.
 
+
+### Version 5.3.0-pre for cpeGNU/26.03
+
+-   Trivial port of the EasyConfig for 5.1.0 for 26.03, but with some changes in the files
+    to copy.
