@@ -123,6 +123,10 @@ easyconfigs:
   - Cython-3.2.9-cpeGNU-26.03.eb
 # On LUMI-G also used for CuPy.
 #
+# DL_POLY_4
+  - DL_POLY_4-5.1.0-cpeGNU-26.03.eb
+  - DL_POLY_4-5.3.0-pre-cpeGNU-26.03.eb
+#
 # Extrae
 # TODO - Help from developers needed for verification?
 #
