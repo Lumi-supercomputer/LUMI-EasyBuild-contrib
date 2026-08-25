@@ -131,6 +131,13 @@ easyconfigs:
 # TODO - Help from developers needed for verification?
 #
 #
+# Elk
+#
+  - libxc-7.0.0-cpeGNU-26.03-FHC.eb
+  - Wannier90-3.1.0-cpeGNU-26.03.eb
+  - Elk-10.3.12-cpeGNU-26.03.eb
+  - Elk-11.0.2-cpeGNU-26.03.eb
+#
 # feh (image viewer)
 #
   - libexif-0.6.26-cpeGNU-26.03.eb
@@ -174,6 +181,15 @@ easyconfigs:
   - ScaFaCoS-1.0.4-cpeGNU-26.03-forLAMMPS.eb
   - Voro++-0.4.6-cpeGNU-26.03.eb
   - LAMMPS-22Jul2025_update4-cpeGNU-26.03-CPU.eb
+#
+# libxc
+# Appears as dependencies but just in case we miss a variant...
+#
+  - libxc-7.0.0-cpeGNU-26.03-FHC.eb
+  - libxc-7.0.0-cpeGNU-26.03-KXC.eb
+  - libxc-7.1.2-cpeGNU-26.03-FHC.eb
+  - libxc-7.1.2-cpeGNU-26.03-NoFHC.eb
+  - libxc-7.1.2-cpeGNU-26.03-KXC.eb
 #
 # mpiFileUtils
 #
