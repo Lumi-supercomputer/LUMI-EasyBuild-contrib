@@ -1,0 +1,75 @@
+# contributed by Johan Hellsvik (PDC) and Peter Larsson (LUMI)
+easyblock = 'MakeCp'
+
+name =    'Elk'
+version = '11.0.2'
+
+homepage = 'https://elk.sourceforge.io/'
+
+whatis = [
+    'The Elk all-electron full-potential linearised augmented-plane wave (LAPW) code with many advanced features.'
+]
+
+description = """
+The Elk all-electron full-potential linearised augmented-plane wave (LAPW) code with many advanced features.
+"""
+
+toolchain = {'name': 'cpeGNU', 'version': '26.03'}
+toolchain_opts = {'openmp': True, 'usempi': True}
+
+max_parallel=1
+
+source_urls = ['https://sourceforge.net/projects/%(namelower)s/files/']
+sources =     [SOURCELOWER_TGZ]
+checksums =   ['dbb1f94bc14fd3247080ac3e56ee28d5d8f65ef364bdd4bef2e0d63b8d81fa56'] #elk-11.0.2.tgz
+
+build_deps = [ # Create a reproducible build environment.
+    ('buildtools',        '%(toolchain_version)s', '',     SYSTEM), # For CMake among others.
+    ('craype-accel-none', EXTERNAL_MODULE),
+     ('libxc',            '7.0.0',                 '-FHC'),         # We simply copy the static libraries.
+     ('Wannier90',        '3.1.0'),                                 # We simply copy the static libraries.
+]
+
+deps = [
+     ('cray-libsci', EXTERNAL_MODULE),
+     ('cray-fftw',   EXTERNAL_MODULE),
+]
+
+# Creating the make.inc file
+pre_build_opts  = 'echo "MAKE = make" > make.inc && '
+pre_build_opts += 'echo "AR = ar" >> make.inc && '
+pre_build_opts += 'echo "SRC_MKL = mkl_stub.f90" >> make.inc && '
+pre_build_opts += 'echo "SRC_OBLAS = oblas_stub.f90" >> make.inc && '
+pre_build_opts += 'echo "SRC_BLIS = blis_stub.f90" >> make.inc && '
+pre_build_opts += 'echo "SRC_FFT = zfftifc_fftw.f90 cfftifc_fftw.f90" >> make.inc && '
+pre_build_opts += 'echo "LIB_LIBXC = libxcf03.a libxc.a" >> make.inc && '
+pre_build_opts += 'echo "SRC_LIBXC = libxcf03.f90 libxcifc.f90" >> make.inc && '
+pre_build_opts += 'echo "LIB_W90 = libwannier.a" >> make.inc && '
+pre_build_opts += 'echo "F90 = ftn" >> make.inc && '
+pre_build_opts += 'echo "F90_OPTS = -Ofast -march=native -mtune=native -fomit-frame-pointer -fopenmp -ffpe-summary=none -fallow-argument-mismatch" >> make.inc && '
+
+# Copy the Libxc and Wannier90 libraries
+pre_build_opts += 'cp $EBROOTLIBXC/lib/libxc.a src/ && '
+pre_build_opts += 'cp $EBROOTLIBXC/lib/libxcf03.a src/ && '
+pre_build_opts += 'cp $EBROOTWANNIER90//lib/libwannier.a src/ && '
+
+files_to_copy = [
+    (['./make.inc'], '.'),
+    (['./src/elk'], './bin/'),
+    (['./src/eos/eos'], './bin/'),
+    (['./src/spacegroup/spacegroup'], './bin/'),
+    (['./species'], '.'),
+    (['./examples'], '.'),
+    (['./tests'], '.'),
+    (['./tests-libxc'], '.'),
+    (['utilities/elk-bands/elk-bands'], './bin/'),
+    (['utilities/elk-optics/elk-optics.py'], './bin/'),
+    (['utilities/wien2k-elk/se.pl'], './bin/'),
+]
+
+sanity_check_paths = {
+    'files': ['bin/elk','bin/eos','bin/spacegroup'],
+    'dirs':  ['bin','species', 'examples', 'tests'],
+}
+
+env_mod_category = 'phys'
