@@ -28,3 +28,5 @@
 -   Update from previous easyconfigs.
 
 -   25.03: Add license information to the installation.
+
+-   26.03: Switch to the new EB6-compatible parameters.

@@ -349,6 +349,7 @@ easyconfigs:
 # Amber
 # TODO
 #
+  - arpack-ng-3.9.1-cpeGNU-26.03-OpenMP.eb
 #
 # NAMD
 #
