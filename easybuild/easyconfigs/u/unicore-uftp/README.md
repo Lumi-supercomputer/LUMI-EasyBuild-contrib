@@ -37,3 +37,8 @@
 ### Version 2.2.2
 
 -   Trivial update of the 1.8.0 EasyConfig.
+
+
+### Version 2.4.2
+
+-   Trivial update of the 2.4.2 EasyConfig.
