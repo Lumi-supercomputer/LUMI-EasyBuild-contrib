@@ -65,7 +65,9 @@ tested and reliable set of LDA, GGA, and meta-GGA  functionals.
 
 ### Version 7.1.2 for 26.03
 
--   The `-NoFHC` version is meant for VASP.
+-   The `-NoFHC` version is meant for VASP, the `-KXC` version is used by ABINIT.
 
 -   The EasyConfig is a direct port of the corresponding 7.0.0 one for 25.03, but with a
     switch to EB6-compatible parameters.
+
+-   We needed to turn off testing as that requires `pytest`.

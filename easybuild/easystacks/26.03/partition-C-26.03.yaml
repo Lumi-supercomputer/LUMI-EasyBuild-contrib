@@ -1,5 +1,14 @@
 easyconfigs:
 #
+# ABINIT
+#
+  - libxc-7.0.0-cpeGNU-26.03-KXC.eb
+  - ELPA-2025.06.001-cpeGNU-26.03-CPU.eb
+  - ABINIT-10.6.3-cpeGNU-26.03-CPU.eb
+  - libxc-7.1.2-cpeGNU-26.03-KXC.eb
+  - ELPA-2026.02.002-cpeGNU-26.03-CPU.eb
+  - ABINIT-10.8.3-cpeGNU-26.03-CPU.eb
+#
 # ADIOS2
 #
   - SZ-2.1.12.5-cpeGNU-26.03-hdf5.eb
