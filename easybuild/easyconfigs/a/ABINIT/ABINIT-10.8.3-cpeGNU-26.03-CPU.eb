@@ -1,0 +1,98 @@
+# Based on work of Matthias Kraushaar (CSCS)
+# Adapted for LUMI by Hsiao-Yi Tsai
+easyblock = 'ConfigureMake'
+
+name =           'ABINIT'
+version =        '10.8.3'
+version_suffix = '-CPU'
+
+homepage = 'https://www.abinit.org/'
+
+whatis = [
+    "Description: ABINIT is a software suite to calculate the optical, "
+    "mechanical, vibrational, and other observable properties of materials"
+]
+
+description = """
+ABINIT is a software suite to calculate the optical, mechanical, vibrational,
+and other observable properties of materials. Starting from the quantum
+equations of density functional theory, you can build up to advanced
+applications with perturbation theories based on DFT, and many-body Green's
+functions (GW and DMFT).
+
+ABINIT can calculate molecules, nanostructures and solids with any chemical
+composition, and comes with several complete and robust tables of atomic
+potentials.
+
+This module provides an pure MPI executable. It includes support for netCDF,
+HDF5, LibXC functionals.
+"""
+
+doc_urls = [
+    'Documentation: https://docs.abinit.org/',
+    'Tutorials:  https://docs.abinit.org/tutorial/'
+]
+
+software_license_urls = ['https://docs.abinit.org/about/license/']
+
+toolchain = {'name': 'cpeGNU', 'version': '26.03'}
+toolchain_opts = {'usempi': True, 'openmp': True, 'pic': True}
+
+# https://github.com/abinit/abinit/archive/refs/tags/10.8.3.tar.gz
+sources = [{
+    'download_filename': f'{version}.tar.gz',
+    'filename':          SOURCELOWER_TAR_GZ,
+    'source_urls':       ['https://github.com/abinit/abinit/archive/refs/tags']
+}]
+checksums = ['dc33fbb11726f44094858f67000832cf28f7c0695d79a7eb84302195296f2c09']
+
+build_deps = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+deps = [
+    ('cray-python',              EXTERNAL_MODULE),
+    ('cray-fftw',                EXTERNAL_MODULE),
+    ('cray-hdf5-parallel',       EXTERNAL_MODULE),
+    ('cray-netcdf-hdf5parallel', EXTERNAL_MODULE),
+    ('libxc',                    '7.1.2',          '-KXC'),
+    ('ELPA',                     '2026.02.002',    '-CPU'),
+]
+
+pre_configure_opts = './autogen.sh && '
+
+configure_opts = ' '.join([
+    '--with-mpi=yes',
+    '--enable-mpi-io=yes',
+    '--enable-mpi-inplace=yes',
+    #'--enable-gw-dpc=yes',  # uncomment if you want higher precision in GW but it will require more memory
+    '--enable-openmp=yes',
+    '--with-fft-flavor=fftw3',
+    '--with-optim-flavor=standard',
+    '--with-linalg-flavor=netlib+elpa',
+    '--with-libxc=${EBROOTLIBXC}',
+    '--with-elpa=${EBROOTELPA}',
+    'CC=cc CXX=CC FC=ftn',
+    'FCLIBS=" "',
+    'LINALG_LIBS="-lsci_gnu -lsci_gnu_mpi"',
+    'FCFLAGS="-ffree-line-length-none -fallow-argument-mismatch ${FCFLAGS}"',
+    'FFTW3_LIBS="-L${FFTW_ROOT}/lib -lfftw3 -lfftw3f"',
+])
+
+# comment FFTW3_THREADS in config.h to avoid linking with fftw threads library
+pre_build_opts = 'sed -i "s/#define HAVE_FFTW3_THREADS 1/\\/\\* #undef HAVE_FFTW3_THREADS \\*\\//g" config.h && '
+
+pre_test_opts = 'ulimit -s unlimited && export OMP_NUM_THREADS=1 && '
+run_test =      'check && make test_v1'
+
+post_install_cmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cp AUTHORS CITATION.cff COPYING KNOWN_PROBLEMS README README.md RELNOTES THANKS %(installdir)s/share/licenses/%(name)s',   
+]
+
+sanity_check_paths = {
+    'files': ['bin/%s' % x for x in ['abinit', 'aim', 'atdep', 'conducti', 'dummy_tests', 'fold2Bloch', 'lapackprof', 'macroave', 'mrgdv', 'mrgscr', 'optic', 'vdw_kernelgen', 'abitk', 'anaddb', 'band2eps', 'cut3d', 'fftprof', 'ioprof', 'lruj', 'mrgddb', 'mrggkk', 'multibinit', 'testtransposer']],
+    'dirs':  ['lib/pkgconfig'],
+}
+
+env_mod_category = 'chem'

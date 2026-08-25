@@ -4,6 +4,7 @@ Packages marked with (M) are packages that pull in the others as dependencies.
 
 | Package | Download | EasyBuild | CSCS | Remarks |
 |:--------|:---------|:----------|:-----|:--------|
+| [ABINIT](https://www.abinit.org/) | [GitHub releases](https://github.com/abinit/abinit/releases) | [EB ABINIT](https://github.com/easybuilders/easybuild-easyconfigs/tree/develop/easybuild/easyconfigs/a/ABINIT) | [CSCS ABINIT](https://github.com/easybuilders/CSCS/tree/master/easybuild/easyconfigs/a/ABINIT) | [spack ABINIT](https://packages.spack.io/package.html?name=abinit) |
 | [ADIOS2](https://adios2.readthedocs.io/) | [Use .tar.gz](https://github.com/ornladios/ADIOS2/releases) | / | / |  |
 | [ANTLRv2](https://www.antlr2.org/) | [Use .tar.gz](https://www.antlr2.org/download.html) | [EB ANTLR](https://github.com/easybuilders/easybuild-easyconfigs/tree/main/easybuild/easyconfigs/a/ANTLR) | [CSCS ANTLR](https://github.com/eth-cscs/production/tree/master/easybuild/easyconfigs/a/ANTLR) |  |
 | [AOCL: aocl-utils](https://www.amd.com/en/developer/aocl/utils.html) | [GitHub releases](https://github.com/amd/aocl-utils/releases) |  |  |  |

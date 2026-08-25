@@ -1,8 +1,6 @@
 # contributed by Luca Marsella (CSCS)
 # adapted for LUMI by Peter Larsson
-#DOC! This version has the control of the enforcement of the Fermi hole curvature done by 
-#DOC! the XC_FLAGS_ENFORCE_FHC flag at runtime disabled so that it works like previous versions
-#DOC! of the library.
+# enable calculation of the 3rd derivatives of energy
 
 local_Perl_version =         '5.42.0'        # https://www.perl.org/get.html
 
@@ -10,9 +8,9 @@ easyblock = 'CMakeMake'
 
 local_libxc7_version =       '7.1.2'         # https://gitlab.com/libxc/libxc/-/releases
 
-name =          'libxc'
-version =       local_libxc7_version
-version_suffix = '-NoFHC'
+name =           'libxc'
+version =        local_libxc7_version
+version_suffix = '-KXC'
 
 homepage = 'https://libxc.gitlab.io/'
 
@@ -61,7 +59,7 @@ local_common_configure_opts = ' '.join([
     '-DBUILD_TESTING=OFF',
     '-DENABLE_FORTRAN=ON',
     '-DENABLE_PYTHON=OFF',
-    '-DDISABLE_FHC=ON'
+    '-DDISABLE_KXC=OFF'
 ])
 
 configure_opts = [
