@@ -1,0 +1,121 @@
+easyblock = 'ConfigureMake'
+
+name =          'QuantumESPRESSO'
+version =       '7.5'
+versionsuffix = '-rocm'
+
+homepage = 'https://www.quantum-espresso.org'
+
+whatis = [
+    'Description: Quantum ESPRESSO is a suite of codes for electronic structure calculations based on DFT, plane wave and pseudopotentials'
+]
+
+description = """
+Quantum ESPRESSO is an integrated suite of computer codes
+for electronic-structure calculations and materials modeling at the nanoscale.
+It is based on density-functional theory, plane waves, and pseudopotentials
+(both norm-conserving and ultrasoft).
+
+This build uses the OpenMP 5 GPU-offload branch of Quantum ESPRESSO for AMD
+GPUs, built with the Cray compiler and GPU-aware MPI on LUMI-G.
+"""
+
+# CCE 20.0.0 is associated with the 25.09 CPE.
+toolchain = {'name': 'cpeCray', 'version': '25.09'}
+toolchainopts = {'usempi': True, 'openmp': True}
+
+_qe_commit = 'bc526ff9f35bc0e7240b242e6ebd43044355c295'
+
+# Required by:
+#   make pw
+#     -> pwlibs
+#        -> mods/libla
+#           -> libmbd/libdevx
+_mbd_hash = '89a3cc199c0a200c9f0f688c3229ef6b9a8d63bd'
+_devxlib_hash = 'a6b89ef77b1ceda48e967921f1f5488d2df9226d'
+
+sources = [
+    {
+        'filename': f'q-e-omp-repository-{_qe_commit}.tar.gz',
+        'extract_cmd': 'mkdir -p %(builddir)s/qe-%(version)s && tar xzvf %s --strip-components=1 -C $_',
+        'source_urls': [
+            f'https://gitlab.com/QEF/q-e-omp-repository/-/archive/{_qe_commit}'
+        ],
+    },
+    {
+        'filename': f'mbd-{_mbd_hash}.tar.gz',
+        'git_config': {
+            'url': 'https://github.com/libmbd',
+            'repo_name': 'libmbd',
+            'commit': _mbd_hash,
+            'clone_into': 'mbd',
+            'keep_git_dir': True,
+        },
+        'extract_cmd': 'cd qe-%(version)s/external && tar -xvf %s',
+    },
+    {
+        'filename': f'devxlib-{_devxlib_hash}.tar.gz',
+        'git_config': {
+            'url': 'https://gitlab.com/max-centre/components',
+            'repo_name': 'devicexlib',
+            'commit': _devxlib_hash,
+            'clone_into': 'devxlib',
+            'keep_git_dir': True,
+        },
+        'extract_cmd': 'cd qe-%(version)s/external && tar -xvf %s',
+    },
+]
+
+checksums = []
+
+builddependencies = [
+    ('buildtools', '', '%(toolchain_version)s', True),
+]
+
+dependencies = [  
+    ('cray-hdf5-parallel', EXTERNAL_MODULE),
+    ('cray-fftw/3.3.10.10', EXTERNAL_MODULE),
+    ('rocm/6.3.4', EXTERNAL_MODULE), # Only tested with ROCM 6.3.4 specifically
+]
+
+# Match the compiler workaround from the supplied LUMI environment.
+#
+# ROCM_PATH defaults to /opt/rocm, but can be overridden by the build
+# environment if necessary.
+preconfigopts = (
+    'export CRAY_CCE_OPT_ARGS="--passes=default<O1>" && '
+    'export ROCM_PATH="${ROCM_PATH:-/opt/rocm}" && '
+)
+
+# The same CCE workaround must also be present during compilation.
+prebuildopts = (
+    'export CRAY_CCE_OPT_ARGS="--passes=default<O1>" && '
+)
+
+# Upstream OpenMP-5 GPU configuration for Cray + AMD GPU + GPU-aware MPI.
+#
+configopts = (
+    "ARCH=craype "
+    "CPP='cpp -traditional-cpp' "
+    "CPPFLAGS='-D__CLOCK_SECONDS' "
+    "--enable-omp_gpu "
+    "--enable-omp_mpi_gpu "
+    "--with-rocm=$ROCM_PATH "
+    "--with-hdf5=yes "
+    "--with-scalapack=yes"
+)
+
+buildopts = 'pw'
+
+sanity_check_paths = {
+    'files': ['bin/pw.x'],
+    'dirs':  [''],
+}
+
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cd %(start_dir)s && cp License README.md %(installdir)s/share/licenses/%(name)s',
+]
+
+moduleclass = 'chem'
+
