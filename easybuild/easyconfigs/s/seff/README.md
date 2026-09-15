@@ -16,3 +16,9 @@
 
 -   Evolution of 22.05.8, but needed to turn of munge support as the development
     package is not present on LUMI.
+
+
+### Version 25.05.9
+
+-   Trivial evolution of 24.05.8.
+

@@ -1,0 +1,39 @@
+# Created for LUMI by Orian Louant
+# Updated by Kurt Kust
+#
+#DOC Version corresponding with the Slurm version after the September 2026 mandatory update.
+
+easyblock = 'ConfigureMake'
+
+name =    'seff'
+version = '25.05.9'
+
+homepage = 'https://slurm.schedmd.com/'
+
+whatis = ['Description: seff is an utility that reports on job\'s CPU and memory utilization']
+
+description = """
+seff is a small utility that takes a Slurm jobid and reports on the efficiency
+of that job's CPU and memory utilization.
+"""
+
+software_license_urls = ['https://slurm.schedmd.com/disclaimer.html']
+
+toolchain = SYSTEM
+
+# https://github.com/SchedMD/slurm/archive/refs/tags/slurm-25-05-9-1.tar.gz
+source_urls = ['https://github.com/SchedMD/slurm/archive/refs/tags']
+sources =     ['slurm-25-05-9-1.tar.gz']
+checksums =   ['55678d04efa91cc919277f290f9f50d84ded1185b0ea93125ac304e8a0270a73']
+
+configure_opts = '--without-munge'
+
+install_cmd  = 'cd contribs/perlapi && make -j%(parallel)s install && cd - && '
+install_cmd += 'cd contribs/seff && make install'
+
+sanity_check_paths = {
+    'files': ['bin/seff'],
+    'dirs':  [],
+}
+
+env_mod_category = 'tools'
