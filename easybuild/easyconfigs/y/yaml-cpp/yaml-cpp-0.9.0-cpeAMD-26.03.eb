@@ -1,0 +1,63 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+# Adapted for LUMI by Orian Louant
+easyblock = 'CMakeMake'
+
+local_yaml_cpp_version =     '0.9.0'         # https://github.com/jbeder/yaml-cpp/releases
+
+name =    'yaml-cpp'
+version = local_yaml_cpp_version
+
+homepage = "https://github.com/jbeder/yaml-cpp"
+
+whatis = [
+    'Description: yaml-cpp is a YAML parser and emitter in C++ matching the YAML 1.2 spec'
+]
+
+description = """yaml-cpp is a YAML parser and emitter in C++ matching the YAML 1.2 spec"""
+
+doc_urls = [
+    'Web-based documentation in the GitHub Wiki at https://github.com/jbeder/yaml-cpp/wiki'
+]
+
+toolchain = {'name': 'cpeAMD', 'version': '26.03'}
+toolchain_opts = {'pic': True}
+
+# https://github.com/jbeder/yaml-cpp/archive/refs/tags/yaml-cpp-0.9.0.tar.gz
+source_urls = ['https://github.com/jbeder/%(name)s/archive/refs/tags']
+sources =     [SOURCELOWER_TAR_GZ]
+checksums =   ['25cb043240f828a8c51beb830569634bc7ac603978e0f69d6b63558dadefd49a']
+
+build_deps = [
+    ('buildtools',           '%(toolchain_version)s', '', True),
+    ('craype-network-none',  EXTERNAL_MODULE),
+    ('craype-accel-host',    EXTERNAL_MODULE),
+]
+
+pre_configure_opts = 'module unload cray-libsci cray-mpich xpmem && '
+pre_install_opts = pre_test_opts = pre_build_opts = pre_configure_opts
+
+local_common_configure_opts = '-DYAML_CPP_BUILD_TESTS=ON '
+configure_opts = [
+    local_common_configure_opts + '-DBUILD_SHARED_LIBS=OFF', 
+    local_common_configure_opts + '-DBUILD_SHARED_LIBS=ON',
+]
+
+test_cmd = 'ctest --output-on-failure'
+
+post_install_cmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cd ../%(namelower)s-%(namelower)s-%(version)s && cp CONTRIBUTING.md LICENSE README.md SECURITY.md %(installdir)s/share/licenses/%(name)s',   
+]
+
+sanity_check_paths = {
+    'files': ['lib/libyaml-cpp.a', 'lib/libyaml-cpp.%s' % SHLIB_EXT, 'include/yaml-cpp/yaml.h',
+              'share/licenses/%(name)s/LICENSE'],
+    'dirs':  ['lib', 'include'],
+}
+
+sanity_check_cmds = [
+    'pkg-config --validate yaml-cpp',                  # pkg-config validation
+    f'pkg-config --exact-version={version} yaml-cpp',  # Is it the version the module claims to be?
+]
+
+env_mod_category = 'tools'

@@ -6,24 +6,36 @@ easyconfigs:
   - SZ-2.1.12.5-cpeGNU-26.03-hdf5-parallel.eb
   - SZ-2.1.12.5-cpeCray-26.03-hdf5.eb
   - SZ-2.1.12.5-cpeCray-26.03-hdf5-parallel.eb
+  - SZ-2.1.12.5-cpeAMD-26.03-hdf5.eb
+  - SZ-2.1.12.5-cpeAMD-26.03-hdf5-parallel.eb
   - SZ3-3.3.2-cpeGNU-26.03-hdf5.eb
   - SZ3-3.3.2-cpeGNU-26.03-hdf5-parallel.eb
+  - SZ3-3.3.2-cpeAMD-26.03-hdf5.eb
+  - SZ3-3.3.2-cpeAMD-26.03-hdf5-parallel.eb
   - Blosc2-2.23.1-cpeGNU-26.03.eb
   - Blosc2-2.23.1-cpeCray-26.03.eb
+  - Blosc2-2.23.1-cpeAMD-26.03.eb
   - zfp-1.0.1-cpeGNU-26.03.eb
   - zfp-1.0.1-cpeCray-26.03.eb
+  - zfp-1.0.1-cpeAMD-26.03.eb
   - OpenPGM-5.2.122-cpeGNU-26.03.eb
   - OpenPGM-5.2.122-cpeCray-26.03.eb
+  - OpenPGM-5.2.122-cpeAMD-26.03.eb
   - libsodium-1.0.22-cpeGNU-26.03.eb
   - libsodium-1.0.22-cpeCray-26.03.eb
+  - libsodium-1.0.22-cpeAMD-26.03.eb
   - ZeroMQ-4.3.5-cpeGNU-26.03.eb
   - ZeroMQ-4.3.5-cpeCray-26.03.eb
+  - ZeroMQ-4.3.5-cpeAMD-26.03.eb
   - yaml-cpp-0.9.0-cpeGNU-26.03.eb
   - yaml-cpp-0.9.0-cpeCray-26.03.eb
-  #- ADIOS2-2.12.1-cpeGNU-26.03-noMPI-hdf5.eb
-  #- ADIOS2-2.12.1-cpeGNU-26.03-MPI-hdf5-parallel.eb
+  - yaml-cpp-0.9.0-cpeAMD-26.03.eb
+  - ADIOS2-2.12.1-cpeGNU-26.03-noMPI-hdf5.eb
+  - ADIOS2-2.12.1-cpeGNU-26.03-MPI-hdf5-parallel.eb
   - ADIOS2-2.12.1-cpeCray-26.03-noMPI-hdf5.eb
   - ADIOS2-2.12.1-cpeCray-26.03-MPI-hdf5-parallel.eb
+  - ADIOS2-2.12.1-cpeAMD-26.03-noMPI-hdf5.eb
+  - ADIOS2-2.12.1-cpeAMD-26.03-MPI-hdf5-parallel.eb
 #
 # aria2
 #

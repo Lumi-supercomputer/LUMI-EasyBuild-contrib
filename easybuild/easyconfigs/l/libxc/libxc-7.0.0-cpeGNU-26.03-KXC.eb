@@ -1,7 +1,6 @@
 # contributed by Luca Marsella (CSCS)
 # adapted for LUMI by Peter Larsson
-#DOC This version works the way one would expect for version 7, with the control of the 
-#DOC enforcement of the Fermi hole curvature done by the XC_FLAGS_ENFORCE_FHC flag at runtime.
+# enable calculation of the 3rd derivatives of energy
 
 local_Perl_version =         '5.42.0'        # https://www.perl.org/get.html
 
@@ -11,7 +10,7 @@ local_libxc7_version =       '7.0.0'         # https://gitlab.com/libxc/libxc/-/
 
 name =           'libxc'
 version =        local_libxc7_version
-version_suffix = '-FHC'
+version_suffix = '-KXC'
 
 homepage = 'https://libxc.gitlab.io/'
 
@@ -46,21 +45,20 @@ toolchain_opts = {'opt': True}
 source_urls = ['https://gitlab.com/%(name)s/%(name)s/-/archive/%(version)s']
 sources = [SOURCE_TAR_BZ2]
 #checksums = ['f72ed08af7b9dff5f57482c5f97bff22c7dc49da9564bc93871997cbda6dacf3']
-#checksums = ['e9ae69f8966d8de6b7585abd9fab588794ada1fab8f689337959a35abbf9527d']  # libxc-7.0.0.tar.bz2
+checksums = ['e9ae69f8966d8de6b7585abd9fab588794ada1fab8f689337959a35abbf9527d']  # libxc-7.0.0.tar.bz2
 
 build_deps = [
     ('buildtools',          '%(toolchain_version)s', '', SYSTEM), # For CMake
     ('craype-network-none', EXTERNAL_MODULE),
-    ('craype-accel-none',   EXTERNAL_MODULE),
+    ('craype-accel-host',   EXTERNAL_MODULE),
     ('Perl',                local_Perl_version),
 ]
 
 local_common_configure_opts = ' '.join([
     '-DCMAKE_POLICY_VERSION_MINIMUM=3.5',
-    '-DENABLE_FORTRAN=ON',
-    '-DENABLE_PYTHON=OFF',
     '-DCMAKE_INSTALL_LIBDIR=lib',
-    '-DDISABLE_FHC=OFF', # Default value actually.
+    '-DENABLE_FORTRAN=ON',
+    '-DDISABLE_KXC=OFF'
 ])
 
 configure_opts = [
@@ -79,7 +77,7 @@ post_install_cmds = [
 sanity_check_paths = {
     'files': ['bin/xc-info'] +
              ['lib/libxc%s.%s' % (x, y) for x in ['', 'f03'] for y in ['a', SHLIB_EXT]],
-    'dirs': ['include', 'lib/pkgconfig', 'lib/cmake/Libxc'],
+    'dirs':  ['include', 'lib/pkgconfig', 'lib/cmake/Libxc'],
 }
 
 env_mod_category = 'chem'
