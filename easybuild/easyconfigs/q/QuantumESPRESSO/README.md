@@ -87,3 +87,9 @@ norm-conserving and ultrasoft).
 -   Issues that we noted: 
 
     -   It has issues with the parallel HDF5 module and instead configures for serial HDF5.
+
+
+### Version 7.5 with GPU support for CPE 25.09
+
+-   Contributed by the EPICURE project and based on instructions they got from the QE
+    developers.

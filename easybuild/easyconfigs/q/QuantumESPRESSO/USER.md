@@ -14,24 +14,16 @@ Open-Source computer codes for electronic-structure calculations and materials
 modeling at the nanoscale. It is based on density-functional theory, plane
 waves, and pseudopotentials.". In general, it runs well on [LUMI-C][lumi-c].
 
-**There is currently (May 2026 last update) no AMD release of QE that we can support from the LUMI User
-Support Team. Some releases have support for AMD GPUs via OpenMP offload.
-However, [version 7.4.1omp](https://gitlab.com/QEF/q-e-omp-repository/-/releases/qe-7.4.1omp) requires 
-[the Cray compiler CCE 15 or older](https://gitlab.com/QEF/q-e/-/wikis/Support/Build-cray-gpu)
-as there are issues with CCE 16 to 18. CCE 15 requires using a ROCm version (5.2,
-though 5.4 worked also) that is not
-supported by the current driver on LUMI, and in fact, is even known to fail.
-Developers are working on a version that works with newer compilers and ROCm(tm) versions,
-but mentioned issues with the Cray PE 25.03 and ROCm(tm) 6.3.
-We are waiting for further information from them to try with newer compilers and more
-recent ROCm(tm) versions, but anything requiring ROCm(tm) 7 may only come after 
-another system update.**
+**In September 2026, we started offering a first GPU-accelerated version of
+QuantumESPRESSO for the LUMI GPUs. Performance is still far from optimal and will
+only meet expectations ones ROCm(tm) 7 can be fully supported on LUMI.**
 
-## Installing Quantum ESPRESSO
+
+## Installing of Quantum ESPRESSO (CPU version)
 
 We provide automatic installation scripts for several versions of QE. In
 general, the installation procedure is described on the [EasyBuild
-page][EasyBuild]. The step by step procedure to install QE 7.1
+page][EasyBuild]. The step by step procedure to install QE 7.5
 is:
 
 1. Load the LUMI software environment: `module load LUMI/25.03`.
@@ -76,7 +68,31 @@ environment. Older version often work, but may not run optimally as the system
 configuration (software, libraries, drivers, underlying hardware etc.) may have
 changed since they were originally built.
 
-## Example batch scripts
+
+## Installation (GPU version)
+
+The procedure is the same, but a different version of the LUMI stack and partition are needed.
+
+1. Load the LUMI software environment: `module load LUMI/25.09`.
+2. Select the LUMI-C partition: `module load partition/G`.
+3. Load the EasyBuild module: `module load EasyBuild-user`.
+
+Then, you can run the install command
+
+```bash
+$ eb -r QuantumESPRESSO-7.5-cpeGNU-25.03-rocm.eb
+```
+
+Note that after loading the QuantumESPRESSO module for running, you also need to use
+
+```bash
+module load lumi-CrayPath
+```
+
+to use the correct MPI library as `25.09` is not the default CPE version on LUMI.
+
+
+## Example batch scripts (CPU version)
 
 A typical [batch job][batch-job] using 2 compute nodes and MPI only:
 
@@ -126,7 +142,7 @@ module load QuantumESPRESSO/7.3.1-cpeGNU-24.03
 srun pw.x -nk 4 -i gab128.in > gab128.out
 ```
 
-## Tuning recommendations
+## Tuning recommendations (written for the CPU version)
 
 **Making use of k-point parallelization (the flag `-nk`) is very important in
 Quantum Espresso**. In the following test case, a GaAs supercell with

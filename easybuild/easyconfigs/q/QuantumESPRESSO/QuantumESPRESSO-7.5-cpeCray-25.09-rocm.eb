@@ -1,8 +1,14 @@
+#DOC Rather bare-bones version of Quantum ESPRESSO compiled with OpenMP offload for the LUMI GPUs.
+#DOC Note that performance with ROCm 6 is far from optimal. Better performance is expected ones ROCm 7
+#DOC becomes available on LUMI. 
+#DOC Contributed by the [EPICURE project](https://epicure-hpc.eu/).
 easyblock = 'ConfigureMake'
+
+local_ROCm_version =         '6.4.4'
 
 name =          'QuantumESPRESSO'
 version =       '7.5'
-versionsuffix = '-rocm'
+version_suffix = '-rocm'
 
 homepage = 'https://www.quantum-espresso.org'
 
@@ -22,7 +28,7 @@ GPUs, built with the Cray compiler and GPU-aware MPI on LUMI-G.
 
 # CCE 20.0.0 is associated with the 25.09 CPE.
 toolchain = {'name': 'cpeCray', 'version': '25.09'}
-toolchainopts = {'usempi': True, 'openmp': True}
+toolchain_opts = {'usempi': True, 'openmp': True}
 
 _qe_commit = 'bc526ff9f35bc0e7240b242e6ebd43044355c295'
 
@@ -68,28 +74,28 @@ sources = [
 
 checksums = []
 
-builddependencies = [
+build_deps = [
     ('buildtools', '', '%(toolchain_version)s', True),
 ]
 
-dependencies = [  
+deps = [  
     ('cray-hdf5-parallel', EXTERNAL_MODULE),
-    ('cray-fftw', EXTERNAL_MODULE),
-    ('rocm', '6.4.4', '', SYSTEM),
+    ('cray-fftw',          EXTERNAL_MODULE),
+    ('rocm',               local_ROCm_version, '', SYSTEM),
 ]
 
 # Match the compiler workaround from the supplied LUMI environment.
-preconfigopts = (
+pre_configure_opts = (
     'export CRAY_CCE_OPT_ARGS="--passes=default<O1>" && '
 )
 
 # The same CCE workaround must also be present during compilation.
-prebuildopts = (
+pre_build_opts = (
     'export CRAY_CCE_OPT_ARGS="--passes=default<O1>" && '
 )
 
 # Upstream OpenMP-5 GPU configuration for Cray + AMD GPU + GPU-aware MPI.
-configopts = (
+configure_opts = (
     "ARCH=craype "
     "CPP='cpp -traditional-cpp' "
     "CPPFLAGS='-D__CLOCK_SECONDS' "
@@ -100,17 +106,17 @@ configopts = (
     "--with-scalapack=yes"
 )
 
-buildopts = 'pw'
+build_opts = 'pw'
 
 sanity_check_paths = {
     'files': ['bin/pw.x'],
     'dirs':  [''],
 }
 
-postinstallcmds = [
+post_install_cmds = [
     'mkdir -p %(installdir)s/share/licenses/%(name)s',
     'cd %(start_dir)s && cp License README.md %(installdir)s/share/licenses/%(name)s',
 ]
 
-moduleclass = 'chem'
+env_mod_category = 'chem'
 
