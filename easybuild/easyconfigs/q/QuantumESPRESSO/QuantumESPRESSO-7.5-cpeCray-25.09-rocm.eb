@@ -74,17 +74,13 @@ builddependencies = [
 
 dependencies = [  
     ('cray-hdf5-parallel', EXTERNAL_MODULE),
-    ('cray-fftw/3.3.10.10', EXTERNAL_MODULE),
-    ('rocm/6.3.4', EXTERNAL_MODULE), # Only tested with ROCM 6.3.4 specifically
+    ('cray-fftw', EXTERNAL_MODULE),
+    ('rocm', '6.4.4', '', SYSTEM),
 ]
 
 # Match the compiler workaround from the supplied LUMI environment.
-#
-# ROCM_PATH defaults to /opt/rocm, but can be overridden by the build
-# environment if necessary.
 preconfigopts = (
     'export CRAY_CCE_OPT_ARGS="--passes=default<O1>" && '
-    'export ROCM_PATH="${ROCM_PATH:-/opt/rocm}" && '
 )
 
 # The same CCE workaround must also be present during compilation.
@@ -93,14 +89,13 @@ prebuildopts = (
 )
 
 # Upstream OpenMP-5 GPU configuration for Cray + AMD GPU + GPU-aware MPI.
-#
 configopts = (
     "ARCH=craype "
     "CPP='cpp -traditional-cpp' "
     "CPPFLAGS='-D__CLOCK_SECONDS' "
     "--enable-omp_gpu "
     "--enable-omp_mpi_gpu "
-    "--with-rocm=$ROCM_PATH "
+    "--with-rocm=$EBROOTROCM"
     "--with-hdf5=yes "
     "--with-scalapack=yes"
 )
