@@ -170,3 +170,7 @@ https://develop.openfoam.com/Development/openfoam/-/wikis/building#easybuild
 ### OpenFOAM.org dev 20260130
 
 -   A trivial port of the OpenFOAM 13 EasyConfig
+
+### OpenFOAM.org dev 20260709
+
+-   A trivial port of the OpenFOAM.org dev 20260130 EasyConfig
