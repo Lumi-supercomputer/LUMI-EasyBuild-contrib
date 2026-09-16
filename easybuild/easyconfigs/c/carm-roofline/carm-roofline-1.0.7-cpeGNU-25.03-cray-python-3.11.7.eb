@@ -1,20 +1,33 @@
+#DOC Only for light work, as it should really be used in a container to reduce the load on the
+#DOC Lustre filesystems. It hasn't been containerised yet as it is not clear how it interacts
+#DOC with Paraver (which is not yet available as an EasyBuild recipe anyway). This is an
+#DOC EasyBuild recipe contributed by the authors that cannot be supported by LUST.
 easyblock = "PythonBundle"
 
-name = "carm-roofline"
-version = "1.0.7"
+name =          "carm-roofline"
+version =       "1.0.7"
+versionsuffix = "-cray-python-3.11.7"
 
 homepage = "https://github.com/champ-hub/carm-roofline"
+
+whatis = [
+    'Description: The CARM tool - benchmark, visualize and profile Intel, AMD, ARM, RISC-V CPUs with the Cache-Aware Roofline Model'
+]
 
 description = """
 The CARM Tool - benchmark, visualize and profile Intel, AMD, ARM, RISC-V CPUs
 with the Cache-Aware Roofline Model
 """
 
+docurls = [ 
+    'Web-based documentation on https://champ-hub.github.io/carm-roofline/.'
+]
+
 # LUMI has no gfbf toolchain; cpeGNU is the available GNU toolchain.
 toolchain = {"name": "cpeGNU", "version": "25.03"}
 
 builddependencies = [
-    ("buildtools-python", "25.03", "-cray-python3.11", True),
+    ("buildtools-python", "25.03", "-cray-python3.11", SYSTEM),
 ]
 
 dependencies = [
@@ -144,7 +157,7 @@ exts_list = [
         {
             "source_urls": ["https://github.com/champ-hub/carm-roofline/archive/refs/tags"],
             "source_tmpl": "v%(version)s.tar.gz",
-            "checksums": ["62a390b1a295fae3b5b25cbd256a8451b6e457e74c3537c70446329aa3ff6960"],
+            "checksums": ["918a95ee32b15393ce8c08e6768a7c19585759067446632477499b3fe1b3bac1"],
             "preinstallopts": "pip install --no-build-isolation --ignore-installed --prefix=%(installdir)s 'setuptools>=64.0' 'wheel' && ",
             "download_dep_fail": False,
             "use_pip_for_deps": False,
@@ -154,7 +167,7 @@ exts_list = [
 
 sanity_check_paths = {
     "files": ["bin/carm"],
-    "dirs": [],
+    "dirs":  [],
 }
 
 sanity_check_commands = ["carm --help"]
