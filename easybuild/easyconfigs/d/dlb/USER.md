@@ -4,25 +4,25 @@
 ## Installing DLB
 
 The installation procedure is described on the [EasyBuild page](https://docs.lumi-supercomputer.eu/software/installing/easybuild/).
-The step by step procedure to install DLB 3.6.1 is:
+The step by step procedure to install DLB 3.8.0 is:
 
 1. Load the LUMI software environment: `module load LUMI/25.03`.
-2. Select the LUMI-C partition: `module load partition/C`.
+2. Select the LUMI partition: `module load partition/G` (or applicable).
 3. Load the EasyBuild module: `module load EasyBuild-user`.
 
 
 Then, you can run the install command:
 
 ```bash
-$ eb -r dlb-3.6.1-cpeGNU-25.03.eb
+$ eb -r dlb-3.8.0-cpeGNU-25.03-rocm.eb
 ```
 
 The installation takes a few minutes. Afterwards, you will have a module
-called "dlb/3.6.1-cpeGNU-25.03" installed in your home directory.
+called "dlb/3.8.0-cpeGNU-25.03-rocm" installed in your home directory.
 Load the module to use it:
 
 ```bash
-$ module load dlb/3.6.1-cpeGNU-25.03
+$ module load dlb/3.8.0-cpeGNU-25.03-rocm
 ```
 
 The dlb binaries will now be in your `PATH`. Launch `dlb --help` to
@@ -66,10 +66,10 @@ A typical batch job of a hybrid MPI+OpenMP application:
 
 module load LUMI/25.03
 module load partition/C
-module load dlb/3.6.1-cpeCray-25.03
+module load dlb/3.8.0-cpeCray-25.03-rocm
 
 # Set DLB options
-export DLB_ARGS="--talp --ompt --talp-openmp"
+export DLB_ARGS="--talp"
 dlb_preload="$EBROOTDLB/lib/libdlb_mpi.so"
 
 # Set the number of threads based on --cpus-per-task
@@ -103,10 +103,10 @@ Since DLB version 3.6.0, TALP can also profile GPU metrics when used with ROCm
 
 module load LUMI/25.03
 module load partition/G
-module load dlb/3.6.1-cpeCray-25.03
+module load dlb/3.8.0-cpeCray-25.03-rocm
 
 # Set DLB options
-export DLB_ARGS="--talp --plugin=rocprofiler-sdk"
+export DLB_ARGS="--talp"
 dlb_preload="$EBROOTDLB/lib/libdlb_mpi.so"
 
 # Launch application preloading DLB
