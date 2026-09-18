@@ -5,13 +5,19 @@ name =          'dlb'
 version =       '3.8.0'
 versionsuffix = '-rocm'
 
+whatis = [
+    'Description: DLB is a dynamic library designed to speed up HPC hybrid applications'
+]
+
 description = """
 DLB is a dynamic library designed to speed up HPC hybrid applications (i.e.,
 two levels of parallelism) by improving the load balance of the outer level of
 parallelism (e.g., MPI) by dynamically redistributing the computational
 resources at the inner level of parallelism (e.g., OpenMP). at run time.
 """
+
 homepage = 'https://pm.bsc.es/dlb/'
+
 docurls = ['https://dlb-docs.readthedocs.io/en/stable/']
 
 toolchain = {'name': 'cpeGNU', 'version': '25.03'}

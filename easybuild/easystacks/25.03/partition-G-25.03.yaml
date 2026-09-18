@@ -136,6 +136,18 @@ easyconfigs:
 #
 ################################################################################
 #
+# Package author contributions
+#
+#
+# dlb
+#
+  - dlb-3.6.1-cpeGNU-25.03-rocm.eb
+  - dlb-3.6.1-cpeCray-25.03-rocm.eb
+  - dlb-3.8.0-cpeGNU-25.03-rocm.eb
+  - dlb-3.8.0-cpeCray-25.03-rocm.eb
+#
+################################################################################
+#
 # EPICURE contributions
 #
 #
@@ -146,4 +158,8 @@ easyconfigs:
 # URANOS
 #
   - URANOS-20260515-cpeCray-25.03-rocm.eb
+#
+# QuantumESPRESSO
+#
+  - QuantumESPRESSO-7.5-cpeGNU-25.03-CPU.eb
 #
