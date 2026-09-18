@@ -80,4 +80,13 @@ specifically for LUMI.
 
     -   A few patches to the source code to improve slow VASP startup times by improving the disk I/O on LUMI. This is the recommended version.
 
+### 6.6.0 for LUMI/25.03
+
+-   build01
+
+    -   Plain build with high optimization, but no source code modifications.
+
+-   build02
+
+    -   A few patches to the source code to improve slow VASP startup times by improving the disk I/O on LUMI. This is the recommended version.
 
