@@ -25,3 +25,7 @@
 
 -   Add ROCm support
 
+
+### Version 3.8.0 for cpe 3.5.0
+
+-   Trivial port of the corresponding 3.6.1 EasyConfigs.
