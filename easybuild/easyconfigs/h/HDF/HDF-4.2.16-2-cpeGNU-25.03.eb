@@ -3,7 +3,7 @@ easyblock = 'ConfigureMake'
 local_HDF_version =          '4.2.16-2'      # https://support.hdfgroup.org/ftp/HDF/releases/
 
 local_libjpegturbo_version = '3.1.0'         # https://github.com/libjpeg-turbo/libjpeg-turbo/releases
-local_Szip_version =         '2.1.1'         # https://support.hdfgroup.org/ftp/lib-external/szip/
+local_libaec_version =       '1.1.4'         # https://gitlab.dkrz.de/k202009/libaec/-/tags
 local_libtirpc_version =     '1.3.6'         # https://sourceforge.net/projects/libtirpc/files/libtirpc/
 local_zlib_version =         '1.3.1'         # https://zlib.net/
 
@@ -45,21 +45,24 @@ builddependencies = [
 
 dependencies = [
     ('libjpeg-turbo', local_libjpegturbo_version),
-    ('Szip',          local_Szip_version),
+    ('libaec',        local_libaec_version),
     ('zlib',          local_zlib_version),
     ('libtirpc',      local_libtirpc_version),
 ]
 
 preconfigopts = "LIBS='-ltirpc' "
-local_common_configopts  = '--with-szlib=$EBROOTSZIP CFLAGS="$CFLAGS -I$EBROOTLIBTIRPC/include/tirpc" '
-local_common_configopts += '--includedir=%(installdir)s/include/%(namelower)s '
+local_common_configopts = ' '.join([
+    '--with-szlib=$EBROOTLIBAEC',
+    'CFLAGS="$CFLAGS -I$EBROOTLIBTIRPC/include/tirpc"',
+    '--includedir=%(installdir)s/include/%(namelower)s'
+])
 configopts = [
     # -fallow-argument-mismatch is required to compile with GCC 10.x
-    local_common_configopts + 'FFLAGS="$FFLAGS -fallow-argument-mismatch"',
+    local_common_configopts + ' FFLAGS="$FFLAGS -fallow-argument-mismatch"',
     # Cannot build shared libraries and Fortran...
     # https://trac.osgeo.org/gdal/wiki/HDF#IncompatibilitywithNetCDFLibraries
     # netcdf must be disabled to allow HDF to be used by GDAL
-    local_common_configopts + "--enable-shared --disable-fortran --disable-netcdf",
+    local_common_configopts + ' --enable-shared --disable-fortran --disable-netcdf',
 ]
 
 postinstallcmds = [
