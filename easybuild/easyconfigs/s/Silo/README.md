@@ -39,3 +39,12 @@ It is used in the LUMI graphics stack, in ParaView and VisIt.
 
 -   To build libsilo and libsiloh5 both in static and shared version, 4 iterations
     are needed (shared/static and with/without HDF5).
+
+-   Removed the bogus Szip dependency. Szip actually only comes in through HDF5, and
+    modern HDF5 libraries are often compiled with libaec instead of Szip. Loading two
+    libraries supporting the same API may lead to errors. Analysing the CMakeLists file,
+    Szip is only needed explicitly on Windows if HDF5 is also compiled with Szip but
+    is not needed on Linux as a direct dependency.
+
+-   Looks like there is a permission issue after the installation with EasyBuild as the
+    shared libraries have no execution rights.

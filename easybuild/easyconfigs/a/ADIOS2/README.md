@@ -68,3 +68,7 @@
 
 -   Added SZ3 support to the cpeGNU versions. For the cpeCray versions, we first need to find
     a solution for compile issues with the CCE compilers.
+
+-   Removed the Szip dependency as that is really only a dependency of HDF5 where newer versions
+    are compiled with libaec instead, so this may only lead to problems having two libraries with
+    the same API in the search path.

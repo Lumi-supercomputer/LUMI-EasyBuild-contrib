@@ -26,3 +26,7 @@ using it.
 
 -   Switched to EB6-compatible parameters in 26.03.
 
+-   In September 2026, The Szip dependency was replaced by libaec in the 25.03 and 26.03 
+    versions to ensure that there are no library conflicts when used with own-compiled
+    HDF5 libraries as the newer ones really encourage the use of libaec.
+

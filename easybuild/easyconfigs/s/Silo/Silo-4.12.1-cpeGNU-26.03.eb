@@ -2,8 +2,6 @@ easyblock = 'CMakeMake'
 
 local_Silo_version =         '4.12.1'        # https://github.com/LLNL/Silo/releases
 
-local_Szip_version =         '2.1.1'         # https://support.hdfgroup.org/ftp/lib-external/szip/
-
 name =    'Silo'
 version = local_Silo_version
 
@@ -35,9 +33,11 @@ application programming interface (API) and a lower-level I/O implementation
 called a driver. Silo supports multiple I/O drivers. The two most common are the
 HDF5 (Hierarchical Data Format 5) and PDB (Portable DataBase) drivers.
 
-Note that the browser and silock apps are built with the parallel HDF5 version
-at the moment. Change the order of the lines in configure_opts to get a
-different build (the last one determines the build of the applications). 
+Though the module provides Silo both with and without HDF5 support (and we
+use cray-hdf5-parallel for HDF5 support), the browser and silock apps are
+currently built with the parallel HDF5 version. Change the order of the lines 
+in configure_opts to get a different build (the last one determines the build
+of the applications). 
 """
 
 doc_urls = ['https://silo.readthedocs.io/']
@@ -52,12 +52,11 @@ checksums =   ['9fdf81303b8dc7fab941e365f4156fe48d0bb036cdfdcb59a7c2d218771576b6
 
 build_deps = [
     ('buildtools',        '%(toolchain_version)s', '', True),
-    ('craype-accel-none', EXTERNAL_MODULE)
+    ('craype-accel-none', EXTERNAL_MODULE) # Not an OpenMP offload code, so it is better to unload any accel module that may be loaded.
 ]
 
 deps = [
     ('cray-hdf5-parallel', EXTERNAL_MODULE),
-    ('Szip',               local_Szip_version)
 ]
 
 local_common_configure_opts = ' '.join([
@@ -66,7 +65,6 @@ local_common_configure_opts = ' '.join([
     '-DSILO_ENABLE_SILEX=OFF',
     '-DSILO_ENABLE_BROWSER=ON',
     '-DSILO_ENABLE_FORTRAN=ON',
-    '-DSILO_ENABLE_HDF5=OFF',
     '-DSILO_ENABLE_JSON=OFF',
     '-DSILO_ENABLE_PYTHON_MODULE=OFF',
     '-DSILO_ENABLE_INSTALL_LITE_HEADERS=ON',
@@ -82,6 +80,9 @@ configure_opts = [
 ]
 
 post_install_cmds = [
+    # We noted an issue with permissions of the shared libraries.
+    'chmod a+x %(installdir)s/lib/*.so',
+    # Copy the license information.
     'mkdir -p %(installdir)s/share/licenses/%(name)s',
     'cd ../%(name)s-%(version)s && cp BSD_LICENSE_README COPYRIGHT README.md %(installdir)s/share/licenses/%(name)s',   
 ]
