@@ -35,15 +35,16 @@ builddependencies = [
 
 dependencies = [
     ('cray-python', EXTERNAL_MODULE),
-    ('rocm',        EXTERNAL_MODULE),
+    ('rocm', '6.3.4', '-extras', SYSTEM),
 ]
 
 preconfigopts  = 'export PATH=${ROCM_PATH}/llvm/bin:$PATH && '
-preconfigopts += 'export C_INCLUDE_PATH=$ROCM_PATH/llvm/include && '
 preconfigopts += 'export CPLUS_INCLUDE_PATH=$ROCM_PATH/llvm/include && '
 
 configopts  = '-DACPP_VERSION_SUFFIX="rocm6" '
+configopts += '-DACPP_EXPERIMENTAL_LLVM=ON '
 configopts += '-DROCM_PATH=$ROCM_PATH '
+configopts += '-DAMDGPU_TARGETS=gfx90a '
 configopts += '-DCMAKE_C_COMPILER=${ROCM_PATH}/llvm/bin/clang '
 configopts += '-DCMAKE_CXX_COMPILER=${ROCM_PATH}/llvm/bin/clang++ '
 configopts += '-DWITH_ACCELERATED_CPU=ON '
@@ -56,8 +57,7 @@ configopts += '-DACPP_TARGETS="gfx90a" '
 configopts += '-DBoost_NO_BOOST_CMAKE=TRUE '
 configopts += '-DBoost_NO_SYSTEM_PATHS=TRUE '
 configopts += '-DWITH_SSCP_COMPILER=OFF ' 
-configopts += '-DLLVM_DIR=${ROCM_PATH}/llvm/lib/cmake/llvm/ '
-
+configopts += '-DLLVM_DIR=${ROCM_PATH}/lib/llvm/lib '
 
 sanity_check_paths = {
     'files': ['bin/acpp', 'include/AdaptiveCpp/sycl/sycl.hpp',
