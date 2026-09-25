@@ -177,6 +177,7 @@ easyconfigs:
   - OpenFOAM-13-cpeGNU-25.03-master.eb
   - CGAL-5.6.3-cpeGNU-25.03-OpenFOAM.eb
   - OpenFOAM-v2506-cpeGNU-25.03.eb
+  - OpenFOAM-dev-20260907-cpeGNU-25.03.eb
 #
 # QuEST
 #
@@ -237,6 +238,18 @@ easyconfigs:
   - PETSc-3.23.5-cpeGNU-25.03-OpenMP-CPU-forYambo.eb
   - SLEPc-3.23.2-cpeGNU-25.03-OpenMP-CPU-forYambo.eb
   - Yambo-5.3.0-cpeGNU-25.03-SLEPc-double.eb
+#
+#
+################################################################################
+#
+# Package author contributions
+#
+#
+# carm-roofline (contributed by the authors)
+#
+  - carm-roofline-1.0.7-cpeGNU-25.03-cray-python-3.11.7.eb
+  - carm-roofline-1.2.0-cpeGNU-25.03-cray-python-3.11.7.eb
+#
 ################################################################################
 #
 # EPICURE contributions
