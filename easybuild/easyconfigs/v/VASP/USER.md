@@ -13,8 +13,6 @@
 package for "atomic scale materials modelling from first principles". In
 general, it runs well on [LUMI-C][lumi-c].
 
-**There is currently no version of VASP that can use the AMD GPUs in the [GPU
-Early Access Platform][eap] or [LUMI-G][lumi-g].**
 
 ## Installing VASP
 
