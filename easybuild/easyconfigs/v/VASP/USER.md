@@ -1,7 +1,6 @@
 [vasp]: https://www.vasp.at/
-[lumi-c]: https://docs.lumi-supercomputer.eu/hardware/compute/lumic/
-[lumi-g]: https://docs.lumi-supercomputer.eu/hardware/compute/lumig/
-[eap]: https://docs.lumi-supercomputer.eu/hardware/compute/eap/
+[lumi-c]: https://docs.lumi-supercomputer.eu/hardware/lumic/
+[lumi-g]: https://docs.lumi-supercomputer.eu/hardware/lumig/
 [slurm-quickstart]: https://docs.lumi-supercomputer.eu/runjobs/scheduled-jobs/slurm-quickstart/
 [slurm-bindings]: https://docs.lumi-supercomputer.eu/runjobs/scheduled-jobs/distribution-binding#slurm-binding-options
 [batch-job]: https://docs.lumi-supercomputer.eu/runjobs/scheduled-jobs/batch-job/
@@ -13,8 +12,19 @@
 package for "atomic scale materials modelling from first principles". In
 general, it runs well on [LUMI-C][lumi-c].
 
-**There is currently no version of VASP that can use the AMD GPUs in the [GPU
-Early Access Platform][eap] or [LUMI-G][lumi-g].**
+In 6.6.x there is now also support for the AMD GPUs in [LUMI-G][lumi-g], but 
+that support is still rather experimental and basically more of a public beta.
+Issues are to be expected with the GPU version and need to be discussed with
+VASP, not with LUST (as requested by the VASP people we met with when 6.6.0 
+was released). We did do a best effort to translate the instructions
+they provided for the Cray compilers, which they use for development, into EasyBuild recipes though.
+See also the [VASP Wiki page "GPU ports of VASP"](https://vasp.at/wiki/GPU_ports_of_VASP).
+
+The LUMI User Support Team has only limited access to VASP due to the very strict
+licensing conditions. We basically have to rely
+on help from others who have legal access to a VASP license and therefore the support that
+we can offer for VASP is very limited and we cannot always be on top of new versions.
+
 
 ## Installing VASP
 
@@ -22,7 +32,7 @@ We provide automatic installation scripts for several versions of VASP. In
 general, the installation procedure is described on the [EasyBuild
 page][EasyBuild]. The step by step procedure to install VASP is:
 
-1. Download the VASP source code "vasp.6.6.0.tgz" from the [VASP portal][vasp].
+1. Download the VASP source code "vasp.6.6.1.tgz" from the [VASP portal][vasp].
 2. Upload the file somewhere to your home directory on LUMI.
 3. Load the LUMI software environment: `module load LUMI/25.03`.
 4. Select the LUMI-C partition: `module load partition/C`.
@@ -31,15 +41,15 @@ page][EasyBuild]. The step by step procedure to install VASP is:
 Then, you can run the install command:
 
 ```bash
-$ eb --sourcepath=<directory-where-the-VASP-source-is-stored> VASP-6.6.0-cpeGNU-25.03-build02.eb -r
+$ eb --sourcepath=<directory-where-the-VASP-source-is-stored> VASP-6.6.1-cpeGNU-25.03-build02.eb -r
 ```
 
 The installation process is quite slow. It will take about 20 minutes, but
-afterwards, you will have a module called "VASP/6.6.0-cpeGNU-25.03-build02" installed
+afterwards, you will have a module called "VASP/6.6.1-cpeGNU-25.03-build02" installed
 in your home directory. Load the module to use it
 
 ```bash
-$ module load VASP/6.6.0-cpeGNU-25.03-build02
+$ module load VASP/6.6.1-cpeGNU-25.03-build02
 ```
 
 The usual VASP binaries, `vasp_std`, `vasp_gam` etc. will now be in your
@@ -62,18 +72,22 @@ repository on GitHub directly.
 
 We build the VASP executables with bindings to several external libraries
 activated: currently HDF5, Wannier90 and Libxc. A patch is also applied 
-so the input files are opened read only to reduice the load on the parallel file system.
+so the input files are opened read only to reduce the load on the parallel file system.
+
+For the GPU versions that make use of cpeCray, the same procedure can be used, but now you need
+to load `partition/G` instead of `partition/C`.
+
 
 ## Description of the different VASP builds
 
 There might be several installations of the same VASP version to choose from: `build01`, `build02` etc. For various reasons, it is often necessary to compile VASP in different ways for different users, for example with certain extra packages or to apply specific patches for LUMI.
 
-* `VASP-6.6.0-cpeGNU-25.03-build01.eb`. VASP 6.6.0 release version built without any modifications. Passes the VASP test suite
-* `VASP-6.6.0-cpeGNU-25.03-build02.eb`. VASP 6.6.0 with POTCAR and HDF5 I/O patches. Passes the VASP test suite
+* `VASP-6.6.1-cpeGNU-25.03-build01.eb`. VASP 6.6.1 release version built without any modifications. Passes the VASP test suite
+* `VASP-6.6.1-cpeGNU-25.03-build02.eb`. VASP 6.6.1 with POTCAR and HDF5 I/O patches. Passes the VASP test suite
 
 ## Example batch scripts
 
-A typical VASP [batch job][batch-job] using 4 compute nodes and MPI only:
+A typical VASP [batch job][batch-job] using 4 compute nodes and MPI only and the CPU version of VASP:
 
 ```bash
 #!/bin/bash
@@ -90,7 +104,7 @@ A typical VASP [batch job][batch-job] using 4 compute nodes and MPI only:
 export OMP_NUM_THREADS=1
 
 module load LUMI/25.03 partition/C
-module load VASP/6.6.0-cpeGNU-25.03-build02
+module load VASP/6.6.1-cpeGNU-25.03-build02
 srun vasp_std
 ```
 
