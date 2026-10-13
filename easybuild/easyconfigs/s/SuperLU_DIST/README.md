@@ -33,7 +33,7 @@
 -   Update based on previous easyconfigs
 
 
-### Version 9.2.0 for cpeGNU 25.03
+### Version 9.2.0 for cpeGNU 25.03 and cpeCray 25.03
 
 -   The EasyConfig is a straightforward port of the 9.0.0 one in 24.03.
 
@@ -47,6 +47,8 @@
 -   Checking the Spack recipe is actually more useful than checking the EasyBuilders
     recipes. It also shows that special versions of METIS or ParMETIS are needed when
     using 64-bit indexing.
+
+-   The cpeCray version actually needed `-DXSDK_ENABLE_Fortran=FALSE` to build.
 
 
 ### Version 9.2.1 for cpe for 26.03

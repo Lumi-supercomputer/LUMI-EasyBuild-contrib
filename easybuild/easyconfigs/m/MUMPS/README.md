@@ -16,7 +16,7 @@
     for the Cray PE.
 
 
-### Version 5.6.1 for cpeGNU 24.03 and 25.03
+### Version 5.6.1 for cpeGNU 24.03 and 25.03 and cpeCray 25.03
 
 -   The EasyConfig is derived from the EasyBuilders one
     

@@ -66,6 +66,14 @@ subdirectory where you can also select the appropriate tag, e.g.,
     only updating the dependencies to sometimes new major versions.
 
 
+### Version 3.24.4 for GPU with cpeGNU and cpeCray 25.03
+
+-   The Cray version was made for a porting project.
+
+    There is an issue with it. Only the Fortran parts are fully OpenMP enabled as 
+    otherwise there were linking issues with the `cc` compiler wrapper.
+
+
 ### Version 3.25.4 for CPU in 26.03
 
 -   An evolution of the 3.24.2 EasyConfig for CPU in 25.03.

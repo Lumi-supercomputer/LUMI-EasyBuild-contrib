@@ -22,6 +22,6 @@
     between the GNU one and ROCm one.
 
     
-### 4.6.2 for cpeGNU and cpeAMD with ROCm 6.3.4
+### 4.6.2 for cpeGNU, cpeCray and cpeAMD with ROCm 6.3.4
 
 -   Straightforward port of the EasyConfigs for 4.5.1 in 24.03.

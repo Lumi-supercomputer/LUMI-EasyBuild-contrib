@@ -31,7 +31,7 @@
     it is not clear why they did that.
 
 
-### Version 7.0.1 for cpeGNU 25.03
+### Version 7.0.1 for cpeGNU 25.03 and cpeCray 25.03
 
 -   Mostly a straightforward adaptation of the 6.0.1 EasyConfig in 25.03.
 

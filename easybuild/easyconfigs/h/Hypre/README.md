@@ -35,6 +35,8 @@ A library of scalable linear solvers and multigrid methods, used by PETSc.
 
 -   Furthermore a trivial port of the EasyConfig for 2.31.0 in 24.03.
 
+-   The cpeCray version is just a trivial toolchain change.
+
 
 ### Version 3.1.0 for cpeGNU 26.03
 
