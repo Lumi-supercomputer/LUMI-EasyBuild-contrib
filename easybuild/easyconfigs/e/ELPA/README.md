@@ -109,3 +109,12 @@ multithread version or the singlethread version?
 ### 2026.02.002 for CPU
 
 -   The EasyConfig is a straightforward version bump of 2025.06.001 for 26.03.
+
+
+### 2026.02.002 for GPU
+
+-   This version is for cpeCray as there was a request for a GPU-aware version
+    of PETSc using the Cray compiler for a Fortran project.
+
+    It is an almost straightforward port of the EasyConfig for 2025.06.001 for GPU though.
+
