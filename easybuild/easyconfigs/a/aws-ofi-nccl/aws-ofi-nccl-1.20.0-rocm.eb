@@ -1,4 +1,6 @@
 easyblock = 'ConfigureMake'
+#DOC This EasyConfig is meant to be used in the ccpe/26.03 container on LUMI before
+#DOC the January 2027 system update and may need changes after that update.
 
 name = 'aws-ofi-nccl'
 version = '1.20.0'
@@ -36,7 +38,7 @@ sources = [{
 
 dependencies = [
     ('rocm/7.0.3', EXTERNAL_MODULE),
-    ('libfabric', EXTERNAL_MODULE), # Cray branch
+    ('libfabric',  EXTERNAL_MODULE), # Cray branch
 ]
 
 preconfigopts = ' ./autogen.sh && '
