@@ -1,11 +1,19 @@
 easyblock = 'ConfigureMake'
+#DOC Triggered by a ticket and not a code for which we promise long-term support.
 
 name = 'FDS'
 version = '6.11.1'
 
 homepage = 'https://pages.nist.gov/fds-smv'
-description = """Fire Dynamics Simulator (FDS) is a large-eddy simulation (LES) code for low-speed flows,
- with an emphasis on smoke and heat transport from fires."""
+
+whatis = [
+    'Description: Fire Dynamics Simulater: LES for smoke and heat transport from fires.'
+]
+
+description = """
+Fire Dynamics Simulator (FDS) is a large-eddy simulation (LES) code for
+low-speed flows, with an emphasis on smoke and heat transport from fires.
+"""
 
 toolchain = {'name': 'cpeGNU', 'version': '25.03'}
 toolchainopts = {'pic': True, 'usempi': True, 'openmp': True}
@@ -15,6 +23,10 @@ sources = ['FDS-%(version)s.tar.gz']
 checksums = ['f0a3493ea5f77b18ee5aae065ffb5c3677ae5cc0e1479b5aac22872b472dc417']
 
 unpack_options = '--strip-components=1'
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', SYSTEM),
+]
 
 start_dir = 'Build'
 
