@@ -39,10 +39,11 @@ builddependencies = [
 
 dependencies = [
     ('cray-python', EXTERNAL_MODULE),
-    ('rocm',        EXTERNAL_MODULE),
+    ('rocm/6.3.4',        EXTERNAL_MODULE),
 ]
 
-preconfigopts  = 'export PATH=${ROCM_PATH}/llvm/bin:$PATH && '
+preconfigopts  = 'module load rocm/6.3.4-extras && '
+preconfigopts += 'export PATH=${ROCM_PATH}/llvm/bin:$PATH && '
 preconfigopts += 'export C_INCLUDE_PATH=$ROCM_PATH/llvm/include && '
 preconfigopts += 'export CPLUS_INCLUDE_PATH=$ROCM_PATH/llvm/include && '
 
