@@ -1,0 +1,63 @@
+easyblock = 'MakeCp'
+
+local_SCOTCH7_version =      '7.0.8'         # https://gforge.inria.fr/projects/scotch/
+local_METIS_version =        '5.1.0'         # https:/http://glaros.dtc.umn.edu/gkhome/metis/metis/download
+
+name =          'MUMPS'
+version =       '5.6.1'
+versionsuffix = '-OpenMP'
+
+homepage = 'https://graal.ens-lyon.fr/MUMPS/'
+
+whatis = [
+    'Description: A parallel sparse direct solver',
+]
+
+description = """
+MUMPS stands for MUltifrontal Massively Parallel sparse direct Solver.
+
+Both static and shared libraries are provided.
+"""
+
+docurls = [
+    'User guide downloadable from https://mumps-solver.org/index.php?page=doc'
+]
+
+toolchain = {'name': 'cpeCray', 'version': '25.03'}
+toolchainopts = {'pic': True, 'usempi': True, 'openmp': True}
+
+source_urls = ['http://mumps-solver.org/']
+sources = ['%(name)s_%(version)s.tar.gz']
+
+patches = [
+    '%(name)s-%(version)s_shared-pord.patch',    # builds the shared libs of PORD
+    '%(name)s-%(version)s_shared-mumps.patch',   # builds shared libs of MUMPS
+    ('Makefile.CRAY.patch', 1),       	         # adds specific options for Cray to Make.inc dir
+]
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+    ('SCOTCH', local_SCOTCH7_version),
+    ('METIS',  local_METIS_version),
+]
+
+prebuildopts  = 'cp Make.inc/Makefile.CRAY Makefile.inc && '
+prebuildopts += 'sed -i "s/-fallow-argument-mismatch//" Makefile.inc && '
+
+buildopts = 'SONAME_VERSION="%(version)s"'
+
+parallel = 1
+
+build_cmd_targets = "all"
+
+files_to_copy = ['lib', 'include']
+
+sanity_check_paths = {
+    'files': ['lib/libcmumps.so', 'lib/libdmumps.so', 'lib/libsmumps.so', 'lib/libzmumps.so'],
+    'dirs':  ['include', 'lib'],
+}
+
+moduleclass = 'math'
