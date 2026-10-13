@@ -1,6 +1,7 @@
 # Contributed by Luca Marsella (CSCS)
 # Some adaptations by Kurt Lust (University of Antwerpen and LUMI consortium)
 # GPU version adapted for LUMI
+#DOC EasyConfig triggered by the requirements of a project in the LUMI porting call.
 easyblock = 'ConfigureMake'
 
 local_ELPA_version = '2026.02.002'
