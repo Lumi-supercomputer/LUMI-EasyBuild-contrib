@@ -39,3 +39,11 @@
 ### Release 25.02.0 for 25.03
 
 -   A port of 24.10.0 for 24.03, but this time some options needed changes again.
+
+-   A dirty trick was needed during the build process as some LLVM libraries are
+    absent in the system-installed ROCm module.
+
+
+### Release 25.10.0
+
+-   A straightforward port of 25.2.0.
