@@ -25,10 +25,6 @@ maxparallel=1
 
 # Request access to RSPt source code by contacting the developers.
 sources =['%(namelower)s-%(version)s.tar.gz']
-download_instructions = """
-To get access to the RSPt source code, please contact the developers. See also the FAQ on RSPt on 
-https://www.uu.se/en/department/physics-and-astronomy/research/materials-theory/code-development
-"""
 
 # Creating the RSPTmake.inc file
 prebuildopts = 'echo "FCOMPILER = ftn" > RSPTmake.inc && '
