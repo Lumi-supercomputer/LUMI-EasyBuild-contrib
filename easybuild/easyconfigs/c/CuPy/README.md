@@ -39,3 +39,7 @@ CuPy is a NumPy/SciPy-compatible array library for GPU-accelerated computing wit
 
 -   Port of the 13.4.1 EasyConfig for 24.03, but needed an additional patch and
     some settings via `preinstallopts` to build properly.
+
+### Version 13.6.0 for 25.03
+
+-   Update of 13.5.1 recipe
