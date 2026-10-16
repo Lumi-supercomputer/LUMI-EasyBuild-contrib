@@ -21,7 +21,8 @@
     See [LAMMPS issue #5248](https://github.com/lammps/lammps/issues/5248) and
     [LAMMPS issue #3773](https://github.com/lammps/lammps/issues/3773) which is
     a slightly different issue but likely with a common cause in the Python
-    interface.
+    interface. The latter does contain a discussion on how Python should deal
+    with it though.
 
 
 ## EasyBuild support
