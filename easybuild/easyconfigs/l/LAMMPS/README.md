@@ -12,6 +12,19 @@
     but it does need to be enabled also by users running LAMMPS. 
 
 
+## Known issues
+
+-   LAMMPS may hang when specifying a non-existing input file, though it seems this
+    may be an issue when using LAMMPS from Python which is not really supported in
+    the build recipes below.
+
+    See [LAMMPS issue #5248](https://github.com/lammps/lammps/issues/5248) and
+    [LAMMPS issue #3773](https://github.com/lammps/lammps/issues/3773) which is
+    a slightly different issue but likely with a common cause in the Python
+    interface. The latter does contain a discussion on how Python should deal
+    with it though.
+
+
 ## EasyBuild support
 
 -   [LAMMPS support in the EasyBuilders repository](https://github.com/easybuilders/easybuild-easyconfigs/tree/develop/easybuild/easyconfigs/l/LAMMPS).
