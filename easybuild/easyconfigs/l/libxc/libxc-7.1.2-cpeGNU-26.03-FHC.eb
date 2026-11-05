@@ -1,8 +1,7 @@
 # contributed by Luca Marsella (CSCS)
 # adapted for LUMI by Peter Larsson
-#DOC! This version has the control of the enforcement of the Fermi hole curvature done by 
-#DOC! the XC_FLAGS_ENFORCE_FHC flag at runtime disabled so that it works like previous versions
-#DOC! of the library.
+#DOC This version works the way one would expect for version 7, with the control of the
+#DOC enforcement of the Fermi hole curvature done by the XC_FLAGS_ENFORCE_FHC flag at runtime.
 
 local_Perl_version =         '5.42.0'        # https://www.perl.org/get.html
 
