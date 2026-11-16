@@ -1,0 +1,48 @@
+easyblock = 'ConfigureMake'
+
+name = 'Hypre'
+version = '3.0.0'
+versionsuffix = '-rocm'
+
+homepage = 'https://computation.llnl.gov/projects/hypre-scalable-linear-solvers-multigrid-methods'
+
+whatis = [
+    'Description: A library of scalable linear solvers and multigrid methods, used by PETSc'
+]
+
+description = """
+Hypre is a library for solving large, sparse linear systems of equations on massively
+parallel computers. The problems of interest arise in the simulation codes being developed at LLNL
+and elsewhere to study physical phenomena in the defense, environmental, energy, and biological sciences.
+"""
+
+toolchain = {'name': 'cpeCray', 'version': '25.03'}
+toolchainopts = {'openmp': True, 'pic': True}
+
+source_urls = ['https://github.com/hypre-space/hypre/archive/']
+sources =     ['v%(version)s.tar.gz']
+#checksums =   ['0f9103c34bce7a5dcbdb79a502720fc8aab4db9fd0146e0791cde7ec878f27da']
+
+
+configopts  = 'CFLAGS="-O3 -ffast-math -fopenmp -fPIC" '
+configopts += 'FFLAGS="-O3 -hfp3 -fopenmp -fPIC" '
+configopts += '--with-hip '
+configopts += '--enable-gpu-aware-mpi '
+configopts += '--with-gpu-arch=gfx90a '
+configopts += '--with-gpu-warp-size=64 '
+configopts += '--enable-device-malloc-async '
+configopts += '--with-blas-libs="" '  
+configopts += '--with-blas-lib-dirs="${CRAY_LIBSCI_PREFIX}/lib" ' 
+configopts += '--with-lapack-libs="" '
+configopts += '--with-lapack-lib-dirs="4{CRAY_LIBSCI_PREFIX}/lib" ' 
+configopts += '--with-MPI-include=${CRAY_MPICH_PREFIX}/include '
+configopts += '--without-umpire '
+
+start_dir = 'src'
+
+sanity_check_paths = {
+    'files': ['lib/libHYPRE.a'],
+    'dirs':  ['lib', 'include'],
+}
+
+moduleclass = 'numlib'

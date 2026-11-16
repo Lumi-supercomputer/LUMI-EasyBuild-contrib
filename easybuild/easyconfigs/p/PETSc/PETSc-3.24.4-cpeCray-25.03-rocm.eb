@@ -23,7 +23,7 @@ description = """PETSc, pronounced PET-see (the S is silent), is a suite of data
  scalable (parallel) solution of scientific applications modeled by partial differential equations."""
 
 toolchain = {'name': 'cpeCray', 'version': '25.03'}
-toolchainopts = {'openmp': False, 'usempi': True, 'pic': True}
+toolchainopts = {'openmp': True, 'usempi': True, 'pic': True}
 
 source_urls = ['https://web.cels.anl.gov/projects/petsc/download/release-snapshots']
 sources = [SOURCELOWER_TAR_GZ]
@@ -40,12 +40,13 @@ dependencies = [
     ('rocm',               EXTERNAL_MODULE),
     ('cray-python',        EXTERNAL_MODULE),
     ('cray-hdf5-parallel', EXTERNAL_MODULE),
+    ('craype-accel-host' , EXTERNAL_MODULE),
     ('Boost',              local_Boost_version),
     ('METIS',              local_METIS_version),
     ('ParMETIS',           local_ParMETIS_version),
     ('SCOTCH',             local_SCOTCH_version),
     ('MUMPS',              local_MUMPS_version,        '-OpenMP'),
-    ('Hypre',              local_Hypre_version),
+    ('Hypre',              local_Hypre_version,        '-rocm'),
     ('SuperLU',            local_SuperLU_version,      '-OpenMP'),
     ('SuperLU_DIST',       local_SuperLU_DIST_version, '-OpenMP-CPU'),
     ('Kokkos',             local_Kokkos_version,       '-rocm'),
@@ -56,8 +57,6 @@ dependencies = [
 #keeppreviousinstall = True
 
 preconfigopts = 'mkdir -p %(installdir)s && '
-
-#prebuildopts = preconfigopts
 
 configopts = ' '.join([
     '--known-has-attribute-aligned=1',
@@ -96,7 +95,7 @@ configopts = ' '.join([
     '--with-scalar-type=real',
     '--with-shared-ld=ar',
     '--with-etags=0',
-    '--with-openmp=0',
+    '--with-openmp=1',
     '--with-x=0',
     '--with-ssl=0',
     '--with-shared-libraries=1',
@@ -125,17 +124,18 @@ configopts = ' '.join([
     '--with-hip',
     '--with-hipc=hipcc',
     '--with-hip-arch=gfx90a',
-    '--HIPFLAGS+="$(CC --cray-print-opts=cflags)"',
-    '--FFLAGS+=-fopenmp', 
+    '--CFLAGS+="-O3 -ffast-math -fopenmp -fPIC"',
+    '--HIPFLAGS+="$(CC --cray-print-opts=cflags) -fopenmp -fPIC"',
+    '--FFLAGS+="-O3 -hfp3 -fopenmp -fPIC"', 
     '--with-kokkos=1',
     '--with-kokkos-dir="$EBROOTKOKKOS"',
     '--with-kokkos-kernels=1',
     '--with-kokkos-kernels-dir="$EBROOTKOKKOSMINKERNELS"',
     '--with-python-exec="$CRAY_PYTHON_PREFIX"/bin/python3',
-    ' PETSC_ARCH="$CRAY_CPU_TARGET-$CRAY_ACCEL_TARGET"',
+    ' PETSC_ARCH="$CRAY_CPU_TARGET-hip"',
 ])
 
-buildopts = 'PETSC_ARCH=$CRAY_CPU_TARGET-$CRAY_ACCEL_TARGET PETSC_DIR=%(builddir)s/%(namelower)s-%(version)s lib all'
+buildopts = 'PETSC_ARCH=$CRAY_CPU_TARGET-hip PETSC_DIR=%(builddir)s/%(namelower)s-%(version)s lib all'
 
 # This is for checking if linking against the library is correct
 runtest = 'check_build MPIEXEC=exec'
