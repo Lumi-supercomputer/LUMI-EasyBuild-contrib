@@ -21,7 +21,11 @@ toolchainopts = {'openmp': True, 'pic': True}
 
 source_urls = ['https://github.com/hypre-space/hypre/archive/']
 sources =     ['v%(version)s.tar.gz']
-#checksums =   ['0f9103c34bce7a5dcbdb79a502720fc8aab4db9fd0146e0791cde7ec878f27da']
+checksums =   ['d9dbfa34ebd07af1641f04b06338c7808b1f378e2d7d5d547514db9f11dffc26']
+
+dependencies = [
+    ('Umpire', '2025.09.0', '-rocm'),
+]
 
 
 configopts  = 'CFLAGS="-O3 -ffast-math -fopenmp -fPIC" '
@@ -34,9 +38,12 @@ configopts += '--enable-device-malloc-async '
 configopts += '--with-blas-libs="" '  
 configopts += '--with-blas-lib-dirs="${CRAY_LIBSCI_PREFIX}/lib" ' 
 configopts += '--with-lapack-libs="" '
-configopts += '--with-lapack-lib-dirs="4{CRAY_LIBSCI_PREFIX}/lib" ' 
+configopts += '--with-lapack-lib-dirs="${CRAY_LIBSCI_PREFIX}/lib" ' 
 configopts += '--with-MPI-include=${CRAY_MPICH_PREFIX}/include '
-configopts += '--without-umpire '
+configopts += '--with-umpire=${EBROOTUMPIRE} '
+configopts += '--with-umpire-include=${EBROOTUMPIRE}/include '
+configopts += '--with-umpire-lib-dirs=${EBROOTUMPIRE}/lib '
+configopts += '--with-umpire-libs="umpire" '
 
 start_dir = 'src'
 
