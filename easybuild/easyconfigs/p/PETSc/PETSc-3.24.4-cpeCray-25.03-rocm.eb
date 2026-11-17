@@ -6,11 +6,12 @@ local_METIS_version        = '5.1.0'
 local_ParMETIS_version     = '4.0.3'
 local_SCOTCH_version       = '7.0.8'
 local_MUMPS_version        = '5.6.1'
-local_Hypre_version        = '2.33.0'
+local_Hypre_version        = '3.0.0'
 local_SuperLU_version      = '7.0.1'
 local_SuperLU_DIST_version = '9.2.0'
 local_Kokkos_version       = '4.6.02'
 local_Kokkos_kernels_ver   = '4.6.02'
+local_Umpire_version       = '2025.09.0'
 
 local_PETSc_version = '3.24.4'
 
@@ -51,6 +52,7 @@ dependencies = [
     ('SuperLU_DIST',       local_SuperLU_DIST_version, '-OpenMP-CPU'),
     ('Kokkos',             local_Kokkos_version,       '-rocm'),
     ('Kokkos-kernels',     local_Kokkos_kernels_ver,   '-rocm'),
+    ('Umpire',             local_Umpire_version,       '-rocm'),
 ]
 
 # This is important while some packages are installed prior to build
@@ -112,7 +114,9 @@ configopts = ' '.join([
     '--with-metis=1',
     '--with-metis-dir="$EBROOTMETIS"',
     '--with-hypre=1',
-    '--with-hypre-dir="$EBROOTHYPRE"',
+    '--with-hypre-include="$EBROOTHYPRE/include"',
+    '--with-hypre-lib="-lnuma $EBROOTHYPRE/lib/libHYPRE.a"',
+    '--with-hypre-gpu-arch=gfx90a',
     '--with-scalapack=1',
     '--with-ptscotch=1',
     '--with-ptscotch-dir="$EBROOTSCOTCH"',
@@ -125,12 +129,15 @@ configopts = ' '.join([
     '--with-hipc=hipcc',
     '--with-hip-arch=gfx90a',
     '--CFLAGS+="-O3 -ffast-math -fopenmp -fPIC"',
+    '--CXXCFLAGS+="-O3 -ffast-math -fopenmp -fPIC"',
     '--HIPFLAGS+="$(CC --cray-print-opts=cflags) -fopenmp -fPIC"',
     '--FFLAGS+="-O3 -hfp3 -fopenmp -fPIC"', 
     '--with-kokkos=1',
     '--with-kokkos-dir="$EBROOTKOKKOS"',
     '--with-kokkos-kernels=1',
     '--with-kokkos-kernels-dir="$EBROOTKOKKOSMINKERNELS"',
+    '--with-umpire=1',
+    '--with-umpire-dir="$EBROOTUMPIRE"',
     '--with-python-exec="$CRAY_PYTHON_PREFIX"/bin/python3',
     ' PETSC_ARCH="$CRAY_CPU_TARGET-hip"',
 ])
