@@ -31,6 +31,7 @@ configopts  = 'CFLAGS="-O3 -ffast-math -fopenmp -fPIC" '
 configopts += 'CXXFLAGS="-O3 -ffast-math -fopenmp -fPIC" '
 configopts += 'FFLAGS="-O3 -hfp3 -fopenmp -fPIC" '
 configopts += 'HIPCXXFLAGS="-fPIC" '
+configopts += '--enable-shared '
 configopts += '--with-hip '
 configopts += '--enable-gpu-aware-mpi '
 configopts += '--with-gpu-arch=gfx90a '
@@ -44,12 +45,11 @@ configopts += '--with-MPI-include=${CRAY_MPICH_PREFIX}/include '
 configopts += '--with-umpire=${EBROOTUMPIRE} '
 configopts += '--with-umpire-include=${EBROOTUMPIRE}/include '
 configopts += '--with-umpire-lib-dirs=${EBROOTUMPIRE}/lib '
-configopts += '--with-umpire-libs="umpire" '
 
 start_dir = 'src'
 
 sanity_check_paths = {
-    'files': ['lib/libHYPRE.a'],
+    'files': ['lib/libHYPRE.%s' % SHLIB_EXT],
     'dirs':  ['lib', 'include'],
 }
 
