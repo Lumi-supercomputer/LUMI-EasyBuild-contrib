@@ -39,9 +39,11 @@ configopts += "-DENABLE_GTEST=OFF "
 configopts += "-DENABLE_TESTS=OFF "
 configopts += "-DENABLE_EXAMPLES=OFF "
 configopts += "-DCMAKE_HIP_FLAGS=-I${CRAY_MPICH_PREFIX}/include "
+configopts += "-DBUILD_SHARED_LIBS=ON "
 
 sanity_check_paths = {
-    'files': ['lib/libumpire.a', 'include/umpire/Umpire.hpp', 'include/umpire/UMPIRE_MOD.mod'],
+    'files': ['lib/libumpire.%s' % SHLIB_EXT,
+              'include/umpire/Umpire.hpp', 'include/umpire/UMPIRE_MOD.mod'],
     'dirs': ['lib', 'include'],
 }
 
