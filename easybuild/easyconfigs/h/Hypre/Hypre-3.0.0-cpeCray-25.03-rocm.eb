@@ -23,16 +23,20 @@ source_urls = ['https://github.com/hypre-space/hypre/archive/']
 sources =     ['v%(version)s.tar.gz']
 checksums =   ['d9dbfa34ebd07af1641f04b06338c7808b1f378e2d7d5d547514db9f11dffc26']
 
+builddependencies = [
+    ('craype-accel-host', EXTERNAL_MODULE),
+]
+
 dependencies = [
     ('Umpire', '2025.09.0', '-rocm'),
 ]
 
-configopts  = 'CFLAGS="-O3 -ffast-math -fopenmp -fPIC" '
-configopts += 'CXXFLAGS="-O3 -ffast-math -fopenmp -fPIC" '
-configopts += 'FFLAGS="-O3 -hfp3 -fopenmp -fPIC" '
-configopts += 'HIPCXXFLAGS="-fPIC" '
+configopts = 'FFLAGS="-O3 -hfp3 -fopenmp -fPIC" '
+configopts += '--with-extra-BUILDFLAGS="-fopenmp" '
 configopts += '--enable-shared '
 configopts += '--with-hip '
+configopts += '--with-openmp '
+configopts += '--with-MPI '
 configopts += '--enable-gpu-aware-mpi '
 configopts += '--with-gpu-arch=gfx90a '
 configopts += '--with-gpu-warp-size=64 '
@@ -42,9 +46,12 @@ configopts += '--with-blas-lib-dirs="${CRAY_LIBSCI_PREFIX}/lib" '
 configopts += '--with-lapack-libs="" '
 configopts += '--with-lapack-lib-dirs="${CRAY_LIBSCI_PREFIX}/lib" ' 
 configopts += '--with-MPI-include=${CRAY_MPICH_PREFIX}/include '
-configopts += '--with-umpire=${EBROOTUMPIRE} '
+configopts += '--with-umpire=yes '
+configopts += '--with-umpire-device=yes '
+configopts += '--with-umpire-um=yes '
 configopts += '--with-umpire-include=${EBROOTUMPIRE}/include '
 configopts += '--with-umpire-lib-dirs=${EBROOTUMPIRE}/lib '
+configopts += '--with-umpire-lib="-lumpire" '
 
 start_dir = 'src'
 
