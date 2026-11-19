@@ -88,6 +88,7 @@ configopts = ' '.join([
     '--with-clib-autodetect=0',
     '--with-cxx="$CXX"',
     '--with-cxxlib-autodetect=0',
+    '--with-debugging=no',
     '--with-fc="$FC"',
     '--with-fortran-datatypes=1',
     '--with-fortran-interfaces=1',
@@ -153,4 +154,7 @@ sanity_check_paths = {
 }
 
 moduleclass = 'numlib'
-modextravars = {'PETSC_ARCH': '$CRAY_CPU_TARGET-$CRAY_ACCEL_TARGET'}
+modextravars = {
+    'PETSC_ARCH': '$CRAY_CPU_TARGET-hip', 
+    'OMP_TOOL': 'disabled',
+}
