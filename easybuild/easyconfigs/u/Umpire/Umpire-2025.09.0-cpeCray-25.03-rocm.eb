@@ -1,0 +1,50 @@
+easyblock = 'CMakeMake'
+
+name = 'Umpire'
+version = '2025.09.0'
+versionsuffix = '-rocm'
+
+homepage = 'https://github.com/LLNL/Umpire'
+description = """Umpire is a resource management library that allows the discovery, provision,
+and management of memory on machines with multiple memory devices like NUMA and GPUs."""
+
+toolchain = {'name': 'cpeCray', 'version': '25.03'}
+toolchainopts = {'openmp': True, 'pic': True}
+
+github_account = 'llnl'
+source_urls = [GITHUB_RELEASE]
+sources = [SOURCELOWER_TAR_GZ]
+checksums = ['f6a4a9a6f1eaaba17bbcd33277601af78d316eb272395f443f98e83c4a8ebb14']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', SYSTEM),
+    ('craype-accel-host', EXTERNAL_MODULE),
+]
+
+dependencies = [
+    ('rocm', EXTERNAL_MODULE),
+]
+
+configopts  = "-DENABLE_FORTRAN=ON "
+configopts += "-DENABLE_HIP=ON "
+configopts += "-DENABLE_MPI=ON "
+configopts += "-DENABLE_OPENMP=ON "
+configopts += "-DUMPIRE_ENABLE_NUMA=ON "
+configopts += "-DAMDGPU_TARGETS=gfx90a "
+configopts += "-DCMAKE_HIP_ARCHITECTURES=gfx90a "
+configopts += "-DROCM_PATH=${ROCM_PATH} "
+configopts += "-DUMPIRE_ENABLE_IPC_SHARED_MEMORY=ON "
+configopts += "-DENABLE_GMOCK=OFF "
+configopts += "-DENABLE_GTEST=OFF "
+configopts += "-DENABLE_TESTS=OFF "
+configopts += "-DENABLE_EXAMPLES=OFF "
+configopts += "-DCMAKE_HIP_FLAGS=-I${CRAY_MPICH_PREFIX}/include "
+configopts += "-DBUILD_SHARED_LIBS=ON "
+
+sanity_check_paths = {
+    'files': ['lib/libumpire.%s' % SHLIB_EXT,
+              'include/umpire/Umpire.hpp', 'include/umpire/UMPIRE_MOD.mod'],
+    'dirs': ['lib', 'include'],
+}
+
+moduleclass = 'lib'
