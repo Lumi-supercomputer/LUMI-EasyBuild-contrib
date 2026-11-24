@@ -45,9 +45,6 @@ The module also defines the shell function gromacs-completion that can be used t
 turn bash command completion on for GROMACS. Note that unloading the module will
 not turn this off, so it may have consequences for things you do later on or
 conflict with the command completion of a different version of GROMACS.
-
-Huge pages support is available in this module by loading the
-craype-hugepages2M module when running the application.
 """
 
 docurls = [
@@ -70,7 +67,7 @@ checksums =   ['ca17720b4a260eb73649211e9f6a940ee7543452129844213c3accb0a927a5c3
 
 build_deps = [
     ('buildtools',         '%(toolchain_version)s', '', True), # For CMake
-    ('craype-hugepages2M', EXTERNAL_MODULE), # Other hugepages causes issues on SUSE 15SP6.
+    #('craype-hugepages2M', EXTERNAL_MODULE), # Other hugepages causes issues on SUSE 15SP6.
 ]
 
 deps = [
