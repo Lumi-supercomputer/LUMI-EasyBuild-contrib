@@ -5,8 +5,15 @@ version = '2025.09.0'
 versionsuffix = '-rocm'
 
 homepage = 'https://github.com/LLNL/Umpire'
-description = """Umpire is a resource management library that allows the discovery, provision,
-and management of memory on machines with multiple memory devices like NUMA and GPUs."""
+
+whatis = [
+    'Description: Umpire is a resource management library for discovery, provision and management of memory on machines with multiple memory devices like NUMA and GPUs'
+]
+
+description = """
+Umpire is a resource management library that allows the discovery, provision,
+and management of memory on machines with multiple memory devices like NUMA and GPUs.
+"""
 
 toolchain = {'name': 'cpeGNU', 'version': '25.03'}
 toolchainopts = {'openmp': True, 'pic': True}
@@ -40,6 +47,11 @@ configopts += "-DENABLE_TESTS=OFF "
 configopts += "-DENABLE_EXAMPLES=OFF "
 configopts += "-DCMAKE_HIP_FLAGS=-I${CRAY_MPICH_PREFIX}/include "
 configopts += "-DBUILD_SHARED_LIBS=ON "
+
+postinstallcmds = [
+    'mkdir -p %(installdir)s/share/licenses/%(name)s',
+    'cd ../%(namelower)s-%(version)s && cp CITATION.cff COPYRIGHT LICENSE NOTICE README.md RELEASE RELEASE_NOTES.md %(installdir)s/share/licenses/%(name)s',   
+]
 
 sanity_check_paths = {
     'files': ['lib/libumpire.%s' % SHLIB_EXT,
