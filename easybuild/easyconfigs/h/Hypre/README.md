@@ -27,7 +27,7 @@ A library of scalable linear solvers and multigrid methods, used by PETSc.
 -   Trivial port of the EasyConfig for 2.26.0 in 23.09
 
 
-### Version 2.33.0 for cpeGNU 25.03
+### Version 2.33.0 for cpeGNU and cpeCray 25.03
 
 -   There is a newer version (3.0.0), but we stick to the version used in the 2025a and 2025b
     toolchains and included with EasyBuild 5.1.2 for which this EasyConfig was originally
@@ -36,6 +36,14 @@ A library of scalable linear solvers and multigrid methods, used by PETSc.
 -   Furthermore a trivial port of the EasyConfig for 2.31.0 in 24.03.
 
 -   The cpeCray version is just a trivial toolchain change.
+
+
+### Version 3.0.0 for cpeCray 25.03 with ROCm(tm) support
+
+-   Derived from the 2.33.0 EasyConfigs, but with a very different set of `configopts` to enable the 
+    GPU support.
+    
+    Some trickery was needed with the flags for the Fortran compiler.
 
 
 ### Version 3.1.0 for cpeGNU 26.03

@@ -70,7 +70,9 @@ subdirectory where you can also select the appropriate tag, e.g.,
 
 -   The Cray version was made for a porting project.
 
-    There is an issue with it. Only the Fortran parts are fully OpenMP enabled as 
+    This version also includes a GPU version of [Hypre](../../h/Hypre/index.md).
+
+    There is an issue with this version of PETSc. Only the Fortran parts are fully OpenMP enabled as 
     otherwise there were linking issues with the `cc` compiler wrapper.
 
 

@@ -1,4 +1,4 @@
-#DOC PETSc for GPU with CCE compilers, development version
+#DOC PETSc for GPU with CCE compilers, development version. Includes a GPU version of Hypre.
 easyblock = 'ConfigureMake'
 
 local_Boost_version        = '1.88.0'
