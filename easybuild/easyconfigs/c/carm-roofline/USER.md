@@ -2,8 +2,9 @@
 
 This package is contributed by its authors. LUST cannot fully support this package.
 
-Note that the tool creates hidden files in your home directory (in the `~/.local`)
-subdirectory which does have an effect on your disk quota!
+Note that early versions of the tool creates hidden files in your home directory 
+(in the `~/.local`) subdirectory which does have an effect on your disk quota,
+but that issue has been solved in the easyconfig for version 1.6.3.
 
 Note that this is Python software which would be better installed in a container. 
 This is not yet done as it has a mode to work with [Paraver](https://tools.bsc.es/paraver) 

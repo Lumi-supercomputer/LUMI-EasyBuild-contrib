@@ -28,3 +28,9 @@ and a visualisation part.
 
 -   The EasyConfig was taken from the carm-roofline GitHub repository and brought in line
     with the LUMI conventions to ease the installation by users.
+
+
+### Version 1.6.3, working with Cray Python
+
+-   The EasyConfig has been revised to now do a complete installation without creating a
+    `~/.local` directory with cached packages etc.
