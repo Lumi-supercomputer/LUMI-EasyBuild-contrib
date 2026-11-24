@@ -43,7 +43,6 @@ checksums =      ['d1df0e53d269cfc17379bb358e1b2b566d2807cb4a680b2ec1e4f35a77f70
 
 builddependencies = [
     ('buildtools', '%(toolchain_version)s', '', True),
-    ('craype-accel-host', EXTERNAL_MODULE),
 ]
 
 dependencies = [
