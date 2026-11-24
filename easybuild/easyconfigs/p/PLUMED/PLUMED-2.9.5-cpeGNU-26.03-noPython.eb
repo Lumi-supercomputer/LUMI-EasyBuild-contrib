@@ -44,9 +44,6 @@ NOTES:
   * The module provides the bash function plumed-completion to enable command
     line completion. Note that unloading the module will not disable command
     completion again.
-
-Huge pages support is available in this module by loading the
-craype-hugepages2M module when running the application.
 """
 
 toolchain = {'name': 'cpeGNU', 'version': '26.03'}
@@ -59,7 +56,7 @@ checksums =   ['dc4a79f972f252ffe104c3d3ec7f9f5e54d167843780c37b8af949a006bba748
 
 build_deps = [
     ('buildtools',         '%(toolchain_version)s', '', SYSTEM), # For CMake
-    ('craype-hugepages2M', EXTERNAL_MODULE), # Hugepages causes issues on SUSE 15SP6.
+    #('craype-hugepages2M', EXTERNAL_MODULE), # Hugepages causes issues on SUSE 15SP6.
     ('craype-accel-host',  EXTERNAL_MODULE),  # Avoid enabling OpenMP offload
 ]
 
