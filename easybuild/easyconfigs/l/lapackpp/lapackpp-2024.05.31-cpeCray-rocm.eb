@@ -1,0 +1,44 @@
+easyblock = 'CMakeMake'
+
+name = 'lapackpp'
+version = '2024.05.31'
+versionsuffix = '-rocm'
+
+homepage = 'https://icl.utk.edu/slate/'
+
+description = """
+    LAPACK++ is a C++ wrapper around CPU and GPU LAPACK and LAPACK-like linear algebra libraries, developed as part of the SLATE project.
+"""
+
+toolchain = {'name': 'cpeCray', 'version': '24.03'}
+toolchainopts = {'openmp': False}
+
+source_urls = ['https://github.com/icl-utk-edu/%(name)s/archive/refs/tags']
+sources = ['v%(version)s.tar.gz']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+dependencies = [
+    ('rocm',      EXTERNAL_MODULE),
+    ('cray-libsci', EXTERNAL_MODULE),
+    ('blaspp', '%(version)s', '-rocm'),
+]
+
+configopts = ' '.join([
+    '-D build_tests=OFF',
+    '-D gpu_backend=hip',
+    '-D CMAKE_CXX_STANDARD=17',
+    '-D CMAKE_INSTALL_RPATH_USE_LINK_PATH=ON',
+])
+
+sanity_check_paths = {
+    'files': [
+      'lib64/liblapackpp.so',
+      'include/lapack.hh',
+    ],
+    'dirs': ['include/lapack'],
+}
+
+moduleclass = 'lib'

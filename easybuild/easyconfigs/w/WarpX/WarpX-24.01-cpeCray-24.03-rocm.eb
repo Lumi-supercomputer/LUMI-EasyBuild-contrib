@@ -1,0 +1,62 @@
+easyblock = 'CMakeMake'
+
+name = 'WarpX'
+version = '24.01'
+versionsuffix = '-rocm'
+
+homepage = 'https://github.com/ECP-WarpX/WarpX'
+
+description = """
+WarpX is an advanced electromagnetic & electrostatic Particle-In-Cell code. 
+It supports many features including Perfectly-Matched Layers (PML), mesh refinement, and the 
+boosted-frame technique.
+"""
+
+toolchain = {'name': 'cpeCray', 'version': '24.03'}
+toolchainopts = {'openmp': False}
+
+source_urls = ['https://github.com/ECP-WarpX/WarpX/archive/']
+sources = ['%(version)s.tar.gz']
+checksums = ['91e997239b343759bcc4ef345659456063c112721085f9b81b7c8afb61fce805']
+
+builddependencies = [
+    ('buildtools', '%(toolchain_version)s', '', True),
+]
+
+builddependencies = [
+    ('rocm',      EXTERNAL_MODULE),
+    ('cray-libsci', EXTERNAL_MODULE),
+    ('cray-hdf5-parallel', EXTERNAL_MODULE),
+    ('Boost', '1.83.0'),
+    ('blaspp', '2024.05.31', '-rocm'),
+    ('lapackpp', '2024.05.31', '-rocm'),
+    ('Blosc', '1.21.5')
+]
+
+
+preconfigopts = ' '.join([
+    'export CC=$(which craycc) && '
+    'export CXX=$(which crayCC) && '
+    'export FC=$(which crayftn) && '
+    'export CFLAGS="-I${ROCM_PATH}/include" && '
+    'export CXXFLAGS="-I${ROCM_PATH}/include -Wno-pass-failed" && '
+    'export LDFLAGS="-L${ROCM_PATH}/lib -lamdhip64 ${PE_MPICH_GTL_DIR_amd_gfx90a} -lmpi_gtl_hsa" && '
+])
+
+configopts = ' '.join([
+    '-D WarpX_COMPUTE=HIP',
+    '-D WarpX_FFT=ON', 
+    '-D WarpX_QED_TABLE_GEN=ON', 
+    '-D WarpX_QED_TABLES_GEN_OMP=OFF', 
+    '-D WarpX_DIMS="1;2;RZ;3"',
+    '-D WarpX_LIB=ON',
+    '-D AMReX_AMD_ARCH=gfx90a',
+])
+
+sanity_check_paths = {
+    'files': ['bin/warpx.rz.MPI.HIP.DP.PDP.OPMD.QED.GENQEDTABLES',
+              'lib/libamrex_3d.a', 'lib/libamrex_2d.a', 'lib/libamrex_1d.a'],
+    'dirs': ['include', 'share'],
+}
+
+moduleclass = 'phys'
