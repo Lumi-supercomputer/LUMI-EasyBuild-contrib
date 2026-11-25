@@ -1,6 +1,8 @@
-diff -Nau wmake/rules/linux64Cray/c wmake/rules/linux64CrayToBeAdded/c
---- wmake/rules/linux64Cray/c	1970-01-01 02:00:00.000000000 +0200
-+++ wmake/rules/linux64CrayToBeAdded/c	2025-02-25 13:28:52.000000000 +0200
+diff -Nau wmake/rules/linux64Cray/c wmake/rules/linux64Cray/c
+new file mode 100644
+index 0000000..e196dea
+--- /dev/null
++++ wmake/rules/linux64Cray/c
 @@ -0,0 +1,18 @@
 +SUFFIXES += .c
 +
@@ -20,9 +22,11 @@ diff -Nau wmake/rules/linux64Cray/c wmake/rules/linux64CrayToBeAdded/c
 +
 +LINKEXE     = $(cc) -fuse-ld=bfd \
 +              -Xlinker --add-needed -Xlinker -z -Xlinker nodefs
-diff -Nau wmake/rules/linux64Cray/c++ wmake/rules/linux64CrayToBeAdded/c++
---- wmake/rules/linux64Cray/c++	1970-01-01 02:00:00.000000000 +0200
-+++ wmake/rules/linux64CrayToBeAdded/c++	2025-02-25 13:28:52.000000000 +0200
+diff -Nau wmake/rules/linux64Cray/c++ wmake/rules/linux64Cray/c++
+new file mode 100644
+index 0000000..46b8115
+--- /dev/null
++++ wmake/rules/linux64Cray/c++
 @@ -0,0 +1,29 @@
 +SUFFIXES += .C
 +
@@ -53,23 +57,61 @@ diff -Nau wmake/rules/linux64Cray/c++ wmake/rules/linux64CrayToBeAdded/c++
 +
 +LINKEXE     = $(CC) $(c++FLAGS) -fuse-ld=bfd \
 +              -Xlinker --add-needed -Xlinker --no-as-needed
-diff -Nau wmake/rules/linux64Cray/c++Opt wmake/rules/linux64CrayToBeAdded/c++Opt
---- wmake/rules/linux64Cray/c++Opt	1970-01-01 02:00:00.000000000 +0200
-+++ wmake/rules/linux64CrayToBeAdded/c++Opt	2025-02-25 13:28:52.000000000 +0200
+diff -Nau wmake/rules/linux64Cray/c++Debug wmake/rules/linux64Cray/c++Debug
+new file mode 100644
+index 0000000..19bdb9c
+--- /dev/null
++++ wmake/rules/linux64Cray/c++Debug
+@@ -0,0 +1,2 @@
++c++DBUG    = -ggdb3 -DFULLDEBUG
++c++OPT      = -O0 -fdefault-inline
+diff -Nau wmake/rules/linux64Cray/c++Opt wmake/rules/linux64Cray/c++Opt
+new file mode 100644
+index 0000000..599e6ab
+--- /dev/null
++++ wmake/rules/linux64Cray/c++Opt
 @@ -0,0 +1,4 @@
 +c++DBUG     =
 +c++OPT      = -O3
 +
 +ROUNDING_MATH = -frounding-math
-diff -Nau wmake/rules/linux64Cray/cOpt wmake/rules/linux64CrayToBeAdded/cOpt
---- wmake/rules/linux64Cray/cOpt	1970-01-01 02:00:00.000000000 +0200
-+++ wmake/rules/linux64CrayToBeAdded/cOpt	2025-02-25 13:28:52.000000000 +0200
+diff -Nau wmake/rules/linux64Cray/c++Prof wmake/rules/linux64Cray/c++Prof
+new file mode 100644
+index 0000000..3bda4da
+--- /dev/null
++++ wmake/rules/linux64Cray/c++Prof
+@@ -0,0 +1,2 @@
++c++DBUG    = -pg
++c++OPT     = -O2
+diff -Nau wmake/rules/linux64Cray/cDebug wmake/rules/linux64Cray/cDebug
+new file mode 100644
+index 0000000..72b638f
+--- /dev/null
++++ wmake/rules/linux64Cray/cDebug
+@@ -0,0 +1,2 @@
++cDBUG       = -ggdb -DFULLDEBUG
++cOPT        = -O1 -fdefault-inline -finline-functions
+diff -Nau wmake/rules/linux64Cray/cOpt wmake/rules/linux64Cray/cOpt
+new file mode 100644
+index 0000000..1731870
+--- /dev/null
++++ wmake/rules/linux64Cray/cOpt
 @@ -0,0 +1,2 @@
 +cDBUG       =
 +cOPT        = -O3
-diff -Nau wmake/rules/linux64Cray/general wmake/rules/linux64CrayToBeAdded/general
---- wmake/rules/linux64Cray/general	1970-01-01 02:00:00.000000000 +0200
-+++ wmake/rules/linux64CrayToBeAdded/general	2025-02-25 13:28:52.000000000 +0200
+diff -Nau wmake/rules/linux64Cray/cProf wmake/rules/linux64Cray/cProf
+new file mode 100644
+index 0000000..ca3ac9b
+--- /dev/null
++++ wmake/rules/linux64Cray/cProf
+@@ -0,0 +1,2 @@
++cDBUG       = -pg
++cOPT        = -O2
+diff -Nau wmake/rules/linux64Cray/general wmake/rules/linux64Cray/general
+new file mode 100644
+index 0000000..1065943
+--- /dev/null
++++ wmake/rules/linux64Cray/general
 @@ -0,0 +1,6 @@
 +PROJECT_LIBS = -l$(WM_PROJECT) -ldl
 +
